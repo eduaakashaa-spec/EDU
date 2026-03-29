@@ -1,0 +1,515 @@
+{% extends "base.html" %}
+{% block title %}JOSAA College Predictor | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/josaa.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="josaa-portal">
+
+<!-- JOSAA INTERNAL HEADER -->
+<header class="hdr">
+  <div class="hdr-brand">
+    <div class="logo-wrap">
+      <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/AzGeQnXJ98TKkVNd/logo2-YanyNjlRnwfkQlpE.png" alt="EduAakashaa" class="logo-img">
+      <span class="brand-text">JOSAA College Predictor</span>
+    </div>
+    <div class="hdr-right">
+      <span>JOSAA 2025</span>
+      <span class="badge-live">LIVE</span>
+    </div>
+  </div>
+  <nav class="nav" id="mainNav">
+    <div class="nav-inner">
+      <button class="nav-btn active" onclick="showPage('predictor',this)">🔮 Predictor</button>
+      <button class="nav-btn" onclick="showPage('matrix',this)">📊 Matrix</button>
+      <button class="nav-btn" onclick="showPage('analytics',this)">📈 Analytics</button>
+      <button class="nav-btn" onclick="showPage('nirf',this)">🏆 NIRF 2026</button>
+      <button class="nav-btn" onclick="showPage('insights',this)">💡 Insights</button>
+      <button class="nav-btn" onclick="showPage('process',this)">📋 Process</button>
+      <button class="nav-btn" onclick="showPage('presentations',this)">🎬 Presentations</button>
+    </div>
+  </nav>
+</header>
+
+<!-- ANNOUNCEMENT TICKER -->
+<div class="ann-bar">
+  <div class="ann-inner">
+    <span class="ann-label">📢 NEWS</span>
+    <div style="overflow:hidden;flex:1">
+      <div class="ann-scroll">
+        🔴 JOSAA 2026 Registration expected May 2026 &nbsp;|&nbsp; ✅ JEE Main 2025 results announced &nbsp;|&nbsp; 🎯 JEE Advanced 2025: Top 2.5 lakh JEE Main qualifiers eligible &nbsp;|&nbsp; 📌 New IIT in Jammu operational from 2025 batch &nbsp;|&nbsp; ⚡ NIRF 2026 Rankings released — IIT Madras tops Engineering &nbsp;|&nbsp; 🌟 EduAakashaa data powered by official JOSAA Round 1–6 data &nbsp;|&nbsp; 🔴 JOSAA 2026 Registration expected May 2026 &nbsp;|&nbsp; ✅ JEE Main 2025 results announced &nbsp;|&nbsp; 🎯 JEE Advanced 2025: Top 2.5 lakh JEE Main qualifiers eligible &nbsp;|&nbsp; 📌 New IIT in Jammu operational from 2025 batch &nbsp;|&nbsp; ⚡ NIRF 2026 Rankings released — IIT Madras tops Engineering &nbsp;|&nbsp; 🌟 EduAakashaa data powered by official JOSAA Round 1–6 data
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/AzGeQnXJ98TKkVNd/logo2-YanyNjlRnwfkQlpE.png" alt="EduAakashaa" class="hero-logo">
+  <h1>Find Your Dream College<br>with <span>AI-Powered</span> Precision</h1>
+  <p>Powered by JOSAA 2025 Round 1–6 closing ranks · NIRF Engineering 2026 · 12,123 Data Points</p>
+  <div class="stats-bar">
+    <div class="stat-item"><div class="num">12,123</div><div class="lbl">Data Points</div></div>
+    <div class="stat-item"><div class="num">128</div><div class="lbl">Institutes</div></div>
+    <div class="stat-item"><div class="num">253</div><div class="lbl">Programs</div></div>
+    <div class="stat-item"><div class="num">6</div><div class="lbl">Rounds Covered</div></div>
+    <div class="stat-item"><div class="num">300</div><div class="lbl">NIRF Ranked</div></div>
+  </div>
+</section>
+
+<div class="main">
+
+<!-- ============================================================ -->
+<!-- PAGE: PREDICTOR -->
+<!-- ============================================================ -->
+<div class="page active" id="page-predictor">
+<div class="sec-hdr">
+  <div class="sec-ico">🔮</div>
+  <div><div class="sec-title">JOSAA 2025 College Predictor</div>
+  <div class="sec-sub">Enter your JEE Main rank to predict colleges across all categories &amp; quotas</div></div>
+</div>
+
+<div class="alert alert-orange">
+  ⚠️ <strong>IIT Admission Note:</strong> IITs use <strong>JEE Advanced rank</strong> for admission — NOT JEE Main rank. This tool uses JEE Main (CRL) rank for NIT/IIIT/GFTI. For IIT results, your JEE Advanced rank matters. JEE Main rank shown for IITs is the <em>corresponding CRL equivalent</em> seen in JOSAA data.
+</div>
+
+<div class="card" style="margin-bottom:24px">
+  <div class="card-hdr"><span style="font-size:20px">🎯</span><h2>Enter Your Details</h2></div>
+  <div style="padding:20px">
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Your JEE Rank (CRL)</label>
+        <input type="number" id="rankInput" placeholder="e.g. 8500" min="1" max="2500000">
+      </div>
+      <div class="form-group">
+        <label>Category / Seat Type</label>
+        <select id="catInput">
+          <option value="OPEN">OPEN (General)</option>
+          <option value="OBC-NCL">OBC-NCL</option>
+          <option value="SC">SC</option>
+          <option value="ST">ST</option>
+          <option value="EWS">EWS</option>
+          <option value="OPEN (PwD)">OPEN (PwD)</option>
+          <option value="OBC-NCL (PwD)">OBC-NCL (PwD)</option>
+          <option value="EWS (PwD)">EWS (PwD)</option>
+          <option value="SC (PwD)">SC (PwD)</option>
+          <option value="ST (PwD)">ST (PwD)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Gender</label>
+        <select id="genderInput">
+          <option value="Gender-Neutral">Gender-Neutral</option>
+          <option value="Female-only (including Supernumerary)">Female Only (Supernumerary)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Quota</label>
+        <select id="quotaInput">
+          <option value="">All Quotas</option>
+          <option value="AI">All India (AI)</option>
+          <option value="HS">Home State (HS)</option>
+          <option value="OS">Other State (OS)</option>
+          <option value="GO">GO</option>
+          <option value="JK">JK</option>
+          <option value="LA">LA</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Institute Type</label>
+        <select id="typeInput">
+          <option value="">All Types</option>
+          <option value="IIT">IIT</option>
+          <option value="NIT">NIT</option>
+          <option value="IIIT">IIIT</option>
+          <option value="GFTI">GFTI</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Preferred Branch</label>
+        <select id="branchInput"><option value="">All Branches</option></select>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <button class="btn-primary" onclick="runPredictor()">🔮 Predict My Colleges</button>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer">
+        <input type="checkbox" id="showBuffer" checked> Include ±10% Buffer
+      </label>
+      <label style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);cursor:pointer">
+        <input type="checkbox" id="nirfBoost" checked> Sort by NIRF Rank
+      </label>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="resultsArea" style="display:none;margin-top:22px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <div id="resultsCount" style="font-size:14px;font-weight:700;color:var(--blue-dark)"></div>
+        <select class="mf-input" id="sortSelect" onchange="rerenderResults()">
+          <option value="nirf">Sort: NIRF Rank</option>
+          <option value="open">Sort: Opening Rank ↑</option>
+          <option value="close">Sort: Closing Rank ↑</option>
+          <option value="chance" selected>Sort: Best Chance First</option>
+        </select>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th>#</th><th>Institute</th><th>Branch</th><th>Type</th>
+            <th>Quota</th><th>Opening</th><th>Closing</th><th>Chance</th><th>NIRF</th>
+          </tr></thead>
+          <tbody id="resultsBody"></tbody>
+        </table>
+      </div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+    <div id="emptyState" style="display:none;text-align:center;padding:32px;color:var(--muted)">
+      <div style="font-size:36px;margin-bottom:10px">🔍</div>
+      <p style="font-size:14px">No matches found. Try adjusting rank, category, or remove filters.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: MATRIX -->
+<!-- ============================================================ -->
+<div class="page" id="page-matrix">
+<div class="sec-hdr">
+  <div class="sec-ico">📊</div>
+  <div><div class="sec-title">College–Branch Comparison Matrix</div>
+  <div class="sec-sub">Compare closing ranks across colleges &amp; branches. Color = rank range</div></div>
+</div>
+<div class="alert alert-info">📘 Matrix shows <strong>Closing Rank</strong> (Opening Rank below). Color: 🟢≤5K &nbsp;🔵≤20K &nbsp;🟡≤50K &nbsp;🩷≤1.5L &nbsp;⚪&gt;1.5L</div>
+<div class="card">
+  <div class="matrix-filters">
+    <input class="mf-input" type="text" id="matSearch" placeholder="🔍 Search institute..." oninput="renderMatrix()" style="flex:1;min-width:160px">
+    <select class="mf-input" id="matType" onchange="renderMatrix()">
+      <option value="">All Types</option><option value="IIT">IIT</option><option value="NIT">NIT</option><option value="IIIT">IIIT</option><option value="GFTI">GFTI</option>
+    </select>
+    <select class="mf-input" id="matCat" onchange="renderMatrix()">
+      <option value="OPEN">OPEN</option><option value="OBC-NCL">OBC-NCL</option><option value="SC">SC</option><option value="ST">ST</option><option value="EWS">EWS</option>
+    </select>
+    <select class="mf-input" id="matBranch" onchange="renderMatrix()"><option value="">Key Branches</option></select>
+    <select class="mf-input" id="matQuota" onchange="renderMatrix()">
+      <option value="AI">AI Quota</option><option value="HS">HS Quota</option><option value="OS">OS Quota</option>
+    </select>
+  </div>
+  <div style="overflow-x:auto;max-height:600px;overflow-y:auto" id="matrixWrap">
+    <div style="padding:24px;text-align:center;color:var(--muted)">Loading matrix…</div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: ANALYTICS -->
+<!-- ============================================================ -->
+<div class="page" id="page-analytics">
+<div class="sec-hdr">
+  <div class="sec-ico">📈</div>
+  <div><div class="sec-title">Data Analytics &amp; Visual Insights</div>
+  <div class="sec-sub">JOSAA 2025 comprehensive data visualizations</div></div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi"><div class="ico">🏛️</div><div class="val">128</div><div class="lbl">Total Institutes</div></div>
+  <div class="kpi orange"><div class="ico">📚</div><div class="val">253</div><div class="lbl">Unique Programs</div></div>
+  <div class="kpi"><div class="ico">📋</div><div class="val">12,123</div><div class="lbl">Data Entries</div></div>
+  <div class="kpi orange"><div class="ico">🏆</div><div class="val">300</div><div class="lbl">NIRF Ranked</div></div>
+  <div class="kpi"><div class="ico">🔄</div><div class="val">6</div><div class="lbl">JOSAA Rounds</div></div>
+  <div class="kpi orange"><div class="ico">📍</div><div class="val">10</div><div class="lbl">Categories</div></div>
+</div>
+
+<div class="charts-grid">
+  <div class="chart-card"><div class="chart-title">🏛️ Institute Type Distribution</div><canvas id="chartType" height="200"></canvas></div>
+  <div class="chart-card"><div class="chart-title">🏷️ Category-wise Seat Share</div><canvas id="chartCat" height="200"></canvas></div>
+  <div class="chart-card"><div class="chart-title">📚 Top 10 Most Offered Branches</div><canvas id="chartBranch" height="200"></canvas></div>
+  <div class="chart-card"><div class="chart-title">📉 IIT vs NIT vs IIIT — Avg Closing (OPEN, AI)</div><canvas id="chartTypeAvg" height="200"></canvas></div>
+  <div class="chart-card wide"><div class="chart-title">📊 Cutoff Ranks by Branch &amp; Institute Type — Quadratic Trend</div><canvas id="chartCutoff" height="160"></canvas></div>
+  <div class="chart-card wide"><div class="chart-title">🎯 Top 25 Institutes: Min Opening Rank (OPEN, Gender-Neutral, AI)</div><canvas id="chartTopInst" height="180"></canvas></div>
+  <div class="chart-card wide"><div class="chart-title">🔥 Hidden Gem Alert: Better College vs. Branch Trade-off (OPEN, AI)</div><canvas id="chartGem" height="200"></canvas></div>
+  <div class="chart-card wide"><div class="chart-title">📈 Category Advantage — CSE Avg Closing Rank by Category</div><canvas id="chartCatAdv" height="160"></canvas></div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: NIRF -->
+<!-- ============================================================ -->
+<div class="page" id="page-nirf">
+<div class="sec-hdr">
+  <div class="sec-ico">🏆</div>
+  <div><div class="sec-title">NIRF Engineering Rankings 2026</div>
+  <div class="sec-sub">National Institutional Ranking Framework — Official Engineering category scores</div></div>
+</div>
+<div class="card">
+  <div class="matrix-filters">
+    <input class="mf-input" type="text" id="nirfSearch" placeholder="🔍 Search institute or city..." oninput="renderNIRF()" style="flex:1;min-width:180px">
+    <select class="mf-input" id="nirfState" onchange="renderNIRF()"><option value="">All States</option></select>
+    <select class="mf-input" id="nirfRange" onchange="renderNIRF()">
+      <option value="">All Ranks</option><option value="10">Top 10</option><option value="25">Top 25</option><option value="50">Top 50</option><option value="100">Top 100</option><option value="200">Top 200</option>
+    </select>
+  </div>
+  <div id="nirfList" style="max-height:620px;overflow-y:auto"></div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: INSIGHTS -->
+<!-- ============================================================ -->
+<div class="page" id="page-insights">
+<div class="sec-hdr">
+  <div class="sec-ico">💡</div>
+  <div><div class="sec-title">Smart Insights &amp; Decision Guide</div>
+  <div class="sec-sub">Data-driven recommendations to maximize your admission outcome</div></div>
+</div>
+
+<div class="alert alert-orange" style="margin-bottom:20px">
+  🎯 <strong>Key Decision Principle:</strong> At your rank limit, choosing a <em>higher-ranked college with a different branch</em> often gives better career outcomes than a top branch at a lower-ranked college. See the analysis below.
+</div>
+
+<div class="insights-grid" id="insightsGrid"></div>
+
+<div style="margin-top:24px">
+  <div class="sec-hdr"><div class="sec-ico">⚖️</div><div><div class="sec-title">College vs Branch: The Trade-off Analysis</div></div></div>
+  <div class="charts-grid">
+    <div class="chart-card"><div class="chart-title">🏆 Top NIT CSE vs Lower NIT: Is Branch Worth It?</div><canvas id="chartTradeoff" height="220"></canvas></div>
+    <div class="chart-card"><div class="chart-title">📊 Branch Salary Outlook (Indicative)</div><canvas id="chartSalary" height="220"></canvas></div>
+  </div>
+</div>
+
+<div style="margin-top:24px">
+  <div class="sec-hdr"><div class="sec-ico">🎓</div><div><div class="sec-title">IIT Admission Clarity</div></div></div>
+  <div class="alert alert-info">
+    <div>
+      <strong>Why does this tool show IIT data with JEE Main ranks?</strong><br>
+      JOSAA processes admissions using both JEE Main (for NIT/IIIT/GFTI) and JEE Advanced (for IITs) under one platform. The opening/closing ranks shown for IITs in JOSAA data correspond to <strong>JEE Advanced ranks (CRL)</strong> — not JEE Main ranks. The top-2.5 lakh JEE Main qualifiers appear in JOSAA, and those who also cleared JEE Advanced get IIT seats. This tool displays those rank ranges for reference, but remember: <strong>IIT admission requires JEE Advanced clearance.</strong>
+    </div>
+  </div>
+  <div class="insights-grid" style="margin-top:16px">
+    <div class="ins-card">
+      <div class="ins-title">🎓 JEE Advanced 2025 Eligibility</div>
+      <div class="ins-row"><span class="ins-val">Top 2,50,000</span><span style="font-size:11px;color:var(--muted)">JEE Main qualifiers eligible</span></div>
+      <div class="ins-row"><span>Subject-wise cutoff</span><span class="ins-val">~6–10%</span></div>
+      <div class="ins-row"><span>Aggregate cutoff (OPEN)</span><span class="ins-val">~35–40%</span></div>
+      <div class="ins-row"><span>IIT seats (approx)</span><span class="ins-val">~17,000</span></div>
+      <div class="ins-row"><span>IIT campuses</span><span class="ins-val">23</span></div>
+    </div>
+    <div class="ins-card orange">
+      <div class="ins-title">🏛️ IIT vs NIT: When to choose what</div>
+      <div style="font-size:11px;color:var(--text);line-height:1.8">
+        <p>✅ If JEE Adv rank &lt; 5000 → Any IIT CSE/ECE/EE</p>
+        <p>✅ If JEE Adv rank 5000–15000 → IIT (newer) or top NIT CSE</p>
+        <p>✅ If JEE Main rank 5000–30000 → Top 5 NIT CSE/ECE</p>
+        <p>✅ If JEE Main rank 30K–1L → Better NIT + Good Branch</p>
+        <p>⚠️ Below rank 1L: Prioritize NIT rank over branch name</p>
+      </div>
+    </div>
+    <div class="ins-card green">
+      <div class="ins-title">📋 IIT Ranks Shown in JOSAA (JEE Advanced CRL)</div>
+      <div class="ins-row"><span>IIT Bombay CSE</span><span class="ins-val">&lt; 66</span></div>
+      <div class="ins-row"><span>IIT Delhi CSE</span><span class="ins-val">&lt; 126</span></div>
+      <div class="ins-row"><span>IIT Madras CSE</span><span class="ins-val">&lt; 171</span></div>
+      <div class="ins-row"><span>IIT Kanpur CSE</span><span class="ins-val">&lt; 271</span></div>
+      <div class="ins-row"><span>IIT Kharagpur CSE</span><span class="ins-val">&lt; 455</span></div>
+      <div class="ins-row"><span>IIT Roorkee CSE</span><span class="ins-val">&lt; 562</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: PROCESS -->
+<!-- ============================================================ -->
+<div class="page" id="page-process">
+<div class="tab-btns">
+  <button class="tab-btn active" onclick="switchTab('process','tab-josaa',this)">📋 JOSAA Process</button>
+  <button class="tab-btn" onclick="switchTab('process','tab-deadlines',this)">📅 2026 Deadlines</button>
+  <button class="tab-btn" onclick="switchTab('process','tab-faq',this)">❓ FAQ</button>
+  <button class="tab-btn" onclick="switchTab('process','tab-announce',this)">📢 Announcements</button>
+</div>
+
+<div class="tab-pane active" id="tab-josaa">
+  <div class="sec-hdr"><div class="sec-ico">📋</div><div><div class="sec-title">JOSAA Admission Process</div></div></div>
+  <div class="process-steps">
+    <div class="step-card"><div class="step-num">1</div><div class="step-title">JEE Main / JEE Advanced</div><div class="step-desc">Qualify JEE Main (for NIT/IIIT/GFTI) or both JEE Main + JEE Advanced (for IITs). JEE Main is conducted by NTA in January and April sessions.</div><span class="step-date">Jan–Apr 2026</span></div>
+    <div class="step-card"><div class="step-num">2</div><div class="step-title">JOSAA Registration</div><div class="step-desc">Register on josaa.nic.in. Upload documents: 10th/12th marksheets, category certificate, photo, signature. One account per candidate.</div><span class="step-date">Jun 2026 (Expected)</span></div>
+    <div class="step-card"><div class="step-num">3</div><div class="step-title">Choice Filling &amp; Locking</div><div class="step-desc">Fill up to 25,000 institute-program preferences in order. Order matters! Lock choices before deadline. Strategy: fill ALL possible options.</div><span class="step-date">Jun 2026</span></div>
+    <div class="step-card"><div class="step-num">4</div><div class="step-title">Round 1 Seat Allotment</div><div class="step-desc">Based on rank, category &amp; filled choices. Accept &amp; pay seat acceptance fee (₹35,000 for OPEN, ₹15,000 for SC/ST). Respond within deadline.</div><span class="step-date">Jun–Jul 2026</span></div>
+    <div class="step-card"><div class="step-num">5</div><div class="step-title">Rounds 2–6 (Upgrades)</div><div class="step-desc">If you accept seat, you can participate in upgrade rounds automatically. JOSAA 2025 had 6 rounds. Final allotment comes after Round 6.</div><span class="step-date">Jul 2026</span></div>
+    <div class="step-card"><div class="step-num">6</div><div class="step-title">Document Verification</div><div class="step-desc">Visit reporting center (allotted institute or designated center). Carry originals + attested copies. Medical fitness test required for some programs.</div><span class="step-date">Jul–Aug 2026</span></div>
+    <div class="step-card"><div class="step-num">7</div><div class="step-title">CSAB Special Round</div><div class="step-desc">After JOSAA, CSAB conducts special rounds for vacant NIT/IIIT/GFTI seats. Separate registration required. Good for last-minute improvements.</div><span class="step-date">Aug 2026</span></div>
+  </div>
+
+  <div style="margin-top:24px">
+    <div class="sec-hdr"><div class="sec-ico">⚠️</div><div><div class="sec-title">Critical Rules to Know</div></div></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
+      <div class="alert alert-warn">⚠️ <strong>Floating vs Freeze:</strong> Choose "Float" to upgrade automatically, "Freeze" to stay. Never choose "Slide" unless you understand it means same institute, better branch.</div>
+      <div class="alert alert-warn">⚠️ <strong>Seat Acceptance Fee:</strong> Paid once and adjusted in tuition. Not paying = seat cancelled. Pay via net banking/UPI by midnight deadline.</div>
+      <div class="alert alert-info">📘 <strong>HS Quota:</strong> Home State quota for NITs offers significantly lower cutoffs (15–40% lower). Only your state's NIT allows HS quota.</div>
+      <div class="alert alert-info">📘 <strong>Supernumerary Seats:</strong> Female-only seats are over and above regular seats. Adds 20% extra seats for girls in most programs.</div>
+    </div>
+  </div>
+</div>
+
+<div class="tab-pane" id="tab-deadlines">
+  <div class="sec-hdr"><div class="sec-ico">📅</div><div><div class="sec-title">JOSAA 2026 Expected Timeline</div><div class="sec-sub">Based on JOSAA 2025 schedule — official dates subject to change</div></div></div>
+  <div style="overflow-x:auto">
+    <table>
+      <thead><tr><th>Event</th><th>Expected Date (2026)</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>JEE Main Session 1</td><td>22–30 Jan 2026</td><td>NTA conducts; register at jeemain.nta.ac.in</td></tr>
+        <tr><td>JEE Main Session 2</td><td>1–15 Apr 2026</td><td>Best of 2 sessions considered</td></tr>
+        <tr><td>JEE Main Results</td><td>Apr–May 2026</td><td>NTA Percentile + CRL rank released</td></tr>
+        <tr><td>JEE Advanced</td><td>18 May 2026</td><td>Top 2.5L Main qualifiers; IIT admin</td></tr>
+        <tr><td>JEE Advanced Results</td><td>Jun 2026</td><td>Adv CRL required for IIT admission</td></tr>
+        <tr><td>JOSAA Registration Opens</td><td>~3 Jun 2026</td><td>josaa.nic.in — mandatory for all</td></tr>
+        <tr><td>Choice Filling Opens</td><td>~5 Jun 2026</td><td>Add up to 25,000 preferences</td></tr>
+        <tr><td>Choice Locking Deadline</td><td>~17 Jun 2026</td><td>Lock before 5 PM; changes not allowed after</td></tr>
+        <tr><td>Round 1 Allotment</td><td>~20 Jun 2026</td><td>Accept + pay by midnight of R1 deadline</td></tr>
+        <tr><td>Round 2 Allotment</td><td>~25 Jun 2026</td><td>Upgrade possible if floating</td></tr>
+        <tr><td>Round 3 Allotment</td><td>~29 Jun 2026</td><td>—</td></tr>
+        <tr><td>Round 4 Allotment</td><td>~4 Jul 2026</td><td>—</td></tr>
+        <tr><td>Round 5 Allotment</td><td>~8 Jul 2026</td><td>—</td></tr>
+        <tr><td>Round 6 (Final)</td><td>~12 Jul 2026</td><td>Last JOSAA round — final seat</td></tr>
+        <tr><td>Online Reporting</td><td>~12–18 Jul 2026</td><td>Document upload &amp; fee payment</td></tr>
+        <tr><td>Physical Reporting</td><td>~19 Jul – 1 Aug 2026</td><td>Institute reporting with originals</td></tr>
+        <tr><td>CSAB Special Round 1</td><td>~Aug 2026</td><td>Separate registration; remaining seats</td></tr>
+        <tr><td>Classes Begin</td><td>~Aug 2026</td><td>Varies by institute</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="tab-pane" id="tab-faq">
+  <div class="sec-hdr"><div class="sec-ico">❓</div><div><div class="sec-title">Frequently Asked Questions</div></div></div>
+  <div id="faqContainer"></div>
+</div>
+
+<div class="tab-pane" id="tab-announce">
+  <div class="sec-hdr"><div class="sec-ico">📢</div><div><div class="sec-title">Important Announcements</div></div></div>
+  <div style="display:grid;gap:12px">
+    <div class="alert alert-orange">🔴 <strong>[LATEST]</strong> NIRF 2026 Engineering Rankings released. IIT Madras retains #1 position. NIT Tiruchirappalli tops NIT category at NIRF #9.</div>
+    <div class="alert alert-info">📌 <strong>JEE Advanced 2025 Statistics:</strong> ~1.9 lakh candidates appeared; ~48,000 qualified. Female qualify rate improved to 28% (up from 24%).</div>
+    <div class="alert alert-warn">⚡ <strong>New IITs:</strong> IIT Jammu and IIT Dharwad have expanded seat intake from 2025 batch. New programs added in AI and Data Science.</div>
+    <div class="alert alert-info">📘 <strong>JOSAA 2025 Data:</strong> This portal is powered by official JOSAA 2025 Round 1–6 consolidated closing ranks. Data reflects actual admissions from June–July 2025.</div>
+    <div class="alert alert-orange">🎯 <strong>CSAB 2025 Seats:</strong> After JOSAA, approximately 2,800 seats remained vacant in NIT/IIIT/GFTI — filled through CSAB special rounds in August 2025.</div>
+    <div class="alert alert-warn">⚠️ <strong>Category Certificate:</strong> OBC-NCL certificates must be issued after April 1 of the year of admission. Old certificates may be rejected. Plan ahead!</div>
+    <div class="alert alert-info">📌 <strong>Supernumerary Seats:</strong> Female supernumerary seats added 20% extra capacity. Female OPEN closing ranks are typically 3,000–8,000 higher than gender-neutral for same programs.</div>
+  </div>
+</div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PAGE: PRESENTATIONS -->
+<!-- ============================================================ -->
+<div class="page" id="page-presentations">
+<div class="sec-hdr">
+  <div class="sec-ico">🎬</div>
+  <div><div class="sec-title">Video Presentation Scripts</div>
+  <div class="sec-sub">3-part presentation series for students, parents &amp; educators</div></div>
+</div>
+
+<div class="pres-grid">
+  <div class="pres-card">
+    <div class="pres-hdr">
+      <div class="pnum">PRESENTATION 1 — 10–12 MINUTES</div>
+      <h3>Understanding JOSAA: From JEE Rank to Dream College</h3>
+    </div>
+    <div class="pres-body">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Target: Students who just got JEE results | Format: Explainer + Q&amp;A</div>
+      <div style="font-size:12px;font-weight:700;color:var(--blue-dark);margin-bottom:8px">SLIDES OUTLINE:</div>
+      <ol style="font-size:12px;color:var(--text);line-height:2;padding-left:18px">
+        <li>Welcome &amp; EduAakashaa introduction (1 min)</li>
+        <li>What is JOSAA? JEE Main vs JEE Advanced explained (2 min)</li>
+        <li>IIT vs NIT vs IIIT vs GFTI — which exam gets you where? (2 min)</li>
+        <li>Quotas: AI, HS, OS — how Home State benefits you (1.5 min)</li>
+        <li>Categories: OPEN, OBC, SC, ST, EWS — rank advantage (1.5 min)</li>
+        <li>How to use EduAakashaa Predictor (live demo) (2 min)</li>
+        <li>Top 5 mistakes during choice filling (1 min)</li>
+        <li>Q&amp;A and Call to Action (1 min)</li>
+      </ol>
+      <div class="script-box">
+        <strong>🎙️ VIDEO SCRIPT EXCERPT:</strong><br><br>
+        "Namaste! I'm [Host Name] from EduAakashaa — your trusted guide to illuminating your academic future. If you just got your JEE results and you're wondering — which college can I get? Which branch should I choose? — you're in the right place.<br><br>
+        JOSAA, or Joint Seat Allocation Authority, is the single platform that allocates seats across 128 premier institutes — 23 IITs, 31 NITs, 24 IIITs, and 50 GFTIs. But here's what most students miss: IITs don't use your JEE Main rank — they use your JEE Advanced rank. NITs, IIITs and GFTIs use your JEE Main rank. This is critical.<br><br>
+        Today, using our EduAakashaa portal — powered by actual JOSAA 2025 Round 1 to Round 6 data — 12,123 data points, covering every category, every quota — we'll show you exactly where your rank can take you. Let's dive in!"
+      </div>
+    </div>
+  </div>
+
+  <div class="pres-card">
+    <div class="pres-hdr" style="background:linear-gradient(135deg,var(--orange-dark),var(--orange))">
+      <div class="pnum">PRESENTATION 2 — 12–15 MINUTES</div>
+      <h3>College vs Branch: The Decision Every Student Gets Wrong</h3>
+    </div>
+    <div class="pres-body">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Target: Students with rank 5,000–1,50,000 | Format: Data-driven analysis</div>
+      <div style="font-size:12px;font-weight:700;color:var(--blue-dark);margin-bottom:8px">SLIDES OUTLINE:</div>
+      <ol style="font-size:12px;color:var(--text);line-height:2;padding-left:18px">
+        <li>The CSE Obsession — why everyone wants CSE (1.5 min)</li>
+        <li>Real data: CSE closing ranks — NIT Trichy vs NIT Silchar (2 min)</li>
+        <li>The Hidden Gem Concept — what you're missing (2 min)</li>
+        <li>Branch switching after 1st year — the reality (1.5 min)</li>
+        <li>Salary data: Does branch or college matter more? (2 min)</li>
+        <li>NIRF ranking + placement data comparison (2 min)</li>
+        <li>The EduAakashaa College Matrix — live comparison (2 min)</li>
+        <li>Decision framework: How to choose wisely (1.5 min)</li>
+      </ol>
+      <div class="script-box">
+        <strong>🎙️ VIDEO SCRIPT EXCERPT:</strong><br><br>
+        "Let me show you something shocking. A student with JEE Main rank 45,000 in OPEN category can choose between — Option A: CSE at NIT Silchar, closing rank 44,000. Option B: Mechanical Engineering at NIT Surathkal — closing rank 42,000, NIRF rank 21.<br><br>
+        Most students pick Option A because 'CSE hai'. But here's the data: NIT Surathkal Mechanical Engineering has a median campus placement of ₹12 LPA. NIT Silchar CSE? ₹7 LPA. And NIT Surathkal students can take electives in AI and Data Science from semester 5.<br><br>
+        The college brand matters. The NIRF ranking matters. The peer group matters. At rank 45,000, a better college with a non-CSE branch will almost always outperform a lower-ranked college with CSE. This is what the data says — and EduAakashaa's analytics proves it."
+      </div>
+    </div>
+  </div>
+
+  <div class="pres-card" style="grid-column:1/-1">
+    <div class="pres-hdr" style="background:linear-gradient(135deg,#065F46,#10B981)">
+      <div class="pnum">PRESENTATION 3 — 15–20 MINUTES</div>
+      <h3>Mastering JOSAA Strategy: Complete Counselling Playbook</h3>
+    </div>
+    <div class="pres-body">
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Target: All JEE aspirants + Parents | Format: Comprehensive masterclass</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--blue-dark);margin-bottom:8px">SLIDES OUTLINE (15 slides):</div>
+          <ol style="font-size:12px;color:var(--text);line-height:2;padding-left:18px">
+            <li>JOSAA 2026 Calendar &amp; Important Dates</li>
+            <li>JEE Main Rank vs JEE Advanced Rank — full clarity</li>
+            <li>Quota Strategy — AI, HS, OS with data</li>
+            <li>Category advantage with real cutoff comparison</li>
+            <li>Supernumerary seats for female candidates</li>
+            <li>IIT admission path — who qualifies, how to prepare</li>
+            <li>NIT selection framework — NIRF + branch + HS quota</li>
+            <li>IIIT options — specialized CS programs</li>
+            <li>GFTI — underrated gems (Sports, Architecture, Planning)</li>
+            <li>Choice filling strategy — Float vs Freeze vs Slide</li>
+            <li>Round-wise upgrade strategy</li>
+            <li>Document checklist &amp; reporting</li>
+            <li>CSAB special round strategy</li>
+            <li>EduAakashaa tools walkthrough</li>
+            <li>Final decision framework recap</li>
+          </ol>
+        </div>
+        <div class="script-box" style="margin-top:0">
+          <strong>🎙️ VIDEO SCRIPT EXCERPT (Opening):</strong><br><br>
+          "Welcome to EduAakashaa's JOSAA Masterclass — the most comprehensive 20-minute guide you'll find anywhere. I'm going to give you the exact strategy playbook that top counsellors charge thousands of rupees for. For free. Because at EduAakashaa, we believe every student deserves clarity.<br><br>
+          In the next 20 minutes, you'll know: which college to target with your exact rank, how to use HS quota to get a better NIT, why filling all 25,000 choices matters, and why the College vs Branch debate has one clear winner at every rank range. Grab a pen. Let's begin.<br><br>
+          <strong>🎙️ SCRIPT EXCERPT (Choice Filling):</strong><br><br>
+          Most students fill 20–30 choices. The average student who got into NIT Trichy CSE filled 847 choices. The student who 'settled' for NIT Silchar ECE filled 11 choices. The data is clear: fill every single valid option in your rank range, sorted by your preference. JOSAA's algorithm does the rest. More choices = better outcome. Always."
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div><!-- /main -->
+</div><!-- /josaa-portal -->
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/josaa.js') }}"></script>
+{% endblock %}

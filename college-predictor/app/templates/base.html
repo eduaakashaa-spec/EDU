@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}EduAakashaA{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+
+  <!-- Sticky Top Bar -->
+  <div class="sticky-bar">
+    <h1 class="sticky-bar__title">
+      <strong class="orange">Edu</strong><strong class="blue">Aakashaa</strong>
+    </h1>
+  </div>
+
+  <!-- Header / Navbar -->
+  <header class="header" id="header">
+    <div class="header__inner">
+      <a href="{{ url_for('main.home') }}" class="header__logo">
+        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/AzGeQnXJ98TKkVNd/logo2-YanyNjlRnwfkQlpE.png" alt="EduAakashaA logo">
+      </a>
+      <button class="header__hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="header__nav" id="nav">
+        <ul class="nav__list">
+          <li class="nav__item nav__item--dropdown">
+            <a href="{{ url_for('main.home') }}" class="nav__link{% if request.path == '/' %} nav__link--active{% endif %}">NRI Admission <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.iiits') }}">IIITs</a></li>
+              <li><a href="{{ url_for('main.annanri') }}">Anna_NRI</a></li>
+              <li><a href="{{ url_for('main.dasa_seat_matrix') }}">DASA Seat Matrix</a></li>
+              <li><a href="{{ url_for('main.dasa_guide') }}">DASA/CIWG</a></li>
+              <li><a href="{{ url_for('main.nirf_ranking') }}">NIRF</a></li>
+            </ul>
+          </li>
+          <li class="nav__item nav__item--dropdown">
+            <a href="{{ url_for('main.tnea2026') }}" class="nav__link{% if '/tnea' in request.path %} nav__link--active{% endif %}">TNEA-2026 <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.tneamatrix') }}">TNEA_matrix</a></li>
+              <li><a href="{{ url_for('main.tneapc') }}">TNEA_PC</a></li>
+              <li><a href="{{ url_for('main.tnea_cutoff') }}">TNEA Cutoff</a></li>
+            </ul>
+          </li>
+          <li class="nav__item"><a href="{{ url_for('main.professional_exam') }}" class="nav__link{% if request.path == '/professional-exam' %} nav__link--active{% endif %}">Professional Exam</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.internship') }}" class="nav__link{% if request.path == '/internship-programs' %} nav__link--active{% endif %}">Internship</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.contact') }}" class="nav__link{% if request.path == '/contact' %} nav__link--active{% endif %}">Contact</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.mbamca') }}" class="nav__link{% if request.path == '/mbamca-program' %} nav__link--active{% endif %}">MBA/MCA Program</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.tancet') }}" class="nav__link{% if request.path == '/tancet' %} nav__link--active{% endif %}">Tancet</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.ea_library') }}" class="nav__link{% if request.path == '/ea-library' %} nav__link--active{% endif %}">EA Library</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.tancet_pulse') }}" class="nav__link{% if request.path == '/tancet-pulse' %} nav__link--active{% endif %}">TANCET PULSE</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.viteee_nri') }}" class="nav__link{% if request.path == '/viteee-for-nri' %} nav__link--active{% endif %}">VITEEE for NRI</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.josaa') }}" class="nav__link{% if request.path == '/josaa' %} nav__link--active{% endif %}">JOSAA</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <strong class="orange">Edu</strong><strong class="blue">Aakashaa</strong>
+        <p>Illuminating Your Academic Future</p>
+      </div>
+      <div class="footer__links">
+        <a href="{{ url_for('main.home') }}">Home</a>
+        <a href="{{ url_for('main.josaa') }}">JOSAA Predictor</a>
+        <a href="{{ url_for('main.contact') }}">Contact</a>
+      </div>
+      <div class="footer__copy">
+        &copy; 2025 EduAakashaA. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
