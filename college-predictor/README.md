@@ -1,6 +1,6 @@
-# EduAakashaa College Predictor
+# EduAakashaA College Predictor
 
-A Flask-based college admission helper portal for Indian engineering aspirants, powered by official JOSAA 2025 counselling data and NIRF 2026 rankings.
+A Flask-based college admission helper portal for Indian engineering aspirants, powered by official JOSAA 2025 counselling data and NIRF 2026 rankings. Covers NRI admissions (DASA/CIWG), JOSAA counselling, TNEA predictions, TANCET guidance, professional exams, and career planning.
 
 > **Live reference site:** <https://eduaakashaa.in/>  
 > **Origin:** Migrated from a Hostinger/Zyro website builder into a proper Flask codebase.
@@ -12,8 +12,13 @@ A Flask-based college admission helper portal for Indian engineering aspirants, 
 ```bash
 cd college-predictor
 pip install -r requirements.txt
-python run.py
 
+# Initialise database & seed admin user
+python manage.py init_db
+python manage.py create_admin admin@eduaakashaa.com Admin123
+
+# Run the app
+python run.py
 # → http://127.0.0.1:5000
 ```
 

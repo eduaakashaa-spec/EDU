@@ -1,5 +1,14 @@
 // ======== JOSAA Portal — Server-Side API Version ========
 
+// ======== NIRF RANK DISPLAY HELPER ========
+function nirfDisplay(rank) {
+  if (!rank || rank >= 9999) return { text: '—', cls: '' };
+  if (rank <= 100) return { text: '#' + rank, cls: rank <= 3 ? 'r' + rank : '' };
+  if (rank <= 150) return { text: '101-150', cls: 'band' };
+  if (rank <= 200) return { text: '151-200', cls: 'band' };
+  return { text: '201-300', cls: 'band' };
+}
+
 // ======== INSTITUTE TYPE (client helper) ========
 function getType(name) {
   if (/Indian Institute of Technology/i.test(name) && !/Information/i.test(name)) return 'IIT';
@@ -29,23 +38,56 @@ function switchTab(page, tabId, btn) {
   btn.classList.add('active');
 }
 
+// ======== COURSE CATEGORY MAPPING ========
+const BRANCH_CATS = {
+  cs: ['Computer Science', 'Information Technology', 'Artificial Intelligence', 'Data Science', 'Software', 'Computing'],
+  ec: ['Electronics', 'Communication', 'Electrical', 'Instrumentation', 'Telecommunication', 'VLSI'],
+  me: ['Mechanical', 'Production', 'Manufacturing', 'Aerospace', 'Automobile', 'Industrial'],
+  ce: ['Civil', 'Environmental', 'Structural', 'Construction', 'Transportation'],
+  ch: ['Chemical', 'Materials', 'Metallurgy', 'Biotechnology', 'Biochemical', 'Polymer'],
+  mc: ['Mathematics', 'Physics', 'Statistics', 'Engineering Science']
+};
+
+let allBranchOptions = [];   // [{val, label}] — populated once
+
 // ======== POPULATE SELECTS (from API) ========
 function populateBranches() {
   fetch('/api/josaa/meta')
     .then(r => r.json())
     .then(data => {
       const seen = new Set();
-      const opts = data.programs.map(p => {
+      allBranchOptions = [];
+      data.programs.forEach(p => {
         const s = p.replace(/\s*\(\d+ Years.*$/, '').trim();
-        if (seen.has(s)) return '';
+        if (seen.has(s)) return;
         seen.add(s);
-        return `<option value="${s}">${s}</option>`;
-      }).join('');
-      ['branchInput', 'matBranch'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.innerHTML = '<option value="">All Branches</option>' + opts;
+        allBranchOptions.push({ val: s, label: s });
       });
+      setBranchOptions(allBranchOptions);
     });
+}
+
+function setBranchOptions(opts) {
+  const html = '<option value="">All Branches</option>' +
+    opts.map(o => `<option value="${o.val}">${o.label}</option>`).join('');
+  ['branchInput', 'matBranch'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+  });
+}
+
+function filterBranchesByCategory() {
+  const cat = document.getElementById('branchCat').value;
+  document.getElementById('branchInput').value = '';
+  if (!cat) {
+    setBranchOptions(allBranchOptions);
+    return;
+  }
+  const keywords = BRANCH_CATS[cat] || [];
+  const filtered = allBranchOptions.filter(o =>
+    keywords.some(kw => o.label.toLowerCase().includes(kw.toLowerCase()))
+  );
+  setBranchOptions(filtered.length ? filtered : allBranchOptions);
 }
 
 // ======== PREDICTOR (server-side filtering) ========
@@ -62,10 +104,11 @@ function runPredictor() {
   const quota = document.getElementById('quotaInput').value;
   const instType = document.getElementById('typeInput').value;
   const branch = document.getElementById('branchInput').value;
+  const branchCat = document.getElementById('branchCat').value;
   const buf = document.getElementById('showBuffer').checked ? '1' : '0';
 
   const params = new URLSearchParams({
-    rank, cat, gender, quota, instType, branch, buffer: buf
+    rank, cat, gender, quota, instType, branch, branchCat, buffer: buf
   });
 
   document.getElementById('resultsArea').style.display = 'none';
@@ -100,7 +143,7 @@ function rerenderResults() {
 
   document.getElementById('resultsBody').innerHTML = slice.map((r, i) => {
     const progShort = r.prog.replace(/\s*\(\d+ Years.*$/, '').trim();
-    const nirfDisp = r.nirfRank < 9999 ? `<span class="nirf-badge">#${r.nirfRank}</span>` : '<span style="color:var(--muted)">—</span>';
+    const nirfDisp = r.nirfRank < 9999 ? `<span class="nirf-badge">${nirfDisplay(r.nirfRank).text}</span>` : '<span style="color:var(--muted)">—</span>';
     return `<tr>
       <td style="color:var(--muted);font-size:11px">${start + i + 1}</td>
       <td><div style="font-weight:700;font-size:12px;color:var(--blue-dark)">${r.inst}</div></td>
@@ -139,8 +182,10 @@ function renderMatrix() {
   const cat = document.getElementById('matCat').value;
   const branch = document.getElementById('matBranch').value;
   const quota = document.getElementById('matQuota').value;
+  const matBranchCat = document.getElementById('matBranchCat');
+  const branchCat = matBranchCat ? matBranchCat.value : '';
 
-  const params = new URLSearchParams({ cat, quota, type, branch, search });
+  const params = new URLSearchParams({ cat, quota, type, branch, branchCat, search });
 
   fetch('/api/josaa/matrix?' + params)
     .then(r => r.json())
@@ -173,7 +218,7 @@ function renderMatrix() {
         const bg = idx % 2 === 0 ? '#fff' : '#F8FAFF';
         tbl += `<tr style="background:${bg}">`;
         tbl += `<td style="padding:7px 12px;font-weight:700;font-size:11px;color:var(--blue-dark);position:sticky;left:0;background:${bg};border-right:2px solid var(--border)">${row.inst}</td>`;
-        tbl += `<td style="padding:7px 6px;text-align:center">${row.nirfRank ? `<span class="nirf-badge">#${row.nirfRank}</span>` : '—'}</td>`;
+        tbl += `<td style="padding:7px 6px;text-align:center">${row.nirfRank ? `<span class="nirf-badge">${nirfDisplay(row.nirfRank).text}</span>` : '—'}</td>`;
         tbl += `<td style="padding:7px 6px;text-align:center"><span class="tag tag-${row.instType.toLowerCase()}">${row.instType}</span></td>`;
         branches.forEach(b => {
           const d = row.branches[b];
@@ -212,13 +257,14 @@ function renderNIRF() {
     .then(r => r.json())
     .then(fil => {
       document.getElementById('nirfList').innerHTML = fil.map(n => {
-        const rc = n.Rank === 1 ? 'r1' : n.Rank === 2 ? 'r2' : n.Rank === 3 ? 'r3' : '';
+        const nd = nirfDisplay(n.Rank);
+        const rc = nd.cls || '';
         const pct = Math.max(0, 100 - n.Rank * 0.3).toFixed(0);
         return `<div class="nirf-row">
-          <div class="nirf-rank ${rc}">#${n.Rank}</div>
+          <div class="nirf-rank ${rc}">${nd.text}</div>
           <div style="flex:1"><div style="font-weight:700;font-size:12px;color:var(--blue-dark)">${n.Name}</div></div>
           <div class="nirf-bar"><div class="nirf-bar-fill" style="width:${pct}%"></div></div>
-          <div class="nirf-score">#${n.Rank}</div>
+          <div class="nirf-score">${nd.text}</div>
         </div>`;
       }).join('') || '<div style="padding:20px;text-align:center;color:var(--muted)">No results found.</div>';
     });

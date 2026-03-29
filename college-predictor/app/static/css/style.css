@@ -140,6 +140,18 @@ img { max-width: 100%; display: block; }
   color: rgb(224, 112, 22);
 }
 
+.nav__link--auth {
+  background: var(--gold, #C9A84C);
+  color: #fff !important;
+  padding: 6px 18px !important;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .5px;
+  transition: opacity .2s;
+}
+.nav__link--auth:hover { opacity: .8; color: #fff !important; }
+
 .nav__arrow {
   width: 8px;
   height: 6px;

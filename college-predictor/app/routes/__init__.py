@@ -8,6 +8,11 @@ def home():
     return render_template('home.html')
 
 
+@main_bp.route('/nri-admissions-guide')
+def nri_guide():
+    return render_template('nri_guide.html')
+
+
 @main_bp.route('/josaa')
 def josaa():
     return render_template('josaa.html')

@@ -21,7 +21,16 @@
       <!-- Contact Form -->
       <div class="contact-form-card">
         <h2 class="section__title" style="font-size:1.5rem;">Send Us a Message</h2>
-        <form class="contact-form" id="contactForm">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div style="margin-bottom:16px;">
+          {% for cat, msg in messages %}
+          <div style="padding:10px 14px; border-radius:8px; font-size:.9rem; margin-bottom:6px; {% if cat == 'success' %}background:#e6f9ed; color:#276738; border:1px solid #b8e6c8;{% else %}background:#fce4e4; color:#a33; border:1px solid #f0bcbc;{% endif %}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <form class="contact-form" id="contactForm" method="POST" action="{{ url_for('auth.contact_submit') }}">
           <div class="form-row">
             <div class="form-group">
               <label for="firstName">First Name</label>

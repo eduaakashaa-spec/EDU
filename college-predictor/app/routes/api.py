@@ -5,6 +5,25 @@ from app.data.loader import get_josaa_df, get_nirf_df, get_metadata, get_nirf_lo
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
+# Branch category keyword mapping for grouped filtering
+BRANCH_CAT_KEYWORDS = {
+    'cs': ['Computer Science', 'Information Technology', 'Artificial Intelligence', 'Data Science', 'Software', 'Computing'],
+    'ec': ['Electronics', 'Communication', 'Electrical', 'Instrumentation', 'Telecommunication', 'VLSI'],
+    'me': ['Mechanical', 'Production', 'Manufacturing', 'Aerospace', 'Automobile', 'Industrial'],
+    'ce': ['Civil', 'Environmental', 'Structural', 'Construction', 'Transportation'],
+    'ch': ['Chemical', 'Materials', 'Metallurgy', 'Biotechnology', 'Biochemical', 'Polymer'],
+    'mc': ['Mathematics', 'Physics', 'Statistics', 'Engineering Science'],
+}
+
+
+def _branch_cat_mask(df, branch_cat):
+    """Return a boolean mask filtering CleanProgram by category keywords."""
+    keywords = BRANCH_CAT_KEYWORDS.get(branch_cat, [])
+    if not keywords:
+        return df['CleanProgram'].notna()  # match all
+    pattern = '|'.join(re.escape(k) for k in keywords)
+    return df['CleanProgram'].str.contains(pattern, case=False, na=False)
+
 
 def _get_type(name):
     if re.search(r'Indian Institute of Technology', name, re.I) and not re.search(r'Information', name, re.I):
@@ -34,6 +53,7 @@ def josaa_predict():
     quota = request.args.get('quota', '')
     inst_type = request.args.get('instType', '')
     branch = request.args.get('branch', '')
+    branch_cat = request.args.get('branchCat', '')
     use_buffer = request.args.get('buffer') == '1'
 
     df = get_josaa_df()
@@ -46,6 +66,8 @@ def josaa_predict():
         mask &= df['InstType'] == inst_type
     if branch:
         mask &= df['CleanProgram'] == branch
+    elif branch_cat:
+        mask &= _branch_cat_mask(df, branch_cat)
     multiplier = 3 if use_buffer else 1.5
     mask &= df['CloseRank'] * multiplier >= rank
 
@@ -93,6 +115,7 @@ def josaa_matrix():
     quota = request.args.get('quota', '')
     inst_type = request.args.get('type', '')
     branch = request.args.get('branch', '')
+    branch_cat = request.args.get('branchCat', '')
     search = request.args.get('search', '').lower()
 
     df = get_josaa_df()
@@ -105,6 +128,8 @@ def josaa_matrix():
         mask &= df['InstType'] == inst_type
     if branch:
         mask &= df['CleanProgram'] == branch
+    elif branch_cat:
+        mask &= _branch_cat_mask(df, branch_cat)
     if search:
         mask &= df['Institute'].str.lower().str.contains(search, regex=False) | \
                 df['Program'].str.lower().str.contains(search, regex=False)
@@ -300,3 +325,118 @@ def josaa_analytics():
         'gemData': gem_data,
         'catAdvantage': {'cats': cats, 'vals': cat_vals},
     })
+
+
+# ================================================================
+# DASA PREDICTOR API
+# ================================================================
+
+# ------ DB logging for marketing leads ------
+def _log_dasa_lead(name, email, rank, quota, branch, institute):
+    """Log user details for marketing into the database."""
+    from app.extensions import db
+    from app.models import DasaLead
+    lead = DasaLead(
+        name=name, email=email, rank=int(rank),
+        quota=quota, branch=branch, institute=institute,
+        source='dasa_predictor',
+    )
+    db.session.add(lead)
+    db.session.commit()
+    return lead
+
+
+# ------ RBAC: Premium user check ------
+def _is_premium_user():
+    """Check if current session belongs to a premium/admin user."""
+    from flask_login import current_user
+    if current_user.is_authenticated:
+        return current_user.is_premium
+    return False
+
+
+@api_bp.route('/dasa/predict', methods=['POST'])
+def dasa_predict():
+    """DASA college predictor endpoint.
+
+    Accepts user details, logs lead, returns predictions.
+    Full results are gated behind premium access (RBAC).
+    """
+    data = request.get_json(silent=True) or {}
+    name = (data.get('name') or '').strip()
+    email = (data.get('email') or '').strip()
+    rank = data.get('rank')
+    quota = (data.get('quota') or 'non-ciwg').strip().lower()
+    branch = (data.get('branch') or '').strip()
+    institute = (data.get('institute') or '').strip()
+
+    if not rank or not isinstance(rank, (int, float)) or int(rank) < 1:
+        return jsonify({'error': 'Invalid DASA rank'}), 400
+
+    rank = int(rank)
+
+    # Log lead for marketing (always, regardless of premium status)
+    if name and email:
+        _log_dasa_lead(name, email, rank, quota, branch, institute)
+
+    # TODO: Load actual DASA cutoff data from Excel/CSV once available.
+    # For now, use a placeholder dataset structure matching DASA format.
+    # Expected columns: Institute, Programme, Quota (CIWG/Non-CIWG),
+    #                   OpenRank, CloseRank, Round
+    #
+    # When data file is ready:
+    # 1. Add dasa_cutoffs.xlsx to app/data/files/
+    # 2. Add load function in loader.py (similar to JOSAA loader)
+    # 3. Replace placeholder below with real filtering logic
+
+    # --- Placeholder sample results ---
+    sample_results = [
+        {'inst': 'NIT Tiruchirappalli', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 1, 'close': 85, 'chance': 'safe', 'nirfRank': 9},
+        {'inst': 'NIT Warangal', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 5, 'close': 120, 'chance': 'safe', 'nirfRank': 21},
+        {'inst': 'NIT Karnataka Surathkal', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 3, 'close': 105, 'chance': 'moderate', 'nirfRank': 17},
+        {'inst': 'NIT Calicut', 'prog': 'Electronics and Communication Engineering', 'quota': 'Non-CIWG', 'open': 10, 'close': 200, 'chance': 'moderate', 'nirfRank': 25},
+        {'inst': 'NIT Rourkela', 'prog': 'Mechanical Engineering', 'quota': 'Non-CIWG', 'open': 8, 'close': 180, 'chance': 'reach', 'nirfRank': 19},
+        {'inst': 'IIIT Hyderabad', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 2, 'close': 60, 'chance': 'safe', 'nirfRank': 50},
+        {'inst': 'NIT Durgapur', 'prog': 'Information Technology', 'quota': 'Non-CIWG', 'open': 15, 'close': 250, 'chance': 'reach', 'nirfRank': 64},
+        {'inst': 'NIT Jaipur', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 12, 'close': 220, 'chance': 'moderate', 'nirfRank': 55},
+    ]
+
+    # Filter by quota
+    q_label = 'CIWG' if quota == 'ciwg' else 'Non-CIWG'
+    results = [r for r in sample_results if r['quota'] == q_label or True]  # placeholder: show all
+
+    # Filter by branch category
+    if branch:
+        branch_kw = BRANCH_CAT_KEYWORDS.get(branch, [])
+        if branch_kw:
+            results = [r for r in results
+                       if any(kw.lower() in r['prog'].lower() for kw in branch_kw)]
+
+    # Chance classification (placeholder logic)
+    for r in results:
+        if rank <= r['close']:
+            r['chance'] = 'safe' if rank <= r['close'] * 0.7 else 'moderate'
+        elif rank <= r['close'] * 1.3:
+            r['chance'] = 'reach'
+        else:
+            r['chance'] = 'longshot'
+
+    # RBAC: Premium users get full results; free users get preview
+    is_premium = _is_premium_user()
+    total = len(results)
+
+    if is_premium:
+        return jsonify({
+            'premium': True,
+            'total': total,
+            'results': results,
+        })
+    else:
+        # Free users: Show first 3 results only + blur/lock the rest
+        preview = results[:3]
+        return jsonify({
+            'premium': False,
+            'total': total,
+            'results': preview,
+            'message': f'Showing 3 of {total} results. Upgrade to Premium for full access.',
+        })

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Login – EduAakashaA{% endblock %}
+
+{% block head %}
+<style>
+.auth-page { min-height: 75vh; display: flex; align-items: center; justify-content: center; padding: 60px 20px; background: var(--cream, #F9F5EE); }
+.auth-card { background: #fff; border-radius: 16px; padding: 48px 40px; width: 100%; max-width: 440px; box-shadow: 0 8px 32px rgba(0,0,0,.06); border: 1px solid #e8e0d4; }
+.auth-card h1 { font-family: 'Oswald', sans-serif; font-size: 1.8rem; color: var(--dark, #1A1A2E); margin-bottom: 6px; }
+.auth-card .auth-sub { color: #777; font-size: .95rem; margin-bottom: 28px; }
+.auth-field { margin-bottom: 18px; }
+.auth-field label { display: block; font-size: .88rem; font-weight: 600; color: #444; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px; }
+.auth-field input { width: 100%; padding: 12px 14px; border: 1.5px solid #d0c8bb; border-radius: 8px; font-size: 1rem; font-family: Georgia, serif; transition: border-color .2s; box-sizing: border-box; }
+.auth-field input:focus { border-color: var(--gold, #C9A84C); outline: none; }
+.auth-remember { display: flex; align-items: center; gap: 8px; margin-bottom: 22px; font-size: .9rem; color: #555; }
+.auth-btn { width: 100%; padding: 14px; background: var(--gold, #C9A84C); color: #fff; border: none; border-radius: 8px; font-size: 1.05rem; font-family: 'Oswald', sans-serif; cursor: pointer; letter-spacing: .5px; transition: opacity .2s; }
+.auth-btn:hover { opacity: .85; }
+.auth-footer { text-align: center; margin-top: 22px; font-size: .92rem; color: #666; }
+.auth-footer a { color: var(--gold, #C9A84C); text-decoration: none; font-weight: 600; }
+.auth-footer a:hover { text-decoration: underline; }
+.flash-list { list-style: none; padding: 0; margin: 0 0 18px; }
+.flash-list li { padding: 10px 14px; border-radius: 8px; font-size: .9rem; margin-bottom: 8px; }
+.flash-list .flash-danger { background: #fce4e4; color: #a33; border: 1px solid #f0bcbc; }
+.flash-list .flash-success { background: #e6f9ed; color: #276738; border: 1px solid #b8e6c8; }
+.flash-list .flash-info { background: #e4edf9; color: #2c5282; border: 1px solid #bcd4f0; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Welcome Back</h1>
+    <p class="auth-sub">Sign in to access your dashboard and premium features.</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flash-list">
+      {% for cat, msg in messages %}
+      <li class="flash-{{ cat }}">{{ msg }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('auth.login', next=request.args.get('next', '')) }}">
+      <div class="auth-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required autofocus>
+      </div>
+      <div class="auth-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <label class="auth-remember">
+        <input type="checkbox" name="remember" value="1"> Remember me
+      </label>
+      <button type="submit" class="auth-btn">Sign In</button>
+    </form>
+
+    <p class="auth-footer">Don&rsquo;t have an account? <a href="{{ url_for('auth.register') }}">Create one</a></p>
+  </div>
+</div>
+{% endblock %}

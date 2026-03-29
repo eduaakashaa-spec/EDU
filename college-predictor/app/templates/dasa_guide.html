@@ -93,6 +93,39 @@
         </div>
         <button type="submit" class="btn-main">Predict My Colleges</button>
       </form>
+      <div id="dasaLoading" style="display:none;text-align:center;padding:24px;color:var(--muted-text,#64748B)">
+        <div style="font-size:28px;margin-bottom:8px">⏳</div>
+        <p>Predicting your best colleges...</p>
+      </div>
+    </div>
+
+    <!-- Results Area -->
+    <div id="dasaResults" style="display:none;margin-top:24px">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+        <h3 id="dasaResultsCount" style="font-size:16px;font-weight:700;color:#1B4F9B"></h3>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th><th>Institute</th><th>Programme</th><th>Quota</th>
+              <th>Opening</th><th>Closing</th><th>Chance</th><th>NIRF</th>
+            </tr>
+          </thead>
+          <tbody id="dasaResultsBody"></tbody>
+        </table>
+      </div>
+      <!-- Premium Gate Banner -->
+      <div id="dasaPremiumGate" style="display:none;margin-top:16px;padding:24px;background:linear-gradient(135deg,#1B4F9B,#2D6A4F);border-radius:12px;text-align:center;color:#fff">
+        <div style="font-size:32px;margin-bottom:8px">🔒</div>
+        <h3 id="dasaGateMsg" style="font-size:16px;margin-bottom:8px">Upgrade to Premium for Full Results</h3>
+        <p style="font-size:13px;opacity:0.85;margin-bottom:16px">Get access to all matched colleges, detailed analytics, and personalized PDF reports.</p>
+        <a href="#" class="btn-main" style="display:inline-block">Unlock Premium Access</a>
+      </div>
+    </div>
+    <div id="dasaEmpty" style="display:none;text-align:center;padding:32px;color:var(--muted-text,#64748B)">
+      <div style="font-size:36px;margin-bottom:10px">🔍</div>
+      <p>No matches found for your rank and filters. Try adjusting your inputs.</p>
     </div>
   </section>
 
@@ -190,18 +223,96 @@ document.addEventListener('DOMContentLoaded', () => {
     updating = false;
   });
 
-  // Form submission
+  // Form submission — DASA Predictor API call
   const form = document.getElementById('dasaForm');
   if (form) {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      const rank = document.getElementById('dasaRank').value;
+      const name = document.getElementById('dasaName').value.trim();
+      const email = document.getElementById('dasaEmail').value.trim();
+      const rank = parseInt(document.getElementById('dasaRank').value);
       const quota = document.getElementById('dasaQuota').value;
-      if (!rank) {
-        alert('Please enter your DASA rank.');
+      const branch = document.getElementById('dasaBranch').value;
+      const institute = document.getElementById('dasaInst').value;
+
+      if (!rank || rank < 1) {
+        alert('Please enter a valid DASA rank.');
         return;
       }
-      alert('Thank you! Your prediction report for DASA rank ' + rank + ' (' + quota.toUpperCase() + ') will be sent to your email. For immediate guidance, contact us at info@eduaakashaa.com');
+
+      // Show loading
+      document.getElementById('dasaLoading').style.display = 'block';
+      document.getElementById('dasaResults').style.display = 'none';
+      document.getElementById('dasaEmpty').style.display = 'none';
+
+      // TODO: Replace '' with actual premium token from user session/auth
+      const premiumToken = '';
+
+      fetch('/api/dasa/predict', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Premium-Token': premiumToken
+        },
+        body: JSON.stringify({ name, email, rank, quota, branch, institute })
+      })
+      .then(r => r.json())
+      .then(data => {
+        document.getElementById('dasaLoading').style.display = 'none';
+
+        if (data.error) {
+          alert(data.error);
+          return;
+        }
+
+        const results = data.results || [];
+        const total = data.total || 0;
+        const isPremium = data.premium;
+
+        if (total === 0) {
+          document.getElementById('dasaEmpty').style.display = 'block';
+          return;
+        }
+
+        document.getElementById('dasaResults').style.display = 'block';
+        document.getElementById('dasaResultsCount').textContent =
+          isPremium ? `${total} colleges found` : `Showing ${results.length} of ${total} colleges`;
+
+        // Render results table
+        document.getElementById('dasaResultsBody').innerHTML = results.map((r, i) => {
+          const chanceLabel = r.chance === 'safe' ? '✅ Safe'
+            : r.chance === 'moderate' ? '⚡ Moderate'
+            : r.chance === 'reach' ? '🎯 Reach' : '🔴 Long Shot';
+          const chanceClass = r.chance;
+          const nirfDisp = r.nirfRank && r.nirfRank < 9999
+            ? `<span style="display:inline-flex;align-items:center;background:#1B4F9B;color:#fff;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:700">#${r.nirfRank}</span>`
+            : '—';
+          return `<tr>
+            <td style="color:#64748B;font-size:11px">${i + 1}</td>
+            <td><div style="font-weight:700;font-size:12px;color:#1B4F9B">${r.inst}</div></td>
+            <td><div style="font-size:12px">${r.prog}</div></td>
+            <td style="font-size:11px;color:#64748B">${r.quota}</td>
+            <td style="font-weight:700;color:#1B4F9B">${r.open.toLocaleString()}</td>
+            <td style="font-weight:700;color:#EA580C">${r.close.toLocaleString()}</td>
+            <td><span class="chance-tag chance-tag--${chanceClass}" style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:12px;background:${r.chance==='safe'?'#D1FAE5':r.chance==='moderate'?'#FEF3C7':r.chance==='reach'?'#FEE2E2':'#E5E7EB'};color:${r.chance==='safe'?'#065F46':r.chance==='moderate'?'#92400E':r.chance==='reach'?'#991B1B':'#6B7280'}">${chanceLabel}</span></td>
+            <td>${nirfDisp}</td>
+          </tr>`;
+        }).join('');
+
+        // Premium gate banner
+        const gate = document.getElementById('dasaPremiumGate');
+        if (!isPremium && total > results.length) {
+          gate.style.display = 'block';
+          document.getElementById('dasaGateMsg').textContent = data.message || 'Upgrade to Premium for full results';
+        } else {
+          gate.style.display = 'none';
+        }
+      })
+      .catch(err => {
+        document.getElementById('dasaLoading').style.display = 'none';
+        alert('Prediction failed. Please try again.');
+        console.error('DASA predict error:', err);
+      });
     });
   }
 });

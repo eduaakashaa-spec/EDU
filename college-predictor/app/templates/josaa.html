@@ -22,13 +22,12 @@
   </div>
   <nav class="nav" id="mainNav">
     <div class="nav-inner">
-      <button class="nav-btn active" onclick="showPage('predictor',this)">🔮 Predictor</button>
+      <button class="nav-btn active" onclick="showPage('process',this)">📋 Process</button>
+      <button class="nav-btn" onclick="showPage('predictor',this)">🔮 Predictor</button>
       <button class="nav-btn" onclick="showPage('matrix',this)">📊 Matrix</button>
       <button class="nav-btn" onclick="showPage('analytics',this)">📈 Analytics</button>
       <button class="nav-btn" onclick="showPage('nirf',this)">🏆 NIRF 2026</button>
       <button class="nav-btn" onclick="showPage('insights',this)">💡 Insights</button>
-      <button class="nav-btn" onclick="showPage('process',this)">📋 Process</button>
-      <button class="nav-btn" onclick="showPage('presentations',this)">🎬 Presentations</button>
     </div>
   </nav>
 </header>
@@ -64,7 +63,7 @@
 <!-- ============================================================ -->
 <!-- PAGE: PREDICTOR -->
 <!-- ============================================================ -->
-<div class="page active" id="page-predictor">
+<div class="page" id="page-predictor">
 <div class="sec-hdr">
   <div class="sec-ico">🔮</div>
   <div><div class="sec-title">JOSAA 2025 College Predictor</div>
@@ -125,6 +124,18 @@
           <option value="NIT">NIT</option>
           <option value="IIIT">IIIT</option>
           <option value="GFTI">GFTI</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Course Category</label>
+        <select id="branchCat" onchange="filterBranchesByCategory()">
+          <option value="">All Categories</option>
+          <option value="cs">Computer Science &amp; IT</option>
+          <option value="ec">Electronics &amp; Communication</option>
+          <option value="me">Mechanical &amp; Production</option>
+          <option value="ce">Civil &amp; Environmental</option>
+          <option value="ch">Chemical &amp; Materials</option>
+          <option value="mc">Mathematics &amp; Computing</option>
         </select>
       </div>
       <div class="form-group">
@@ -190,6 +201,15 @@
     </select>
     <select class="mf-input" id="matCat" onchange="renderMatrix()">
       <option value="OPEN">OPEN</option><option value="OBC-NCL">OBC-NCL</option><option value="SC">SC</option><option value="ST">ST</option><option value="EWS">EWS</option>
+    </select>
+    <select class="mf-input" id="matBranchCat" onchange="renderMatrix()">
+      <option value="">All Categories</option>
+      <option value="cs">Computer Science &amp; IT</option>
+      <option value="ec">Electronics &amp; Communication</option>
+      <option value="me">Mechanical &amp; Production</option>
+      <option value="ce">Civil &amp; Environmental</option>
+      <option value="ch">Chemical &amp; Materials</option>
+      <option value="mc">Mathematics &amp; Computing</option>
     </select>
     <select class="mf-input" id="matBranch" onchange="renderMatrix()"><option value="">Key Branches</option></select>
     <select class="mf-input" id="matQuota" onchange="renderMatrix()">
@@ -321,7 +341,7 @@
 <!-- ============================================================ -->
 <!-- PAGE: PROCESS -->
 <!-- ============================================================ -->
-<div class="page" id="page-process">
+<div class="page active" id="page-process">
 <div class="tab-btns">
   <button class="tab-btn active" onclick="switchTab('process','tab-josaa',this)">📋 JOSAA Process</button>
   <button class="tab-btn" onclick="switchTab('process','tab-deadlines',this)">📅 2026 Deadlines</button>
@@ -396,112 +416,6 @@
     <div class="alert alert-orange">🎯 <strong>CSAB 2025 Seats:</strong> After JOSAA, approximately 2,800 seats remained vacant in NIT/IIIT/GFTI — filled through CSAB special rounds in August 2025.</div>
     <div class="alert alert-warn">⚠️ <strong>Category Certificate:</strong> OBC-NCL certificates must be issued after April 1 of the year of admission. Old certificates may be rejected. Plan ahead!</div>
     <div class="alert alert-info">📌 <strong>Supernumerary Seats:</strong> Female supernumerary seats added 20% extra capacity. Female OPEN closing ranks are typically 3,000–8,000 higher than gender-neutral for same programs.</div>
-  </div>
-</div>
-</div>
-
-<!-- ============================================================ -->
-<!-- PAGE: PRESENTATIONS -->
-<!-- ============================================================ -->
-<div class="page" id="page-presentations">
-<div class="sec-hdr">
-  <div class="sec-ico">🎬</div>
-  <div><div class="sec-title">Video Presentation Scripts</div>
-  <div class="sec-sub">3-part presentation series for students, parents &amp; educators</div></div>
-</div>
-
-<div class="pres-grid">
-  <div class="pres-card">
-    <div class="pres-hdr">
-      <div class="pnum">PRESENTATION 1 — 10–12 MINUTES</div>
-      <h3>Understanding JOSAA: From JEE Rank to Dream College</h3>
-    </div>
-    <div class="pres-body">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Target: Students who just got JEE results | Format: Explainer + Q&amp;A</div>
-      <div style="font-size:12px;font-weight:700;color:var(--blue-dark);margin-bottom:8px">SLIDES OUTLINE:</div>
-      <ol style="font-size:12px;color:var(--text);line-height:2;padding-left:18px">
-        <li>Welcome &amp; EduAakashaa introduction (1 min)</li>
-        <li>What is JOSAA? JEE Main vs JEE Advanced explained (2 min)</li>
-        <li>IIT vs NIT vs IIIT vs GFTI — which exam gets you where? (2 min)</li>
-        <li>Quotas: AI, HS, OS — how Home State benefits you (1.5 min)</li>
-        <li>Categories: OPEN, OBC, SC, ST, EWS — rank advantage (1.5 min)</li>
-        <li>How to use EduAakashaa Predictor (live demo) (2 min)</li>
-        <li>Top 5 mistakes during choice filling (1 min)</li>
-        <li>Q&amp;A and Call to Action (1 min)</li>
-      </ol>
-      <div class="script-box">
-        <strong>🎙️ VIDEO SCRIPT EXCERPT:</strong><br><br>
-        "Namaste! I'm [Host Name] from EduAakashaa — your trusted guide to illuminating your academic future. If you just got your JEE results and you're wondering — which college can I get? Which branch should I choose? — you're in the right place.<br><br>
-        JOSAA, or Joint Seat Allocation Authority, is the single platform that allocates seats across 128 premier institutes — 23 IITs, 31 NITs, 24 IIITs, and 50 GFTIs. But here's what most students miss: IITs don't use your JEE Main rank — they use your JEE Advanced rank. NITs, IIITs and GFTIs use your JEE Main rank. This is critical.<br><br>
-        Today, using our EduAakashaa portal — powered by actual JOSAA 2025 Round 1 to Round 6 data — 12,123 data points, covering every category, every quota — we'll show you exactly where your rank can take you. Let's dive in!"
-      </div>
-    </div>
-  </div>
-
-  <div class="pres-card">
-    <div class="pres-hdr" style="background:linear-gradient(135deg,var(--orange-dark),var(--orange))">
-      <div class="pnum">PRESENTATION 2 — 12–15 MINUTES</div>
-      <h3>College vs Branch: The Decision Every Student Gets Wrong</h3>
-    </div>
-    <div class="pres-body">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Target: Students with rank 5,000–1,50,000 | Format: Data-driven analysis</div>
-      <div style="font-size:12px;font-weight:700;color:var(--blue-dark);margin-bottom:8px">SLIDES OUTLINE:</div>
-      <ol style="font-size:12px;color:var(--text);line-height:2;padding-left:18px">
-        <li>The CSE Obsession — why everyone wants CSE (1.5 min)</li>
-        <li>Real data: CSE closing ranks — NIT Trichy vs NIT Silchar (2 min)</li>
-        <li>The Hidden Gem Concept — what you're missing (2 min)</li>
-        <li>Branch switching after 1st year — the reality (1.5 min)</li>
-        <li>Salary data: Does branch or college matter more? (2 min)</li>
-        <li>NIRF ranking + placement data comparison (2 min)</li>
-        <li>The EduAakashaa College Matrix — live comparison (2 min)</li>
-        <li>Decision framework: How to choose wisely (1.5 min)</li>
-      </ol>
-      <div class="script-box">
-        <strong>🎙️ VIDEO SCRIPT EXCERPT:</strong><br><br>
-        "Let me show you something shocking. A student with JEE Main rank 45,000 in OPEN category can choose between — Option A: CSE at NIT Silchar, closing rank 44,000. Option B: Mechanical Engineering at NIT Surathkal — closing rank 42,000, NIRF rank 21.<br><br>
-        Most students pick Option A because 'CSE hai'. But here's the data: NIT Surathkal Mechanical Engineering has a median campus placement of ₹12 LPA. NIT Silchar CSE? ₹7 LPA. And NIT Surathkal students can take electives in AI and Data Science from semester 5.<br><br>
-        The college brand matters. The NIRF ranking matters. The peer group matters. At rank 45,000, a better college with a non-CSE branch will almost always outperform a lower-ranked college with CSE. This is what the data says — and EduAakashaa's analytics proves it."
-      </div>
-    </div>
-  </div>
-
-  <div class="pres-card" style="grid-column:1/-1">
-    <div class="pres-hdr" style="background:linear-gradient(135deg,#065F46,#10B981)">
-      <div class="pnum">PRESENTATION 3 — 15–20 MINUTES</div>
-      <h3>Mastering JOSAA Strategy: Complete Counselling Playbook</h3>
-    </div>
-    <div class="pres-body">
-      <div style="font-size:12px;color:var(--muted);margin-bottom:12px">Target: All JEE aspirants + Parents | Format: Comprehensive masterclass</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-        <div>
-          <div style="font-size:12px;font-weight:700;color:var(--blue-dark);margin-bottom:8px">SLIDES OUTLINE (15 slides):</div>
-          <ol style="font-size:12px;color:var(--text);line-height:2;padding-left:18px">
-            <li>JOSAA 2026 Calendar &amp; Important Dates</li>
-            <li>JEE Main Rank vs JEE Advanced Rank — full clarity</li>
-            <li>Quota Strategy — AI, HS, OS with data</li>
-            <li>Category advantage with real cutoff comparison</li>
-            <li>Supernumerary seats for female candidates</li>
-            <li>IIT admission path — who qualifies, how to prepare</li>
-            <li>NIT selection framework — NIRF + branch + HS quota</li>
-            <li>IIIT options — specialized CS programs</li>
-            <li>GFTI — underrated gems (Sports, Architecture, Planning)</li>
-            <li>Choice filling strategy — Float vs Freeze vs Slide</li>
-            <li>Round-wise upgrade strategy</li>
-            <li>Document checklist &amp; reporting</li>
-            <li>CSAB special round strategy</li>
-            <li>EduAakashaa tools walkthrough</li>
-            <li>Final decision framework recap</li>
-          </ol>
-        </div>
-        <div class="script-box" style="margin-top:0">
-          <strong>🎙️ VIDEO SCRIPT EXCERPT (Opening):</strong><br><br>
-          "Welcome to EduAakashaa's JOSAA Masterclass — the most comprehensive 20-minute guide you'll find anywhere. I'm going to give you the exact strategy playbook that top counsellors charge thousands of rupees for. For free. Because at EduAakashaa, we believe every student deserves clarity.<br><br>
-          In the next 20 minutes, you'll know: which college to target with your exact rank, how to use HS quota to get a better NIT, why filling all 25,000 choices matters, and why the College vs Branch debate has one clear winner at every rank range. Grab a pen. Let's begin.<br><br>
-          <strong>🎙️ SCRIPT EXCERPT (Choice Filling):</strong><br><br>
-          Most students fill 20–30 choices. The average student who got into NIT Trichy CSE filled 847 choices. The student who 'settled' for NIT Silchar ECE filled 11 choices. The data is clear: fill every single valid option in your rank range, sorted by your preference. JOSAA's algorithm does the rest. More choices = better outcome. Always."
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 </div>

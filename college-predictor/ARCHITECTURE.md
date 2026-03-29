@@ -1,41 +1,50 @@
-# College Predictor App — Master Architecture Prompt
+# EduAakashaA — Master Architecture Document
 
 ## Overview
-A Flask-based college admission predictor for JoSAA counselling. Users input their JEE rank, category, and preferences to get predicted college/branch allotments based on historical cutoff data.
+A Flask-based college admission helper portal for Indian engineering aspirants. Covers NRI admissions (DASA/CIWG), JOSAA counselling, TNEA predictions, TANCET guidance, and career planning — powered by 12,000+ official data points from JOSAA 2025 and NIRF 2026 rankings.
+
+> **Live reference site:** <https://eduaakashaa.in/>
 
 ---
 
 ## Current Implementation Status
 
-The following components from the roadmap below are **already built and working**:
-
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Flask app factory | ✅ Done | `app/__init__.py` — loads data at startup, registers `main_bp` + `api_bp` |
+| Flask app factory | ✅ Done | `app/__init__.py` — loads data at startup, registers 3 Blueprints |
 | Data loader | ✅ Done | `app/data/loader.py` — reads JOSAA Excel + NIRF CSV into Pandas DataFrames |
-| Server-side API | ✅ Done | `app/routes/api.py` — 6 JSON endpoints (meta, predict, matrix, nirf, insights, analytics) |
-| Page routes | ✅ Done | `app/routes/__init__.py` — 19 routes on `main_bp` Blueprint |
+| Server-side API | ✅ Done | `app/routes/api.py` — 7 JSON endpoints (meta, predict, matrix, nirf, insights, analytics, DASA predict) |
+| Page routes | ✅ Done | `app/routes/main.py` — 19 routes on `main_bp` Blueprint |
 | JOSAA portal UI | ✅ Done | 7-tab SPA in `josaa.html` with `josaa.js` (fetch-based) + `josaa.css` |
-| Home page | ✅ Done | 10-chapter NRI Admission guide |
+| All content pages | ✅ Done | 22 templates — NRI guide, DASA, TNEA, TANCET, NIRF, Contact, etc. |
+| Homepage | ✅ Done | Modern landing page using the global `style.css` design system |
 | Chart.js analytics | ✅ Done | 8 charts + 2 insight charts, data fetched from API |
-| Extensions (DB, auth) | 🔲 Planned | `extensions.py`, Flask-SQLAlchemy, Flask-Login |
-| User models | 🔲 Planned | `models/user.py`, `models/payment.py` |
+| Extensions (DB, auth) | ✅ Done | `extensions.py` — Flask-SQLAlchemy, Flask-Login, Flask-Bcrypt |
+| Database models | ✅ Done | `models.py` — User, DasaLead, Prediction, Payment, ContactInquiry |
+| Auth system | ✅ Done | `routes/auth.py` — login, register, logout, dashboard, contact form |
+| RBAC tier system | ✅ Done | Free (3 results) / Premium (unlimited) / Admin — enforced in API |
+| DASA predict API | ✅ Done | Lead logging to DB, tier-gated result limits |
+| Admin CLI | ✅ Done | `manage.py` — init_db, create_admin commands |
 | Services layer | 🔲 Planned | `services/predictor.py`, `services/rbac.py`, etc. |
-| Payments (Razorpay) | 🔲 Planned | `routes/payment.py` |
-| Remaining 17 pages | 🔲 Planned | Currently on `placeholder.html` |
+| Payments (Razorpay) | 🔲 Planned | `routes/payment.py` — checkout flow |
 
 ---
 
 ## Tech Stack
 
-- **Framework:** Flask (serves both frontend and backend)
-- **Templating:** Jinja2 (server-side rendered HTML)
-- **Static Data:** Pandas DataFrames loaded from Excel files at app startup
-- **Database:** SQLite via Flask-SQLAlchemy (user data only)
-- **Auth:** Flask-Login + Flask-Bcrypt (session-based authentication)
-- **RBAC:** Custom decorator-based role/tier gating (free, premium, admin)
-- **Payments:** Razorpay (Indian payment gateway, supports UPI/cards/netbanking)
-- **Frontend:** HTML/CSS/JS (no frontend framework; Jinja2 templates + vanilla JS or minimal jQuery)
+| Layer | Technology | Version |
+|-------|------------|---------|
+| Framework | Flask | 3.1.0 |
+| Templating | Jinja2 (server-rendered) | — |
+| Data layer | Pandas + openpyxl (in-memory DataFrames) | 2.2.3 |
+| Database | SQLite via Flask-SQLAlchemy | 3.1.1 |
+| Auth | Flask-Login (sessions) + Flask-Bcrypt (passwords) | 0.6.3 / 1.0.1 |
+| RBAC | Custom tier-gated logic in API routes | — |
+| Frontend | Vanilla HTML / CSS / JS | — |
+| Charts | Chart.js (CDN) | 4.4.0 |
+| Fonts | Google Fonts (Oswald) | — |
+| Payments | Razorpay (planned) | — |
+| Deployment | Gunicorn | 23.0.0 |
 
 ---
 
@@ -50,15 +59,16 @@ These are read-only datasets. Loaded once at app startup into global DataFrames.
 | NIRF Rankings | `NIRF_Engineering_Rank_2026.xlsx` | College NIRF rank, score, city, state |
 | College Profiles | TBD | Institute name, branches offered, seat matrix, institute type (IIT/NIT/IIIT/GFTI) |
 
-### Dynamic User Data (SQLite)
-All user-generated data lives in SQLite.
+### Dynamic User Data (SQLite — `instance/eduaakashaa.db`)
+All user-generated data lives in SQLite, managed via Flask-SQLAlchemy (`app/models.py`).
 
-| Table | Fields |
-|---|---|
-| `users` | id, username, email, password_hash, tier (free/premium/admin), tier_expires_at, created_at |
-| `payments` | id, user_id, razorpay_order_id, razorpay_payment_id, amount, status (pending/paid/failed), plan (monthly/yearly), created_at |
-| `predictions` | id, user_id, rank, category, quota, results_json, created_at |
-| `bookmarks` | id, user_id, institute, branch, created_at |
+| Model | Table | Key Fields |
+|---|---|---|
+| `User` | `users` | id, name, email, password_hash, tier (free/premium/admin), tier_expires_at, created_at. Properties: `is_premium`, `is_admin` |
+| `DasaLead` | `dasa_leads` | id, name, email, rank, quota, branch, institute, timestamp, source |
+| `Prediction` | `predictions` | id, user_id (FK), predictor (josaa/dasa/tnea), query_json, results_json, created_at |
+| `Payment` | `payments` | id, user_id (FK), razorpay_order_id, razorpay_payment_id, amount, currency, status, plan, created_at |
+| `ContactInquiry` | `contact_inquiries` | id, first_name, last_name, email, interested, message, created_at |
 
 ---
 
@@ -66,53 +76,73 @@ All user-generated data lives in SQLite.
 
 ```
 college-predictor/
+├── run.py                          # Flask entry point (port 5000)
+├── config.py                       # App config (SECRET_KEY, DB URI, DEBUG)
+├── manage.py                       # CLI — init_db, create_admin commands
+├── requirements.txt                # flask, pandas, flask-sqlalchemy, flask-login, flask-bcrypt, etc.
+├── ARCHITECTURE.md                 # ← You are here
+├── README.md                       # Quick start, routes, dev log
+│
 ├── app/
-│   ├── __init__.py            # App factory, register blueprints, load DataFrames
-│   ├── extensions.py          # db, login_manager, bcrypt instances
-│   ├── models/
-│   │   ├── user.py            # SQLAlchemy models (User, Payment, Prediction, Bookmark)
-│   │   └── payment.py         # Payment model
-│   ├── data/
-│   │   ├── loader.py          # Load Excel files into DataFrames at startup
-│   │   └── files/             # Excel files stored here
-│   │       ├── josaa_cutoffs.xlsx
-│   │       └── nirf_rankings.xlsx
-│   ├── services/
-│   │   ├── predictor.py       # Core prediction logic (pandas queries)
-│   │   ├── college_search.py  # Search/filter colleges
-│   │   ├── analytics.py       # Stats, trends, comparisons
-│   │   ├── payment.py         # Razorpay order creation, verification, tier upgrade
-│   │   └── rbac.py            # Role/tier decorators and permission checks
+│   ├── __init__.py                 # App factory — create_app(), extensions init, 3 blueprints
+│   ├── extensions.py               # db (SQLAlchemy), login_manager, bcrypt instances
+│   ├── models.py                   # 5 SQLAlchemy models (User, DasaLead, Prediction, Payment, ContactInquiry)
+│   │
 │   ├── routes/
-│   │   ├── auth.py            # Login, register, logout
-│   │   ├── main.py            # Home, dashboard
-│   │   ├── predict.py         # Prediction form + results
-│   │   ├── payment.py         # Pricing page, checkout, Razorpay webhook
-│   │   └── api.py             # JSON API endpoints (if needed)
-│   ├── templates/
-│   │   ├── base.html
-│   │   ├── home.html
-│   │   ├── auth/
-│   │   │   ├── login.html
-│   │   │   └── register.html
-│   │   ├── predict/
-│   │   │   ├── form.html
-│   │   │   └── results.html
-│   │   └── college/
-│   │       ├── search.html
-│   │       └── profile.html
-│   │   └── payment/
-│   │       ├── pricing.html
-│   │       └── success.html
+│   │   ├── __init__.py             # (package init)
+│   │   ├── main.py                 # main_bp — 19 page routes
+│   │   ├── api.py                  # api_bp — 7 JSON API endpoints (/api/...)
+│   │   └── auth.py                 # auth_bp — login, register, logout, dashboard, contact_submit
+│   │
+│   ├── data/
+│   │   ├── __init__.py
+│   │   ├── loader.py               # Load JOSAA Excel + NIRF CSV into Pandas DataFrames at startup
+│   │   └── files/
+│   │       ├── josaa_cutoffs.xlsx   # 12,274 JOSAA records
+│   │       └── nirf_rankings.csv   # ~300 NIRF-ranked engineering colleges
+│   │
+│   ├── templates/                  # 25 Jinja2 templates
+│   │   ├── base.html               # Master layout — sticky bar, nav, footer, conditional Login/Dashboard
+│   │   ├── home.html               # Landing page (hero, services, tools, pathways, CTA)
+│   │   ├── nri_guide.html          # NRI Admission guide (10 chapters)
+│   │   ├── josaa.html              # JOSAA Predictor portal (7-tab SPA)
+│   │   ├── dasa_guide.html         # DASA & CIWG admissions guide
+│   │   ├── dasa_seat_matrix.html   # DASA seat matrix
+│   │   ├── tnea2026.html           # TNEA 2026 admissions
+│   │   ├── tneamatrix.html         # TNEA seat matrix
+│   │   ├── tneapc.html             # TNEA preference calculator
+│   │   ├── tnea_cutoff.html        # TNEA cutoff analysis
+│   │   ├── nirf_ranking.html       # NIRF engineering rankings
+│   │   ├── iiits.html              # IIITs information
+│   │   ├── annanri.html            # Anna University NRI admission
+│   │   ├── professional_exam.html  # Professional exam guide (CA, CS, CMA)
+│   │   ├── internship.html         # Internship programs
+│   │   ├── mbamca.html             # MBA & MCA program guide
+│   │   ├── tancet.html             # TANCET exam guide
+│   │   ├── tancet_pulse.html       # TANCET PULSE
+│   │   ├── ea_library.html         # EduAakashaa library / resources
+│   │   ├── viteee_nri.html         # VITEEE for NRI students
+│   │   ├── contact.html            # Contact page
+│   │   ├── placeholder.html        # Generic "Coming Soon" template (no longer used)
+│   │   └── auth/
+│   │       ├── login.html          # Login form
+│   │       ├── register.html       # Registration form
+│   │       └── dashboard.html      # User dashboard
+│   │
 │   └── static/
 │       ├── css/
+│       │   ├── style.css           # Global site styles (dark/gold theme, Georgia serif, all components)
+│       │   ├── josaa.css           # JOSAA portal styles (blue/orange, scoped under .josaa-portal)
+│       │   ├── pages.css           # Page-specific overrides
+│       │   └── homepage.css        # (orphaned — no longer used after homepage unification)
 │       ├── js/
+│       │   ├── main.js             # Hamburger menu, scroll spy, mobile nav
+│       │   └── josaa.js            # Full predictor logic — 15+ functions, Chart.js charts
 │       └── images/
-├── config.py                  # App config (SECRET_KEY, DB URI, debug mode)
-├── run.py                     # Entry point
-├── seed_db.py                 # Script to create tables and seed initial data
-└── requirements.txt           # flask, flask-sqlalchemy, flask-login, flask-bcrypt,
-                               # flask-wtf, pandas, openpyxl, razorpay, gunicorn
+│           └── .gitkeep
+│
+└── instance/
+    └── eduaakashaa.db              # SQLite database (auto-created on first run)
 ```
 
 ---
@@ -120,13 +150,12 @@ college-predictor/
 ## App Factory Pattern
 
 ```python
-# app/__init__.py
+# app/__init__.py (simplified)
 from flask import Flask
 from app.extensions import db, login_manager, bcrypt
-from app.data.loader import load_all_data
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, instance_relative_config=True)
     app.config.from_object('config.Config')
 
     # Init extensions
@@ -134,18 +163,27 @@ def create_app():
     login_manager.init_app(app)
     bcrypt.init_app(app)
 
-    # Load static data into memory
+    # User loader for Flask-Login
+    from app.models import User
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.query.get(int(user_id))
+
+    # Create DB tables
+    with app.app_context():
+        db.create_all()
+
+    # Load static data into memory (JOSAA + NIRF DataFrames)
+    from app.data.loader import load_all_data
     app.data = load_all_data()
 
     # Register blueprints
-    from app.routes.auth import auth_bp
     from app.routes.main import main_bp
-    from app.routes.predict import predict_bp
-    from app.routes.payment import payment_bp
-    app.register_blueprint(auth_bp)
+    from app.routes.api import api_bp
+    from app.routes.auth import auth_bp
     app.register_blueprint(main_bp)
-    app.register_blueprint(predict_bp)
-    app.register_blueprint(payment_bp)
+    app.register_blueprint(api_bp)
+    app.register_blueprint(auth_bp)
 
     return app
 ```
@@ -208,19 +246,20 @@ def predict_colleges(rank, category, quota='AI', preferred_branches=None, round_
 ## Auth Setup
 
 ```python
-# app/models/user.py
+# app/models.py (abbreviated — 5 models total)
 from app.extensions import db
 from flask_login import UserMixin
 from datetime import datetime
 
 class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password_hash = db.Column(db.String(128), nullable=False)
-    tier = db.Column(db.String(20), default='free')  # free, premium, admin
+    __tablename__ = 'users'
+    id            = db.Column(db.Integer, primary_key=True)
+    name          = db.Column(db.String(100), nullable=False)
+    email         = db.Column(db.String(150), unique=True, nullable=False)
+    password_hash = db.Column(db.String(200), nullable=False)
+    tier          = db.Column(db.String(20), default='free')  # free / premium / admin
     tier_expires_at = db.Column(db.DateTime, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at    = db.Column(db.DateTime, default=datetime.utcnow)
 
     @property
     def is_premium(self):
@@ -230,16 +269,25 @@ class User(UserMixin, db.Model):
             return self.tier_expires_at > datetime.utcnow()
         return False
 
-class Payment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    razorpay_order_id = db.Column(db.String(100), nullable=False)
-    razorpay_payment_id = db.Column(db.String(100), nullable=True)
-    amount = db.Column(db.Integer, nullable=False)  # in paise
-    status = db.Column(db.String(20), default='pending')  # pending, paid, failed
-    plan = db.Column(db.String(20), nullable=False)  # monthly, yearly
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    @property
+    def is_admin(self):
+        return self.tier == 'admin'
+
+class DasaLead(db.Model):     # Captures every DASA predict request
+class Prediction(db.Model):   # Stores prediction query + results per user
+class Payment(db.Model):      # Razorpay payment lifecycle
+class ContactInquiry(db.Model): # Contact form submissions
 ```
+
+### Auth Routes (`auth_bp`)
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/login` | GET/POST | Email + password login, Flask-Login session |
+| `/register` | GET/POST | Name + email + password, bcrypt password hash |
+| `/logout` | GET | Logs out, redirects to home |
+| `/dashboard` | GET | @login_required — user profile + tier info |
+| `/contact-submit` | POST | Contact form handler → saves ContactInquiry to DB |
 
 ---
 
@@ -434,11 +482,15 @@ function openCheckout(orderId, amount, plan) {
 
 ```python
 # config.py
+import os
+
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///app.db'
-    RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID')
-    RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET')
+    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-key-change-in-production')
+    DEBUG = os.environ.get('FLASK_DEBUG', '1') == '1'
+    SQLALCHEMY_DATABASE_URI = 'sqlite:///instance/eduaakashaa.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID')       # planned
+    # RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET') # planned
 ```
 
 ---

@@ -30,8 +30,9 @@
       </button>
       <nav class="header__nav" id="nav">
         <ul class="nav__list">
+          <li class="nav__item"><a href="{{ url_for('main.home') }}" class="nav__link{% if request.path == '/' %} nav__link--active{% endif %}">Homepage</a></li>
           <li class="nav__item nav__item--dropdown">
-            <a href="{{ url_for('main.home') }}" class="nav__link{% if request.path == '/' %} nav__link--active{% endif %}">NRI Admission <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
+            <a href="{{ url_for('main.nri_guide') }}" class="nav__link{% if '/nri-admissions-guide' in request.path %} nav__link--active{% endif %}">NRI Admission <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.iiits') }}">IIITs</a></li>
               <li><a href="{{ url_for('main.annanri') }}">Anna_NRI</a></li>
@@ -57,6 +58,11 @@
           <li class="nav__item"><a href="{{ url_for('main.tancet_pulse') }}" class="nav__link{% if request.path == '/tancet-pulse' %} nav__link--active{% endif %}">TANCET PULSE</a></li>
           <li class="nav__item"><a href="{{ url_for('main.viteee_nri') }}" class="nav__link{% if request.path == '/viteee-for-nri' %} nav__link--active{% endif %}">VITEEE for NRI</a></li>
           <li class="nav__item"><a href="{{ url_for('main.josaa') }}" class="nav__link{% if request.path == '/josaa' %} nav__link--active{% endif %}">JOSAA</a></li>
+          {% if current_user.is_authenticated %}
+          <li class="nav__item"><a href="{{ url_for('auth.dashboard') }}" class="nav__link nav__link--auth">Dashboard</a></li>
+          {% else %}
+          <li class="nav__item"><a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth">Login</a></li>
+          {% endif %}
         </ul>
       </nav>
     </div>
