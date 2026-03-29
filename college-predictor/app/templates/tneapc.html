@@ -1,0 +1,236 @@
+{% extends "base.html" %}
+{% block title %}TNEA Percentage Calculator & College Predictor | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">TNEA 2026</span>
+    <h1>Percentage Calculator &amp; <span>College Predictor</span></h1>
+    <p>Calculate your TNEA cutoff from raw +2 marks, then instantly predict eligible colleges</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">COLLEGES</span>
+        <span class="hero__meta-value">433</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">BRANCHES</span>
+        <span class="hero__meta-value">3,469</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">CATEGORIES</span>
+        <span class="hero__meta-value">9</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">BRANCH TYPES</span>
+        <span class="hero__meta-value">106</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Cutoff Calculator -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">STEP 1</span>
+      <h2 class="section__title">Calculate Your TNEA Cutoff</h2>
+      <p class="section__desc">Enter your +2 marks below. Cutoff = (Maths ÷ 2) + (Physics ÷ 4) + (Chemistry ÷ 4)</p>
+    </div>
+
+    <div class="anna-calc">
+      <div class="calc-inputs">
+        <div class="form-group">
+          <label for="pcMaths">Maths (out of 100)</label>
+          <input type="number" id="pcMaths" min="0" max="100" placeholder="e.g. 95">
+        </div>
+        <div class="form-group">
+          <label for="pcPhysics">Physics (out of 100)</label>
+          <input type="number" id="pcPhysics" min="0" max="100" placeholder="e.g. 88">
+        </div>
+        <div class="form-group">
+          <label for="pcChemistry">Chemistry (out of 100)</label>
+          <input type="number" id="pcChemistry" min="0" max="100" placeholder="e.g. 82">
+        </div>
+      </div>
+      <button type="button" class="btn-main" id="pcCalcBtn" style="margin-top:16px;">Calculate Cutoff</button>
+
+      <div class="calc-result" id="pcResult" style="display:none">
+        <div class="calc-result__score">
+          <span class="calc-result__value" id="pcCutoff">—</span>
+          <span class="calc-result__max">/ 200</span>
+        </div>
+        <div class="calc-breakdown" id="pcBreakdown"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- College Predictor -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">STEP 2</span>
+      <h2 class="section__title">Predict Your Colleges</h2>
+      <p class="section__desc">Your calculated cutoff is auto-filled. Select community &amp; preferences to see matching colleges.</p>
+    </div>
+
+    <div class="tancet-form-card">
+      <form class="contact-form" id="tneaPcForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pcCutoffInput">Your Cutoff Mark</label>
+            <input type="number" id="pcCutoffInput" name="cutoff" min="0" max="200" step="0.01" required placeholder="Auto-filled from Step 1">
+          </div>
+          <div class="form-group">
+            <label for="pcComm">Community / Category</label>
+            <select id="pcComm" name="community">
+              <option value="OC">OC (General)</option>
+              <option value="BC">BC</option>
+              <option value="BCM">BCM</option>
+              <option value="MBC">MBC</option>
+              <option value="SC">SC</option>
+              <option value="SCA">SCA</option>
+              <option value="ST">ST</option>
+              <option value="MBC&DNC">MBC &amp; DNC</option>
+              <option value="BCM(O)">BCM (Others)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="pcDist">District</label>
+            <select id="pcDist" name="district">
+              <option value="">All Districts</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Coimbatore">Coimbatore</option>
+              <option value="Madurai">Madurai</option>
+              <option value="Tiruchirappalli">Tiruchirappalli</option>
+              <option value="Salem">Salem</option>
+              <option value="Tirunelveli">Tirunelveli</option>
+              <option value="Vellore">Vellore</option>
+              <option value="Erode">Erode</option>
+              <option value="Thanjavur">Thanjavur</option>
+              <option value="Kanchipuram">Kanchipuram</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="pcBr">Branch</label>
+            <select id="pcBr" name="branch">
+              <option value="">All Branches</option>
+              <option value="CSE">Computer Science & Engg</option>
+              <option value="IT">Information Technology</option>
+              <option value="ECE">Electronics & Communication</option>
+              <option value="EEE">Electrical & Electronics</option>
+              <option value="MECH">Mechanical Engineering</option>
+              <option value="CIVIL">Civil Engineering</option>
+              <option value="AI&ML">AI & Machine Learning</option>
+              <option value="AI&DS">AI & Data Science</option>
+              <option value="CYS">Cyber Security</option>
+              <option value="BME">Biomedical Engineering</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-main">Predict Colleges</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Understanding Cutoffs -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">GUIDE</span>
+      <h2 class="section__title">Understanding TNEA Cutoffs</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Cutoff Range</th><th>College Tier</th><th>Typical Options</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>190–200</td><td>Tier 1 — Top Govt.</td><td>CEG, MIT, ACT (CSE/IT/ECE)</td></tr>
+          <tr><td>180–189</td><td>Tier 1 — Govt. & Top Private</td><td>TCE, PSG, SSN, SVCE</td></tr>
+          <tr><td>170–179</td><td>Tier 2 — Strong Private</td><td>Rajalakshmi, SRM (KTR), Kumaraguru</td></tr>
+          <tr><td>150–169</td><td>Tier 3 — Mid-range</td><td>Sathyabama, SRM (Ramapuram), Vel Tech</td></tr>
+          <tr><td>Below 150</td><td>Open options</td><td>Many colleges across branches</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout--warn" style="margin-top:16px;">
+      <div class="callout__icon">⚠</div>
+      <div>
+        <span class="callout__label">IMPORTANT</span>
+        <span class="callout__text">These ranges are based on TNEA 2025 data. Actual 2026 cutoffs may shift based on seat matrix changes, applicant pool, and new colleges/branches added.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="final-cta">
+    <h2>Need Personalized TNEA Guidance?</h2>
+    <p>EduAakashaa experts help you shortlist the right colleges, optimize your choice list, and secure the best seat.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Talk to an Expert</a>
+      <a href="{{ url_for('main.tnea_cutoff') }}" class="btn-out">Browse All Cutoffs</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const calcBtn = document.getElementById('pcCalcBtn');
+  const resultDiv = document.getElementById('pcResult');
+  const cutoffVal = document.getElementById('pcCutoff');
+  const breakdown = document.getElementById('pcBreakdown');
+  const cutoffInput = document.getElementById('pcCutoffInput');
+
+  calcBtn.addEventListener('click', () => {
+    const m = parseFloat(document.getElementById('pcMaths').value) || 0;
+    const p = parseFloat(document.getElementById('pcPhysics').value) || 0;
+    const c = parseFloat(document.getElementById('pcChemistry').value) || 0;
+
+    if (m > 100 || p > 100 || c > 100 || m < 0 || p < 0 || c < 0) {
+      alert('Please enter marks between 0 and 100.');
+      return;
+    }
+
+    const mC = m / 2;
+    const pC = p / 4;
+    const cC = c / 4;
+    const total = mC + pC + cC;
+
+    cutoffVal.textContent = total.toFixed(2);
+    breakdown.innerHTML =
+      '<p>Maths: ' + m + ' ÷ 2 = <strong>' + mC.toFixed(2) + '</strong></p>' +
+      '<p>Physics: ' + p + ' ÷ 4 = <strong>' + pC.toFixed(2) + '</strong></p>' +
+      '<p>Chemistry: ' + c + ' ÷ 4 = <strong>' + cC.toFixed(2) + '</strong></p>';
+    resultDiv.style.display = 'block';
+
+    // Auto-fill Step 2
+    cutoffInput.value = total.toFixed(2);
+    cutoffInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  // Form submission
+  const form = document.getElementById('tneaPcForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const cutoff = cutoffInput.value;
+      const comm = document.getElementById('pcComm').value;
+      if (!cutoff) {
+        alert('Please calculate or enter your cutoff mark first.');
+        return;
+      }
+      alert('Prediction feature coming soon! For cutoff ' + cutoff + ' (' + comm + '), contact info@eduaakashaa.com for immediate guidance.');
+    });
+  }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+{% block title %}IIITs NRI Admissions 2026 | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">NRI ADMISSIONS 2026</span>
+    <h1>NRI Admissions to <span>IIITs</span></h1>
+    <p>Three distinct admission routes to India's top IIITs — SAT-based, JEE-based, and DASA portal</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">ROUTE A</span>
+        <span class="hero__meta-value">IIIT Hyderabad (SAT)</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">ROUTE B</span>
+        <span class="hero__meta-value">IIIT Bangalore (JEE/Own)</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">ROUTE C</span>
+        <span class="hero__meta-value">All Others (JEE via DASA)</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Three Routes Overview -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">ADMISSION ROUTES</span>
+      <h2 class="section__title">Three Ways In</h2>
+      <p class="section__desc">Each top IIIT has a different NRI admission process. Here's how they work.</p>
+    </div>
+
+    <div class="service-cards">
+      <div class="service-card">
+        <div class="service-card__icon">A</div>
+        <div class="service-card__title">Route A — IIIT Hyderabad</div>
+        <div class="service-card__text">
+          SAT-based admission. Does NOT use JEE Main. Apply directly through IIIT-H portal with SAT scores. Separate process from DASA.
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">B</div>
+        <div class="service-card__title">Route B — IIIT Bangalore</div>
+        <div class="service-card__text">
+          Uses JEE Main OR own entrance portal. IIIT-B manages its own admission for NRI/international students. Check iiitb.ac.in for updates.
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">C</div>
+        <div class="service-card__title">Route C — All Other IIITs</div>
+        <div class="service-card__text">
+          JEE Main based, through dasanit.org (DASA portal). Includes IIIT Allahabad, IIIT Delhi, IIIT Pune, and all other IIITs in the DASA scheme.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IIIT Hyderabad Detailed Process -->
+  <section class="section" id="iiith">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">A</span>
+      <div>
+        <span class="chapter-divider__label">ROUTE A</span>
+        <span class="chapter-divider__title">IIIT Hyderabad — SAT Based</span>
+      </div>
+    </div>
+
+    <p class="content-text">IIIT Hyderabad is India's #1 ranked IIIT (NIRF #47 overall, #3 among IIITs). It conducts its own NRI admission using SAT scores — completely independent of JEE Main and DASA.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">01</span>
+        <div>
+          <div class="step__title">Register on IIIT-H Admissions Portal</div>
+          <div class="step__text">Visit admissions.iiit.ac.in and create an account. Select NRI/NRI-sponsored category.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">02</span>
+        <div>
+          <div class="step__title">Submit SAT Scores</div>
+          <div class="step__text">Upload official SAT score report. IIIT-H uses SAT Math + Evidence-Based Reading scores for ranking.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">03</span>
+        <div>
+          <div class="step__title">Upload Documents</div>
+          <div class="step__text">NRI proof (passport, visa, employment letter), 10+2 marksheet, SAT scorecard, photographs.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">04</span>
+        <div>
+          <div class="step__title">Merit List & Counselling</div>
+          <div class="step__text">IIIT-H publishes merit list based on SAT scores. Online counselling with branch preference filling.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">05</span>
+        <div>
+          <div class="step__title">Seat Acceptance & Fee Payment</div>
+          <div class="step__text">Accept allocated seat and pay first-year fees (approx. ₹10–12 lakh for NRI category).</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">06</span>
+        <div>
+          <div class="step__title">Report to Campus</div>
+          <div class="step__text">Document verification and campus registration at IIIT-H, Gachibowli, Hyderabad.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Comparison Table -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">COMPARISON</span>
+      <h2 class="section__title">Top IIITs at a Glance</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>IIIT</th>
+            <th>NIRF Rank</th>
+            <th>NRI Route</th>
+            <th>Avg Package</th>
+            <th>Highest Package</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>IIIT Hyderabad</strong></td>
+            <td>#47 Overall</td>
+            <td>SAT (own portal)</td>
+            <td>₹18–22 LPA</td>
+            <td>₹1.5+ Cr</td>
+          </tr>
+          <tr>
+            <td><strong>IIIT Allahabad</strong></td>
+            <td>#68 Engg</td>
+            <td>JEE via DASA</td>
+            <td>₹12–15 LPA</td>
+            <td>₹70+ LPA</td>
+          </tr>
+          <tr>
+            <td><strong>IIIT Bangalore</strong></td>
+            <td>#56 Engg</td>
+            <td>JEE / Own portal</td>
+            <td>₹15–20 LPA</td>
+            <td>₹80+ LPA</td>
+          </tr>
+          <tr>
+            <td><strong>IIIT Delhi</strong></td>
+            <td>#61 Engg</td>
+            <td>JEE via DASA</td>
+            <td>₹16–20 LPA</td>
+            <td>₹1.4 Cr</td>
+          </tr>
+          <tr>
+            <td><strong>IIIT Pune (IIITP)</strong></td>
+            <td>101–150</td>
+            <td>JEE via DASA</td>
+            <td>₹8–12 LPA</td>
+            <td>₹40+ LPA</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Key Deadlines -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">TIMELINE</span>
+      <h2 class="section__title">Key Deadlines 2026</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">📅</span>
+        <div>
+          <div class="step__title">January – February 2026</div>
+          <div class="step__text">JEE Main Session 1 & 2 — required for Route B & Route C</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">📅</span>
+        <div>
+          <div class="step__title">March – April 2026</div>
+          <div class="step__text">IIIT-H NRI admission portal opens — SAT score submission begins</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">📅</span>
+        <div>
+          <div class="step__title">April – May 2026</div>
+          <div class="step__text">DASA registration opens at dasanit.org for IIITs under Route C</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">📅</span>
+        <div>
+          <div class="step__title">June – July 2026</div>
+          <div class="step__text">DASA counselling rounds & IIIT-H merit list announced</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">📅</span>
+        <div>
+          <div class="step__title">July – August 2026</div>
+          <div class="step__text">Seat acceptance, fee payment & campus reporting</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Individual IIIT Cards -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">PROFILES</span>
+      <h2 class="section__title">Featured IIITs</h2>
+    </div>
+
+    <div class="iiit-profiles">
+      <div class="callout callout--info">
+        <div class="callout__icon">🏛</div>
+        <div>
+          <span class="callout__label">IIIT HYDERABAD</span>
+          <span class="callout__text">NIRF #47 · Gachibowli, Hyderabad · SAT-based NRI admission · Research-intensive with 15+ centres · ₹1.5 Cr highest package · Google, Microsoft, Amazon top recruiters · Founded 1998</span>
+        </div>
+      </div>
+
+      <div class="callout callout--ok">
+        <div class="callout__icon">🏛</div>
+        <div>
+          <span class="callout__label">IIIT ALLAHABAD</span>
+          <span class="callout__text">NIRF #68 Engg · Jhalwa, Prayagraj · JEE via DASA · One of the oldest IIITs (1999) · Strong alumni in tech giants · ₹70+ LPA highest package · IT, ECE, and Applied Sciences</span>
+        </div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout__icon">🏛</div>
+        <div>
+          <span class="callout__label">IIIT BANGALORE</span>
+          <span class="callout__text">NIRF #56 Engg · Electronic City, Bangalore · JEE/Own portal · Integrated M.Tech (5-year) · Strong startup ecosystem · ₹80+ LPA highest · Located in India's Silicon Valley</span>
+        </div>
+      </div>
+
+      <div class="callout callout--ok">
+        <div class="callout__icon">🏛</div>
+        <div>
+          <span class="callout__label">IIIT DELHI</span>
+          <span class="callout__text">NIRF #61 Engg · Okhla, New Delhi · JEE via DASA · State-funded by Delhi govt · AI/ML and data science focus · ₹1.4 Cr highest · Research publications among top 5 IIITs</span>
+        </div>
+      </div>
+
+      <div class="callout callout--info">
+        <div class="callout__icon">🏛</div>
+        <div>
+          <span class="callout__label">IIIT PUNE (IIITP)</span>
+          <span class="callout__text">NIRF 101–150 · Pune · JEE via DASA · Mentored by IIT Bombay · CSE and ECE programmes · Growing placement record · ₹40+ LPA highest · Established 2016</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Need Help with IIIT NRI Admission?</h2>
+    <p>EduAakashaa provides personalised guidance for all three IIIT admission routes — SAT prep, DASA strategy, and documentation support.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Get Expert Guidance</a>
+      <a href="{{ url_for('main.dasa_seat_matrix') }}" class="btn-out">View DASA Seat Matrix</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

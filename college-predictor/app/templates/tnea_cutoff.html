@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% block title %}TNEA 2025 Cutoff Browser | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">TNEA 2025</span>
+    <h1>College Cutoff <span>Browser</span></h1>
+    <p>Browse &amp; compare official TNEA 2025 closing cutoffs across 404 colleges and 2,219 branch records</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">COLLEGES</span>
+        <span class="hero__meta-value">404</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">RECORDS</span>
+        <span class="hero__meta-value">2,219</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">BRANCHES</span>
+        <span class="hero__meta-value">106</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">CATEGORIES</span>
+        <span class="hero__meta-value">9</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Tab Navigation -->
+  <section class="section">
+    <div class="tnea-tabs" id="tneaTabs">
+      <button class="tnea-tab active" data-tab="predictor">🎯 College Predictor</button>
+      <button class="tnea-tab" data-tab="browse">📋 Browse All Cutoffs</button>
+    </div>
+  </section>
+
+  <!-- Tab 1: Predictor -->
+  <section class="section tab-panel" id="tab-predictor">
+    <div class="section__header">
+      <span class="eyebrow">PREDICT</span>
+      <h2 class="section__title">Find Your Best-Fit Colleges</h2>
+      <p class="section__desc">Enter your cutoff mark to see colleges with Safe, Close, and Reach indicators.</p>
+    </div>
+
+    <div class="tancet-form-card">
+      <form class="contact-form" id="cutoffPredForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="coCutoff">Your Cutoff Mark</label>
+            <input type="number" id="coCutoff" name="cutoff" min="0" max="200" step="0.01" required placeholder="Enter cutoff (0–200)">
+          </div>
+          <div class="form-group">
+            <label for="coComm">Community</label>
+            <select id="coComm" name="community">
+              <option value="OC">OC (General)</option>
+              <option value="BC">BC</option>
+              <option value="BCM">BCM</option>
+              <option value="MBC">MBC</option>
+              <option value="SC">SC</option>
+              <option value="SCA">SCA</option>
+              <option value="ST">ST</option>
+              <option value="MBC&DNC">MBC &amp; DNC</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="coBranch">Branch</label>
+            <select id="coBranch" name="branch">
+              <option value="">All Branches</option>
+              <option value="CSE">Computer Science & Engg</option>
+              <option value="IT">Information Technology</option>
+              <option value="ECE">Electronics & Communication</option>
+              <option value="EEE">Electrical & Electronics</option>
+              <option value="MECH">Mechanical Engineering</option>
+              <option value="CIVIL">Civil Engineering</option>
+              <option value="AI&ML">AI & Machine Learning</option>
+              <option value="AI&DS">AI & Data Science</option>
+              <option value="CYS">Cyber Security</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="coDistrict">District</label>
+            <select id="coDistrict" name="district">
+              <option value="">All Districts</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Coimbatore">Coimbatore</option>
+              <option value="Madurai">Madurai</option>
+              <option value="Tiruchirappalli">Tiruchirappalli</option>
+              <option value="Salem">Salem</option>
+              <option value="Tirunelveli">Tirunelveli</option>
+              <option value="Vellore">Vellore</option>
+              <option value="Erode">Erode</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-main">Show Predictions</button>
+      </form>
+    </div>
+
+    <!-- Prediction Legend -->
+    <div class="info-cards" style="margin-top:24px;">
+      <div class="info-card" style="border-left:4px solid var(--green);">
+        <span class="info-card__icon">✅</span>
+        <span class="info-card__label">Safe</span>
+        <span class="info-card__value">Your cutoff &gt; college cutoff by 5+ marks</span>
+      </div>
+      <div class="info-card" style="border-left:4px solid var(--gold);">
+        <span class="info-card__icon">⚡</span>
+        <span class="info-card__label">Close</span>
+        <span class="info-card__value">Within 5 marks of college cutoff</span>
+      </div>
+      <div class="info-card" style="border-left:4px solid var(--red);">
+        <span class="info-card__icon">🎲</span>
+        <span class="info-card__label">Reach</span>
+        <span class="info-card__value">Your cutoff is below, but worth trying</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tab 2: Browse All -->
+  <section class="section tab-panel" id="tab-browse" style="display:none;">
+    <div class="section__header">
+      <span class="eyebrow">BROWSE</span>
+      <h2 class="section__title">All TNEA 2025 Cutoffs</h2>
+      <p class="section__desc">Search and filter the complete cutoff dataset.</p>
+    </div>
+
+    <div class="filter-bar">
+      <input type="text" id="coSearch" class="filter-input" placeholder="Search college or branch name...">
+      <select id="coFilter" class="filter-select">
+        <option value="">All Categories</option>
+        <option value="OC">OC</option>
+        <option value="BC">BC</option>
+        <option value="BCM">BCM</option>
+        <option value="MBC">MBC</option>
+        <option value="SC">SC</option>
+        <option value="SCA">SCA</option>
+        <option value="ST">ST</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table id="cutoffTable">
+        <thead>
+          <tr>
+            <th>College</th>
+            <th>Branch</th>
+            <th>Category</th>
+            <th>Cutoff</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>College of Engineering, Guindy</td><td>Computer Science & Engg</td><td>OC</td><td>199.50</td></tr>
+          <tr><td>College of Engineering, Guindy</td><td>Information Technology</td><td>OC</td><td>198.75</td></tr>
+          <tr><td>Madras Institute of Technology</td><td>Computer Science & Engg</td><td>OC</td><td>198.25</td></tr>
+          <tr><td>Alagappa College of Technology</td><td>Computer Science & Engg</td><td>OC</td><td>197.50</td></tr>
+          <tr><td>PSG College of Technology</td><td>Computer Science & Engg</td><td>OC</td><td>196.75</td></tr>
+          <tr><td>Thiagarajar College of Engineering</td><td>Computer Science & Engg</td><td>OC</td><td>195.50</td></tr>
+          <tr><td>SSN College of Engineering</td><td>Computer Science & Engg</td><td>OC</td><td>195.00</td></tr>
+          <tr><td>Coimbatore Institute of Technology</td><td>Computer Science & Engg</td><td>OC</td><td>194.25</td></tr>
+          <tr><td>Kongu Engineering College</td><td>Computer Science & Engg</td><td>OC</td><td>193.50</td></tr>
+          <tr><td>Sri Venkateswara College of Engg</td><td>Computer Science & Engg</td><td>OC</td><td>193.00</td></tr>
+          <tr><td>Rajalakshmi Engineering College</td><td>Computer Science & Engg</td><td>OC</td><td>191.75</td></tr>
+          <tr><td>Kumaraguru College of Technology</td><td>Computer Science & Engg</td><td>OC</td><td>190.50</td></tr>
+          <tr><td>Mepco Schlenk Engineering College</td><td>Computer Science & Engg</td><td>OC</td><td>189.00</td></tr>
+          <tr><td>Velammal Engineering College</td><td>Computer Science & Engg</td><td>OC</td><td>188.25</td></tr>
+          <tr><td>St. Joseph's College of Engineering</td><td>Computer Science & Engg</td><td>OC</td><td>187.00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note" style="margin-top:12px;">Showing top sample entries. Full dataset available in the downloaded Excel report.</p>
+  </section>
+
+  <!-- Cutoff Formula -->
+  <section class="section">
+    <div class="callout callout--info">
+      <div class="callout__icon">📝</div>
+      <div>
+        <span class="callout__label">TNEA CUTOFF FORMULA</span>
+        <span class="callout__text">Cutoff Mark = (Maths ÷ 2) + (Physics ÷ 4) + (Chemistry ÷ 4). Maximum: 200 marks.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="final-cta">
+    <h2>Get Personalized TNEA Guidance</h2>
+    <p>EduAakashaa helps with cutoff analysis, college shortlisting, choice filling strategy, and counselling support.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Talk to an Expert</a>
+      <a href="{{ url_for('main.tneamatrix') }}" class="btn-out">TNEA 2026 Predictor</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Tab switching
+  const tabs = document.querySelectorAll('.tnea-tab');
+  const panels = document.querySelectorAll('.tab-panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const target = tab.dataset.tab;
+      panels.forEach(p => {
+        p.style.display = p.id === 'tab-' + target ? 'block' : 'none';
+      });
+    });
+  });
+
+  // Browse filter
+  const searchInput = document.getElementById('coSearch');
+  const filterSelect = document.getElementById('coFilter');
+  const tableBody = document.querySelector('#cutoffTable tbody');
+
+  function filterTable() {
+    const query = (searchInput.value || '').toLowerCase();
+    const cat = filterSelect.value;
+    const rows = tableBody.querySelectorAll('tr');
+    rows.forEach(row => {
+      const cells = row.querySelectorAll('td');
+      const text = (cells[0].textContent + ' ' + cells[1].textContent).toLowerCase();
+      const rowCat = cells[2].textContent.trim();
+      const matchText = !query || text.includes(query);
+      const matchCat = !cat || rowCat === cat;
+      row.style.display = matchText && matchCat ? '' : 'none';
+    });
+  }
+
+  if (searchInput) searchInput.addEventListener('input', filterTable);
+  if (filterSelect) filterSelect.addEventListener('change', filterTable);
+
+  // Predictor form
+  const form = document.getElementById('cutoffPredForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const cutoff = document.getElementById('coCutoff').value;
+      const comm = document.getElementById('coComm').value;
+      if (!cutoff) {
+        alert('Please enter your cutoff mark.');
+        return;
+      }
+      alert('Prediction feature coming soon! For cutoff ' + cutoff + ' (' + comm + '), contact info@eduaakashaa.com for guidance.');
+    });
+  }
+});
+</script>
+{% endblock %}

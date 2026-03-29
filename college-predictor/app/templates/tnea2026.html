@@ -1,0 +1,308 @@
+{% extends "base.html" %}
+{% block title %}TNEA 2026 | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">TAMIL NADU ENGINEERING ADMISSIONS</span>
+    <h1>TNEA <span>2026</span></h1>
+    <p>Your complete guide to Tamil Nadu Engineering Admissions — cutoff calculator, important dates, and top college data</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">COUNTDOWN</span>
+        <span class="hero__meta-value" id="countdownTimer">Loading...</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Latest Announcements -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">UPDATES</span>
+      <h2 class="section__title">Latest Announcements</h2>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary class="faq-item__q">📢 TNEA 2026 Registration Expected to Open Soon</summary>
+        <div class="faq-item__a">The Tamil Nadu Engineering Admissions process for 2026 is expected to begin in the coming months. Stay tuned for official notifications from DOTE.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">📢 HSC Board Exam Results — Key for TNEA Cutoff</summary>
+        <div class="faq-item__a">Your HSC +2 marks in Mathematics, Physics and Chemistry directly determine your TNEA cutoff mark. Prepare well for boards.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">📢 New Colleges Added to TNEA 2026</summary>
+        <div class="faq-item__a">Several new self-financing engineering colleges may be added to the TNEA counselling process. Updated list will be available after registration opens.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">📢 TNEA Cutoff Formula Unchanged</summary>
+        <div class="faq-item__a">The official cutoff formula remains: Cutoff = (Maths ÷ 2) + (Physics ÷ 4) + (Chemistry ÷ 4), with each subject out of 200. Maximum cutoff = 200.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Quick Access Links -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">QUICK ACCESS</span>
+      <h2 class="section__title">TNEA Resources</h2>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__icon">📐</div>
+        <div class="info-card__title"><a href="#calculator">Cutoff Calculator</a></div>
+        <div class="info-card__text">Calculate your TNEA cutoff instantly</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📅</div>
+        <div class="info-card__title"><a href="#dates">Important Dates</a></div>
+        <div class="info-card__text">Key milestones timeline</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏛</div>
+        <div class="info-card__title"><a href="#colleges">Top Colleges</a></div>
+        <div class="info-card__text">College cutoff data</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🔗</div>
+        <div class="info-card__title"><a href="{{ url_for('main.tneapc') }}">College Predictor</a></div>
+        <div class="info-card__text">TNEA 2026 predictor tool</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cutoff Calculator -->
+  <section class="section" id="calculator">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">📐</span>
+      <div>
+        <span class="chapter-divider__label">OFFICIAL FORMULA</span>
+        <span class="chapter-divider__title">TNEA Cutoff Calculator</span>
+      </div>
+    </div>
+
+    <p class="content-text">Official formula: <strong>Cutoff = (Mathematics ÷ 2) + (Physics ÷ 4) + (Chemistry ÷ 4)</strong>. Each subject out of 200. Maximum cutoff = 200.</p>
+
+    <div class="anna-calc">
+      <div class="calc-inputs">
+        <div class="form-group">
+          <label for="tneaMaths">Mathematics (out of 200)</label>
+          <input type="number" id="tneaMaths" min="0" max="200" placeholder="Enter maths marks">
+        </div>
+        <div class="form-group">
+          <label for="tneaPhysics">Physics (out of 200)</label>
+          <input type="number" id="tneaPhysics" min="0" max="200" placeholder="Enter physics marks">
+        </div>
+        <div class="form-group">
+          <label for="tneaChemistry">Chemistry (out of 200)</label>
+          <input type="number" id="tneaChemistry" min="0" max="200" placeholder="Enter chemistry marks">
+        </div>
+      </div>
+      <div class="calc-result" id="tneaCalcResult">
+        <div class="calc-result__score">
+          <span class="calc-result__label">YOUR TNEA CUTOFF</span>
+          <span class="calc-result__value" id="tneaCutoffValue">—</span>
+          <span class="calc-result__max">out of 200 maximum</span>
+        </div>
+        <div class="calc-breakdown" id="tneaBreakdown" style="display:none;">
+          <span>Maths ÷ 2 = <strong id="tneaM2">—</strong></span>
+          <span>Physics ÷ 4 = <strong id="tneaP4">—</strong></span>
+          <span>Chemistry ÷ 4 = <strong id="tneaC4">—</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Important Dates -->
+  <section class="section" id="dates">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">📅</span>
+      <div>
+        <span class="chapter-divider__label">TIMELINE</span>
+        <span class="chapter-divider__title">Important Dates 2026</span>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">1</span>
+        <div>
+          <div class="step__title">March 2026 — HSC Board Exams</div>
+          <div class="step__text">Tamil Nadu +2 board examinations. Your marks directly determine TNEA cutoff.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">2</span>
+        <div>
+          <div class="step__title">May 2026 — HSC Results</div>
+          <div class="step__text">Board results announced. Cutoff marks calculated automatically by DOTE system.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">3</span>
+        <div>
+          <div class="step__title">May–June 2026 — TNEA Registration Opens</div>
+          <div class="step__text">Online registration at tneaonline.org. Upload certificates and pay registration fee.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">4</span>
+        <div>
+          <div class="step__title">June–July 2026 — Random Number Generation</div>
+          <div class="step__text">Random numbers assigned to break cutoff ties. Merit list published.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">5</span>
+        <div>
+          <div class="step__title">July–August 2026 — Online Counselling</div>
+          <div class="step__text">Choice filling, seat allotment rounds. Multiple rounds for vacancy filling.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">6</span>
+        <div>
+          <div class="step__title">August–September 2026 — Classes Begin</div>
+          <div class="step__text">Report to allotted college, document verification, fee payment, classes start.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Top College Cutoffs -->
+  <section class="section" id="colleges">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">🏛</span>
+      <div>
+        <span class="chapter-divider__label">REFERENCE DATA</span>
+        <span class="chapter-divider__title">Top College Cutoffs (Previous Year)</span>
+      </div>
+    </div>
+
+    <p class="content-text content-text--note">Cutoffs shown are OC category closing marks from 2025 counselling. Actual 2026 cutoffs may vary.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>College</th>
+            <th>CSE Cutoff</th>
+            <th>ECE Cutoff</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Anna University CEG</strong></td><td>197.5</td><td>196.0</td><td>Government</td></tr>
+          <tr><td><strong>Anna University MIT</strong></td><td>196.0</td><td>194.5</td><td>Government</td></tr>
+          <tr><td><strong>PSG College of Technology</strong></td><td>197.25</td><td>195.5</td><td>Autonomous</td></tr>
+          <tr><td><strong>Coimbatore Institute of Technology</strong></td><td>196.5</td><td>194.0</td><td>Government</td></tr>
+          <tr><td><strong>Thiagarajar College of Engineering</strong></td><td>195.75</td><td>193.5</td><td>Autonomous</td></tr>
+          <tr><td><strong>Govt. College of Technology, CBE</strong></td><td>195.5</td><td>193.0</td><td>Government</td></tr>
+          <tr><td><strong>Madras Institute of Technology</strong></td><td>195.0</td><td>192.5</td><td>Government</td></tr>
+          <tr><td><strong>SSN College of Engineering</strong></td><td>196.0</td><td>194.0</td><td>Autonomous</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">OUR SERVICES</span>
+      <h2 class="section__title">TNEA Guidance from EduAakashaa</h2>
+    </div>
+
+    <div class="service-cards">
+      <div class="service-card">
+        <div class="service-card__icon">📊</div>
+        <div class="service-card__title">Cutoff Analysis</div>
+        <div class="service-card__text">Year-over-year cutoff trends and predictions for all colleges and branches.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">🎯</div>
+        <div class="service-card__title">College Prediction</div>
+        <div class="service-card__text">AI-powered prediction based on your cutoff, category, and preferences.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">📝</div>
+        <div class="service-card__title">Choice Filling Support</div>
+        <div class="service-card__text">Expert-guided preference list optimization for maximum seat allotment chances.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Need TNEA 2026 Guidance?</h2>
+    <p>Get personalized counselling from EduAakashaa's TNEA experts. Cutoff strategy, college selection, and choice filling support.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Get Expert Guidance</a>
+      <a href="{{ url_for('main.tneapc') }}" class="btn-out">College Predictor</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Countdown timer (target: TNEA 2026 registration ~ June 2026)
+  const target = new Date('2026-06-01T00:00:00').getTime();
+  const timerEl = document.getElementById('countdownTimer');
+
+  function updateCountdown() {
+    const now = Date.now();
+    const diff = target - now;
+    if (diff <= 0) {
+      timerEl.textContent = 'Registration Open!';
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hrs = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    timerEl.textContent = days + 'd ' + hrs + 'h ' + mins + 'm to Registration';
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 60000);
+
+  // Cutoff Calculator
+  const maths = document.getElementById('tneaMaths');
+  const physics = document.getElementById('tneaPhysics');
+  const chemistry = document.getElementById('tneaChemistry');
+  const cutoffEl = document.getElementById('tneaCutoffValue');
+  const breakdown = document.getElementById('tneaBreakdown');
+
+  function calcTNEA() {
+    const m = Math.min(200, Math.max(0, parseFloat(maths.value) || 0));
+    const p = Math.min(200, Math.max(0, parseFloat(physics.value) || 0));
+    const c = Math.min(200, Math.max(0, parseFloat(chemistry.value) || 0));
+
+    if (!maths.value && !physics.value && !chemistry.value) {
+      cutoffEl.textContent = '—';
+      breakdown.style.display = 'none';
+      return;
+    }
+
+    const m2 = m / 2, p4 = p / 4, c4 = c / 4;
+    const cutoff = m2 + p4 + c4;
+    cutoffEl.textContent = cutoff.toFixed(2);
+
+    document.getElementById('tneaM2').textContent = m2.toFixed(2);
+    document.getElementById('tneaP4').textContent = p4.toFixed(2);
+    document.getElementById('tneaC4').textContent = c4.toFixed(2);
+    breakdown.style.display = 'flex';
+  }
+
+  [maths, physics, chemistry].forEach(el => el.addEventListener('input', calcTNEA));
+});
+</script>
+{% endblock %}

@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+{% block title %}DASA 2025 Seat Matrix & Analytics | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">DASA 2025 DATA</span>
+    <h1>DASA Seat Matrix <span>& Analytics</span></h1>
+    <p>77 institutes · 32 states · 559 programmes · 5,589 total seats across Non-CIWG and CIWG categories</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">INSTITUTES</span>
+        <span class="hero__meta-value">77</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">PROGRAMMES</span>
+        <span class="hero__meta-value">559</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">TOTAL SEATS</span>
+        <span class="hero__meta-value">5,589</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">NON-CIWG</span>
+        <span class="hero__meta-value">3,752</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">CIWG</span>
+        <span class="hero__meta-value">1,837</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Charts Section -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">ANALYTICS</span>
+      <h2 class="section__title">Seat Distribution Analysis</h2>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3 class="chart-card__title">Seats by Institute Group</h3>
+        <canvas id="chartInstGroup" height="260"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-card__title">CIWG vs Non-CIWG Composition</h3>
+        <canvas id="chartCiwg" height="260"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-card__title">Seats by Branch Category</h3>
+        <canvas id="chartBranch" height="260"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-card__title">Top 15 Institutes by Total Seats</h3>
+        <canvas id="chartTop15" height="300"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Insights -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">INSIGHTS</span>
+      <h2 class="section__title">Key Takeaways</h2>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__icon">📊</div>
+        <div class="info-card__title">NITs Dominate</div>
+        <div class="info-card__text">NITs account for the largest share of DASA seats across both Non-CIWG and CIWG categories.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🔬</div>
+        <div class="info-card__title">CSE Most Popular</div>
+        <div class="info-card__text">Computer Science and related branches have the highest demand-to-seat ratio in DASA counselling.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏛</div>
+        <div class="info-card__title">CIWG Advantage</div>
+        <div class="info-card__text">CIWG seats (for Gulf countries) have different closing ranks — often more accessible than Non-CIWG.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📈</div>
+        <div class="info-card__title">NIRF Correlation</div>
+        <div class="info-card__text">Higher NIRF-ranked institutes consistently show lower (better) closing ranks in DASA counselling.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Filter & Table -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">PROGRAMME TABLE</span>
+      <h2 class="section__title">Browse All Programmes</h2>
+      <p class="section__desc">559 programmes across 77 DASA institutes with NIRF ranking indicators.</p>
+    </div>
+
+    <div class="filter-bar">
+      <input type="text" id="seatSearch" class="filter-input" placeholder="Search institute or programme...">
+      <select id="seatFilter" class="filter-select">
+        <option value="">All Categories</option>
+        <option value="NIT">NITs</option>
+        <option value="IIIT">IIITs</option>
+        <option value="GFI">Other GFIs</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table id="seatTable">
+        <thead>
+          <tr>
+            <th>Institute</th>
+            <th>Programme</th>
+            <th>Non-CIWG Seats</th>
+            <th>CIWG Seats</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="seatTableBody">
+          <tr><td>NIT Tiruchirappalli</td><td>Computer Science and Engineering</td><td>12</td><td>6</td><td>18</td></tr>
+          <tr><td>NIT Tiruchirappalli</td><td>Electronics and Communication</td><td>10</td><td>5</td><td>15</td></tr>
+          <tr><td>NIT Warangal</td><td>Computer Science and Engineering</td><td>11</td><td>5</td><td>16</td></tr>
+          <tr><td>NIT Surathkal</td><td>Computer Science and Engineering</td><td>10</td><td>5</td><td>15</td></tr>
+          <tr><td>NIT Calicut</td><td>Computer Science and Engineering</td><td>8</td><td>4</td><td>12</td></tr>
+          <tr><td>IIIT Hyderabad</td><td>Computer Science and Engineering</td><td>5</td><td>3</td><td>8</td></tr>
+          <tr><td>NIT Rourkela</td><td>Electrical Engineering</td><td>9</td><td>4</td><td>13</td></tr>
+          <tr><td>NIT Durgapur</td><td>Mechanical Engineering</td><td>10</td><td>5</td><td>15</td></tr>
+          <tr><td>IIIT Allahabad</td><td>Information Technology</td><td>6</td><td>3</td><td>9</td></tr>
+          <tr><td>NIT Jaipur</td><td>Computer Science and Engineering</td><td>8</td><td>4</td><td>12</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note">Showing sample data. Full 559 programmes available in the DASA predictor tool.</p>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Get Personalized DASA Seat Recommendations</h2>
+    <p>Use our DASA College Predictor or talk to an EduAakashaa counsellor for rank-based guidance.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.dasa_guide') }}" class="btn-main">DASA Predictor</a>
+      <a href="{{ url_for('main.contact') }}" class="btn-out">Expert Counselling</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Chart 1: Seats by Institute Group
+  new Chart(document.getElementById('chartInstGroup'), {
+    type: 'doughnut',
+    data: {
+      labels: ['NITs', 'IIITs', 'Other GFIs'],
+      datasets: [{ data: [3800, 900, 889], backgroundColor: ['#1B4F9B', '#2D6A4F', '#C9A84C'] }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  // Chart 2: CIWG vs Non-CIWG
+  new Chart(document.getElementById('chartCiwg'), {
+    type: 'pie',
+    data: {
+      labels: ['Non-CIWG (3,752)', 'CIWG (1,837)'],
+      datasets: [{ data: [3752, 1837], backgroundColor: ['#1B4F9B', '#C9A84C'] }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  // Chart 3: Seats by Branch Category
+  new Chart(document.getElementById('chartBranch'), {
+    type: 'bar',
+    data: {
+      labels: ['CSE/IT', 'ECE/EEE', 'Mechanical', 'Civil', 'Chemical', 'Others'],
+      datasets: [{ label: 'Seats', data: [1200, 980, 850, 620, 480, 1459], backgroundColor: '#1B4F9B' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  // Chart 4: Top 15 Institutes
+  new Chart(document.getElementById('chartTop15'), {
+    type: 'bar',
+    data: {
+      labels: ['NIT Trichy', 'NIT Warangal', 'NIT Surathkal', 'NIT Calicut', 'NIT Rourkela', 'NIT Durgapur', 'NIT Jaipur', 'NIT Allahabad', 'NIT Kurukshetra', 'NIT Bhopal', 'IIIT Hyderabad', 'IIIT Allahabad', 'NIT Silchar', 'NIT Patna', 'NIT Agartala'],
+      datasets: [{ label: 'Total Seats', data: [180, 165, 162, 150, 145, 140, 135, 130, 125, 120, 55, 50, 115, 110, 100], backgroundColor: '#2D6A4F' }]
+    },
+    options: { indexAxis: 'y', responsive: true, plugins: { legend: { display: false } } }
+  });
+
+  // Search filter
+  const search = document.getElementById('seatSearch');
+  const filter = document.getElementById('seatFilter');
+  const tbody = document.getElementById('seatTableBody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+
+  function filterTable() {
+    const q = search.value.toLowerCase();
+    const cat = filter.value;
+    rows.forEach(r => {
+      const text = r.textContent.toLowerCase();
+      const matchQ = !q || text.includes(q);
+      const matchCat = !cat || text.includes(cat.toLowerCase());
+      r.style.display = matchQ && matchCat ? '' : 'none';
+    });
+  }
+
+  search.addEventListener('input', filterTable);
+  filter.addEventListener('change', filterTable);
+});
+</script>
+{% endblock %}

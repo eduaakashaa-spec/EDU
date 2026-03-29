@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}EA Library | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">RESOURCES</span>
+    <h1>EduAakashaa <span>Library</span></h1>
+    <p>Video tutorials, guides, and expert sessions to help you navigate admissions</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Video Library -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">VIDEO LIBRARY</span>
+      <h2 class="section__title">Learn from Our Experts</h2>
+      <p class="section__desc">Watch our curated video content covering DASA, TNEA, TANCET, and more on our YouTube channel.</p>
+    </div>
+
+    <div class="cta-box">
+      <h3>📺 EduAakashaa YouTube Channel</h3>
+      <p>Subscribe to get the latest videos on admissions strategies, college reviews, and exam preparation tips.</p>
+      <a href="https://www.youtube.com/@EduAakashaa" target="_blank" rel="noopener" class="btn-main">Visit YouTube Channel</a>
+    </div>
+  </section>
+
+  <!-- Get In Touch -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">GET IN TOUCH</span>
+      <h2 class="section__title">Need Help?</h2>
+      <p class="section__desc">Our counsellors are available to guide you through the admission process.</p>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card__icon">📞</div>
+        <div class="info-card__title">India</div>
+        <div class="info-card__text">0091-9150426094</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📞</div>
+        <div class="info-card__title">UAE</div>
+        <div class="info-card__text">00971-505168081</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">✉</div>
+        <div class="info-card__title">Email</div>
+        <div class="info-card__text">info@eduaakashaa.com</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">💬</div>
+        <div class="info-card__title">Counselling</div>
+        <div class="info-card__text"><a href="{{ url_for('main.contact') }}">Contact Form</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Start Your Admission Journey</h2>
+    <p>EduAakashaa — Illuminating Your Academic Future</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Get Expert Guidance</a>
+      <a href="{{ url_for('main.home') }}" class="btn-out">Explore Programs</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

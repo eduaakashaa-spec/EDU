@@ -1,0 +1,196 @@
+{% extends "base.html" %}
+{% block title %}NIRF Engineering Rankings 2026 | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">NIRF ENGINEERING 2026</span>
+    <h1>NIRF Engineering <span>Rankings</span></h1>
+    <p>Analytics dashboard for 300 institutions across 4 ranking bands — Top 100 with scores, 101–300 alphabetical</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">TOTAL INSTITUTIONS</span>
+        <span class="hero__meta-value">300</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">SCORED (1–100)</span>
+        <span class="hero__meta-value">100</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">TOP SCORE</span>
+        <span class="hero__meta-value">88.72 (IIT Madras)</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">STATES</span>
+        <span class="hero__meta-value">32</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Top 5 -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">TOP 5</span>
+      <h2 class="section__title">India's Top Engineering Institutions</h2>
+    </div>
+
+    <div class="top5-grid">
+      <div class="top5-card top5-card--gold">
+        <span class="top5-rank">#1</span>
+        <h3>IIT Madras</h3>
+        <span class="top5-score">88.72</span>
+        <span class="top5-loc">Chennai, Tamil Nadu</span>
+      </div>
+      <div class="top5-card top5-card--silver">
+        <span class="top5-rank">#2</span>
+        <h3>IIT Delhi</h3>
+        <span class="top5-score">84.76</span>
+        <span class="top5-loc">New Delhi</span>
+      </div>
+      <div class="top5-card top5-card--bronze">
+        <span class="top5-rank">#3</span>
+        <h3>IIT Bombay</h3>
+        <span class="top5-score">83.98</span>
+        <span class="top5-loc">Mumbai, Maharashtra</span>
+      </div>
+      <div class="top5-card">
+        <span class="top5-rank">#4</span>
+        <h3>IIT Kanpur</h3>
+        <span class="top5-score">79.48</span>
+        <span class="top5-loc">Kanpur, Uttar Pradesh</span>
+      </div>
+      <div class="top5-card">
+        <span class="top5-rank">#5</span>
+        <h3>IIT Kharagpur</h3>
+        <span class="top5-score">76.70</span>
+        <span class="top5-loc">Kharagpur, West Bengal</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Charts -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">ANALYTICS</span>
+      <h2 class="section__title">Distribution Analysis</h2>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3 class="chart-card__title">Institutions by Ranking Band</h3>
+        <canvas id="chartBands" height="260"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-card__title">Top States by Representation</h3>
+        <canvas id="chartStates" height="260"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Band Details -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">RANKING BANDS</span>
+      <h2 class="section__title">Understanding NIRF Bands</h2>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card" style="border-color:var(--gold);">
+        <div class="info-card__icon" style="background:#FFF8F0;color:var(--gold);">🥇</div>
+        <div class="info-card__title">Band 1 (Rank 1–100)</div>
+        <div class="info-card__text">100 institutions with individual scores. Includes all IITs, top NITs, IIITs, and select private colleges. Detailed NIRF score available.</div>
+      </div>
+      <div class="info-card" style="border-color:var(--blue);">
+        <div class="info-card__icon" style="background:var(--blue-bg);color:var(--blue);">🥈</div>
+        <div class="info-card__title">Band 2 (Rank 101–150)</div>
+        <div class="info-card__text">50 institutions listed alphabetically without individual scores. Strong institutions including regional NITs and top autonomous colleges.</div>
+      </div>
+      <div class="info-card" style="border-color:var(--green);">
+        <div class="info-card__icon" style="background:var(--green-bg);color:var(--green);">🥉</div>
+        <div class="info-card__title">Band 3 (Rank 151–200)</div>
+        <div class="info-card__text">50 institutions listed alphabetically. Mix of government-aided and self-financing colleges with good placement records.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📋</div>
+        <div class="info-card__title">Band 4 (Rank 201–300)</div>
+        <div class="info-card__text">100 institutions listed alphabetically. Emerging colleges with improving infrastructure and growing placement networks.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- State Highlights -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">STATE-WISE</span>
+      <h2 class="section__title">Top States in NIRF Rankings</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>State</th>
+            <th>Institutions in Top 300</th>
+            <th>In Top 100</th>
+            <th>Notable Colleges</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Tamil Nadu</strong></td><td>58</td><td>12</td><td>IIT Madras, Anna Univ, NIT Trichy, VIT, SRM</td></tr>
+          <tr><td><strong>Maharashtra</strong></td><td>32</td><td>8</td><td>IIT Bombay, COEP, VJTI, Pune colleges</td></tr>
+          <tr><td><strong>Karnataka</strong></td><td>28</td><td>7</td><td>IISc, NIT Surathkal, RVCE, BMS, MSRIT</td></tr>
+          <tr><td><strong>Uttar Pradesh</strong></td><td>22</td><td>5</td><td>IIT Kanpur, IIT BHU, IIIT Allahabad</td></tr>
+          <tr><td><strong>Delhi</strong></td><td>15</td><td>5</td><td>IIT Delhi, IIIT Delhi, DTU, NSUT</td></tr>
+          <tr><td><strong>Kerala</strong></td><td>18</td><td>4</td><td>NIT Calicut, CET, GEC Thrissur</td></tr>
+          <tr><td><strong>West Bengal</strong></td><td>16</td><td>3</td><td>IIT Kharagpur, Jadavpur, NIT Durgapur</td></tr>
+          <tr><td><strong>Telangana</strong></td><td>14</td><td>3</td><td>IIT Hyderabad, IIIT Hyderabad, NIT Warangal</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Choose the Right College with NIRF Data</h2>
+    <p>Use NIRF rankings combined with our DASA predictor for data-driven admission decisions.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.dasa_seat_matrix') }}" class="btn-main">DASA Seat Matrix</a>
+      <a href="{{ url_for('main.contact') }}" class="btn-out">Expert Counselling</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Band distribution
+  new Chart(document.getElementById('chartBands'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Rank 1–100 (Scored)', 'Rank 101–150', 'Rank 151–200', 'Rank 201–300'],
+      datasets: [{ data: [100, 50, 50, 100], backgroundColor: ['#C9A84C', '#1B4F9B', '#2D6A4F', '#6B7280'] }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  // State representation
+  new Chart(document.getElementById('chartStates'), {
+    type: 'bar',
+    data: {
+      labels: ['Tamil Nadu', 'Maharashtra', 'Karnataka', 'Uttar Pradesh', 'Delhi', 'Kerala', 'West Bengal', 'Telangana'],
+      datasets: [{ label: 'Institutions (Top 300)', data: [58, 32, 28, 22, 15, 18, 16, 14], backgroundColor: '#1B4F9B' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+});
+</script>
+{% endblock %}

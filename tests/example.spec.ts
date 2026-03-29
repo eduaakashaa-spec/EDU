@@ -1,18 +1,78 @@
 import { test, expect } from '@playwright/test';
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+const BASE = 'http://127.0.0.1:5000';
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
+const pages = [
+  { path: '/', titlePart: 'EduAakashaA' },
+  { path: '/josaa', titlePart: 'JOSAA' },
+  { path: '/iiits', titlePart: 'IIIT' },
+  { path: '/annanri', titlePart: 'Anna' },
+  { path: '/dasa-seat-matrix', titlePart: 'DASA' },
+  { path: '/dasa-admissions-guide', titlePart: 'DASA' },
+  { path: '/nirf-ranking', titlePart: 'NIRF' },
+  { path: '/tnea2026', titlePart: 'TNEA' },
+  { path: '/tneamatrix', titlePart: 'TNEA' },
+  { path: '/tneapc', titlePart: 'TNEA' },
+  { path: '/tnea-cutoff', titlePart: 'TNEA' },
+  { path: '/professional-exam', titlePart: 'Professional' },
+  { path: '/internship-programs', titlePart: 'Internship' },
+  { path: '/contact', titlePart: 'Contact' },
+  { path: '/mbamca-program', titlePart: 'MBA' },
+  { path: '/tancet', titlePart: 'TANCET' },
+  { path: '/ea-library', titlePart: 'Library' },
+  { path: '/tancet-pulse', titlePart: 'TANCET' },
+  { path: '/viteee-for-nri', titlePart: 'VITEEE' },
+];
+
+for (const pg of pages) {
+  test(`${pg.path} loads with correct title`, async ({ page }) => {
+    const errors: string[] = [];
+    page.on('pageerror', (err) => errors.push(err.message));
+
+    await page.goto(`${BASE}${pg.path}`);
+    await expect(page).toHaveTitle(new RegExp(pg.titlePart, 'i'));
+
+    // Header nav exists
+    await expect(page.locator('#nav')).toBeVisible();
+
+    // Site footer exists
+    await expect(page.locator('.footer')).toBeVisible();
+
+    // No JS errors
+    expect(errors).toHaveLength(0);
+  });
+}
+
+test('contact form is interactive', async ({ page }) => {
+  await page.goto(`${BASE}/contact`);
+  const form = page.locator('.contact-form');
+  await expect(form).toBeVisible();
 });
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test('TNEA PC calculator works', async ({ page }) => {
+  await page.goto(`${BASE}/tneapc`);
+  await page.fill('#pcMaths', '90');
+  await page.fill('#pcPhysics', '80');
+  await page.fill('#pcChemistry', '70');
+  await page.click('#pcCalcBtn');
+  const result = page.locator('#pcResult');
+  await expect(result).toBeVisible();
+  const cutoffText = await page.locator('#pcCutoff').textContent();
+  // 90/2 + 80/4 + 70/4 = 45 + 20 + 17.5 = 82.5
+  expect(cutoffText).toBe('82.50');
+});
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
+test('JEE rank converter works on DASA page', async ({ page }) => {
+  await page.goto(`${BASE}/dasa-admissions-guide`);
+  await page.fill('#jeeRank', '1000');
+  const percField = page.locator('#jeePercentile');
+  const percVal = await percField.inputValue();
+  expect(parseFloat(percVal)).toBeGreaterThan(99);
+});
 
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+test('TNEA cutoff tab switching works', async ({ page }) => {
+  await page.goto(`${BASE}/tnea-cutoff`);
+  await expect(page.locator('#tab-predictor')).toBeVisible();
+  await page.click('[data-tab="browse"]');
+  await expect(page.locator('#tab-browse')).toBeVisible();
 });

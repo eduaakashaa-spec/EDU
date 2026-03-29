@@ -15,84 +15,84 @@ def josaa():
 
 @main_bp.route('/iiits')
 def iiits():
-    return render_template('placeholder.html', title='IIITs', heading='IIITs Information')
+    return render_template('iiits.html')
 
 
 @main_bp.route('/annanri')
 def annanri():
-    return render_template('placeholder.html', title='Anna NRI', heading='Anna University NRI Admission')
+    return render_template('annanri.html')
 
 
 @main_bp.route('/dasa-seat-matrix')
 def dasa_seat_matrix():
-    return render_template('placeholder.html', title='DASA Seat Matrix', heading='DASA Seat Matrix')
+    return render_template('dasa_seat_matrix.html')
 
 
 @main_bp.route('/dasa-admissions-guide')
 def dasa_guide():
-    return render_template('placeholder.html', title='DASA/CIWG Guide', heading='DASA & CIWG Admissions Guide')
+    return render_template('dasa_guide.html')
 
 
 @main_bp.route('/nirf-ranking')
 def nirf_ranking():
-    return render_template('placeholder.html', title='NIRF Ranking', heading='NIRF Engineering Rankings')
+    return render_template('nirf_ranking.html')
 
 
 @main_bp.route('/tnea2026')
 def tnea2026():
-    return render_template('placeholder.html', title='TNEA 2026', heading='TNEA 2026 Admissions')
+    return render_template('tnea2026.html')
 
 
 @main_bp.route('/tneamatrix')
 def tneamatrix():
-    return render_template('placeholder.html', title='TNEA Matrix', heading='TNEA Seat Matrix')
+    return render_template('tneamatrix.html')
 
 
 @main_bp.route('/tneapc')
 def tneapc():
-    return render_template('placeholder.html', title='TNEA PC', heading='TNEA Preference Calculator')
+    return render_template('tneapc.html')
 
 
 @main_bp.route('/tnea-cutoff')
 def tnea_cutoff():
-    return render_template('placeholder.html', title='TNEA Cutoff', heading='TNEA Cutoff Analysis')
+    return render_template('tnea_cutoff.html')
 
 
 @main_bp.route('/professional-exam')
 def professional_exam():
-    return render_template('placeholder.html', title='Professional Exam', heading='Professional Exam Guide')
+    return render_template('professional_exam.html')
 
 
 @main_bp.route('/internship-programs')
 def internship():
-    return render_template('placeholder.html', title='Internship Programs', heading='Internship Programs')
+    return render_template('internship.html')
 
 
 @main_bp.route('/contact')
 def contact():
-    return render_template('placeholder.html', title='Contact', heading='Contact EduAakashaa')
+    return render_template('contact.html')
 
 
 @main_bp.route('/mbamca-program')
 def mbamca():
-    return render_template('placeholder.html', title='MBA/MCA Program', heading='MBA & MCA Program Guide')
+    return render_template('mbamca.html')
 
 
 @main_bp.route('/tancet')
 def tancet():
-    return render_template('placeholder.html', title='TANCET', heading='TANCET Exam Guide')
+    return render_template('tancet.html')
 
 
 @main_bp.route('/ea-library')
 def ea_library():
-    return render_template('placeholder.html', title='EA Library', heading='EduAakashaa Library')
+    return render_template('ea_library.html')
 
 
 @main_bp.route('/tancet-pulse')
 def tancet_pulse():
-    return render_template('placeholder.html', title='TANCET PULSE', heading='TANCET PULSE')
+    return render_template('tancet_pulse.html')
 
 
 @main_bp.route('/viteee-for-nri')
 def viteee_nri():
-    return render_template('placeholder.html', title='VITEEE for NRI', heading='VITEEE for NRI Students')
+    return render_template('viteee_nri.html')

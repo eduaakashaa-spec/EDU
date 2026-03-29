@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+{% block title %}TANCET PULSE — MicroLearn Platform | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">MICROLEARN PLATFORM</span>
+    <h1>TANCET <span>PULSE</span></h1>
+    <p>Adaptive learning platform with daily practice, confidence tracking, and analytics — for students, parents, teachers & admins</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Four Portals -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">PORTALS</span>
+      <h2 class="section__title">Four Learning Portals</h2>
+      <p class="section__desc">TANCET PULSE provides role-specific dashboards for every stakeholder in the TANCET preparation journey.</p>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card" style="border-color:var(--blue);">
+        <div class="info-card__icon" style="background:var(--blue-bg);color:var(--blue);">🎓</div>
+        <div class="info-card__title">Student Portal</div>
+        <div class="info-card__text">
+          <ul class="qual-details">
+            <li>Daily practice questions — adaptive difficulty</li>
+            <li>Confidence tracking per topic</li>
+            <li>Performance analytics & weak areas</li>
+            <li>Timed mock tests mimicking TANCET format</li>
+            <li>Progress streaks & motivation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-card" style="border-color:var(--green);">
+        <div class="info-card__icon" style="background:var(--green-bg);color:var(--green);">👨‍👩‍👧</div>
+        <div class="info-card__title">Parent Portal</div>
+        <div class="info-card__text">
+          <ul class="qual-details">
+            <li>Progress monitoring dashboard</li>
+            <li>Weekly summary reports</li>
+            <li>Attendance and practice consistency</li>
+            <li>Score trend visualizations</li>
+            <li>Alert notifications for missed sessions</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-card" style="border-color:var(--gold);">
+        <div class="info-card__icon" style="background:#FFF8F0;color:var(--gold);">👨‍🏫</div>
+        <div class="info-card__title">Teacher Portal</div>
+        <div class="info-card__text">
+          <ul class="qual-details">
+            <li>Class-level analytics</li>
+            <li>Identify struggling students</li>
+            <li>Assign topic-specific practice sets</li>
+            <li>Performance comparison across batches</li>
+            <li>Question bank management</li>
+          </ul>
+        </div>
+      </div>
+      <div class="info-card" style="border-color:var(--red);">
+        <div class="info-card__icon" style="background:var(--red-bg);color:var(--red);">⚙</div>
+        <div class="info-card__title">Admin Portal</div>
+        <div class="info-card__text">
+          <ul class="qual-details">
+            <li>Platform-wide analytics</li>
+            <li>User management & roles</li>
+            <li>Content curation & approval</li>
+            <li>System health monitoring</li>
+            <li>Report generation & exports</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">HOW IT WORKS</span>
+      <h2 class="section__title">The MicroLearn Approach</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">01</span>
+        <div>
+          <div class="step__title">Daily Micro-Sessions (15 min)</div>
+          <div class="step__text">Short, focused practice sessions that fit into any schedule. Questions adapt to student's current level.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">02</span>
+        <div>
+          <div class="step__title">Confidence Tracking</div>
+          <div class="step__text">Students rate their confidence on each topic. The system identifies gaps between confidence and actual performance.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">03</span>
+        <div>
+          <div class="step__title">Adaptive Difficulty</div>
+          <div class="step__text">Questions automatically adjust difficulty based on performance. Struggling students get easier problems; advanced students get challenges.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">04</span>
+        <div>
+          <div class="step__title">Weekly Reports</div>
+          <div class="step__text">Comprehensive analytics sent to students, parents, and teachers. Track improvement trends, weak areas, and time spent.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Topics Covered -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">COVERAGE</span>
+      <h2 class="section__title">TANCET Syllabus Coverage</h2>
+    </div>
+
+    <div class="service-cards">
+      <div class="service-card">
+        <div class="service-card__icon">📐</div>
+        <div class="service-card__title">Quantitative Aptitude</div>
+        <div class="service-card__text">Number systems, algebra, geometry, data interpretation, probability, and statistics.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">📝</div>
+        <div class="service-card__title">Verbal Ability</div>
+        <div class="service-card__text">Reading comprehension, grammar, vocabulary, sentence completion, and verbal reasoning.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">🧩</div>
+        <div class="service-card__title">Logical Reasoning</div>
+        <div class="service-card__text">Analytical reasoning, puzzles, data arrangement, syllogisms, and critical reasoning.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Start Your TANCET Preparation</h2>
+    <p>Join TANCET PULSE for structured, daily practice with real-time analytics and confidence tracking.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Get Access</a>
+      <a href="{{ url_for('main.tancet') }}" class="btn-out">TANCET Predictor</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

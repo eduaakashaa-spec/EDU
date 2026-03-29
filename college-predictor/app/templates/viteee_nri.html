@@ -1,0 +1,257 @@
+{% extends "base.html" %}
+{% block title %}VITEEE for NRI Students | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">NRI ADMISSIONS GUIDE</span>
+    <h1>VIT NRI <span>Admissions</span></h1>
+    <p>Complete guide to VITEEE NRI quota admissions — rank analysis, branch guidance, and placement insights</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- How NRI Admissions Work -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">01</span>
+      <div>
+        <span class="chapter-divider__label">OVERVIEW</span>
+        <span class="chapter-divider__title">How NRI Admissions Work at VIT</span>
+      </div>
+    </div>
+
+    <p class="content-text">VIT offers NRI quota seats across VIT Vellore, VIT Chennai, VIT-AP and VIT Bhopal. NRI candidates can apply through VITEEE score or management quota. The NRI fee structure is higher but guarantees admission at preferred branches with relatively lower competition.</p>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card__icon">📝</div>
+        <div class="info-card__title">VITEEE-Based Entry</div>
+        <div class="info-card__text">Write VITEEE exam and participate in NRI counselling with separate rank list and seat allotment.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🎫</div>
+        <div class="info-card__title">Management Quota</div>
+        <div class="info-card__text">Direct admission without VITEEE based on 10+2 marks. Limited seats available at NRI fee structure.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">💳</div>
+        <div class="info-card__title">NRI Fee Structure</div>
+        <div class="info-card__text">USD 7,000–10,000 per year depending on campus and branch. Includes hostel and mess in some packages.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📋</div>
+        <div class="info-card__title">Documents Required</div>
+        <div class="info-card__text">NRI sponsor proof, passport copy, 10+2 marksheet, VITEEE scorecard (if applicable), photographs.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Decision Quadrant -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">02</span>
+      <div>
+        <span class="chapter-divider__label">RANK ANALYSIS</span>
+        <span class="chapter-divider__title">Decision Quadrant — 4 Rank Zones</span>
+      </div>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card" style="border-color:var(--green);">
+        <div class="info-card__icon" style="background:var(--green-bg);color:var(--green);">🟢</div>
+        <div class="info-card__title">Zone 1: Rank &lt; 5,000</div>
+        <div class="info-card__text"><strong>Premium Pick.</strong> CSE at VIT Vellore — the flagship. Also eligible for CSE with specialisations (AI, Data Science, Cyber Security). Best placements, highest packages.</div>
+      </div>
+      <div class="info-card" style="border-color:var(--blue);">
+        <div class="info-card__icon" style="background:var(--blue-bg);color:var(--blue);">🔵</div>
+        <div class="info-card__title">Zone 2: Rank 5,000–15,000</div>
+        <div class="info-card__text"><strong>Strong Options.</strong> ECE, EEE at Vellore. CSE at VIT Chennai. Specialised CSE branches (IoT, Blockchain) at Vellore. Very good placement record.</div>
+      </div>
+      <div class="info-card" style="border-color:var(--gold);">
+        <div class="info-card__icon" style="background:#FFF8F0;color:var(--gold);">🟡</div>
+        <div class="info-card__title">Zone 3: Rank 15,000–40,000</div>
+        <div class="info-card__text"><strong>Smart Choices.</strong> ME, Civil at Vellore. ECE/EEE at Chennai. CSE at VIT-AP/Bhopal. Look at branch over campus for long-term value.</div>
+      </div>
+      <div class="info-card" style="border-color:var(--red);">
+        <div class="info-card__icon" style="background:var(--red-bg);color:var(--red);">🔴</div>
+        <div class="info-card__title">Zone 4: Rank &gt; 40,000</div>
+        <div class="info-card__text"><strong>Consider Alternatives.</strong> Non-CSE branches at AP/Bhopal. NRI management quota might be better. Evaluate VIT vs other private universities carefully.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- College vs Branch Expert Guide -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">03</span>
+      <div>
+        <span class="chapter-divider__label">EXPERT GUIDE</span>
+        <span class="chapter-divider__title">College vs Branch — What Matters More?</span>
+      </div>
+    </div>
+
+    <p class="content-text">This is the most common dilemma for VIT NRI applicants. Should you pick CSE at a newer campus (VIT-AP) or ECE at the flagship (Vellore)?</p>
+
+    <div class="callout callout--ok">
+      <div class="callout__icon">✓</div>
+      <div>
+        <span class="callout__label">BRANCH FIRST — WHEN?</span>
+        <span class="callout__text">If you're sure about a career in software/IT, <strong>always pick CSE or IT</strong> regardless of campus. The branch premium in placements is 30–50% higher than non-CSE branches even at the flagship campus.</span>
+      </div>
+    </div>
+
+    <div class="callout callout--info">
+      <div class="callout__icon">🏛</div>
+      <div>
+        <span class="callout__label">CAMPUS FIRST — WHEN?</span>
+        <span class="callout__text">If you're open to core engineering (ECE, ME, EEE), <strong>pick VIT Vellore</strong>. The flagship campus has 20+ years of placement relationships, better labs, and stronger alumni network.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Branch Deep Dive -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">04</span>
+      <div>
+        <span class="chapter-divider__label">ANALYTICS</span>
+        <span class="chapter-divider__title">Branch Deep Dive</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>Avg Package</th>
+            <th>Highest</th>
+            <th>Top Recruiters</th>
+            <th>Career Paths</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>CSE</strong></td>
+            <td>₹10–14 LPA</td>
+            <td>₹44 LPA+</td>
+            <td>Microsoft, Amazon, Google, Deloitte</td>
+            <td>Software Dev, AI/ML, Cloud, Product Management</td>
+          </tr>
+          <tr>
+            <td><strong>ECE</strong></td>
+            <td>₹6–9 LPA</td>
+            <td>₹30 LPA+</td>
+            <td>Qualcomm, Samsung, Intel, TI</td>
+            <td>VLSI Design, Embedded Systems, 5G, IoT</td>
+          </tr>
+          <tr>
+            <td><strong>ME</strong></td>
+            <td>₹5–7 LPA</td>
+            <td>₹18 LPA</td>
+            <td>Caterpillar, L&T, Hyundai, Bosch</td>
+            <td>Design, Manufacturing, Automotive, Robotics</td>
+          </tr>
+          <tr>
+            <td><strong>Civil</strong></td>
+            <td>₹4–6 LPA</td>
+            <td>₹12 LPA</td>
+            <td>L&T, Shapoorji, AECOM, Infra companies</td>
+            <td>Structural Engineering, Urban Planning, Construction</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Jobs, Higher Ed, Global Opportunities -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">05</span>
+      <div>
+        <span class="chapter-divider__label">AFTER VIT</span>
+        <span class="chapter-divider__title">Jobs, Higher Ed & Global Opportunities</span>
+      </div>
+    </div>
+
+    <div class="service-cards">
+      <div class="service-card">
+        <div class="service-card__icon">💼</div>
+        <div class="service-card__title">Campus Placements</div>
+        <div class="service-card__text">300+ companies visit VIT Vellore annually. NRI students participate in the same placement process as general students.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">🎓</div>
+        <div class="service-card__title">Higher Education Abroad</div>
+        <div class="service-card__text">VIT degree is widely accepted by US, UK, European and Australian universities for MS/MBA admissions. Strong GRE/GMAT prep culture.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">🌍</div>
+        <div class="service-card__title">Global Careers</div>
+        <div class="service-card__text">VIT alumni work across 50+ countries. Semester abroad programs, international internships, and exchange programs available.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIT vs Other Private Colleges -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">06</span>
+      <div>
+        <span class="chapter-divider__label">COMPARISON</span>
+        <span class="chapter-divider__title">VIT vs Other Private Colleges</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>VIT Vellore</th>
+            <th>SRM</th>
+            <th>Manipal</th>
+            <th>BITS Pilani</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>NIRF Engg Rank</strong></td><td>#11</td><td>#33</td><td>#29</td><td>#27</td></tr>
+          <tr><td><strong>Own Entrance Exam</strong></td><td>VITEEE</td><td>SRMJEEE</td><td>MET</td><td>BITSAT</td></tr>
+          <tr><td><strong>NRI Quota</strong></td><td>Yes (separate counselling)</td><td>Yes</td><td>Yes</td><td>Limited</td></tr>
+          <tr><td><strong>NRI Fees (per year)</strong></td><td>USD 7,000–10,000</td><td>USD 6,000–9,000</td><td>USD 8,000–12,000</td><td>USD 5,000–8,000</td></tr>
+          <tr><td><strong>CSE Avg Package</strong></td><td>₹10–14 LPA</td><td>₹6–10 LPA</td><td>₹8–12 LPA</td><td>₹12–18 LPA</td></tr>
+          <tr><td><strong>Campus Size</strong></td><td>600+ acres</td><td>250+ acres</td><td>600+ acres</td><td>900+ acres</td></tr>
+          <tr><td><strong>Companies Visiting</strong></td><td>300+</td><td>250+</td><td>250+</td><td>300+</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- NRI Quota Game Changer -->
+  <section class="section">
+    <div class="callout callout--ok">
+      <div class="callout__icon">🎯</div>
+      <div>
+        <span class="callout__label">NRI QUOTA — THE GAME CHANGER</span>
+        <span class="callout__text">NRI quota at VIT guarantees branch preference with lower rank cutoffs than general category. If you're an NRI student with a decent VITEEE rank, you can secure CSE at VIT Vellore — the same branch that requires rank &lt;3,000 in general category. This is the single biggest advantage of the NRI admission route.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Need Help with VITEEE NRI Admission?</h2>
+    <p>EduAakashaa provides personalized guidance for VIT NRI applications — exam prep, branch selection, and documentation support.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Get Expert Guidance</a>
+      <a href="{{ url_for('main.home') }}" class="btn-out">DASA Guide</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

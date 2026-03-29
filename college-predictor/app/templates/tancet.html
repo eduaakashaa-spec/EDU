@@ -1,0 +1,174 @@
+{% extends "base.html" %}
+{% block title %}TANCET 2025 Predictor | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">TANCET 2025</span>
+    <h1>TANCET College <span>Predictor</span></h1>
+    <p>242 colleges · 7 communities · Placement data · AI Jobs impact · NIRF & NAAC analysis</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Lead Capture Form -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">GET STARTED</span>
+      <h2 class="section__title">Get Your Prediction Report</h2>
+      <p class="section__desc">Enter your details to receive a personalised college prediction based on TANCET 2025 data.</p>
+    </div>
+
+    <div class="tancet-form-card">
+      <form class="contact-form" id="tancetForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tancetName">Full Name</label>
+            <input type="text" id="tancetName" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="tancetLocation">Location</label>
+            <input type="text" id="tancetLocation" name="location" placeholder="City, State">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tancetEmail">Email</label>
+            <input type="email" id="tancetEmail" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="tancetPhone">Phone</label>
+            <input type="tel" id="tancetPhone" name="phone">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tancetScore">Expected TANCET Score</label>
+            <input type="number" id="tancetScore" name="score" min="0" max="100" placeholder="Out of 100">
+          </div>
+          <div class="form-group">
+            <label for="tancetComm">Community</label>
+            <select id="tancetComm" name="community">
+              <option value="OC">OC (Open)</option>
+              <option value="BC">BC</option>
+              <option value="BCM">BCM</option>
+              <option value="MBC">MBC</option>
+              <option value="SC">SC</option>
+              <option value="SCA">SCA</option>
+              <option value="ST">ST</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-main">Get Prediction</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- What You Get -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">FEATURES</span>
+      <h2 class="section__title">What's in the Prediction Report</h2>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__icon">🏛</div>
+        <div class="info-card__title">242 College Analysis</div>
+        <div class="info-card__text">Comprehensive data for all TANCET-participating colleges with cutoff trends.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">👥</div>
+        <div class="info-card__title">7 Community Categories</div>
+        <div class="info-card__text">Community-specific predictions: OC, BC, BCM, MBC, SC, SCA, ST.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">💼</div>
+        <div class="info-card__title">Placement Data</div>
+        <div class="info-card__text">Average and highest packages, top recruiters, and placement rates per college.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🤖</div>
+        <div class="info-card__title">AI Jobs Impact</div>
+        <div class="info-card__text">Which MBA/MCA specialisations are most impacted (positively) by AI evolution.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📊</div>
+        <div class="info-card__title">NIRF & NAAC Analysis</div>
+        <div class="info-card__text">Ranking and accreditation data to identify the best-quality institutions.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🗺</div>
+        <div class="info-card__title">District Mapping</div>
+        <div class="info-card__text">Colleges grouped by district for location-based preferences and hostel planning.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Stats -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">QUICK STATS</span>
+      <h2 class="section__title">TANCET at a Glance</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>MBA</th>
+            <th>MCA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Colleges</strong></td><td>200+</td><td>80+</td></tr>
+          <tr><td><strong>Total Seats (Approx)</strong></td><td>25,000+</td><td>8,000+</td></tr>
+          <tr><td><strong>Exam Duration</strong></td><td>2 hours</td><td>2 hours</td></tr>
+          <tr><td><strong>Total Questions</strong></td><td>100</td><td>100</td></tr>
+          <tr><td><strong>Top Score Required</strong></td><td>70+ for Tier-1</td><td>65+ for Tier-1</td></tr>
+          <tr><td><strong>Average Cutoff (OC)</strong></td><td>35–45</td><td>30–40</td></tr>
+          <tr><td><strong>Program Duration</strong></td><td>2 years</td><td>2 years</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Need TANCET Counselling?</h2>
+    <p>EduAakashaa's TANCET experts provide score-based college recommendations, choice-filling strategy, and admission guidance.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Get Expert Guidance</a>
+      <a href="{{ url_for('main.mbamca') }}" class="btn-out">MBA/MCA Analytics</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('tancetForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const score = document.getElementById('tancetScore').value;
+      const comm = document.getElementById('tancetComm').value;
+
+      if (!score) {
+        alert('Please enter your expected TANCET score.');
+        return;
+      }
+
+      alert('Thank you! Based on your score of ' + score + ' (' + comm + ' category), our team will send your personalised prediction report to your email. For immediate guidance, contact us at info@eduaakashaa.com');
+    });
+  }
+});
+</script>
+{% endblock %}

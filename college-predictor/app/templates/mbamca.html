@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block title %}TANCET MBA/MCA Analytics | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">TANCET MBA / MCA ANALYTICS</span>
+    <h1>MBA & MCA <span>Program Guide</span></h1>
+    <p>TANCET analytics dashboard — 242 colleges, OC cutoff distributions, tier analysis, and community-wise deep insights</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">COLLEGES</span>
+        <span class="hero__meta-value">242</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">COMMUNITIES</span>
+        <span class="hero__meta-value">7</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">PROGRAMS</span>
+        <span class="hero__meta-value">MBA & MCA</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- OC Cutoff Distribution -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">ANALYTICS</span>
+      <h2 class="section__title">Cutoff Distribution & Tier Analysis</h2>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3 class="chart-card__title">OC Cutoff Distribution</h3>
+        <canvas id="chartOcDist" height="260"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-card__title">College Tier Analysis</h3>
+        <canvas id="chartTier" height="260"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Analysis -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">COMMUNITY-WISE</span>
+      <h2 class="section__title">Community Seat Coverage & Cutoffs</h2>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3 class="chart-card__title">Community-wise Average Cutoffs</h3>
+        <canvas id="chartComm" height="260"></canvas>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-card__title">Seats per College Distribution</h3>
+        <canvas id="chartSeats" height="260"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Insights -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">INSIGHTS</span>
+      <h2 class="section__title">Key Findings</h2>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__icon">📊</div>
+        <div class="info-card__title">Engineering vs Arts</div>
+        <div class="info-card__text">Engineering graduates have 15–20% higher average cutoffs than Arts/Science graduates in MBA admissions through TANCET.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏛</div>
+        <div class="info-card__title">Tier Analysis</div>
+        <div class="info-card__text">Top-tier colleges (Govt. + Autonomous) show significantly higher cutoffs. 80% of placements above ₹6 LPA come from tier-1 colleges.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🤖</div>
+        <div class="info-card__title">AI Jobs Impact</div>
+        <div class="info-card__text">MBA programs are increasingly incorporating AI, Data Analytics, and Digital Marketing modules. TANCET syllabus evolving accordingly.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📈</div>
+        <div class="info-card__title">NIRF & NAAC</div>
+        <div class="info-card__text">Colleges with NAAC A+ and NIRF top-100 ranking consistently show 2x better placement outcomes than unaccredited colleges.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community Deep Dive -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">COMMUNITY CATEGORIES</span>
+      <h2 class="section__title">Community-wise Deep Analysis</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Community</th>
+            <th>Avg Cutoff</th>
+            <th>Top College Cutoff</th>
+            <th>Available Seats</th>
+            <th>Competition Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>OC (Open)</strong></td><td>42.5</td><td>78.0</td><td>~1,200</td><td>Very High</td></tr>
+          <tr><td><strong>BC</strong></td><td>38.2</td><td>72.0</td><td>~2,800</td><td>High</td></tr>
+          <tr><td><strong>BCM</strong></td><td>35.0</td><td>65.0</td><td>~600</td><td>Medium</td></tr>
+          <tr><td><strong>MBC</strong></td><td>33.5</td><td>62.0</td><td>~2,400</td><td>Medium</td></tr>
+          <tr><td><strong>SC</strong></td><td>28.0</td><td>55.0</td><td>~3,200</td><td>Moderate</td></tr>
+          <tr><td><strong>SCA</strong></td><td>25.0</td><td>48.0</td><td>~800</td><td>Low-Medium</td></tr>
+          <tr><td><strong>ST</strong></td><td>22.0</td><td>42.0</td><td>~400</td><td>Low</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Specialised MBA Programs -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">SPECIALISATIONS</span>
+      <h2 class="section__title">Specialised MBA Programs</h2>
+    </div>
+
+    <div class="service-cards">
+      <div class="service-card">
+        <div class="service-card__icon">💼</div>
+        <div class="service-card__title">MBA General</div>
+        <div class="service-card__text">Traditional MBA with specialisations in Finance, Marketing, HR, and Operations. Available at 200+ colleges in Tamil Nadu.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">🖥</div>
+        <div class="service-card__title">MCA</div>
+        <div class="service-card__text">Master of Computer Applications — 2-year program focusing on software development, data science, and cloud computing.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">📈</div>
+        <div class="service-card__title">MBA (Analytics)</div>
+        <div class="service-card__text">Emerging specialisation combining business management with data analytics, AI/ML, and business intelligence tools.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Plan Your MBA/MCA Admission</h2>
+    <p>Get personalized college recommendations based on your TANCET score, community, and career goals.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.tancet') }}" class="btn-main">TANCET Predictor</a>
+      <a href="{{ url_for('main.contact') }}" class="btn-out">Expert Counselling</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  new Chart(document.getElementById('chartOcDist'), {
+    type: 'bar',
+    data: {
+      labels: ['0–20', '20–30', '30–40', '40–50', '50–60', '60–70', '70–80', '80+'],
+      datasets: [{ label: 'Colleges', data: [15, 35, 55, 50, 40, 25, 15, 7], backgroundColor: '#1B4F9B' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  new Chart(document.getElementById('chartTier'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Tier 1 (Govt/Top Autonomous)', 'Tier 2 (Aided/Good Private)', 'Tier 3 (Self-Finance)'],
+      datasets: [{ data: [35, 72, 135], backgroundColor: ['#C9A84C', '#1B4F9B', '#6B7280'] }]
+    },
+    options: { responsive: true, plugins: { legend: { position: 'bottom' } } }
+  });
+
+  new Chart(document.getElementById('chartComm'), {
+    type: 'bar',
+    data: {
+      labels: ['OC', 'BC', 'BCM', 'MBC', 'SC', 'SCA', 'ST'],
+      datasets: [{ label: 'Avg Cutoff', data: [42.5, 38.2, 35.0, 33.5, 28.0, 25.0, 22.0], backgroundColor: '#2D6A4F' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+
+  new Chart(document.getElementById('chartSeats'), {
+    type: 'bar',
+    data: {
+      labels: ['<60', '60–120', '120–180', '180–240', '240–300', '300+'],
+      datasets: [{ label: 'Colleges', data: [45, 85, 55, 30, 18, 9], backgroundColor: '#C9A84C' }]
+    },
+    options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
+  });
+});
+</script>
+{% endblock %}

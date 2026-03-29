@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}Internship Programs | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">CAREER DEVELOPMENT</span>
+    <h1>Internship <span>Programs</span></h1>
+    <p>Gain real-world experience with EduAakashaa's structured internship opportunities in Technology & Business</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">TYPES</span>
+        <span class="hero__meta-value">Paid · Unpaid · Upskilling</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">CERTIFICATIONS</span>
+        <span class="hero__meta-value">Microsoft Certified</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Internship Types -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">PROGRAMS</span>
+      <h2 class="section__title">Three Types of Internships</h2>
+    </div>
+
+    <div class="service-cards">
+      <div class="service-card">
+        <div class="service-card__icon">💰</div>
+        <div class="service-card__title">Paid Internship</div>
+        <div class="service-card__text">Competitive stipend for outstanding performers. Work on live projects with real impact. Performance-based conversion to full-time roles available.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">🎓</div>
+        <div class="service-card__title">Unpaid Internship</div>
+        <div class="service-card__text">College-credit eligible experience. Build your portfolio with guided mentorship. Ideal for students needing internship hours for graduation requirements.</div>
+      </div>
+      <div class="service-card">
+        <div class="service-card__icon">📚</div>
+        <div class="service-card__title">Upskilling Program</div>
+        <div class="service-card__text">Structured learning with industry-standard tools. Earn Microsoft certifications. Perfect for career switchers and skill upgraders.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">WHY JOIN US</span>
+      <h2 class="section__title">Internship Benefits</h2>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card__icon">💵</div>
+        <div class="info-card__title">Competitive Pay</div>
+        <div class="info-card__text">Paid interns receive industry-standard stipends based on role and performance.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">👨‍🏫</div>
+        <div class="info-card__title">Mentorship</div>
+        <div class="info-card__text">Direct guidance from experienced professionals in your chosen domain.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🤝</div>
+        <div class="info-card__title">Teamwork</div>
+        <div class="info-card__text">Collaborate with diverse teams on real projects that make an impact.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">⏰</div>
+        <div class="info-card__title">Flexibility</div>
+        <div class="info-card__text">Remote and hybrid options available. Work around your academic schedule.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🛠</div>
+        <div class="info-card__title">Skill Development</div>
+        <div class="info-card__text">Learn industry tools, frameworks, and methodologies used by top companies.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📜</div>
+        <div class="info-card__title">Microsoft Certifications</div>
+        <div class="info-card__text">Earn official Microsoft certifications (M365, Azure, Power Platform) during your internship.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Two Paths -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">CHOOSE YOUR PATH</span>
+      <h2 class="section__title">Two Career Tracks</h2>
+    </div>
+
+    <div class="fee-compare">
+      <div class="fee-compare__card fee-compare__card--usd">
+        <h3 class="fee-compare__heading">🖥 Technology & Innovation</h3>
+        <span class="fee-compare__sub">BUILD. CODE. AUTOMATE.</span>
+        <div style="margin-top:12px;">
+          <p class="content-text"><strong>What You'll Learn:</strong></p>
+          <ul class="check-list">
+            <li>Web development (HTML, CSS, JS, Python)</li>
+            <li>Power Platform & Power Automate</li>
+            <li>Data analytics & visualization</li>
+            <li>Cloud computing with Azure</li>
+            <li>AI/ML fundamentals</li>
+          </ul>
+          <p class="content-text"><strong>Who It's For:</strong> Engineering students, CS graduates, tech enthusiasts, career switchers into tech.</p>
+          <p class="content-text"><strong>Microsoft Certifications:</strong></p>
+          <ul class="check-list">
+            <li>Microsoft 365 Fundamentals (MS-900)</li>
+            <li>Azure Fundamentals (AZ-900)</li>
+            <li>Power Platform Fundamentals (PL-900)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="fee-compare__card fee-compare__card--inr">
+        <h3 class="fee-compare__heading">💼 Business & Leadership</h3>
+        <span class="fee-compare__sub">STRATEGIZE. LEAD. GROW.</span>
+        <div style="margin-top:12px;">
+          <p class="content-text"><strong>What You'll Learn:</strong></p>
+          <ul class="check-list">
+            <li>Digital marketing & social media</li>
+            <li>Content creation & copywriting</li>
+            <li>Project management methodologies</li>
+            <li>CRM & client relationship building</li>
+            <li>Business analytics with Excel & Power BI</li>
+          </ul>
+          <p class="content-text"><strong>Who It's For:</strong> MBA students, arts graduates, aspiring managers, marketing enthusiasts.</p>
+          <p class="content-text"><strong>Microsoft Certifications:</strong></p>
+          <ul class="check-list">
+            <li>Microsoft 365 Fundamentals (MS-900)</li>
+            <li>Power BI Data Analyst (PL-300)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Software & Tools -->
+  <section class="section">
+    <div class="callout callout--info">
+      <div class="callout__icon">💻</div>
+      <div>
+        <span class="callout__label">SOFTWARE LICENSING</span>
+        <span class="callout__text">All interns receive Microsoft 365 licenses (Word, Excel, PowerPoint, Teams, SharePoint, OneDrive) for the duration of their internship at no cost.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Apply CTA -->
+  <div class="final-cta">
+    <h2>Ready to Start Your Journey?</h2>
+    <p>Apply now for the next cohort of EduAakashaa internships. Limited seats per batch.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Apply Now</a>
+      <a href="{{ url_for('main.ea_library') }}" class="btn-out">Learn More</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,210 @@
+{% extends "base.html" %}
+{% block title %}TNEA 2026 College Predictor | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">TNEA 2026</span>
+    <h1>College <span>Predictor</span></h1>
+    <p>Predict your best-fit engineering colleges in Tamil Nadu based on community, cutoff marks &amp; district</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">COLLEGES</span>
+        <span class="hero__meta-value">433</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">BRANCHES</span>
+        <span class="hero__meta-value">3,469</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">CATEGORIES</span>
+        <span class="hero__meta-value">9</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">BRANCH TYPES</span>
+        <span class="hero__meta-value">106</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Predictor Section -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">PREDICT</span>
+      <h2 class="section__title">Enter Your Cutoff Mark</h2>
+      <p class="section__desc">Based on TNEA 2025 official cutoff data. Results ranked by college reputation &amp; placement record.</p>
+    </div>
+
+    <div class="tancet-form-card">
+      <form class="contact-form" id="tneaMatrixForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tmCutoff">Your Cutoff Mark</label>
+            <input type="number" id="tmCutoff" name="cutoff" min="0" max="200" step="0.01" required placeholder="Enter cutoff (0–200)">
+          </div>
+          <div class="form-group">
+            <label for="tmCommunity">Community / Category</label>
+            <select id="tmCommunity" name="community">
+              <option value="OC">OC (General)</option>
+              <option value="BC">BC</option>
+              <option value="BCM">BCM</option>
+              <option value="MBC">MBC</option>
+              <option value="SC">SC</option>
+              <option value="SCA">SCA</option>
+              <option value="ST">ST</option>
+              <option value="MBC&DNC">MBC &amp; DNC</option>
+              <option value="BCM(O)">BCM (Others)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="tmDistrict">District</label>
+            <select id="tmDistrict" name="district">
+              <option value="">All Districts</option>
+              <option value="Chennai">Chennai</option>
+              <option value="Coimbatore">Coimbatore</option>
+              <option value="Madurai">Madurai</option>
+              <option value="Tiruchirappalli">Tiruchirappalli</option>
+              <option value="Salem">Salem</option>
+              <option value="Tirunelveli">Tirunelveli</option>
+              <option value="Vellore">Vellore</option>
+              <option value="Erode">Erode</option>
+              <option value="Thanjavur">Thanjavur</option>
+              <option value="Kanchipuram">Kanchipuram</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tmBranch">Branch</label>
+            <select id="tmBranch" name="branch">
+              <option value="">All Branches</option>
+              <option value="CSE">Computer Science & Engg</option>
+              <option value="IT">Information Technology</option>
+              <option value="ECE">Electronics & Communication</option>
+              <option value="EEE">Electrical & Electronics</option>
+              <option value="MECH">Mechanical Engineering</option>
+              <option value="CIVIL">Civil Engineering</option>
+              <option value="AI&ML">AI & Machine Learning</option>
+              <option value="AI&DS">AI & Data Science</option>
+              <option value="CYS">Cyber Security</option>
+              <option value="BME">Biomedical Engineering</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-main">Predict Colleges</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Info Cards -->
+  <section class="section">
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="info-card__icon">📊</span>
+        <span class="info-card__label">Data Source</span>
+        <span class="info-card__value">TNEA 2025 Official Cutoffs</span>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">🏫</span>
+        <span class="info-card__label">Colleges Covered</span>
+        <span class="info-card__value">433 Tamil Nadu Colleges</span>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">🔢</span>
+        <span class="info-card__label">Branch Records</span>
+        <span class="info-card__value">3,469 Branch-Category Combos</span>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">🎯</span>
+        <span class="info-card__label">Categories</span>
+        <span class="info-card__value">9 Community Categories</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">HOW IT WORKS</span>
+      <h2 class="section__title">Prediction Methodology</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">1</span>
+        <h3>Enter Your Cutoff</h3>
+        <p>Input your TNEA cutoff mark (out of 200) — calculated from your +2 Maths, Physics &amp; Chemistry scores.</p>
+      </div>
+      <div class="step">
+        <span class="step__num">2</span>
+        <h3>Select Filters</h3>
+        <p>Choose your community category, preferred district, and branch to narrow results.</p>
+      </div>
+      <div class="step">
+        <span class="step__num">3</span>
+        <h3>Get Predictions</h3>
+        <p>View colleges ranked by match quality — see last year's closing cutoffs and estimate your admission chance.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cutoff Calculation Reminder -->
+  <section class="section">
+    <div class="callout callout--info">
+      <div class="callout__icon">📝</div>
+      <div>
+        <span class="callout__label">TNEA CUTOFF FORMULA</span>
+        <span class="callout__text">Cutoff Mark = (Maths / 2) + (Physics / 4) + (Chemistry / 4). Maximum: 200 marks. This predictor uses previous year cutoffs to estimate your chances — actual 2026 cutoffs may vary.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="callout callout--ok">
+      <div class="callout__icon">📞</div>
+      <div>
+        <span class="callout__label">NEED TNEA COUNSELLING SUPPORT?</span>
+        <span class="callout__text">EduAakashaa provides end-to-end TNEA guidance — cutoff analysis, college shortlisting, choice filling, and seat allotment support. <a href="{{ url_for('main.contact') }}">Talk to an Expert →</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Plan Your TNEA 2026 Strategy</h2>
+    <p>Use our other TNEA tools for a complete admission strategy.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.tnea2026') }}" class="btn-main">TNEA 2026 Overview</a>
+      <a href="{{ url_for('main.tnea_cutoff') }}" class="btn-out">Browse All Cutoffs</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('tneaMatrixForm');
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const cutoff = document.getElementById('tmCutoff').value;
+      const community = document.getElementById('tmCommunity').value;
+      if (!cutoff) {
+        alert('Please enter your cutoff mark.');
+        return;
+      }
+      alert('Prediction feature coming soon! For immediate guidance with cutoff ' + cutoff + ' (' + community + '), contact us at info@eduaakashaa.com');
+    });
+  }
+});
+</script>
+{% endblock %}

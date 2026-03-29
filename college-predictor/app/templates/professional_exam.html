@@ -1,0 +1,364 @@
+{% extends "base.html" %}
+{% block title %}Professional Exam Guide | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">CAREER GUIDE</span>
+    <h1>Professional <span>Qualifications</span></h1>
+    <p>ACCA vs CFA vs CA — Compare global professional qualifications and find the right path for your career</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Three Qualification Cards -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">COMPARE QUALIFICATIONS</span>
+      <h2 class="section__title">Three World-Class Credentials</h2>
+      <p class="section__desc">Each qualification opens unique career doors. Here's a deep dive into what sets them apart.</p>
+    </div>
+
+    <div class="service-cards">
+      <div class="service-card">
+        <div class="service-card__icon">ACCA</div>
+        <div class="service-card__title">ACCA — Association of Chartered Certified Accountants</div>
+        <div class="service-card__text">
+          <ul class="qual-details">
+            <li><strong>Exams:</strong> 13 papers across 3 levels</li>
+            <li><strong>Duration:</strong> 2–3 years (fast track available)</li>
+            <li><strong>Pass Rate:</strong> 40–55% per paper</li>
+            <li><strong>Recognition:</strong> 180+ countries globally</li>
+            <li><strong>Best For:</strong> Accounting, audit, taxation, advisory</li>
+            <li><strong>Starting Salary:</strong> ₹4–8 LPA (India), £25–35K (UK)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-card__icon">CFA</div>
+        <div class="service-card__title">CFA — Chartered Financial Analyst</div>
+        <div class="service-card__text">
+          <ul class="qual-details">
+            <li><strong>Exams:</strong> 3 levels (increasingly difficult)</li>
+            <li><strong>Duration:</strong> 2.5–4 years typical</li>
+            <li><strong>Pass Rate:</strong> Level I ~38%, Level III ~52%</li>
+            <li><strong>Recognition:</strong> Gold standard in investment management</li>
+            <li><strong>Best For:</strong> Portfolio management, equity research, risk</li>
+            <li><strong>Starting Salary:</strong> ₹6–12 LPA (India), $65–90K (USA)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <div class="service-card__icon">CA</div>
+        <div class="service-card__title">CA — Chartered Accountant (ICAI)</div>
+        <div class="service-card__text">
+          <ul class="qual-details">
+            <li><strong>Exams:</strong> Foundation + Intermediate + Final</li>
+            <li><strong>Duration:</strong> 4–5 years (including articleship)</li>
+            <li><strong>Pass Rate:</strong> 5–15% (one of the toughest globally)</li>
+            <li><strong>Recognition:</strong> Highest prestige in India</li>
+            <li><strong>Best For:</strong> Tax, audit, corporate finance, compliance</li>
+            <li><strong>Starting Salary:</strong> ₹7–12 LPA, top firms ₹15–25 LPA</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">HEAD-TO-HEAD</span>
+      <h2 class="section__title">Side-by-Side Comparison</h2>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>ACCA</th>
+            <th>CFA</th>
+            <th>CA (ICAI)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Governing Body</strong></td>
+            <td>ACCA (UK)</td>
+            <td>CFA Institute (USA)</td>
+            <td>ICAI (India)</td>
+          </tr>
+          <tr>
+            <td><strong>Number of Exams</strong></td>
+            <td>13 papers</td>
+            <td>3 levels</td>
+            <td>3 groups + articleship</td>
+          </tr>
+          <tr>
+            <td><strong>Typical Duration</strong></td>
+            <td>2–3 years</td>
+            <td>2.5–4 years</td>
+            <td>4–5 years</td>
+          </tr>
+          <tr>
+            <td><strong>Overall Pass Rate</strong></td>
+            <td>40–55%</td>
+            <td>~25% (all 3 levels)</td>
+            <td>5–15%</td>
+          </tr>
+          <tr>
+            <td><strong>Global Recognition</strong></td>
+            <td>180+ countries</td>
+            <td>170+ countries</td>
+            <td>India + MRAs abroad</td>
+          </tr>
+          <tr>
+            <td><strong>Best Domain</strong></td>
+            <td>Accounting & Audit</td>
+            <td>Investment & Finance</td>
+            <td>Tax, Audit, Compliance</td>
+          </tr>
+          <tr>
+            <td><strong>Work Experience</strong></td>
+            <td>3 years PER</td>
+            <td>4,000 hrs relevant</td>
+            <td>3 years articleship</td>
+          </tr>
+          <tr>
+            <td><strong>Cost (Total)</strong></td>
+            <td>₹2–4 lakh</td>
+            <td>₹3–5 lakh</td>
+            <td>₹1–2 lakh</td>
+          </tr>
+          <tr>
+            <td><strong>Can Audit in India?</strong></td>
+            <td>No</td>
+            <td>No</td>
+            <td>Yes — exclusive right</td>
+          </tr>
+          <tr>
+            <td><strong>Can Sign Financial Statements?</strong></td>
+            <td>Yes (in UK/select countries)</td>
+            <td>No</td>
+            <td>Yes (India)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Who Should Choose What -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">FIND YOUR FIT</span>
+      <h2 class="section__title">Who Should Choose What?</h2>
+      <p class="section__desc">Match your personality and goals to the right qualification.</p>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card__icon">🌍</div>
+        <div class="info-card__title">The Global Explorer</div>
+        <div class="info-card__text">Want to work in the UK, Middle East, or Singapore? ACCA gives you the widest international mobility with recognition across 180+ countries.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📈</div>
+        <div class="info-card__title">The Markets Enthusiast</div>
+        <div class="info-card__text">Passionate about stock markets, portfolio management, and valuation? CFA is the gold standard for investment professionals worldwide.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏆</div>
+        <div class="info-card__title">The Prestige Seeker</div>
+        <div class="info-card__text">Want the toughest credential with highest respect in India? CA from ICAI is the pinnacle — with exclusive rights to audit and sign financials.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🔄</div>
+        <div class="info-card__title">The Career Switcher</div>
+        <div class="info-card__text">Coming from engineering or other fields? ACCA or CFA offer flexible entry points without articleship requirements.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🎓</div>
+        <div class="info-card__title">The Fresh Graduate</div>
+        <div class="info-card__text">Just finished 12th or graduation? CA articleship provides structured 3-year training. ACCA exemptions available for B.Com graduates.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🚀</div>
+        <div class="info-card__title">The Entrepreneur</div>
+        <div class="info-card__text">Planning to start your own practice? CA is the only option in India that lets you sign audits and run an independent practice.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Quiz -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">INTERACTIVE</span>
+      <h2 class="section__title">Which Qualification Suits You?</h2>
+      <p class="section__desc">Answer 4 quick questions to find your ideal professional qualification.</p>
+    </div>
+
+    <div class="quiz-container" id="profQuiz">
+      <div class="quiz-question" data-step="1">
+        <h3 class="content-h3">Q1: Where do you want to work primarily?</h3>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-value="global">Globally (UK, Middle East, etc.)</button>
+          <button class="quiz-opt" data-value="finance">Wall Street / Investment hubs</button>
+          <button class="quiz-opt" data-value="india">India primarily</button>
+        </div>
+      </div>
+      <div class="quiz-question" data-step="2" style="display:none;">
+        <h3 class="content-h3">Q2: What excites you more?</h3>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-value="accounting">Accounting, Tax & Audit</button>
+          <button class="quiz-opt" data-value="markets">Stock Markets & Portfolio</button>
+          <button class="quiz-opt" data-value="compliance">Corporate Compliance & Advisory</button>
+        </div>
+      </div>
+      <div class="quiz-question" data-step="3" style="display:none;">
+        <h3 class="content-h3">Q3: How much time can you commit?</h3>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-value="fast">2–3 years</button>
+          <button class="quiz-opt" data-value="medium">3–4 years</button>
+          <button class="quiz-opt" data-value="long">4–5 years (with training)</button>
+        </div>
+      </div>
+      <div class="quiz-question" data-step="4" style="display:none;">
+        <h3 class="content-h3">Q4: Do you want to run your own practice?</h3>
+        <div class="quiz-options">
+          <button class="quiz-opt" data-value="yes">Yes, definitely</button>
+          <button class="quiz-opt" data-value="maybe">Maybe later</button>
+          <button class="quiz-opt" data-value="no">No, prefer corporate roles</button>
+        </div>
+      </div>
+      <div class="quiz-result" id="quizResult" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section__title">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item">
+        <summary class="faq-item__q">Can I pursue ACCA and CFA together?</summary>
+        <div class="faq-item__a">Yes, many professionals hold both. ACCA covers accounting depth while CFA covers investment expertise. However, pursuing them simultaneously is demanding — most complete one first, then add the other.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">Is CA valid outside India?</summary>
+        <div class="faq-item__a">ICAI has Mutual Recognition Agreements (MRAs) with CA bodies in the UK, Canada, Australia, and others. However, you typically need to pass additional exams for local practice rights.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">Which has the best ROI?</summary>
+        <div class="faq-item__a">CA offers the best ROI in India due to low cost and high starting salaries. CFA has excellent ROI in investment banking/asset management globally. ACCA offers the best ROI for those wanting to work internationally.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">Can I start after 12th?</summary>
+        <div class="faq-item__a">CA Foundation can be attempted after 12th. ACCA accepts students after 12th with certain conditions. CFA requires a bachelor's degree or being in the final year of a bachelor's program.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">What about AI impact on these roles?</summary>
+        <div class="faq-item__a">Routine bookkeeping is being automated, but advisory, strategic analysis, and audit judgment roles are growing. All three qualifications are adapting curricula to include data analytics, AI, and technology modules.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Need Personalized Guidance?</h2>
+    <p>Talk to EduAakashaa's career counsellors to find the right professional qualification for your goals.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Get Expert Advice</a>
+      <a href="{{ url_for('main.home') }}" class="btn-out">Explore Admissions</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const quiz = document.getElementById('profQuiz');
+  if (!quiz) return;
+
+  const answers = {};
+  let currentStep = 1;
+
+  quiz.addEventListener('click', (e) => {
+    const btn = e.target.closest('.quiz-opt');
+    if (!btn) return;
+
+    const question = btn.closest('.quiz-question');
+    const step = parseInt(question.dataset.step);
+    answers[step] = btn.dataset.value;
+
+    // Highlight selected
+    question.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+
+    if (step < 4) {
+      setTimeout(() => {
+        question.style.display = 'none';
+        quiz.querySelector(`[data-step="${step + 1}"]`).style.display = 'block';
+        currentStep = step + 1;
+      }, 300);
+    } else {
+      setTimeout(() => showResult(), 300);
+    }
+  });
+
+  function showResult() {
+    let acca = 0, cfa = 0, ca = 0;
+
+    if (answers[1] === 'global') acca += 3;
+    if (answers[1] === 'finance') cfa += 3;
+    if (answers[1] === 'india') ca += 3;
+
+    if (answers[2] === 'accounting') { acca += 2; ca += 2; }
+    if (answers[2] === 'markets') cfa += 3;
+    if (answers[2] === 'compliance') { ca += 2; acca += 1; }
+
+    if (answers[3] === 'fast') acca += 2;
+    if (answers[3] === 'medium') cfa += 2;
+    if (answers[3] === 'long') ca += 2;
+
+    if (answers[4] === 'yes') ca += 3;
+    if (answers[4] === 'maybe') { ca += 1; acca += 1; }
+    if (answers[4] === 'no') { cfa += 2; acca += 1; }
+
+    const scores = [
+      { name: 'ACCA', score: acca, desc: 'Best for global mobility & accounting careers' },
+      { name: 'CFA', score: cfa, desc: 'Best for investment management & finance' },
+      { name: 'CA (ICAI)', score: ca, desc: 'Best for Indian practice & highest prestige in India' }
+    ];
+    scores.sort((a, b) => b.score - a.score);
+
+    const result = document.getElementById('quizResult');
+    result.innerHTML = `
+      <div class="callout callout--ok">
+        <div class="callout__icon">🎯</div>
+        <div>
+          <span class="callout__label">YOUR BEST FIT</span>
+          <span class="callout__text"><strong>${scores[0].name}</strong> — ${scores[0].desc}</span>
+        </div>
+      </div>
+      <p class="content-text">Runner-up: <strong>${scores[1].name}</strong> (${scores[1].desc})</p>
+      <button class="btn-main" onclick="location.reload()">Retake Quiz</button>
+    `;
+
+    quiz.querySelectorAll('.quiz-question').forEach(q => q.style.display = 'none');
+    result.style.display = 'block';
+  }
+});
+</script>
+{% endblock %}
