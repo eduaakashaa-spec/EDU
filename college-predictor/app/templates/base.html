@@ -58,13 +58,15 @@
           <li class="nav__item"><a href="{{ url_for('main.tancet_pulse') }}" class="nav__link{% if request.path == '/tancet-pulse' %} nav__link--active{% endif %}">TANCET PULSE</a></li>
           <li class="nav__item"><a href="{{ url_for('main.viteee_nri') }}" class="nav__link{% if request.path == '/viteee-for-nri' %} nav__link--active{% endif %}">VITEEE for NRI</a></li>
           <li class="nav__item"><a href="{{ url_for('main.josaa') }}" class="nav__link{% if request.path == '/josaa' %} nav__link--active{% endif %}">JOSAA</a></li>
-          {% if current_user.is_authenticated %}
-          <li class="nav__item"><a href="{{ url_for('auth.dashboard') }}" class="nav__link nav__link--auth">Dashboard</a></li>
-          {% else %}
-          <li class="nav__item"><a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth">Login</a></li>
-          {% endif %}
         </ul>
       </nav>
+      <div class="header__auth">
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.dashboard') }}" class="nav__link nav__link--auth">Dashboard</a>
+        {% else %}
+        <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth">Login</a>
+        {% endif %}
+      </div>
     </div>
   </header>
 

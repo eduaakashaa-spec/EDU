@@ -72,12 +72,12 @@
             <label for="dasaBranch">Branch Category</label>
             <select id="dasaBranch" name="branch">
               <option value="">All Branches</option>
-              <option value="cse">Computer Science & IT</option>
+              <option value="cse">Computer / IT & AI</option>
               <option value="ece">Electronics & Communication</option>
               <option value="eee">Electrical Engineering</option>
-              <option value="me">Mechanical Engineering</option>
-              <option value="civil">Civil Engineering</option>
-              <option value="chemical">Chemical Engineering</option>
+              <option value="me">Mechanical & Aerospace</option>
+              <option value="civil">Civil & Environmental</option>
+              <option value="chemical">Chemical & Materials</option>
               <option value="other">Other Branches</option>
             </select>
           </div>
@@ -85,9 +85,43 @@
             <label for="dasaInst">Institute</label>
             <select id="dasaInst" name="institute">
               <option value="">All Institutes</option>
-              <option value="nit">NITs Only</option>
-              <option value="iiit">IIITs Only</option>
-              <option value="gfi">Other GFIs</option>
+              <option value="NIT, Tiruchirappalli">NIT Tiruchirappalli</option>
+              <option value="NIT, Warangal">NIT Warangal</option>
+              <option value="NIT Karnataka, Surathkal">NIT Karnataka Surathkal</option>
+              <option value="NIT Calicut">NIT Calicut</option>
+              <option value="VNIT, Nagpur">VNIT Nagpur</option>
+              <option value="NIT, Rourkela">NIT Rourkela</option>
+              <option value="Malaviya NIT Jaipur">Malaviya NIT Jaipur</option>
+              <option value="MN NIT Allahabad">MN NIT Allahabad</option>
+              <option value="MA NIT Bhopal">MA NIT Bhopal</option>
+              <option value="SV NIT, Surat">SV NIT Surat</option>
+              <option value="NIT Durgapur">NIT Durgapur</option>
+              <option value="NIT Hamirpur">NIT Hamirpur</option>
+              <option value="NIT Patna">NIT Patna</option>
+              <option value="NIT Agartala">NIT Agartala</option>
+              <option value="NIT, Silchar">NIT Silchar</option>
+              <option value="NIT, Srinagar">NIT Srinagar</option>
+              <option value="NIT, Jalandhar">NIT Jalandhar</option>
+              <option value="NIT, Jamshedpur">NIT Jamshedpur</option>
+              <option value="NIT, Kurukshetra">NIT Kurukshetra</option>
+              <option value="NIT, Andhra Pradesh">NIT Andhra Pradesh</option>
+              <option value="NIT Goa">NIT Goa</option>
+              <option value="NIT Delhi">NIT Delhi</option>
+              <option value="NIT Puducherry">NIT Puducherry</option>
+              <option value="NIT Raipur">NIT Raipur</option>
+              <option value="IIIT, Allahabad">IIIT Allahabad</option>
+              <option value="IIIT, Design &amp; Manufacturing, Kancheepuram">IIIT Kancheepuram</option>
+              <option value="Atal Bihari Vajpayee IIIT &amp; Management Gwalior">ABV IIITM Gwalior</option>
+              <option value="IIIT (IIIT) Pune">IIIT Pune</option>
+              <option value="IIIT(IIIT) Kottayam">IIIT Kottayam</option>
+              <option value="IIIT(IIIT), Vadodara, Gujrat">IIIT Vadodara</option>
+              <option value="IIIT (IIIT), Sri City, Chittoor">IIIT Sri City</option>
+              <option value="DTU, Delhi">DTU Delhi</option>
+              <option value="Punjab Engineering College, Chandigarh">PEC Chandigarh</option>
+              <option value="MIT Manipal">MIT Manipal</option>
+              <option value="SPA Delhi">SPA Delhi</option>
+              <option value="SPA, Bhopal">SPA Bhopal</option>
+              <option value="SPA: Vijayawada">SPA Vijayawada</option>
             </select>
           </div>
         </div>
@@ -120,7 +154,7 @@
         <div style="font-size:32px;margin-bottom:8px">🔒</div>
         <h3 id="dasaGateMsg" style="font-size:16px;margin-bottom:8px">Upgrade to Premium for Full Results</h3>
         <p style="font-size:13px;opacity:0.85;margin-bottom:16px">Get access to all matched colleges, detailed analytics, and personalized PDF reports.</p>
-        <a href="#" class="btn-main" style="display:inline-block">Unlock Premium Access</a>
+        <a href="{{ url_for('auth.register') if not current_user.is_authenticated else url_for('auth.dashboard') }}" class="btn-main" style="display:inline-block">Unlock Premium Access</a>
       </div>
     </div>
     <div id="dasaEmpty" style="display:none;text-align:center;padding:32px;color:var(--muted-text,#64748B)">

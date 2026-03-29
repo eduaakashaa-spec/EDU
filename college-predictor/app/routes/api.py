@@ -1,7 +1,8 @@
 """API Blueprint — server-side JOSAA/NIRF endpoints."""
 import re
+import pandas as pd
 from flask import Blueprint, jsonify, request
-from app.data.loader import get_josaa_df, get_nirf_df, get_metadata, get_nirf_lookup
+from app.data.loader import get_josaa_df, get_nirf_df, get_metadata, get_nirf_lookup, get_dasa_df
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
 
@@ -355,13 +356,21 @@ def _is_premium_user():
     return False
 
 
+# Mapping from form branch values → DASA data branch_category strings
+_DASA_BRANCH_CAT_MAP = {
+    'cse':      'Computer / IT & AI',
+    'ece':      'Electronics & Communication',
+    'eee':      'Electrical Engineering',
+    'me':       'Mechanical & Aerospace',
+    'civil':    'Civil & Environmental',
+    'chemical': 'Chemical & Materials',
+    'other':    None,   # catch-all — no category filter
+}
+
+
 @api_bp.route('/dasa/predict', methods=['POST'])
 def dasa_predict():
-    """DASA college predictor endpoint.
-
-    Accepts user details, logs lead, returns predictions.
-    Full results are gated behind premium access (RBAC).
-    """
+    """DASA college predictor — real data from dasa_cutoffs.json."""
     data = request.get_json(silent=True) or {}
     name = (data.get('name') or '').strip()
     email = (data.get('email') or '').strip()
@@ -375,68 +384,80 @@ def dasa_predict():
 
     rank = int(rank)
 
-    # Log lead for marketing (always, regardless of premium status)
+    # Log lead (always, regardless of premium status)
     if name and email:
         _log_dasa_lead(name, email, rank, quota, branch, institute)
 
-    # TODO: Load actual DASA cutoff data from Excel/CSV once available.
-    # For now, use a placeholder dataset structure matching DASA format.
-    # Expected columns: Institute, Programme, Quota (CIWG/Non-CIWG),
-    #                   OpenRank, CloseRank, Round
-    #
-    # When data file is ready:
-    # 1. Add dasa_cutoffs.xlsx to app/data/files/
-    # 2. Add load function in loader.py (similar to JOSAA loader)
-    # 3. Replace placeholder below with real filtering logic
+    df = get_dasa_df()
+    if df is None:
+        return jsonify({'error': 'DASA data not loaded'}), 500
 
-    # --- Placeholder sample results ---
-    sample_results = [
-        {'inst': 'NIT Tiruchirappalli', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 1, 'close': 85, 'chance': 'safe', 'nirfRank': 9},
-        {'inst': 'NIT Warangal', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 5, 'close': 120, 'chance': 'safe', 'nirfRank': 21},
-        {'inst': 'NIT Karnataka Surathkal', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 3, 'close': 105, 'chance': 'moderate', 'nirfRank': 17},
-        {'inst': 'NIT Calicut', 'prog': 'Electronics and Communication Engineering', 'quota': 'Non-CIWG', 'open': 10, 'close': 200, 'chance': 'moderate', 'nirfRank': 25},
-        {'inst': 'NIT Rourkela', 'prog': 'Mechanical Engineering', 'quota': 'Non-CIWG', 'open': 8, 'close': 180, 'chance': 'reach', 'nirfRank': 19},
-        {'inst': 'IIIT Hyderabad', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 2, 'close': 60, 'chance': 'safe', 'nirfRank': 50},
-        {'inst': 'NIT Durgapur', 'prog': 'Information Technology', 'quota': 'Non-CIWG', 'open': 15, 'close': 250, 'chance': 'reach', 'nirfRank': 64},
-        {'inst': 'NIT Jaipur', 'prog': 'Computer Science and Engineering', 'quota': 'Non-CIWG', 'open': 12, 'close': 220, 'chance': 'moderate', 'nirfRank': 55},
-    ]
+    # -- Quota filter --
+    q_label = 'CIWG' if quota == 'ciwg' else ('Non-CIWG' if quota == 'non-ciwg' else None)
+    if q_label:
+        df = df[df['quota'] == q_label]
 
-    # Filter by quota
-    q_label = 'CIWG' if quota == 'ciwg' else 'Non-CIWG'
-    results = [r for r in sample_results if r['quota'] == q_label or True]  # placeholder: show all
+    # -- Branch category filter --
+    if branch and branch in _DASA_BRANCH_CAT_MAP:
+        cat = _DASA_BRANCH_CAT_MAP[branch]
+        if cat:
+            df = df[df['branch_category'] == cat]
 
-    # Filter by branch category
-    if branch:
-        branch_kw = BRANCH_CAT_KEYWORDS.get(branch, [])
-        if branch_kw:
-            results = [r for r in results
-                       if any(kw.lower() in r['prog'].lower() for kw in branch_kw)]
+    # -- Institute filter --
+    if institute and institute != '':
+        df = df[df['institute'] == institute]
 
-    # Chance classification (placeholder logic)
-    for r in results:
-        if rank <= r['close']:
-            r['chance'] = 'safe' if rank <= r['close'] * 0.7 else 'moderate'
-        elif rank <= r['close'] * 1.3:
-            r['chance'] = 'reach'
+    # -- Rank filter: keep rows where overall_close * 1.5 >= rank --
+    df = df[df['overall_close'].notna()]
+    df = df[df['overall_close'] * 1.5 >= rank]
+
+    # -- Sort by NIRF rank (lower = better), then overall_close --
+    df = df.sort_values(
+        by=['nirf_rank', 'overall_close'],
+        na_position='last'
+    )
+
+    results = []
+    for _, r in df.iterrows():
+        open_r = int(r['overall_open'])
+        close_r = int(r['overall_close'])
+        nirf = r['nirf_rank']
+        nirf_rank = int(nirf) if pd.notna(nirf) else 9999
+
+        span = close_r - open_r
+        pos = rank - open_r
+        if rank <= close_r:
+            if span <= 0 or pos <= span * 0.33:
+                chance = 'safe'
+            elif pos <= span * 0.7:
+                chance = 'moderate'
+            else:
+                chance = 'reach'
         else:
-            r['chance'] = 'longshot'
+            ratio = rank / close_r if close_r > 0 else 999
+            chance = 'reach' if ratio <= 1.3 else 'longshot'
 
-    # RBAC: Premium users get full results; free users get preview
+        results.append({
+            'inst': r['institute'],
+            'prog': r['program'],
+            'quota': r['quota'],
+            'open': open_r,
+            'close': close_r,
+            'chance': chance,
+            'nirfRank': nirf_rank,
+            'rounds': r.get('rounds', ''),
+        })
+
+    # RBAC: Premium users get full results; free users get first 3
     is_premium = _is_premium_user()
     total = len(results)
 
     if is_premium:
-        return jsonify({
-            'premium': True,
-            'total': total,
-            'results': results,
-        })
+        return jsonify({'premium': True, 'total': total, 'results': results})
     else:
-        # Free users: Show first 3 results only + blur/lock the rest
-        preview = results[:3]
         return jsonify({
             'premium': False,
             'total': total,
-            'results': preview,
+            'results': results[:3],
             'message': f'Showing 3 of {total} results. Upgrade to Premium for full access.',
         })

@@ -1,10 +1,12 @@
-"""Load JOSAA cutoff and NIRF ranking data from Excel/CSV into memory at startup."""
+"""Load JOSAA cutoff, NIRF ranking, and DASA cutoff data into memory at startup."""
+import json
 import os
 import re
 import pandas as pd
 
 _josaa_df = None
 _nirf_df = None
+_dasa_df = None
 _institutes = None
 _programs = None
 _quotas = None
@@ -57,6 +59,19 @@ def load_data():
     ndf['Rank'] = ndf['Rank'].astype(str).str.split('-').str[0].astype(int)
     _nirf_df = ndf
 
+    # --- DASA cutoffs ---
+    global _dasa_df
+    dasa_path = os.path.join(DATA_DIR, 'dasa_cutoffs.json')
+    if os.path.exists(dasa_path):
+        with open(dasa_path, encoding='utf-8') as f:
+            dasa_records = json.load(f)
+        _dasa_df = pd.DataFrame(dasa_records)
+        # Coerce rank columns to nullable int
+        for col in ['r1_open', 'r1_close', 'r2_open', 'r2_close', 'r3_open', 'r3_close',
+                    'overall_open', 'overall_close']:
+            _dasa_df[col] = pd.to_numeric(_dasa_df[col], errors='coerce')
+        _dasa_df['nirf_rank'] = pd.to_numeric(_dasa_df['nirf_rank'], errors='coerce')
+
 
 def get_josaa_df():
     return _josaa_df
@@ -82,3 +97,7 @@ def get_nirf_lookup():
         return {}
     return {row['Name']: {'Name': row['Name'], 'Rank': int(row['Rank'])}
             for _, row in _nirf_df.iterrows()}
+
+
+def get_dasa_df():
+    return _dasa_df

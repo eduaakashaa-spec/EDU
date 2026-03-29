@@ -107,6 +107,14 @@ img { max-width: 100%; display: block; }
 /* Navigation */
 .header__nav {
   flex: 1;
+  overflow: visible;
+}
+
+.header__auth {
+  flex-shrink: 0;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
 }
 
 .nav__list {
@@ -171,7 +179,7 @@ img { max-width: 100%; display: block; }
   min-width: 200px;
   list-style: none;
   padding: 8px 0;
-  z-index: 100;
+  z-index: 200;
 }
 
 .nav__item--dropdown:hover .nav__dropdown {

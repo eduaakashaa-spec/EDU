@@ -12,7 +12,7 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 | Component | Status | Notes |
 |-----------|--------|-------|
 | Flask app factory | ✅ Done | `app/__init__.py` — loads data at startup, registers 3 Blueprints |
-| Data loader | ✅ Done | `app/data/loader.py` — reads JOSAA Excel + NIRF CSV into Pandas DataFrames |
+| Data loader | ✅ Done | `app/data/loader.py` — reads JOSAA Excel + NIRF CSV + DASA JSON into Pandas DataFrames |
 | Server-side API | ✅ Done | `app/routes/api.py` — 7 JSON endpoints (meta, predict, matrix, nirf, insights, analytics, DASA predict) |
 | Page routes | ✅ Done | `app/routes/main.py` — 19 routes on `main_bp` Blueprint |
 | JOSAA portal UI | ✅ Done | 7-tab SPA in `josaa.html` with `josaa.js` (fetch-based) + `josaa.css` |
@@ -23,8 +23,9 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 | Database models | ✅ Done | `models.py` — User, DasaLead, Prediction, Payment, ContactInquiry |
 | Auth system | ✅ Done | `routes/auth.py` — login, register, logout, dashboard, contact form |
 | RBAC tier system | ✅ Done | Free (3 results) / Premium (unlimited) / Admin — enforced in API |
-| DASA predict API | ✅ Done | Lead logging to DB, tier-gated result limits |
+| DASA predict API | ✅ Done | Real 324-record dataset, Pandas filtering, NIRF-sorted, lead logging, RBAC-gated |
 | Admin CLI | ✅ Done | `manage.py` — init_db, create_admin commands |
+| PostgreSQL | ✅ Done | Migrated from SQLite; `DATABASE_URL` env-var driven via `.env` + python-dotenv |
 | Services layer | 🔲 Planned | `services/predictor.py`, `services/rbac.py`, etc. |
 | Payments (Razorpay) | 🔲 Planned | `routes/payment.py` — checkout flow |
 
@@ -37,7 +38,7 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 | Framework | Flask | 3.1.0 |
 | Templating | Jinja2 (server-rendered) | — |
 | Data layer | Pandas + openpyxl (in-memory DataFrames) | 2.2.3 |
-| Database | SQLite via Flask-SQLAlchemy | 3.1.1 |
+| Database | PostgreSQL via Flask-SQLAlchemy + psycopg2-binary | 3.1.1 |
 | Auth | Flask-Login (sessions) + Flask-Bcrypt (passwords) | 0.6.3 / 1.0.1 |
 | RBAC | Custom tier-gated logic in API routes | — |
 | Frontend | Vanilla HTML / CSS / JS | — |
@@ -50,17 +51,18 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 
 ## Data Strategy
 
-### Static Reference Data (Excel → Pandas, in-memory)
-These are read-only datasets. Loaded once at app startup into global DataFrames. Updated by swapping Excel files and restarting the app.
+### Static Reference Data (Excel/CSV/JSON → Pandas, in-memory)
+These are read-only datasets. Loaded once at app startup into global DataFrames. Updated by swapping files and restarting.
 
 | Dataset | Source File | Contents |
 |---|---|---|
-| JoSAA Cutoffs | `JOSAA_2025_Open_and_close_rank_for_Round1_6.xlsx` | Opening/closing ranks by institute, branch, category, round |
-| NIRF Rankings | `NIRF_Engineering_Rank_2026.xlsx` | College NIRF rank, score, city, state |
-| College Profiles | TBD | Institute name, branches offered, seat matrix, institute type (IIT/NIT/IIIT/GFTI) |
+| JOSAA Cutoffs | `app/data/files/josaa_cutoffs.xlsx` | 12,274 records — opening/closing ranks by institute, branch, category, round |
+| NIRF Rankings | `app/data/files/nirf_rankings.csv` | ~300 engineering colleges with NIRF rank |
+| DASA Cutoffs | `app/data/files/dasa_cutoffs.json` | 324 records — 215 CIWG + 109 Non-CIWG, 47 institutes, 11 branch categories, 3 rounds |
 
-### Dynamic User Data (SQLite — `instance/eduaakashaa.db`)
-All user-generated data lives in SQLite, managed via Flask-SQLAlchemy (`app/models.py`).
+### Dynamic User Data (PostgreSQL via SQLAlchemy)
+All user-generated data lives in PostgreSQL, managed via Flask-SQLAlchemy (`app/models.py`).
+Connection configured via `DATABASE_URL` environment variable (`.env` file, loaded by python-dotenv).
 
 | Model | Table | Key Fields |
 |---|---|---|
@@ -96,10 +98,11 @@ college-predictor/
 │   │
 │   ├── data/
 │   │   ├── __init__.py
-│   │   ├── loader.py               # Load JOSAA Excel + NIRF CSV into Pandas DataFrames at startup
+│   │   ├── loader.py               # Load JOSAA Excel + NIRF CSV + DASA JSON into Pandas DataFrames at startup
 │   │   └── files/
 │   │       ├── josaa_cutoffs.xlsx   # 12,274 JOSAA records
-│   │       └── nirf_rankings.csv   # ~300 NIRF-ranked engineering colleges
+│   │       ├── nirf_rankings.csv   # ~300 NIRF-ranked engineering colleges
+│   │       └── dasa_cutoffs.json   # 324 DASA 2025 cutoff records (all 3 rounds)
 │   │
 │   ├── templates/                  # 25 Jinja2 templates
 │   │   ├── base.html               # Master layout — sticky bar, nav, footer, conditional Login/Dashboard
@@ -142,7 +145,7 @@ college-predictor/
 │           └── .gitkeep
 │
 └── instance/
-    └── eduaakashaa.db              # SQLite database (auto-created on first run)
+    └── (PostgreSQL replaces the old SQLite file here — no local db file)
 ```
 
 ---
