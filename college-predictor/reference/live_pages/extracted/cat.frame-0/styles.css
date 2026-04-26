@@ -1,0 +1,19 @@
+
+	html {
+		overflow: hidden;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+ 	}
+
+ 	iframe {
+ 		max-width: 100%;
+ 	}
+
+
+/* ---- next <style> block ---- */
+
+@keyframes tick{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}

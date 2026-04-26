@@ -1,0 +1,1544 @@
+<!DOCTYPE html><html><head>
+
+</head>
+	<body>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TNEA 2025 College Predictor | EduAakashaA</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
+
+
+
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-badge">EA</div>
+    <div class="logo-text">
+      <h1>EduAakashaA</h1>
+      <p>Educational Consultant</p>
+    </div>
+  </div>
+  <div class="header-badge"><span class="dot"></span> TNEA 2025 Live Predictor</div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag"><span class="dot"></span> TNEA 2025 Cutoff Analysis</div>
+    <h2>College Prediction<br>for <em>TNEA 2025</em></h2>
+    <p>Enter your 12th marks below. Our predictor instantly analyses all <strong style="color:#fff">404 Tamil Nadu engineering colleges</strong> across 25+ branches and shows which colleges and branches match your cutoff.</p>
+    <div class="hero-stats">
+      <div class="h-stat"><div class="num">404</div><div class="lbl">Colleges</div></div>
+      <div class="h-stat"><div class="num">2,200+</div><div class="lbl">Branch Records</div></div>
+      <div class="h-stat"><div class="num">32</div><div class="lbl">Districts</div></div>
+      <div class="h-stat"><div class="num">25+</div><div class="lbl">Branches</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- CALCULATOR PANEL -->
+<div class="calc-panel">
+  <div class="cp-header">
+    <div>
+      <h3>🎯 TNEA Cutoff Calculator &amp; Predictor</h3>
+      <p>Enter your marks → We predict matching colleges and branches instantly</p>
+    </div>
+    <div class="cp-tabs">
+      <button class="cp-tab active" onclick="switchMode('predict')">College Predictor</button>
+      <button class="cp-tab" onclick="switchMode('browse')">Browse All</button>
+    </div>
+  </div>
+  <div class="cp-body">
+
+    <!-- Formula Info -->
+    <div class="formula-info">
+      <div class="fi-formula">
+        Cutoff = (Maths ÷ 2) +<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Physics ÷ 4) +<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Chemistry ÷ 4)<br>
+        <span style="color:#4ade80">Max = 200</span>
+      </div>
+      <div class="fi-sep"></div>
+      <div class="fi-notes">
+        <strong>✓ Safe</strong> — Your cutoff ≥ College cutoff<br>
+        <strong>~ Close</strong> — Within 5 marks of cutoff<br>
+        <strong>↑ Reach</strong> — You need 5+ more marks<br>
+        <strong>Category:</strong> OC · BC · BCM · MBC · SC · SCA · ST
+      </div>
+    </div>
+
+    <!-- Mark Entry -->
+    <div class="input-grid">
+      <div class="ig-group">
+        <label>Mathematics (out of 200)</label>
+        <input type="number" id="maths" placeholder="e.g. 190" min="0" max="200" oninput="liveCalc()">
+      </div>
+      <div class="ig-group">
+        <label>Physics (out of 200)</label>
+        <input type="number" id="physics" placeholder="e.g. 180" min="0" max="200" oninput="liveCalc()">
+      </div>
+      <div class="ig-group">
+        <label>Chemistry (out of 200)</label>
+        <input type="number" id="chem" placeholder="e.g. 176" min="0" max="200" oninput="liveCalc()">
+      </div>
+      <div class="calc-score-box" id="score-box">
+        <div class="sc-lbl">Your Cutoff</div>
+        <div class="sc-val" id="score-val">—</div>
+        <div class="sc-sub">out of 200</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <div class="fb-group">
+        <label>Category</label>
+        <select id="cat">
+          <option value="oc">OC — Open Category</option>
+          <option value="bc">BC — Backward Class</option>
+          <option value="bcm">BCM — BC Muslim</option>
+          <option value="mbc">MBC — Most Backward Class</option>
+          <option value="sc">SC — Scheduled Caste</option>
+          <option value="sca">SCA — SC (Arunthathiyar)</option>
+          <option value="st">ST — Scheduled Tribe</option>
+        </select>
+      </div>
+      <div class="fb-group">
+        <label>District</label>
+        <select id="dist-filter">
+          <option value="">All Districts</option>
+          <option value="Ariyalur">Ariyalur</option>
+<option value="Chennai">Chennai</option>
+<option value="Coimbatore">Coimbatore</option>
+<option value="Cuddalore">Cuddalore</option>
+<option value="Dharmapuri">Dharmapuri</option>
+<option value="Dindigul">Dindigul</option>
+<option value="Erode">Erode</option>
+<option value="Kancheepuram">Kancheepuram</option>
+<option value="Kanyakumari">Kanyakumari</option>
+<option value="Karur">Karur</option>
+<option value="Krishnagiri">Krishnagiri</option>
+<option value="Madurai">Madurai</option>
+<option value="Nagapattinam">Nagapattinam</option>
+<option value="Namakkal">Namakkal</option>
+<option value="Nilgiris">Nilgiris</option>
+<option value="Perambalur">Perambalur</option>
+<option value="Pudukkottai">Pudukkottai</option>
+<option value="Ramanathapuram">Ramanathapuram</option>
+<option value="Salem">Salem</option>
+<option value="Sivagangai">Sivagangai</option>
+<option value="Thanjavur">Thanjavur</option>
+<option value="Theni">Theni</option>
+<option value="Thiruvallur">Thiruvallur</option>
+<option value="Thiruvarur">Thiruvarur</option>
+<option value="Thoothukudi">Thoothukudi</option>
+<option value="Tiruchirappalli">Tiruchirappalli</option>
+<option value="Tirunelveli">Tirunelveli</option>
+<option value="Tiruppur">Tiruppur</option>
+<option value="Tiruvannamalai">Tiruvannamalai</option>
+<option value="Vellore">Vellore</option>
+<option value="Villupuram">Villupuram</option>
+<option value="Virudhunagar">Virudhunagar</option>
+        </select>
+      </div>
+      <div class="fb-group">
+        <label>Branch Preference</label>
+        <select id="branch-filter">
+          <option value="">All Branches</option>
+          <option value="Computer Science &amp; Engineering">Computer Science &amp; Engineering</option>
+<option value="Artificial Intelligence &amp; Data Science">Artificial Intelligence &amp; Data Science</option>
+<option value="AI &amp; Machine Learning">AI &amp; Machine Learning</option>
+<option value="Information Technology">Information Technology</option>
+<option value="Computer Science &amp; Business Systems">Computer Science &amp; Business Systems</option>
+<option value="Cyber Security">Cyber Security</option>
+<option value="Data Science">Data Science</option>
+<option value="Robotics &amp; Automation">Robotics &amp; Automation</option>
+<option value="Electronics &amp; Communication Engineering">Electronics &amp; Communication Engineering</option>
+<option value="Aeronautical Engineering">Aeronautical Engineering</option>
+<option value="Electrical &amp; Electronics Engineering">Electrical &amp; Electronics Engineering</option>
+<option value="Mechatronics Engineering">Mechatronics Engineering</option>
+<option value="Electronics &amp; Instrumentation Engineering">Electronics &amp; Instrumentation Engineering</option>
+<option value="Production Engineering">Production Engineering</option>
+<option value="Mechanical Engineering">Mechanical Engineering</option>
+<option value="Chemical Engineering">Chemical Engineering</option>
+<option value="Petroleum Engineering">Petroleum Engineering</option>
+<option value="Automobile Engineering">Automobile Engineering</option>
+<option value="Biomedical Engineering">Biomedical Engineering</option>
+<option value="Biotechnology">Biotechnology</option>
+<option value="Civil Engineering">Civil Engineering</option>
+<option value="Textile Technology">Textile Technology</option>
+<option value="Food Technology">Food Technology</option>
+<option value="Environmental Engineering">Environmental Engineering</option>
+<option value="Geo-Informatics">Geo-Informatics</option>
+        </select>
+      </div>
+      <button class="btn-predict" onclick="predict()">🔍 Predict Colleges</button>
+      <button class="btn-reset" onclick="resetAll()">↺ Reset</button>
+    </div>
+
+    <!-- Upload Banner -->
+    <div class="upload-banner">
+      <div class="ub-icon">📊</div>
+      <div class="ub-text">
+        <h4>Upload Your Excel Data</h4>
+        <p>Currently showing 404 colleges from TNEA_College_Prediction_Report_Rev6.xlsx. Upload updated Excel to refresh data.</p>
+      </div>
+      <button class="ub-btn" onclick="document.getElementById('xlsx-input').click()">⬆ Upload Excel</button>
+      <input type="file" id="xlsx-input" accept=".xlsx, .xls, .csv" onchange="handleUpload(event)">
+    </div>
+
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="results-bar">
+    <div class="results-count" id="results-count">Showing all <span id="rc-num">404</span> colleges · <span id="rc-branches">2,219</span> branch records</div>
+    <div class="sort-wrap">
+      Sort by:
+      <select id="sort-select" onchange="sortAndRender()">
+        <option value="match">Best Match</option>
+        <option value="cutoff-asc">Cutoff Low→High</option>
+        <option value="cutoff-desc">Cutoff High→Low</option>
+        <option value="name">College Name</option>
+        <option value="district">District</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="tier-legend">
+    <div class="tl-item"><div class="tl-dot t1"></div> Tier 1 — Government / Premier</div>
+    <div class="tl-item"><div class="tl-dot t2"></div> Tier 2 — Autonomous / Government Aided</div>
+    <div class="tl-item"><div class="tl-dot t3"></div> Tier 3 — Self-Finance</div>
+  </div>
+
+  <div class="college-grid" id="college-grid">
+  <div class="college-card" id="card-0">
+    <div class="cc-header" onclick="toggleCard(0)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">1</div>
+        <div class="cc-info">
+          <div class="cc-name">A V S College of Technology</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Salem</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">6 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">165.8<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">CS</span><span class="branch-name">Computer Science &amp; Engineering</span></td>
+      <td><span class="cut-val ">172.3</span></td>
+      <td><span class="cut-val ">169.9</span></td>
+      <td><span class="cut-val ">168.7</span></td>
+      <td><span class="cut-val ">165.0</span></td>
+      <td><span class="cut-val ">154.2</span></td>
+      <td><span class="cut-val ">152.1</span></td>
+      <td><span class="cut-val ">146.3</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CY</span><span class="branch-name">Cyber Security</span></td>
+      <td><span class="cut-val ">170.7</span></td>
+      <td><span class="cut-val ">166.1</span></td>
+      <td><span class="cut-val ">163.6</span></td>
+      <td><span class="cut-val ">160.7</span></td>
+      <td><span class="cut-val ">145.2</span></td>
+      <td><span class="cut-val ">139.4</span></td>
+      <td><span class="cut-val ">131.4</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AD</span><span class="branch-name">Artificial Intelligence &amp; Data Science</span></td>
+      <td><span class="cut-val ">170.7</span></td>
+      <td><span class="cut-val ">166.3</span></td>
+      <td><span class="cut-val ">164.6</span></td>
+      <td><span class="cut-val ">160.9</span></td>
+      <td><span class="cut-val ">148.2</span></td>
+      <td><span class="cut-val ">145.9</span></td>
+      <td><span class="cut-val ">142.6</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AE</span><span class="branch-name">Aeronautical Engineering</span></td>
+      <td><span class="cut-val ">168.1</span></td>
+      <td><span class="cut-val ">162.9</span></td>
+      <td><span class="cut-val ">160.7</span></td>
+      <td><span class="cut-val ">157.8</span></td>
+      <td><span class="cut-val ">140.8</span></td>
+      <td><span class="cut-val ">136.1</span></td>
+      <td><span class="cut-val ">128.9</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EI</span><span class="branch-name">Electronics &amp; Instrumentation Engineering</span></td>
+      <td><span class="cut-val ">168.0</span></td>
+      <td><span class="cut-val ">163.8</span></td>
+      <td><span class="cut-val ">161.5</span></td>
+      <td><span class="cut-val ">158.5</span></td>
+      <td><span class="cut-val ">141.4</span></td>
+      <td><span class="cut-val ">138.4</span></td>
+      <td><span class="cut-val ">130.8</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">BT</span><span class="branch-name">Biotechnology</span></td>
+      <td><span class="cut-val ">165.8</span></td>
+      <td><span class="cut-val ">163.2</span></td>
+      <td><span class="cut-val ">161.3</span></td>
+      <td><span class="cut-val ">157.6</span></td>
+      <td><span class="cut-val ">142.2</span></td>
+      <td><span class="cut-val ">139.9</span></td>
+      <td><span class="cut-val ">134.9</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-1">
+    <div class="cc-header" onclick="toggleCard(1)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">2</div>
+        <div class="cc-info">
+          <div class="cc-name">A.K.T.Memorial College of Engineering and Technology</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Villupuram</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">5 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">154.7<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">CS</span><span class="branch-name">Computer Science &amp; Engineering</span></td>
+      <td><span class="cut-val ">160.9</span></td>
+      <td><span class="cut-val ">158.1</span></td>
+      <td><span class="cut-val ">156.5</span></td>
+      <td><span class="cut-val ">153.5</span></td>
+      <td><span class="cut-val ">137.4</span></td>
+      <td><span class="cut-val ">134.7</span></td>
+      <td><span class="cut-val ">128.3</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">RO</span><span class="branch-name">Robotics &amp; Automation</span></td>
+      <td><span class="cut-val ">159.6</span></td>
+      <td><span class="cut-val ">156.6</span></td>
+      <td><span class="cut-val ">154.8</span></td>
+      <td><span class="cut-val ">153.4</span></td>
+      <td><span class="cut-val ">139.4</span></td>
+      <td><span class="cut-val ">135.6</span></td>
+      <td><span class="cut-val ">129.5</span></td>
+      <td><span class="seats-pill">90</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EC</span><span class="branch-name">Electronics &amp; Communication Engineering</span></td>
+      <td><span class="cut-val ">159.1</span></td>
+      <td><span class="cut-val ">153.6</span></td>
+      <td><span class="cut-val ">150.9</span></td>
+      <td><span class="cut-val ">148.0</span></td>
+      <td><span class="cut-val ">132.4</span></td>
+      <td><span class="cut-val ">126.5</span></td>
+      <td><span class="cut-val ">123.5</span></td>
+      <td><span class="seats-pill">90</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">DS</span><span class="branch-name">Data Science</span></td>
+      <td><span class="cut-val ">158.1</span></td>
+      <td><span class="cut-val ">154.3</span></td>
+      <td><span class="cut-val ">152.6</span></td>
+      <td><span class="cut-val ">151.5</span></td>
+      <td><span class="cut-val ">142.8</span></td>
+      <td><span class="cut-val ">137.3</span></td>
+      <td><span class="cut-val ">131.9</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EN</span><span class="branch-name">Environmental Engineering</span></td>
+      <td><span class="cut-val ">154.7</span></td>
+      <td><span class="cut-val ">152.7</span></td>
+      <td><span class="cut-val ">151.1</span></td>
+      <td><span class="cut-val ">148.1</span></td>
+      <td><span class="cut-val ">138.6</span></td>
+      <td><span class="cut-val ">134.9</span></td>
+      <td><span class="cut-val ">127.8</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-2">
+    <div class="cc-header" onclick="toggleCard(2)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">3</div>
+        <div class="cc-info">
+          <div class="cc-name">A.R.Engineering College</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Villupuram</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">7 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">119.9<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">CS</span><span class="branch-name">Computer Science &amp; Engineering</span></td>
+      <td><span class="cut-val ">125.7</span></td>
+      <td><span class="cut-val ">122.5</span></td>
+      <td><span class="cut-val ">121.1</span></td>
+      <td><span class="cut-val ">119.7</span></td>
+      <td><span class="cut-val ">104.2</span></td>
+      <td><span class="cut-val ">100.7</span></td>
+      <td><span class="cut-val ">97.3</span></td>
+      <td><span class="seats-pill">90</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CY</span><span class="branch-name">Cyber Security</span></td>
+      <td><span class="cut-val ">125.2</span></td>
+      <td><span class="cut-val ">119.7</span></td>
+      <td><span class="cut-val ">116.8</span></td>
+      <td><span class="cut-val ">114.3</span></td>
+      <td><span class="cut-val ">106.0</span></td>
+      <td><span class="cut-val ">102.7</span></td>
+      <td><span class="cut-val ">98.2</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">RO</span><span class="branch-name">Robotics &amp; Automation</span></td>
+      <td><span class="cut-val ">124.2</span></td>
+      <td><span class="cut-val ">120.4</span></td>
+      <td><span class="cut-val ">117.8</span></td>
+      <td><span class="cut-val ">114.8</span></td>
+      <td><span class="cut-val ">106.5</span></td>
+      <td><span class="cut-val ">103.6</span></td>
+      <td><span class="cut-val ">98.3</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AD</span><span class="branch-name">Artificial Intelligence &amp; Data Science</span></td>
+      <td><span class="cut-val ">123.8</span></td>
+      <td><span class="cut-val ">119.6</span></td>
+      <td><span class="cut-val ">116.7</span></td>
+      <td><span class="cut-val ">113.1</span></td>
+      <td><span class="cut-val ">96.1</span></td>
+      <td><span class="cut-val ">92.3</span></td>
+      <td><span class="cut-val ">86.8</span></td>
+      <td><span class="seats-pill">90</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EC</span><span class="branch-name">Electronics &amp; Communication Engineering</span></td>
+      <td><span class="cut-val ">121.7</span></td>
+      <td><span class="cut-val ">117.6</span></td>
+      <td><span class="cut-val ">114.8</span></td>
+      <td><span class="cut-val ">113.3</span></td>
+      <td><span class="cut-val ">95.8</span></td>
+      <td><span class="cut-val ">92.9</span></td>
+      <td><span class="cut-val ">86.2</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AU</span><span class="branch-name">Automobile Engineering</span></td>
+      <td><span class="cut-val ">120.4</span></td>
+      <td><span class="cut-val ">116.6</span></td>
+      <td><span class="cut-val ">114.6</span></td>
+      <td><span class="cut-val ">111.9</span></td>
+      <td><span class="cut-val ">102.0</span></td>
+      <td><span class="cut-val ">96.8</span></td>
+      <td><span class="cut-val ">90.2</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">FT</span><span class="branch-name">Food Technology</span></td>
+      <td><span class="cut-val ">119.9</span></td>
+      <td><span class="cut-val ">115.9</span></td>
+      <td><span class="cut-val ">114.3</span></td>
+      <td><span class="cut-val ">113.1</span></td>
+      <td><span class="cut-val ">95.5</span></td>
+      <td><span class="cut-val ">92.7</span></td>
+      <td><span class="cut-val ">86.7</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-3">
+    <div class="cc-header" onclick="toggleCard(3)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">4</div>
+        <div class="cc-info">
+          <div class="cc-name">A.R.J College of Engineering and Technology</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Thiruvarur</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">7 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">142.4<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">CS</span><span class="branch-name">Computer Science &amp; Engineering</span></td>
+      <td><span class="cut-val ">147.4</span></td>
+      <td><span class="cut-val ">143.3</span></td>
+      <td><span class="cut-val ">142.0</span></td>
+      <td><span class="cut-val ">138.2</span></td>
+      <td><span class="cut-val ">126.0</span></td>
+      <td><span class="cut-val ">123.8</span></td>
+      <td><span class="cut-val ">117.2</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EC</span><span class="branch-name">Electronics &amp; Communication Engineering</span></td>
+      <td><span class="cut-val ">146.4</span></td>
+      <td><span class="cut-val ">142.6</span></td>
+      <td><span class="cut-val ">140.8</span></td>
+      <td><span class="cut-val ">137.8</span></td>
+      <td><span class="cut-val ">123.8</span></td>
+      <td><span class="cut-val ">118.0</span></td>
+      <td><span class="cut-val ">111.3</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CY</span><span class="branch-name">Cyber Security</span></td>
+      <td><span class="cut-val ">145.7</span></td>
+      <td><span class="cut-val ">141.7</span></td>
+      <td><span class="cut-val ">139.1</span></td>
+      <td><span class="cut-val ">136.4</span></td>
+      <td><span class="cut-val ">120.3</span></td>
+      <td><span class="cut-val ">117.9</span></td>
+      <td><span class="cut-val ">111.5</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">IT</span><span class="branch-name">Information Technology</span></td>
+      <td><span class="cut-val ">145.2</span></td>
+      <td><span class="cut-val ">140.5</span></td>
+      <td><span class="cut-val ">139.2</span></td>
+      <td><span class="cut-val ">137.6</span></td>
+      <td><span class="cut-val ">120.4</span></td>
+      <td><span class="cut-val ">114.6</span></td>
+      <td><span class="cut-val ">111.2</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EI</span><span class="branch-name">Electronics &amp; Instrumentation Engineering</span></td>
+      <td><span class="cut-val ">144.5</span></td>
+      <td><span class="cut-val ">141.4</span></td>
+      <td><span class="cut-val ">138.6</span></td>
+      <td><span class="cut-val ">135.5</span></td>
+      <td><span class="cut-val ">123.0</span></td>
+      <td><span class="cut-val ">118.4</span></td>
+      <td><span class="cut-val ">112.4</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">PR</span><span class="branch-name">Production Engineering</span></td>
+      <td><span class="cut-val ">144.3</span></td>
+      <td><span class="cut-val ">141.9</span></td>
+      <td><span class="cut-val ">140.2</span></td>
+      <td><span class="cut-val ">138.4</span></td>
+      <td><span class="cut-val ">123.4</span></td>
+      <td><span class="cut-val ">120.6</span></td>
+      <td><span class="cut-val ">115.5</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">BT</span><span class="branch-name">Biotechnology</span></td>
+      <td><span class="cut-val ">142.4</span></td>
+      <td><span class="cut-val ">137.8</span></td>
+      <td><span class="cut-val ">135.9</span></td>
+      <td><span class="cut-val ">134.0</span></td>
+      <td><span class="cut-val ">120.6</span></td>
+      <td><span class="cut-val ">118.3</span></td>
+      <td><span class="cut-val ">112.7</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-4">
+    <div class="cc-header" onclick="toggleCard(4)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">5</div>
+        <div class="cc-info">
+          <div class="cc-name">A.V.C. College of Engineering</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Nagapattinam</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">3 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">140.2<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">AD</span><span class="branch-name">Artificial Intelligence &amp; Data Science</span></td>
+      <td><span class="cut-val ">143.0</span></td>
+      <td><span class="cut-val ">137.1</span></td>
+      <td><span class="cut-val ">135.7</span></td>
+      <td><span class="cut-val ">133.6</span></td>
+      <td><span class="cut-val ">125.1</span></td>
+      <td><span class="cut-val ">123.0</span></td>
+      <td><span class="cut-val ">116.8</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AE</span><span class="branch-name">Aeronautical Engineering</span></td>
+      <td><span class="cut-val ">141.7</span></td>
+      <td><span class="cut-val ">138.2</span></td>
+      <td><span class="cut-val ">135.7</span></td>
+      <td><span class="cut-val ">131.8</span></td>
+      <td><span class="cut-val ">118.1</span></td>
+      <td><span class="cut-val ">115.4</span></td>
+      <td><span class="cut-val ">108.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">DS</span><span class="branch-name">Data Science</span></td>
+      <td><span class="cut-val ">140.2</span></td>
+      <td><span class="cut-val ">135.7</span></td>
+      <td><span class="cut-val ">133.3</span></td>
+      <td><span class="cut-val ">131.4</span></td>
+      <td><span class="cut-val ">116.7</span></td>
+      <td><span class="cut-val ">112.5</span></td>
+      <td><span class="cut-val ">106.1</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-5">
+    <div class="cc-header" onclick="toggleCard(5)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">6</div>
+        <div class="cc-info">
+          <div class="cc-name">AAA College of Engineering and Technology</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Virudhunagar</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">4 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">121.9<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">IT</span><span class="branch-name">Information Technology</span></td>
+      <td><span class="cut-val ">125.6</span></td>
+      <td><span class="cut-val ">119.9</span></td>
+      <td><span class="cut-val ">118.4</span></td>
+      <td><span class="cut-val ">114.9</span></td>
+      <td><span class="cut-val ">102.5</span></td>
+      <td><span class="cut-val ">99.0</span></td>
+      <td><span class="cut-val ">95.9</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">DS</span><span class="branch-name">Data Science</span></td>
+      <td><span class="cut-val ">124.9</span></td>
+      <td><span class="cut-val ">120.4</span></td>
+      <td><span class="cut-val ">118.7</span></td>
+      <td><span class="cut-val ">117.0</span></td>
+      <td><span class="cut-val ">105.6</span></td>
+      <td><span class="cut-val ">102.6</span></td>
+      <td><span class="cut-val ">99.0</span></td>
+      <td><span class="seats-pill">90</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CY</span><span class="branch-name">Cyber Security</span></td>
+      <td><span class="cut-val ">122.8</span></td>
+      <td><span class="cut-val ">119.4</span></td>
+      <td><span class="cut-val ">117.3</span></td>
+      <td><span class="cut-val ">115.9</span></td>
+      <td><span class="cut-val ">107.0</span></td>
+      <td><span class="cut-val ">101.2</span></td>
+      <td><span class="cut-val ">95.2</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AE</span><span class="branch-name">Aeronautical Engineering</span></td>
+      <td><span class="cut-val ">121.9</span></td>
+      <td><span class="cut-val ">118.8</span></td>
+      <td><span class="cut-val ">116.0</span></td>
+      <td><span class="cut-val ">114.8</span></td>
+      <td><span class="cut-val ">100.3</span></td>
+      <td><span class="cut-val ">97.2</span></td>
+      <td><span class="cut-val ">92.4</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-6">
+    <div class="cc-header" onclick="toggleCard(6)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">7</div>
+        <div class="cc-info">
+          <div class="cc-name">Aalim Muhammed Salegh College of Engineering</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Chennai</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">5 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">127.3<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">CS</span><span class="branch-name">Computer Science &amp; Engineering</span></td>
+      <td><span class="cut-val ">133.1</span></td>
+      <td><span class="cut-val ">128.3</span></td>
+      <td><span class="cut-val ">125.7</span></td>
+      <td><span class="cut-val ">123.4</span></td>
+      <td><span class="cut-val ">106.1</span></td>
+      <td><span class="cut-val ">102.4</span></td>
+      <td><span class="cut-val ">96.1</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">IT</span><span class="branch-name">Information Technology</span></td>
+      <td><span class="cut-val ">132.7</span></td>
+      <td><span class="cut-val ">127.4</span></td>
+      <td><span class="cut-val ">124.7</span></td>
+      <td><span class="cut-val ">123.3</span></td>
+      <td><span class="cut-val ">109.7</span></td>
+      <td><span class="cut-val ">106.5</span></td>
+      <td><span class="cut-val ">101.7</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">RO</span><span class="branch-name">Robotics &amp; Automation</span></td>
+      <td><span class="cut-val ">129.8</span></td>
+      <td><span class="cut-val ">126.2</span></td>
+      <td><span class="cut-val ">125.2</span></td>
+      <td><span class="cut-val ">122.1</span></td>
+      <td><span class="cut-val ">110.5</span></td>
+      <td><span class="cut-val ">107.5</span></td>
+      <td><span class="cut-val ">104.2</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CB</span><span class="branch-name">Computer Science &amp; Business Systems</span></td>
+      <td><span class="cut-val ">129.7</span></td>
+      <td><span class="cut-val ">125.9</span></td>
+      <td><span class="cut-val ">123.3</span></td>
+      <td><span class="cut-val ">122.1</span></td>
+      <td><span class="cut-val ">112.6</span></td>
+      <td><span class="cut-val ">109.4</span></td>
+      <td><span class="cut-val ">104.4</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EN</span><span class="branch-name">Environmental Engineering</span></td>
+      <td><span class="cut-val ">127.3</span></td>
+      <td><span class="cut-val ">122.3</span></td>
+      <td><span class="cut-val ">120.3</span></td>
+      <td><span class="cut-val ">119.2</span></td>
+      <td><span class="cut-val ">110.7</span></td>
+      <td><span class="cut-val ">105.5</span></td>
+      <td><span class="cut-val ">98.9</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-7">
+    <div class="cc-header" onclick="toggleCard(7)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">8</div>
+        <div class="cc-info">
+          <div class="cc-name">Adhi College of Engineering and Technology</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Kancheepuram</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">3 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">168.7<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">AI</span><span class="branch-name">AI &amp; Machine Learning</span></td>
+      <td><span class="cut-val ">172.1</span></td>
+      <td><span class="cut-val ">169.6</span></td>
+      <td><span class="cut-val ">168.0</span></td>
+      <td><span class="cut-val ">164.3</span></td>
+      <td><span class="cut-val ">148.3</span></td>
+      <td><span class="cut-val ">145.9</span></td>
+      <td><span class="cut-val ">140.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CY</span><span class="branch-name">Cyber Security</span></td>
+      <td><span class="cut-val ">170.8</span></td>
+      <td><span class="cut-val ">166.9</span></td>
+      <td><span class="cut-val ">164.7</span></td>
+      <td><span class="cut-val ">161.0</span></td>
+      <td><span class="cut-val ">150.1</span></td>
+      <td><span class="cut-val ">145.0</span></td>
+      <td><span class="cut-val ">139.4</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">RO</span><span class="branch-name">Robotics &amp; Automation</span></td>
+      <td><span class="cut-val ">168.7</span></td>
+      <td><span class="cut-val ">164.7</span></td>
+      <td><span class="cut-val ">162.0</span></td>
+      <td><span class="cut-val ">159.0</span></td>
+      <td><span class="cut-val ">147.9</span></td>
+      <td><span class="cut-val ">142.2</span></td>
+      <td><span class="cut-val ">136.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-8">
+    <div class="cc-header" onclick="toggleCard(8)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">9</div>
+        <div class="cc-info">
+          <div class="cc-name">Adhiparasakthi College of Engineering</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Vellore</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">7 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">147.7<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">IT</span><span class="branch-name">Information Technology</span></td>
+      <td><span class="cut-val ">150.8</span></td>
+      <td><span class="cut-val ">146.8</span></td>
+      <td><span class="cut-val ">144.8</span></td>
+      <td><span class="cut-val ">143.1</span></td>
+      <td><span class="cut-val ">127.4</span></td>
+      <td><span class="cut-val ">125.0</span></td>
+      <td><span class="cut-val ">120.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CY</span><span class="branch-name">Cyber Security</span></td>
+      <td><span class="cut-val ">150.7</span></td>
+      <td><span class="cut-val ">147.6</span></td>
+      <td><span class="cut-val ">144.7</span></td>
+      <td><span class="cut-val ">143.0</span></td>
+      <td><span class="cut-val ">126.4</span></td>
+      <td><span class="cut-val ">121.0</span></td>
+      <td><span class="cut-val ">115.7</span></td>
+      <td><span class="seats-pill">90</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">DS</span><span class="branch-name">Data Science</span></td>
+      <td><span class="cut-val ">150.7</span></td>
+      <td><span class="cut-val ">146.7</span></td>
+      <td><span class="cut-val ">144.1</span></td>
+      <td><span class="cut-val ">142.3</span></td>
+      <td><span class="cut-val ">126.2</span></td>
+      <td><span class="cut-val ">124.1</span></td>
+      <td><span class="cut-val ">119.7</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AE</span><span class="branch-name">Aeronautical Engineering</span></td>
+      <td><span class="cut-val ">150.4</span></td>
+      <td><span class="cut-val ">144.6</span></td>
+      <td><span class="cut-val ">142.0</span></td>
+      <td><span class="cut-val ">139.3</span></td>
+      <td><span class="cut-val ">127.3</span></td>
+      <td><span class="cut-val ">124.5</span></td>
+      <td><span class="cut-val ">121.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">MT</span><span class="branch-name">Mechatronics Engineering</span></td>
+      <td><span class="cut-val ">149.7</span></td>
+      <td><span class="cut-val ">145.5</span></td>
+      <td><span class="cut-val ">143.5</span></td>
+      <td><span class="cut-val ">140.0</span></td>
+      <td><span class="cut-val ">130.7</span></td>
+      <td><span class="cut-val ">127.3</span></td>
+      <td><span class="cut-val ">122.2</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CH</span><span class="branch-name">Chemical Engineering</span></td>
+      <td><span class="cut-val ">147.7</span></td>
+      <td><span class="cut-val ">142.0</span></td>
+      <td><span class="cut-val ">139.7</span></td>
+      <td><span class="cut-val ">138.7</span></td>
+      <td><span class="cut-val ">128.5</span></td>
+      <td><span class="cut-val ">125.8</span></td>
+      <td><span class="cut-val ">122.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">TX</span><span class="branch-name">Textile Technology</span></td>
+      <td><span class="cut-val ">147.7</span></td>
+      <td><span class="cut-val ">145.6</span></td>
+      <td><span class="cut-val ">144.2</span></td>
+      <td><span class="cut-val ">140.4</span></td>
+      <td><span class="cut-val ">122.6</span></td>
+      <td><span class="cut-val ">117.5</span></td>
+      <td><span class="cut-val ">110.4</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-9">
+    <div class="cc-header" onclick="toggleCard(9)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">10</div>
+        <div class="cc-info">
+          <div class="cc-name">Adhiparasakthi Engineering College</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Kancheepuram</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">3 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">146.5<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">AI</span><span class="branch-name">AI &amp; Machine Learning</span></td>
+      <td><span class="cut-val ">148.8</span></td>
+      <td><span class="cut-val ">143.4</span></td>
+      <td><span class="cut-val ">142.2</span></td>
+      <td><span class="cut-val ">140.4</span></td>
+      <td><span class="cut-val ">126.8</span></td>
+      <td><span class="cut-val ">122.1</span></td>
+      <td><span class="cut-val ">114.4</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">RO</span><span class="branch-name">Robotics &amp; Automation</span></td>
+      <td><span class="cut-val ">148.4</span></td>
+      <td><span class="cut-val ">143.4</span></td>
+      <td><span class="cut-val ">141.5</span></td>
+      <td><span class="cut-val ">139.1</span></td>
+      <td><span class="cut-val ">125.4</span></td>
+      <td><span class="cut-val ">122.6</span></td>
+      <td><span class="cut-val ">118.6</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">IT</span><span class="branch-name">Information Technology</span></td>
+      <td><span class="cut-val ">146.5</span></td>
+      <td><span class="cut-val ">141.0</span></td>
+      <td><span class="cut-val ">138.8</span></td>
+      <td><span class="cut-val ">137.5</span></td>
+      <td><span class="cut-val ">124.8</span></td>
+      <td><span class="cut-val ">119.9</span></td>
+      <td><span class="cut-val ">116.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-10">
+    <div class="cc-header" onclick="toggleCard(10)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">11</div>
+        <div class="cc-info">
+          <div class="cc-name">Adhiyamaan College of Engineering (Autonomous)</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Krishnagiri</span>
+            <span class="meta-tag mt-auto">Autonomous</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">4 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">154.2<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">CS</span><span class="branch-name">Computer Science &amp; Engineering</span></td>
+      <td><span class="cut-val ">157.9</span></td>
+      <td><span class="cut-val ">152.1</span></td>
+      <td><span class="cut-val ">150.2</span></td>
+      <td><span class="cut-val ">148.6</span></td>
+      <td><span class="cut-val ">138.2</span></td>
+      <td><span class="cut-val ">136.2</span></td>
+      <td><span class="cut-val ">129.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">IT</span><span class="branch-name">Information Technology</span></td>
+      <td><span class="cut-val ">155.9</span></td>
+      <td><span class="cut-val ">152.6</span></td>
+      <td><span class="cut-val ">149.7</span></td>
+      <td><span class="cut-val ">146.3</span></td>
+      <td><span class="cut-val ">132.4</span></td>
+      <td><span class="cut-val ">126.7</span></td>
+      <td><span class="cut-val ">122.9</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AI</span><span class="branch-name">AI &amp; Machine Learning</span></td>
+      <td><span class="cut-val ">155.4</span></td>
+      <td><span class="cut-val ">150.2</span></td>
+      <td><span class="cut-val ">147.3</span></td>
+      <td><span class="cut-val ">146.2</span></td>
+      <td><span class="cut-val ">133.0</span></td>
+      <td><span class="cut-val ">129.3</span></td>
+      <td><span class="cut-val ">125.5</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EC</span><span class="branch-name">Electronics &amp; Communication Engineering</span></td>
+      <td><span class="cut-val ">154.2</span></td>
+      <td><span class="cut-val ">152.0</span></td>
+      <td><span class="cut-val ">149.3</span></td>
+      <td><span class="cut-val ">145.9</span></td>
+      <td><span class="cut-val ">134.1</span></td>
+      <td><span class="cut-val ">131.9</span></td>
+      <td><span class="cut-val ">124.3</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-11">
+    <div class="cc-header" onclick="toggleCard(11)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">12</div>
+        <div class="cc-info">
+          <div class="cc-name">Adithya Institute of Technology (Autonomous)</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Coimbatore</span>
+            <span class="meta-tag mt-auto">Autonomous</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">7 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">119.6<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">DS</span><span class="branch-name">Data Science</span></td>
+      <td><span class="cut-val ">123.4</span></td>
+      <td><span class="cut-val ">119.1</span></td>
+      <td><span class="cut-val ">116.5</span></td>
+      <td><span class="cut-val ">112.6</span></td>
+      <td><span class="cut-val ">95.4</span></td>
+      <td><span class="cut-val ">92.3</span></td>
+      <td><span class="cut-val ">89.2</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EC</span><span class="branch-name">Electronics &amp; Communication Engineering</span></td>
+      <td><span class="cut-val ">123.2</span></td>
+      <td><span class="cut-val ">119.5</span></td>
+      <td><span class="cut-val ">118.1</span></td>
+      <td><span class="cut-val ">116.8</span></td>
+      <td><span class="cut-val ">108.5</span></td>
+      <td><span class="cut-val ">106.3</span></td>
+      <td><span class="cut-val ">101.3</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">RO</span><span class="branch-name">Robotics &amp; Automation</span></td>
+      <td><span class="cut-val ">122.3</span></td>
+      <td><span class="cut-val ">120.2</span></td>
+      <td><span class="cut-val ">118.1</span></td>
+      <td><span class="cut-val ">116.4</span></td>
+      <td><span class="cut-val ">99.3</span></td>
+      <td><span class="cut-val ">95.3</span></td>
+      <td><span class="cut-val ">88.6</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AI</span><span class="branch-name">AI &amp; Machine Learning</span></td>
+      <td><span class="cut-val ">122.1</span></td>
+      <td><span class="cut-val ">118.1</span></td>
+      <td><span class="cut-val ">116.5</span></td>
+      <td><span class="cut-val ">112.7</span></td>
+      <td><span class="cut-val ">95.1</span></td>
+      <td><span class="cut-val ">89.9</span></td>
+      <td><span class="cut-val ">86.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AE</span><span class="branch-name">Aeronautical Engineering</span></td>
+      <td><span class="cut-val ">122.1</span></td>
+      <td><span class="cut-val ">117.6</span></td>
+      <td><span class="cut-val ">115.6</span></td>
+      <td><span class="cut-val ">113.7</span></td>
+      <td><span class="cut-val ">102.0</span></td>
+      <td><span class="cut-val ">97.0</span></td>
+      <td><span class="cut-val ">90.1</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">ME</span><span class="branch-name">Mechanical Engineering</span></td>
+      <td><span class="cut-val ">119.9</span></td>
+      <td><span class="cut-val ">115.0</span></td>
+      <td><span class="cut-val ">113.5</span></td>
+      <td><span class="cut-val ">110.8</span></td>
+      <td><span class="cut-val ">95.4</span></td>
+      <td><span class="cut-val ">89.6</span></td>
+      <td><span class="cut-val ">83.9</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">TX</span><span class="branch-name">Textile Technology</span></td>
+      <td><span class="cut-val ">119.6</span></td>
+      <td><span class="cut-val ">117.3</span></td>
+      <td><span class="cut-val ">115.2</span></td>
+      <td><span class="cut-val ">113.2</span></td>
+      <td><span class="cut-val ">104.3</span></td>
+      <td><span class="cut-val ">100.6</span></td>
+      <td><span class="cut-val ">94.7</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-12">
+    <div class="cc-header" onclick="toggleCard(12)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t2">13</div>
+        <div class="cc-info">
+          <div class="cc-name">Agni College of Technology (Autonomous)</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Kancheepuram</span>
+            <span class="meta-tag mt-auto">Autonomous</span>
+            <span class="meta-tag mt-t2">Tier 2</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">8 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">178.7<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">CS</span><span class="branch-name">Computer Science &amp; Engineering</span></td>
+      <td><span class="cut-val ">182.7</span></td>
+      <td><span class="cut-val ">177.1</span></td>
+      <td><span class="cut-val ">174.3</span></td>
+      <td><span class="cut-val ">171.0</span></td>
+      <td><span class="cut-val ">159.4</span></td>
+      <td><span class="cut-val ">154.7</span></td>
+      <td><span class="cut-val ">146.7</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AI</span><span class="branch-name">AI &amp; Machine Learning</span></td>
+      <td><span class="cut-val ">182.2</span></td>
+      <td><span class="cut-val ">178.5</span></td>
+      <td><span class="cut-val ">176.9</span></td>
+      <td><span class="cut-val ">175.3</span></td>
+      <td><span class="cut-val ">164.5</span></td>
+      <td><span class="cut-val ">161.2</span></td>
+      <td><span class="cut-val ">154.9</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AD</span><span class="branch-name">Artificial Intelligence &amp; Data Science</span></td>
+      <td><span class="cut-val ">181.6</span></td>
+      <td><span class="cut-val ">177.3</span></td>
+      <td><span class="cut-val ">176.1</span></td>
+      <td><span class="cut-val ">172.3</span></td>
+      <td><span class="cut-val ">160.8</span></td>
+      <td><span class="cut-val ">157.1</span></td>
+      <td><span class="cut-val ">153.8</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CB</span><span class="branch-name">Computer Science &amp; Business Systems</span></td>
+      <td><span class="cut-val ">181.5</span></td>
+      <td><span class="cut-val ">178.4</span></td>
+      <td><span class="cut-val ">176.6</span></td>
+      <td><span class="cut-val ">175.4</span></td>
+      <td><span class="cut-val ">165.1</span></td>
+      <td><span class="cut-val ">163.0</span></td>
+      <td><span class="cut-val ">157.8</span></td>
+      <td><span class="seats-pill">90</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">IT</span><span class="branch-name">Information Technology</span></td>
+      <td><span class="cut-val ">181.2</span></td>
+      <td><span class="cut-val ">175.3</span></td>
+      <td><span class="cut-val ">172.7</span></td>
+      <td><span class="cut-val ">170.8</span></td>
+      <td><span class="cut-val ">154.4</span></td>
+      <td><span class="cut-val ">150.2</span></td>
+      <td><span class="cut-val ">146.4</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CY</span><span class="branch-name">Cyber Security</span></td>
+      <td><span class="cut-val ">180.1</span></td>
+      <td><span class="cut-val ">175.2</span></td>
+      <td><span class="cut-val ">172.5</span></td>
+      <td><span class="cut-val ">170.6</span></td>
+      <td><span class="cut-val ">155.1</span></td>
+      <td><span class="cut-val ">150.5</span></td>
+      <td><span class="cut-val ">147.0</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">RO</span><span class="branch-name">Robotics &amp; Automation</span></td>
+      <td><span class="cut-val ">178.8</span></td>
+      <td><span class="cut-val ">176.6</span></td>
+      <td><span class="cut-val ">175.6</span></td>
+      <td><span class="cut-val ">173.5</span></td>
+      <td><span class="cut-val ">156.5</span></td>
+      <td><span class="cut-val ">153.6</span></td>
+      <td><span class="cut-val ">147.9</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">DS</span><span class="branch-name">Data Science</span></td>
+      <td><span class="cut-val ">178.7</span></td>
+      <td><span class="cut-val ">175.7</span></td>
+      <td><span class="cut-val ">173.9</span></td>
+      <td><span class="cut-val ">171.4</span></td>
+      <td><span class="cut-val ">155.3</span></td>
+      <td><span class="cut-val ">151.5</span></td>
+      <td><span class="cut-val ">144.3</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-13">
+    <div class="cc-header" onclick="toggleCard(13)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t3">14</div>
+        <div class="cc-info">
+          <div class="cc-name">Akshaya College of Engineering and Technology</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Coimbatore</span>
+            <span class="meta-tag mt-sfi">Self-Finance</span>
+            <span class="meta-tag mt-t3">Tier 3</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">5 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">151.0<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">AI</span><span class="branch-name">AI &amp; Machine Learning</span></td>
+      <td><span class="cut-val ">155.7</span></td>
+      <td><span class="cut-val ">152.1</span></td>
+      <td><span class="cut-val ">149.7</span></td>
+      <td><span class="cut-val ">145.7</span></td>
+      <td><span class="cut-val ">137.3</span></td>
+      <td><span class="cut-val ">132.4</span></td>
+      <td><span class="cut-val ">129.2</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AD</span><span class="branch-name">Artificial Intelligence &amp; Data Science</span></td>
+      <td><span class="cut-val ">155.1</span></td>
+      <td><span class="cut-val ">149.8</span></td>
+      <td><span class="cut-val ">148.5</span></td>
+      <td><span class="cut-val ">146.1</span></td>
+      <td><span class="cut-val ">128.5</span></td>
+      <td><span class="cut-val ">125.3</span></td>
+      <td><span class="cut-val ">122.0</span></td>
+      <td><span class="seats-pill">90</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CY</span><span class="branch-name">Cyber Security</span></td>
+      <td><span class="cut-val ">155.0</span></td>
+      <td><span class="cut-val ">151.8</span></td>
+      <td><span class="cut-val ">149.1</span></td>
+      <td><span class="cut-val ">146.6</span></td>
+      <td><span class="cut-val ">136.4</span></td>
+      <td><span class="cut-val ">133.5</span></td>
+      <td><span class="cut-val ">126.1</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AE</span><span class="branch-name">Aeronautical Engineering</span></td>
+      <td><span class="cut-val ">153.2</span></td>
+      <td><span class="cut-val ">148.7</span></td>
+      <td><span class="cut-val ">146.1</span></td>
+      <td><span class="cut-val ">142.9</span></td>
+      <td><span class="cut-val ">134.5</span></td>
+      <td><span class="cut-val ">130.5</span></td>
+      <td><span class="cut-val ">126.0</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">EI</span><span class="branch-name">Electronics &amp; Instrumentation Engineering</span></td>
+      <td><span class="cut-val ">151.0</span></td>
+      <td><span class="cut-val ">146.0</span></td>
+      <td><span class="cut-val ">144.6</span></td>
+      <td><span class="cut-val ">140.8</span></td>
+      <td><span class="cut-val ">128.1</span></td>
+      <td><span class="cut-val ">124.7</span></td>
+      <td><span class="cut-val ">118.3</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card" id="card-14">
+    <div class="cc-header" onclick="toggleCard(14)">
+      <div class="cc-left">
+        <div class="cc-rank rank-t1">15</div>
+        <div class="cc-info">
+          <div class="cc-name">Alagappa Chettair Government College of Engineering and Technology (Autonomous)</div>
+          <div class="cc-meta">
+            <span class="meta-tag mt-district">📍 Sivagangai</span>
+            <span class="meta-tag mt-govt">Govt/Anna Univ</span>
+            <span class="meta-tag mt-t1">Tier 1</span>
+            <span class="meta-tag" style="background:#f1f5f9;color:#475569">6 branches</span>
+          </div>
+        </div>
+      </div>
+      <div class="cc-right">
+        
+        <div class="best-cutoff">192.8<small>Min OC Cutoff</small></div>
+        <span style="font-size:12px;color:var(--muted)">▾ expand branches</span>
+      </div>
+      <div class="cc-toggle">⌄</div>
+    </div>
+    <div class="cc-branches">
+      <table class="branch-table">
+        <thead>
+          <tr>
+            <th>Branch</th>
+            <th>OC</th><th>BC</th><th>BCM</th><th>MBC</th><th>SC</th><th>SCA</th><th>ST</th>
+            <th>Seats</th>
+          </tr>
+        </thead>
+        <tbody><tr class="">
+      <td><span class="branch-code">AI</span><span class="branch-name">AI &amp; Machine Learning</span></td>
+      <td><span class="cut-val ">196.3</span></td>
+      <td><span class="cut-val ">191.3</span></td>
+      <td><span class="cut-val ">189.4</span></td>
+      <td><span class="cut-val ">186.0</span></td>
+      <td><span class="cut-val ">172.2</span></td>
+      <td><span class="cut-val ">170.1</span></td>
+      <td><span class="cut-val ">164.2</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CS</span><span class="branch-name">Computer Science &amp; Engineering</span></td>
+      <td><span class="cut-val ">196.2</span></td>
+      <td><span class="cut-val ">193.1</span></td>
+      <td><span class="cut-val ">191.9</span></td>
+      <td><span class="cut-val ">188.0</span></td>
+      <td><span class="cut-val ">176.8</span></td>
+      <td><span class="cut-val ">172.7</span></td>
+      <td><span class="cut-val ">167.8</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">AD</span><span class="branch-name">Artificial Intelligence &amp; Data Science</span></td>
+      <td><span class="cut-val ">194.1</span></td>
+      <td><span class="cut-val ">192.0</span></td>
+      <td><span class="cut-val ">189.6</span></td>
+      <td><span class="cut-val ">186.1</span></td>
+      <td><span class="cut-val ">172.8</span></td>
+      <td><span class="cut-val ">168.7</span></td>
+      <td><span class="cut-val ">163.3</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CY</span><span class="branch-name">Cyber Security</span></td>
+      <td><span class="cut-val ">193.7</span></td>
+      <td><span class="cut-val ">187.9</span></td>
+      <td><span class="cut-val ">186.7</span></td>
+      <td><span class="cut-val ">185.3</span></td>
+      <td><span class="cut-val ">174.7</span></td>
+      <td><span class="cut-val ">172.4</span></td>
+      <td><span class="cut-val ">169.1</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">IT</span><span class="branch-name">Information Technology</span></td>
+      <td><span class="cut-val ">193.0</span></td>
+      <td><span class="cut-val ">189.1</span></td>
+      <td><span class="cut-val ">187.2</span></td>
+      <td><span class="cut-val ">183.8</span></td>
+      <td><span class="cut-val ">169.8</span></td>
+      <td><span class="cut-val ">165.4</span></td>
+      <td><span class="cut-val ">162.3</span></td>
+      <td><span class="seats-pill">30</span></td>
+    </tr><tr class="">
+      <td><span class="branch-code">CB</span><span class="branch-name">Computer Science &amp; Business Systems</span></td>
+      <td><span class="cut-val ">192.8</span></td>
+      <td><span class="cut-val ">189.7</span></td>
+      <td><span class="cut-val ">187.3</span></td>
+      <td><span class="cut-val ">183.4</span></td>
+      <td><span class="cut-val ">165.5</span></td>
+      <td><span class="cut-val ">162.0</span></td>
+      <td><span class="cut-val ">157.9</span></td>
+      <td><span class="seats-pill">60</span></td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div></div>
+  <div class="no-results" id="no-results" style="display:none">
+    <div class="nr-icon">🔍</div>
+    <h3>No matching colleges found</h3>
+    <p>Try adjusting your filters or entering different marks.</p>
+  </div>
+  <div class="pagination" id="pagination"><button class="pg-btn" onclick="goPage(0)" disabled="">‹</button><button class="pg-btn active" onclick="goPage(1)">1</button><button class="pg-btn " onclick="goPage(2)">2</button><button class="pg-btn " onclick="goPage(3)">3</button><span class="pg-btn" style="border:none;background:none;cursor:default">…</span><button class="pg-btn " onclick="goPage(27)">27</button><button class="pg-btn" onclick="goPage(2)">›</button></div>
+</div>
+
+<!-- DATA -->
+
+
+
+
+
+
+
+</body></html>

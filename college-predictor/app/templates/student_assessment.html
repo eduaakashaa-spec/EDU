@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title%}Student Assessment — Psychometric Career Test | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">BY EDUAAKASHAA</span>
+    <h1>Psychometric <span>Career Assessment</span></h1>
+    <p>A comprehensive, scientifically-designed assessment with 60+ questions across psychometric profiling, aptitude testing, practical application and subject confidence — delivering personalised stream recommendations with visual analytics, career roadmaps and action plans.</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item"><span class="hero__meta-label">DURATION</span><span class="hero__meta-value">25–30 min</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">QUESTIONS</span><span class="hero__meta-value">60+</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">OUTPUT</span><span class="hero__meta-value">PDF Report</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">MODULES</span>
+      <h2 class="section__title">What the assessment covers</h2>
+    </div>
+
+    <div class="info-cards info-cards--3">
+      <div class="info-card"><div class="info-card__icon">🧠</div><div class="info-card__title">Psychometric</div><div class="info-card__text">15 questions on personality, work style, decision-making &amp; values.</div></div>
+      <div class="info-card"><div class="info-card__icon">📐</div><div class="info-card__title">Aptitude</div><div class="info-card__text">15 questions on logic, numerical ability and analytical reasoning.</div></div>
+      <div class="info-card"><div class="info-card__icon">🎯</div><div class="info-card__title">Practical Application</div><div class="info-card__text">15 real-world scenarios to test applied decision-making.</div></div>
+      <div class="info-card"><div class="info-card__icon">📊</div><div class="info-card__title">Subject Confidence</div><div class="info-card__text">Subject-wise readiness &amp; comfort score for streams.</div></div>
+      <div class="info-card"><div class="info-card__icon">🏆</div><div class="info-card__title">Top 10 Careers</div><div class="info-card__text">Suggested careers with required courses &amp; AI-impact index.</div></div>
+      <div class="info-card"><div class="info-card__icon">📋</div><div class="info-card__title">Action Plan</div><div class="info-card__text">Visual report + PDF action plan with next steps.</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">HOW IT WORKS</span>
+      <h2 class="section__title">Assessment pipeline</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="step__num">1</span><div><div class="step__title">Create / sign in</div><div class="step__text">Save progress &amp; receive PDF by email after completion.</div></div></div>
+      <div class="step"><span class="step__num">2</span><div><div class="step__title">Answer 60+ questions</div><div class="step__text">Honest answers give the most accurate recommendations.</div></div></div>
+      <div class="step"><span class="step__num">3</span><div><div class="step__title">Instant analysis</div><div class="step__text">Weighted scoring across 4 modules generates a fit-profile.</div></div></div>
+      <div class="step"><span class="step__num">4</span><div><div class="step__title">Counsellor review</div><div class="step__text">Optionally discuss report with an EduAakashaA counsellor.</div></div></div>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Take the assessment</h2>
+    <p>Sign in to begin. Your progress is saved and you can pause &amp; resume.</p>
+    <div class="final-cta__btns">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.josaa_assessment') }}" class="btn-main">Start JOSAA Assessment</a>
+        <a href="{{ url_for('main.conflict_assessment') }}" class="btn-out">Conflict Assessment</a>
+      {% else %}
+        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login to start</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-out">Create free account</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

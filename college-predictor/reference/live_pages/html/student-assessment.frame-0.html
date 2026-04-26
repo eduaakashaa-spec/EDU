@@ -1,0 +1,883 @@
+<!DOCTYPE html><html><head>
+<style>
+	html {
+		overflow: hidden;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+ 	}
+
+ 	iframe {
+ 		max-width: 100%;
+ 	}
+</style>
+<style>
+:root{--bg:#ffffff;--surface:#f8f9fb;--card:#ffffff;--card2:#f1f5f9;--accent:#ea7c0e;--accent-glow:rgba(234,124,14,.1);--accent2:#1d4ed8;--accent3:#059669;--accent4:#7c3aed;--danger:#dc2626;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--border2:#cbd5e1}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans','Noto Sans Tamil',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 600px 400px at 15% 10%,rgba(29,78,216,.04),transparent),radial-gradient(ellipse 500px 500px at 85% 85%,rgba(234,124,14,.04),transparent);pointer-events:none;z-index:0}
+.app{max-width:880px;margin:0 auto;padding:16px;position:relative;z-index:1}
+.top-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+.lang-bar{display:inline-flex;background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:3px;gap:3px}
+.lang-btn{padding:8px 20px;border:none;border-radius:7px;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;transition:.2s;background:transparent;color:var(--muted)}
+.lang-btn.active{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;box-shadow:0 2px 10px rgba(245,158,11,.25)}
+.sync-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:6px 12px;border-radius:8px;background:var(--surface);border:1px solid var(--border)}
+.sync-badge .sdot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+.sync-badge.connected .sdot{background:var(--accent3);box-shadow:0 0 6px rgba(5,150,105,.5)}
+.sync-badge.saving .sdot{background:var(--accent);animation:pulse 1s infinite}
+.sync-badge.error .sdot{background:var(--danger)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.header{text-align:center;padding:28px 16px 20px}
+.badge{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;font-weight:700;font-size:11px;padding:4px 14px;border-radius:16px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px}
+.header h1{font-size:clamp(24px,4.5vw,36px);font-weight:800;line-height:1.3;background:linear-gradient(135deg,var(--accent2) 30%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.header p{color:var(--muted);font-size:13.5px;margin-top:8px;max-width:560px;margin-inline:auto;line-height:1.7}
+.stepper{display:flex;gap:4px;margin:20px 0 24px;overflow-x:auto;padding:4px 0}
+.step{flex:1;min-width:40px;text-align:center;position:relative}
+.step .dot{width:32px;height:32px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);margin:0 auto 4px;transition:.3s;background:var(--surface)}
+.step.active .dot{border-color:var(--accent);color:#fff;background:var(--accent);box-shadow:0 0 16px rgba(234,124,14,.3)}
+.step.done .dot{border-color:var(--accent2);background:var(--accent2);color:#fff}
+.step .slabel{font-size:9px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:80px;margin:0 auto}
+.step.active .slabel{color:var(--accent)}
+.step-line{position:absolute;top:16px;left:calc(50% + 18px);width:calc(100% - 36px);height:2px;background:var(--border)}
+.step:last-child .step-line{display:none}
+.step.done .step-line{background:var(--accent2)}
+.section{display:none;animation:fadeUp .35s ease}
+.section.active{display:block}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.sec-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.sec-card h2{font-size:18px;font-weight:700;margin-bottom:4px}
+.sec-card .sub{font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.6}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.form-group .label-sub{font-size:11px;color:var(--muted);font-weight:400}
+.form-input{width:100%;padding:11px 14px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;color:var(--text);font-family:inherit;font-size:14px;transition:.2s;outline:none}
+.form-input:focus{border-color:var(--accent2)}
+select.form-input{cursor:pointer}
+.q-block{margin-bottom:16px}
+.q-block .q-label{font-size:14px;font-weight:600;margin-bottom:4px;line-height:1.6}
+.q-block .q-sub{font-size:12px;color:var(--muted);margin-bottom:8px;font-style:italic}
+.rating-row{display:flex;gap:6px;flex-wrap:wrap}
+.rate-btn{padding:8px 14px;background:var(--surface);border:1.5px solid var(--border);border-radius:9px;color:var(--text);font-family:inherit;font-size:13px;cursor:pointer;transition:.2s;flex:1;min-width:60px;text-align:center}
+.rate-btn:hover{border-color:var(--accent2);background:rgba(59,130,246,.06)}
+.rate-btn.selected{border-color:var(--accent);background:rgba(234,124,14,.1);color:#b45309;font-weight:600}
+.swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media(max-width:550px){.swot-grid{grid-template-columns:1fr}}
+.swot-box{background:var(--surface);border:1.5px solid var(--border);border-radius:12px;padding:14px;transition:.2s}
+.swot-box:focus-within{border-color:var(--accent2)}
+.swot-box .sw-head{font-size:13px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.swot-box .sw-sub{font-size:11px;color:var(--muted);margin-bottom:8px}
+.swot-box textarea{width:100%;background:transparent;border:none;color:var(--text);font-family:inherit;font-size:13px;resize:vertical;min-height:70px;outline:none;line-height:1.6}
+.branch-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:500px){.branch-grid{grid-template-columns:1fr}}
+.branch-chip{padding:12px 14px;background:var(--surface);border:1.5px solid var(--border);border-radius:10px;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:10px;font-size:13px}
+.branch-chip:hover{border-color:var(--accent2)}
+.branch-chip.selected{border-color:var(--accent);background:rgba(245,158,11,.1)}
+.branch-chip .bcheck{width:18px;height:18px;border-radius:5px;border:2px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:.2s;font-size:11px}
+.branch-chip.selected .bcheck{border-color:var(--accent);background:var(--accent);color:#fff}
+.nav-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:8px;margin-bottom:20px}
+.btn{font-family:inherit;padding:11px 24px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:.2s}
+.btn-sec{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+.btn-sec:hover{border-color:var(--accent2)}
+.btn-pri{background:linear-gradient(135deg,var(--accent2),#1e40af);color:#fff}
+.btn-pri:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(29,78,216,.3)}
+.btn:disabled{opacity:.35;cursor:default;transform:none!important;box-shadow:none!important}
+.btn-dl{background:linear-gradient(135deg,var(--accent),#c2410c);color:#fff;font-size:15px;padding:14px 28px;width:100%;margin-top:12px}
+.btn-dl:hover{box-shadow:0 5px 20px rgba(234,124,14,.3)}
+#report-content{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:28px 24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.rpt-header{text-align:center;margin-bottom:24px;padding-bottom:16px;border-bottom:2px solid var(--border)}
+.rpt-header h2{font-size:22px;background:linear-gradient(135deg,var(--accent2),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.rpt-header .rpt-name{font-size:16px;color:var(--accent);margin-top:4px}
+.rpt-header .rpt-date{font-size:12px;color:var(--muted);margin-top:4px}
+.rpt-section{margin-bottom:20px}
+.rpt-section h3{font-size:15px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.rpt-section p,.rpt-section li{font-size:13px;color:var(--muted);line-height:1.75}
+.rpt-section ul{padding-left:18px}
+.rpt-section li{margin-bottom:4px}
+.rpt-score-ring{width:140px;height:140px;margin:0 auto 16px;position:relative}
+.rpt-score-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.rpt-score-ring .trk{fill:none;stroke:var(--border);stroke-width:8}
+.rpt-score-ring .val{fill:none;stroke-width:8;stroke-linecap:round;transition:stroke-dashoffset 1.5s ease}
+.rpt-score-ring .lbl{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rpt-score-ring .pct{font-size:34px;font-weight:800}
+.rpt-score-ring .psub{font-size:11px;color:var(--muted)}
+.rpt-bar{margin:8px 0}
+.rpt-bar-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+.rpt-bar-label span:last-child{color:var(--accent);font-weight:600}
+.rpt-bar-track{height:7px;background:var(--border);border-radius:6px;overflow:hidden}
+.rpt-bar-fill{height:100%;border-radius:6px;transition:width 1s ease .2s}
+.rpt-rec-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px}
+.rpt-rec-card .rank{font-size:24px;font-weight:800;color:var(--accent);float:left;margin-right:12px;line-height:1}
+.rpt-rec-card h4{font-size:14px;font-weight:700;margin-bottom:3px}
+.rpt-rec-card .rscore{font-size:12px;color:var(--accent3);font-weight:600}
+.rpt-rec-card .rreason{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.6;clear:both}
+.rpt-swot-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+@media(max-width:500px){.rpt-swot-grid{grid-template-columns:1fr}}
+.rpt-swot-box{background:var(--surface);border-radius:10px;padding:12px}
+.rpt-swot-box h5{font-size:12px;font-weight:700;margin-bottom:4px}
+.rpt-swot-box p{font-size:12px;color:var(--muted);line-height:1.6}
+.disclaimer{text-align:center;font-size:11px;color:var(--muted);margin-top:14px;line-height:1.6;white-space:pre-line}
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 0;gap:16px}
+.spinner{width:40px;height:40px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading p{color:var(--muted);font-size:14px;text-align:center}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:#fff;border:1px solid var(--border);border-radius:10px;padding:12px 20px;font-size:13px;z-index:100;transition:.4s;opacity:0;display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+.toast.success{border-color:var(--accent3)}.toast.error{border-color:var(--danger)}
+.pdf-mode{background:#fff!important;color:#1e293b!important;padding:20px 24px!important}
+.pdf-mode *{color:#334155!important;border-color:#e2e8f0!important}
+.pdf-mode .rpt-header h2{-webkit-text-fill-color:#1e293b!important;background:none!important}
+.pdf-mode .rpt-header .rpt-name{color:#ea7c0e!important}
+.pdf-mode .rpt-score-ring .pct{color:#1e293b!important}
+.pdf-mode .rpt-bar-track{background:#e5e7eb!important}
+.pdf-mode .rpt-rec-card,.pdf-mode .rpt-swot-box,.pdf-mode .riasec-detail,.pdf-mode .skill-gap-card{background:#f8fafc!important}
+.pdf-mode .trk{stroke:#e5e7eb!important}
+.pdf-mode .rpt-section h3{color:#1e293b!important}
+.pdf-mode a{color:#1d4ed8!important}
+.pdf-mode .rpt-sid{font-size:11px;color:#94a3b8!important;text-align:center;margin-top:4px}
+.pdf-mode .rd-desc,.pdf-mode .sg-tip,.pdf-mode .rreason{color:#64748b!important}
+.pdf-mode table{border-color:#cbd5e1!important}
+.pdf-mode th{background:#f1f5f9!important;color:#1e293b!important;border-color:#cbd5e1!important}
+.pdf-mode td{border-color:#cbd5e1!important}
+.pdf-mode .rpt-section{page-break-inside:avoid}
+.pdf-mode .rpt-rec-card,.pdf-mode .riasec-detail,.pdf-mode .skill-gap-card{page-break-inside:avoid}
+.pdf-mode .rpt-swot-grid{page-break-inside:avoid}
+
+.riasec-detail{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin:8px 0}
+.riasec-detail .rd-head{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.riasec-detail .rd-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.riasec-detail .rd-type{font-size:13px;font-weight:700}
+.riasec-detail .rd-score{font-size:12px;font-weight:600;margin-left:auto}
+.riasec-detail .rd-desc{font-size:12px;color:var(--muted);line-height:1.7}
+.riasec-detail .rd-branches{font-size:11px;margin-top:6px;padding:6px 10px;background:rgba(29,78,216,.06);border-radius:6px;color:var(--accent2)}
+.skill-gap-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px;margin:8px 0}
+.skill-gap-card .sg-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.skill-gap-card .sg-name{font-size:13px;font-weight:600}
+.skill-gap-card .sg-status{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px}
+.skill-gap-card .sg-status.strong{background:rgba(5,150,105,.1);color:#059669}
+.skill-gap-card .sg-status.adequate{background:rgba(234,124,14,.1);color:#b45309}
+.skill-gap-card .sg-status.gap{background:rgba(220,38,38,.1);color:#dc2626}
+.skill-gap-card .sg-bar-row{display:flex;align-items:center;gap:8px;margin:4px 0}
+.skill-gap-card .sg-bar-label{font-size:11px;color:var(--muted);width:60px}
+.skill-gap-card .sg-bar-wrap{flex:1;height:6px;background:var(--border);border-radius:4px;overflow:hidden;position:relative}
+.skill-gap-card .sg-bar-you{height:100%;border-radius:4px;position:absolute;left:0;top:0}
+.skill-gap-card .sg-bar-need{position:absolute;height:100%;border-left:2px dashed rgba(0,0,0,.3);top:0}
+.skill-gap-card .sg-tip{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;font-style:italic}
+</style></head>
+	<body>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TNEA 2026 — Complete Engineering Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;500;600;700;800&amp;family=DM+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+
+
+
+
+<div class="app">
+  <div class="top-bar">
+    <div class="lang-bar">
+      <button class="lang-btn active" onclick="setLang('en')">English</button>
+      <button class="lang-btn" onclick="setLang('ta')">தமிழ்</button>
+    </div>
+    <div class="sync-badge connected" id="syncBadge"><span class="sdot"></span><span id="syncText">Sheets: Connected</span></div>
+  </div>
+  <div class="header">
+    <div class="badge">TNEA 2026</div>
+    <h1 id="mainTitle">Complete Engineering Aptitude Assessment</h1>
+    <p id="mainSub">A scientific, multi-dimensional assessment to discover your ideal engineering branch</p>
+  </div>
+  <div class="stepper" id="stepper"><div class="step  active" id="step-0"><div class="dot">1</div><div class="slabel">Profile</div><div class="step-line"></div></div><div class="step  " id="step-1"><div class="dot">2</div><div class="slabel">RIASEC</div><div class="step-line"></div></div><div class="step  " id="step-2"><div class="dot">3</div><div class="slabel">Skills</div><div class="step-line"></div></div><div class="step  " id="step-3"><div class="dot">4</div><div class="slabel">SWOT</div><div class="step-line"></div></div><div class="step  " id="step-4"><div class="dot">5</div><div class="slabel">Branches</div><div class="step-line"></div></div><div class="step  " id="step-5"><div class="dot">6</div><div class="slabel">Vision</div><div class="step-line"></div></div><div class="step  " id="step-6"><div class="dot">7</div><div class="slabel">Parents</div><div class="step-line"></div></div><div class="step  " id="step-7"><div class="dot">8</div><div class="slabel">Analysis</div><div class="step-line"></div></div><div class="step  " id="step-8"><div class="dot">9</div><div class="slabel">Report</div><div class="step-line"></div></div></div>
+
+  <div class="section active" id="sec-0">
+    <div class="sec-card">
+      <h2 id="s0t">📝 Student Profile</h2>
+      <div class="sub" id="s0s">Let's start with some basic information about you.</div>
+      <div class="form-group"><label>Full Name <span class="label-sub">/ பெயர்</span></label><input class="form-input" id="inName" placeholder="Enter your full name"></div>
+      <div class="form-group"><label>Email <span class="label-sub">/ மின்னஞ்சல்</span></label><input class="form-input" type="email" id="inEmail" placeholder="student@email.com"></div>
+      <div class="form-group"><label>Phone <span class="label-sub">/ தொலைபேசி</span></label><input class="form-input" type="tel" id="inPhone" placeholder="9876543210"></div>
+      <div class="form-group"><label>School Name <span class="label-sub">/ பள்ளி பெயர்</span></label><input class="form-input" id="inSchool" placeholder="Enter your school name"></div>
+      <div class="form-group"><label>+2 Stream <span class="label-sub">/ +2 பிரிவு</span></label><select class="form-input" id="inStream"><option value="">Select</option><option value="MPC">Maths, Physics, Chemistry</option><option value="MPCB">Maths, Physics, Chemistry, Biology</option><option value="MPCS">Maths, Physics, Chemistry, CS</option></select></div>
+      <div class="form-group"><label>+2 Approximate Score (%) <span class="label-sub">/ +2 மதிப்பெண்</span></label><input class="form-input" type="number" id="inScore" placeholder="e.g. 85" min="0" max="100"></div>
+      <div class="form-group"><label>Expected Cutoff Mark <span class="label-sub">/ எதிர்பார்க்கப்படும் கட்ஆஃப் மதிப்பெண்</span></label><input class="form-input" type="number" id="inCutoff" placeholder="e.g. 180" min="0" max="200" step="0.01"></div>
+    </div>
+  </div>
+  <div class="section" id="sec-1"><div class="sec-card"><h2>🧠 RIASEC Personality Assessment</h2><div class="sub">Rate how much each statement describes you (1 = Not at all, 5 = Very much like me).</div><div class="q-block"><div class="q-label">1. I enjoy working with tools, machines, or building things with my hands.</div><div class="q-sub">Hands-on over theory.</div><div class="rating-row"><button class="rate-btn " onclick="setR('R',0,1)">1</button><button class="rate-btn " onclick="setR('R',0,2)">2</button><button class="rate-btn " onclick="setR('R',0,3)">3</button><button class="rate-btn " onclick="setR('R',0,4)">4</button><button class="rate-btn " onclick="setR('R',0,5)">5</button></div></div><div class="q-block"><div class="q-label">2. I like fixing mechanical or electrical devices.</div><div class="q-sub">Physical activities excite me.</div><div class="rating-row"><button class="rate-btn " onclick="setR('R',1,1)">1</button><button class="rate-btn " onclick="setR('R',1,2)">2</button><button class="rate-btn " onclick="setR('R',1,3)">3</button><button class="rate-btn " onclick="setR('R',1,4)">4</button><button class="rate-btn " onclick="setR('R',1,5)">5</button></div></div><div class="q-block"><div class="q-label">3. I love solving complex mathematical or scientific problems.</div><div class="q-sub">I enjoy deep research and analysis.</div><div class="rating-row"><button class="rate-btn " onclick="setR('I',2,1)">1</button><button class="rate-btn " onclick="setR('I',2,2)">2</button><button class="rate-btn " onclick="setR('I',2,3)">3</button><button class="rate-btn " onclick="setR('I',2,4)">4</button><button class="rate-btn " onclick="setR('I',2,5)">5</button></div></div><div class="q-block"><div class="q-label">4. I am curious about how things work at a fundamental level.</div><div class="q-sub">I enjoy experiments and testing.</div><div class="rating-row"><button class="rate-btn " onclick="setR('I',3,1)">1</button><button class="rate-btn " onclick="setR('I',3,2)">2</button><button class="rate-btn " onclick="setR('I',3,3)">3</button><button class="rate-btn " onclick="setR('I',3,4)">4</button><button class="rate-btn " onclick="setR('I',3,5)">5</button></div></div><div class="q-block"><div class="q-label">5. I enjoy creative activities — designing, drawing, or writing.</div><div class="q-sub">I prefer innovative, outside-the-box solutions.</div><div class="rating-row"><button class="rate-btn " onclick="setR('A',4,1)">1</button><button class="rate-btn " onclick="setR('A',4,2)">2</button><button class="rate-btn " onclick="setR('A',4,3)">3</button><button class="rate-btn " onclick="setR('A',4,4)">4</button><button class="rate-btn " onclick="setR('A',4,5)">5</button></div></div><div class="q-block"><div class="q-label">6. Aesthetics and visual design matter to me.</div><div class="q-sub">Things should be functional AND beautiful.</div><div class="rating-row"><button class="rate-btn " onclick="setR('A',5,1)">1</button><button class="rate-btn " onclick="setR('A',5,2)">2</button><button class="rate-btn " onclick="setR('A',5,3)">3</button><button class="rate-btn " onclick="setR('A',5,4)">4</button><button class="rate-btn " onclick="setR('A',5,5)">5</button></div></div><div class="q-block"><div class="q-label">7. I enjoy teaching, mentoring, or helping others learn.</div><div class="q-sub">Teamwork and collaboration energise me.</div><div class="rating-row"><button class="rate-btn " onclick="setR('S',6,1)">1</button><button class="rate-btn " onclick="setR('S',6,2)">2</button><button class="rate-btn " onclick="setR('S',6,3)">3</button><button class="rate-btn " onclick="setR('S',6,4)">4</button><button class="rate-btn " onclick="setR('S',6,5)">5</button></div></div><div class="q-block"><div class="q-label">8. I care about social impact and community welfare.</div><div class="q-sub">I am a good listener and communicator.</div><div class="rating-row"><button class="rate-btn " onclick="setR('S',7,1)">1</button><button class="rate-btn " onclick="setR('S',7,2)">2</button><button class="rate-btn " onclick="setR('S',7,3)">3</button><button class="rate-btn " onclick="setR('S',7,4)">4</button><button class="rate-btn " onclick="setR('S',7,5)">5</button></div></div><div class="q-block"><div class="q-label">9. I enjoy leading teams and organising projects.</div><div class="q-sub">Business and startups interest me.</div><div class="rating-row"><button class="rate-btn " onclick="setR('E',8,1)">1</button><button class="rate-btn " onclick="setR('E',8,2)">2</button><button class="rate-btn " onclick="setR('E',8,3)">3</button><button class="rate-btn " onclick="setR('E',8,4)">4</button><button class="rate-btn " onclick="setR('E',8,5)">5</button></div></div><div class="q-block"><div class="q-label">10. I like persuading others and presenting ideas.</div><div class="q-sub">I enjoy risk-taking and strategic decisions.</div><div class="rating-row"><button class="rate-btn " onclick="setR('E',9,1)">1</button><button class="rate-btn " onclick="setR('E',9,2)">2</button><button class="rate-btn " onclick="setR('E',9,3)">3</button><button class="rate-btn " onclick="setR('E',9,4)">4</button><button class="rate-btn " onclick="setR('E',9,5)">5</button></div></div><div class="q-block"><div class="q-label">11. I prefer structured, organised, systematic work.</div><div class="q-sub">I follow procedures carefully.</div><div class="rating-row"><button class="rate-btn " onclick="setR('C',10,1)">1</button><button class="rate-btn " onclick="setR('C',10,2)">2</button><button class="rate-btn " onclick="setR('C',10,3)">3</button><button class="rate-btn " onclick="setR('C',10,4)">4</button><button class="rate-btn " onclick="setR('C',10,5)">5</button></div></div><div class="q-block"><div class="q-label">12. I enjoy working with data and spreadsheets.</div><div class="q-sub">Accuracy and precision are important to me.</div><div class="rating-row"><button class="rate-btn " onclick="setR('C',11,1)">1</button><button class="rate-btn " onclick="setR('C',11,2)">2</button><button class="rate-btn " onclick="setR('C',11,3)">3</button><button class="rate-btn " onclick="setR('C',11,4)">4</button><button class="rate-btn " onclick="setR('C',11,5)">5</button></div></div></div></div>
+  <div class="section" id="sec-2"><div class="sec-card"><h2>📊 Skills &amp; Aptitude Assessment</h2><div class="sub">Rate your ability in each area (1 = Very Weak, 5 = Very Strong).</div><div class="q-block"><div class="q-label">Mathematics</div><div class="rating-row"><button class="rate-btn " onclick="setSk('math',1)">1</button><button class="rate-btn " onclick="setSk('math',2)">2</button><button class="rate-btn " onclick="setSk('math',3)">3</button><button class="rate-btn " onclick="setSk('math',4)">4</button><button class="rate-btn " onclick="setSk('math',5)">5</button></div></div><div class="q-block"><div class="q-label">Physics</div><div class="rating-row"><button class="rate-btn " onclick="setSk('physics',1)">1</button><button class="rate-btn " onclick="setSk('physics',2)">2</button><button class="rate-btn " onclick="setSk('physics',3)">3</button><button class="rate-btn " onclick="setSk('physics',4)">4</button><button class="rate-btn " onclick="setSk('physics',5)">5</button></div></div><div class="q-block"><div class="q-label">Chemistry</div><div class="rating-row"><button class="rate-btn " onclick="setSk('chemistry',1)">1</button><button class="rate-btn " onclick="setSk('chemistry',2)">2</button><button class="rate-btn " onclick="setSk('chemistry',3)">3</button><button class="rate-btn " onclick="setSk('chemistry',4)">4</button><button class="rate-btn " onclick="setSk('chemistry',5)">5</button></div></div><div class="q-block"><div class="q-label">Coding / Programming</div><div class="rating-row"><button class="rate-btn " onclick="setSk('coding',1)">1</button><button class="rate-btn " onclick="setSk('coding',2)">2</button><button class="rate-btn " onclick="setSk('coding',3)">3</button><button class="rate-btn " onclick="setSk('coding',4)">4</button><button class="rate-btn " onclick="setSk('coding',5)">5</button></div></div><div class="q-block"><div class="q-label">Logical Reasoning</div><div class="rating-row"><button class="rate-btn " onclick="setSk('logic',1)">1</button><button class="rate-btn " onclick="setSk('logic',2)">2</button><button class="rate-btn " onclick="setSk('logic',3)">3</button><button class="rate-btn " onclick="setSk('logic',4)">4</button><button class="rate-btn " onclick="setSk('logic',5)">5</button></div></div><div class="q-block"><div class="q-label">Spatial Thinking &amp; 3D Visualization</div><div class="rating-row"><button class="rate-btn " onclick="setSk('spatial',1)">1</button><button class="rate-btn " onclick="setSk('spatial',2)">2</button><button class="rate-btn " onclick="setSk('spatial',3)">3</button><button class="rate-btn " onclick="setSk('spatial',4)">4</button><button class="rate-btn " onclick="setSk('spatial',5)">5</button></div></div><div class="q-block"><div class="q-label">Communication &amp; Presentation</div><div class="rating-row"><button class="rate-btn " onclick="setSk('communication',1)">1</button><button class="rate-btn " onclick="setSk('communication',2)">2</button><button class="rate-btn " onclick="setSk('communication',3)">3</button><button class="rate-btn " onclick="setSk('communication',4)">4</button><button class="rate-btn " onclick="setSk('communication',5)">5</button></div></div><div class="q-block"><div class="q-label">Creative Thinking &amp; Innovation</div><div class="rating-row"><button class="rate-btn " onclick="setSk('creativity',1)">1</button><button class="rate-btn " onclick="setSk('creativity',2)">2</button><button class="rate-btn " onclick="setSk('creativity',3)">3</button><button class="rate-btn " onclick="setSk('creativity',4)">4</button><button class="rate-btn " onclick="setSk('creativity',5)">5</button></div></div><div class="q-block"><div class="q-label">Digital Literacy</div><div class="rating-row"><button class="rate-btn " onclick="setSk('digital',1)">1</button><button class="rate-btn " onclick="setSk('digital',2)">2</button><button class="rate-btn " onclick="setSk('digital',3)">3</button><button class="rate-btn " onclick="setSk('digital',4)">4</button><button class="rate-btn " onclick="setSk('digital',5)">5</button></div></div><div class="q-block"><div class="q-label">Teamwork &amp; Collaboration</div><div class="rating-row"><button class="rate-btn " onclick="setSk('teamwork',1)">1</button><button class="rate-btn " onclick="setSk('teamwork',2)">2</button><button class="rate-btn " onclick="setSk('teamwork',3)">3</button><button class="rate-btn " onclick="setSk('teamwork',4)">4</button><button class="rate-btn " onclick="setSk('teamwork',5)">5</button></div></div></div></div>
+  <div class="section" id="sec-3"><div class="sec-card"><h2>🔍 SWOT Self-Analysis</h2><div class="sub">Honestly evaluate yourself to help us understand your readiness.</div><div class="swot-grid"><div class="swot-box"><div class="sw-head">💪 Strengths</div><div class="sw-sub">What are you naturally good at?</div><textarea oninput="data.swot.s=this.value"></textarea></div><div class="swot-box"><div class="sw-head">⚠️ Weaknesses</div><div class="sw-sub">Where do you struggle?</div><textarea oninput="data.swot.w=this.value"></textarea></div><div class="swot-box"><div class="sw-head">🌟 Opportunities</div><div class="sw-sub">What external opportunities can you leverage?</div><textarea oninput="data.swot.o=this.value"></textarea></div><div class="swot-box"><div class="sw-head">🚧 Threats</div><div class="sw-sub">What challenges could hold you back?</div><textarea oninput="data.swot.t=this.value"></textarea></div></div></div></div>
+  <div class="section" id="sec-4"><div class="sec-card"><h2>🏗️ Branch Knowledge &amp; Interest</h2><div class="sub">Select branches you are interested in, then rate each one.</div><div class="branch-grid"><div class="branch-chip " onclick="togBr(0)"><span class="bcheck"></span><span>Computer Science (CSE)</span></div><div class="branch-chip " onclick="togBr(1)"><span class="bcheck"></span><span>Information Technology (IT)</span></div><div class="branch-chip " onclick="togBr(2)"><span class="bcheck"></span><span>Electronics &amp; Comm (ECE)</span></div><div class="branch-chip " onclick="togBr(3)"><span class="bcheck"></span><span>Electrical &amp; Electronics (EEE)</span></div><div class="branch-chip " onclick="togBr(4)"><span class="bcheck"></span><span>Mechanical Engineering</span></div><div class="branch-chip " onclick="togBr(5)"><span class="bcheck"></span><span>Civil Engineering</span></div><div class="branch-chip " onclick="togBr(6)"><span class="bcheck"></span><span>AI &amp; Machine Learning</span></div><div class="branch-chip " onclick="togBr(7)"><span class="bcheck"></span><span>Data Science</span></div><div class="branch-chip " onclick="togBr(8)"><span class="bcheck"></span><span>Cyber Security</span></div><div class="branch-chip " onclick="togBr(9)"><span class="bcheck"></span><span>Biomedical Engineering</span></div><div class="branch-chip " onclick="togBr(10)"><span class="bcheck"></span><span>Chemical Engineering</span></div><div class="branch-chip " onclick="togBr(11)"><span class="bcheck"></span><span>Aerospace Engineering</span></div><div class="branch-chip " onclick="togBr(12)"><span class="bcheck"></span><span>Mechatronics</span></div><div class="branch-chip " onclick="togBr(13)"><span class="bcheck"></span><span>Automobile Engineering</span></div><div class="branch-chip " onclick="togBr(14)"><span class="bcheck"></span><span>Robotics &amp; Automation</span></div></div></div></div>
+  <div class="section" id="sec-5"><div class="sec-card"><h2>🎯 Career Vision &amp; Goals</h2><div class="sub">Help us understand your future aspirations.</div><div class="q-block"><div class="q-label">Preferred work environment?</div><div class="rating-row"><button class="rate-btn " onclick="setCar('workEnv',0)" style="min-width:90px">Office / Corporate</button><button class="rate-btn " onclick="setCar('workEnv',1)" style="min-width:90px">Lab / Research</button><button class="rate-btn " onclick="setCar('workEnv',2)" style="min-width:90px">Field / Outdoor</button><button class="rate-btn " onclick="setCar('workEnv',3)" style="min-width:90px">Remote / Freelance</button><button class="rate-btn " onclick="setCar('workEnv',4)" style="min-width:90px">Startup / Own Business</button></div></div><div class="q-block"><div class="q-label">Where do you see yourself in 5 years?</div><div class="rating-row"><button class="rate-btn " onclick="setCar('goal5',0)" style="min-width:90px">Top MNC</button><button class="rate-btn " onclick="setCar('goal5',1)" style="min-width:90px">Own startup</button><button class="rate-btn " onclick="setCar('goal5',2)" style="min-width:90px">Higher studies (MS/M.Tech)</button><button class="rate-btn " onclick="setCar('goal5',3)" style="min-width:90px">Government/PSU</button><button class="rate-btn " onclick="setCar('goal5',4)" style="min-width:90px">Still exploring</button></div></div><div class="q-block"><div class="q-label">What matters most in your career?</div><div class="rating-row"><button class="rate-btn " onclick="setCar('priority',0)" style="min-width:90px">High salary</button><button class="rate-btn " onclick="setCar('priority',1)" style="min-width:90px">Job satisfaction</button><button class="rate-btn " onclick="setCar('priority',2)" style="min-width:90px">Work-life balance</button><button class="rate-btn " onclick="setCar('priority',3)" style="min-width:90px">Social impact</button><button class="rate-btn " onclick="setCar('priority',4)" style="min-width:90px">Innovation</button></div></div><div class="q-block"><div class="q-label">Which sector excites you most?</div><div class="rating-row"><button class="rate-btn " onclick="setCar('sector',0)" style="min-width:90px">Software &amp; IT</button><button class="rate-btn " onclick="setCar('sector',1)" style="min-width:90px">Manufacturing</button><button class="rate-btn " onclick="setCar('sector',2)" style="min-width:90px">Healthcare &amp; Biotech</button><button class="rate-btn " onclick="setCar('sector',3)" style="min-width:90px">Energy &amp; Environment</button><button class="rate-btn " onclick="setCar('sector',4)" style="min-width:90px">Space &amp; Defence</button></div></div><div class="q-block"><div class="q-label">Describe your dream career (2-3 sentences):</div><textarea class="form-input" style="min-height:80px;resize:vertical" placeholder="e.g., I want to build AI systems that help farmers..." oninput="data.vision=this.value"></textarea></div></div></div>
+  <div class="section" id="sec-6"><div class="sec-card">
+    <h2>👨‍👩‍👧 Parents / Guardian Section</h2><div class="sub">Parents, please share your preferences and expectations. This helps us align recommendations with family goals and find common ground.</div>
+    <div class="form-group"><label>Parent / Guardian Name</label><input class="form-input" id="inParentName" value="" oninput="data.parent.name=this.value" placeholder="Enter name"></div>
+    <div class="q-block"><div class="q-label">What is your top priority for your child's education?</div><div class="rating-row"><button class="rate-btn " onclick="setParent('priority',0)" style="min-width:90px">High salary potential</button><button class="rate-btn " onclick="setParent('priority',1)" style="min-width:90px">Job security</button><button class="rate-btn " onclick="setParent('priority',2)" style="min-width:90px">Passion &amp; interest</button><button class="rate-btn " onclick="setParent('priority',3)" style="min-width:90px">Prestigious college</button><button class="rate-btn " onclick="setParent('priority',4)" style="min-width:90px">Overseas opportunities</button></div></div>
+    <div class="q-block"><div class="q-label">What is your annual budget for engineering education?</div><div class="rating-row"><button class="rate-btn " onclick="setParent('budget',0)" style="min-width:90px">Below ₹1 Lakh</button><button class="rate-btn " onclick="setParent('budget',1)" style="min-width:90px">₹1-3 Lakhs</button><button class="rate-btn " onclick="setParent('budget',2)" style="min-width:90px">₹3-5 Lakhs</button><button class="rate-btn " onclick="setParent('budget',3)" style="min-width:90px">₹5-10 Lakhs</button><button class="rate-btn " onclick="setParent('budget',4)" style="min-width:90px">Above ₹10 Lakhs</button></div></div>
+    <div class="q-block"><div class="q-label">Preferred college location?</div><div class="rating-row"><button class="rate-btn " onclick="setParent('location',0)" style="min-width:90px">Within home district</button><button class="rate-btn " onclick="setParent('location',1)" style="min-width:90px">Within Tamil Nadu</button><button class="rate-btn " onclick="setParent('location',2)" style="min-width:90px">Anywhere in South India</button><button class="rate-btn " onclick="setParent('location',3)" style="min-width:90px">Anywhere in India</button><button class="rate-btn " onclick="setParent('location',4)" style="min-width:90px">Abroad also OK</button></div></div>
+    <div class="q-block"><div class="q-label">Which branches would you prefer for your child? (Select up to 5)</div>
+    <div class="branch-grid"><div class="branch-chip " onclick="togParentBr(0)"><span class="bcheck"></span><span>Computer Science (CSE)</span></div><div class="branch-chip " onclick="togParentBr(1)"><span class="bcheck"></span><span>Information Technology (IT)</span></div><div class="branch-chip " onclick="togParentBr(2)"><span class="bcheck"></span><span>Electronics &amp; Comm (ECE)</span></div><div class="branch-chip " onclick="togParentBr(3)"><span class="bcheck"></span><span>Electrical &amp; Electronics (EEE)</span></div><div class="branch-chip " onclick="togParentBr(4)"><span class="bcheck"></span><span>Mechanical Engineering</span></div><div class="branch-chip " onclick="togParentBr(5)"><span class="bcheck"></span><span>Civil Engineering</span></div><div class="branch-chip " onclick="togParentBr(6)"><span class="bcheck"></span><span>AI &amp; Machine Learning</span></div><div class="branch-chip " onclick="togParentBr(7)"><span class="bcheck"></span><span>Data Science</span></div><div class="branch-chip " onclick="togParentBr(8)"><span class="bcheck"></span><span>Cyber Security</span></div><div class="branch-chip " onclick="togParentBr(9)"><span class="bcheck"></span><span>Biomedical Engineering</span></div><div class="branch-chip " onclick="togParentBr(10)"><span class="bcheck"></span><span>Chemical Engineering</span></div><div class="branch-chip " onclick="togParentBr(11)"><span class="bcheck"></span><span>Aerospace Engineering</span></div><div class="branch-chip " onclick="togParentBr(12)"><span class="bcheck"></span><span>Mechatronics</span></div><div class="branch-chip " onclick="togParentBr(13)"><span class="bcheck"></span><span>Automobile Engineering</span></div><div class="branch-chip " onclick="togParentBr(14)"><span class="bcheck"></span><span>Robotics &amp; Automation</span></div></div></div>
+    <div class="form-group"><label>Your expectations for your child's career</label>
+    <textarea class="form-input" style="min-height:70px;resize:vertical" oninput="data.parent.expectation=this.value" placeholder="e.g., Stable job with good salary, overseas opportunities..."></textarea></div>
+    <div class="form-group"><label>Any concerns or specific conditions</label>
+    <textarea class="form-input" style="min-height:70px;resize:vertical" oninput="data.parent.concerns=this.value" placeholder="e.g., Budget constraints, college close to home..."></textarea></div>
+  </div></div>
+  <div class="section" id="sec-7"><div class="sec-card"><div class="loading" id="analyzeLoader"><div class="spinner"></div><p id="analyzeText">Analyzing your responses &amp; saving to Google Sheets...</p></div></div></div>
+  <div class="section" id="sec-8"></div>
+
+  <div class="nav-btns" id="navBtns">
+    <button class="btn btn-sec" id="prevBtn" onclick="navigate(-1)" style="display: none;">← Back</button>
+    <button class="btn btn-pri" id="nextBtn" onclick="navigate(1)">Next →</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script><script>
+// ============================================================
+// 🔗 GOOGLE SHEETS CONFIG — PASTE YOUR APPS SCRIPT URL BELOW
+// ============================================================
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxmSfEWUwZcdaeWWDqURigfSUUKEvtzU0G0qP8w6N7tMiDpbt83Kk3Of-X2POCq3tka/exec';
+// ============================================================
+
+let lang='en',curSec=0;const totalSec=9;
+const data={name:'',email:'',phone:'',school:'',stream:'',score:0,cutoff:0,studentId:'',riasec:{},skills:{},swot:{s:'',w:'',o:'',t:''},branches:[],branchRatings:{},career:{},vision:'',parent:{name:'',prefBranches:[],priority:'',budget:'',location:'',expectation:'',concerns:''}};
+
+// ---- Google Sheets Integration ----
+function isConfigured(){return APPS_SCRIPT_URL&&!APPS_SCRIPT_URL.includes('YOUR_');}
+
+async function sendToSheets(action,payload){
+  if(!isConfigured()){console.log('Sheets not configured, skipping:',action);return{success:false,error:'not_configured'};}
+  setSyncStatus('saving');
+  try{
+    const r=await fetch(APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action,data:payload})});
+    // no-cors means we can't read response, but data is sent
+    setSyncStatus('connected');
+    showToast(lang==='ta'?'✅ Google Sheets-இல் சேமிக்கப்பட்டது':'✅ Saved to Google Sheets','success');
+    return{success:true};
+  }catch(err){
+    setSyncStatus('error');
+    showToast(lang==='ta'?'⚠️ Sheets சேமிப்பு தோல்வி — தரவு உள்ளூரில் பாதுகாப்பாக உள்ளது':'⚠️ Sheets save failed — data is safe locally','error');
+    return{success:false,error:err.toString()};
+  }
+}
+
+function setSyncStatus(s){
+  const el=document.getElementById('syncBadge');
+  el.className='sync-badge '+s;
+  const labels={connected:isConfigured()?'Sheets: Connected':'Sheets: Not configured',saving:'Sheets: Saving...',error:'Sheets: Error'};
+  document.getElementById('syncText').textContent=labels[s]||'Sheets: Ready';
+}
+
+function showToast(msg,type='success'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.className='toast show '+type;
+  setTimeout(()=>t.className='toast',3000);
+}
+
+// ---- Localization ----
+const L={en:{
+  mainTitle:'Complete Engineering Aptitude Assessment',mainSub:'A scientific, multi-dimensional assessment to discover your ideal engineering branch',
+  steps:['Profile','RIASEC','Skills','SWOT','Branches','Vision','Parents','Analysis','Report'],
+  prev:'← Back',next:'Next →',finish:'Generate Report →',
+  s1t:'🧠 RIASEC Personality Assessment',s1s:'Rate how much each statement describes you (1 = Not at all, 5 = Very much like me).',
+  s2t:'📊 Skills & Aptitude Assessment',s2s:'Rate your ability in each area (1 = Very Weak, 5 = Very Strong).',
+  s3t:'🔍 SWOT Self-Analysis',s3s:'Honestly evaluate yourself to help us understand your readiness.',
+  s4t:'🏗️ Branch Knowledge & Interest',s4s:'Select branches you are interested in, then rate each one.',
+  s5t:'🎯 Career Vision & Goals',s5s:'Help us understand your future aspirations.',
+  riasecQs:[
+    {d:'R',q:'I enjoy working with tools, machines, or building things with my hands.',q2:'Hands-on over theory.'},
+    {d:'R',q:'I like fixing mechanical or electrical devices.',q2:'Physical activities excite me.'},
+    {d:'I',q:'I love solving complex mathematical or scientific problems.',q2:'I enjoy deep research and analysis.'},
+    {d:'I',q:'I am curious about how things work at a fundamental level.',q2:'I enjoy experiments and testing.'},
+    {d:'A',q:'I enjoy creative activities — designing, drawing, or writing.',q2:'I prefer innovative, outside-the-box solutions.'},
+    {d:'A',q:'Aesthetics and visual design matter to me.',q2:'Things should be functional AND beautiful.'},
+    {d:'S',q:'I enjoy teaching, mentoring, or helping others learn.',q2:'Teamwork and collaboration energise me.'},
+    {d:'S',q:'I care about social impact and community welfare.',q2:'I am a good listener and communicator.'},
+    {d:'E',q:'I enjoy leading teams and organising projects.',q2:'Business and startups interest me.'},
+    {d:'E',q:'I like persuading others and presenting ideas.',q2:'I enjoy risk-taking and strategic decisions.'},
+    {d:'C',q:'I prefer structured, organised, systematic work.',q2:'I follow procedures carefully.'},
+    {d:'C',q:'I enjoy working with data and spreadsheets.',q2:'Accuracy and precision are important to me.'}
+  ],
+  skillQs:[{k:'math',q:'Mathematics'},{k:'physics',q:'Physics'},{k:'chemistry',q:'Chemistry'},{k:'coding',q:'Coding / Programming'},{k:'logic',q:'Logical Reasoning'},{k:'spatial',q:'Spatial Thinking & 3D Visualization'},{k:'communication',q:'Communication & Presentation'},{k:'creativity',q:'Creative Thinking & Innovation'},{k:'digital',q:'Digital Literacy'},{k:'teamwork',q:'Teamwork & Collaboration'}],
+  swotLabels:{s:'💪 Strengths',w:'⚠️ Weaknesses',o:'🌟 Opportunities',t:'🚧 Threats'},
+  swotPh:{s:'What are you naturally good at?',w:'Where do you struggle?',o:'What external opportunities can you leverage?',t:'What challenges could hold you back?'},
+  branches:['Computer Science (CSE)','Information Technology (IT)','Electronics & Comm (ECE)','Electrical & Electronics (EEE)','Mechanical Engineering','Civil Engineering','AI & Machine Learning','Data Science','Cyber Security','Biomedical Engineering','Chemical Engineering','Aerospace Engineering','Mechatronics','Automobile Engineering','Robotics & Automation'],
+  brInt:'Interest',brKnow:'Knowledge',
+  careerQs:[
+    {k:'workEnv',q:'Preferred work environment?',opts:['Office / Corporate','Lab / Research','Field / Outdoor','Remote / Freelance','Startup / Own Business']},
+    {k:'goal5',q:'Where do you see yourself in 5 years?',opts:['Top MNC','Own startup','Higher studies (MS/M.Tech)','Government/PSU','Still exploring']},
+    {k:'priority',q:'What matters most in your career?',opts:['High salary','Job satisfaction','Work-life balance','Social impact','Innovation']},
+    {k:'sector',q:'Which sector excites you most?',opts:['Software & IT','Manufacturing','Healthcare & Biotech','Energy & Environment','Space & Defence']}
+  ],
+  visionQ:'Describe your dream career (2-3 sentences):',visionPh:'e.g., I want to build AI systems that help farmers...',
+    s6t:'👨‍👩‍👧 Parents / Guardian Section',s6s:'Parents, please share your preferences and expectations. This helps us align recommendations with family goals and find common ground.',
+    parentQs:[
+      {q:'What is your top priority for your child\'s education?',opts:['High salary potential','Job security','Passion & interest','Prestigious college','Overseas opportunities']},
+      {q:'What is your annual budget for engineering education?',opts:['Below ₹1 Lakh','₹1-3 Lakhs','₹3-5 Lakhs','₹5-10 Lakhs','Above ₹10 Lakhs']},
+      {q:'Preferred college location?',opts:['Within home district','Within Tamil Nadu','Anywhere in South India','Anywhere in India','Abroad also OK']}
+    ],
+  rptTitle:'Engineering Aptitude Assessment Report',rptOverall:'Overall Engineering Readiness',rptRiasec:'RIASEC Personality Profile',rptSkills:'Skills & Aptitude Profile',rptSwot:'SWOT Analysis Summary',rptBranch:'Branch Recommendations',rptCareer:'Career Alignment',rptConclusion:'Conclusion & Next Steps',
+  dlPdf:'📄 Download Report as PDF',restart:'🔄 Take Assessment Again',
+  disclaimer:'Self-assessment for guidance only. Does not replace professional career counselling.\nTNEA 2026 • tneaonline.org',
+  riasecNames:{R:'Realistic',I:'Investigative',A:'Artistic',S:'Social',E:'Enterprising',C:'Conventional'},scale:['1','2','3','4','5']
+},ta:{
+  mainTitle:'முழுமையான பொறியியல் தகுதி மதிப்பீடு',mainSub:'உங்கள் ஆளுமை, ஆர்வங்கள், திறன்கள் அடிப்படையில் சிறந்த பொறியியல் பிரிவைக் கண்டறிய அறிவியல் பூர்வ மதிப்பீடு',
+  steps:['விவரங்கள்','RIASEC','திறன்கள்','SWOT','பிரிவுகள்','பார்வை','பெற்றோர்','பகுப்பாய்வு','அறிக்கை'],
+  prev:'← முன்',next:'அடுத்து →',finish:'அறிக்கையை உருவாக்கு →',
+  s1t:'🧠 RIASEC ஆளுமை மதிப்பீடு',s1s:'ஒவ்வொரு கூற்றும் உங்களை எவ்வளவு விவரிக்கிறது என்பதை மதிப்பிடுங்கள் (1 = இல்லை, 5 = முழுமையாக).',
+  s2t:'📊 திறன் & தகுதி மதிப்பீடு',s2s:'ஒவ்வொரு பகுதியிலும் உங்கள் திறனை 1-5 வரை மதிப்பிடுங்கள்.',
+  s3t:'🔍 SWOT சுய பகுப்பாய்வு',s3s:'உங்களை நேர்மையாக மதிப்பிடுங்கள்.',
+  s4t:'🏗️ பிரிவு அறிவு & ஆர்வம்',s4s:'ஆர்வமுள்ள பிரிவுகளைத் தேர்ந்தெடுத்து மதிப்பிடுங்கள்.',
+  s5t:'🎯 தொழில் பார்வை & இலக்குகள்',s5s:'உங்கள் எதிர்கால இலக்குகளைப் பகிருங்கள்.',
+  riasecQs:[
+    {d:'R',q:'கருவிகள், இயந்திரங்கள் பயன்படுத்துவதை ரசிக்கிறேன்.',q2:'நடைமுறை செயல்களை விரும்புகிறேன்.'},
+    {d:'R',q:'இயந்திர/மின் சாதனங்களை சரிசெய்வது பிடிக்கும்.',q2:'உடல் சார்ந்த செயல்கள் உற்சாகம் தரும்.'},
+    {d:'I',q:'சிக்கலான கணித/அறிவியல் சிக்கல்களை தீர்ப்பது பிடிக்கும்.',q2:'ஆழமாக ஆராய்வதை ரசிக்கிறேன்.'},
+    {d:'I',q:'விஷயங்கள் எப்படி வேலை செய்கின்றன என்பதில் ஆர்வம்.',q2:'சோதனைகள் நடத்த விரும்புகிறேன்.'},
+    {d:'A',q:'வடிவமைத்தல், வரைதல் போன்ற படைப்பு செயல்கள் பிடிக்கும்.',q2:'புத்தாக்க தீர்வுகளை விரும்புகிறேன்.'},
+    {d:'A',q:'அழகியல் மற்றும் காட்சி வடிவமைப்பு முக்கியம்.',q2:'செயல்பாடு + அழகு இரண்டும் வேண்டும்.'},
+    {d:'S',q:'கற்பித்தல், மற்றவர்களுக்கு உதவுவது பிடிக்கும்.',q2:'குழுப்பணி உற்சாகம் தரும்.'},
+    {d:'S',q:'சமூக தாக்கம் பற்றி அக்கறை கொள்கிறேன்.',q2:'நல்ல கேட்பவர் & தொடர்பாளர்.'},
+    {d:'E',q:'குழுக்களை வழிநடத்துவது பிடிக்கும்.',q2:'வணிகம் & ஸ்டார்ட்அப் ஆர்வம்.'},
+    {d:'E',q:'யோசனைகளை முன்வைப்பது பிடிக்கும்.',q2:'அபாயங்கள் எடுப்பதை ரசிக்கிறேன்.'},
+    {d:'C',q:'ஒழுங்கமைக்கப்பட்ட முறையான வேலை பிடிக்கும்.',q2:'நடைமுறைகளை பின்பற்றுவேன்.'},
+    {d:'C',q:'தரவு & விரிதாள்களுடன் பணிபுரிவது பிடிக்கும்.',q2:'துல்லியம் மிக முக்கியம்.'}
+  ],
+  skillQs:[{k:'math',q:'கணிதம்'},{k:'physics',q:'இயற்பியல்'},{k:'chemistry',q:'வேதியியல்'},{k:'coding',q:'குறியீட்டு / நிரலாக்கம்'},{k:'logic',q:'தர்க்க பகுத்தறிவு'},{k:'spatial',q:'இடஞ்சார் சிந்தனை'},{k:'communication',q:'தொடர்பு திறன்'},{k:'creativity',q:'படைப்பாற்றல்'},{k:'digital',q:'டிஜிட்டல் கல்வியறிவு'},{k:'teamwork',q:'குழுப்பணி'}],
+  swotLabels:{s:'💪 பலங்கள்',w:'⚠️ பலவீனங்கள்',o:'🌟 வாய்ப்புகள்',t:'🚧 அச்சுறுத்தல்கள்'},
+  swotPh:{s:'நீங்கள் எதில் திறமையானவர்?',w:'எங்கே போராடுகிறீர்கள்?',o:'வெளிப்புற வாய்ப்புகள்?',t:'சவால்கள்?'},
+  branches:['கணினி அறிவியல் (CSE)','தகவல் தொழில்நுட்பம் (IT)','மின்னணு & தகவல் (ECE)','மின் & மின்னணு (EEE)','இயந்திர பொறியியல்','சிவில் பொறியியல்','AI & ML','தரவு அறிவியல்','சைபர் பாதுகாப்பு','உயிர்மருத்துவ பொறியியல்','வேதிப் பொறியியல்','விண்வெளி பொறியியல்','மெக்காட்ரானிக்ஸ்','ஆட்டோமொபைல்','ரோபாட்டிக்ஸ்'],
+  brInt:'ஆர்வம்',brKnow:'அறிவு',
+  careerQs:[
+    {k:'workEnv',q:'விருப்பமான பணிச்சூழல்?',opts:['அலுவலகம்','ஆய்வகம்','களம்/வெளிப்புற','தொலைநிலை','ஸ்டார்ட்அப்']},
+    {k:'goal5',q:'5 ஆண்டுகளில் எங்கே?',opts:['MNC','சொந்த ஸ்டார்ட்அப்','மேற்படிப்பு','அரசு/PSU','ஆராய்ச்சி']},
+    {k:'priority',q:'தொழிலில் எது முக்கியம்?',opts:['சம்பளம்','திருப்தி','சமநிலை','சமூக தாக்கம்','புத்தாக்கம்']},
+    {k:'sector',q:'எந்த துறை உற்சாகம்?',opts:['மென்பொருள் & IT','உற்பத்தி','சுகாதாரம்','ஆற்றல்','விண்வெளி']}
+  ],
+  visionQ:'உங்கள் கனவு தொழிலை விவரியுங்கள் (2-3 வாக்கியம்):',visionPh:'எ.கா., விவசாயிகளுக்கு உதவும் AI அமைப்புகள்...',
+    s6t:'👨‍👩‍👧 பெற்றோர் / பாதுகாவலர் பகுதி',s6s:'பெற்றோர்களே, உங்கள் விருப்பங்களையும் எதிர்பார்ப்புகளையும் பகிருங்கள். இது குடும்ப இலக்குகளுடன் பரிந்துரைகளை இணைக்க உதவும்.',
+    parentQs:[
+      {q:'உங்கள் குழந்தையின் கல்விக்கான முன்னுரிமை என்ன?',opts:['அதிக சம்பள வாய்ப்பு','வேலை பாதுகாப்பு','ஆர்வம் & விருப்பம்','புகழ்பெற்ற கல்லூரி','வெளிநாட்டு வாய்ப்புகள்']},
+      {q:'பொறியியல் கல்விக்கான ஆண்டு பட்ஜெட்?',opts:['₹1 லட்சத்திற்கு கீழ்','₹1-3 லட்சம்','₹3-5 லட்சம்','₹5-10 லட்சம்','₹10 லட்சத்திற்கு மேல்']},
+      {q:'விருப்பமான கல்லூரி இருப்பிடம்?',opts:['வீட்டு மாவட்டத்தில்','தமிழ்நாட்டில்','தென்னிந்தியாவில்','இந்தியா முழுவதும்','வெளிநாடும் சரி']}
+    ],
+  rptTitle:'பொறியியல் தகுதி மதிப்பீட்டு அறிக்கை',rptOverall:'ஒட்டுமொத்த தயார் நிலை',rptRiasec:'RIASEC ஆளுமை',rptSkills:'திறன் சுயவிவரம்',rptSwot:'SWOT சுருக்கம்',rptBranch:'பிரிவு பரிந்துரைகள்',rptCareer:'தொழில் ஒருங்கிணைப்பு',rptConclusion:'முடிவுரை & அடுத்த படிகள்',
+  dlPdf:'📄 PDF பதிவிறக்கம்',restart:'🔄 மீண்டும் மதிப்பீடு',
+  disclaimer:'சுய மதிப்பீடு மட்டுமே. தொழில்முறை ஆலோசனையை மாற்றாது.\nTNEA 2026 • tneaonline.org',
+  riasecNames:{R:'Realistic (செயல்வாதி)',I:'Investigative (சிந்தனையாளர்)',A:'Artistic (படைப்பாளி)',S:'Social (உதவியாளர்)',E:'Enterprising (தலைவர்)',C:'Conventional (ஒழுங்கமைப்பாளர்)'},scale:['1','2','3','4','5']
+}};
+
+const branchKeys=['CSE','IT','ECE','EEE','Mech','Civil','AI_ML','DS','CyberSec','BME','ChemE','Aero','Mechatronics','Auto','Robotics'];
+const branchMap={
+  CSE:{R:2,I:4,A:3,S:2,E:3,C:3,skills:{math:4,coding:5,logic:5,digital:5}},
+  IT:{R:2,I:3,A:3,S:3,E:3,C:3,skills:{math:3,coding:5,logic:4,digital:5,communication:3}},
+  ECE:{R:4,I:4,A:2,S:2,E:2,C:3,skills:{math:4,physics:5,logic:4,spatial:3}},
+  EEE:{R:4,I:4,A:2,S:2,E:2,C:3,skills:{math:4,physics:5,logic:3}},
+  Mech:{R:5,I:4,A:2,S:2,E:2,C:3,skills:{math:4,physics:5,spatial:5}},
+  Civil:{R:5,I:3,A:3,S:3,E:2,C:4,skills:{math:4,physics:4,spatial:4}},
+  AI_ML:{R:2,I:5,A:3,S:2,E:3,C:3,skills:{math:5,coding:5,logic:5,digital:4}},
+  DS:{R:2,I:5,A:2,S:2,E:3,C:4,skills:{math:5,coding:4,logic:5,digital:4}},
+  CyberSec:{R:3,I:4,A:2,S:2,E:3,C:4,skills:{coding:4,logic:5,digital:5}},
+  BME:{R:3,I:5,A:2,S:4,E:2,C:3,skills:{physics:3,chemistry:4,logic:3}},
+  ChemE:{R:3,I:4,A:2,S:2,E:2,C:4,skills:{math:3,chemistry:5,physics:3}},
+  Aero:{R:4,I:5,A:3,S:2,E:2,C:3,skills:{math:5,physics:5,spatial:4}},
+  Mechatronics:{R:5,I:4,A:3,S:2,E:3,C:3,skills:{math:4,physics:4,coding:3,spatial:4}},
+  Auto:{R:5,I:3,A:2,S:2,E:2,C:3,skills:{math:3,physics:4,spatial:4}},
+  Robotics:{R:5,I:4,A:3,S:2,E:3,C:3,skills:{math:4,physics:4,coding:4,spatial:4,creativity:3}}
+};
+
+function t(k){return L[lang][k]||L.en[k]||k}
+function setLang(l){lang=l;document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.includes(l==='en'?'English':'தமிழ்')));document.getElementById('mainTitle').textContent=t('mainTitle');document.getElementById('mainSub').textContent=t('mainSub');buildStepper();buildSections();updateNav();}
+
+function buildStepper(){const el=document.getElementById('stepper');el.innerHTML=t('steps').map((s,i)=>`<div class="step ${i<curSec?'done':''} ${i===curSec?'active':''}" id="step-${i}"><div class="dot">${i<curSec?'✓':i+1}</div><div class="slabel">${s}</div><div class="step-line"></div></div>`).join('');}
+
+function buildSections(){buildRIASEC();buildSkills();buildSWOT();buildBranches();buildVision();buildParent();}
+
+function buildRIASEC(){const sec=document.getElementById('sec-1'),qs=t('riasecQs');sec.innerHTML=`<div class="sec-card"><h2>${t('s1t')}</h2><div class="sub">${t('s1s')}</div>${qs.map((q,i)=>`<div class="q-block"><div class="q-label">${i+1}. ${q.q}</div><div class="q-sub">${q.q2}</div><div class="rating-row">${t('scale').map((v,j)=>`<button class="rate-btn ${data.riasec[q.d+'_'+i]===(j+1)?'selected':''}" onclick="setR('${q.d}',${i},${j+1})">${v}</button>`).join('')}</div></div>`).join('')}</div>`;}
+function setR(d,qi,v){data.riasec[d+'_'+qi]=v;buildRIASEC();}
+
+function buildSkills(){const sec=document.getElementById('sec-2'),qs=t('skillQs');sec.innerHTML=`<div class="sec-card"><h2>${t('s2t')}</h2><div class="sub">${t('s2s')}</div>${qs.map(q=>`<div class="q-block"><div class="q-label">${q.q}</div><div class="rating-row">${t('scale').map((v,j)=>`<button class="rate-btn ${data.skills[q.k]===(j+1)?'selected':''}" onclick="setSk('${q.k}',${j+1})">${v}</button>`).join('')}</div></div>`).join('')}</div>`;}
+function setSk(k,v){data.skills[k]=v;buildSkills();}
+
+function buildSWOT(){const sec=document.getElementById('sec-3'),lb=t('swotLabels'),ph=t('swotPh');sec.innerHTML=`<div class="sec-card"><h2>${t('s3t')}</h2><div class="sub">${t('s3s')}</div><div class="swot-grid">${['s','w','o','t'].map(k=>`<div class="swot-box"><div class="sw-head">${lb[k]}</div><div class="sw-sub">${ph[k]}</div><textarea oninput="data.swot.${k}=this.value">${data.swot[k]}</textarea></div>`).join('')}</div></div>`;}
+
+function buildBranches(){const sec=document.getElementById('sec-4'),brs=t('branches');sec.innerHTML=`<div class="sec-card"><h2>${t('s4t')}</h2><div class="sub">${t('s4s')}</div><div class="branch-grid">${brs.map((b,i)=>`<div class="branch-chip ${data.branches.includes(i)?'selected':''}" onclick="togBr(${i})"><span class="bcheck">${data.branches.includes(i)?'✓':''}</span><span>${b}</span></div>`).join('')}</div></div>${data.branches.length?`<div class="sec-card"><h2>${t('brInt')} & ${t('brKnow')}</h2>${data.branches.map(i=>{const b=brs[i],bk=branchKeys[i],r=data.branchRatings[bk]||{};return`<div class="q-block"><div class="q-label">${b}</div><div style="font-size:12px;color:var(--muted);margin:4px 0">${t('brInt')}</div><div class="rating-row">${[1,2,3,4,5].map(v=>`<button class="rate-btn ${r.interest===v?'selected':''}" onclick="setBR(${i},'interest',${v})">${v}</button>`).join('')}</div><div style="font-size:12px;color:var(--muted);margin:4px 0">${t('brKnow')}</div><div class="rating-row">${[1,2,3,4,5].map(v=>`<button class="rate-btn ${r.knowledge===v?'selected':''}" onclick="setBR(${i},'knowledge',${v})">${v}</button>`).join('')}</div></div>`}).join('')}</div>`:''}`;}
+function togBr(i){const x=data.branches.indexOf(i);if(x>-1)data.branches.splice(x,1);else if(data.branches.length<8)data.branches.push(i);buildBranches();}
+function setBR(bi,type,v){const k=branchKeys[bi];if(!data.branchRatings[k])data.branchRatings[k]={interest:0,knowledge:0};data.branchRatings[k][type]=v;buildBranches();}
+
+function buildVision(){const sec=document.getElementById('sec-5'),cqs=t('careerQs');sec.innerHTML=`<div class="sec-card"><h2>${t('s5t')}</h2><div class="sub">${t('s5s')}</div>${cqs.map(cq=>`<div class="q-block"><div class="q-label">${cq.q}</div><div class="rating-row">${cq.opts.map((o,j)=>`<button class="rate-btn ${data.career[cq.k]===j?'selected':''}" onclick="setCar('${cq.k}',${j})" style="min-width:90px">${o}</button>`).join('')}</div></div>`).join('')}<div class="q-block"><div class="q-label">${t('visionQ')}</div><textarea class="form-input" style="min-height:80px;resize:vertical" placeholder="${t('visionPh')}" oninput="data.vision=this.value">${data.vision}</textarea></div></div>`;}
+function setCar(k,v){data.career[k]=v;buildVision();}
+
+function buildParent(){
+  const sec=document.getElementById('sec-6');
+  const pQs=t('parentQs');
+  const pBrs=t('branches');
+  sec.innerHTML=`<div class="sec-card">
+    <h2>${t('s6t')}</h2><div class="sub">${t('s6s')}</div>
+    <div class="form-group"><label>${lang==='ta'?'பெற்றோர் / பாதுகாவலர் பெயர்':'Parent / Guardian Name'}</label><input class="form-input" id="inParentName" value="${data.parent.name}" oninput="data.parent.name=this.value" placeholder="${lang==='ta'?'பெயரை உள்ளிடவும்':'Enter name'}"></div>
+    <div class="q-block"><div class="q-label">${pQs[0].q}</div><div class="rating-row">${pQs[0].opts.map((o,j)=>`<button class="rate-btn ${data.parent.priority===j?'selected':''}" onclick="setParent('priority',${j})" style="min-width:90px">${o}</button>`).join('')}</div></div>
+    <div class="q-block"><div class="q-label">${pQs[1].q}</div><div class="rating-row">${pQs[1].opts.map((o,j)=>`<button class="rate-btn ${data.parent.budget===j?'selected':''}" onclick="setParent('budget',${j})" style="min-width:90px">${o}</button>`).join('')}</div></div>
+    <div class="q-block"><div class="q-label">${pQs[2].q}</div><div class="rating-row">${pQs[2].opts.map((o,j)=>`<button class="rate-btn ${data.parent.location===j?'selected':''}" onclick="setParent('location',${j})" style="min-width:90px">${o}</button>`).join('')}</div></div>
+    <div class="q-block"><div class="q-label">${lang==='ta'?'உங்கள் குழந்தை படிக்க விரும்பும் பிரிவுகள் (உங்கள் விருப்பம்):':'Which branches would you prefer for your child? (Select up to 5)'}</div>
+    <div class="branch-grid">${pBrs.map((b,i)=>`<div class="branch-chip ${data.parent.prefBranches.includes(i)?'selected':''}" onclick="togParentBr(${i})"><span class="bcheck">${data.parent.prefBranches.includes(i)?'✓':''}</span><span>${b}</span></div>`).join('')}</div></div>
+    <div class="form-group"><label>${lang==='ta'?'உங்கள் குழந்தையின் தொழில் பற்றிய எதிர்பார்ப்புகள்':'Your expectations for your child\'s career'}</label>
+    <textarea class="form-input" style="min-height:70px;resize:vertical" oninput="data.parent.expectation=this.value" placeholder="${lang==='ta'?'எ.கா., நல்ல சம்பளம் உள்ள நிலையான வேலை, வெளிநாட்டு வாய்ப்புகள்...':'e.g., Stable job with good salary, overseas opportunities...'}">${data.parent.expectation}</textarea></div>
+    <div class="form-group"><label>${lang==='ta'?'கவலைகள் அல்லது குறிப்பிட்ட நிபந்தனைகள்':'Any concerns or specific conditions'}</label>
+    <textarea class="form-input" style="min-height:70px;resize:vertical" oninput="data.parent.concerns=this.value" placeholder="${lang==='ta'?'எ.கா., பட்ஜெட் கட்டுப்பாடு, வீட்டிற்கு அருகில் கல்லூரி...':'e.g., Budget constraints, college close to home...'}">${data.parent.concerns}</textarea></div>
+  </div>`;
+}
+function setParent(k,v){data.parent[k]=v;buildParent();}
+function togParentBr(i){const idx=data.parent.prefBranches.indexOf(i);if(idx>-1)data.parent.prefBranches.splice(idx,1);else if(data.parent.prefBranches.length<5)data.parent.prefBranches.push(i);buildParent();}
+
+function updateNav(){const p=document.getElementById('prevBtn'),n=document.getElementById('nextBtn');p.textContent=t('prev');p.style.display=curSec===0||curSec>=7?'none':'';if(curSec===6){n.textContent=t('finish');n.style.display='';}else if(curSec>=7){n.style.display='none';}else{n.style.display='';n.textContent=t('next');}}
+
+function navigate(dir){
+  if(dir===1&&curSec===0){
+    data.name=document.getElementById('inName').value;
+    data.email=document.getElementById('inEmail').value;
+    data.phone=document.getElementById('inPhone').value;
+    data.school=document.getElementById('inSchool').value;
+    data.stream=document.getElementById('inStream').value;
+    data.score=parseInt(document.getElementById('inScore').value)||0;
+    data.cutoff=parseFloat(document.getElementById('inCutoff').value)||0;
+    // Save profile to sheets
+    sendToSheets('saveProfile',{name:data.name,email:data.email,phone:data.phone,school:data.school,stream:data.stream,score:data.score,cutoff:data.cutoff,lang}).then(r=>{if(r.studentId)data.studentId=r.studentId;else data.studentId='TNEA-'+Date.now().toString(36).toUpperCase();});
+    if(!data.studentId)data.studentId='TNEA-'+Date.now().toString(36).toUpperCase();
+  }
+  if(dir===1&&curSec===6){showSection(7);setTimeout(()=>{analyzeAndReport();showSection(8);},2500);return;}
+  if(curSec+dir>=0&&curSec+dir<totalSec)showSection(curSec+dir);
+}
+
+function showSection(idx){document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));document.getElementById('sec-'+idx).classList.add('active');curSec=idx;buildStepper();updateNav();window.scrollTo({top:0,behavior:'smooth'});}
+
+function analyzeAndReport(){
+  // RIASEC scores
+  const rScores={R:0,I:0,A:0,S:0,E:0,C:0},rCounts={R:0,I:0,A:0,S:0,E:0,C:0};
+  L.en.riasecQs.forEach((q,i)=>{const v=data.riasec[q.d+'_'+i]||0;rScores[q.d]+=v;rCounts[q.d]++;});
+  const rAvg={};for(const k in rScores)rAvg[k]=rCounts[k]?rScores[k]/rCounts[k]:0;
+  const rSorted=Object.entries(rAvg).sort((a,b)=>b[1]-a[1]);
+  const topCode=rSorted[0][0]+rSorted[1][0];
+
+  const skillVals=Object.values(data.skills);
+  const skillAvg=skillVals.length?skillVals.reduce((a,b)=>a+b,0)/skillVals.length:0;
+
+  // Score branches
+  const bScores={};
+  branchKeys.forEach(bk=>{
+    const bm=branchMap[bk];let riM=0,riX=0;
+    for(const k in bm){if('RIASEC'.includes(k)&&k.length===1){riM+=rAvg[k]*(bm[k]/5);riX+=5*(bm[k]/5);}}
+    const riPct=riX?riM/riX*100:50;
+    let skM=0,skX=0;if(bm.skills){for(const sk in bm.skills){skM+=(data.skills[sk]||0)*(bm.skills[sk]/5);skX+=5*(bm.skills[sk]/5);}}
+    const skPct=skX?skM/skX*100:50;
+    const ur=data.branchRatings[bk];
+    const intPct=ur?(ur.interest/5*100):40;const knPct=ur?(ur.knowledge/5*100):30;
+    bScores[bk]={total:Math.round(riPct*.4+skPct*.3+intPct*.2+knPct*.1),riasec:Math.round(riPct),skills:Math.round(skPct),interest:Math.round(intPct),knowledge:Math.round(knPct)};
+  });
+  const sorted=Object.entries(bScores).sort((a,b)=>b[1].total-a[1].total);
+  const top5=sorted.slice(0,5);
+  const overallPct=Math.round((skillAvg/5*40)+(rSorted[0][1]/5*30)+(data.score/100*30));
+
+  let gKey,gColor;
+  if(overallPct>=75){gKey='excellent';gColor='#10b981';}
+  else if(overallPct>=55){gKey='good';gColor='#3b82f6';}
+  else if(overallPct>=35){gKey='improve';gColor='#f59e0b';}
+  else{gKey='reconsider';gColor='#ef4444';}
+  const gradeLabels={en:{excellent:'Excellent',good:'Good',improve:'Needs Work',reconsider:'Reconsider'},ta:{excellent:'மிகச்சிறந்தது',good:'நல்ல நிலை',improve:'மேம்பாடு தேவை',reconsider:'மறுபரிசீலனை'}};
+  const gradeMsgs={en:{excellent:'You are very well prepared for engineering!',good:'Good position with some areas to strengthen.',improve:'Several areas need improvement.',reconsider:'Consider whether engineering is right for you.'},ta:{excellent:'பொறியியலுக்கு மிகவும் தயாராக உள்ளீர்கள்!',good:'சில பகுதிகளில் மேம்பாடு தேவை.',improve:'பல பகுதிகளில் மேம்பாடு தேவை.',reconsider:'பொறியியல் சரியான தேர்வா என்று ஆராயுங்கள்.'}};
+  const gradeLabel=gradeLabels[lang][gKey],gradeMsg=gradeMsgs[lang][gKey];
+
+  const rColors={R:'#ef4444',I:'#3b82f6',A:'#8b5cf6',S:'#10b981',E:'#f59e0b',C:'#6b7280'};
+  const skColors={math:'#1d4ed8',physics:'#ef4444',chemistry:'#059669',coding:'#7c3aed',logic:'#ea7c0e',spatial:'#ec4899',communication:'#06b6d4',creativity:'#f97316',digital:'#6366f1',teamwork:'#14b8a6'};
+  const rNames=t('riasecNames');const brsL=t('branches');const circ=2*Math.PI*60;
+
+  // RIASEC detailed descriptions
+  const riasecDesc={en:{
+    R:{name:'Realistic (The Doer)',desc:'You prefer hands-on, physical activities. You like working with tools, machines, and real objects. You are practical, mechanical, and enjoy building or fixing things.',branches:'Mechanical, Civil, Automobile, Mechatronics, Robotics',strong:'Strong match with hands-on engineering branches that involve physical systems, manufacturing, and construction.',weak:'You may find purely theoretical or desk-based branches less engaging.'},
+    I:{name:'Investigative (The Thinker)',desc:'You are analytical, intellectual, and scientific. You enjoy researching, experimenting, and solving complex problems. You prefer working with ideas and data over people.',branches:'CSE, AI & ML, Data Science, ECE, Aerospace, Biomedical',strong:'Excellent fit for research-intensive and analytically demanding branches.',weak:'Branches requiring heavy interpersonal interaction or manual work may feel less natural.'},
+    A:{name:'Artistic (The Creator)',desc:'You are creative, imaginative, and expressive. You value aesthetics, innovation, and originality. You prefer unstructured environments where you can create.',branches:'CSE (UI/UX focus), Architecture, Mechatronics (design), AI (creative AI)',strong:'You thrive in branches that combine technology with creative design and innovation.',weak:'Highly structured, repetitive, or purely calculation-heavy branches may feel limiting.'},
+    S:{name:'Social (The Helper)',desc:'You enjoy helping, teaching, and working with others. You are empathetic, cooperative, and value teamwork. You prefer environments with social interaction.',branches:'Biomedical, Civil (urban planning), IT (team-based), Environmental',strong:'Branches with community impact, healthcare applications, or team-oriented work suit you well.',weak:'Isolated, individual research-heavy work may feel draining.'},
+    E:{name:'Enterprising (The Leader)',desc:'You enjoy leading, persuading, and managing. You are ambitious, competitive, and drawn to business and strategy. You like taking risks and making decisions.',branches:'CSE (startup/product), IT (management), Any branch + MBA path',strong:'Your leadership skills are valuable across all branches, especially when combined with business goals.',weak:'Purely technical roles without leadership or strategic elements may underwhelm you.'},
+    C:{name:'Conventional (The Organizer)',desc:'You are detail-oriented, organized, and systematic. You prefer structured environments with clear rules and procedures. You value accuracy and efficiency.',branches:'Data Science, IT (systems admin), ECE, Chemical Engineering',strong:'Branches requiring precision, systematic processes, and data management align well.',weak:'Highly creative or unstructured environments may feel uncomfortable.'}
+  },ta:{
+    R:{name:'Realistic (செயல்வாதி)',desc:'நீங்கள் நடைமுறை, உடல் சார்ந்த செயல்களை விரும்புகிறீர்கள். கருவிகள், இயந்திரங்கள் மற்றும் உண்மையான பொருட்களுடன் வேலை செய்வது பிடிக்கும். நீங்கள் நடைமுறை சார்ந்தவர், இயந்திர திறன் கொண்டவர்.',branches:'Mechanical, Civil, Automobile, Mechatronics, Robotics',strong:'உடல் சார்ந்த அமைப்புகள், உற்பத்தி மற்றும் கட்டுமானம் சார்ந்த பிரிவுகளுடன் சிறந்த பொருத்தம்.',weak:'முற்றிலும் கோட்பாட்டு அல்லது மேசை சார்ந்த பிரிவுகள் குறைவான ஈர்ப்பாக இருக்கலாம்.'},
+    I:{name:'Investigative (சிந்தனையாளர்)',desc:'நீங்கள் பகுப்பாய்வு, அறிவுசார், அறிவியல் மனப்பான்மை கொண்டவர். ஆராய்ச்சி, சோதனை மற்றும் சிக்கலான சிக்கல்களை தீர்ப்பதை ரசிக்கிறீர்கள்.',branches:'CSE, AI & ML, Data Science, ECE, Aerospace, Biomedical',strong:'ஆராய்ச்சி மற்றும் பகுப்பாய்வு தேவைப்படும் பிரிவுகளுக்கு சிறந்த பொருத்தம்.',weak:'அதிக நபர் தொடர்பு அல்லது கைவேலை தேவைப்படும் பிரிவுகள் இயல்பாக உணரப்படாது.'},
+    A:{name:'Artistic (படைப்பாளி)',desc:'நீங்கள் படைப்பாற்றல், கற்பனை மற்றும் வெளிப்பாடு கொண்டவர். அழகியல், புத்தாக்கம் மற்றும் தனித்துவத்தை மதிக்கிறீர்கள்.',branches:'CSE (UI/UX), Architecture, Mechatronics, AI (Creative AI)',strong:'தொழில்நுட்பத்தை படைப்பு வடிவமைப்புடன் இணைக்கும் பிரிவுகளில் சிறந்து விளங்குவீர்கள்.',weak:'மிகவும் கட்டமைக்கப்பட்ட, மீண்டும் மீண்டும் செய்யும் பிரிவுகள் கட்டுப்படுத்துவதாக உணரலாம்.'},
+    S:{name:'Social (உதவியாளர்)',desc:'நீங்கள் உதவுவது, கற்பிப்பது மற்றும் மற்றவர்களுடன் பணிபுரிவதை ரசிக்கிறீர்கள். பரிவு, ஒத்துழைப்பு மற்றும் குழுப்பணியை மதிக்கிறீர்கள்.',branches:'Biomedical, Civil, IT, Environmental',strong:'சமூக தாக்கம், சுகாதாரம் அல்லது குழு சார்ந்த பணி கொண்ட பிரிவுகள் பொருத்தமானவை.',weak:'தனிமையான, தனிப்பட்ட ஆராய்ச்சி பணி சோர்வாக உணரலாம்.'},
+    E:{name:'Enterprising (தலைவர்)',desc:'நீங்கள் வழிநடத்துவது, நம்ப வைப்பது மற்றும் நிர்வகிப்பதை ரசிக்கிறீர்கள். லட்சியமானவர், போட்டி மனப்பான்மை கொண்டவர்.',branches:'CSE (ஸ்டார்ட்அப்), IT, எந்த பிரிவு + MBA',strong:'உங்கள் தலைமைத்துவ திறன்கள் அனைத்து பிரிவுகளிலும் மதிப்புமிக்கவை.',weak:'தலைமைத்துவம் அல்லது மூலோபாய கூறுகள் இல்லாத தொழில்நுட்ப பணிகள் போதுமானதாக இல்லாமல் போகலாம்.'},
+    C:{name:'Conventional (ஒழுங்கமைப்பாளர்)',desc:'நீங்கள் விவரங்களில் கவனம் செலுத்துபவர், ஒழுங்கமைக்கப்பட்டவர் மற்றும் முறையானவர். தெளிவான விதிகள் மற்றும் நடைமுறைகள் கொண்ட சூழலை விரும்புகிறீர்கள்.',branches:'Data Science, IT, ECE, Chemical Engineering',strong:'துல்லியம், முறையான செயல்முறைகள் மற்றும் தரவு மேலாண்மை தேவைப்படும் பிரிவுகள் நன்கு பொருந்தும்.',weak:'மிகவும் படைப்பாற்றல் அல்லது கட்டமைக்கப்படாத சூழல்கள் சங்கடமாக உணரலாம்.'}
+  }};
+
+  // Skill gap analysis for top recommended branch
+  const topBranch=top5[0][0];
+  const topBM=branchMap[topBranch];
+  const skillGapData=[];
+  if(topBM.skills){
+    for(const sk in topBM.skills){
+      const required=topBM.skills[sk];
+      const current=data.skills[sk]||0;
+      const gap=required-current;
+      let status,statusLabel;
+      if(gap<=0){status='strong';statusLabel=lang==='ta'?'வலிமை':'Strong';}
+      else if(gap<=1){status='adequate';statusLabel=lang==='ta'?'போதுமானது':'Adequate';}
+      else{status='gap';statusLabel=lang==='ta'?'இடைவெளி':'Gap';}
+      const skLabel=t('skillQs').find(x=>x.k===sk);
+      skillGapData.push({key:sk,name:skLabel?skLabel.q:sk,required,current,gap,status,statusLabel});
+    }
+    skillGapData.sort((a,b)=>b.gap-a.gap);
+  }
+
+  const skillGapTips={en:{
+    math:'Practice daily problem sets, focus on calculus and linear algebra',
+    physics:'Strengthen mechanics and electromagnetics through lab experiments',
+    chemistry:'Review organic/inorganic fundamentals with practical examples',
+    coding:'Start with Python, practice on HackerRank or LeetCode daily',
+    logic:'Solve puzzles, practice aptitude questions, play strategy games',
+    spatial:'Practice 3D modelling, technical drawing, and geometry',
+    communication:'Join debate clubs, present in class, practice technical writing',
+    creativity:'Work on design projects, participate in hackathons, explore art',
+    digital:'Learn office tools, basic networking, and operating systems',
+    teamwork:'Join group projects, clubs, and collaborative activities'
+  },ta:{
+    math:'தினசரி பயிற்சி செய்யுங்கள், கால்குலஸ் மற்றும் நேரியல் இயற்கணிதத்தில் கவனம் செலுத்துங்கள்',
+    physics:'ஆய்வக சோதனைகள் மூலம் இயக்கவியல் மற்றும் மின்காந்தவியலை வலுப்படுத்துங்கள்',
+    chemistry:'நடைமுறை எடுத்துக்காட்டுகளுடன் அடிப்படைகளை மீண்டும் பாருங்கள்',
+    coding:'Python-ல் ஆரம்பியுங்கள், HackerRank அல்லது LeetCode-ல் தினமும் பயிற்சி செய்யுங்கள்',
+    logic:'புதிர்களை தீர்க்கவும், திறன் கேள்விகளை பயிற்சி செய்யுங்கள்',
+    spatial:'3D மாடலிங், தொழில்நுட்ப வரைதல் பயிற்சி செய்யுங்கள்',
+    communication:'விவாத மன்றங்களில் சேருங்கள், வகுப்பில் விளக்கம் அளியுங்கள்',
+    creativity:'வடிவமைப்பு திட்டங்களில் பணிபுரியுங்கள், ஹேக்கத்தான்களில் கலந்துகொள்ளுங்கள்',
+    digital:'அலுவலகக் கருவிகள், நெட்வொர்க்கிங், இயக்க முறைமைகளை கற்றுக்கொள்ளுங்கள்',
+    teamwork:'குழு திட்டங்கள், மன்றங்கள் மற்றும் ஒத்துழைப்பு நடவடிக்கைகளில் சேருங்கள்'
+  }};
+
+  // TNEA College recommendations per branch
+  const collegeData={
+    CSE:[
+      {name:'College of Engineering, Guindy (CEG)',loc:'Chennai',nirf:'Top 50',tier:'Govt',cutoff:'195+',fee:'~₹50K/yr'},
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'190+',fee:'~₹1.2L/yr'},
+      {name:'SSN College of Engineering',loc:'Chennai',nirf:'Top 50',tier:'Private',cutoff:'192+',fee:'~₹2.5L/yr'},
+      {name:'Thiagarajar College of Engineering',loc:'Madurai',nirf:'Top 80',tier:'Aided',cutoff:'185+',fee:'~₹80K/yr'},
+      {name:'Coimbatore Institute of Technology',loc:'Coimbatore',nirf:'Top 100',tier:'Govt',cutoff:'188+',fee:'~₹50K/yr'}
+    ],
+    IT:[
+      {name:'MIT, Anna University',loc:'Chennai',nirf:'Top 50',tier:'Govt',cutoff:'190+',fee:'~₹50K/yr'},
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'185+',fee:'~₹1.2L/yr'},
+      {name:'Kumaraguru College of Technology',loc:'Coimbatore',nirf:'Top 100',tier:'Private',cutoff:'178+',fee:'~₹2L/yr'},
+      {name:'Velammal Engineering College',loc:'Chennai',nirf:'Top 150',tier:'Private',cutoff:'170+',fee:'~₹1.8L/yr'}
+    ],
+    ECE:[
+      {name:'College of Engineering, Guindy',loc:'Chennai',nirf:'Top 50',tier:'Govt',cutoff:'193+',fee:'~₹50K/yr'},
+      {name:'SSN College of Engineering',loc:'Chennai',nirf:'Top 50',tier:'Private',cutoff:'190+',fee:'~₹2.5L/yr'},
+      {name:'Thiagarajar College of Engineering',loc:'Madurai',nirf:'Top 80',tier:'Aided',cutoff:'182+',fee:'~₹80K/yr'},
+      {name:'Sri Sivasubramaniya Nadar College',loc:'Chennai',nirf:'Top 50',tier:'Private',cutoff:'188+',fee:'~₹2.5L/yr'}
+    ],
+    EEE:[
+      {name:'College of Engineering, Guindy',loc:'Chennai',nirf:'Top 50',tier:'Govt',cutoff:'188+',fee:'~₹50K/yr'},
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'180+',fee:'~₹1.2L/yr'},
+      {name:'Govt College of Technology',loc:'Coimbatore',nirf:'Top 100',tier:'Govt',cutoff:'175+',fee:'~₹50K/yr'}
+    ],
+    Mech:[
+      {name:'College of Engineering, Guindy',loc:'Chennai',nirf:'Top 50',tier:'Govt',cutoff:'185+',fee:'~₹50K/yr'},
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'180+',fee:'~₹1.2L/yr'},
+      {name:'Thiagarajar College of Engineering',loc:'Madurai',nirf:'Top 80',tier:'Aided',cutoff:'176+',fee:'~₹80K/yr'},
+      {name:'Coimbatore Institute of Technology',loc:'Coimbatore',nirf:'Top 100',tier:'Govt',cutoff:'178+',fee:'~₹50K/yr'}
+    ],
+    Civil:[
+      {name:'College of Engineering, Guindy',loc:'Chennai',nirf:'Top 50',tier:'Govt',cutoff:'180+',fee:'~₹50K/yr'},
+      {name:'Thiagarajar College of Engineering',loc:'Madurai',nirf:'Top 80',tier:'Aided',cutoff:'170+',fee:'~₹80K/yr'},
+      {name:'Govt College of Engineering',loc:'Salem',nirf:'Top 150',tier:'Govt',cutoff:'165+',fee:'~₹50K/yr'}
+    ],
+    AI_ML:[
+      {name:'College of Engineering, Guindy',loc:'Chennai',nirf:'Top 50',tier:'Govt',cutoff:'196+',fee:'~₹50K/yr'},
+      {name:'SSN College of Engineering',loc:'Chennai',nirf:'Top 50',tier:'Private',cutoff:'193+',fee:'~₹2.5L/yr'},
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'191+',fee:'~₹1.2L/yr'},
+      {name:'SRM Institute of Science & Technology',loc:'Chennai',nirf:'Top 30',tier:'Private',cutoff:'N/A (own exam)',fee:'~₹4L/yr'}
+    ],
+    DS:[
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'188+',fee:'~₹1.2L/yr'},
+      {name:'Kumaraguru College of Technology',loc:'Coimbatore',nirf:'Top 100',tier:'Private',cutoff:'175+',fee:'~₹2L/yr'},
+      {name:'Rajalakshmi Engineering College',loc:'Chennai',nirf:'Top 150',tier:'Private',cutoff:'170+',fee:'~₹2L/yr'}
+    ],
+    CyberSec:[
+      {name:'SSN College of Engineering',loc:'Chennai',nirf:'Top 50',tier:'Private',cutoff:'185+',fee:'~₹2.5L/yr'},
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'180+',fee:'~₹1.2L/yr'}
+    ],
+    BME:[
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'170+',fee:'~₹1.2L/yr'},
+      {name:'SSN College of Engineering',loc:'Chennai',nirf:'Top 50',tier:'Private',cutoff:'172+',fee:'~₹2.5L/yr'},
+      {name:'Rajalakshmi Engineering College',loc:'Chennai',nirf:'Top 150',tier:'Private',cutoff:'155+',fee:'~₹2L/yr'}
+    ],
+    ChemE:[
+      {name:'Alagappa College of Technology (ACT)',loc:'Chennai',nirf:'Top 50',tier:'Govt',cutoff:'178+',fee:'~₹50K/yr'},
+      {name:'Coimbatore Institute of Technology',loc:'Coimbatore',nirf:'Top 100',tier:'Govt',cutoff:'168+',fee:'~₹50K/yr'}
+    ],
+    Aero:[
+      {name:'MIT, Anna University',loc:'Chennai',nirf:'Top 50',tier:'Govt',cutoff:'190+',fee:'~₹50K/yr'},
+      {name:'Kumaraguru College of Technology',loc:'Coimbatore',nirf:'Top 100',tier:'Private',cutoff:'175+',fee:'~₹2L/yr'}
+    ],
+    Mechatronics:[
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'178+',fee:'~₹1.2L/yr'},
+      {name:'Kumaraguru College of Technology',loc:'Coimbatore',nirf:'Top 100',tier:'Private',cutoff:'168+',fee:'~₹2L/yr'}
+    ],
+    Auto:[
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'170+',fee:'~₹1.2L/yr'},
+      {name:'Coimbatore Institute of Technology',loc:'Coimbatore',nirf:'Top 100',tier:'Govt',cutoff:'165+',fee:'~₹50K/yr'}
+    ],
+    Robotics:[
+      {name:'PSG College of Technology',loc:'Coimbatore',nirf:'Top 60',tier:'Aided',cutoff:'175+',fee:'~₹1.2L/yr'},
+      {name:'SSN College of Engineering',loc:'Chennai',nirf:'Top 50',tier:'Private',cutoff:'178+',fee:'~₹2.5L/yr'}
+    ]
+  };
+
+  // Parent-Student Alignment Analysis
+  const parentBrKeys=data.parent.prefBranches.map(i=>branchKeys[i]);
+  const studentTopBrKeys=top5.map(x=>x[0]);
+  const alignedBranches=studentTopBrKeys.filter(b=>parentBrKeys.includes(b));
+  const studentOnly=studentTopBrKeys.filter(b=>!parentBrKeys.includes(b));
+  const parentOnly=parentBrKeys.filter(b=>!studentTopBrKeys.includes(b));
+  const alignmentPct=parentBrKeys.length?Math.round(alignedBranches.length/Math.max(parentBrKeys.length,studentTopBrKeys.length)*100):0;
+  let alignmentLevel,alignColor;
+  if(alignmentPct>=60){alignmentLevel=lang==='ta'?'நல்ல ஒருங்கிணைப்பு':'Strong Alignment';alignColor='#059669';}
+  else if(alignmentPct>=30){alignmentLevel=lang==='ta'?'ஓரளவு ஒருங்கிணைப்பு':'Partial Alignment';alignColor='#ea7c0e';}
+  else{alignmentLevel=lang==='ta'?'குறைந்த ஒருங்கிணைப்பு — உரையாடல் தேவை':'Low Alignment — Discussion Needed';alignColor='#dc2626';}
+
+  function genReason(bk,sc){
+    const bm=branchMap[bk],parts=[];const topR=rSorted[0][0];
+    if(bm[topR]>=4)parts.push(lang==='ta'?`${rNames[topR]} ஆளுமை பொருத்தம்`:`${rNames[topR]} personality match`);
+    if(sc.skills>=70)parts.push(lang==='ta'?'திறன் சுயவிவரம் ஒத்துப்போகிறது':'Skills profile aligns well');
+    if(sc.interest>=80)parts.push(lang==='ta'?'அதிக ஆர்வம்':'High personal interest');
+    if(!parts.length)parts.push(lang==='ta'?'ஓரளவு பொருத்தம்':'Moderate overall match');
+    return parts.join('. ')+'.';
+  }
+
+  // Save assessment data to sheets
+  const rAvgRounded={};for(const k in rAvg)rAvgRounded[k]=Math.round(rAvg[k]*100)/100;
+  const careerLabels={};
+  L.en.careerQs.forEach(cq=>{if(data.career[cq.k]!==undefined)careerLabels[cq.k]=cq.opts[data.career[cq.k]];});
+
+  sendToSheets('saveAssessment',{
+    studentId:data.studentId,name:data.name,
+    riasec:rAvgRounded,topCode,
+    skills:data.skills,swot:data.swot,
+    branches:data.branches.map(i=>branchKeys[i]),
+    branchRatings:data.branchRatings,
+    career:careerLabels,vision:data.vision,
+    parent:{name:data.parent.name,prefBranches:data.parent.prefBranches.map(i=>branchKeys[i]),priority:data.parent.priority,budget:data.parent.budget,location:data.parent.location,expectation:data.parent.expectation,concerns:data.parent.concerns}
+  });
+
+  sendToSheets('saveReport',{
+    studentId:data.studentId,name:data.name,school:data.school,
+    overallPct,grade:gradeLabel,topCode,alignmentPct,
+    top5:top5.map(([bk,sc],i)=>({branch:brsL[branchKeys.indexOf(bk)]||bk,score:sc.total,reason:genReason(bk,sc)}))
+  });
+
+  // Render report
+  const sec=document.getElementById('sec-8');
+  sec.innerHTML=`
+<div id="report-content">
+    <div class="rpt-header">
+      <img src="data:image/png;base64,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" style="width:64px;height:64px;margin-bottom:10px;border-radius:10px" alt="Eduaakashaa">
+      <h2>${t('rptTitle')}</h2>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">by Eduaakashaa — www.eduaakashaa.in</div>
+      <div class="rpt-name">${data.name||'Student'}</div>
+      <div class="rpt-date">${data.school?data.school+' • ':''}${new Date().toLocaleDateString('en-IN',{year:'numeric',month:'long',day:'numeric'})}${data.cutoff?' • Cutoff: '+data.cutoff:''}</div>
+      <div class="rpt-sid" style="font-size:11px;color:var(--muted);margin-top:4px">ID: ${data.studentId}</div>
+    </div>
+    <div class="rpt-section"><h3>📊 ${t('rptOverall')}</h3>
+      <div class="rpt-score-ring"><svg viewBox="0 0 140 140"><circle class="trk" cx="70" cy="70" r="60"/><circle class="val" cx="70" cy="70" r="60" stroke="${gColor}" stroke-dasharray="${circ}" stroke-dashoffset="${circ-(overallPct/100)*circ}"/></svg><div class="lbl"><div class="pct" style="color:${gColor}">${overallPct}%</div><div class="psub">${gradeLabel}</div></div></div>
+      <p style="text-align:center">${gradeMsg}</p>
+    </div>
+    <div class="rpt-section"><h3>🧠 ${t('rptRiasec')}</h3>
+      <p style="margin-bottom:6px">${lang==='ta'?'RIASEC (Holland Code) மாதிரி உங்கள் ஆளுமையை 6 வகைகளாகப் பிரிக்கிறது. ஒவ்வொரு வகையும் குறிப்பிட்ட பொறியியல் பிரிவுகளுடன் இயல்பாகப் பொருந்தும். உங்கள் முதன்மை குறியீடு:':'The RIASEC (Holland Code) model classifies your personality into 6 types. Each type naturally aligns with specific engineering branches. Your primary code is:'} <strong style="color:var(--accent)">${topCode}</strong></p>
+      ${rSorted.map(([k,v])=>{const pct=Math.round(v/5*100);const rd=riasecDesc[lang][k];const isTop=k===rSorted[0][0]||k===rSorted[1][0];return`
+        <div class="riasec-detail" style="${isTop?'border-left:3px solid '+rColors[k]:''}">
+          <div class="rd-head">
+            <span class="rd-dot" style="background:${rColors[k]}"></span>
+            <span class="rd-type">${rd.name}</span>
+            <span class="rd-score" style="color:${rColors[k]}">${pct}%</span>
+          </div>
+          <div class="rpt-bar" style="margin:4px 0 8px"><div class="rpt-bar-track"><div class="rpt-bar-fill" style="width:${pct}%;background:${rColors[k]}"></div></div></div>
+          <div class="rd-desc">${rd.desc}</div>
+          ${isTop?`<div style="margin-top:8px;font-size:12px"><span style="color:var(--accent3)">✅ ${rd.strong}</span></div>
+          <div style="margin-top:4px;font-size:12px"><span style="color:var(--muted)">⚠️ ${rd.weak}</span></div>`:``}
+          <div class="rd-branches">🏗️ ${lang==='ta'?'பொருத்தமான பிரிவுகள்':'Matching branches'}: ${rd.branches}</div>
+        </div>`}).join('')}
+    </div>
+    <div class="rpt-section"><h3>📈 ${t('rptSkills')}</h3>
+      <p style="margin-bottom:10px">${lang==='ta'?'10 முக்கிய திறன் பகுதிகளில் உங்கள் சுய மதிப்பீடு. சராசரி:':'Your self-assessed proficiency across 10 key skill areas. Average:'} <strong style="color:var(--accent)">${skillAvg.toFixed(1)}/5</strong></p>
+      ${t('skillQs').map(sq=>{const v=data.skills[sq.k]||0;const levelEn=['','Very Weak','Weak','Average','Good','Excellent'];const levelTa=['','மிகவும் பலவீனம்','பலவீனம்','சராசரி','நல்லது','சிறப்பு'];const lvl=lang==='ta'?levelTa[v]||'—':levelEn[v]||'—';return`<div class="rpt-bar"><div class="rpt-bar-label"><span>${sq.q}</span><span>${v}/5 — ${lvl}</span></div><div class="rpt-bar-track"><div class="rpt-bar-fill" style="width:${v/5*100}%;background:${skColors[sq.k]||'#888'}"></div></div></div>`}).join('')}
+    </div>
+    <div class="rpt-section"><h3>🎯 ${lang==='ta'?'திறன் இடைவெளி பகுப்பாய்வு — #1 பிரிவுக்கு':'Skill Gap Analysis — For Your #1 Branch'}: ${brsL[branchKeys.indexOf(topBranch)]}</h3>
+      <p style="margin-bottom:10px">${lang==='ta'?'உங்கள் #1 பரிந்துரைக்கப்பட்ட பிரிவுக்கு தேவையான திறன்களுடன் உங்கள் தற்போதைய நிலையை ஒப்பிடுகிறோம். இது மேம்படுத்த வேண்டிய பகுதிகளை அடையாளம் காண உதவும்.':'We compare your current skill levels against what your #1 recommended branch requires. This helps identify exactly where to improve.'}</p>
+      ${skillGapData.map(sg=>`
+        <div class="skill-gap-card">
+          <div class="sg-head">
+            <span class="sg-name">${sg.name}</span>
+            <span class="sg-status ${sg.status}">${sg.statusLabel}</span>
+          </div>
+          <div class="sg-bar-row">
+            <span class="sg-bar-label">${lang==='ta'?'நீங்கள்':'You'}</span>
+            <div class="sg-bar-wrap">
+              <div class="sg-bar-you" style="width:${sg.current/5*100}%;background:${sg.status==='gap'?'#dc2626':sg.status==='adequate'?'#ea7c0e':'#059669'}"></div>
+              <div class="sg-bar-need" style="left:${sg.required/5*100}%"></div>
+            </div>
+            <span style="font-size:11px;font-weight:600;min-width:30px">${sg.current}/5</span>
+          </div>
+          <div class="sg-bar-row">
+            <span class="sg-bar-label">${lang==='ta'?'தேவை':'Needed'}</span>
+            <div class="sg-bar-wrap">
+              <div class="sg-bar-you" style="width:${sg.required/5*100}%;background:var(--accent2);opacity:.3"></div>
+            </div>
+            <span style="font-size:11px;font-weight:600;min-width:30px;color:var(--accent2)">${sg.required}/5</span>
+          </div>
+          ${sg.gap>0?`<div class="sg-tip">💡 ${(lang==='ta'?skillGapTips.ta:skillGapTips.en)[sg.key]||''}</div>`:''}
+        </div>`).join('')}
+    </div>
+    <div class="rpt-section"><h3>🔍 ${t('rptSwot')}</h3>
+      <div class="rpt-swot-grid">${['s','w','o','t'].map(k=>`<div class="rpt-swot-box"><h5>${t('swotLabels')[k]}</h5><p>${data.swot[k]||'—'}</p></div>`).join('')}</div>
+    </div>
+    <div class="rpt-section"><h3>🏆 ${t('rptBranch')}</h3>
+      ${top5.map(([bk,sc],i)=>{const bi=branchKeys.indexOf(bk);return`<div class="rpt-rec-card"><div class="rank">#${i+1}</div><h4>${brsL[bi]||bk}</h4><div class="rscore">${lang==='ta'?'பொருத்தம்':'Match'}: ${sc.total}/100</div><div class="rreason">${genReason(bk,sc)}</div>
+        <div style="margin-top:8px">${[['RIASEC',sc.riasec,'#3b82f6'],['Skills',sc.skills,'#8b5cf6'],['Interest',sc.interest,'#f59e0b'],['Knowledge',sc.knowledge,'#10b981']].map(([l,v,c])=>`<div class="rpt-bar"><div class="rpt-bar-label"><span style="font-size:11px">${l}</span><span style="font-size:11px">${v}%</span></div><div class="rpt-bar-track"><div class="rpt-bar-fill" style="width:${v}%;background:${c}"></div></div></div>`).join('')}</div></div>`}).join('')}
+    </div>
+    <div class="rpt-section"><h3>🎯 ${t('rptCareer')}</h3>
+      <ul>${t('careerQs').map(cq=>{const v=data.career[cq.k];return v!==undefined?`<li><strong>${cq.q}</strong> ${cq.opts[v]}</li>`:''}).join('')}
+      ${data.vision?`<li><strong>${lang==='ta'?'பார்வை':'Vision'}:</strong> ${data.vision}</li>`:''}</ul>
+    </div>
+    <div class="rpt-section"><h3>👨‍👩‍👧 ${lang==='ta'?'பெற்றோர்-மாணவர் ஒருங்கிணைப்பு பகுப்பாய்வு':'Parent-Student Alignment Analysis'}</h3>
+      ${data.parent.name?`<p style="margin-bottom:8px">${lang==='ta'?'பெற்றோர்':'Parent'}: <strong>${data.parent.name}</strong></p>`:''}
+      <div style="text-align:center;margin:12px 0">
+        <div style="display:inline-block;padding:10px 24px;border-radius:10px;background:${alignColor}15;border:1px solid ${alignColor}30">
+          <span style="font-size:24px;font-weight:800;color:${alignColor}">${alignmentPct}%</span>
+          <span style="font-size:13px;display:block;color:${alignColor};font-weight:600">${alignmentLevel}</span>
+        </div>
+      </div>
+      ${alignedBranches.length?`<p style="margin:8px 0"><span style="color:var(--accent3);font-weight:600">✅ ${lang==='ta'?'இருவரும் ஒப்புக்கொள்ளும் பிரிவுகள்':'Both agree on'}:</span> ${alignedBranches.map(bk=>brsL[branchKeys.indexOf(bk)]).join(', ')}</p>`:''}
+      ${studentOnly.length?`<p style="margin:4px 0"><span style="color:var(--accent2);font-weight:600">🎓 ${lang==='ta'?'மாணவர் மட்டும் விரும்பும்':'Student prefers'}:</span> ${studentOnly.map(bk=>brsL[branchKeys.indexOf(bk)]).join(', ')}</p>`:''}
+      ${parentOnly.length?`<p style="margin:4px 0"><span style="color:var(--accent);font-weight:600">👨‍👩‍👧 ${lang==='ta'?'பெற்றோர் மட்டும் விரும்பும்':'Parent prefers'}:</span> ${parentOnly.map(bk=>brsL[branchKeys.indexOf(bk)]).join(', ')}</p>`:''}
+      ${data.parent.expectation?`<p style="margin-top:8px"><strong>${lang==='ta'?'பெற்றோர் எதிர்பார்ப்பு':'Parent expectation'}:</strong> ${data.parent.expectation}</p>`:''}
+      ${data.parent.concerns?`<p style="margin-top:4px"><strong>${lang==='ta'?'கவலைகள்':'Concerns'}:</strong> ${data.parent.concerns}</p>`:''}
+      <div style="margin-top:12px;padding:12px;background:rgba(29,78,216,.05);border-radius:8px;font-size:12px;line-height:1.7">
+        <strong>💡 ${lang==='ta'?'ஆலோசனை':'Advice'}:</strong>
+        ${alignmentPct>=60
+          ?lang==='ta'?'பெற்றோரும் மாணவரும் ஒரே திசையில் உள்ளனர். இது சிறப்பான முடிவெடுப்புக்கு உதவும். ஒருங்கிணைந்த பிரிவுகளில் கல்லூரிகளை ஆராயத் தொடங்குங்கள்.'
+          :'Parent and student are well-aligned! Start exploring colleges for the agreed branches. This consensus will make the decision smoother.'
+          :alignmentPct>=30
+          ?lang==='ta'?'சில பிரிவுகளில் ஒத்துப்போகிறது. வேறுபடும் தேர்வுகள் பற்றி திறந்த உரையாடல் நடத்துங்கள். மாணவரின் ஆர்வத்தையும் பெற்றோரின் கவலைகளையும் சமநிலைப்படுத்துங்கள்.'
+          :'Some overlap exists. Have an open discussion about the different choices. Balance the student\'s genuine interest with practical family considerations.'
+          :lang==='ta'?'பெற்றோருக்கும் மாணவருக்கும் இடையே குறிப்பிடத்தக்க வேறுபாடு உள்ளது. ஒரு தொழில்முறை ஆலோசகருடன் சேர்ந்து உரையாடல் நடத்துவது மிகவும் பயனுள்ளதாக இருக்கும்.'
+          :'Significant gap between parent and student preferences. A guided conversation with a professional career counsellor is highly recommended.'
+        }
+      </div>
+    </div>
+    <div class="rpt-section"><h3>🏫 ${lang==='ta'?'பரிந்துரைக்கப்பட்ட TNEA கல்லூரிகள்':'Recommended TNEA Colleges'}</h3>
+      <p style="margin-bottom:10px">${lang==='ta'?'உங்கள் சிறந்த 3 பிரிவுகளுக்கான முன்னணி கல்லூரிகள் (NIRF தரவரிசை, கட்ஆஃப் மதிப்பெண் மற்றும் கட்டணம் அடிப்படையில்):':'Top colleges for your top 3 recommended branches (based on NIRF ranking, cutoff and fees):'}</p>
+      ${top5.slice(0,3).map(([bk,sc])=>{
+        const bi=branchKeys.indexOf(bk);
+        const colleges=collegeData[bk]||[];
+        if(!colleges.length)return'';
+        return`<div style="margin-bottom:16px">
+          <h4 style="font-size:14px;color:var(--accent2);margin-bottom:8px">🏗️ ${brsL[bi]||bk}</h4>
+          <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px">
+            <tr style="background:var(--surface)">
+              <th style="padding:8px 10px;text-align:left;border:1px solid var(--border);font-weight:600">${lang==='ta'?'கல்லூரி':'College'}</th>
+              <th style="padding:8px 10px;text-align:left;border:1px solid var(--border);font-weight:600">${lang==='ta'?'இருப்பிடம்':'Location'}</th>
+              <th style="padding:8px 10px;text-align:center;border:1px solid var(--border);font-weight:600">NIRF</th>
+              <th style="padding:8px 10px;text-align:center;border:1px solid var(--border);font-weight:600">${lang==='ta'?'கட்ஆஃப்':'Cutoff'}</th>
+              <th style="padding:8px 10px;text-align:center;border:1px solid var(--border);font-weight:600">${lang==='ta'?'கட்டணம்':'Fees'}</th>
+            </tr>
+            ${colleges.map(col=>`<tr>
+              <td style="padding:7px 10px;border:1px solid var(--border)"><strong>${col.name}</strong><br><span style="font-size:10px;color:var(--muted)">${col.tier}</span></td>
+              <td style="padding:7px 10px;border:1px solid var(--border)">${col.loc}</td>
+              <td style="padding:7px 10px;border:1px solid var(--border);text-align:center">${col.nirf}</td>
+              <td style="padding:7px 10px;border:1px solid var(--border);text-align:center;color:var(--accent);font-weight:600">${col.cutoff}</td>
+              <td style="padding:7px 10px;border:1px solid var(--border);text-align:center">${col.fee}</td>
+            </tr>`).join('')}
+          </table></div>
+        </div>`}).join('')}
+      <p style="font-size:11px;color:var(--muted);margin-top:8px">⚠️ ${lang==='ta'?'கட்ஆஃப் மதிப்பெண்கள் தோராயமானவை, கடந்த ஆண்டு போக்குகளின் அடிப்படையில். உண்மையான 2026 மதிப்பெண்கள் மாறுபடலாம்.':'Cutoff scores are approximate based on previous year trends. Actual 2026 cutoffs may vary.'}</p>
+    </div>
+    <div class="rpt-section"><h3>✅ ${t('rptConclusion')}</h3>
+      <ul>
+        <li>${lang==='ta'?'#1 பரிந்துரை':'#1 Recommendation'}: <strong>${brsL[branchKeys.indexOf(top5[0][0])]}</strong> (${top5[0][1].total}/100)</li>
+        <li>${lang==='ta'?'TNEA 2026 கலந்தாய்வுக்கு முன் ஆராயுங்கள்':'Explore these branches before TNEA 2026 counselling'}</li>
+        <li>${lang==='ta'?'குறைவான திறன்களை மேம்படுத்துங்கள்':'Improve weaker skill areas'}</li>
+        <li>${lang==='ta'?'தொழில்முறை ஆலோசகரிடம் பேசுங்கள்':'Consult a professional career counsellor'}</li>
+      </ul>
+    </div>
+    <div class="rpt-section" style="background:linear-gradient(135deg,rgba(29,78,216,.05),rgba(234,124,14,.05));border:1px solid var(--border);border-radius:12px;padding:20px;margin-top:16px;text-align:center">
+      <h3 style="justify-content:center">📞 ${lang==='ta'?'நிபுணர் வழிகாட்டுதலுக்கு தொடர்பு கொள்ளுங்கள்':'Contact Us for Expert Guidance'}</h3>
+      <p style="margin-top:8px;text-align:center"><strong>Eduaakashaa</strong> — ${lang==='ta'?'உங்கள் பொறியியல் கனவுக்கு வழிகாட்டி':'Your Guide to Engineering Dreams'}</p>
+      <p style="text-align:center;margin-top:6px">
+        🌐 <a href="https://www.eduaakashaa.in" style="color:var(--accent2)" target="_blank">www.eduaakashaa.in</a><br>
+        📧 <a href="mailto:info@eduaakashaa.com" style="color:var(--accent2)">info@eduaakashaa.com</a><br>
+        📱 India: <strong>+91-9150426094</strong><br>
+        📱 UAE: <strong>+971-505168081</strong><br>
+        💬 WhatsApp: <strong>+971-505168081</strong>
+      </p>
+    </div>
+    <p class="disclaimer">${t('disclaimer')}</p>
+  </div>
+  <button class="btn btn-dl" onclick="downloadPdf()">${t('dlPdf')}</button>
+  <button class="btn btn-sec" style="width:100%;margin-top:8px" onclick="restart()">${t('restart')}</button>`;
+}
+
+function downloadPdf(){
+  const el=document.getElementById('report-content');
+  el.classList.add('pdf-mode');
+  const worker=html2pdf().set({
+    margin:[18,12,22,12],
+    filename:`TNEA2026_${data.name||'Report'}_${data.studentId}.pdf`,
+    image:{type:'jpeg',quality:0.95},
+    html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},
+    jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+    pagebreak:{mode:['avoid-all','css','legacy']}
+  }).from(el).toPdf().get('pdf').then(function(pdf){
+    const totalPages=pdf.internal.getNumberOfPages();
+    const pageW=pdf.internal.pageSize.getWidth();
+    const pageH=pdf.internal.pageSize.getHeight();
+    for(let i=1;i<=totalPages;i++){
+      pdf.setPage(i);
+      // Page border (blue rectangle)
+      pdf.setDrawColor(29,78,216);
+      pdf.setLineWidth(0.6);
+      pdf.rect(6,6,pageW-12,pageH-12);
+      // Footer line
+      pdf.setDrawColor(29,78,216);
+      pdf.setLineWidth(0.4);
+      pdf.line(12,pageH-14,pageW-12,pageH-14);
+      // Footer text
+      pdf.setFontSize(7);
+      pdf.setTextColor(100,116,139);
+      pdf.text('www.eduaakashaa.in  |  For Expert Guidance: info@eduaakashaa.com  |  India: +91-9150426094  |  UAE: +971-505168081',pageW/2,pageH-10,{align:'center'});
+      // Page number
+      pdf.setFontSize(7);
+      pdf.setTextColor(150,160,175);
+      pdf.text('Page '+i+' of '+totalPages,pageW/2,pageH-7,{align:'center'});
+    }
+  }).save().then(()=>el.classList.remove('pdf-mode'));
+}
+
+function restart(){
+  Object.keys(data.riasec).forEach(k=>delete data.riasec[k]);
+  data.skills={};data.swot={s:'',w:'',o:'',t:''};data.branches=[];data.branchRatings={};data.career={};data.vision='';data.studentId='';data.cutoff=0;data.parent={name:'',prefBranches:[],priority:'',budget:'',location:'',expectation:'',concerns:''};
+  showSection(0);buildSections();
+}
+
+// Init
+buildStepper();buildSections();updateNav();
+if(isConfigured())setSyncStatus('connected');
+</script>
+<script>
+	const heightObserver = new ResizeObserver(([{ contentRect }]) => {
+		window.parent.postMessage({ action: 'iframeHeightUpdated', height: contentRect.height, id: 'zqgCBK' }, '*');
+	});
+
+	heightObserver.observe(document.documentElement);
+</script>
+
+</body></html>

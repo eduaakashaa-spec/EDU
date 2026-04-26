@@ -1,0 +1,1771 @@
+<!DOCTYPE html><html><head>
+
+</head>
+	<body>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TNEA 2026 College Predictor | EduAakashaA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Syne:wght@700;800&amp;display=swap" rel="stylesheet">
+
+
+
+
+<nav class="topnav">
+  <div class="logo">EduAakasha<span>A</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="switchPage('predictor')">🎯 College Predictor</button>
+    <button class="nav-tab" onclick="switchPage('insights')">📊 Insights &amp; Guide</button>
+  </div>
+</nav>
+
+<!-- ===== PAGE 1: PREDICTOR ===== -->
+<div id="page-predictor" class="page active">
+
+<div class="hero">
+  <h1>TNEA 2026 College <span>Predictor</span></h1>
+  <p>Powered by 2025 actual cutoff data. Enter your marks to find the right colleges for your community category.</p>
+  <div class="stats-row">
+    <div class="stat-box"><div class="num">433</div><div class="lbl">Colleges</div></div>
+    <div class="stat-box"><div class="num">3,469</div><div class="lbl">Branch Records</div></div>
+    <div class="stat-box"><div class="num">9</div><div class="lbl">Categories</div></div>
+    <div class="stat-box"><div class="num">106</div><div class="lbl">Branches</div></div>
+  </div>
+</div>
+
+<div class="calc-section">
+  <div class="calc-card">
+    <div class="calc-title">📐 Cutoff Mark Calculator</div>
+    <div class="calc-subtitle">Calculate your TNEA cutoff from your +2 marks</div>
+    <div class="calc-inputs">
+      <div class="inp-group">
+        <label>Maths (out of 100)</label>
+        <input type="number" id="maths" min="0" max="100" placeholder="e.g. 95" oninput="calcCutoff()">
+      </div>
+      <div class="inp-group">
+        <label>Physics (out of 100)</label>
+        <input type="number" id="physics" min="0" max="100" placeholder="e.g. 90" oninput="calcCutoff()">
+      </div>
+      <div class="inp-group">
+        <label>Chemistry (out of 100)</label>
+        <input type="number" id="chemistry" min="0" max="100" placeholder="e.g. 85" oninput="calcCutoff()">
+      </div>
+      <button class="calc-btn" onclick="predictColleges()">🔍 Predict Colleges</button>
+    </div>
+    <div class="formula-info">Formula: (Maths ÷ 2) + (Physics ÷ 4) + (Chemistry ÷ 4) = Max 200 marks</div>
+    <div id="score-area" style="display:none" class="score-display">
+      <div>
+        <div class="score-num" id="score-val">0</div>
+        <div class="score-label">Your Cutoff Mark</div>
+      </div>
+      <div style="flex:1;padding-left:16px">
+        <div id="score-band" style="font-size:0.85rem;font-weight:600"></div>
+        <div id="score-tip" style="font-size:0.78rem;color:var(--text2);margin-top:4px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="filters-bar">
+  <div class="filters-grid">
+    <div class="filter-group">
+      <label>Community Category</label>
+      <select id="cat-filter" onchange="applyFilters()">
+        <option value="OC">OC – Open Category</option>
+        <option value="BC">BC – Backward Class</option>
+        <option value="BCM">BCM – BC Muslim</option>
+        <option value="MBC">MBC – Most Backward</option>
+        <option value="MBCDNC">MBCDNC</option>
+        <option value="MBCV">MBCV</option>
+        <option value="SC">SC – Scheduled Caste</option>
+        <option value="SCA">SCA – SC Arunthathiar</option>
+        <option value="ST">ST – Scheduled Tribe</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>District</label>
+      <select id="dist-filter" onchange="applyFilters()">
+        <option value="">All Districts</option>
+      <option value="Ariyalur">Ariyalur</option><option value="Chengalpattu">Chengalpattu</option><option value="Chennai">Chennai</option><option value="Coimbatore">Coimbatore</option><option value="Cuddalore">Cuddalore</option><option value="Dharmapuri">Dharmapuri</option><option value="Dindigul">Dindigul</option><option value="Erode">Erode</option><option value="Kancheepuram">Kancheepuram</option><option value="Kanyakumari">Kanyakumari</option><option value="Karur">Karur</option><option value="Krishnagiri">Krishnagiri</option><option value="Madurai">Madurai</option><option value="Nagapattinam">Nagapattinam</option><option value="Nagercoil">Nagercoil</option><option value="Namakkal">Namakkal</option><option value="Nilgiris">Nilgiris</option><option value="Other">Other</option><option value="Perambalur">Perambalur</option><option value="Pudukkottai">Pudukkottai</option><option value="Ramanathapuram">Ramanathapuram</option><option value="Salem">Salem</option><option value="Sivaganga">Sivaganga</option><option value="Thanjavur">Thanjavur</option><option value="Theni">Theni</option><option value="Thoothukudi">Thoothukudi</option><option value="Tiruchirappalli">Tiruchirappalli</option><option value="Tirunelveli">Tirunelveli</option><option value="Tirupur">Tirupur</option><option value="Tiruvannamalai">Tiruvannamalai</option><option value="Tuticorin">Tuticorin</option><option value="Vellore">Vellore</option><option value="Villupuram">Villupuram</option><option value="Virudhunagar">Virudhunagar</option></select>
+    </div>
+    <div class="filter-group">
+      <label>Branch</label>
+      <select id="branch-filter" onchange="applyFilters()">
+        <option value="">All Branches</option>
+      <option value="AD">AD – Artificial Intelligence And Data Science</option><option value="AE">AE – Aeronautical Engineering</option><option value="AG">AG – Agricultural Engineering</option><option value="AL">AL – Artificial Intelligence And Machine Learning</option><option value="AM">AM – Computer Science And Engineering (Ai And Machine Learning)</option><option value="AO">AO – Aerospace Engineering</option><option value="AP">AP – Apparel Technology (Ss)</option><option value="AS">AS – Automobile Engineering (Ss)</option><option value="AT">AT – Artificial Intelligence And Data Science (Ss)</option><option value="AU">AU – Automobile Engineering</option><option value="BC">BC – Bio Technology And Bio Chemical Engineering</option><option value="BM">BM – Bio Medical Engineering</option><option value="BP">BP – B.Plan</option><option value="BS">BS – Bio Technology (Ss)</option><option value="BT">BT – Bio Technology</option><option value="BY">BY – Bio Medical Engineering  (Ss)</option><option value="CB">CB – Computer Science And Bussiness System</option><option value="CC">CC – Chemical And Electro Chemical  Engineering (Ss)</option><option value="CD">CD – Computer Science And Design</option><option value="CE">CE – Civil  Engineering</option><option value="CF">CF – Computer Science And Engineering (Data Science)</option><option value="CG">CG – Computer Science And Engineering (Artificial Intelligence And Machine Learning) (Ss)</option><option value="CH">CH – Chemical  Engineering</option><option value="CI">CI – Computer Science And Engineering (Internet Of Things)</option><option value="CJ">CJ – M.Tech. Computer Science And Engineering (Integrated 5 Years)</option><option value="CK">CK – Civil Engineering (Environmental Engineering)</option><option value="CL">CL – Chemical  Engineering (Ss)</option><option value="CM">CM – Computer Science And Engineering (Ss)</option><option value="CN">CN – Civil  Engineering (Ss)</option><option value="CO">CO – Computer And  Communication Engineering</option><option value="CR">CR – Ceramic Technology (Ss)</option><option value="CS">CS – Computer Science And Engineering</option><option value="CW">CW – Computer Science And Business System (Ss)</option><option value="CY">CY – Cyber Security</option><option value="CZ">CZ – Civil And Structutural Engineering</option><option value="DA">DA – Bachelor Of Design</option><option value="EA">EA – Electronics And Communication (Advanced Communication Technology)</option><option value="EC">EC – Electronics And Communication Engineering</option><option value="EE">EE – Electrical And Electronics Engineering</option><option value="EF">EF – Electrical And Computer Engineering</option><option value="EI">EI – Electronics And Instrumentation Engineering</option><option value="EL">EL – Electronics Engineering (Vlsi Design And Technology) (Ss)</option><option value="EM">EM – Electronics And Communication Engineering (Ss)</option><option value="EN">EN – Environmental Engineering</option><option value="ES">ES – Electrical And Electronics (Sandwich) (Ss)</option><option value="EV">EV – Electronics Engineering (Vlsi Design And Technology)</option><option value="EX">EX – Electronics And Computer Engineering</option><option value="EY">EY – Electrical And Electronics Engineering (Ss)</option><option value="FD">FD – Food Technology</option><option value="FS">FS – Food Technology (Ss)</option><option value="FT">FT – Fashion Technology</option><option value="FY">FY – Fashion Technology (Ss)</option><option value="GI">GI – Geo Informatics</option><option value="HT">HT – Handloom And Textile Technology</option><option value="IB">IB – Industrial Bio Technology</option><option value="IC">IC – Instrumentation And Control Engineering</option><option value="ID">ID – Interior Design (Ss)</option><option value="IE">IE – Industrial Engineering</option><option value="IM">IM – Information Technology (Ss)</option><option value="IN">IN – Industrial Engineering And Management</option><option value="IS">IS – Industrial Bio Technology (Ss)</option><option value="IT">IT – Information Technology</option><option value="IX">IX – Electronic Instrumentation And Control Engineering</option><option value="IY">IY – Instrumentation And Control Engineering (Ss)</option><option value="LE">LE – Leather Technology</option><option value="MA">MA – Material Science And Engineering (Ss)</option><option value="MB">MB – Mechanical Engineering (Automobile)</option><option value="MD">MD – Medical Electronics</option><option value="ME">ME – Mechanical Engineering</option><option value="MF">MF – Mechanical Engineering (Ss)</option><option value="MG">MG – Mechatronics (Ss)</option><option value="MI">MI – Mining Engineering</option><option value="MJ">MJ – Mechanical And Smart Manufacturing</option><option value="MM">MM – Mechanical Engineering (Manufacturing)</option><option value="MN">MN – Manufacturing Engineering</option><option value="MO">MO – Mechanical And Mechatronics Engineering (Additive Manufacturing)</option><option value="MR">MR – Marine Engineering</option><option value="MS">MS – Mechanical Engineering (Sandwich) (Ss)</option><option value="MT">MT – Metallurgical Engineering</option><option value="MU">MU – Mechanical And Automation Engineering</option><option value="MY">MY – Metallurgical Engineering (Ss)</option><option value="MZ">MZ – Mechatronics Engineering</option><option value="PA">PA – Plastic Technology</option><option value="PC">PC – Petro Chemical Technology</option><option value="PD">PD – Petro Chemical Engineering</option><option value="PE">PE – Petroleum Engineering</option><option value="PH">PH – Pharmaceutical Technology</option><option value="PM">PM – Pharmaceutical Technology (Ss)</option><option value="PN">PN – Production Engineering (Ss)</option><option value="PP">PP – Petroleum Engineering And Technology (Ss)</option><option value="PR">PR – Production Engineering</option><option value="PS">PS – Production Engineering (Sandwich) (Ss)</option><option value="PT">PT – Printing &amp; Packing Technology</option><option value="RA">RA – Robotics And Automation (Ss)</option><option value="RM">RM – Robotics And Automation</option><option value="RP">RP – Rubber And Plastic Technology</option><option value="SB">SB – Computer Science And Engineering (Internet Of Things And Cyber Security Including Block Chain Technology)</option><option value="SC">SC – Computer Science And Engineering (Cyber Security)</option><option value="SF">SF – Safety And Fire Engineering</option><option value="TC">TC – Textile Chemistry</option><option value="TS">TS – Computer Science And Technology</option><option value="TT">TT – Textile Technology (Ss)</option><option value="TX">TX – Textile Technology</option><option value="XC">XC – Civil Engineering (Tamil Medium)</option><option value="XM">XM – Mechanical Engineering (Tamil Medium)</option><option value="XS">XS – Computer Science And Engineering (Tamil)</option></select>
+    </div>
+    <div class="filter-group">
+      <label>Branch Group</label>
+      <select id="group-filter" onchange="applyFilters()">
+        <option value="">All Groups</option>
+        <option value="Computer Branches">Computer Branches</option>
+        <option value="Electrical, Electronics, and Instrumentation Branches">Electronics &amp; EEE</option>
+        <option value="Mechanical Engg. Branches">Mechanical</option>
+        <option value="Civil Branches">Civil</option>
+        <option value="Biotechnology and Life Sciences">Biotech &amp; Life Sciences</option>
+        <option value="Chemical and Material Sciences Branches">Chemical</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>College Type</label>
+      <select id="type-filter" onchange="applyFilters()">
+        <option value="">All Types</option>
+        <option value="Government">Government</option>
+        <option value="Self Finance">Self Finance</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Max Rank (EA Expert)</label>
+      <select id="rank-filter" onchange="applyFilters()">
+        <option value="">All Ranks</option>
+        <option value="10">Top 10</option>
+        <option value="25">Top 25</option>
+        <option value="50">Top 50</option>
+        <option value="100">Top 100</option>
+        <option value="150">Top 150</option>
+        <option value="200">Top 200</option>
+      </select>
+    </div>
+  </div>
+  <div class="filter-row2">
+    <div class="sort-bar">
+      <label>Sort:</label>
+      <select id="sort-select" onchange="applyFilters()">
+        <option value="match">Best Match</option>
+        <option value="rank_asc">Rank (Best First)</option>
+        <option value="cutoff_asc">Cutoff Low→High</option>
+        <option value="cutoff_desc">Cutoff High→Low</option>
+        <option value="name">College Name A–Z</option>
+      </select>
+    </div>
+    <button class="reset-btn" onclick="resetFilters()">↺ Reset Filters</button>
+    <div class="results-info" id="results-info">Showing <strong>433</strong> colleges</div>
+  </div>
+</div>
+
+<div class="results-section">
+  <div id="colleges-list">
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c1')">
+      <div class="rank-badge top10">1</div>
+      <div class="card-info">
+        <div class="college-name">University Departments of Anna University  Chennai - CEG Campus  Sardar Patel...</div>
+        <div class="college-meta">
+          <span class="badge badge-govt">Government</span>
+          <span class="badge badge-district">📍 Chennai</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">184.50</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c1">▼</div>
+    </div>
+    <div class="card-body" id="c1">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">200.00</span></td>
+      <td>200.00</td>
+      <td>199.50</td>
+      <td>197.50</td>
+    </tr><tr class=""><td><span class="branch-code">CM</span></td>
+      <td>Computer Science And Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">199.50</span></td>
+      <td>199.50</td>
+      <td>199.00</td>
+      <td>195.50</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">199.50</span></td>
+      <td>199.50</td>
+      <td>199.00</td>
+      <td>197.00</td>
+    </tr><tr class=""><td><span class="branch-code">IM</span></td>
+      <td>Information Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">198.50</span></td>
+      <td>198.50</td>
+      <td>198.00</td>
+      <td>193.50</td>
+    </tr><tr class=""><td><span class="branch-code">EM</span></td>
+      <td>Electronics And Communication Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">198.50</span></td>
+      <td>198.50</td>
+      <td>198.50</td>
+      <td>194.00</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">197.50</span></td>
+      <td>197.50</td>
+      <td>196.50</td>
+      <td>192.50</td>
+    </tr><tr class=""><td><span class="branch-code">EL</span></td>
+      <td>Electronics Engineering (Vlsi Design And Technology) (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">197.00</span></td>
+      <td>197.00</td>
+      <td>196.50</td>
+      <td>191.00</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-high">195.00</span></td>
+      <td>195.00</td>
+      <td>192.00</td>
+      <td>186.00</td>
+    </tr><tr class=""><td><span class="branch-code">BY</span></td>
+      <td>Bio Medical Engineering  (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">195.00</span></td>
+      <td>195.00</td>
+      <td>192.00</td>
+      <td>182.50</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">194.50</span></td>
+      <td>194.50</td>
+      <td>192.50</td>
+      <td>187.00</td>
+    </tr><tr class=""><td><span class="branch-code">MI</span></td>
+      <td>Mining Engineering</td>
+      <td><span class="cutoff-val cutoff-high">191.50</span></td>
+      <td>191.50</td>
+      <td>186.50</td>
+      <td>181.00</td>
+    </tr><tr class=""><td><span class="branch-code">GI</span></td>
+      <td>Geo Informatics</td>
+      <td><span class="cutoff-val cutoff-high">191.00</span></td>
+      <td>191.00</td>
+      <td>188.00</td>
+      <td>177.00</td>
+    </tr><tr class=""><td><span class="branch-code">MA</span></td>
+      <td>Material Science And Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">189.50</span></td>
+      <td>189.50</td>
+      <td>186.00</td>
+      <td>175.00</td>
+    </tr><tr class=""><td><span class="branch-code">IE</span></td>
+      <td>Industrial Engineering</td>
+      <td><span class="cutoff-val cutoff-high">190.50</span></td>
+      <td>190.50</td>
+      <td>186.00</td>
+      <td>176.50</td>
+    </tr><tr class=""><td><span class="branch-code">MN</span></td>
+      <td>Manufacturing Engineering</td>
+      <td><span class="cutoff-val cutoff-high">188.59</span></td>
+      <td>188.59</td>
+      <td>184.00</td>
+      <td>175.00</td>
+    </tr><tr class=""><td><span class="branch-code">XC</span></td>
+      <td>Civil Engineering (Tamil Medium)</td>
+      <td><span class="cutoff-val cutoff-high">188.41</span></td>
+      <td>188.41</td>
+      <td>179.00</td>
+      <td>167.00</td>
+    </tr><tr class=""><td><span class="branch-code">XM</span></td>
+      <td>Mechanical Engineering (Tamil Medium)</td>
+      <td><span class="cutoff-val cutoff-high">187.50</span></td>
+      <td>187.50</td>
+      <td>179.50</td>
+      <td>163.50</td>
+    </tr><tr class=""><td><span class="branch-code">PT</span></td>
+      <td>Printing &amp; Packing Technology</td>
+      <td><span class="cutoff-val cutoff-mid">184.50</span></td>
+      <td>184.50</td>
+      <td>176.50</td>
+      <td>167.00</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c4')">
+      <div class="rank-badge top10">2</div>
+      <div class="card-info">
+        <div class="college-name">University Departments of Anna University  Chennai - MIT Campus  Chrompet  Ta...</div>
+        <div class="college-meta">
+          <span class="badge badge-govt">Government</span>
+          <span class="badge badge-district">📍 Chennai</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">181.33</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c4">▼</div>
+    </div>
+    <div class="card-body" id="c4">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">199.00</span></td>
+      <td>199.00</td>
+      <td>198.50</td>
+      <td>195.50</td>
+    </tr><tr class=""><td><span class="branch-code">CM</span></td>
+      <td>Computer Science And Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">198.00</span></td>
+      <td>198.00</td>
+      <td>197.50</td>
+      <td>193.00</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">198.00</span></td>
+      <td>198.00</td>
+      <td>197.50</td>
+      <td>193.50</td>
+    </tr><tr class=""><td><span class="branch-code">AT</span></td>
+      <td>Artificial Intelligence And Data Science (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">198.00</span></td>
+      <td>198.00</td>
+      <td>197.50</td>
+      <td>193.50</td>
+    </tr><tr class=""><td><span class="branch-code">IM</span></td>
+      <td>Information Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">197.25</span></td>
+      <td>197.25</td>
+      <td>196.50</td>
+      <td>191.50</td>
+    </tr><tr class=""><td><span class="branch-code">EM</span></td>
+      <td>Electronics And Communication Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">197.50</span></td>
+      <td>197.50</td>
+      <td>197.00</td>
+      <td>192.00</td>
+    </tr><tr class=""><td><span class="branch-code">EI</span></td>
+      <td>Electronics And Instrumentation Engineering</td>
+      <td><span class="cutoff-val cutoff-high">196.00</span></td>
+      <td>196.00</td>
+      <td>195.00</td>
+      <td>187.50</td>
+    </tr><tr class=""><td><span class="branch-code">AE</span></td>
+      <td>Aeronautical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">196.00</span></td>
+      <td>196.00</td>
+      <td>193.50</td>
+      <td>191.50</td>
+    </tr><tr class=""><td><span class="branch-code">RA</span></td>
+      <td>Robotics And Automation (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">195.50</span></td>
+      <td>195.50</td>
+      <td>194.50</td>
+      <td>187.00</td>
+    </tr><tr class=""><td><span class="branch-code">AU</span></td>
+      <td>Automobile Engineering</td>
+      <td><span class="cutoff-val cutoff-high">191.50</span></td>
+      <td>191.50</td>
+      <td>189.00</td>
+      <td>179.50</td>
+    </tr><tr class=""><td><span class="branch-code">PR</span></td>
+      <td>Production Engineering</td>
+      <td><span class="cutoff-val cutoff-high">188.50</span></td>
+      <td>188.50</td>
+      <td>183.50</td>
+      <td>178.50</td>
+    </tr><tr class=""><td><span class="branch-code">RP</span></td>
+      <td>Rubber And Plastic Technology</td>
+      <td><span class="cutoff-val cutoff-mid">181.33</span></td>
+      <td>181.33</td>
+      <td>173.50</td>
+      <td>165.00</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c2006')">
+      <div class="rank-badge top10">3</div>
+      <div class="card-info">
+        <div class="college-name">PSG College of Technology (Autonomous)  Peelamedu  Coimbatore District 641004</div>
+        <div class="college-meta">
+          <span class="badge badge-govt">Government</span>
+          <span class="badge badge-district">📍 Coimbatore</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">172.50</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c2006">▼</div>
+    </div>
+    <div class="card-body" id="c2006">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CM</span></td>
+      <td>Computer Science And Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">198.50</span></td>
+      <td>198.50</td>
+      <td>198.00</td>
+      <td>188.50</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">198.50</span></td>
+      <td>198.50</td>
+      <td>198.00</td>
+      <td>190.00</td>
+    </tr><tr class=""><td><span class="branch-code">CG</span></td>
+      <td>Computer Science And Engineering (Artificial Intelligence And Machine Learning) (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">197.00</span></td>
+      <td>197.00</td>
+      <td>196.50</td>
+      <td>187.50</td>
+    </tr><tr class=""><td><span class="branch-code">EM</span></td>
+      <td>Electronics And Communication Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">197.00</span></td>
+      <td>197.00</td>
+      <td>196.50</td>
+      <td>187.50</td>
+    </tr><tr class=""><td><span class="branch-code">IM</span></td>
+      <td>Information Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">197.50</span></td>
+      <td>197.50</td>
+      <td>196.50</td>
+      <td>188.50</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">196.00</span></td>
+      <td>196.00</td>
+      <td>195.50</td>
+      <td>186.50</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">193.00</span></td>
+      <td>193.00</td>
+      <td>191.00</td>
+      <td>179.50</td>
+    </tr><tr class=""><td><span class="branch-code">RA</span></td>
+      <td>Robotics And Automation (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">194.00</span></td>
+      <td>194.00</td>
+      <td>192.00</td>
+      <td>177.00</td>
+    </tr><tr class=""><td><span class="branch-code">IY</span></td>
+      <td>Instrumentation And Control Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">191.00</span></td>
+      <td>191.00</td>
+      <td>189.50</td>
+      <td>180.00</td>
+    </tr><tr class=""><td><span class="branch-code">MF</span></td>
+      <td>Mechanical Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">190.00</span></td>
+      <td>190.00</td>
+      <td>189.50</td>
+      <td>175.50</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-high">191.50</span></td>
+      <td>191.50</td>
+      <td>190.00</td>
+      <td>177.00</td>
+    </tr><tr class=""><td><span class="branch-code">ES</span></td>
+      <td>Electrical And Electronics (Sandwich) (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">190.00</span></td>
+      <td>190.00</td>
+      <td>188.50</td>
+      <td>170.50</td>
+    </tr><tr class=""><td><span class="branch-code">BS</span></td>
+      <td>Bio Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">192.50</span></td>
+      <td>192.50</td>
+      <td>187.50</td>
+      <td>163.50</td>
+    </tr><tr class=""><td><span class="branch-code">BY</span></td>
+      <td>Bio Medical Engineering  (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">190.00</span></td>
+      <td>190.00</td>
+      <td>186.50</td>
+      <td>161.00</td>
+    </tr><tr class=""><td><span class="branch-code">CN</span></td>
+      <td>Civil  Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">187.00</span></td>
+      <td>187.00</td>
+      <td>184.00</td>
+      <td>175.00</td>
+    </tr><tr class=""><td><span class="branch-code">PR</span></td>
+      <td>Production Engineering</td>
+      <td><span class="cutoff-val cutoff-high">187.00</span></td>
+      <td>187.00</td>
+      <td>184.00</td>
+      <td>173.00</td>
+    </tr><tr class=""><td><span class="branch-code">MT</span></td>
+      <td>Metallurgical Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">183.50</span></td>
+      <td>183.50</td>
+      <td>179.50</td>
+      <td>173.00</td>
+    </tr><tr class=""><td><span class="branch-code">PN</span></td>
+      <td>Production Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">183.00</span></td>
+      <td>183.00</td>
+      <td>181.50</td>
+      <td>157.50</td>
+    </tr><tr class=""><td><span class="branch-code">MS</span></td>
+      <td>Mechanical Engineering (Sandwich) (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">184.00</span></td>
+      <td>184.00</td>
+      <td>180.00</td>
+      <td>162.00</td>
+    </tr><tr class=""><td><span class="branch-code">MY</span></td>
+      <td>Metallurgical Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">181.00</span></td>
+      <td>181.00</td>
+      <td>177.00</td>
+      <td>157.50</td>
+    </tr><tr class=""><td><span class="branch-code">AS</span></td>
+      <td>Automobile Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">182.50</span></td>
+      <td>182.50</td>
+      <td>180.00</td>
+      <td>166.00</td>
+    </tr><tr class=""><td><span class="branch-code">PS</span></td>
+      <td>Production Engineering (Sandwich) (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">176.50</span></td>
+      <td>176.50</td>
+      <td>173.00</td>
+      <td>147.00</td>
+    </tr><tr class=""><td><span class="branch-code">TX</span></td>
+      <td>Textile Technology</td>
+      <td><span class="cutoff-val cutoff-mid">178.50</span></td>
+      <td>178.50</td>
+      <td>174.50</td>
+      <td>147.50</td>
+    </tr><tr class=""><td><span class="branch-code">FY</span></td>
+      <td>Fashion Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">176.00</span></td>
+      <td>176.00</td>
+      <td>170.50</td>
+      <td>133.50</td>
+    </tr><tr class=""><td><span class="branch-code">TT</span></td>
+      <td>Textile Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">172.50</span></td>
+      <td>172.50</td>
+      <td>169.00</td>
+      <td>138.00</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c1315')">
+      <div class="rank-badge top10">4</div>
+      <div class="card-info">
+        <div class="college-name">Sri Sivasubramaniya Nadar College of Engineering (Autonomous), Rajiv Gandhi S...</div>
+        <div class="college-meta">
+          <span class="badge badge-auto">Autonomous</span>
+          <span class="badge badge-district">📍 Other</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">188.50</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c1315">▼</div>
+    </div>
+    <div class="card-body" id="c1315">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">198.50</span></td>
+      <td>198.50</td>
+      <td>197.50</td>
+      <td>191.50</td>
+    </tr><tr class=""><td><span class="branch-code">IT</span></td>
+      <td>Information Technology</td>
+      <td><span class="cutoff-val cutoff-high">197.00</span></td>
+      <td>197.00</td>
+      <td>196.50</td>
+      <td>189.50</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">197.00</span></td>
+      <td>197.00</td>
+      <td>196.00</td>
+      <td>189.00</td>
+    </tr><tr class=""><td><span class="branch-code">CJ</span></td>
+      <td>M.Tech. Computer Science And Engineering (Integrated 5 Years)</td>
+      <td><span class="cutoff-val cutoff-high">195.00</span></td>
+      <td>195.00</td>
+      <td>194.00</td>
+      <td>183.00</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">195.00</span></td>
+      <td>195.00</td>
+      <td>194.50</td>
+      <td>182.00</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">192.00</span></td>
+      <td>192.00</td>
+      <td>190.50</td>
+      <td>175.50</td>
+    </tr><tr class=""><td><span class="branch-code">CH</span></td>
+      <td>Chemical  Engineering</td>
+      <td><span class="cutoff-val cutoff-high">190.50</span></td>
+      <td>190.50</td>
+      <td>187.50</td>
+      <td>168.50</td>
+    </tr><tr class=""><td><span class="branch-code">BM</span></td>
+      <td>Bio Medical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">191.00</span></td>
+      <td>191.00</td>
+      <td>189.00</td>
+      <td>167.00</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-high">188.50</span></td>
+      <td>188.50</td>
+      <td>185.00</td>
+      <td>166.50</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c5008')">
+      <div class="rank-badge top10">5</div>
+      <div class="card-info">
+        <div class="college-name">Thiagarajar College of Engineering (Autonomous) Tirupparankundram  Madurai Di...</div>
+        <div class="college-meta">
+          <span class="badge badge-govt">Government</span>
+          <span class="badge badge-district">📍 Madurai</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">176.50</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c5008">▼</div>
+    </div>
+    <div class="card-body" id="c5008">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">196.50</span></td>
+      <td>196.50</td>
+      <td>195.50</td>
+      <td>188.00</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">195.50</span></td>
+      <td>195.50</td>
+      <td>195.00</td>
+      <td>187.50</td>
+    </tr><tr class=""><td><span class="branch-code">CM</span></td>
+      <td>Computer Science And Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">194.50</span></td>
+      <td>194.50</td>
+      <td>193.00</td>
+      <td>182.00</td>
+    </tr><tr class=""><td><span class="branch-code">EM</span></td>
+      <td>Electronics And Communication Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">193.00</span></td>
+      <td>193.00</td>
+      <td>192.00</td>
+      <td>180.50</td>
+    </tr><tr class=""><td><span class="branch-code">CG</span></td>
+      <td>Computer Science And Engineering (Artificial Intelligence And Machine Learning) (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">193.00</span></td>
+      <td>193.00</td>
+      <td>191.50</td>
+      <td>179.00</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">192.50</span></td>
+      <td>192.50</td>
+      <td>191.00</td>
+      <td>179.50</td>
+    </tr><tr class=""><td><span class="branch-code">IM</span></td>
+      <td>Information Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">193.50</span></td>
+      <td>193.50</td>
+      <td>191.50</td>
+      <td>179.50</td>
+    </tr><tr class=""><td><span class="branch-code">CW</span></td>
+      <td>Computer Science And Business System (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">191.50</span></td>
+      <td>191.50</td>
+      <td>190.00</td>
+      <td>175.00</td>
+    </tr><tr class=""><td><span class="branch-code">EY</span></td>
+      <td>Electrical And Electronics Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">190.50</span></td>
+      <td>190.50</td>
+      <td>190.00</td>
+      <td>174.50</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-high">187.00</span></td>
+      <td>187.00</td>
+      <td>183.00</td>
+      <td>173.50</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">188.00</span></td>
+      <td>188.00</td>
+      <td>186.00</td>
+      <td>169.00</td>
+    </tr><tr class=""><td><span class="branch-code">MG</span></td>
+      <td>Mechatronics (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">188.00</span></td>
+      <td>188.00</td>
+      <td>186.50</td>
+      <td>156.00</td>
+    </tr><tr class=""><td><span class="branch-code">MF</span></td>
+      <td>Mechanical Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">184.50</span></td>
+      <td>184.50</td>
+      <td>182.50</td>
+      <td>159.00</td>
+    </tr><tr class=""><td><span class="branch-code">CN</span></td>
+      <td>Civil  Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">181.50</span></td>
+      <td>181.50</td>
+      <td>177.00</td>
+      <td>151.00</td>
+    </tr><tr class=""><td><span class="branch-code">ID</span></td>
+      <td>Interior Design (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">176.50</span></td>
+      <td>176.50</td>
+      <td>170.50</td>
+      <td>144.00</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c2377')">
+      <div class="rank-badge top10">6</div>
+      <div class="card-info">
+        <div class="college-name">PSG Institute of Technology and Applied Research, Avinashi Road,Neelambur, Su...</div>
+        <div class="college-meta">
+          <span class="badge badge-sf">Self Finance</span>
+          <span class="badge badge-district">📍 Coimbatore</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">181.00</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c2377">▼</div>
+    </div>
+    <div class="card-body" id="c2377">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">196.00</span></td>
+      <td>196.00</td>
+      <td>194.50</td>
+      <td>181.50</td>
+    </tr><tr class=""><td><span class="branch-code">AD</span></td>
+      <td>Artificial Intelligence And Data Science</td>
+      <td><span class="cutoff-val cutoff-high">195.00</span></td>
+      <td>195.00</td>
+      <td>193.50</td>
+      <td>184.50</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">195.00</span></td>
+      <td>195.00</td>
+      <td>194.00</td>
+      <td>181.50</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">193.00</span></td>
+      <td>193.00</td>
+      <td>191.00</td>
+      <td>175.50</td>
+    </tr><tr class=""><td><span class="branch-code">IC</span></td>
+      <td>Instrumentation And Control Engineering</td>
+      <td><span class="cutoff-val cutoff-high">188.00</span></td>
+      <td>188.00</td>
+      <td>185.00</td>
+      <td>159.00</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">188.00</span></td>
+      <td>188.00</td>
+      <td>185.50</td>
+      <td>170.00</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">181.00</span></td>
+      <td>181.00</td>
+      <td>176.00</td>
+      <td>155.50</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c2007')">
+      <div class="rank-badge top10">7</div>
+      <div class="card-info">
+        <div class="college-name">Coimbatore Institute of Technology (Autonomous)  Civil Aerodrome Post  Coimba...</div>
+        <div class="college-meta">
+          <span class="badge badge-auto">Autonomous</span>
+          <span class="badge badge-district">📍 Coimbatore</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">183.00</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c2007">▼</div>
+    </div>
+    <div class="card-body" id="c2007">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">197.00</span></td>
+      <td>197.00</td>
+      <td>196.00</td>
+      <td>191.00</td>
+    </tr><tr class=""><td><span class="branch-code">CM</span></td>
+      <td>Computer Science And Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">196.00</span></td>
+      <td>196.00</td>
+      <td>196.00</td>
+      <td>185.50</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">196.00</span></td>
+      <td>196.00</td>
+      <td>195.50</td>
+      <td>187.00</td>
+    </tr><tr class=""><td><span class="branch-code">IM</span></td>
+      <td>Information Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">195.50</span></td>
+      <td>195.50</td>
+      <td>195.00</td>
+      <td>185.50</td>
+    </tr><tr class=""><td><span class="branch-code">EM</span></td>
+      <td>Electronics And Communication Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">195.00</span></td>
+      <td>195.00</td>
+      <td>194.00</td>
+      <td>185.00</td>
+    </tr><tr class=""><td><span class="branch-code">AT</span></td>
+      <td>Artificial Intelligence And Data Science (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">195.50</span></td>
+      <td>195.50</td>
+      <td>195.00</td>
+      <td>185.00</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">193.50</span></td>
+      <td>193.50</td>
+      <td>192.50</td>
+      <td>180.00</td>
+    </tr><tr class=""><td><span class="branch-code">EY</span></td>
+      <td>Electrical And Electronics Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">192.00</span></td>
+      <td>192.00</td>
+      <td>190.50</td>
+      <td>176.50</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">189.00</span></td>
+      <td>189.00</td>
+      <td>185.00</td>
+      <td>171.50</td>
+    </tr><tr class=""><td><span class="branch-code">CH</span></td>
+      <td>Chemical  Engineering</td>
+      <td><span class="cutoff-val cutoff-high">189.00</span></td>
+      <td>189.00</td>
+      <td>185.00</td>
+      <td>173.00</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">184.50</span></td>
+      <td>184.50</td>
+      <td>179.50</td>
+      <td>173.50</td>
+    </tr><tr class=""><td><span class="branch-code">CL</span></td>
+      <td>Chemical  Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">186.00</span></td>
+      <td>186.00</td>
+      <td>183.50</td>
+      <td>173.00</td>
+    </tr><tr class=""><td><span class="branch-code">MF</span></td>
+      <td>Mechanical Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">184.50</span></td>
+      <td>184.50</td>
+      <td>182.00</td>
+      <td>164.50</td>
+    </tr><tr class=""><td><span class="branch-code">CN</span></td>
+      <td>Civil  Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">183.00</span></td>
+      <td>183.00</td>
+      <td>178.00</td>
+      <td>170.50</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c2005')">
+      <div class="rank-badge top10">8</div>
+      <div class="card-info">
+        <div class="college-name">Government College of Technology (Autonomous)  Thadagam Road  Coimbatore Dist...</div>
+        <div class="college-meta">
+          <span class="badge badge-govt">Government</span>
+          <span class="badge badge-district">📍 Coimbatore</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">178.50</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c2005">▼</div>
+    </div>
+    <div class="card-body" id="c2005">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">196.00</span></td>
+      <td>196.00</td>
+      <td>194.50</td>
+      <td>188.54</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">195.50</span></td>
+      <td>195.50</td>
+      <td>194.00</td>
+      <td>187.00</td>
+    </tr><tr class=""><td><span class="branch-code">IT</span></td>
+      <td>Information Technology</td>
+      <td><span class="cutoff-val cutoff-high">195.00</span></td>
+      <td>195.00</td>
+      <td>193.50</td>
+      <td>186.50</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">192.50</span></td>
+      <td>192.50</td>
+      <td>191.00</td>
+      <td>180.57</td>
+    </tr><tr class=""><td><span class="branch-code">EI</span></td>
+      <td>Electronics And Instrumentation Engineering</td>
+      <td><span class="cutoff-val cutoff-high">190.50</span></td>
+      <td>190.50</td>
+      <td>188.00</td>
+      <td>173.50</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">186.00</span></td>
+      <td>186.00</td>
+      <td>182.00</td>
+      <td>168.50</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">182.50</span></td>
+      <td>182.50</td>
+      <td>175.00</td>
+      <td>173.00</td>
+    </tr><tr class=""><td><span class="branch-code">IB</span></td>
+      <td>Industrial Bio Technology</td>
+      <td><span class="cutoff-val cutoff-mid">179.50</span></td>
+      <td>179.50</td>
+      <td>173.50</td>
+      <td>157.00</td>
+    </tr><tr class=""><td><span class="branch-code">PR</span></td>
+      <td>Production Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">178.50</span></td>
+      <td>178.50</td>
+      <td>172.00</td>
+      <td>157.50</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c5012')">
+      <div class="rank-badge top10">9</div>
+      <div class="card-info">
+        <div class="college-name">Central Electrochemical Research Institute CECRI)  Karaikudi  Sivagangai Dist...</div>
+        <div class="college-meta">
+          <span class="badge badge-sf">Self Finance</span>
+          <span class="badge badge-district">📍 Sivaganga</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">194.00</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c5012">▼</div>
+    </div>
+    <div class="card-body" id="c5012">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CC</span></td>
+      <td>Chemical And Electro Chemical  Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">194.00</span></td>
+      <td>194.00</td>
+      <td>192.00</td>
+      <td>190.00</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c2712')">
+      <div class="rank-badge top10">10</div>
+      <div class="card-info">
+        <div class="college-name">Kumaraguru College of Technology (Autonomous), Chinnavedampatti, Coimbatore-6...</div>
+        <div class="college-meta">
+          <span class="badge badge-auto">Autonomous</span>
+          <span class="badge badge-district">📍 Coimbatore</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">168.00</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c2712">▼</div>
+    </div>
+    <div class="card-body" id="c2712">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">194.00</span></td>
+      <td>194.00</td>
+      <td>192.50</td>
+      <td>177.50</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">193.00</span></td>
+      <td>193.00</td>
+      <td>191.50</td>
+      <td>172.00</td>
+    </tr><tr class=""><td><span class="branch-code">IT</span></td>
+      <td>Information Technology</td>
+      <td><span class="cutoff-val cutoff-high">192.50</span></td>
+      <td>192.50</td>
+      <td>191.50</td>
+      <td>175.00</td>
+    </tr><tr class=""><td><span class="branch-code">AD</span></td>
+      <td>Artificial Intelligence And Data Science</td>
+      <td><span class="cutoff-val cutoff-high">192.50</span></td>
+      <td>192.50</td>
+      <td>191.50</td>
+      <td>176.50</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">190.00</span></td>
+      <td>190.00</td>
+      <td>188.00</td>
+      <td>162.00</td>
+    </tr><tr class=""><td><span class="branch-code">EI</span></td>
+      <td>Electronics And Instrumentation Engineering</td>
+      <td><span class="cutoff-val cutoff-high">188.00</span></td>
+      <td>188.00</td>
+      <td>184.50</td>
+      <td>160.50</td>
+    </tr><tr class=""><td><span class="branch-code">BT</span></td>
+      <td>Bio Technology</td>
+      <td><span class="cutoff-val cutoff-high">186.00</span></td>
+      <td>186.00</td>
+      <td>181.50</td>
+      <td>151.00</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">181.00</span></td>
+      <td>181.00</td>
+      <td>178.00</td>
+      <td>154.00</td>
+    </tr><tr class=""><td><span class="branch-code">AE</span></td>
+      <td>Aeronautical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">186.50</span></td>
+      <td>186.50</td>
+      <td>180.00</td>
+      <td>145.50</td>
+    </tr><tr class=""><td><span class="branch-code">MZ</span></td>
+      <td>Mechatronics Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">184.50</span></td>
+      <td>184.50</td>
+      <td>179.50</td>
+      <td>145.00</td>
+    </tr><tr class=""><td><span class="branch-code">AU</span></td>
+      <td>Automobile Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">176.50</span></td>
+      <td>176.50</td>
+      <td>173.00</td>
+      <td>133.00</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">177.00</span></td>
+      <td>177.00</td>
+      <td>174.50</td>
+      <td>141.50</td>
+    </tr><tr class=""><td><span class="branch-code">TX</span></td>
+      <td>Textile Technology</td>
+      <td><span class="cutoff-val cutoff-mid">168.00</span></td>
+      <td>168.00</td>
+      <td>161.00</td>
+      <td>125.00</td>
+    </tr><tr class=""><td><span class="branch-code">FT</span></td>
+      <td>Fashion Technology</td>
+      <td><span class="cutoff-val cutoff-mid">168.00</span></td>
+      <td>168.00</td>
+      <td>162.00</td>
+      <td>123.00</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c2')">
+      <div class="rank-badge top50">11</div>
+      <div class="card-info">
+        <div class="college-name">University Departments of Anna University  Chennai - ACT Campus  Sardar Patel...</div>
+        <div class="college-meta">
+          <span class="badge badge-govt">Government</span>
+          <span class="badge badge-district">📍 Chennai</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">171.00</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c2">▼</div>
+    </div>
+    <div class="card-body" id="c2">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CH</span></td>
+      <td>Chemical  Engineering</td>
+      <td><span class="cutoff-val cutoff-high">192.50</span></td>
+      <td>192.50</td>
+      <td>190.50</td>
+      <td>181.50</td>
+    </tr><tr class=""><td><span class="branch-code">IB</span></td>
+      <td>Industrial Bio Technology</td>
+      <td><span class="cutoff-val cutoff-high">192.00</span></td>
+      <td>192.00</td>
+      <td>188.00</td>
+      <td>174.00</td>
+    </tr><tr class=""><td><span class="branch-code">CL</span></td>
+      <td>Chemical  Engineering (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">190.00</span></td>
+      <td>190.00</td>
+      <td>187.00</td>
+      <td>177.00</td>
+    </tr><tr class=""><td><span class="branch-code">IS</span></td>
+      <td>Industrial Bio Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">190.50</span></td>
+      <td>190.50</td>
+      <td>187.00</td>
+      <td>179.50</td>
+    </tr><tr class=""><td><span class="branch-code">FS</span></td>
+      <td>Food Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">184.50</span></td>
+      <td>184.50</td>
+      <td>180.00</td>
+      <td>171.50</td>
+    </tr><tr class=""><td><span class="branch-code">PP</span></td>
+      <td>Petroleum Engineering And Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">185.50</span></td>
+      <td>185.50</td>
+      <td>178.00</td>
+      <td>174.50</td>
+    </tr><tr class=""><td><span class="branch-code">PM</span></td>
+      <td>Pharmaceutical Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-high">185.00</span></td>
+      <td>185.00</td>
+      <td>176.00</td>
+      <td>164.50</td>
+    </tr><tr class=""><td><span class="branch-code">CR</span></td>
+      <td>Ceramic Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">175.00</span></td>
+      <td>175.00</td>
+      <td>166.50</td>
+      <td>149.50</td>
+    </tr><tr class=""><td><span class="branch-code">TX</span></td>
+      <td>Textile Technology</td>
+      <td><span class="cutoff-val cutoff-mid">175.50</span></td>
+      <td>175.50</td>
+      <td>164.00</td>
+      <td>164.00</td>
+    </tr><tr class=""><td><span class="branch-code">LE</span></td>
+      <td>Leather Technology</td>
+      <td><span class="cutoff-val cutoff-mid">171.00</span></td>
+      <td>171.00</td>
+      <td>162.00</td>
+      <td>157.50</td>
+    </tr><tr class=""><td><span class="branch-code">AP</span></td>
+      <td>Apparel Technology (Ss)</td>
+      <td><span class="cutoff-val cutoff-mid">171.50</span></td>
+      <td>171.50</td>
+      <td>164.00</td>
+      <td>152.50</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c1219')">
+      <div class="rank-badge top50">12</div>
+      <div class="card-info">
+        <div class="college-name">Sri Venkateswara College of Engineering (Autonomous), Post Bag No.3, Pennalur...</div>
+        <div class="college-meta">
+          <span class="badge badge-auto">Autonomous</span>
+          <span class="badge badge-district">📍 Other</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">100.00</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c1219">▼</div>
+    </div>
+    <div class="card-body" id="c1219">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">190.50</span></td>
+      <td>190.50</td>
+      <td>188.00</td>
+      <td>169.00</td>
+    </tr><tr class=""><td><span class="branch-code">IT</span></td>
+      <td>Information Technology</td>
+      <td><span class="cutoff-val cutoff-high">187.50</span></td>
+      <td>187.50</td>
+      <td>186.50</td>
+      <td>160.50</td>
+    </tr><tr class=""><td><span class="branch-code">AD</span></td>
+      <td>Artificial Intelligence And Data Science</td>
+      <td><span class="cutoff-val cutoff-high">187.00</span></td>
+      <td>187.00</td>
+      <td>185.50</td>
+      <td>163.00</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">188.00</span></td>
+      <td>188.00</td>
+      <td>185.50</td>
+      <td>164.50</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">182.00</span></td>
+      <td>182.00</td>
+      <td>180.00</td>
+      <td>144.00</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">174.00</span></td>
+      <td>174.00</td>
+      <td>168.00</td>
+      <td>157.50</td>
+    </tr><tr class=""><td><span class="branch-code">CH</span></td>
+      <td>Chemical  Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">174.00</span></td>
+      <td>174.00</td>
+      <td>161.50</td>
+      <td>153.00</td>
+    </tr><tr class=""><td><span class="branch-code">BT</span></td>
+      <td>Bio Technology</td>
+      <td><span class="cutoff-val cutoff-mid">179.50</span></td>
+      <td>179.50</td>
+      <td>170.00</td>
+      <td>143.00</td>
+    </tr><tr class=""><td><span class="branch-code">MU</span></td>
+      <td>Mechanical And Automation Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">166.00</span></td>
+      <td>166.00</td>
+      <td>157.50</td>
+      <td>130.00</td>
+    </tr><tr class=""><td><span class="branch-code">MB</span></td>
+      <td>Mechanical Engineering (Automobile)</td>
+      <td><span class="cutoff-val cutoff-mid">161.00</span></td>
+      <td>161.00</td>
+      <td>155.50</td>
+      <td>128.50</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">164.00</span></td>
+      <td>164.00</td>
+      <td>153.00</td>
+      <td>135.00</td>
+    </tr><tr class=""><td><span class="branch-code">MR</span></td>
+      <td>Marine Engineering</td>
+      <td><span class="cutoff-val cutoff-low">100.00</span></td>
+      <td>100.00</td>
+      <td>100.00</td>
+      <td>90.00</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c1399')">
+      <div class="rank-badge top50">13</div>
+      <div class="card-info">
+        <div class="college-name">Chennai Institute of Technology (Autonomous) Puduper Village  Nandambakkam Po...</div>
+        <div class="college-meta">
+          <span class="badge badge-auto">Autonomous</span>
+          <span class="badge badge-district">📍 Chennai</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">183.50</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c1399">▼</div>
+    </div>
+    <div class="card-body" id="c1399">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">193.00</span></td>
+      <td>193.00</td>
+      <td>190.50</td>
+      <td>176.00</td>
+    </tr><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">194.00</span></td>
+      <td>194.00</td>
+      <td>191.00</td>
+      <td>172.00</td>
+    </tr><tr class=""><td><span class="branch-code">IT</span></td>
+      <td>Information Technology</td>
+      <td><span class="cutoff-val cutoff-high">191.00</span></td>
+      <td>191.00</td>
+      <td>190.00</td>
+      <td>170.00</td>
+    </tr><tr class=""><td><span class="branch-code">CB</span></td>
+      <td>Computer Science And Bussiness System</td>
+      <td><span class="cutoff-val cutoff-high">190.00</span></td>
+      <td>190.00</td>
+      <td>189.00</td>
+      <td>170.50</td>
+    </tr><tr class=""><td><span class="branch-code">AD</span></td>
+      <td>Artificial Intelligence And Data Science</td>
+      <td><span class="cutoff-val cutoff-high">191.50</span></td>
+      <td>191.50</td>
+      <td>189.50</td>
+      <td>176.50</td>
+    </tr><tr class=""><td><span class="branch-code">EA</span></td>
+      <td>Electronics And Communication (Advanced Communication Technology)</td>
+      <td><span class="cutoff-val cutoff-high">189.50</span></td>
+      <td>189.50</td>
+      <td>188.50</td>
+      <td>170.00</td>
+    </tr><tr class=""><td><span class="branch-code">AM</span></td>
+      <td>Computer Science And Engineering (Ai And Machine Learning)</td>
+      <td><span class="cutoff-val cutoff-high">190.50</span></td>
+      <td>190.50</td>
+      <td>189.00</td>
+      <td>171.50</td>
+    </tr><tr class=""><td><span class="branch-code">SC</span></td>
+      <td>Computer Science And Engineering (Cyber Security)</td>
+      <td><span class="cutoff-val cutoff-high">190.50</span></td>
+      <td>190.50</td>
+      <td>189.00</td>
+      <td>174.00</td>
+    </tr><tr class=""><td><span class="branch-code">EV</span></td>
+      <td>Electronics Engineering (Vlsi Design And Technology)</td>
+      <td><span class="cutoff-val cutoff-high">189.00</span></td>
+      <td>189.00</td>
+      <td>188.00</td>
+      <td>166.26</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">189.00</span></td>
+      <td>189.00</td>
+      <td>187.50</td>
+      <td>167.92</td>
+    </tr><tr class=""><td><span class="branch-code">MZ</span></td>
+      <td>Mechatronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">187.50</span></td>
+      <td>187.50</td>
+      <td>186.00</td>
+      <td>165.50</td>
+    </tr><tr class=""><td><span class="branch-code">BM</span></td>
+      <td>Bio Medical Engineering</td>
+      <td><span class="cutoff-val cutoff-high">188.00</span></td>
+      <td>188.00</td>
+      <td>184.50</td>
+      <td>169.00</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">183.50</span></td>
+      <td>183.50</td>
+      <td>181.00</td>
+      <td>162.97</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">184.00</span></td>
+      <td>184.00</td>
+      <td>181.89</td>
+      <td>164.78</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c4974')">
+      <div class="rank-badge top50">14</div>
+      <div class="card-info">
+        <div class="college-name">Government College of Engineering  Tirunelveli District 627007</div>
+        <div class="college-meta">
+          <span class="badge badge-govt">Government</span>
+          <span class="badge badge-district">📍 Tirunelveli</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">170.50</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c4974">▼</div>
+    </div>
+    <div class="card-body" id="c4974">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">192.00</span></td>
+      <td>192.00</td>
+      <td>188.00</td>
+      <td>183.00</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">187.50</span></td>
+      <td>187.50</td>
+      <td>183.50</td>
+      <td>170.50</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">182.50</span></td>
+      <td>182.50</td>
+      <td>179.50</td>
+      <td>163.00</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">175.00</span></td>
+      <td>175.00</td>
+      <td>165.00</td>
+      <td>164.00</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">170.50</span></td>
+      <td>170.50</td>
+      <td>163.50</td>
+      <td>142.50</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="college-card">
+    <div class="card-header" onclick="toggleCard('c5901')">
+      <div class="rank-badge top50">15</div>
+      <div class="card-info">
+        <div class="college-name">Alagappa Chettair Government College of Engineering and Technology (Autonomou...</div>
+        <div class="college-meta">
+          <span class="badge badge-govt">Government</span>
+          <span class="badge badge-district">📍 Sivaganga</span>
+          
+        </div>
+      </div>
+      <div class="card-cutoff">
+        <div class="best-cutoff">173.00</div>
+        <div class="best-cutoff-lbl">OC Min Cutoff</div>
+      </div>
+      <div class="expand-btn" id="arr-c5901">▼</div>
+    </div>
+    <div class="card-body" id="c5901">
+      <table class="branch-table">
+        <thead><tr>
+          <th>Code</th><th>Branch Name</th>
+          <th>OC Cutoff</th><th>OC</th><th>BC</th><th>SC</th>
+        </tr></thead>
+        <tbody><tr class=""><td><span class="branch-code">CS</span></td>
+      <td>Computer Science And Engineering</td>
+      <td><span class="cutoff-val cutoff-high">191.00</span></td>
+      <td>191.00</td>
+      <td>189.00</td>
+      <td>175.50</td>
+    </tr><tr class=""><td><span class="branch-code">EC</span></td>
+      <td>Electronics And Communication Engineering</td>
+      <td><span class="cutoff-val cutoff-high">189.50</span></td>
+      <td>189.50</td>
+      <td>188.00</td>
+      <td>178.50</td>
+    </tr><tr class=""><td><span class="branch-code">EE</span></td>
+      <td>Electrical And Electronics Engineering</td>
+      <td><span class="cutoff-val cutoff-high">185.00</span></td>
+      <td>185.00</td>
+      <td>182.00</td>
+      <td>163.00</td>
+    </tr><tr class=""><td><span class="branch-code">CE</span></td>
+      <td>Civil  Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">179.00</span></td>
+      <td>179.00</td>
+      <td>172.00</td>
+      <td>161.50</td>
+    </tr><tr class=""><td><span class="branch-code">ME</span></td>
+      <td>Mechanical Engineering</td>
+      <td><span class="cutoff-val cutoff-mid">173.00</span></td>
+      <td>173.00</td>
+      <td>166.00</td>
+      <td>156.00</td>
+    </tr></tbody>
+      </table>
+    </div>
+  </div></div>
+  <div class="pagination" id="pagination"><button class="page-btn active" onclick="goPage(1)">1</button><button class="page-btn " onclick="goPage(2)">2</button><button class="page-btn " onclick="goPage(3)">3</button><span style="padding:8px">…</span><button class="page-btn" onclick="goPage(29)">29</button><button class="page-btn" onclick="goPage(2)">Next ›</button></div>
+</div>
+
+</div>
+
+<!-- ===== PAGE 2: INSIGHTS ===== -->
+<div id="page-insights" class="page">
+<div class="insights-page">
+
+  <div class="insights-hero">
+    <h2>📊 Smart Guide for Students &amp; Parents</h2>
+    <p>Evidence-based strategies to make the right college and branch choice for TNEA 2026</p>
+  </div>
+
+  <div class="key-insight">
+    <h3>⚠️ The #1 Mistake Students Make</h3>
+    <p>Many students with mid-range cutoff marks (150–185) choose <strong>CSE/IT at lower-ranked colleges</strong> hoping the branch name will get them jobs — but recruiters care far more about the <strong>college's reputation, alumni network, and placement record</strong> than the branch name.</p>
+    <ul>
+      <li>A CSE graduate from a Rank 200+ college may struggle to get even shortlisted at top companies</li>
+      <li>A Mechanical or EEE graduate from a Rank 20 college often outperforms them in placement statistics</li>
+      <li>In the age of upskilling and online certifications, branch matters far less than the college you attend</li>
+    </ul>
+    <div style="margin-top:10px;padding:10px 14px;background:#fff;border-radius:8px;font-size:0.83rem;color:#92400e;font-weight:600">
+      💡 EA Expert Recommendation: <strong>College Rank &gt; Branch Name</strong> — Always prioritize a better-ranked college over a popular branch at a lower-ranked college.
+    </div>
+  </div>
+
+  <!-- Insights cards -->
+  <div class="insights-grid">
+    <div class="insight-card">
+      <h3><span class="ic-icon">🎯</span>Understanding Cutoff Bands</h3>
+      <p>Cutoff marks in TNEA range from 80 to 200. Your band determines which tier of colleges you can realistically target:</p>
+      <div style="margin-top:8px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="background:#7c3aed;width:12px;height:12px;border-radius:3px"></div><span style="font-size:0.8rem"><strong>195–200:</strong> Anna University CEG, MIT, ACT — Elite tier</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="background:#0369a1;width:12px;height:12px;border-radius:3px"></div><span style="font-size:0.8rem"><strong>180–194:</strong> Top autonomous &amp; PSG, GCT, Thiagarajar</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="background:#065f46;width:12px;height:12px;border-radius:3px"></div><span style="font-size:0.8rem"><strong>160–179:</strong> Good government &amp; reputed private colleges</span></div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><div style="background:#92400e;width:12px;height:12px;border-radius:3px"></div><span style="font-size:0.8rem"><strong>140–159:</strong> Mid-tier self-finance colleges</span></div>
+        <div style="display:flex;align-items:center;gap:8px"><div style="background:#6b7280;width:12px;height:12px;border-radius:3px"></div><span style="font-size:0.8rem"><strong>Below 140:</strong> Choose college carefully; focus on outcomes</span></div>
+      </div>
+    </div>
+
+    <div class="insight-card">
+      <h3><span class="ic-icon">🏫</span>Why College Rank Matters More Than Branch</h3>
+      <p>The EA Expert team ranks colleges based on multiple factors: placement, NAAC grade, faculty quality, campus facilities, alumni network, and more.</p>
+      <div class="tip">A student from Rank 1–50 with any branch has a significantly higher probability of placement at top companies than a student from Rank 200+ in CSE.</div>
+      <div class="warning-tip">⚠️ Warning: Don't let branch prestige blind you. "CSE" written on a degree from a poor-ranked college carries far less weight than "Mechanical" from a top institution.</div>
+    </div>
+
+    <div class="insight-card">
+      <h3><span class="ic-icon">💼</span>Branch vs. Career: The Real Picture</h3>
+      <p>Most high-paying IT companies (TCS, Infosys, Wipro, Accenture) hire from <strong>all engineering branches</strong>, not just CSE/IT. What they look for:</p>
+      <ul style="margin-left:14px;margin-top:6px">
+        <li style="font-size:0.8rem;margin-bottom:4px">College tier and CGPA threshold</li>
+        <li style="font-size:0.8rem;margin-bottom:4px">Aptitude and coding skills (branch-independent)</li>
+        <li style="font-size:0.8rem;margin-bottom:4px">Communication and problem-solving ability</li>
+        <li style="font-size:0.8rem">Internships and projects</li>
+      </ul>
+      <div class="tip">EC, EEE, and Mechanical graduates from top colleges regularly placed at Amazon, Google, and Microsoft through upskilling.</div>
+    </div>
+
+    <div class="insight-card">
+      <h3><span class="ic-icon">📈</span>Community Category Strategy</h3>
+      <p>Each community category has different cutoff thresholds. SC/ST students often qualify for top colleges at significantly lower cutoffs — use this advantage wisely:</p>
+      <div class="tip">SC/ST candidates: Target Rank 1–50 colleges even with a cutoff of 150–160. The reservation seats at good colleges are your golden opportunity.</div>
+      <div class="warning-tip">⚠️ Don't waste reservation advantage by applying to low-ranked colleges just for a "popular" branch. Use it to get into a better institution.</div>
+    </div>
+
+    <div class="insight-card">
+      <h3><span class="ic-icon">🔬</span>Emerging Branches Worth Considering</h3>
+      <p>Beyond CSE and IT, these branches have strong career prospects with lower cutoff competition:</p>
+      <ul style="margin-left:14px;margin-top:6px">
+        <li style="font-size:0.8rem;margin-bottom:4px"><strong>AI &amp; DS (AD):</strong> High demand, growing fast</li>
+        <li style="font-size:0.8rem;margin-bottom:4px"><strong>AI &amp; ML (AI):</strong> Future-ready curriculum</li>
+        <li style="font-size:0.8rem;margin-bottom:4px"><strong>Cyber Security (CY):</strong> Shortage of talent</li>
+        <li style="font-size:0.8rem;margin-bottom:4px"><strong>Data Science (DS):</strong> Strong analytics market</li>
+        <li style="font-size:0.8rem">ECE at good college: Strong base for VLSI, embedded</li>
+      </ul>
+    </div>
+
+    <div class="insight-card">
+      <h3><span class="ic-icon">💰</span>ROI: Think About Returns</h3>
+      <p>Self-finance colleges can cost ₹3–8L per year in fees. Over 4 years that's ₹12–32 lakhs. Before choosing a college, consider:</p>
+      <ul style="margin-left:14px;margin-top:6px">
+        <li style="font-size:0.8rem;margin-bottom:4px">What is the median placement salary?</li>
+        <li style="font-size:0.8rem;margin-bottom:4px">What % of students actually get placed?</li>
+        <li style="font-size:0.8rem;margin-bottom:4px">Is the NAAC grade A or A+?</li>
+        <li style="font-size:0.8rem">Does the college have NBA accreditation?</li>
+      </ul>
+      <div class="warning-tip">A government college with lower prestige branch often gives better ROI than expensive self-finance college with CSE.</div>
+    </div>
+  </div>
+
+  <!-- Step by step guide -->
+  <div class="guide-section">
+    <h2>🗺️ Your 5-Step College Selection Strategy</h2>
+    <div class="guide-steps">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h4>Calculate Your Cutoff</h4>
+        <p>Use the Predictor tab to compute your exact cutoff from Maths, Physics, and Chemistry marks. Know your exact position.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h4>Filter by Your Category</h4>
+        <p>Select your community category (OC/BC/MBC/SC etc.) to see realistic cutoff comparisons. Reservation categories open more doors at good colleges.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h4>Prioritize by EA Rank</h4>
+        <p>Filter colleges by EA Expert Rank (top 50 or top 100). A better-ranked college is your first priority, before choosing a branch.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h4>Identify Safe vs Reach</h4>
+        <p>Look for "Safe" (green) colleges where your cutoff is comfortably above the threshold, and note "Close" (yellow) as backup choices.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">5</div>
+        <h4>Shortlist 5–8 Colleges</h4>
+        <p>Create a shortlist across different rank bands: 2 reach colleges, 3 realistic, 2 safe. Submit options in all of these to maximize chances.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cutoff-Branch Matrix -->
+  <div class="matrix-section">
+    <h2>🔢 Cutoff vs Branch Comparison Matrix</h2>
+    <div class="matrix-sub">See how CSE/IT cutoffs compare to other branches at top-ranked colleges. Lower cutoff for same rank = better value choice.</div>
+    <div class="matrix-controls">
+      <select id="matrix-cat" onchange="buildMatrix()">
+        <option value="OC">OC Category</option>
+        <option value="BC">BC Category</option>
+        <option value="MBC">MBC Category</option>
+        <option value="SC">SC Category</option>
+        <option value="ST">ST Category</option>
+      </select>
+      <select id="matrix-rank" onchange="buildMatrix()">
+        <option value="25">Top 25 Colleges</option>
+        <option value="50">Top 50 Colleges</option>
+        <option value="10">Top 10 Colleges</option>
+      </select>
+    </div>
+    <div class="matrix-scroll">
+      <div id="matrix-container">Loading matrix...</div>
+    </div>
+  </div>
+
+  <!-- Branch Comparison Tool -->
+  <div class="compare-section">
+    <h2>⚖️ Branch Comparison Tool</h2>
+    <div class="sub">Enter your cutoff to compare how you fare across different branches and college ranks simultaneously</div>
+    <div class="compare-inputs">
+      <div class="filter-group">
+        <label>Your Cutoff Mark</label>
+        <input type="number" id="cmp-cutoff" min="0" max="200" placeholder="e.g. 172.5" class="inp-group" style="border:1.5px solid var(--border);border-radius:8px;padding:8px 10px;font-size:0.85rem;background:#fff;width:100%">
+      </div>
+      <div class="filter-group">
+        <label>Community</label>
+        <select id="cmp-cat">
+          <option value="OC">OC</option>
+          <option value="BC">BC</option>
+          <option value="BCM">BCM</option>
+          <option value="MBC">MBC</option>
+          <option value="SC">SC</option>
+          <option value="SCA">SCA</option>
+          <option value="ST">ST</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Max College Rank</label>
+        <select id="cmp-rank">
+          <option value="50">Top 50</option>
+          <option value="100">Top 100</option>
+          <option value="25">Top 25</option>
+          <option value="200">Top 200</option>
+        </select>
+      </div>
+      <button class="calc-btn" onclick="buildComparison()">Compare</button>
+    </div>
+    <div class="compare-results" id="compare-results"></div>
+  </div>
+
+</div>
+</div>
+
+
+
+
+
+
+</body></html>

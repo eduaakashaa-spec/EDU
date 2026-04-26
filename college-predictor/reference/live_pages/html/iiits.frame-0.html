@@ -1,0 +1,695 @@
+<!DOCTYPE html><html><head>
+<style>
+	html {
+		overflow: hidden;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+ 	}
+
+ 	iframe {
+ 		max-width: 100%;
+ 	}
+</style>
+<style>
+  #ea-wrap *{box-sizing:border-box;margin:0;padding:0;}
+  #ea-wrap{font-family:'Segoe UI',Tahoma,Geneva,sans-serif;color:#1e293b;line-height:1.6;max-width:1100px;margin:0 auto;padding:0 16px 60px;}
+
+  /* ── ALERT BANNER ── */
+  #ea-wrap .ea-alert{background:linear-gradient(135deg,#b91c1c,#dc2626);color:#fff;border-radius:12px;padding:14px 20px;margin-bottom:28px;font-size:13.5px;font-weight:600;display:flex;align-items:flex-start;gap:10px;}
+  #ea-wrap .ea-alert span{font-size:20px;flex-shrink:0;}
+
+  /* ── HERO BANNER ── */
+  #ea-wrap .ea-hero{background:linear-gradient(135deg,#0D3B8C 0%,#1A5DC8 60%,#F47920 100%);border-radius:18px;padding:40px 32px;color:#fff;text-align:center;margin-bottom:32px;position:relative;overflow:hidden;}
+  #ea-wrap .ea-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(255,255,255,.08) 0%,transparent 60%);}
+  #ea-wrap .ea-hero h1{font-size:clamp(22px,4vw,36px);font-weight:800;margin-bottom:10px;position:relative;}
+  #ea-wrap .ea-hero h1 span{color:#FFD166;}
+  #ea-wrap .ea-hero p{font-size:15px;opacity:.9;max-width:640px;margin:0 auto 20px;position:relative;}
+  #ea-wrap .ea-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;position:relative;}
+  #ea-wrap .ea-tag{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.14);color:#fff;}
+  #ea-wrap .ea-tag.orange{background:#F47920;border-color:#F47920;}
+  #ea-wrap .ea-tag.red{background:#dc2626;border-color:#dc2626;}
+
+  /* ── SECTION TITLES ── */
+  #ea-wrap .ea-sec-title{font-size:clamp(18px,3vw,24px);font-weight:800;color:#0D3B8C;text-align:center;margin-bottom:6px;}
+  #ea-wrap .ea-sec-title span{color:#F47920;}
+  #ea-wrap .ea-sec-sub{text-align:center;color:#6b7280;font-size:14px;margin-bottom:24px;}
+
+  /* ── TABS ── */
+  #ea-wrap .ea-tabs{display:flex;gap:0;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.12);margin-bottom:28px;flex-wrap:wrap;}
+  #ea-wrap .ea-tab-btn{flex:1;min-width:200px;padding:14px 12px;text-align:center;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all .25s;background:#f1f5f9;color:#475569;}
+  #ea-wrap .ea-tab-btn.active{color:#fff;}
+  #ea-wrap .ea-tab-btn:nth-child(1).active{background:#1A5DC8;}
+  #ea-wrap .ea-tab-btn:nth-child(2).active{background:#059669;}
+  #ea-wrap .ea-tab-btn:nth-child(3).active{background:#F47920;}
+  #ea-wrap .ea-tab-btn:hover:not(.active){background:#e2e8f0;}
+  #ea-wrap .ea-tab-label{display:block;font-size:10px;font-weight:600;opacity:.75;margin-top:2px;}
+  #ea-wrap .ea-tab-pane{display:none;}
+  #ea-wrap .ea-tab-pane.active{display:block;}
+
+  /* ── NOTICE BOXES ── */
+  #ea-wrap .ea-notice{border-radius:12px;padding:20px 22px;margin-bottom:20px;border-left:6px solid;}
+  #ea-wrap .ea-notice.blue{background:#eff6ff;border-color:#1A5DC8;}
+  #ea-wrap .ea-notice.green{background:#f0fdf4;border-color:#059669;}
+  #ea-wrap .ea-notice.orange{background:#fff7ed;border-color:#F47920;}
+  #ea-wrap .ea-notice h3{font-size:15px;font-weight:800;margin-bottom:10px;}
+  #ea-wrap .ea-notice.blue h3{color:#1A5DC8;}
+  #ea-wrap .ea-notice.green h3{color:#059669;}
+  #ea-wrap .ea-notice.orange h3{color:#F47920;}
+  #ea-wrap .ea-notice ul{padding-left:18px;}
+  #ea-wrap .ea-notice li{font-size:13px;color:#374151;margin-bottom:5px;line-height:1.6;}
+  #ea-wrap .ea-notice li strong{color:#1e293b;}
+  #ea-wrap .ea-notice a{color:#F47920;font-weight:700;}
+
+  /* ── STEP TIMELINE ── */
+  #ea-wrap .ea-steps{padding-left:52px;position:relative;}
+  #ea-wrap .ea-steps::before{content:'';position:absolute;left:18px;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,#1A5DC8,#F47920);}
+  #ea-wrap .ea-step{position:relative;margin-bottom:16px;}
+  #ea-wrap .ea-step-num{position:absolute;left:-52px;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;color:#fff;}
+  #ea-wrap .ea-step-body{background:#fff;border-radius:10px;padding:14px 18px;box-shadow:0 2px 8px rgba(0,0,0,.08);}
+  #ea-wrap .ea-step-body h4{font-size:14px;font-weight:700;margin-bottom:4px;}
+  #ea-wrap .ea-step-body p{font-size:13px;color:#6b7280;line-height:1.6;}
+  #ea-wrap .ea-chip{display:inline-block;padding:2px 10px;border-radius:10px;font-size:11px;font-weight:700;color:#fff;margin-top:6px;}
+  #ea-wrap .ea-chip.blue{background:#1A5DC8;}
+  #ea-wrap .ea-chip.orange{background:#F47920;}
+  #ea-wrap .ea-chip.green{background:#059669;}
+  #ea-wrap .ea-chip.red{background:#dc2626;}
+
+  /* ── IIIT CARDS ── */
+  #ea-wrap .ea-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-bottom:32px;}
+  #ea-wrap .ea-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.09);transition:transform .2s,box-shadow .2s;}
+  #ea-wrap .ea-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.14);}
+  #ea-wrap .ea-card-head{padding:16px 20px;color:#fff;display:flex;justify-content:space-between;align-items:center;}
+  #ea-wrap .ea-card-head h3{font-size:16px;font-weight:800;}
+  #ea-wrap .ea-rank{background:rgba(255,255,255,.22);padding:3px 10px;border-radius:10px;font-size:12px;font-weight:700;}
+  #ea-wrap .ea-card-body{padding:16px 20px;}
+  #ea-wrap .ea-route-badge{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;margin-bottom:12px;font-size:12.5px;font-weight:700;}
+  #ea-wrap .ea-route-badge.sat{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
+  #ea-wrap .ea-route-badge.jee{background:#f0fdf4;color:#059669;border:1px solid #bbf7d0;}
+  #ea-wrap .ea-stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;}
+  #ea-wrap .ea-stat{background:#f8fafc;border-radius:8px;padding:8px 4px;text-align:center;}
+  #ea-wrap .ea-stat .sv{font-size:15px;font-weight:800;color:#1A5DC8;}
+  #ea-wrap .ea-stat .sv.o{color:#F47920;}
+  #ea-wrap .ea-stat .sl{font-size:10px;color:#9ca3af;margin-top:2px;}
+  #ea-wrap .ea-pts{list-style:none;margin-bottom:12px;}
+  #ea-wrap .ea-pts li{font-size:13px;padding:4px 0;border-bottom:1px solid #f1f5f9;display:flex;gap:6px;}
+  #ea-wrap .ea-pts li:last-child{border-bottom:none;}
+  #ea-wrap .ea-deadline-strip{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:8px 12px;font-size:12px;color:#92400e;font-weight:600;}
+  #ea-wrap .ea-deadline-strip strong{color:#c2410c;}
+
+  /* ── TABLE ── */
+  #ea-wrap .ea-tbl-wrap{overflow-x:auto;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);margin-bottom:28px;}
+  #ea-wrap table{width:100%;border-collapse:collapse;font-size:13px;}
+  #ea-wrap thead th{padding:12px 14px;text-align:left;font-weight:700;font-size:12px;background:#0D3B8C;color:#fff;}
+  #ea-wrap tbody tr:nth-child(even){background:#f0f5ff;}
+  #ea-wrap tbody tr:hover{background:#dbeafe;}
+  #ea-wrap tbody td{padding:11px 14px;border-bottom:1px solid #e8eef8;vertical-align:top;}
+  #ea-wrap .bdg{display:inline-block;padding:2px 9px;border-radius:10px;font-size:11px;font-weight:700;}
+  #ea-wrap .bdg-blue{background:#dbeafe;color:#1e40af;}
+  #ea-wrap .bdg-green{background:#d1fae5;color:#065f46;}
+  #ea-wrap .bdg-red{background:#fee2e2;color:#991b1b;}
+  #ea-wrap .bdg-orange{background:#fed7aa;color:#92400e;}
+
+  /* ── DEADLINE GRID ── */
+  #ea-wrap .ea-dl-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:28px;}
+  #ea-wrap .ea-dl{background:#fff;border-radius:10px;padding:14px 16px;border-left:4px solid;box-shadow:0 2px 8px rgba(0,0,0,.07);}
+  #ea-wrap .ea-dl.blue{border-color:#1A5DC8;}
+  #ea-wrap .ea-dl.green{border-color:#059669;}
+  #ea-wrap .ea-dl.orange{border-color:#F47920;}
+  #ea-wrap .ea-dl.red{border-color:#dc2626;}
+  #ea-wrap .ea-dl.purple{border-color:#7c3aed;}
+  #ea-wrap .ea-dl-icon{font-size:20px;margin-bottom:4px;}
+  #ea-wrap .ea-dl-phase{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#9ca3af;}
+  #ea-wrap .ea-dl-date{font-size:15px;font-weight:800;color:#1e293b;margin:3px 0;}
+  #ea-wrap .ea-dl-note{font-size:12px;color:#6b7280;line-height:1.5;}
+
+  /* ── CTA ── */
+  #ea-wrap .ea-cta{background:linear-gradient(135deg,#F47920,#ff6b00);border-radius:16px;padding:32px 24px;text-align:center;color:#fff;margin-top:32px;}
+  #ea-wrap .ea-cta h3{font-size:22px;font-weight:800;margin-bottom:8px;}
+  #ea-wrap .ea-cta p{font-size:14px;opacity:.93;margin-bottom:20px;}
+  #ea-wrap .ea-cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  #ea-wrap .ea-btn{display:inline-block;padding:12px 28px;border-radius:28px;font-weight:800;font-size:14px;cursor:pointer;text-decoration:none;transition:transform .2s,box-shadow .2s;}
+  #ea-wrap .ea-btn:hover{transform:scale(1.04);box-shadow:0 6px 18px rgba(0,0,0,.2);}
+  #ea-wrap .ea-btn-white{background:#fff;color:#F47920;}
+  #ea-wrap .ea-btn-outline{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.7);}
+
+  /* ── DISCLAIMER ── */
+  #ea-wrap .ea-disc{background:#f8fafc;border-radius:10px;padding:14px 18px;margin-top:20px;font-size:12px;color:#9ca3af;border:1px solid #e2e8f0;}
+  #ea-wrap .ea-disc strong{color:#475569;}
+
+  @media(max-width:600px){
+    #ea-wrap .ea-hero{padding:28px 20px;}
+    #ea-wrap .ea-tab-btn{min-width:130px;font-size:12px;}
+    #ea-wrap .ea-steps{padding-left:44px;}
+    #ea-wrap .ea-step-num{left:-44px;width:30px;height:30px;font-size:11px;}
+  }
+</style></head>
+	<body><!-- ============================================================
+     EduAakashaa — IIITs DASA 2026 Page
+     HOSTINGER EMBED SNIPPET
+     Paste this entire code into: Pages > IIITs > Custom HTML block
+     ============================================================ -->
+
+
+
+<div id="ea-wrap">
+
+  <!-- ALERT -->
+  <div class="ea-alert">
+    <span>🚨</span>
+    <div><strong>DASA 2026 — Important Update:</strong> SAT scores are accepted <strong>ONLY by IIIT Hyderabad</strong> for its own independent process. IIIT Bangalore uses JEE Main via its own portal. All other IIITs (IIIT-D, IIIT-A, Pune, etc.) require <strong>JEE Main 2026</strong> via dasanit.org. SAT is no longer valid for DASA at NITs or other IIITs.</div>
+  </div>
+
+  <!-- HERO -->
+  <div class="ea-hero">
+    <h1>NRI Admissions to <span>IIITs in India</span> — 2026</h1>
+    <p>Complete DASA 2026 guide — step-by-step process for each IIIT, correct exam requirements, deadlines, and expert strategy.</p>
+    <div class="ea-tags">
+      <span class="ea-tag red">🔴 SAT: Only IIIT-Hyderabad</span>
+      <span class="ea-tag orange">🎯 JEE Main: All other IIITs</span>
+      <span class="ea-tag">📅 2026 Deadlines</span>
+      <span class="ea-tag">🤖 AI Career Insights</span>
+      <span class="ea-tag orange">🆓 Free Counselling</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- SECTION 1: THREE ROUTES -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="ea-sec-title">Choose Your <span>Admission Route</span></div>
+  <div class="ea-sec-sub">Each top IIIT has a different process — select the tab that applies to you</div>
+
+  <div class="ea-tabs">
+    <button class="ea-tab-btn active" onclick="eaTab(0,this)">
+      📝 Route A — IIIT Hyderabad
+      <span class="ea-tab-label">SAT Score · Own Process</span>
+    </button>
+    <button class="ea-tab-btn" onclick="eaTab(1,this)">
+      🎯 Route B — IIIT Bangalore
+      <span class="ea-tab-label">JEE Main · Own Counselling</span>
+    </button>
+    <button class="ea-tab-btn" onclick="eaTab(2,this)">
+      🌍 Route C — All Others
+      <span class="ea-tab-label">JEE Main · via dasanit.org</span>
+    </button>
+  </div>
+
+  <!-- TAB A: IIIT-H -->
+  <div class="ea-tab-pane active" id="ea-pane-0">
+    <div class="ea-notice blue">
+      <h3>📌 IIIT Hyderabad — DASA 2026 Official Dates (Confirmed)</h3>
+      <ul>
+        <li><strong>Exam Required:</strong> SAT (Math + EBRW) — minimum score <strong>1070/1600</strong>. JEE NOT needed.</li>
+        <li><strong>Super-scores accepted</strong> — IIIT-H takes best section scores across multiple SAT attempts.</li>
+        <li><strong>SAT must be written on or after May 2024</strong> (no older scores accepted).</li>
+        <li><strong>SAT Institute Code:</strong> 6997 — report directly via College Board to IIIT-H.</li>
+        <li><strong>Application Portal Opens:</strong> 23 March 2026 → <a href="https://admportal.iiit.ac.in" target="_blank">admportal.iiit.ac.in</a></li>
+        <li><strong>Application Portal Closes:</strong> 22 May 2026</li>
+        <li><strong>SAT scores must reach IIIT-H by:</strong> 31 May 2026</li>
+        <li><strong>Last recommended SAT date:</strong> 2 May 2026</li>
+        <li><strong>Application Fee:</strong> INR 8,000 (non-refundable, paid online)</li>
+        <li><strong>CIWG:</strong> ❌ Not available — IIIT-H does not participate in CIWG scheme</li>
+      </ul>
+    </div>
+    <div class="ea-steps">
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#1A5DC8">01</div>
+        <div class="ea-step-body" style="border-left:4px solid #1A5DC8">
+          <h4>📝 Write the SAT Exam</h4>
+          <p>Appear for SAT (Math + EBRW). Essay not required. Minimum 1070 to apply; competitive range for CSE is 1350+. Recommend 2 attempts — March and May 2026 SAT dates work well.</p>
+          <span class="ea-chip blue">Last viable date: 2 May 2026</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#F47920">02</div>
+        <div class="ea-step-body" style="border-left:4px solid #F47920">
+          <h4>📤 Send SAT Score to IIIT-H via College Board</h4>
+          <p>Login → College Board account → "Send Scores" → Enter Institute Code <strong>6997</strong>. Request score delivery in advance so it arrives by 31 May 2026. Rush reports accepted.</p>
+          <span class="ea-chip red">Scores must reach IIIT-H: 31 May 2026</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#1A5DC8">03</div>
+        <div class="ea-step-body" style="border-left:4px solid #1A5DC8">
+          <h4>🌐 Apply on IIIT-H Portal (23 Mar – 22 May 2026)</h4>
+          <p>Visit admportal.iiit.ac.in → Fill details → Upload Class 11 &amp; 12 PCM marks → Set programme preferences (CSE / ECE / CND / CLD / CHD / CGD). No changes after submission.</p>
+          <span class="ea-chip blue">Portal window: 23 Mar – 22 May 2026</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#059669">04</div>
+        <div class="ea-step-body" style="border-left:4px solid #059669">
+          <h4>💳 Pay INR 8,000 Application Fee</h4>
+          <p>Pay non-refundable fee online through the portal during form submission. Net banking / debit / credit card accepted.</p>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#1A5DC8">05</div>
+        <div class="ea-step-body" style="border-left:4px solid #1A5DC8">
+          <h4>📋 Await Allotment → Accept Seat Promptly</h4>
+          <p>IIIT-H ranks by total SAT score. If allotted, accept within the deadline window. Failure to accept forfeits your seat to the next candidate permanently.</p>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#059669">06</div>
+        <div class="ea-step-body" style="border-left:4px solid #059669">
+          <h4>🏛️ Report to IIIT Hyderabad Campus</h4>
+          <p>Report to Gachibowli, Hyderabad with originals. Upload final Class 12 marks by deadline in offer letter. Pay remaining tuition + hostel registration.</p>
+          <span class="ea-chip green">ugadmissions@iiit.ac.in | +91-40-6653-1250</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB B: IIIT-B -->
+  <div class="ea-tab-pane" id="ea-pane-1">
+    <div class="ea-notice green">
+      <h3>📌 IIIT Bangalore — 2026 Confirmed Dates</h3>
+      <ul>
+        <li><strong>Exam Required:</strong> JEE Main 2026 OR JEE Advanced 2026 rank — SAT is NOT accepted.</li>
+        <li><strong>Process:</strong> Own independent counselling at <a href="https://www.iiitb.ac.in/admissions" target="_blank">iiitb.ac.in</a> — NOT via dasanit.org.</li>
+        <li><strong>Pre-Registration:</strong> Opened 25 February 2026 — apply now at iiitb.ac.in.</li>
+        <li><strong>Full Application Opens:</strong> After JEE Main final results (~20 April 2026).</li>
+        <li><strong>Last Date to Apply:</strong> <strong>8 June 2026</strong>.</li>
+        <li><strong>Registration Fee:</strong> INR 1,500.</li>
+        <li><strong>Min Eligibility:</strong> 60% aggregate in Class 12 with Mathematics as a subject.</li>
+        <li><strong>CIWG:</strong> ✅ Available — JEE Main rank required.</li>
+        <li><strong>Programs:</strong> B.Tech (4-yr) &amp; Integrated iMTech (5-yr) in CSE, ECE, DSAI.</li>
+      </ul>
+    </div>
+    <div class="ea-steps">
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#059669">01</div>
+        <div class="ea-step-body" style="border-left:4px solid #059669">
+          <h4>📝 Write JEE Main 2026 (Session 1 &amp; / or Session 2)</h4>
+          <p>JEE Main by NTA: Session 1 (Jan 2026) and Session 2 (Apr 2–9, 2026). IIIT-B uses your best All India Rank. JEE Advanced rank also accepted. Target CRL rank within 15,000 for CSE/ECE.</p>
+          <span class="ea-chip green">Session 2 results: ~20 April 2026</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#F47920">02</div>
+        <div class="ea-step-body" style="border-left:4px solid #F47920">
+          <h4>📋 Pre-Register at iiitb.ac.in (Open Now)</h4>
+          <p>Pre-registration is live since 25 Feb 2026 at iiitb.ac.in. Register now with basic details. Full application form opens after JEE Main results in April. Registration fee: INR 1,500 at full application stage.</p>
+          <span class="ea-chip orange">Pre-register now → Last date: 8 June 2026</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#059669">03</div>
+        <div class="ea-step-body" style="border-left:4px solid #059669">
+          <h4>📄 Submit Full Application + Documents</h4>
+          <p>After JEE results (~20 Apr): Upload Class 12 marksheet, JEE scorecard, passport/ID, photos. Choose programme preference. Last date: 8 June 2026.</p>
+          <span class="ea-chip red">Hard deadline: 8 June 2026</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#F47920">04</div>
+        <div class="ea-step-body" style="border-left:4px solid #F47920">
+          <h4>🎯 IIIT-B Counselling &amp; Seat Allotment</h4>
+          <p>IIIT-B runs its own independent counselling — NOT through JoSAA or dasanit.org. Multiple rounds based on JEE rank + programme preference. Accept allotted seat within deadline.</p>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#059669">05</div>
+        <div class="ea-step-body" style="border-left:4px solid #059669">
+          <h4>🏛️ Report to IIIT Bangalore Campus</h4>
+          <p>Electronics City, Hosur Road, Bengaluru. Bring originals + pay semester fee + hostel registration + attend induction.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB C: dasanit.org -->
+  <div class="ea-tab-pane" id="ea-pane-2">
+    <div class="ea-notice orange">
+      <h3>📌 DASA via dasanit.org — Covers IIIT-Delhi, IIIT-Allahabad, IIIT-Pune, IIIT-Sri City, IIIT-Kottayam + all NITs</h3>
+      <ul>
+        <li><strong>Exam Required:</strong> JEE Main 2026 Paper-1 rank — SAT permanently discontinued since 2021.</li>
+        <li><strong>Portal:</strong> <a href="https://dasanit.org" target="_blank">dasanit.org</a> (official — brochure not yet released).</li>
+        <li><strong>Registration Opens:</strong> June 2026 (expected — after JoSAA counselling concludes).</li>
+        <li><strong>Application Fee:</strong> USD 300 (non-refundable).</li>
+        <li><strong>Min Eligibility:</strong> 75% in PCM (Class 12) for General; 65% for SC/ST.</li>
+        <li><strong>Residency:</strong> Must have studied abroad ≥ 2 years (incl. Gr. 11 &amp; 12) within the last 8 years.</li>
+        <li><strong>CIWG:</strong> ✅ Sub-category for children of GCC-country workers — JEE Main rank still required.</li>
+        <li><strong>Seat Allotment:</strong> 3 rounds in July–August 2026 (est.).</li>
+        <li><strong>Coordinating Institute 2026:</strong> NIT Calicut (expected).</li>
+      </ul>
+    </div>
+    <div class="ea-steps">
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#F47920">01</div>
+        <div class="ea-step-body" style="border-left:4px solid #F47920">
+          <h4>📝 Write JEE Main 2026</h4>
+          <p>NTA conducts JEE Main in 2 sessions — Jan &amp; Apr 2026. Best rank is used. SAT not accepted here. Target a strong rank — competition is high for top IIITs via DASA.</p>
+          <span class="ea-chip orange">Session 2: Apr 2–9, 2026</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#1A5DC8">02</div>
+        <div class="ea-step-body" style="border-left:4px solid #1A5DC8">
+          <h4>🌐 Register on dasanit.org (June 2026)</h4>
+          <p>Use JEE Main 2026 Application Number as login. Select category: NRI / OCI / PIO / Foreign National / CIWG. Verify eligibility — 75% PCM, 2 yrs study abroad, valid passport.</p>
+          <span class="ea-chip blue">Registration: June 2026 (est.)</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#F47920">03</div>
+        <div class="ea-step-body" style="border-left:4px solid #F47920">
+          <h4>📄 Upload Documents</h4>
+          <p>Class 10 &amp; 12 marksheets, passport, JEE scorecard, NRI/OCI/PIO proof, photos. For CIWG: parent's Gulf residence visa + valid work permit + employer letter.</p>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#1A5DC8">04</div>
+        <div class="ea-step-body" style="border-left:4px solid #1A5DC8">
+          <h4>💳 Pay USD 300 Application Fee</h4>
+          <p>Non-refundable fee via SWIFT transfer or international card. Keep payment receipt for upload. CIWG applicants pay same fee but enjoy lower tuition (INR-based).</p>
+          <span class="ea-chip blue">Fee: USD 300 (non-refundable)</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#F47920">05</div>
+        <div class="ea-step-body" style="border-left:4px solid #F47920">
+          <h4>🎯 Fill &amp; Lock Institute + Branch Preferences</h4>
+          <p>Rank IIITs and branches carefully. Once locked (manually or auto at deadline), NO changes allowed. Research NIRF rankings and placement data before locking.</p>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#059669">06</div>
+        <div class="ea-step-body" style="border-left:4px solid #059669">
+          <h4>📋 3 Rounds of Seat Allotment (July–Aug 2026)</h4>
+          <p>After each round: accept seat + pay advance fee within 48 hours or forfeit permanently. Results are only on dasanit.org — no emails or SMS. Check portal on allotment dates.</p>
+          <span class="ea-chip green">Round 1: July 2026 · Round 2: Late July · Round 3: Aug 2026</span>
+        </div>
+      </div>
+      <div class="ea-step">
+        <div class="ea-step-num" style="background:#1A5DC8">07</div>
+        <div class="ea-step-body" style="border-left:4px solid #1A5DC8">
+          <h4>🏛️ Report to Allotted IIIT (Aug–Sep 2026)</h4>
+          <p>Bring originals. Submit Class 12 passing certificate by 30 Sep 2026 if results were pending. Pay remaining fee + complete hostel, medical, induction formalities.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- QUICK REFERENCE TABLE -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div style="height:40px"></div>
+  <div class="ea-sec-title">Quick <span>Comparison</span> — All Top IIITs</div>
+  <div class="ea-sec-sub">At-a-glance guide for NRI and CIWG students</div>
+
+  <div class="ea-tbl-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>NIRF</th><th>Institute</th><th>NRI Exam 2026</th><th>Portal</th><th>CIWG?</th><th>Key Deadline</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:#eff6ff">
+          <td><strong>#15</strong></td><td><strong>IIIT Hyderabad</strong></td>
+          <td><span class="bdg bdg-blue">SAT ≥ 1070</span></td>
+          <td>ugadmissions.iiit.ac.in</td>
+          <td><span class="bdg bdg-red">❌ No</span></td>
+          <td>Apply by <strong>22 May</strong> · SAT by <strong>31 May 2026</strong></td>
+        </tr>
+        <tr>
+          <td><strong>#19</strong></td><td><strong>IIIT Allahabad</strong></td>
+          <td><span class="bdg bdg-green">JEE Main 2026</span></td>
+          <td>dasanit.org</td>
+          <td><span class="bdg bdg-green">✅ Yes</span></td>
+          <td>Register: June 2026 (est.)</td>
+        </tr>
+        <tr style="background:#eff6ff">
+          <td><strong>#47</strong></td><td><strong>IIIT Bangalore</strong></td>
+          <td><span class="bdg bdg-green">JEE Main / Adv</span></td>
+          <td>iiitb.ac.in (own)</td>
+          <td><span class="bdg bdg-green">✅ Yes</span></td>
+          <td>Last date: <strong>8 June 2026</strong></td>
+        </tr>
+        <tr>
+          <td><strong>#72</strong></td><td><strong>IIIT Delhi</strong></td>
+          <td><span class="bdg bdg-green">JEE Main 2026</span></td>
+          <td>dasanit.org</td>
+          <td><span class="bdg bdg-green">✅ Yes</span></td>
+          <td>Register: June 2026 (est.)</td>
+        </tr>
+        <tr style="background:#eff6ff">
+          <td><strong>#85</strong></td><td><strong>IIIT Pune</strong></td>
+          <td><span class="bdg bdg-green">JEE Main 2026</span></td>
+          <td>dasanit.org</td>
+          <td><span class="bdg bdg-green">✅ Yes</span></td>
+          <td>Register: June 2026 (est.)</td>
+        </tr>
+        <tr>
+          <td><strong>#92+</strong></td><td><strong>PPP IIITs</strong></td>
+          <td><span class="bdg bdg-green">JEE Main 2026</span></td>
+          <td>dasanit.org</td>
+          <td><span class="bdg bdg-green">✅ Yes</span></td>
+          <td>Register: June 2026 (est.)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- DEADLINES -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="ea-sec-title">All <span>Key Deadlines</span> — DASA 2026</div>
+  <div class="ea-sec-sub">Mark these in your calendar — missing any deadline means losing your seat</div>
+
+  <div class="ea-dl-grid">
+    <div class="ea-dl blue">
+      <div class="ea-dl-icon">🗓️</div>
+      <div class="ea-dl-phase">IIIT-H Portal Opens</div>
+      <div class="ea-dl-date">23 March 2026</div>
+      <div class="ea-dl-note">CONFIRMED · SAT-based only · admportal.iiit.ac.in</div>
+    </div>
+    <div class="ea-dl orange">
+      <div class="ea-dl-icon">✏️</div>
+      <div class="ea-dl-phase">JEE Main Session 2</div>
+      <div class="ea-dl-date">2–9 April 2026</div>
+      <div class="ea-dl-note">Required for IIIT-B, IIIT-D, IIIT-A and all PPP IIITs</div>
+    </div>
+    <div class="ea-dl green">
+      <div class="ea-dl-icon">🌐</div>
+      <div class="ea-dl-phase">IIIT-B Full App Opens</div>
+      <div class="ea-dl-date">~20 April 2026</div>
+      <div class="ea-dl-note">Pre-register NOW at iiitb.ac.in · Opens after JEE results</div>
+    </div>
+    <div class="ea-dl blue">
+      <div class="ea-dl-icon">📝</div>
+      <div class="ea-dl-phase">Last SAT for IIIT-H</div>
+      <div class="ea-dl-date">2 May 2026</div>
+      <div class="ea-dl-note">CONFIRMED · Last SAT date where scores can reach IIIT-H by 31 May</div>
+    </div>
+    <div class="ea-dl red">
+      <div class="ea-dl-icon">🔴</div>
+      <div class="ea-dl-phase">IIIT-H Portal Closes</div>
+      <div class="ea-dl-date">22 May 2026</div>
+      <div class="ea-dl-note">CONFIRMED · No applications accepted after this date</div>
+    </div>
+    <div class="ea-dl red">
+      <div class="ea-dl-icon">🔴</div>
+      <div class="ea-dl-phase">IIIT-H SAT Score Deadline</div>
+      <div class="ea-dl-date">31 May 2026</div>
+      <div class="ea-dl-note">CONFIRMED · Scores must reach IIIT-H from College Board by this date</div>
+    </div>
+    <div class="ea-dl green">
+      <div class="ea-dl-icon">✅</div>
+      <div class="ea-dl-phase">IIIT-B Last Date</div>
+      <div class="ea-dl-date">8 June 2026</div>
+      <div class="ea-dl-note">CONFIRMED · iiitb.ac.in · JEE rank + documents required</div>
+    </div>
+    <div class="ea-dl orange">
+      <div class="ea-dl-icon">🌍</div>
+      <div class="ea-dl-phase">DASA dasanit.org Opens</div>
+      <div class="ea-dl-date">June 2026 (est.)</div>
+      <div class="ea-dl-note">For IIIT-D, IIIT-A, Pune + all NITs · JEE Main rank required</div>
+    </div>
+    <div class="ea-dl purple">
+      <div class="ea-dl-icon">🎯</div>
+      <div class="ea-dl-phase">DASA Round 1 Allotment</div>
+      <div class="ea-dl-date">July 2026 (est.)</div>
+      <div class="ea-dl-note">Accept + pay advance fee within 48 hrs or forfeit seat permanently</div>
+    </div>
+    <div class="ea-dl orange">
+      <div class="ea-dl-icon">🔄</div>
+      <div class="ea-dl-phase">Round 2 + Upgrades</div>
+      <div class="ea-dl-date">Late July 2026 (est.)</div>
+      <div class="ea-dl-note">Last chance to upgrade institute/branch within DASA</div>
+    </div>
+    <div class="ea-dl purple">
+      <div class="ea-dl-icon">⚡</div>
+      <div class="ea-dl-phase">Round 3 / Spot Round</div>
+      <div class="ea-dl-date">August 2026 (est.)</div>
+      <div class="ea-dl-note">Limited remaining vacant seats — act fast</div>
+    </div>
+    <div class="ea-dl green">
+      <div class="ea-dl-icon">🏛️</div>
+      <div class="ea-dl-phase">Physical Reporting</div>
+      <div class="ea-dl-date">Aug – Sep 2026</div>
+      <div class="ea-dl-note">Report to allotted institute with all original documents</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!-- TOP 5 IIIT CARDS -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <div class="ea-sec-title">Top 5 IIITs — <span>Deep Dive</span></div>
+  <div class="ea-sec-sub">Campus strengths, correct admission route, and 2026 deadlines</div>
+
+  <div class="ea-cards">
+
+    <div class="ea-card">
+      <div class="ea-card-head" style="background:linear-gradient(135deg,#0D3B8C,#1A5DC8)">
+        <h3>IIIT Hyderabad</h3><span class="ea-rank">#15 NIRF</span>
+      </div>
+      <div class="ea-card-body">
+        <div class="ea-route-badge sat">📝 SAT Score · Min 1070 · Own Process</div>
+        <div class="ea-stats-row">
+          <div class="ea-stat"><div class="sv">97%</div><div class="sl">Placement</div></div>
+          <div class="ea-stat"><div class="sv o">₹35L</div><div class="sl">Avg Pkg</div></div>
+          <div class="ea-stat"><div class="sv">₹1.6Cr</div><div class="sl">Highest</div></div>
+        </div>
+        <ul class="ea-pts">
+          <li><span>🔬</span> World-class AI/NLP/CV research — LTRC, Research Park</li>
+          <li><span>💼</span> Google, Microsoft, Apple, Goldman Sachs</li>
+          <li><span>🎓</span> Dual degrees: CND, CLD, CHD, CGD</li>
+          <li><span>🌍</span> 15%+ international offers</li>
+          <li><span>⚠️</span> No CIWG scheme available here</li>
+        </ul>
+        <div class="ea-deadline-strip"><strong>Portal: 23 Mar–22 May 2026</strong> · SAT Code: 6997 · Fee: INR 8,000</div>
+      </div>
+    </div>
+
+    <div class="ea-card">
+      <div class="ea-card-head" style="background:linear-gradient(135deg,#061444,#0D3B8C)">
+        <h3>IIIT Allahabad</h3><span class="ea-rank">#19 NIRF</span>
+      </div>
+      <div class="ea-card-body">
+        <div class="ea-route-badge jee">🎯 JEE Main 2026 · via dasanit.org · CIWG ✅</div>
+        <div class="ea-stats-row">
+          <div class="ea-stat"><div class="sv">93%</div><div class="sl">Placement</div></div>
+          <div class="ea-stat"><div class="sv o">₹24L</div><div class="sl">Avg Pkg</div></div>
+          <div class="ea-stat"><div class="sv">₹85L</div><div class="sl">Highest</div></div>
+        </div>
+        <ul class="ea-pts">
+          <li><span>🏛️</span> Institute of National Importance</li>
+          <li><span>💼</span> Amazon, Flipkart, TCS Digital, Wipro Elite</li>
+          <li><span>📚</span> B.Tech + MBA / B.Tech + M.Tech dual options</li>
+          <li><span>💰</span> Best CIWG value — INR fees + national status</li>
+        </ul>
+        <div class="ea-deadline-strip"><strong>Register at dasanit.org from June 2026</strong> · CIWG available</div>
+      </div>
+    </div>
+
+    <div class="ea-card">
+      <div class="ea-card-head" style="background:linear-gradient(135deg,#064E3B,#0A5C36)">
+        <h3>IIIT Bangalore</h3><span class="ea-rank">#47 NIRF</span>
+      </div>
+      <div class="ea-card-body">
+        <div class="ea-route-badge jee">🎯 JEE Main / Advanced · iiitb.ac.in · CIWG ✅</div>
+        <div class="ea-stats-row">
+          <div class="ea-stat"><div class="sv">92%</div><div class="sl">Placement</div></div>
+          <div class="ea-stat"><div class="sv o">₹30L</div><div class="sl">Avg Pkg</div></div>
+          <div class="ea-stat"><div class="sv">₹95L</div><div class="sl">Highest</div></div>
+        </div>
+        <ul class="ea-pts">
+          <li><span>🏙️</span> Silicon Valley of India — 2000+ tech companies</li>
+          <li><span>💼</span> Intel, Qualcomm, Infosys, SAP, Accenture</li>
+          <li><span>🎓</span> B.Tech (4-yr) + iMTech (5-yr) in CSE/ECE/DSAI</li>
+          <li><span>🚀</span> Strong startup &amp; R&amp;D ecosystem</li>
+        </ul>
+        <div class="ea-deadline-strip"><strong>Pre-register NOW at iiitb.ac.in</strong> · Last date: 8 June 2026 · Fee: INR 1,500</div>
+      </div>
+    </div>
+
+    <div class="ea-card">
+      <div class="ea-card-head" style="background:linear-gradient(135deg,#4C1D95,#6B21A8)">
+        <h3>IIIT Delhi</h3><span class="ea-rank">#72 NIRF</span>
+      </div>
+      <div class="ea-card-body">
+        <div class="ea-route-badge jee">🎯 JEE Main 2026 · via dasanit.org · CIWG ✅</div>
+        <div class="ea-stats-row">
+          <div class="ea-stat"><div class="sv">91%</div><div class="sl">Placement</div></div>
+          <div class="ea-stat"><div class="sv o">₹28L</div><div class="sl">Avg Pkg</div></div>
+          <div class="ea-stat"><div class="sv">₹75L</div><div class="sl">Highest</div></div>
+        </div>
+        <ul class="ea-pts">
+          <li><span>🤖</span> AI-first: CSE-AI, CB, HCI, Design programs</li>
+          <li><span>💼</span> Samsung R&amp;D, Paytm, Zomato, PhonePe</li>
+          <li><span>🏙️</span> Delhi–Gurugram tech corridor advantage</li>
+          <li><span>📊</span> Data Science &amp; ML research focus</li>
+        </ul>
+        <div class="ea-deadline-strip"><strong>Register at dasanit.org from June 2026</strong> · 75% PCM required · CIWG available</div>
+      </div>
+    </div>
+
+    <div class="ea-card">
+      <div class="ea-card-head" style="background:linear-gradient(135deg,#78350F,#B45309)">
+        <h3>IIIT Pune</h3><span class="ea-rank">#85 NIRF</span>
+      </div>
+      <div class="ea-card-body">
+        <div class="ea-route-badge jee">🎯 JEE Main 2026 · via dasanit.org · CIWG ✅</div>
+        <div class="ea-stats-row">
+          <div class="ea-stat"><div class="sv">85%</div><div class="sl">Placement</div></div>
+          <div class="ea-stat"><div class="sv o">₹18L</div><div class="sl">Avg Pkg</div></div>
+          <div class="ea-stat"><div class="sv">₹45L</div><div class="sl">Highest</div></div>
+        </div>
+        <ul class="ea-pts">
+          <li><span>🏙️</span> Hinjewadi IT Park — TCS, Infosys, Wipro nearby</li>
+          <li><span>💼</span> Persistent Systems, TIBCO, Cognizant, L&amp;T</li>
+          <li><span>📈</span> 3× ranking improvement in 5 years</li>
+          <li><span>💰</span> Lowest NRI fees — best CIWG value</li>
+        </ul>
+        <div class="ea-deadline-strip"><strong>Register at dasanit.org from June 2026</strong> · 75% PCM required · CIWG available</div>
+      </div>
+    </div>
+
+  </div><!-- /ea-cards -->
+
+  <!-- DISCLAIMER -->
+  <div class="ea-disc">
+    <strong>⚠️ Disclaimer:</strong> IIIT-H dates (Mar 23 / May 22 / May 31 2026) and IIIT-B dates (Feb 25 / Jun 8 2026) are <strong>confirmed from official institute websites</strong>. dasanit.org dates (June–September) are <strong>tentative estimates</strong> based on 2025 patterns — the official 2026 brochure has not yet been released. Always verify at <a href="https://dasanit.org" target="_blank">dasanit.org</a>, <a href="https://ugadmissions.iiit.ac.in/dasa/" target="_blank">ugadmissions.iiit.ac.in/dasa</a>, and <a href="https://www.iiitb.ac.in/admissions" target="_blank">iiitb.ac.in/admissions</a> before applying.
+  </div>
+
+  <!-- CTA -->
+  <div class="ea-cta">
+    <h3>🎓 Not Sure Which Route is Right for You?</h3>
+    <p>Book a FREE 30-minute counselling session with EduAakashaa. Share your SAT or JEE score and we'll build your complete IIIT strategy.</p>
+    <div class="ea-cta-btns">
+      <a href="mailto:info@eduaakashaa.in" class="ea-btn ea-btn-white">📞 Book Free Counselling</a>
+      <a href="https://www.eduaakashaa.in" class="ea-btn ea-btn-outline">🌐 www.eduaakashaa.in</a>
+    </div>
+  </div>
+
+</div><!-- /ea-wrap -->
+
+<script>
+function eaTab(idx, btn) {
+  // Update buttons
+  var btns = document.querySelectorAll('#ea-wrap .ea-tab-btn');
+  btns.forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  // Update panes
+  var panes = document.querySelectorAll('#ea-wrap .ea-tab-pane');
+  panes.forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('ea-pane-' + idx).classList.add('active');
+  // Smooth scroll to tabs
+  document.querySelector('#ea-wrap .ea-tabs').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+</script>
+<script>
+	const heightObserver = new ResizeObserver(([{ contentRect }]) => {
+		window.parent.postMessage({ action: 'iframeHeightUpdated', height: contentRect.height, id: 'zBwuWZ' }, '*');
+	});
+
+	heightObserver.observe(document.documentElement);
+</script>
+
+</body></html>

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block title %}TNEA 2026 Choice Filling Simulator | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">TNEA 2026 · CHOICE FILLING</span>
+    <h1>TNEA <span>Choice Filling Simulator</span></h1>
+    <p>Your comprehensive guide to the best engineering college choice in Tamil Nadu — powered by EduAakashaA expert counselling.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">PRIMER</span>
+      <h2 class="section__title">What is TNEA Counselling?</h2>
+    </div>
+    <p class="content-text">TNEA (Tamil Nadu Engineering Admissions) is the centralised counselling for B.E./B.Tech admissions in TN colleges. Your <strong>cutoff</strong> (Maths + Physics/2 + Chemistry/2 = max 200) determines your rank and eligibility.</p>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">STRATEGY</span>
+      <h2 class="section__title">Do's and Don'ts</h2>
+    </div>
+    <div class="fee-compare">
+      <div class="fee-compare__col">
+        <h3>✅ Do</h3>
+        <ul>
+          <li>Fill 200+ choices for maximum safety</li>
+          <li>Research placements &amp; infrastructure</li>
+          <li>Mix safe, moderate &amp; ambitious choices</li>
+          <li>Consider branch future scope &amp; interest</li>
+          <li>Keep certificates and documents ready</li>
+          <li>Attend ALL counselling rounds</li>
+          <li>Consult EduAakashaA experts</li>
+        </ul>
+      </div>
+      <div class="fee-compare__col">
+        <h3>❌ Don't</h3>
+        <ul>
+          <li>Don't fill only top colleges</li>
+          <li>Don't ignore branch preference</li>
+          <li>Don't rely only on others' opinions</li>
+          <li>Don't skip any counselling round</li>
+          <li>Don't choose based on peer pressure</li>
+          <li>Don't ignore location &amp; hostel</li>
+          <li>Don't rush — research carefully</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">QUICK TOOLS</span>
+      <h2 class="section__title">Simulate Before You Submit</h2>
+    </div>
+    <div class="info-cards info-cards--3">
+      <div class="info-card">
+        <div class="info-card__icon">🧮</div>
+        <div class="info-card__title"><a href="{{ url_for('main.tneapc') }}">Cutoff Calculator</a></div>
+        <div class="info-card__text">Calculate your TNEA cutoff from +2 marks.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📊</div>
+        <div class="info-card__title"><a href="{{ url_for('main.tneamatrix') }}">Seat Matrix</a></div>
+        <div class="info-card__text">Explore branches &amp; seats across TN colleges.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🎯</div>
+        <div class="info-card__title"><a href="{{ url_for('main.tnea_cutoff') }}">Cutoff Analysis</a></div>
+        <div class="info-card__text">Previous-year cutoffs by college &amp; branch.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Start Your TNEA Journey</h2>
+    <p>Sign in to save your simulated choice list and share it with an EduAakashaA counsellor for expert review.</p>
+    <div class="final-cta__btns">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.tnea2026') }}" class="btn-main">Open TNEA 2026 Hub</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Book Counselling</a>
+      {% else %}
+        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login to save simulation</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-out">Create free account</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

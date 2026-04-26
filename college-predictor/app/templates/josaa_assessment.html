@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}JOSAA Assessment — Engineering Aptitude Test | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">JOSAA 2026 · APTITUDE ASSESSMENT</span>
+    <h1>JOSAA <span>Engineering Aptitude Assessment</span></h1>
+    <p>A scientific, multi-dimensional assessment to discover your ideal engineering branch before you fill JOSAA choices.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">STEPS</span>
+      <h2 class="section__title">9-Stage Assessment Flow</h2>
+    </div>
+
+    <div class="toc-grid">
+      <div class="toc-item"><span class="toc-item__num">1</span><div><div class="toc-item__title">Student Profile</div><div class="toc-item__text">Basic information · board · scores · category · home state.</div></div></div>
+      <div class="toc-item"><span class="toc-item__num">2</span><div><div class="toc-item__title">RIASEC Interest Inventory</div><div class="toc-item__text">Holland-style test across Realistic, Investigative, Artistic, Social, Enterprising, Conventional codes.</div></div></div>
+      <div class="toc-item"><span class="toc-item__num">3</span><div><div class="toc-item__title">Skills Snapshot</div><div class="toc-item__text">Self-rating across maths, coding, design, communication, leadership.</div></div></div>
+      <div class="toc-item"><span class="toc-item__num">4</span><div><div class="toc-item__title">SWOT</div><div class="toc-item__text">Strengths, Weaknesses, Opportunities, Threats — candid reflection.</div></div></div>
+      <div class="toc-item"><span class="toc-item__num">5</span><div><div class="toc-item__title">Branch Preferences</div><div class="toc-item__text">Rank CSE, ECE, ME, CE, CH, MC and other branches by interest.</div></div></div>
+      <div class="toc-item"><span class="toc-item__num">6</span><div><div class="toc-item__title">10-Year Vision</div><div class="toc-item__text">Where do you see yourself in 2036 — technology, entrepreneurship, research, abroad.</div></div></div>
+      <div class="toc-item"><span class="toc-item__num">7</span><div><div class="toc-item__title">Parent Inputs</div><div class="toc-item__text">Parental expectations &amp; constraints (financial, location, family profession).</div></div></div>
+      <div class="toc-item"><span class="toc-item__num">8</span><div><div class="toc-item__title">Analysis</div><div class="toc-item__text">Algorithmic fit-score across 50+ engineering programs.</div></div></div>
+      <div class="toc-item"><span class="toc-item__num">9</span><div><div class="toc-item__title">Final Report</div><div class="toc-item__text">Personalised recommendation · branch ranking · top colleges · JOSAA choice order suggestion.</div></div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">WHAT YOU'LL GET</span>
+      <h2 class="section__title">Outcomes of this assessment</h2>
+    </div>
+    <ul class="check-list">
+      <li>Top 5 recommended engineering branches with fit-score</li>
+      <li>Holland RIASEC personality profile &amp; career codes</li>
+      <li>SWOT one-pager for college interviews</li>
+      <li>Suggested institute types (IIT / NIT / IIIT / GFTI) based on preferences</li>
+      <li>Parent-student alignment dashboard</li>
+      <li>Recommended JOSAA choice-filling order based on rank &amp; interests</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <p class="content-text content-text--note">
+      The live assessment is available to logged-in users. Once you sign in, your progress is saved and the final report is generated as a PDF shareable with parents and counsellors.
+    </p>
+    <div class="final-cta">
+      <h2>Ready to begin?</h2>
+      <p>Sign in (or create a free account) to start the 9-stage JOSAA assessment and unlock your personalised branch report.</p>
+      <div class="final-cta__btns">
+        {% if current_user.is_authenticated %}
+          <a href="{{ url_for('main.josaa') }}" class="btn-main">Go to JOSAA Predictor</a>
+          <a href="{{ url_for('auth.dashboard') }}" class="btn-out">Dashboard</a>
+        {% else %}
+          <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login to start</a>
+          <a href="{{ url_for('auth.register') }}" class="btn-out">Create free account</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

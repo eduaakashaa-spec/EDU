@@ -1,0 +1,72 @@
+
+	html {
+		overflow: hidden;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+ 	}
+
+ 	iframe {
+ 		max-width: 100%;
+ 	}
+
+
+/* ---- next <style> block ---- */
+
+
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Segoe UI,Tahoma,sans-serif;background:#f8f9fc;color:#1a2440}
+a{text-decoration:none}
+.logo-text{font-size:22px;font-weight:700;color:#1a2e5a;display:inline-flex;align-items:center;gap:6px}
+.logo-text span{color:#e87a2e}
+.logo-box{width:32px;height:32px;background:linear-gradient(135deg,#2456a4,#e87a2e);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}
+.nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.nav a.join{background:#e87a2e;color:#fff;padding:10px 22px;border-radius:50px;font-weight:600;font-size:14px}
+.hero{padding:80px 20px 60px;background:#1a2e5a;color:#fff;text-align:center}
+.hero h1{font-size:42px;font-weight:700;margin-bottom:12px}
+.hero h1 span{color:#f59a0b}
+.hero p{font-size:17px;max-width:600px;margin:0 auto 28px;line-height:1.7;color:#c8d0e0}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-o{padding:14px 32px;border-radius:50px;font-weight:600;font-size:15px;background:#e87a2e;color:#fff;display:inline-block}
+.btn-w{padding:14px 32px;border-radius:50px;font-weight:600;font-size:15px;border:2px solid rgba(255,255,255,.4);color:#fff;display:inline-block}
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:32px;padding:28px 20px;background:#e87a2e;color:#fff;text-align:center}
+.stats b{font-size:28px;display:block}
+.stats small{font-size:13px;opacity:.9}
+.sec{padding:60px 20px}
+.sec-inner{max-width:1060px;margin:0 auto}
+.label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#e87a2e;margin-bottom:6px}
+.title{font-size:28px;font-weight:700;color:#1a2e5a;margin-bottom:10px}
+.sub{max-width:600px;font-size:15px;line-height:1.7;opacity:.6;margin-bottom:36px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 16px rgba(0,0,0,.06);border-top:3px solid #2456a4}
+.card .ic{font-size:24px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#eaf1fb;border-radius:10px;margin-bottom:10px}
+.card h3{font-size:15px;font-weight:600;color:#1a2e5a;margin-bottom:4px}
+.card p{font-size:13px;line-height:1.6;opacity:.6;margin:0}
+.pale{background:#eaf1fb}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.rcard{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+.rcard-h{padding:20px 20px 8px}
+.badge{display:inline-block;padding:3px 12px;border-radius:16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.b-blue{background:rgba(36,86,164,.1);color:#2456a4}
+.b-orange{background:rgba(232,122,46,.12);color:#e87a2e}
+.rcard h3{font-size:20px;font-weight:700;color:#1a2e5a;margin:0}
+.rcard ul{list-style:none;padding:0 20px 20px;margin:0}
+.rcard li{padding:5px 0;font-size:13px;opacity:.7}
+.rcard li::before{content:"\2713  ";color:#e87a2e;font-weight:700}
+.grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.citem{background:#fff;border-radius:10px;padding:18px;text-align:center;box-shadow:0 1px 8px rgba(0,0,0,.04);border:1px solid #eaf1fb}
+.citem .em{font-size:26px;margin-bottom:6px}
+.citem p{font-size:13px;font-weight:500;color:#1a2e5a;margin:0}
+.formsec{background:linear-gradient(160deg,#1a2e5a,#2456a4);color:#fff;text-align:center}
+.formsec .label{color:#f59a0b}
+.formsec .title{color:#fff}
+.formsec .sub{color:rgba(255,255,255,.65);margin-left:auto;margin-right:auto}
+.fbox{max-width:700px;margin:0 auto;background:rgba(255,255,255,.08);border-radius:16px;padding:32px;border:1px solid rgba(255,255,255,.1)}
+.fbox p{color:#c8d0e0;line-height:1.6;margin-bottom:18px}
+.btn-big{padding:16px 40px;border-radius:50px;font-weight:600;font-size:17px;background:#e87a2e;color:#fff;display:inline-block}
+.fnote{margin-top:16px;font-size:12px;opacity:.35;color:#fff}
+footer{text-align:center;padding:28px 20px;background:#0f1a33;color:rgba(255,255,255,.4);font-size:13px}
+@media(max-width:600px){.hero h1{font-size:32px}.btns{flex-direction:column;align-items:center}.sec{padding:40px 16px}.title{font-size:24px}}

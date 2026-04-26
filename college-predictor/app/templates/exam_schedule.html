@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% block title %}Exam Schedule 2026 — Engineering / Design / Architecture | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">UPDATED APRIL 2026</span>
+    <h1>Engineering &amp; Design <span>Exam Schedule 2026</span></h1>
+    <p>44+ exams across 4 streams — with dates, boards, state, and status. Filter by stream, type, state and plan ahead with EduAakashaA.</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item"><span class="hero__meta-label">EXAMS</span><span class="hero__meta-value">44</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">STREAMS</span><span class="hero__meta-value">4</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">STATES</span><span class="hero__meta-value">15+</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">STUDENTS</span><span class="hero__meta-value">50 L+</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+
+  <!-- Filters -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">FILTERS</span>
+      <h2 class="section__title">Narrow down the 2026 exams</h2>
+    </div>
+    <div class="filter-row" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
+      <select id="streamFilter" class="filter-input">
+        <option value="">All Streams</option>
+        <option>B.Tech/B.E.</option>
+        <option>B.Des (Design)</option>
+        <option>B.Arch</option>
+        <option>Research/Science</option>
+      </select>
+      <select id="typeFilter" class="filter-input">
+        <option value="">All Types</option>
+        <option>National</option>
+        <option>State</option>
+        <option>Private</option>
+        <option>Research</option>
+      </select>
+      <select id="statusFilter" class="filter-input">
+        <option value="">All Status</option>
+        <option>Completed</option>
+        <option>Upcoming</option>
+      </select>
+      <input type="text" id="searchFilter" class="filter-input" placeholder="Search exam or state…" style="flex:1;min-width:180px;">
+    </div>
+  </section>
+
+  <!-- Exam Table -->
+  <section class="section">
+    <div class="table-wrap">
+      <table id="examTable">
+        <thead>
+          <tr>
+            <th>Exam</th><th>Board</th><th>Stream</th><th>Type</th><th>State</th><th>Date</th><th>Status</th><th>Institutes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>JEE Main (S1)</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Jan 21-29, 2026</td><td>Completed</td><td>NITs · IIITs · GFTIs</td></tr>
+          <tr><td>JEE Main (S2)</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Apr 2-8, 2026</td><td>Completed</td><td>NITs · IIITs · GFTIs</td></tr>
+          <tr><td>JEE Main Paper 2 B.Arch (S1)</td><td>NTA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>Jan 29, 2026</td><td>Completed</td><td>NITs / IIITs B.Arch</td></tr>
+          <tr><td>JEE Main Paper 2 B.Arch (S2)</td><td>NTA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>Apr 7, 2026</td><td>Completed</td><td>NITs / IIITs B.Arch</td></tr>
+          <tr><td>JEE Advanced 2026</td><td>IIT Roorkee</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>May 2026 (Tentative)</td><td>Upcoming</td><td>23 IITs</td></tr>
+          <tr><td>BITSAT (S1)</td><td>BITS Pilani</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>Apr 15-16, 2026</td><td>Completed</td><td>BITS Pilani / Goa / Hyderabad</td></tr>
+          <tr><td>BITSAT (S2)</td><td>BITS Pilani</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>May 24-26, 2026</td><td>Upcoming</td><td>BITS Pilani / Goa / Hyderabad</td></tr>
+          <tr><td>VITEEE 2026</td><td>VIT Vellore</td><td>B.Tech/B.E.</td><td>Private</td><td>Tamil Nadu</td><td>Apr 28-May 3, 2026</td><td>Upcoming</td><td>VIT Vellore / Chennai / AP / Bhopal</td></tr>
+          <tr><td>SRMJEEE 2026</td><td>SRM University</td><td>B.Tech/B.E.</td><td>Private</td><td>Tamil Nadu</td><td>Apr 23-25 · Jun 10-15 · Jul 4-5</td><td>Upcoming</td><td>SRM Institute of Science &amp; Tech</td></tr>
+          <tr><td>MET 2026 (Ph1)</td><td>Manipal</td><td>B.Tech/B.E.</td><td>Private</td><td>Karnataka</td><td>Apr 13-14, 2026</td><td>Completed</td><td>Manipal Institute of Technology</td></tr>
+          <tr><td>MET 2026 (Ph2)</td><td>Manipal</td><td>B.Tech/B.E.</td><td>Private</td><td>Karnataka</td><td>May 23-24, 2026</td><td>Upcoming</td><td>Manipal Institute of Technology</td></tr>
+          <tr><td>AEEE 2026</td><td>Amrita</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>Apr 24-30, 2026</td><td>Upcoming</td><td>Amrita Vishwa Vidyapeetham</td></tr>
+          <tr><td>KIITEE (Ph1)</td><td>KIIT</td><td>B.Tech/B.E.</td><td>Private</td><td>Odisha</td><td>Apr 16-20, 2026</td><td>Completed</td><td>KIIT Bhubaneswar</td></tr>
+          <tr><td>KIITEE (Ph2)</td><td>KIIT</td><td>B.Tech/B.E.</td><td>Private</td><td>Odisha</td><td>Jun 4-8, 2026</td><td>Upcoming</td><td>KIIT Bhubaneswar</td></tr>
+          <tr><td>KLEEE 2026</td><td>KLE Tech</td><td>B.Tech/B.E.</td><td>Private</td><td>Karnataka</td><td>Mar 28-31, 2026</td><td>Completed</td><td>KLE Technological University</td></tr>
+          <tr><td>KCET 2026</td><td>KEA Karnataka</td><td>B.Tech/B.E.</td><td>State</td><td>Karnataka</td><td>Apr 23-24, 2026</td><td>Upcoming</td><td>200+ Karnataka Engg Colleges</td></tr>
+          <tr><td>COMEDK UGET</td><td>COMEDK</td><td>B.Tech/B.E.</td><td>State</td><td>Karnataka</td><td>May 9, 2026</td><td>Upcoming</td><td>181 Private KA Colleges</td></tr>
+          <tr><td>MHT CET (S1)</td><td>CET Cell MH</td><td>B.Tech/B.E.</td><td>State</td><td>Maharashtra</td><td>Apr 11-19, 2026</td><td>Completed</td><td>300+ Maharashtra Colleges</td></tr>
+          <tr><td>MHT CET (S2)</td><td>CET Cell MH</td><td>B.Tech/B.E.</td><td>State</td><td>Maharashtra</td><td>May 2026</td><td>Upcoming</td><td>300+ Maharashtra Colleges</td></tr>
+          <tr><td>WBJEE 2026</td><td>WBJEEB</td><td>B.Tech/B.E.</td><td>State</td><td>West Bengal</td><td>May 24, 2026</td><td>Upcoming</td><td>100+ WB Engg Colleges</td></tr>
+          <tr><td>GUJCET 2026</td><td>GSEB</td><td>B.Tech/B.E.</td><td>State</td><td>Gujarat</td><td>Mar 29, 2026</td><td>Completed</td><td>Gujarat Govt &amp; Pvt Colleges</td></tr>
+          <tr><td>KEAM 2026</td><td>CEE Kerala</td><td>B.Tech/B.E.</td><td>State</td><td>Kerala</td><td>Apr 17-22, 2026</td><td>Completed</td><td>Kerala Engineering Colleges</td></tr>
+          <tr><td>TG-EAPCET</td><td>TSCHE</td><td>B.Tech/B.E.</td><td>State</td><td>Telangana</td><td>May 9 &amp; 11, 2026</td><td>Upcoming</td><td>Telangana Engg Colleges</td></tr>
+          <tr><td>AP-EAPCET</td><td>APSCHE</td><td>B.Tech/B.E.</td><td>State</td><td>Andhra Pradesh</td><td>May 12-15 &amp; 18, 2026</td><td>Upcoming</td><td>AP Engineering Colleges</td></tr>
+          <tr><td>TNEA 2026</td><td>Anna University</td><td>B.Tech/B.E.</td><td>State</td><td>Tamil Nadu</td><td>Based on +2 Marks</td><td>Upcoming</td><td>550+ TN Colleges (No Exam)</td></tr>
+          <tr><td>OJEE 2026</td><td>OJEE Board</td><td>B.Tech/B.E.</td><td>State</td><td>Odisha</td><td>May 4-9, 2026</td><td>Upcoming</td><td>Odisha Govt &amp; Pvt Colleges</td></tr>
+          <tr><td>Assam CEE</td><td>DTE Assam</td><td>B.Tech/B.E.</td><td>State</td><td>Assam</td><td>Apr 19-20 &amp; Jun 7, 2026</td><td>Completed</td><td>Assam Engineering Colleges</td></tr>
+          <tr><td>JKCET 2026</td><td>BOPEE</td><td>B.Tech/B.E.</td><td>State</td><td>Jammu &amp; Kashmir</td><td>Apr 19, 2026</td><td>Completed</td><td>J&amp;K Engineering Colleges</td></tr>
+          <tr><td>HPCET 2026</td><td>HPU</td><td>B.Tech/B.E.</td><td>State</td><td>Himachal Pradesh</td><td>May 10, 2026</td><td>Upcoming</td><td>HP Engineering Colleges</td></tr>
+          <tr><td>CG PET 2026</td><td>CG Vyapam</td><td>B.Tech/B.E.</td><td>State</td><td>Chhattisgarh</td><td>May 14, 2026</td><td>Upcoming</td><td>Chhattisgarh Engg Colleges</td></tr>
+          <tr><td>UPSEE / AKTU</td><td>AKTU</td><td>B.Tech/B.E.</td><td>State</td><td>Uttar Pradesh</td><td>Via JEE Main Score</td><td>Upcoming</td><td>UP Engineering Colleges</td></tr>
+          <tr><td>CUSAT CAT</td><td>Cochin Univ</td><td>B.Tech/B.E.</td><td>State</td><td>Kerala</td><td>May 9-11, 2026</td><td>Upcoming</td><td>CUSAT Kochi</td></tr>
+          <tr><td>CUCET 2026</td><td>Central Univs</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>May 1, 2026</td><td>Upcoming</td><td>Central Universities</td></tr>
+          <tr><td>ISI Admission</td><td>ISI Kolkata</td><td>Research/Science</td><td>Research</td><td>West Bengal</td><td>May 10, 2026</td><td>Upcoming</td><td>ISI Kolkata / Bangalore / Delhi</td></tr>
+          <tr><td>UGEE (IIIT-H)</td><td>IIIT Hyderabad</td><td>Research/Science</td><td>Research</td><td>Telangana</td><td>May 2, 2026</td><td>Upcoming</td><td>IIIT Hyderabad</td></tr>
+          <tr><td>IAT (IISER)</td><td>IISER</td><td>Research/Science</td><td>Research</td><td>All India</td><td>Jun 7, 2026</td><td>Upcoming</td><td>7 IISERs</td></tr>
+          <tr><td>NEST 2026</td><td>NISER/CEBS</td><td>Research/Science</td><td>Research</td><td>All India</td><td>Jun 6, 2026</td><td>Upcoming</td><td>NISER · UM-DAE CEBS</td></tr>
+          <tr><td>NID DAT Prelims</td><td>NID</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Dec 21, 2025</td><td>Completed</td><td>7 NID Campuses</td></tr>
+          <tr><td>NID DAT B.Des Mains</td><td>NID</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Apr 19, 2026</td><td>Completed</td><td>NID Campuses</td></tr>
+          <tr><td>NIFT 2026 (Stage 1)</td><td>NTA/NIFT</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Feb 8, 2026</td><td>Completed</td><td>19 NIFT Campuses</td></tr>
+          <tr><td>NIFT 2026 (Stage 2)</td><td>NIFT</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Apr 6-11, 2026</td><td>Completed</td><td>NIFT Delhi &amp; Campuses</td></tr>
+          <tr><td>UCEED 2026</td><td>IIT Bombay</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan 18, 2026</td><td>Completed</td><td>IIT Bombay / Delhi / Guwahati B.Des</td></tr>
+          <tr><td>CEED 2026</td><td>IIT Bombay</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan 18, 2026</td><td>Completed</td><td>IITs M.Des Programs</td></tr>
+          <tr><td>NATA (Multi-Session)</td><td>CoA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>Mar 7 - Jun 28, 2026</td><td>Upcoming</td><td>400+ Architecture Colleges</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note">Dates are tentative &amp; compiled from official sources. Always verify at the respective official portal.</p>
+  </section>
+
+  <div class="final-cta">
+    <h2>Build Your Exam Planner</h2>
+    <p>Sign in to save exams to your planner and receive reminders before each deadline.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Get Counselling</a>
+      <a href="{{ url_for('main.tnea2026') }}" class="btn-out">TNEA 2026 Hub →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const stream = document.getElementById('streamFilter');
+  const type = document.getElementById('typeFilter');
+  const status = document.getElementById('statusFilter');
+  const search = document.getElementById('searchFilter');
+  const rows = document.querySelectorAll('#examTable tbody tr');
+
+  function norm(v){ return (v||'').trim().toLowerCase(); }
+
+  function applyFilters() {
+    const s = norm(stream.value);
+    const t = norm(type.value);
+    const st = norm(status.value);
+    const q = norm(search.value);
+    rows.forEach((r) => {
+      const c = r.children;
+      const exam = norm(c[0].textContent);
+      const streamV = norm(c[2].textContent);
+      const typeV = norm(c[3].textContent);
+      const stateV = norm(c[4].textContent);
+      const statusV = norm(c[6].textContent);
+      let ok = true;
+      if (s && streamV !== s) ok = false;
+      if (t && typeV !== t) ok = false;
+      if (st && statusV !== st) ok = false;
+      if (q && !(exam.includes(q) || stateV.includes(q))) ok = false;
+      r.style.display = ok ? '' : 'none';
+    });
+  }
+
+  [stream, type, status].forEach((el) => el.addEventListener('change', applyFilters));
+  search.addEventListener('input', applyFilters);
+});
+</script>
+{% endblock %}

@@ -1,0 +1,618 @@
+<!DOCTYPE html><html><head>
+<style>
+	html {
+		overflow: hidden;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+ 	}
+
+ 	iframe {
+ 		max-width: 100%;
+ 	}
+</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#FAF7F2;color:#2D2010;font-family:Georgia,serif;line-height:1.7;}
+a{color:#7B1D1D;text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* NAV */
+.nav{background:#1A0800;padding:14px 8%;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.nav-brand{font-family:Georgia,serif;font-size:18px;font-weight:bold;color:#FFFFFF;margin-right:10px;}
+.nav-brand b{color:#E8B04B;}
+.nav a{font-size:11px;font-weight:bold;color:rgba(255,255,255,0.6);padding:4px 8px;border-radius:4px;font-family:Arial,sans-serif;white-space:nowrap;}
+.nav a:hover{color:#E8B04B;text-decoration:none;}
+
+/* COVER - no position absolute, no fixed height, pure flow */
+.cover{background:#1A0800;padding:0;}
+.cover-top{padding:28px 8%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.06);}
+.cover-logo-name{font-family:Georgia,serif;font-size:20px;font-weight:bold;color:#FFFFFF;}
+.cover-logo-name b{color:#E8B04B;}
+.cover-logo-tag{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:2px;text-transform:uppercase;font-family:Arial,sans-serif;margin-top:2px;}
+.cover-edition{font-size:11px;font-weight:bold;color:#E8B04B;letter-spacing:1px;font-family:Arial,sans-serif;}
+.cover-body{padding:60px 8% 70px;}
+.cover-badge{display:inline-block;background:rgba(232,176,75,0.12);border:1px solid rgba(232,176,75,0.3);color:#E8B04B;font-size:11px;font-weight:bold;letter-spacing:1.5px;text-transform:uppercase;padding:6px 16px;border-radius:30px;margin-bottom:28px;font-family:Arial,sans-serif;}
+.cover h1{font-family:Georgia,serif;font-size:54px;font-weight:bold;line-height:1.1;color:#FFFFFF;margin-bottom:20px;max-width:580px;}
+.cover h1 b{color:#E8B04B;}
+.cover-desc{font-size:15px;color:rgba(255,255,255,0.58);max-width:480px;margin-bottom:40px;font-family:Arial,sans-serif;line-height:1.8;}
+.cover-bar{width:48px;height:3px;background:#C9933A;margin-bottom:32px;}
+.cover-meta{display:flex;gap:28px;flex-wrap:wrap;}
+.cmi{border-left:2px solid rgba(201,147,58,0.4);padding-left:12px;}
+.cmi-l{font-size:10px;color:rgba(255,255,255,0.35);font-weight:bold;letter-spacing:1px;text-transform:uppercase;font-family:Arial,sans-serif;}
+.cmi-v{font-size:13px;color:rgba(255,255,255,0.88);font-weight:bold;font-family:Arial,sans-serif;margin-top:2px;}
+
+/* PAGE */
+.page{max-width:860px;margin:0 auto;padding:60px 32px;}
+@media(max-width:640px){.page{padding:40px 18px;}.cover h1{font-size:34px;}}
+
+/* CHAPTER BANNER */
+.ch-banner{background:#1A0800;padding:50px 8%;display:flex;align-items:flex-end;gap:16px;}
+.cbn{font-family:Georgia,serif;font-size:76px;font-weight:bold;color:rgba(201,147,58,0.15);line-height:1;flex-shrink:0;}
+.cbl{font-size:10px;font-weight:bold;color:#C9933A;letter-spacing:2px;text-transform:uppercase;margin-bottom:6px;font-family:Arial,sans-serif;}
+.cbt{font-family:Georgia,serif;font-size:26px;color:#FFFFFF;font-weight:bold;line-height:1.2;}
+
+/* HEADERS */
+.ch-hdr{margin-bottom:38px;}
+.eyebrow{font-size:10px;font-weight:bold;color:#C9933A;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;font-family:Arial,sans-serif;}
+.ch-title{font-family:Georgia,serif;font-size:34px;font-weight:bold;color:#7B1D1D;line-height:1.12;margin-bottom:12px;}
+.ch-lead{font-size:16px;color:#6B5C45;max-width:580px;line-height:1.8;font-family:Arial,sans-serif;}
+.ch-rule{height:1px;background:#E2D5C3;margin-top:26px;}
+
+/* TEXT */
+p.bt{font-size:15px;line-height:1.85;color:#2D2010;margin-bottom:18px;font-family:Arial,sans-serif;}
+p.bt strong{color:#7B1D1D;}
+h3.sh{font-family:Georgia,serif;font-size:20px;color:#1A0800;font-weight:bold;margin:28px 0 11px;}
+
+/* CALLOUTS */
+.box{border-radius:10px;padding:16px 18px;margin:18px 0;display:flex;gap:12px;}
+.bico{font-size:15px;flex-shrink:0;margin-top:2px;font-family:Arial,sans-serif;}
+.blbl{font-size:10px;font-weight:bold;letter-spacing:1.2px;text-transform:uppercase;margin-bottom:4px;font-family:Arial,sans-serif;}
+.btxt{font-size:13.5px;line-height:1.7;font-family:Arial,sans-serif;}
+.bw{background:#FFF5F5;border:1px solid rgba(123,29,29,0.18);}.bw .blbl{color:#7B1D1D;}
+.bg{background:#F0FAF4;border:1px solid rgba(26,107,60,0.18);}.bg .blbl{color:#1A6B3C;}
+.by{background:#FFFBF0;border:1px solid rgba(201,147,58,0.25);}.by .blbl{color:#8B6514;}
+.bi{background:#F0F5FF;border:1px solid rgba(28,63,122,0.16);}.bi .blbl{color:#1C3F7A;}
+
+/* TABLE */
+.tw{overflow-x:auto;margin:18px 0;border-radius:10px;border:1px solid #E2D5C3;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+table{width:100%;border-collapse:collapse;font-size:13.5px;font-family:Arial,sans-serif;}
+thead th{background:#7B1D1D;color:#FFFFFF;padding:10px 13px;font-weight:bold;text-align:left;font-size:12px;}
+tbody tr:nth-child(even){background:#F3EDE3;}
+tbody td{padding:9px 13px;border-bottom:1px solid #E2D5C3;color:#2D2010;}
+tbody tr:last-child td{border-bottom:none;}
+.tg{color:#1A6B3C;font-weight:bold;}
+.tr{color:#7B1D1D;font-weight:bold;}
+.tc{text-align:center;}
+
+/* CARDS */
+.cards{display:flex;flex-wrap:wrap;gap:13px;margin:18px 0;}
+.card{background:#FFFFFF;border:1px solid #E2D5C3;border-radius:10px;padding:17px;box-shadow:0 2px 7px rgba(0,0,0,0.04);flex:1 1 190px;min-width:190px;}
+.cico{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;margin-bottom:9px;font-family:Arial,sans-serif;font-weight:bold;}
+.im{background:rgba(123,29,29,0.1);color:#7B1D1D;}
+.ig{background:rgba(26,107,60,0.08);color:#1A6B3C;}
+.ib{background:rgba(28,63,122,0.08);color:#1C3F7A;}
+.iy{background:rgba(201,147,58,0.1);color:#8B6514;}
+.card-title{font-size:14px;font-weight:bold;color:#1A0800;margin-bottom:5px;font-family:Georgia,serif;}
+.card-text{font-size:12.5px;color:#6B5C45;line-height:1.65;font-family:Arial,sans-serif;}
+
+/* STATS */
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0;}
+.sbox{background:#FFFFFF;border:1px solid #E2D5C3;border-radius:8px;padding:12px 14px;flex:1;min-width:90px;text-align:center;box-shadow:0 2px 5px rgba(0,0,0,0.04);}
+.snum{font-family:Georgia,serif;font-size:18px;font-weight:bold;color:#7B1D1D;}
+.slbl{font-size:10px;color:#6B5C45;font-weight:bold;margin-top:2px;font-family:Arial,sans-serif;}
+
+/* STEPS */
+.steps{margin:22px 0;}
+.step{display:flex;gap:14px;margin-bottom:18px;}
+.sc{width:40px;height:40px;border-radius:50%;background:#7B1D1D;color:#FFFFFF;font-family:Georgia,serif;font-size:14px;font-weight:bold;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 2px 9px rgba(123,29,29,0.22);}
+.sb{flex:1;padding-top:2px;}
+.st{font-size:15px;font-weight:bold;color:#1A0800;margin-bottom:3px;font-family:Georgia,serif;}
+.sd{font-size:13px;color:#6B5C45;line-height:1.65;font-family:Arial,sans-serif;}
+.sl{width:2px;height:12px;background:#E2D5C3;margin-left:19px;}
+
+/* CHECKLIST */
+.chk{list-style:none;margin:14px 0;}
+.chk li{display:flex;align-items:flex-start;gap:9px;padding:7px 0;border-bottom:1px solid #E2D5C3;font-size:14px;color:#2D2010;font-family:Arial,sans-serif;}
+.chk li:last-child{border-bottom:none;}
+.ci2{width:18px;height:18px;border-radius:4px;background:rgba(26,107,60,0.1);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:2px;color:#1A6B3C;font-family:Arial,sans-serif;font-weight:bold;}
+.ci2.w{background:rgba(201,147,58,0.1);color:#8B6514;}
+
+/* COMPARE */
+.cmp{display:flex;flex-wrap:wrap;gap:14px;margin:18px 0;}
+.cc{border-radius:11px;padding:18px;border:1px solid #E2D5C3;flex:1;min-width:210px;}
+.cc-d{background:#F0F5FF;border-color:rgba(28,63,122,0.18);}
+.cc-c{background:#F0FAF4;border-color:rgba(26,107,60,0.18);}
+.cc-h{font-size:10px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;font-family:Arial,sans-serif;}
+.cc-d .cc-h{color:#1C3F7A;}.cc-c .cc-h{color:#1A6B3C;}
+.cc-s{font-family:Georgia,serif;font-size:17px;font-weight:bold;margin-bottom:12px;color:#1A0800;}
+.cc-r{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid #E2D5C3;font-family:Arial,sans-serif;}
+.cc-r:last-child{border-bottom:none;}
+.cc-r span:first-child{color:#6B5C45;}
+.cc-r span:last-child{font-weight:bold;color:#1A0800;}
+
+/* TOC */
+.toc-row{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed #E2D5C3;align-items:baseline;flex-wrap:wrap;}
+.tn{font-size:11px;font-weight:bold;color:#C9933A;min-width:68px;font-family:Arial,sans-serif;}
+.tt{font-size:15px;font-weight:bold;color:#1A0800;flex:1;font-family:Georgia,serif;}
+.tt a{color:inherit;}.tt a:hover{color:#7B1D1D;text-decoration:none;}
+
+/* FAQ */
+.faq{border:1px solid #E2D5C3;border-radius:9px;margin-bottom:8px;background:#FFFFFF;overflow:hidden;}
+.fq{padding:13px 15px;font-weight:bold;font-size:14px;color:#1A0800;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:Arial,sans-serif;user-select:none;}
+.fq:hover{background:#F3EDE3;}
+.fa{display:none;padding:0 15px 12px;font-size:13.5px;color:#6B5C45;line-height:1.7;font-family:Arial,sans-serif;}
+.faq.open .fa{display:block;}
+.faq.open .fq{color:#7B1D1D;background:rgba(123,29,29,0.03);}
+.fchev{font-size:10px;color:#999;font-family:Arial,sans-serif;}
+
+/* CTA */
+.cta{background:#7B1D1D;border-radius:14px;padding:42px 34px;text-align:center;margin:38px 0;box-shadow:0 10px 30px rgba(123,29,29,0.2);}
+.cta h3{font-family:Georgia,serif;font-size:26px;color:#FFFFFF;margin-bottom:10px;}
+.cta p{font-size:14px;color:rgba(255,255,255,0.68);max-width:420px;margin:0 auto 22px;font-family:Arial,sans-serif;line-height:1.75;}
+.cta-btn{display:inline-block;background:#C9933A;color:#1A0800;font-weight:bold;font-size:14px;padding:12px 24px;border-radius:8px;font-family:Arial,sans-serif;}
+.cta-btn:hover{background:#E8B04B;text-decoration:none;}
+
+.rule{height:1px;background:#E2D5C3;margin:36px 0;}
+
+/* FOOTER */
+.footer{background:#1A0800;color:rgba(255,255,255,0.42);text-align:center;padding:30px 8%;font-size:12px;line-height:1.9;font-family:Arial,sans-serif;}
+.footer strong{color:#E8B04B;}
+.footer a{color:#E8B04B;}
+</style></head>
+	<body>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DASA &amp; CIWG Admissions Guide 2025 - EduAakashaa</title>
+
+
+
+
+<!-- COVER - everything in normal document flow, zero position:absolute -->
+<div class="cover">
+
+  <!-- TOP BAR: logo left, edition right &mdash; both in normal flex flow -->
+  <div class="cover-top">
+    <div>
+      <div class="cover-logo-name">Edu<b>Aakashaa</b></div>
+      <div class="cover-logo-tag">Your Admission Partner</div>
+    </div>
+    <div class="cover-edition">2025 – 26 Edition</div>
+  </div>
+
+  <!-- HERO CONTENT: all normal block flow -->
+  <div class="cover-body">
+    <div class="cover-badge">Complete Guide &nbsp;·&nbsp; 10 Chapters</div>
+
+    <h1>DASA &amp; CIWG<br><b>Admissions Guide</b><br>for NRI Families</h1>
+
+    <p class="cover-desc">Everything parents and students need to know about engineering admissions through DASA &amp; CIWG — eligibility, fees, process, and more.</p>
+
+    <div class="cover-bar"></div>
+
+    <div class="cover-meta">
+      <div class="cmi">
+        <div class="cmi-l">Covers</div>
+        <div class="cmi-v">NITs, IIITs, SPAs, CFTIs</div>
+      </div>
+      <div class="cmi">
+        <div class="cmi-l">Academic Year</div>
+        <div class="cmi-v">2025 – 26</div>
+      </div>
+      <div class="cmi">
+        <div class="cmi-l">Authority</div>
+        <div class="cmi-v">dasanit.org · MoE India</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV BAR (below cover, not sticky) -->
+<div class="nav">
+  <span class="nav-brand">Edu<b>Aakashaa</b></span>
+  <a href="#toc">Contents</a>
+  <a href="#ch1">Ch.1 Intro</a>
+  <a href="#ch2">Ch.2 DASA vs CIWG</a>
+  <a href="#ch3">Ch.3 Eligibility</a>
+  <a href="#ch4">Ch.4 Process</a>
+  <a href="#ch5">Ch.5 Colleges</a>
+  <a href="#ch6">Ch.6 Cut-offs</a>
+  <a href="#ch7">Ch.7 Fees</a>
+  <a href="#ch8">Ch.8 Docs</a>
+  <a href="#ch9">Ch.9 EduAakashaa</a>
+  <a href="#ch10">Ch.10 FAQs</a>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="page" id="toc">
+  <div class="ch-hdr">
+    <div class="eyebrow">Table of Contents</div>
+    <h2 class="ch-title">What's Inside This Guide</h2>
+    <p class="ch-lead">A practical, parent-friendly walkthrough of the entire DASA &amp; CIWG admission journey.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <div class="toc-row"><span class="tn">Chapter 1</span><span class="tt"><a href="#ch1">Introduction to Engineering Admissions for NRIs</a></span></div>
+  <div class="toc-row"><span class="tn">Chapter 2</span><span class="tt"><a href="#ch2">What is DASA &amp; CIWG? — Key Differences Explained</a></span></div>
+  <div class="toc-row"><span class="tn">Chapter 3</span><span class="tt"><a href="#ch3">Eligibility Criteria — Who Can Apply?</a></span></div>
+  <div class="toc-row"><span class="tn">Chapter 4</span><span class="tt"><a href="#ch4">Step-by-Step Admission Process</a></span></div>
+  <div class="toc-row"><span class="tn">Chapter 5</span><span class="tt"><a href="#ch5">Participating Colleges &amp; Popular Branches</a></span></div>
+  <div class="toc-row"><span class="tn">Chapter 6</span><span class="tt"><a href="#ch6">Cut-offs &amp; Seat Trends</a></span></div>
+  <div class="toc-row"><span class="tn">Chapter 7</span><span class="tt"><a href="#ch7">Fee Structure &amp; Financial Advantage of CIWG</a></span></div>
+  <div class="toc-row"><span class="tn">Chapter 8</span><span class="tt"><a href="#ch8">Documents Checklist</a></span></div>
+  <div class="toc-row"><span class="tn">Chapter 9</span><span class="tt"><a href="#ch9">How EduAakashaa Helps You</a></span></div>
+  <div class="toc-row"><span class="tn">Chapter 10</span><span class="tt"><a href="#ch10">Frequently Asked Questions</a></span></div>
+</div>
+
+<!-- CH1 -->
+<div class="ch-banner" id="ch1">
+  <div class="cbn">01</div>
+  <div><div class="cbl">Chapter One</div><div class="cbt">Introduction to Engineering Admissions for NRIs</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 1</div>
+    <h2 class="ch-title">Why Study Engineering in India?</h2>
+    <p class="ch-lead">For NRI families in the Gulf, India's top engineering colleges offer academic credibility, global placement value, and affordable education.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <p class="bt">India's <strong>National Institutes of Technology (NITs), Indian Institutes of Information Technology (IIITs),</strong> and Schools of Planning &amp; Architecture (SPAs) are among Asia's most respected technical institutions. NIT graduates are recruited by leading global firms — and an NIT degree is widely recognised in the Gulf, UK, US, and Australia.</p>
+  <h3 class="sh">The Challenge Facing NRI Families</h3>
+  <div class="cards">
+    <div class="card"><div class="cico im">Q?</div><div class="card-title">Quota Confusion</div><div class="card-text">Many families are unaware of dedicated NRI quotas — DASA and CIWG — which sit outside the highly competitive domestic JEE pool.</div></div>
+    <div class="card"><div class="cico iy">$$</div><div class="card-title">Fee Misinformation</div><div class="card-text">Widespread misconception that NIT fees are prohibitively expensive, when CIWG students pay Indian-parity tuition — a major financial advantage.</div></div>
+    <div class="card"><div class="cico ib">Doc</div><div class="card-title">Document Complexity</div><div class="card-text">Multiple document types, strict deadlines, and verification requirements catch families off guard when managing applications from abroad.</div></div>
+    <div class="card"><div class="cico ig">Cal</div><div class="card-title">Timeline Pressure</div><div class="card-text">DASA runs on a tight calendar. Missing the JEE Main registration or DEF payment window means waiting an entire year.</div></div>
+  </div>
+  <h3 class="sh">Where DASA &amp; CIWG Fit In</h3>
+  <p class="bt">The <strong>Direct Admission of Students Abroad (DASA)</strong> scheme is run by the Ministry of Education (Government of India) and coordinated by NIT Rourkela. It creates a dedicated 15% supernumerary quota across NITs, IIITs, and CFTIs. Within this, a carved-out 5% is reserved for <strong>Children of Indian Workers in Gulf Countries (CIWG)</strong>.</p>
+  <div class="box bg"><div class="bico">OK</div><div><div class="blbl">Key Takeaway</div><div class="btxt">DASA and CIWG are government-mandated, officially recognised pathways designed to make India's top engineering colleges accessible to students and families living abroad.</div></div></div>
+</div>
+
+<!-- CH2 -->
+<div class="ch-banner" id="ch2">
+  <div class="cbn">02</div>
+  <div><div class="cbl">Chapter Two</div><div class="cbt">What is DASA &amp; CIWG?</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 2</div>
+    <h2 class="ch-title">DASA vs CIWG — Clearly Explained</h2>
+    <p class="ch-lead">Two categories, one portal, very different financial implications. This is the most important distinction for any NRI or Gulf-based family.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <h3 class="sh">DASA — Direct Admission of Students Abroad</h3>
+  <p class="bt">DASA is a scheme of the <strong>Ministry of Education, Government of India</strong>, administered through <a href="https://dasanit.org" target="_blank">dasanit.org</a>. It provides Foreign Nationals, OCI/PIO holders, and NRIs a dedicated pathway into UG engineering programs. Admission is <strong>based entirely on JEE (Main) rank</strong>. Tuition for DASA (Non-SAARC) candidates is charged in <strong>US Dollars</strong>.</p>
+  <h3 class="sh">CIWG — Children of Indian Workers in Gulf Countries</h3>
+  <p class="bt">CIWG is a <strong>sub-category within DASA</strong> — not a separate scheme. It reserves 5% of seats for NRI students whose parent(s) work in one of 8 specified Gulf countries:</p>
+  <div class="stats">
+    <div class="sbox"><div class="snum">UAE</div><div class="slbl">United Arab Emirates</div></div>
+    <div class="sbox"><div class="snum">KSA</div><div class="slbl">Saudi Arabia</div></div>
+    <div class="sbox"><div class="snum">KWT</div><div class="slbl">Kuwait</div></div>
+    <div class="sbox"><div class="snum">QAT</div><div class="slbl">Qatar</div></div>
+    <div class="sbox"><div class="snum">OMN</div><div class="slbl">Oman</div></div>
+    <div class="sbox"><div class="snum">BHR</div><div class="slbl">Bahrain</div></div>
+    <div class="sbox"><div class="snum">IRQ</div><div class="slbl">Iraq</div></div>
+    <div class="sbox"><div class="snum">IRN</div><div class="slbl">Iran</div></div>
+  </div>
+  <p class="bt">The defining advantage of CIWG: tuition is paid at <strong>Indian Rupee rates</strong> — the same as domestic students — not in US Dollars. This creates substantial savings over four years.</p>
+  <h3 class="sh">Side-by-Side Comparison</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Feature</th><th>DASA (Non-SAARC / NRI)</th><th>DASA-CIWG</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Who Can Apply</strong></td><td>FN / OCI / PIO / NRI</td><td>NRI only — parent in Gulf</td></tr>
+      <tr><td><strong>OCI / PIO Eligible?</strong></td><td class="tg">Yes</td><td class="tr">No — NRIs only</td></tr>
+      <tr><td><strong>Seat Quota</strong></td><td>10% supernumerary</td><td>5% supernumerary</td></tr>
+      <tr><td><strong>Admission Basis</strong></td><td>JEE (Main) 2025 rank</td><td>JEE (Main) 2025 rank</td></tr>
+      <tr><td><strong>1st Sem Tuition</strong></td><td class="tr">US$ 4,000</td><td class="tg">₹62,500</td></tr>
+      <tr><td><strong>Registration Fee</strong></td><td>US$ 300 (non-refundable)</td><td>US$ 300 (non-refundable)</td></tr>
+      <tr><td><strong>Financial Advantage</strong></td><td>—</td><td class="tg">~6-8x cheaper per semester</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box bw"><div class="bico">!</div><div><div class="blbl">Important</div><div class="btxt">OCI/PIO card holders are <strong>not eligible</strong> for CIWG seats, even if a parent works in the Gulf. CIWG is exclusively for NRIs. Always confirm your nationality status before choosing a category.</div></div></div>
+</div>
+
+<!-- CH3 -->
+<div class="ch-banner" id="ch3">
+  <div class="cbn">03</div>
+  <div><div class="cbl">Chapter Three</div><div class="cbt">Eligibility Criteria</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 3</div>
+    <h2 class="ch-title">Who Can Apply? Official Rules</h2>
+    <p class="ch-lead">DASA eligibility has three pillars — nationality, age, and academic performance. All three must be met simultaneously.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <h3 class="sh">1. Nationality Eligibility</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Category</th><th>Description</th><th>CIWG Eligible?</th></tr></thead>
+    <tbody>
+      <tr><td><strong>NRI</strong></td><td>Non-Resident Indian (Indian passport, residing abroad)</td><td class="tg tc">Yes (if parent in Gulf)</td></tr>
+      <tr><td><strong>OCI</strong></td><td>Overseas Citizen of India (foreign passport + OCI card)</td><td class="tr tc">No</td></tr>
+      <tr><td><strong>PIO</strong></td><td>Person of Indian Origin (PIO card)</td><td class="tr tc">No</td></tr>
+      <tr><td><strong>FN</strong></td><td>Foreign National</td><td class="tr tc">No</td></tr>
+    </tbody>
+  </table></div>
+  <h3 class="sh">2. Age &amp; Academic Eligibility</h3>
+  <div class="cards">
+    <div class="card"><div class="cico ib">Age</div><div class="card-title">Age Requirement</div><div class="card-text">Born on or after <strong>October 01, 2000</strong>. Date of birth as in Class X board certificate.</div></div>
+    <div class="card"><div class="cico im">B.E</div><div class="card-title">For B.E. / B.Tech.</div><div class="card-text">Physics + Maths + one of (Chemistry, Bio, CS, Biotech) in Class XII with <strong>75% or 7.5 CGPA.</strong></div></div>
+    <div class="card"><div class="cico iy">Arch</div><div class="card-title">For B.Arch.</div><div class="card-text">Physics, Chemistry &amp; Maths in 10+2, with <strong>75% / 7.5 CGPA.</strong></div></div>
+    <div class="card"><div class="cico ig">JEE</div><div class="card-title">JEE (Main) 2025</div><div class="card-text">Valid JEE (Main) 2025 rank mandatory for all DASA &amp; CIWG candidates.</div></div>
+  </div>
+  <h3 class="sh">Additional CIWG Requirements</h3>
+  <ul class="chk">
+    <li><span class="ci2">V</span><span>Candidate must be an <strong>NRI</strong> — OCI/PIO not eligible</span></li>
+    <li><span class="ci2">V</span><span>Either or both parents must be <strong>working in one of the 8 specified Gulf countries</strong></span></li>
+    <li><span class="ci2">V</span><span>Parent must hold a <strong>Gulf visa valid on any date in 2025</strong></span></li>
+    <li><span class="ci2">V</span><span>Candidate must have completed <strong>2 years schooling (Cl.11 &amp; 12) outside India</strong></span></li>
+  </ul>
+  <div class="box by"><div class="bico">!</div><div><div class="blbl">Common Mistakes to Avoid</div><div class="btxt">
+    <strong>1.</strong> Studying Class 11-12 partly in India — must prove 2 full years abroad.<br><br>
+    <strong>2.</strong> Missing the subject combination — IB/A-Level students often miss the third qualifying science subject.<br><br>
+    <strong>3.</strong> Confusing OCI with CIWG — OCI holders are NOT eligible for CIWG regardless of Gulf employment.<br><br>
+    <strong>4.</strong> Parent visa expired before 2025 — must be valid on at least one date during 2025.
+  </div></div></div>
+</div>
+
+<!-- CH4 -->
+<div class="ch-banner" id="ch4">
+  <div class="cbn">04</div>
+  <div><div class="cbl">Chapter Four</div><div class="cbt">Step-by-Step Admission Process</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 4</div>
+    <h2 class="ch-title">From JEE to Your College Seat</h2>
+    <p class="ch-lead">DASA has five clearly defined stages. Missing any step — even by a day — can end your application for that year.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="sc">01</div><div class="sb"><div class="st">Appear in JEE (Main) 2025</div><div class="sd">Register and appear in JEE (Main) 2025 — from India or international centres as announced by NTA. A valid JEE rank is mandatory for everything that follows.</div></div></div>
+    <div class="sl"></div>
+    <div class="step"><div class="sc">02</div><div class="sb"><div class="st">Register on DASA Portal &amp; Pay DEF</div><div class="sd">Visit <strong>dasanit.org</strong>. Pay the DASA Enrolment Fee (DEF) in one transaction. CIWG: US$300 + ₹62,500. DASA Non-SAARC: US$4,300 total. The US$300 registration fee is non-refundable.</div></div></div>
+    <div class="sl"></div>
+    <div class="step"><div class="sc">03</div><div class="sb"><div class="st">Upload Documents &amp; Verification</div><div class="sd">Upload all required documents. If a query is raised by the verification officer, respond within the stipulated portal deadline. Non-response = automatic cancellation.</div></div></div>
+    <div class="sl"></div>
+    <div class="step"><div class="sc">04</div><div class="sb"><div class="st">Online Choice Filling &amp; Seat Allotment (3 Rounds)</div><div class="sd">Fill institute-branch preferences in order. DASA runs 3 rounds. Allotment is based on JEE rank within your declared preference list.</div></div></div>
+    <div class="sl"></div>
+    <div class="step"><div class="sc">05</div><div class="sb"><div class="st">Online Reporting &amp; Physical Reporting at Institute</div><div class="sd">Complete online reporting on the portal to confirm your seat. Then physically report to the allotted institute with original documents and pay balance fees directly to the institute.</div></div></div>
+  </div>
+  <div class="box bw"><div class="bico">!</div><div><div class="blbl">Critical Rule</div><div class="btxt">The DASA process is fully computerised and non-reversible. Missing the DEF payment window means you are out of the 2025 process with no exceptions or appeals.</div></div></div>
+</div>
+
+<!-- CH5 -->
+<div class="ch-banner" id="ch5">
+  <div class="cbn">05</div>
+  <div><div class="cbl">Chapter Five</div><div class="cbt">Participating Colleges &amp; Branches</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 5</div>
+    <h2 class="ch-title">Where Can You Get Admitted?</h2>
+    <p class="ch-lead">DASA covers premier centrally-funded technical institutions across India.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Institute Type</th><th>Description</th><th>Count</th></tr></thead>
+    <tbody>
+      <tr><td><strong>NITs</strong></td><td>National Institutes of Technology</td><td class="tc">31</td></tr>
+      <tr><td><strong>IIEST Shibpur</strong></td><td>Indian Institute of Engineering Science &amp; Technology</td><td class="tc">1</td></tr>
+      <tr><td><strong>IIITs</strong></td><td>Indian Institutes of Information Technology</td><td class="tc">~25</td></tr>
+      <tr><td><strong>SPAs</strong></td><td>Schools of Planning &amp; Architecture</td><td class="tc">3</td></tr>
+      <tr><td><strong>Other-GFTIs</strong></td><td>Other Government-funded technical institutions</td><td class="tc">~20+</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box bi"><div class="bico">i</div><div><div class="blbl">Official Source</div><div class="btxt">Exact list for 2025 is in <strong>Annexure 1</strong> of the DASA 2025 brochure at <a href="https://dasanit.org" target="_blank">dasanit.org</a>. Institutes may change year to year — always verify.</div></div></div>
+  <h3 class="sh">Most Popular Branches Among CIWG Students</h3>
+  <div class="cards">
+    <div class="card"><div class="cico ib">CSE</div><div class="card-title">Computer Science</div><div class="card-text">Most sought-after. Top NIT CSE seats attract the most competitive DASA ranks. Strong global placement demand.</div></div>
+    <div class="card"><div class="cico im">ECE</div><div class="card-title">Electronics &amp; Communication</div><div class="card-text">Second most popular. Excellent for semiconductor, telecom, or embedded systems careers — high-growth sectors in the Gulf.</div></div>
+    <div class="card"><div class="cico iy">ME</div><div class="card-title">Mechanical Engineering</div><div class="card-text">Aligns with oil &amp; gas, manufacturing, and energy sectors where many Gulf NRI families have career connections.</div></div>
+    <div class="card"><div class="cico ig">EEE</div><div class="card-title">Electrical Engineering</div><div class="card-text">Power, renewables, and smart grid sectors are booming in the Gulf. EEE from a top NIT carries strong career relevance.</div></div>
+  </div>
+</div>
+
+<!-- CH6 -->
+<div class="ch-banner" id="ch6">
+  <div class="cbn">06</div>
+  <div><div class="cbl">Chapter Six</div><div class="cbt">Cut-offs &amp; Seat Trends</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 6</div>
+    <h2 class="ch-title">Understanding Cut-offs</h2>
+    <p class="ch-lead">DASA cut-offs are not announced in advance. They emerge from actual demand each round. Understanding how they work is more valuable than chasing exact numbers.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <h3 class="sh">How DASA Cut-offs Work</h3>
+  <p class="bt">A cut-off is the <strong>JEE (Main) rank of the last candidate admitted</strong> to a particular institute-branch-category in a given round. It changes every year based on four key factors:</p>
+  <div class="cards">
+    <div class="card"><div class="cico ib">NIT</div><div class="card-title">Institute Reputation</div><div class="card-text">Top NITs attract stronger candidates and have more competitive closing ranks.</div></div>
+    <div class="card"><div class="cico im">CSE</div><div class="card-title">Branch Demand</div><div class="card-text">CSE and ECE consistently close at stronger ranks than Civil or Chemical at the same institute.</div></div>
+    <div class="card"><div class="cico ig">R3</div><div class="card-title">Round Number</div><div class="card-text">Later rounds may open seats unfilled in Round 1, sometimes at more accessible ranks.</div></div>
+    <div class="card"><div class="cico iy">Cat</div><div class="card-title">Category</div><div class="card-text">CIWG and DASA-General seats are separate pools with separate cut-offs. Check the correct category.</div></div>
+  </div>
+  <div class="box bw"><div class="bico">!</div><div><div class="blbl">Disclaimer — Cut-offs Change Every Year</div><div class="btxt">Historic data helps build a probability range — not predictions. Always build a safe-moderate-reach shortlist. Never rely on a single year's figure.</div></div></div>
+  <h3 class="sh">Interpreting Historical Trends Wisely</h3>
+  <ul class="chk">
+    <li><span class="ci2">V</span><span>Use <strong>3-5 years of data</strong> to identify a trend band, not a single year</span></li>
+    <li><span class="ci2">V</span><span>Compare both <strong>opening rank and closing rank</strong></span></li>
+    <li><span class="ci2">V</span><span>Track <strong>CIWG seats and DASA-General seats separately</strong> — they are different pools</span></li>
+    <li><span class="ci2 w">!</span><span>Avoid any source claiming to "predict" exact cut-offs — no model is perfectly accurate</span></li>
+  </ul>
+</div>
+
+<!-- CH7 -->
+<div class="ch-banner" id="ch7">
+  <div class="cbn">07</div>
+  <div><div class="cbl">Chapter Seven</div><div class="cbt">Fee Structure &amp; CIWG Financial Advantage</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 7</div>
+    <h2 class="ch-title">Official Fees — Accurate &amp; Sourced</h2>
+    <p class="ch-lead">Fee information is one of the most misrepresented aspects of DASA. This chapter uses only officially confirmed data from the DASA 2025 Information Brochure.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <h3 class="sh">DASA Enrolment Fee (DEF) — Official 2025 Figures</h3>
+  <p class="bt">The DEF is paid centrally via the DASA portal. It is <strong>uniform across ALL NITs, IIITs, and IIEST</strong> — it does not vary by institute at this stage.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Candidate Tag</th><th>Registration Fee</th><th>Tuition Fee (Sem 1)</th><th>Total DEF</th></tr></thead>
+    <tbody>
+      <tr><td><strong>DASA-CIWG (Single Tag)</strong></td><td>US$ 300</td><td class="tg">₹62,500</td><td class="tg"><strong>US$300 + ₹62,500</strong></td></tr>
+      <tr><td><strong>DASA Non-SAARC (NRI/OCI/PIO)</strong></td><td>US$ 300</td><td class="tr">US$ 4,000</td><td class="tr"><strong>US$ 4,300</strong></td></tr>
+      <tr><td><strong>DASA SAARC (50% waiver)</strong></td><td>US$ 300</td><td>US$ 2,000</td><td><strong>US$ 2,300</strong></td></tr>
+      <tr><td><strong>Double Tag (CIWG + Non-SAARC)</strong></td><td>US$ 300</td><td>US$ 4,000</td><td><strong>US$ 4,300</strong> (refund if CIWG allocated)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="box bw"><div class="bico">!</div><div><div class="blbl">Key Clarification</div><div class="btxt"><strong>The first-semester DEF tuition is identical across all NITs</strong> — US$4,000 for DASA Non-SAARC and ₹62,500 for CIWG. There is no Top NIT vs Mid NIT difference in the centrally collected DASA fee. Fee differences between institutes appear only in Semesters 2-8, paid directly to each institute.</div></div></div>
+  <h3 class="sh">CIWG vs DASA-General Comparison</h3>
+  <div class="cmp">
+    <div class="cc cc-d">
+      <div class="cc-h">DASA Non-SAARC (NRI/OCI/PIO)</div>
+      <div class="cc-s">USD Fee Track</div>
+      <div class="cc-r"><span>1st Semester (via DASA)</span><span>US$ 4,000</span></div>
+      <div class="cc-r"><span>Registration (non-refundable)</span><span>US$ 300</span></div>
+      <div class="cc-r"><span>Total DEF</span><span>US$ 4,300</span></div>
+      <div class="cc-r"><span>Semesters 2-8</span><span>Per institute (INR)</span></div>
+    </div>
+    <div class="cc cc-c">
+      <div class="cc-h">DASA-CIWG (Gulf NRI)</div>
+      <div class="cc-s">INR Parity Track</div>
+      <div class="cc-r"><span>1st Semester (via DASA)</span><span>₹62,500</span></div>
+      <div class="cc-r"><span>Registration (non-refundable)</span><span>US$ 300</span></div>
+      <div class="cc-r"><span>Total DEF</span><span>US$300 + ₹62,500</span></div>
+      <div class="cc-r"><span>Semesters 2-8</span><span>Per institute (INR)</span></div>
+    </div>
+  </div>
+  <div class="box bi"><div class="bico">i</div><div><div class="blbl">Official Disclaimer</div><div class="btxt">As stated in the DASA 2025 brochure: candidates must visit the Institute website for fee structure for individual Institutes. DASA 2025 is not responsible for individual institution fee structures.</div></div></div>
+</div>
+
+<!-- CH8 -->
+<div class="ch-banner" id="ch8">
+  <div class="cbn">08</div>
+  <div><div class="cbl">Chapter Eight</div><div class="cbt">Documents Checklist</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 8</div>
+    <h2 class="ch-title">Complete Documents Checklist</h2>
+    <p class="ch-lead">Prepare all documents at least 3 months before the DASA registration window opens.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <h3 class="sh">Required for ALL DASA Candidates</h3>
+  <ul class="chk">
+    <li><span class="ci2">V</span><span><strong>Candidate's Passport</strong> — all pages scanned</span></li>
+    <li><span class="ci2">V</span><span><strong>Date of Birth Proof</strong> — Class X board certificate or government-issued document</span></li>
+    <li><span class="ci2">V</span><span><strong>Class X, XI &amp; XII Marksheets</strong> (or equivalent)</span></li>
+    <li><span class="ci2">V</span><span><strong>School Certificate on Letterhead</strong> confirming completion of Class XI and XII (Annexure 11)</span></li>
+    <li><span class="ci2">V</span><span><strong>CGPA Equivalence Certificate</strong> — if board awards CGPA on a different scale</span></li>
+    <li><span class="ci2">V</span><span><strong>Proof of 2 Years Education Abroad</strong> — School leaving certificate or Study Certificate (Annexure 13)</span></li>
+    <li><span class="ci2">V</span><span><strong>Medical Certificate</strong> — in the format specified in Annexure 10</span></li>
+    <li><span class="ci2">V</span><span><strong>JEE (Main) 2025 Scorecard</strong></span></li>
+    <li><span class="ci2">V</span><span><strong>OCI / PIO Card</strong> — if applicable</span></li>
+  </ul>
+  <h3 class="sh">Additional for CIWG Applicants Only</h3>
+  <div class="box bg"><div class="bico">V</div><div><div class="blbl">CIWG-Specific Documents (in addition to all above)</div><div class="btxt">
+    → <strong>Copy of parent's passport</strong> (the parent working in the Gulf)<br><br>
+    → <strong>Copy of parent's Gulf country visa</strong> with validity on any date in 2025
+  </div></div></div>
+  <div class="box by"><div class="bico">!</div><div><div class="blbl">Critical Warning</div><div class="btxt">The <strong>candidate's name must be exactly identical</strong> across passport, marksheets, and JEE result. Any mismatch — including middle name differences — can trigger a document query that delays or cancels your application.</div></div></div>
+</div>
+
+<!-- CH9 -->
+<div class="ch-banner" id="ch9">
+  <div class="cbn">09</div>
+  <div><div class="cbl">Chapter Nine</div><div class="cbt">How EduAakashaa Helps You</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 9</div>
+    <h2 class="ch-title">Your Admission Planning Partner</h2>
+    <p class="ch-lead">EduAakashaa provides the knowledge, tools, and guidance to navigate DASA/CIWG with confidence.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="cico ib">AI</div><div class="card-title">DASA &amp; CIWG Predictor</div><div class="card-text">Enter your JEE rank. Get a personalised shortlist of safe, moderate, and reach options across 300+ programs in 47+ institutes.</div></div>
+    <div class="card"><div class="cico im">OK</div><div class="card-title">Eligibility Checker</div><div class="card-text">2-minute tool to verify whether you qualify as NRI, OCI, PIO, or FN under DASA 2025 rules, and CIWG eligibility.</div></div>
+    <div class="card"><div class="cico ig">Ac</div><div class="card-title">Academic Foundation</div><div class="card-text">For students in Class 9-12, early subject planning to ensure the right combination is in place for DASA eligibility.</div></div>
+    <div class="card"><div class="cico iy">1:1</div><div class="card-title">Expert Counselling</div><div class="card-text">Sessions covering document review, choice-filling strategy, round-wise decisions, and physical reporting guidance.</div></div>
+    <div class="card"><div class="cico ib">CO</div><div class="card-title">Cut-off Archive</div><div class="card-text">7 years of historical DASA and CIWG cut-off data as searchable trends — probability-informed guidance, not predictions.</div></div>
+    <div class="card"><div class="cico im">Fc</div><div class="card-title">Fee Calculator</div><div class="card-text">Estimate total 4-year cost at your target institute under DASA and CIWG categories, in both USD and INR.</div></div>
+  </div>
+  <div class="rule"></div>
+  <p class="bt" style="text-align:center;font-style:italic;color:#6B5C45;">EduAakashaa does not guarantee admissions. We provide accurate information, tools, and guidance — empowering well-informed decisions. Admissions are fully governed by DASA's official process at dasanit.org.</p>
+  <div class="cta">
+    <h3>Plan Early. Decide Smart.</h3>
+    <p>Book a free 30-minute orientation call with our DASA/CIWG specialists. Understand your eligibility, rank requirements, and the right strategy before the window opens.</p>
+    <a href="https://eduaakashaa.com" class="cta-btn">Book a Guidance Session →</a>
+  </div>
+</div>
+
+<!-- CH10 -->
+<div class="ch-banner" id="ch10">
+  <div class="cbn">10</div>
+  <div><div class="cbl">Chapter Ten</div><div class="cbt">Frequently Asked Questions</div></div>
+</div>
+<div class="page">
+  <div class="ch-hdr">
+    <div class="eyebrow">Chapter 10</div>
+    <h2 class="ch-title">Real Questions from NRI Parents</h2>
+    <p class="ch-lead">The most common points of confusion from NRI and Gulf-based families. All answers align with official DASA 2025 documents.</p>
+    <div class="ch-rule"></div>
+  </div>
+  <div class="faq open"><div class="fq" onclick="this.parentElement.classList.toggle('open')">Can CBSE students studying abroad apply to DASA? <span class="fchev">v</span></div><div class="fa">Yes. DASA accepts Class XII qualifications from any board recognised by the Association of Indian Universities (AIU) — including CBSE, ISC, IB, Cambridge, and most international boards. You must still meet the 75% / 7.5 CGPA requirement and Physics + Maths + one optional science subject combination.</div></div>
+  <div class="faq"><div class="fq" onclick="this.parentElement.classList.toggle('open')">Is CIWG a guaranteed admission? <span class="fchev">v</span></div><div class="fa">No. CIWG is a reserved seat quota — not a guarantee. Seats are allotted based on JEE (Main) rank within the CIWG pool. You compete with other CIWG-eligible candidates ranked by JEE merit.</div></div>
+  <div class="faq"><div class="fq" onclick="this.parentElement.classList.toggle('open')">What if my Class XII aggregate is slightly below 75%? <span class="fchev">v</span></div><div class="fa">The DASA 2025 criteria require a minimum of 75% aggregate (or 7.5 CGPA out of 10) for B.E./B.Tech. applicants. Candidates below this are not eligible. There is no grace margin in the official rules.</div></div>
+  <div class="faq"><div class="fq" onclick="this.parentElement.classList.toggle('open')">Can a student switch from DASA to CIWG mid-process? <span class="fchev">v</span></div><div class="fa">No switching mid-process. However, CIWG-eligible NRI candidates can register as a "Double Tag" from the start — paying the DASA Non-SAARC DEF (US$4,300). If allotted a CIWG seat, the tuition fee difference is refunded. This decision must be made at the DEF payment stage.</div></div>
+  <div class="faq"><div class="fq" onclick="this.parentElement.classList.toggle('open')">My parent's Gulf visa expires soon. Can I still apply for CIWG? <span class="fchev">v</span></div><div class="fa">Yes, as long as the parent's Gulf visa was valid on at least one date during 2025. The visa does not need to be valid at the time of admission — only valid at some point during 2025. Upload a copy as proof during document upload.</div></div>
+  <div class="faq"><div class="fq" onclick="this.parentElement.classList.toggle('open')">Can OCI/PIO card holders apply for CIWG? <span class="fchev">v</span></div><div class="fa">No. CIWG eligibility is restricted to Non-Resident Indians (NRIs) only. OCI/PIO holders — even if their parent is working in the Gulf — are not eligible for CIWG seats.</div></div>
+  <div class="faq"><div class="fq" onclick="this.parentElement.classList.toggle('open')">Does JEE (Main) have to be taken from an international centre? <span class="fchev">v</span></div><div class="fa">No. NRI and OCI/PIO candidates can take JEE (Main) from India or from international centres as announced by NTA. The rank is equally valid regardless of centre location.</div></div>
+  <div class="faq"><div class="fq" onclick="this.parentElement.classList.toggle('open')">If I fail to physically report at the institute, do I get my fee back? <span class="fchev">v</span></div><div class="fa">No. Per DASA 2025 refund rules, no tuition fee is refunded if a candidate fails to physically report at the admitting institute. The US$300 registration fee is non-refundable under all circumstances. A 50% tuition refund applies only if you withdraw during the online reporting stage.</div></div>
+  <div class="rule"></div>
+  <div class="box bi"><div class="bico">i</div><div><div class="blbl">Source Disclaimer</div><div class="btxt">All information is based on the <strong>DASA 2025 Information Brochure</strong> and <strong>DASA 2025 Official FAQ</strong> published by NIT Rourkela on behalf of the Ministry of Education, Government of India. Always verify at <strong><a href="https://dasanit.org" target="_blank">dasanit.org</a></strong>.</div></div></div>
+</div>
+
+<!-- FINAL CTA -->
+<div style="background:#F3EDE3;padding:60px 8%;text-align:center;">
+  <h2 style="font-family:Georgia,serif;font-size:32px;color:#7B1D1D;margin-bottom:12px;">Plan Early. Decide Smart.</h2>
+  <p style="font-size:15px;color:#6B5C45;max-width:460px;margin:0 auto 28px;line-height:1.85;font-family:Arial,sans-serif;">The DASA window is short. Students who start preparing 12-18 months early consistently secure stronger seats and avoid eligibility traps.</p>
+  <a href="https://eduaakashaa.com" style="display:inline-block;background:#7B1D1D;color:#FFFFFF;font-weight:bold;font-size:14px;padding:13px 26px;border-radius:9px;margin:4px;font-family:Arial,sans-serif;">Book a Free Session →</a>
+  <a href="https://dasanit.org" target="_blank" style="display:inline-block;background:#FFFFFF;color:#7B1D1D;font-weight:bold;font-size:14px;padding:12px 24px;border-radius:9px;border:2px solid #7B1D1D;margin:4px;font-family:Arial,sans-serif;">DASA Official Site</a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p><strong>EduAakashaa</strong> — Empowering NRI &amp; Gulf Students for Career Success Since 2019</p>
+  <p style="margin-top:6px;">This guide is for guidance purposes only. Fees, dates, and criteria are subject to change. Always refer to <a href="https://dasanit.org" target="_blank">dasanit.org</a> for current official information.</p>
+  <p style="margin-top:6px;">© 2025 EduAakashaa</p>
+</div>
+
+
+
+<script>
+document.querySelectorAll('.fq').forEach(function(q){
+  q.addEventListener('click',function(){this.parentElement.classList.toggle('open');});
+});
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(this.getAttribute('href'));
+    if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'});}
+  });
+});
+</script>
+<script>
+	const heightObserver = new ResizeObserver(([{ contentRect }]) => {
+		window.parent.postMessage({ action: 'iframeHeightUpdated', height: contentRect.height, id: 'zlmPDw' }, '*');
+	});
+
+	heightObserver.observe(document.documentElement);
+</script>
+
+</body></html>

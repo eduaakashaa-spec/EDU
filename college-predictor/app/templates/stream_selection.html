@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Stream Selection — Class 10 Decision Guide | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">AFTER 10TH · STREAM SELECTION</span>
+    <h1>Choosing the <span>Right Stream</span> After Class 10</h1>
+    <p>Science, Commerce, Humanities or Vocational — make an informed decision based on aptitude, interests and long-term career goals.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">STREAMS AT A GLANCE</span>
+      <h2 class="section__title">Four Primary Streams</h2>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card"><div class="info-card__icon">🔬</div><div class="info-card__title">Science (PCM)</div><div class="info-card__text">Engineering, Architecture, Pure Sciences, Computer Applications, Research.</div></div>
+      <div class="info-card"><div class="info-card__icon">🧬</div><div class="info-card__title">Science (PCB)</div><div class="info-card__text">Medicine, Pharmacy, Biotech, Allied Health, Life Sciences.</div></div>
+      <div class="info-card"><div class="info-card__icon">📊</div><div class="info-card__title">Commerce</div><div class="info-card__text">CA / CMA / CS, Finance, Economics, Business Management.</div></div>
+      <div class="info-card"><div class="info-card__icon">🎨</div><div class="info-card__title">Humanities / Arts</div><div class="info-card__text">Law, Psychology, Design, Journalism, Civil Services, Liberal Arts.</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">DECISION FACTORS</span>
+      <h2 class="section__title">What should drive your stream choice?</h2>
+    </div>
+    <ul class="check-list">
+      <li><strong>Aptitude:</strong> Logical &amp; numerical for PCM · Biological for PCB · Analytical for Commerce · Verbal for Humanities.</li>
+      <li><strong>Interest:</strong> Where do you lose track of time? Coding · biology · current affairs · design?</li>
+      <li><strong>Career ecosystem:</strong> Each stream has its own competitive exams (JEE · NEET · CA · CLAT · CUET).</li>
+      <li><strong>Higher studies:</strong> Some careers (medicine, architecture) require very specific school streams.</li>
+      <li><strong>Financial &amp; time horizon:</strong> Medicine &amp; CA need long commitments. Commerce &amp; Humanities have faster paths.</li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">POPULAR EXAMS PER STREAM</span>
+      <h2 class="section__title">Map your stream to next-step exams</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Stream</th><th>Major Entrance Exams</th><th>Typical Degrees</th></tr></thead>
+        <tbody>
+          <tr><td>Science (PCM)</td><td>JEE Main / Advanced, BITSAT, state CETs, NATA, NID DAT, UCEED</td><td>B.Tech, B.Arch, B.Des, B.Sc, BCA</td></tr>
+          <tr><td>Science (PCB)</td><td>NEET, NEET PG (later), state medical exams</td><td>MBBS, BDS, B.Pharm, B.Sc Nursing</td></tr>
+          <tr><td>Commerce</td><td>CA CPT, CS Foundation, CUET, IPM, CLAT</td><td>B.Com, BBA, BBM, Integrated CA</td></tr>
+          <tr><td>Humanities</td><td>CUET, CLAT, NID, NIFT, DU entrance</td><td>BA, BA LLB, B.Des, BJMC</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Still Undecided?</h2>
+    <p>Take the Psychometric Assessment to get a science-backed stream recommendation.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.student_assessment') }}" class="btn-main">Start Assessment</a>
+      <a href="{{ url_for('main.stream_selection_ea') }}" class="btn-out">Stream Selection EA →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

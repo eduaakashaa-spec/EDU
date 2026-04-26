@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Conflict Resolution Assessment | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">SCIENTIFIC APPROACH</span>
+    <h1>Resolving College &amp; <span>Course Selection Conflicts</span></h1>
+    <p>A psychology-backed assessment that helps parents and students find common ground — transforming disagreements into aligned decisions for the future.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">FRAMEWORKS USED</span>
+      <h2 class="section__title">Built on proven models</h2>
+    </div>
+    <div class="info-cards info-cards--4">
+      <div class="info-card"><div class="info-card__icon">🧠</div><div class="info-card__title">Interest-Based Relational Model</div><div class="info-card__text">Separates people from the problem — strengthens the relationship while exploring the decision.</div></div>
+      <div class="info-card"><div class="info-card__icon">📊</div><div class="info-card__title">Holland RIASEC</div><div class="info-card__text">Maps interests to six vocational codes for career alignment.</div></div>
+      <div class="info-card"><div class="info-card__icon">🎯</div><div class="info-card__title">SMART Goal Alignment</div><div class="info-card__text">Translates abstract aspirations into Specific, Measurable, Achievable, Relevant, Time-bound goals.</div></div>
+      <div class="info-card"><div class="info-card__icon">💡</div><div class="info-card__title">Cognitive Behavioural Analysis</div><div class="info-card__text">Identifies thought patterns driving the conflict &amp; reframes them constructively.</div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">HOW THE SESSION WORKS</span>
+      <h2 class="section__title">4-step process</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="step__num">1</span><div><div class="step__title">Individual inputs</div><div class="step__text">Student &amp; parent independently answer structured questions.</div></div></div>
+      <div class="step"><span class="step__num">2</span><div><div class="step__title">Gap analysis</div><div class="step__text">Overlaps, divergences &amp; deal-breakers are visualised side-by-side.</div></div></div>
+      <div class="step"><span class="step__num">3</span><div><div class="step__title">Counsellor facilitation</div><div class="step__text">EduAakashaA counsellor mediates using interest-based dialogue.</div></div></div>
+      <div class="step"><span class="step__num">4</span><div><div class="step__title">Aligned action plan</div><div class="step__text">Final decision documented with shared ownership &amp; review checkpoints.</div></div></div>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Begin the Scientific Assessment</h2>
+    <p>Sign in to start. The assessment can be completed individually by student &amp; parent before the joint counselling call.</p>
+    <div class="final-cta__btns">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('main.student_assessment') }}" class="btn-main">Student Assessment</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Book a Counsellor</a>
+      {% else %}
+        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login to start</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-out">Create free account</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

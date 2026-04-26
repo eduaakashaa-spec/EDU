@@ -1,0 +1,592 @@
+<!DOCTYPE html><html><head>
+
+</head>
+	<body>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduAakashaA — Parent-Student College Conflict Resolution</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&amp;family=Playfair+Display:wght@700;800;900&amp;display=swap" rel="stylesheet">
+
+
+
+
+
+<!-- HEADER -->
+<header class="header">
+<div class="container header-inner">
+  <a href="https://www.eduaakashaa.in"><img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/AzGeQnXJ98TKkVNd/logo2-YanyNjlRnwfkQlpE.png" alt="EduAakashaA" class="header-logo"></a>
+  <div class="header-title">Conflict Resolution Assessment</div>
+  <div class="header-tag">Scientific Approach</div>
+</div>
+</header>
+
+<!-- ═══════ HERO ═══════ -->
+<section class="hero" id="heroSection">
+<div class="container hero-content">
+  <h1>Resolving <span>College &amp; Course</span><br>Selection Conflicts</h1>
+  <p>A scientific, psychology-backed assessment tool that helps parents and students find common ground — transforming disagreements into aligned decisions for the future.</p>
+  <div class="hero-badges">
+    <div class="hero-badge">🧠 Interest-Based Relational Model</div>
+    <div class="hero-badge">📊 Holland RIASEC Framework</div>
+    <div class="hero-badge">🎯 SMART Goal Alignment</div>
+    <div class="hero-badge">💡 Cognitive Behavioral Analysis</div>
+  </div>
+  <button class="start-btn" onclick="showScreen('methodology')">Begin Scientific Assessment →</button>
+</div>
+</section>
+
+<!-- ═══════ METHODOLOGY ═══════ -->
+<section class="section hidden" id="methodology">
+<div class="container">
+  <div style="text-align:center;margin-bottom:8px">
+    <span style="font-size:12px;font-weight:700;color:var(--or);letter-spacing:3px;text-transform:uppercase">Our Scientific Approach</span>
+    <h2 style="font-family:'Playfair Display',serif;font-size:32px;color:var(--navy);margin:10px 0 8px">6-Framework Conflict Resolution Model</h2>
+    <p style="color:var(--sl);max-width:600px;margin:0 auto;font-size:15px;line-height:1.7">We combine proven psychological frameworks to identify the <em>real</em> sources of disagreement — not just the surface-level arguments — and build a personalised resolution pathway.</p>
+  </div>
+
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="method-num navy">1</div>
+      <h3>Interest-Based Relational (IBR) Model</h3>
+      <p>Developed at Harvard. Separates <strong>positions</strong> ("I want engineering") from <strong>interests</strong> ("I want job security"). Most conflicts exist because families argue positions, not interests. We uncover the real motivations.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num or">2</div>
+      <h3>Holland RIASEC Career Model</h3>
+      <p>Dr. John Holland's scientifically validated framework maps personality types (Realistic, Investigative, Artistic, Social, Enterprising, Conventional) to career families — objectively matching aptitude to courses.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num grn">3</div>
+      <h3>Thomas-Kilmann Conflict Instrument</h3>
+      <p>Identifies whether each person is Competing, Accommodating, Avoiding, Compromising, or Collaborating — revealing the power dynamics behind the disagreement and the healthiest resolution style.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num navy">4</div>
+      <h3>Cognitive Behavioral Analysis</h3>
+      <p>Identifies <strong>cognitive distortions</strong> driving the conflict: catastrophizing ("you'll fail"), all-or-nothing thinking ("only IIT matters"), social comparison ("neighbour's son did CS"). We surface hidden beliefs.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num or">5</div>
+      <h3>SMART Goal Alignment</h3>
+      <p>Maps both parties' 3, 5, and 10-year visions using Specific, Measurable, Achievable, Relevant, Time-bound criteria — revealing that most families actually share the same long-term goals but disagree on the path.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-num grn">6</div>
+      <h3>Maslow's Hierarchy Applied to Education</h3>
+      <p>Parents often prioritize <strong>Security</strong> (stable job, ROI). Students prioritize <strong>Self-Actualization</strong> (passion, creativity). Neither is wrong — they're at different hierarchy levels. We bridge the gap.</p>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:40px">
+    <button class="start-btn" onclick="showScreen('assessment')">Start the Assessment →</button>
+    <p style="font-size:12px;color:var(--sl);margin-top:12px">Takes 12–18 minutes · Both parent &amp; student should participate</p>
+  </div>
+</div>
+</section>
+
+<!-- ═══════ ASSESSMENT ═══════ -->
+<section class="section hidden" id="assessment">
+<div class="container">
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="switchTab('student')" id="tabStudent">👨‍🎓 Student Assessment</button>
+    <button class="tab-btn" onclick="switchTab('parent')" id="tabParent">👨‍👩‍👦 Parent Assessment</button>
+  </div>
+
+  <!-- ══ STUDENT TAB ══ -->
+  <div class="tab-panel active" id="panelStudent">
+    <div class="step-label" id="sStepLabel">Step 1 of 7 — Profile &amp; Identity</div>
+    <div class="progress-bar"><div class="progress-fill or" id="sProgress" style="width:14%"></div></div>
+
+    <!-- S-STEP 1: Profile -->
+    <div id="sStep1">
+      <div class="form-section">
+        <h3>Tell Us About Yourself</h3>
+        <p class="form-sub">Basic info helps us contextualise your situation.</p>
+        <div class="q-group"><label class="q-label">Your Name</label><input type="text" id="sName" placeholder="Enter your full name"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="q-group"><label class="q-label">Age</label><input type="number" id="sAge" placeholder="e.g. 17" min="14" max="30"></div>
+          <div class="q-group"><label class="q-label">Current Class / Year</label>
+            <select id="sClass"><option value="">Select</option><option>11th Standard</option><option>12th Standard</option><option>12th Completed</option><option>Gap Year</option><option>1st Year College (transfer)</option></select>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="q-group"><label class="q-label">Board / Stream</label>
+            <select id="sBoard"><option value="">Select</option><option>CBSE - PCM</option><option>CBSE - PCB</option><option>CBSE - Commerce</option><option>ICSE</option><option>State Board - Science</option><option>State Board - Arts</option><option>IB / Cambridge</option><option>Other</option></select>
+          </div>
+          <div class="q-group"><label class="q-label">Location</label>
+            <select id="sLocation"><option value="">Select</option><option>India - Metro City</option><option>India - Tier 2/3 City</option><option>India - Rural</option><option>NRI - UAE/Gulf</option><option>NRI - USA/Canada</option><option>NRI - UK/Europe</option><option>NRI - Singapore/SEA</option><option>NRI - Other</option></select>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav"><div></div><button class="btn btn-next" onclick="nextStep('s',2)">Next: Your Dreams →</button></div>
+    </div>
+
+    <!-- S-STEP 2: Aspirations & Interests -->
+    <div id="sStep2" class="hidden">
+      <div class="form-section">
+        <h3>Your Dreams &amp; Interests</h3>
+        <p class="form-sub">There are no wrong answers. This is about understanding YOUR authentic aspirations.</p>
+        <div class="science-note">🧠 <strong>Holland RIASEC Framework:</strong> We're mapping your natural personality-career alignment. Research shows students who choose courses aligned with their RIASEC type are 3.4x more likely to complete their degree and report career satisfaction.</div>
+
+        <div class="q-group">
+          <label class="q-label">If money, family pressure, and society didn't exist — what would you truly want to study or do?</label>
+          <textarea id="sDream" placeholder="Be completely honest — this is your space to express freely..."></textarea>
+        </div>
+
+        <div class="q-group">
+          <label class="q-label">What course/field do YOU want to pursue?</label>
+          <div class="option-grid" id="sCourseGrid">
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">💻</div>Computer Science / IT</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">⚙️</div>Mechanical / Civil Eng.</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">🔌</div>Electrical / ECE / EEE</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">🧬</div>Biotech / BioMedical</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">🏥</div>MBBS / Medicine</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">💊</div>Pharmacy / Allied Health</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">📐</div>Architecture / Design</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">💼</div>BBA / MBA</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">📊</div>B.Com / CA / Finance</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">⚖️</div>Law</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">🎨</div>Arts / Humanities</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">🔬</div>Pure Sciences (BSc)</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">🎬</div>Media / Film / Journalism</div>
+            <div class="option-card" onclick="toggleOpt(this,'sCourse')"><div class="opt-icon">🤷</div>Not Sure Yet</div>
+          </div>
+        </div>
+
+        <div class="q-group">
+          <label class="q-label">Which activities make you lose track of time? (select all that apply)</label>
+          <div class="option-grid" id="sInterestGrid">
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🔧</div>Building / Fixing things</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🔬</div>Researching / Experimenting</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🎨</div>Creating art / Writing</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🤝</div>Helping / Teaching others</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">📈</div>Leading / Organising</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">📋</div>Organising data / Systems</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">💻</div>Coding / Tech</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🎮</div>Gaming / Strategy</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('s',1)">← Back</button><button class="btn btn-next" onclick="nextStep('s',3)">Next: The Conflict →</button></div>
+    </div>
+
+    <!-- S-STEP 3: The Conflict -->
+    <div id="sStep3" class="hidden">
+      <div class="form-section">
+        <h3>The Conflict — Your Side</h3>
+        <p class="form-sub">Help us understand the disagreement from your perspective.</p>
+        <div class="science-note">🧠 <strong>Interest-Based Relational Model (Harvard):</strong> We're separating your POSITION (what you say you want) from your INTEREST (why you want it). Most family conflicts resolve when both sides understand each other's "why".</div>
+
+        <div class="q-group">
+          <label class="q-label">What does your parent/family want you to study that differs from your choice?</label>
+          <div class="option-grid" id="sParentWantsGrid">
+            <div class="option-card" onclick="toggleOpt(this,'sParentWants')"><div class="opt-icon">💻</div>Computer Science / IT</div>
+            <div class="option-card" onclick="toggleOpt(this,'sParentWants')"><div class="opt-icon">🏥</div>MBBS / Medicine</div>
+            <div class="option-card" onclick="toggleOpt(this,'sParentWants')"><div class="opt-icon">⚙️</div>Engineering (any)</div>
+            <div class="option-card" onclick="toggleOpt(this,'sParentWants')"><div class="opt-icon">📊</div>CA / Finance</div>
+            <div class="option-card" onclick="toggleOpt(this,'sParentWants')"><div class="opt-icon">🏛️</div>Government Job Path</div>
+            <div class="option-card" onclick="toggleOpt(this,'sParentWants')"><div class="opt-icon">👨‍👩‍👦</div>Family Business</div>
+            <div class="option-card" onclick="toggleOpt(this,'sParentWants')"><div class="opt-icon">❓</div>Not specific, just "safe"</div>
+          </div>
+        </div>
+
+        <div class="q-group">
+          <label class="q-label">How intense is the disagreement right now?</label>
+          <div class="range-wrap"><input type="range" id="sConflictLevel" min="1" max="10" value="5" oninput="document.getElementById('sConflictVal').textContent=this.value+'/10'"><div class="range-labels"><span>Mild tension</span><span>Not speaking</span></div></div>
+          <div class="range-value" id="sConflictVal">5/10</div>
+        </div>
+
+        <div class="q-group">
+          <label class="q-label">What do you think is the REAL reason your parents disagree?</label>
+          <div class="likert" id="sParentReasonLikert">
+            <label onclick="selectLikert(this,'l1')"><input type="radio" name="sParentReason" value="financial"><span>Financial worry — they can't afford my choice</span></label>
+            <label onclick="selectLikert(this,'l2')"><input type="radio" name="sParentReason" value="status"><span>Social status — "log kya kahenge"</span></label>
+            <label onclick="selectLikert(this,'l3')"><input type="radio" name="sParentReason" value="safety"><span>Job safety — they want guaranteed income</span></label>
+            <label onclick="selectLikert(this,'l4')"><input type="radio" name="sParentReason" value="knowledge"><span>Lack of knowledge about my field</span></label>
+            <label onclick="selectLikert(this,'l5')"><input type="radio" name="sParentReason" value="control"><span>They want to control decisions</span></label>
+          </div>
+        </div>
+
+        <div class="q-group">
+          <label class="q-label">In your own words, what frustrates you most about this situation?</label>
+          <textarea id="sFrustration" placeholder="Express freely — this is confidential..."></textarea>
+        </div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('s',2)">← Back</button><button class="btn btn-next" onclick="nextStep('s',4)">Next: Future Vision →</button></div>
+    </div>
+
+    <!-- S-STEP 4: Goal Mapping -->
+    <div id="sStep4" class="hidden">
+      <div class="form-section">
+        <h3>Your Future Vision — 3, 5 &amp; 10 Year Goals</h3>
+        <p class="form-sub">Let's map where you actually want to be. Research shows 78% of parent-student conflicts dissolve when both share their long-term vision.</p>
+        <div class="science-note">🎯 <strong>SMART Goal Framework:</strong> We're checking if your goals are Specific, Measurable, Achievable, Relevant, and Time-bound — not just vague dreams.</div>
+
+        <div class="q-group"><label class="q-label">Where do you see yourself in <strong>3 years</strong>?</label><textarea id="sGoal3" placeholder="e.g. Completing 2nd year of CS at a good college, doing internships at tech companies..."></textarea></div>
+        <div class="q-group"><label class="q-label">Where do you see yourself in <strong>5 years</strong>?</label><textarea id="sGoal5" placeholder="e.g. Working as a software developer in Bangalore, earning ₹12-15 LPA, independent..."></textarea></div>
+        <div class="q-group"><label class="q-label">Where do you see yourself in <strong>10 years</strong>?</label><textarea id="sGoal10" placeholder="e.g. Tech lead or startup founder, settled, supporting family, ₹40+ LPA..."></textarea></div>
+
+        <div class="q-group">
+          <label class="q-label">What matters MOST to you in your career? (rank by dragging or pick top 3)</label>
+          <div class="option-grid" id="sValueGrid">
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">💰</div>High Income</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">❤️</div>Passion / Fulfillment</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🏠</div>Work-Life Balance</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🌍</div>Global Opportunities</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🛡️</div>Job Security</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🚀</div>Innovation / Impact</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">👨‍👩‍👦</div>Family Approval</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🎓</div>Prestige / Status</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('s',3)">← Back</button><button class="btn btn-next" onclick="nextStep('s',5)">Next: Deeper Insights →</button></div>
+    </div>
+
+    <!-- S-STEP 5: Hidden Issues (Indirect Questions) -->
+    <div id="sStep5" class="hidden">
+      <div class="form-section">
+        <h3>Understanding You Better</h3>
+        <p class="form-sub">These questions help us understand the emotional landscape. Answer instinctively — first response is usually the most honest.</p>
+        <div class="science-note">🧠 <strong>Cognitive Behavioral Analysis:</strong> These indirect questions are designed to surface unconscious beliefs, fears and external pressures that may be influencing both you and your parents. Based on CBT techniques used in career counselling.</div>
+
+        <div class="q-group">
+          <label class="q-label">When you imagine yourself in the course your parents want, what is the first emotion that comes?</label>
+          <div class="option-grid">
+            <div class="option-card" onclick="toggleOpt(this,'sEmotion')"><div class="opt-icon">😰</div>Anxiety / Dread</div>
+            <div class="option-card" onclick="toggleOpt(this,'sEmotion')"><div class="opt-icon">😐</div>Boredom / Emptiness</div>
+            <div class="option-card" onclick="toggleOpt(this,'sEmotion')"><div class="opt-icon">😤</div>Anger / Resentment</div>
+            <div class="option-card" onclick="toggleOpt(this,'sEmotion')"><div class="opt-icon">🤔</div>Curiosity / Maybe OK</div>
+            <div class="option-card" onclick="toggleOpt(this,'sEmotion')"><div class="opt-icon">😊</div>Actually fine with it</div>
+          </div>
+        </div>
+
+        <div class="q-group">
+          <label class="q-label">If your best friend chose the course you want, what would your parents say about THEIR decision?</label>
+          <q class="q-hint">This reveals if the objection is about the field itself or about controlling YOUR choice specifically.</q>
+          <textarea id="sIndirect1" placeholder="What would they say about your friend's choice?"></textarea>
+        </div>
+
+        <div class="q-group">
+          <label class="q-label">Have any of these happened in the last 6 months? (select all)</label>
+          <div class="option-grid" id="sStressGrid">
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">😔</div>Felt pressure to match peers</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">😢</div>Cried about this conflict</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🤐</div>Stopped sharing feelings at home</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">📱</div>Searched "how to convince parents"</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">😡</div>Had a big argument about this</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">😌</div>None of these — it's manageable</div>
+          </div>
+        </div>
+
+        <div class="q-group">
+          <label class="q-label">Complete this sentence: "My parents would support my choice if only they knew that..."</label>
+          <textarea id="sIfOnly" placeholder="What key information or perspective would change their mind?"></textarea>
+        </div>
+
+        <div class="q-group">
+          <label class="q-label">How willing are you to genuinely consider your parents' perspective (not just pretend)?</label>
+          <div class="range-wrap"><input type="range" id="sOpenness" min="1" max="10" value="5" oninput="document.getElementById('sOpenVal').textContent=this.value+'/10'"><div class="range-labels"><span>Not at all</span><span>Completely open</span></div></div>
+          <div class="range-value" id="sOpenVal">5/10</div>
+        </div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('s',4)">← Back</button><button class="btn btn-next" onclick="nextStep('s',6)">Next: Practical Factors →</button></div>
+    </div>
+
+    <!-- S-STEP 6: Practical / FAQ -->
+    <div id="sStep6" class="hidden">
+      <div class="form-section">
+        <h3>Practical Reality Check</h3>
+        <p class="form-sub">An EduAakashaA expert would ask these questions to ensure the recommendation is grounded in reality, not just idealism.</p>
+
+        <div class="q-group"><label class="q-label">What entrance exams have you written or plan to write?</label>
+          <div class="option-grid" id="sExamGrid">
+            <div class="option-card" onclick="toggleMulti(this)">JEE Main</div>
+            <div class="option-card" onclick="toggleMulti(this)">JEE Advanced</div>
+            <div class="option-card" onclick="toggleMulti(this)">NEET</div>
+            <div class="option-card" onclick="toggleMulti(this)">TNEA (12th marks)</div>
+            <div class="option-card" onclick="toggleMulti(this)">VITEEE / SRMJEE</div>
+            <div class="option-card" onclick="toggleMulti(this)">NATA / NID</div>
+            <div class="option-card" onclick="toggleMulti(this)">SAT / ACT</div>
+            <div class="option-card" onclick="toggleMulti(this)">CLAT (Law)</div>
+            <div class="option-card" onclick="toggleMulti(this)">None yet</div>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="q-group"><label class="q-label">Your approximate score / percentile</label><input type="text" id="sScore" placeholder="e.g. JEE 92%ile, 12th 88%"></div>
+          <div class="q-group"><label class="q-label">Family's annual budget for education</label>
+            <select id="sBudget"><option value="">Select range</option><option>Below ₹2 Lakh/year</option><option>₹2-5 Lakh/year</option><option>₹5-10 Lakh/year</option><option>₹10-20 Lakh/year</option><option>₹20-50 Lakh/year</option><option>Above ₹50 Lakh/year (abroad)</option><option>Not sure / Haven't discussed</option></select>
+          </div>
+        </div>
+
+        <div class="q-group"><label class="q-label">Would you be willing to take a gap year if it meant getting into your preferred course?</label>
+          <div class="likert">
+            <label onclick="selectLikert(this,'l1')"><input type="radio" name="sGap" value="yes_ready"><span>Yes, already planning it</span></label>
+            <label onclick="selectLikert(this,'l2')"><input type="radio" name="sGap" value="yes_if"><span>Yes, if parents agree</span></label>
+            <label onclick="selectLikert(this,'l3')"><input type="radio" name="sGap" value="maybe"><span>Maybe, need more info</span></label>
+            <label onclick="selectLikert(this,'l4')"><input type="radio" name="sGap" value="no"><span>No, I want to start now</span></label>
+          </div>
+        </div>
+
+        <div class="q-group"><label class="q-label">Are you open to related alternatives? (e.g. if you want pure art, would UI/UX design be acceptable?)</label>
+          <div class="range-wrap"><input type="range" id="sFlexibility" min="1" max="10" value="5" oninput="document.getElementById('sFlexVal').textContent=this.value+'/10'"><div class="range-labels"><span>Only my exact choice</span><span>Very flexible</span></div></div>
+          <div class="range-value" id="sFlexVal">5/10</div>
+        </div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('s',5)">← Back</button><button class="btn btn-next" onclick="nextStep('s',7)">Next: Expectations →</button></div>
+    </div>
+
+    <!-- S-STEP 7: Expectations & Wrap-up -->
+    <div id="sStep7" class="hidden">
+      <div class="form-section">
+        <h3>Your Expectations from This Assessment</h3>
+        <p class="form-sub">Final questions to complete your profile.</p>
+
+        <div class="q-group"><label class="q-label">What outcome would make this assessment valuable for you?</label>
+          <div class="option-grid">
+            <div class="option-card" onclick="toggleOpt(this,'sOutcome')"><div class="opt-icon">🤝</div>Parents understand my view</div>
+            <div class="option-card" onclick="toggleOpt(this,'sOutcome')"><div class="opt-icon">🧭</div>I get clarity on my own choice</div>
+            <div class="option-card" onclick="toggleOpt(this,'sOutcome')"><div class="opt-icon">📋</div>A concrete action plan</div>
+            <div class="option-card" onclick="toggleOpt(this,'sOutcome')"><div class="opt-icon">☮️</div>Peace at home</div>
+          </div>
+        </div>
+
+        <div class="q-group"><label class="q-label">Is there anything else you want us to know?</label><textarea id="sAnything" placeholder="Any context, feelings or details that matter..."></textarea></div>
+
+        <div class="q-group"><label class="q-label">Your Email (for report delivery)</label><input type="email" id="sEmail" placeholder="student@email.com"></div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('s',6)">← Back</button><button class="btn btn-next" onclick="completeStudent()">✓ Submit Student Assessment</button></div>
+    </div>
+  </div>
+
+  <!-- ══ PARENT TAB ══ -->
+  <div class="tab-panel" id="panelParent">
+    <div class="step-label" id="pStepLabel">Step 1 of 6 — Profile</div>
+    <div class="progress-bar"><div class="progress-fill navy" id="pProgress" style="width:16%"></div></div>
+
+    <!-- P-STEP 1 -->
+    <div id="pStep1">
+      <div class="form-section">
+        <h3>Parent / Guardian Profile</h3>
+        <p class="form-sub">Help us understand your perspective, values and concerns.</p>
+        <div class="q-group"><label class="q-label">Your Name</label><input type="text" id="pName" placeholder="Parent / Guardian name"></div>
+        <div class="q-group"><label class="q-label">Relationship to Student</label>
+          <select id="pRelation"><option value="">Select</option><option>Father</option><option>Mother</option><option>Guardian</option><option>Elder Sibling</option><option>Other Family Member</option></select>
+        </div>
+        <div class="q-group"><label class="q-label">Your Profession / Background</label><input type="text" id="pProfession" placeholder="e.g. Engineer, Business owner, Teacher, Homemaker..."></div>
+        <div class="q-group"><label class="q-label">Your highest education</label>
+          <select id="pEducation"><option value="">Select</option><option>Below 12th</option><option>12th / Diploma</option><option>Bachelor's Degree</option><option>Master's Degree</option><option>PhD / Professional (CA, MBBS, etc.)</option></select>
+        </div>
+      </div>
+      <div class="form-nav"><div></div><button class="btn btn-next navy-btn" onclick="nextStep('p',2)">Next: Your Vision →</button></div>
+    </div>
+
+    <!-- P-STEP 2: What parents want -->
+    <div id="pStep2" class="hidden">
+      <div class="form-section">
+        <h3>Your Vision for Your Child</h3>
+        <p class="form-sub">Every parent wants the best. Let us understand what "best" means to you.</p>
+        <div class="science-note">🧠 <strong>Maslow's Hierarchy:</strong> Parents typically prioritize safety and security needs (stable career, financial independence) — which is completely valid. Understanding WHERE your priorities sit helps us bridge the gap with your child's aspirations.</div>
+
+        <div class="q-group"><label class="q-label">What course/field do YOU want your child to pursue?</label>
+          <div class="option-grid" id="pCourseGrid">
+            <div class="option-card" onclick="toggleOpt(this,'pCourse')"><div class="opt-icon">💻</div>Computer Science / IT</div>
+            <div class="option-card" onclick="toggleOpt(this,'pCourse')"><div class="opt-icon">🏥</div>MBBS / Medicine</div>
+            <div class="option-card" onclick="toggleOpt(this,'pCourse')"><div class="opt-icon">⚙️</div>Engineering (Core)</div>
+            <div class="option-card" onclick="toggleOpt(this,'pCourse')"><div class="opt-icon">📊</div>CA / CS / Finance</div>
+            <div class="option-card" onclick="toggleOpt(this,'pCourse')"><div class="opt-icon">🏛️</div>Government / UPSC</div>
+            <div class="option-card" onclick="toggleOpt(this,'pCourse')"><div class="opt-icon">👨‍👩‍👦</div>Family Business</div>
+            <div class="option-card" onclick="toggleOpt(this,'pCourse')"><div class="opt-icon">🤷</div>Open — whatever is best</div>
+            <div class="option-card" onclick="toggleOpt(this,'pCourse')"><div class="opt-icon">🎯</div>Same as my child's choice</div>
+          </div>
+        </div>
+
+        <div class="q-group"><label class="q-label">WHY do you prefer this path? What is the core reason? (most important)</label>
+          <div class="option-grid" id="pWhyGrid">
+            <div class="option-card" onclick="toggleOpt(this,'pWhy')"><div class="opt-icon">💰</div>High earning potential</div>
+            <div class="option-card" onclick="toggleOpt(this,'pWhy')"><div class="opt-icon">🛡️</div>Job security / stability</div>
+            <div class="option-card" onclick="toggleOpt(this,'pWhy')"><div class="opt-icon">🎖️</div>Social respect / prestige</div>
+            <div class="option-card" onclick="toggleOpt(this,'pWhy')"><div class="opt-icon">👨‍👩‍👦</div>Family tradition</div>
+            <div class="option-card" onclick="toggleOpt(this,'pWhy')"><div class="opt-icon">🌍</div>Global opportunities</div>
+            <div class="option-card" onclick="toggleOpt(this,'pWhy')"><div class="opt-icon">💡</div>I know this field well</div>
+            <div class="option-card" onclick="toggleOpt(this,'pWhy')"><div class="opt-icon">📰</div>Media / market trends</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('p',1)">← Back</button><button class="btn btn-next navy-btn" onclick="nextStep('p',3)">Next: Concerns →</button></div>
+    </div>
+
+    <!-- P-STEP 3: Concerns -->
+    <div id="pStep3" class="hidden">
+      <div class="form-section">
+        <h3>Your Concerns About Your Child's Choice</h3>
+        <p class="form-sub">What specifically worries you about the path your child wants?</p>
+
+        <div class="q-group"><label class="q-label">What worries you most about your child's preferred choice? (select all)</label>
+          <div class="option-grid" id="pWorryGrid">
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">💸</div>Poor earning potential</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">📉</div>No job guarantee</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🤦</div>It's just a phase / trend</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">😰</div>They'll regret it later</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">💬</div>Society will judge us</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">❓</div>I don't understand that field</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">💰</div>Too expensive for our budget</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🎓</div>Not enough scope in India</div>
+          </div>
+        </div>
+
+        <div class="q-group"><label class="q-label">How confident are you that YOUR choice is right for your child?</label>
+          <div class="range-wrap"><input type="range" id="pConfidence" min="1" max="10" value="7" oninput="document.getElementById('pConfVal').textContent=this.value+'/10'"><div class="range-labels"><span>Not confident</span><span>100% certain</span></div></div>
+          <div class="range-value" id="pConfVal">7/10</div>
+        </div>
+
+        <div class="q-group"><label class="q-label">Have you researched your child's preferred field in detail?</label>
+          <div class="likert">
+            <label onclick="selectLikert(this,'l1')"><input type="radio" name="pResearch" value="yes_deep"><span>Yes, thoroughly</span></label>
+            <label onclick="selectLikert(this,'l2')"><input type="radio" name="pResearch" value="some"><span>Somewhat</span></label>
+            <label onclick="selectLikert(this,'l3')"><input type="radio" name="pResearch" value="surface"><span>Only surface level</span></label>
+            <label onclick="selectLikert(this,'l4')"><input type="radio" name="pResearch" value="no"><span>Not really</span></label>
+            <label onclick="selectLikert(this,'l5')"><input type="radio" name="pResearch" value="no_need"><span>I don't need to</span></label>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('p',2)">← Back</button><button class="btn btn-next navy-btn" onclick="nextStep('p',4)">Next: Future Goals →</button></div>
+    </div>
+
+    <!-- P-STEP 4: Parent's Goal Mapping -->
+    <div id="pStep4" class="hidden">
+      <div class="form-section">
+        <h3>Your Vision — 3, 5 &amp; 10 Year Goals for Your Child</h3>
+        <p class="form-sub">Where do you want to see your child?</p>
+        <div class="q-group"><label class="q-label">In <strong>3 years</strong>, your child should be...</label><textarea id="pGoal3" placeholder="e.g. In a good college, focused on studies, no distractions..."></textarea></div>
+        <div class="q-group"><label class="q-label">In <strong>5 years</strong>, your child should be...</label><textarea id="pGoal5" placeholder="e.g. Graduated with a good job or preparing for higher studies..."></textarea></div>
+        <div class="q-group"><label class="q-label">In <strong>10 years</strong>, your child should be...</label><textarea id="pGoal10" placeholder="e.g. Settled, financially independent, married, stable..."></textarea></div>
+        <div class="q-group"><label class="q-label">What values matter MOST to you for your child's career?</label>
+          <div class="option-grid" id="pValueGrid">
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">💰</div>Financial security</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🎖️</div>Social prestige</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">😊</div>Happiness / Satisfaction</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🏠</div>Stability / Close to family</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🌍</div>Global mobility</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">👨‍👩‍👦</div>Continue family legacy</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('p',3)">← Back</button><button class="btn btn-next navy-btn" onclick="nextStep('p',5)">Next: Deeper Understanding →</button></div>
+    </div>
+
+    <!-- P-STEP 5: Hidden Issues (Indirect Qs) -->
+    <div id="pStep5" class="hidden">
+      <div class="form-section">
+        <h3>Understanding the Full Picture</h3>
+        <p class="form-sub">These questions help us identify factors that may be unconsciously influencing the situation.</p>
+        <div class="science-note">🧠 <strong>Cognitive Behavioral Analysis:</strong> These indirect questions help surface beliefs like "only STEM leads to success" or fears rooted in your own career experiences — which may be shaping your stance without you realising it.</div>
+
+        <div class="q-group"><label class="q-label">If a successful relative's child chose the same field as your child wants — would you still object?</label>
+          <q class="q-hint">This reveals if your objection is about the field or about trust in your child's ability.</q>
+          <div class="likert">
+            <label onclick="selectLikert(this,'l1')"><input type="radio" name="pRelativeTest" value="no_obj"><span>No, I'd be OK then</span></label>
+            <label onclick="selectLikert(this,'l2')"><input type="radio" name="pRelativeTest" value="maybe"><span>I'd be less worried</span></label>
+            <label onclick="selectLikert(this,'l3')"><input type="radio" name="pRelativeTest" value="still_obj"><span>I'd still have concerns</span></label>
+            <label onclick="selectLikert(this,'l4')"><input type="radio" name="pRelativeTest" value="yes_same"><span>Yes, same objection</span></label>
+          </div>
+        </div>
+
+        <div class="q-group"><label class="q-label">Have any of these influenced your thinking? (be honest — select all)</label>
+          <div class="option-grid" id="pInfluenceGrid">
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">👥</div>Relative comparisons</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">📰</div>News about job market</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">😞</div>My own career regrets</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">💰</div>Financial pressures</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🗣️</div>Community / social pressure</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">😤</div>Child's recent behaviour</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">🧓</div>Elder family member opinion</div>
+            <div class="option-card" onclick="toggleMulti(this)"><div class="opt-icon">✅</div>Pure rational analysis</div>
+          </div>
+        </div>
+
+        <div class="q-group"><label class="q-label">Complete this sentence: "I would support my child's choice if..."</label>
+          <textarea id="pIfSupport" placeholder="What condition or proof would make you comfortable?"></textarea>
+        </div>
+
+        <div class="q-group"><label class="q-label">How willing are you to genuinely explore your child's choice (not just dismiss it)?</label>
+          <div class="range-wrap"><input type="range" id="pOpenness" min="1" max="10" value="5" oninput="document.getElementById('pOpenVal').textContent=this.value+'/10'"><div class="range-labels"><span>Not at all</span><span>Completely open</span></div></div>
+          <div class="range-value" id="pOpenVal">5/10</div>
+        </div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('p',4)">← Back</button><button class="btn btn-next navy-btn" onclick="nextStep('p',6)">Next: Final Details →</button></div>
+    </div>
+
+    <!-- P-STEP 6 -->
+    <div id="pStep6" class="hidden">
+      <div class="form-section">
+        <h3>Final Details</h3>
+        <div class="q-group"><label class="q-label">What outcome would satisfy you from this assessment?</label>
+          <div class="option-grid">
+            <div class="option-card" onclick="toggleOpt(this,'pOutcome')"><div class="opt-icon">📊</div>Data proving my choice is better</div>
+            <div class="option-card" onclick="toggleOpt(this,'pOutcome')"><div class="opt-icon">🤝</div>A compromise we both accept</div>
+            <div class="option-card" onclick="toggleOpt(this,'pOutcome')"><div class="opt-icon">💡</div>Unbiased expert recommendation</div>
+            <div class="option-card" onclick="toggleOpt(this,'pOutcome')"><div class="opt-icon">☮️</div>Peaceful resolution at home</div>
+          </div>
+        </div>
+        <div class="q-group"><label class="q-label">Your Email</label><input type="email" id="pEmail" placeholder="parent@email.com"></div>
+        <div class="q-group"><label class="q-label">Anything else you want to share?</label><textarea id="pAnything" placeholder="Additional context..."></textarea></div>
+      </div>
+      <div class="form-nav"><button class="btn btn-back" onclick="prevStep('p',5)">← Back</button><button class="btn btn-next navy-btn" onclick="completeParent()">✓ Submit Parent Assessment</button></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ═══════ RESULTS ═══════ -->
+<section class="section hidden" id="results">
+<div class="container">
+
+  <div class="result-hero">
+    <h2>Conflict Resolution Report</h2>
+    <p>EduAakashaA Scientific Analysis — <span id="resDate"></span></p>
+
+    <div class="conflict-meter" id="conflictMeter"></div>
+  </div>
+
+  <!-- Charts -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+    <div class="chart-box"><h4>🧠 RIASEC Interest Alignment</h4><div class="chart-wrap"><canvas id="radarChart"></canvas></div></div>
+    <div class="chart-box"><h4>⚖️ Conflict Dimensions</h4><div class="chart-wrap"><canvas id="conflictChart"></canvas></div></div>
+  </div>
+  <div class="chart-box"><h4>📊 Value Priority Comparison — Student vs Parent</h4><div class="chart-wrap"><canvas id="valuesChart"></canvas></div></div>
+
+  <!-- Insights -->
+  <h3 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);margin:36px 0 20px">🔍 Key Insights &amp; Analysis</h3>
+  <div class="insight-grid" id="insightsGrid"></div>
+
+  <!-- Recommendations -->
+  <h3 style="font-family:'Playfair Display',serif;font-size:24px;color:var(--navy);margin:36px 0 20px">✅ Personalised Recommendations</h3>
+  <div id="recsContainer"></div>
+
+  <!-- Timeline -->
+  <div class="insight-card full" style="margin-top:20px">
+    <h4>🗺️ Unified 10-Year Roadmap</h4>
+    <div class="timeline" id="timelineContainer"></div>
+  </div>
+
+  <!-- Actions -->
+  <div class="action-bar">
+    <button class="action-btn primary" onclick="generateReport()">📄 Download Full Report (PDF)</button>
+    <button class="action-btn secondary" onclick="saveToSheets()">📊 Save to Google Sheets</button>
+    <button class="action-btn outline" onclick="window.open('https://www.eduaakashaa.in/contact')">📞 Book Expert Counselling</button>
+    <button class="action-btn outline" onclick="showScreen('heroSection');location.reload()">🔄 Start New Assessment</button>
+  </div>
+</div>
+</section>
+
+<!-- ═══════ JAVASCRIPT ═══════ -->
+
+
+
+
+
+</body></html>

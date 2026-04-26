@@ -1,0 +1,584 @@
+<!DOCTYPE html><html><head>
+<style>
+	html {
+		overflow: hidden;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+ 	}
+
+ 	iframe {
+ 		max-width: 100%;
+ 	}
+</style>
+</head>
+	<body><code>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACCA vs CFA vs CA</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: #F9F5EE;
+  color: #2B2B2B;
+  overflow-x: hidden;
+}
+
+/* HERO */
+.hero {
+  background: #1A1A2E;
+  padding: 90px 24px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero-glow {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background:
+    radial-gradient(ellipse 55% 45% at 15% 35%, rgba(45,106,79,0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 55% at 85% 70%, rgba(27,79,155,0.30) 0%, transparent 60%);
+  pointer-events: none;
+}
+.badge {
+  display: inline-block;
+  border: 1px solid rgba(201,168,76,0.5);
+  color: #C9A84C;
+  font-family: Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  padding: 7px 20px;
+  border-radius: 100px;
+  margin-bottom: 28px;
+  position: relative;
+}
+.hero h1 {
+  font-size: clamp(2.2rem, 6vw, 4.6rem);
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.1;
+  max-width: 800px;
+  margin: 0 auto;
+  position: relative;
+}
+.hero h1 span { color: #C9A84C; font-style: italic; }
+.hero-sub {
+  margin: 22px auto 0;
+  font-family: Arial, sans-serif;
+  font-size: clamp(0.95rem, 2vw, 1.13rem);
+  color: rgba(255,255,255,0.62);
+  max-width: 520px;
+  line-height: 1.75;
+  position: relative;
+}
+.hero-btns {
+  margin-top: 38px;
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+}
+.btn-gold {
+  background: #C9A84C;
+  color: #1A1A2E;
+  font-family: Arial, sans-serif;
+  font-size: 0.93rem;
+  font-weight: 700;
+  padding: 14px 32px;
+  border-radius: 100px;
+  border: none;
+  cursor: pointer;
+}
+.btn-out {
+  background: transparent;
+  color: #ffffff;
+  border: 1.5px solid rgba(255,255,255,0.28);
+  font-family: Arial, sans-serif;
+  font-size: 0.93rem;
+  font-weight: 600;
+  padding: 13px 30px;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+/* SECTION WRAPPERS */
+.sec-cream { background: #F9F5EE; padding: clamp(56px,8vw,90px) clamp(18px,5vw,56px); }
+.sec-dark  { background: #1A1A2E; padding: clamp(56px,8vw,90px) clamp(18px,5vw,56px); }
+.sec-white { background: #ffffff; padding: clamp(56px,8vw,90px) clamp(18px,5vw,56px); }
+.sec-quiz  { background: linear-gradient(135deg,#1A1A2E 0%,#16213E 55%,#0F3460 100%); padding: clamp(56px,8vw,90px) clamp(18px,5vw,56px); text-align: center; }
+
+.inner { max-width: 1140px; margin: 0 auto; }
+
+.eyebrow {
+  font-family: Arial, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #C9A84C;
+  margin-bottom: 12px;
+}
+.sh { font-size: clamp(1.8rem,4.2vw,2.9rem); font-weight: 700; line-height: 1.15; color: #1A1A2E; margin-bottom: 12px; }
+.sh-w { color: #ffffff; }
+.sp { font-family: Arial, sans-serif; font-size: 1rem; color: #6B7280; max-width: 520px; line-height: 1.72; }
+.sp-d { color: rgba(255,255,255,0.48); }
+
+/* ── CARDS ── */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+  margin-top: 44px;
+}
+@media(max-width:860px){ .cards-grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1.5px solid #E5DDD0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ch { padding: 26px 24px 20px; }
+.ch-a { background: #D8F3DC; border-bottom: 3px solid #2D6A4F; }
+.ch-c { background: #DBE9FF; border-bottom: 3px solid #1B4F9B; }
+.ch-ca { background: #FFE0E4; border-bottom: 3px solid #8B2635; }
+
+.ci {
+  width: 46px; height: 46px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: Arial, sans-serif; font-size: 13px; font-weight: 900;
+  color: #fff; margin-bottom: 12px;
+}
+.ci-a { background: #2D6A4F; }
+.ci-c { background: #1B4F9B; }
+.ci-ca { background: #8B2635; }
+
+.cn { font-size: 1.5rem; font-weight: 700; color: #1A1A2E; }
+.co { font-family: Arial, sans-serif; font-size: 0.77rem; color: #6B7280; margin-top: 3px; }
+
+.cb { padding: 22px; flex: 1; display: flex; flex-direction: column; gap: 16px; }
+.cd { font-family: Arial, sans-serif; font-size: 0.9rem; line-height: 1.72; color: #444; }
+
+.sg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.sb { background: #F9F5EE; border-radius: 10px; padding: 11px; border: 1px solid #E5DDD0; }
+.sl { font-family: Arial, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #6B7280; margin-bottom: 4px; }
+.sv { font-family: Arial, sans-serif; font-size: 0.88rem; font-weight: 700; color: #1A1A2E; }
+
+.tg { display: flex; flex-wrap: wrap; gap: 6px; }
+.tg span { font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: 600; padding: 4px 10px; border-radius: 100px; }
+.tn { background: #F9F5EE; border: 1px solid #E5DDD0; color: #2B2B2B; }
+.ta { background: #D8F3DC; border: 1px solid #2D6A4F; color: #2D6A4F; }
+.tc { background: #DBE9FF; border: 1px solid #1B4F9B; color: #1B4F9B; }
+.tca { background: #FFE0E4; border: 1px solid #8B2635; color: #8B2635; }
+
+.cf { padding: 0 22px 22px; }
+.clink {
+  display: block; text-align: center; padding: 12px; border-radius: 10px;
+  font-family: Arial, sans-serif; font-size: 0.87rem; font-weight: 700;
+  color: #fff; cursor: pointer; border: none; width: 100%;
+}
+.cl-a { background: #2D6A4F; }
+.cl-c { background: #1B4F9B; }
+.cl-ca { background: #8B2635; }
+
+/* ── TABLE ── */
+.tbl-scroll { margin-top: 42px; overflow-x: auto; border-radius: 14px; border: 1px solid rgba(255,255,255,0.09); }
+table { width: 100%; min-width: 560px; border-collapse: collapse; }
+thead th {
+  padding: 16px 18px; text-align: left;
+  font-family: Arial, sans-serif; font-size: 0.73rem; font-weight: 700;
+  letter-spacing: 1.8px; text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.09);
+  background: rgba(255,255,255,0.03);
+}
+.th0 { color: rgba(255,255,255,0.3); }
+.th1 { color: #74c69d; }
+.th2 { color: #90b4e8; }
+.th3 { color: #e88a93; }
+tbody td {
+  padding: 13px 18px; font-family: Arial, sans-serif; font-size: 0.86rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.7); vertical-align: top; line-height: 1.5;
+}
+tbody tr:last-child td { border-bottom: none; }
+tbody td:first-child {
+  font-size: 0.73rem; font-weight: 700; letter-spacing: 0.6px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3); white-space: nowrap;
+}
+.pill { display: inline-block; padding: 3px 9px; border-radius: 100px; font-size: 0.72rem; font-weight: 700; font-family: Arial, sans-serif; }
+.pg { background: rgba(116,198,157,0.15); color: #74c69d; }
+.pb { background: rgba(144,180,232,0.15); color: #90b4e8; }
+.pr { background: rgba(232,138,147,0.15); color: #e88a93; }
+
+/* ── WHO ── */
+.who-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 15px; margin-top: 42px;
+}
+@media(max-width:860px){ .who-grid { grid-template-columns: 1fr; } }
+@media(min-width:540px) and (max-width:860px){ .who-grid { grid-template-columns: 1fr 1fr; } }
+
+.wc { border-radius: 16px; padding: 24px 20px; border: 1.5px solid #E5DDD0; background: #fff; }
+.wi { font-size: 1.8rem; margin-bottom: 10px; display: block; }
+.wt { font-size: 1.02rem; font-weight: 700; margin-bottom: 8px; color: #1A1A2E; }
+.wp { font-family: Arial, sans-serif; font-size: 0.85rem; line-height: 1.72; color: #6B7280; }
+.wb { display: inline-block; margin-top: 12px; font-family: Arial, sans-serif; font-size: 0.72rem; font-weight: 700; padding: 4px 12px; border-radius: 100px; }
+.wb-a  { background: #D8F3DC; color: #2D6A4F; }
+.wb-c  { background: #DBE9FF; color: #1B4F9B; }
+.wb-ca { background: #FFE0E4; color: #8B2635; }
+
+/* ── QUIZ ── */
+.qbox {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 20px; padding: clamp(22px,5vw,46px);
+  max-width: 640px; margin: 42px auto 0;
+}
+.qprog { font-family: Arial, sans-serif; font-size: 0.74rem; color: rgba(255,255,255,0.32); margin-bottom: 7px; letter-spacing: 1.2px; text-transform: uppercase; }
+.qtext { font-family: Arial, sans-serif; font-size: clamp(0.98rem,2.5vw,1.22rem); font-weight: 700; color: #fff; margin-bottom: 20px; line-height: 1.5; }
+.qopts { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+@media(max-width:480px){ .qopts { grid-template-columns: 1fr; } }
+.qopt {
+  background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.14);
+  border-radius: 12px; padding: 13px 14px; text-align: left;
+  color: rgba(255,255,255,0.78); font-family: Arial, sans-serif;
+  font-size: 0.86rem; font-weight: 600; cursor: pointer; line-height: 1.4;
+}
+.qopt.sel, .qopt:hover { background: rgba(201,168,76,0.18); border-color: #C9A84C; color: #fff; }
+.qnav { margin-top: 20px; }
+.qnext {
+  background: transparent; border: 1.5px solid rgba(255,255,255,0.28);
+  color: #fff; font-family: Arial, sans-serif; font-size: 0.92rem; font-weight: 700;
+  padding: 12px 28px; border-radius: 100px; cursor: pointer; display: none;
+}
+.qresult { display: none; text-align: center; }
+.rbadge { display: inline-block; font-size: 2.5rem; font-weight: 900; font-family: Georgia, serif; padding: 15px 30px; border-radius: 14px; margin-bottom: 14px; }
+.rb-a  { background: #D8F3DC; color: #2D6A4F; }
+.rb-c  { background: #DBE9FF; color: #1B4F9B; }
+.rb-ca { background: #FFE0E4; color: #8B2635; }
+.rtitle { font-size: 1.55rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.rtext { font-family: Arial, sans-serif; font-size: 0.92rem; color: rgba(255,255,255,0.56); max-width: 400px; margin: 0 auto 20px; line-height: 1.72; }
+.btn-retry { background: #C9A84C; color: #1A1A2E; font-family: Arial, sans-serif; font-size: 0.92rem; font-weight: 700; padding: 13px 28px; border-radius: 100px; border: none; cursor: pointer; }
+
+/* ── FAQ ── */
+.faq-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 15px; margin-top: 42px; }
+@media(max-width:860px){ .faq-grid { grid-template-columns: 1fr; } }
+@media(min-width:540px) and (max-width:860px){ .faq-grid { grid-template-columns: 1fr 1fr; } }
+.fi { background: #fff; border-radius: 16px; padding: 20px; border: 1.5px solid #E5DDD0; }
+.fq { font-weight: 700; font-size: 0.9rem; color: #1A1A2E; margin-bottom: 8px; line-height: 1.4; }
+.fa { font-family: Arial, sans-serif; font-size: 0.84rem; line-height: 1.72; color: #6B7280; }
+
+/* ── FOOTER ── */
+.footer { background: #1A1A2E; color: rgba(255,255,255,0.35); text-align: center; padding: 32px 24px; font-family: Arial, sans-serif; font-size: 0.81rem; line-height: 1.8; }
+.footer strong { color: #C9A84C; }
+</style>
+
+
+
+<!-- HERO -->
+<div class="hero" id="top">
+  <div class="hero-glow"></div>
+  <div class="badge">Professional Qualifications Guide</div>
+  <h1>Find Your <span>Perfect</span><br>Certification</h1>
+  <p class="hero-sub">ACCA, CFA, or CA — each opens a different door. We break down everything so you can choose with confidence.</p>
+  <div class="hero-btns">
+    <button class="btn-gold" onclick="scrollTo('exams')">Explore Exams</button>
+    <button class="btn-out" onclick="scrollTo('quiz')">Take the Quiz →</button>
+  </div>
+</div>
+
+<!-- EXAM CARDS -->
+<div class="sec-cream" id="exams">
+  <div class="inner">
+    <div class="eyebrow">The Big Three</div>
+    <div class="sh">Three Qualifications,<br>Three Career Paths</div>
+    <p class="sp">Deep-dive into what each certification truly offers — from syllabus to salary.</p>
+
+    <div class="cards-grid">
+
+      <!-- ACCA -->
+      <div class="card">
+        <div class="ch ch-a">
+          <div class="ci ci-a">A</div>
+          <div class="cn">ACCA</div>
+          <div class="co">Association of Chartered Certified Accountants</div>
+        </div>
+        <div class="cb">
+          <p class="cd">A globally recognised accountancy qualification from the UK. ACCA is the most internationally flexible credential, with members in 180+ countries. Ideal for careers in audit, finance, or accounting across borders.</p>
+          <div class="sg">
+            <div class="sb"><div class="sl">Exams</div><div class="sv">13 Papers</div></div>
+            <div class="sb"><div class="sl">Duration</div><div class="sv">3–4 Years</div></div>
+            <div class="sb"><div class="sl">Pass Rate</div><div class="sv">~40–50%</div></div>
+            <div class="sb"><div class="sl">Recognition</div><div class="sv">180+ Countries</div></div>
+          </div>
+          <div class="tg">
+            <span class="ta">Global Mobility</span><span class="ta">Flexible Entry</span>
+            <span class="tn">Audit &amp; Tax</span><span class="tn">Corporate Finance</span><span class="tn">Big 4 Ready</span>
+          </div>
+          <div>
+            <div class="sl" style="margin-bottom:6px">Syllabus Snapshot</div>
+            <p class="cd">Applied Knowledge → Applied Skills → Strategic Professional. Covers financial reporting, taxation, audit, ethics, and advanced financial management.</p>
+          </div>
+        </div>
+        <div class="cf"><button class="clink cl-a" onclick="scrollTo('compare')">Compare ACCA ↓</button></div>
+      </div>
+
+      <!-- CFA -->
+      <div class="card">
+        <div class="ch ch-c">
+          <div class="ci ci-c">CFA</div>
+          <div class="cn">CFA</div>
+          <div class="co">Chartered Financial Analyst — CFA Institute (USA)</div>
+        </div>
+        <div class="cb">
+          <p class="cd">The gold standard for investment management and financial analysis. Highly respected on Wall Street and in global asset management. If markets, portfolios, and valuations excite you — this is your path.</p>
+          <div class="sg">
+            <div class="sb"><div class="sl">Levels</div><div class="sv">3 Levels</div></div>
+            <div class="sb"><div class="sl">Duration</div><div class="sv">4–5 Years</div></div>
+            <div class="sb"><div class="sl">Pass Rate</div><div class="sv">~40–45%</div></div>
+            <div class="sb"><div class="sl">Study Hours</div><div class="sv">~900 hrs</div></div>
+          </div>
+          <div class="tg">
+            <span class="tc">Investment Mgmt</span><span class="tc">Portfolio Analysis</span>
+            <span class="tn">Equity Research</span><span class="tn">Asset Management</span><span class="tn">Private Equity</span>
+          </div>
+          <div>
+            <div class="sl" style="margin-bottom:6px">Syllabus Snapshot</div>
+            <p class="cd">Ethics, quantitative methods, economics, financial statement analysis, equity, fixed income, derivatives, alternatives, and portfolio management.</p>
+          </div>
+        </div>
+        <div class="cf"><button class="clink cl-c" onclick="scrollTo('compare')">Compare CFA ↓</button></div>
+      </div>
+
+      <!-- CA -->
+      <div class="card">
+        <div class="ch ch-ca">
+          <div class="ci ci-ca">CA</div>
+          <div class="cn">CA</div>
+          <div class="co">Chartered Accountant — ICAI / ICAEW / ICAS</div>
+        </div>
+        <div class="cb">
+          <p class="cd">The most prestigious domestic accountancy qualification in countries like India, UK, and Australia. CA is rigorous, deeply respected, and a gateway to top positions in finance, taxation, and consulting.</p>
+          <div class="sg">
+            <div class="sb"><div class="sl">Levels</div><div class="sv">3 Levels</div></div>
+            <div class="sb"><div class="sl">Duration</div><div class="sv">4–5 Years</div></div>
+            <div class="sb"><div class="sl">Pass Rate</div><div class="sv">~10–20%</div></div>
+            <div class="sb"><div class="sl">Articleship</div><div class="sv">3 Years</div></div>
+          </div>
+          <div class="tg">
+            <span class="tca">Domestic Prestige</span><span class="tca">Taxation Expert</span>
+            <span class="tn">Audit</span><span class="tn">Financial Advisory</span><span class="tn">Consulting</span>
+          </div>
+          <div>
+            <div class="sl" style="margin-bottom:6px">Syllabus Snapshot</div>
+            <p class="cd">Foundation → Intermediate → Final. Covers accounting, law, taxation, cost management, auditing, financial management, and strategic management.</p>
+          </div>
+        </div>
+        <div class="cf"><button class="clink cl-ca" onclick="scrollTo('compare')">Compare CA ↓</button></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<div class="sec-dark" id="compare">
+  <div class="inner">
+    <div class="eyebrow">Side by Side</div>
+    <div class="sh sh-w">Compare at a Glance</div>
+    <p class="sp sp-d">All the key facts in one place — no fluff.</p>
+    <div class="tbl-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th class="th0">Criteria</th>
+            <th class="th1">ACCA</th>
+            <th class="th2">CFA</th>
+            <th class="th3">CA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Governing Body</td><td>ACCA (UK)</td><td>CFA Institute (USA)</td><td>ICAI / ICAEW / ICAS</td></tr>
+          <tr><td>Best For</td><td>Accounting, Audit, Global Finance</td><td>Investment &amp; Portfolio Mgmt</td><td>Domestic Accounting &amp; Tax</td></tr>
+          <tr><td>Entry Requirement</td><td>10+2 / Degree (flexible)</td><td>Bachelor's degree required</td><td>10+2 / After graduation</td></tr>
+          <tr><td>Total Exams</td><td>13 papers across 3 levels</td><td>3 levels (L1, L2, L3)</td><td>~20 papers across 3 levels</td></tr>
+          <tr><td>Exam Format</td><td>CBE &amp; Paper-based</td><td>Computer-based only</td><td>Paper-based (May &amp; Nov)</td></tr>
+          <tr><td>Attempt Frequency</td><td>4 times/year</td><td>2–3 times/year per level</td><td>Twice a year</td></tr>
+          <tr><td>Avg. Pass Rate</td><td><span class="pill pg">~40–50%</span></td><td><span class="pill pb">~40–45%</span></td><td><span class="pill pr">~10–20%</span></td></tr>
+          <tr><td>Practical Training</td><td>3 years relevant experience</td><td>4,000 hrs work experience</td><td>3-year articleship (mandatory)</td></tr>
+          <tr><td>Estimated Cost</td><td>$1,500–$3,000+</td><td>$3,000–$5,000+</td><td>₹40,000–₹1,00,000 (India)</td></tr>
+          <tr><td>Global Reach</td><td>Very High (180+ countries)</td><td>High (finance sector globally)</td><td>Moderate (country-specific)</td></tr>
+          <tr><td>Career Outcomes</td><td>Big 4, MNCs, CFO roles</td><td>Fund manager, analyst, CIO</td><td>Tax partner, CFO, consultant</td></tr>
+          <tr><td>Avg. Starting Salary</td><td>£28k–£45k (UK)</td><td>$80k–$120k (USA)</td><td>₹6–12 LPA (India)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- WHO IS IT FOR -->
+<div class="sec-white" id="who">
+  <div class="inner">
+    <div class="eyebrow">Find Your Fit</div>
+    <div class="sh">Who Should Choose What?</div>
+    <p class="sp">Your personality, goals, and lifestyle all play a role in picking the right path.</p>
+    <div class="who-grid">
+      <div class="wc"><span class="wi">✈️</span><div class="wt">The Global Explorer</div><p class="wp">You want to work across multiple countries, build a career in international accounting or audit, and need a qualification employers everywhere recognise.</p><span class="wb wb-a">→ ACCA is for you</span></div>
+      <div class="wc"><span class="wi">📈</span><div class="wt">The Markets Enthusiast</div><p class="wp">You love financial modelling, equity research, and investment analysis. You want to work in asset management, hedge funds, or investment banking.</p><span class="wb wb-c">→ CFA is for you</span></div>
+      <div class="wc"><span class="wi">🏛️</span><div class="wt">The Prestige Seeker</div><p class="wp">You're in India (or a country with a strong CA tradition) and want the most respected domestic qualification, with deep expertise in taxation and audit.</p><span class="wb wb-ca">→ CA is for you</span></div>
+      <div class="wc"><span class="wi">⚖️</span><div class="wt">The Career Switcher</div><p class="wp">Already working and need a flexible path? ACCA's modular structure lets you study alongside your job without quitting for a full-time programme.</p><span class="wb wb-a">→ ACCA is for you</span></div>
+      <div class="wc"><span class="wi">🎓</span><div class="wt">The Fresh Graduate</div><p class="wp">Just finished your degree? CFA requires a bachelor's, ACCA is highly flexible, and CA in India can be pursued straight from 10+2 level.</p><span class="wb wb-c">→ CFA or ACCA</span></div>
+      <div class="wc"><span class="wi">💼</span><div class="wt">The Entrepreneur</div><p class="wp">Planning to run your own firm? CA gives you the deepest grounding in taxation, compliance, and advisory — essential tools for business ownership.</p><span class="wb wb-ca">→ CA is for you</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="sec-quiz" id="quiz">
+  <div class="inner">
+    <div class="eyebrow">2-Minute Quiz</div>
+    <div class="sh sh-w">Not Sure Yet?<br>Let Us Help You Choose</div>
+    <p class="sp sp-d" style="margin:12px auto 0; max-width:460px">Answer 4 quick questions and we'll point you in the right direction.</p>
+    <div class="qbox">
+      <div id="qMain">
+        <div class="qprog" id="qProg">Question 1 of 4</div>
+        <div class="qtext" id="qText">Where do you want to build your career?</div>
+        <div class="qopts" id="qOpts">
+          <button class="qopt" onclick="pick(this,0)">🌍 Internationally — anywhere</button>
+          <button class="qopt" onclick="pick(this,1)">💹 Finance hubs (NYC, London, HK)</button>
+          <button class="qopt" onclick="pick(this,2)">🏙️ Primarily in my home country</button>
+          <button class="qopt" onclick="pick(this,3)">🤷 Not decided yet</button>
+        </div>
+        <div class="qnav"><button class="qnext" id="qNext" onclick="nextQ()">Next →</button></div>
+      </div>
+      <div class="qresult" id="qResult">
+        <div class="rbadge" id="rBadge">ACCA</div>
+        <div class="rtitle" id="rTitle">ACCA is your ideal match!</div>
+        <p class="rtext" id="rText">Based on your answers, ACCA offers the flexibility and global recognition that suits you best.</p>
+        <button class="btn-retry" onclick="resetQ()">Retake Quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="sec-cream" id="faq">
+  <div class="inner">
+    <div class="eyebrow">Common Questions</div>
+    <div class="sh">Frequently Asked</div>
+    <div class="faq-grid">
+      <div class="fi"><div class="fq">Can I do ACCA and CFA together?</div><p class="fa">Technically yes, but extremely demanding. Most candidates recommend completing one first. ACCA + CFA is a powerful combination for investment banking or CFO-level roles.</p></div>
+      <div class="fi"><div class="fq">Is CFA harder than CA?</div><p class="fa">Both are rigorous in different ways. CA (India) has a very low pass rate (~10–20%) and mandatory articleship. CFA demands ~900 hours of self-study per level. CA is harder to pass; CFA demands more total study time.</p></div>
+      <div class="fi"><div class="fq">Does ACCA give exemptions to graduates?</div><p class="fa">Yes. ACCA offers exemptions based on your degree. Accounting and finance graduates can receive up to 9 paper exemptions, significantly shortening the overall qualification period.</p></div>
+      <div class="fi"><div class="fq">Which qualification pays the most?</div><p class="fa">CFA charterholders in senior investment roles often command the highest global salaries. ACCA and CA salaries vary by region. All three lead to strong earning potential at senior levels.</p></div>
+      <div class="fi"><div class="fq">Can I study while working full-time?</div><p class="fa">ACCA is the most flexible — attempt papers one at a time. CFA requires intense dedicated study windows. CA's articleship is itself a full-time commitment for 3 years.</p></div>
+      <div class="fi"><div class="fq">Which is best for Big 4 firms?</div><p class="fa">All three are respected at Big 4 (Deloitte, PwC, EY, KPMG). ACCA and CA dominate in audit and tax. CFA is preferred for Big 4 advisory or transactions divisions.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>Built to help students make <strong>informed decisions</strong>. Information is for guidance only — always verify with official exam bodies.</p>
+  <p style="margin-top:6px; opacity:0.6">ACCA.com &nbsp;·&nbsp; cfainstitute.org &nbsp;·&nbsp; ICAI.org</p>
+</div>
+
+<script>
+/* ── Smooth scroll — works inside iframes ── */
+function scrollTo(id) {
+  var el = document.getElementById(id);
+  if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+}
+
+/* ── Quiz ── */
+var Qs = [
+  { q: "Where do you want to build your career?",
+    o: [{t:"🌍 Internationally — anywhere",s:{acca:2}},{t:"💹 Finance hubs (NYC, London, HK)",s:{cfa:2}},{t:"🏙️ Primarily in my home country",s:{ca:2}},{t:"🤷 Not decided yet",s:{acca:1}}]
+  },
+  { q: "What kind of work excites you most?",
+    o: [{t:"📊 Auditing & financial reporting",s:{acca:2,ca:1}},{t:"📈 Stock analysis & portfolio management",s:{cfa:3}},{t:"🧾 Tax, compliance & advisory",s:{ca:2}},{t:"🔀 A mix of all finance areas",s:{acca:2}}]
+  },
+  { q: "How can you dedicate time to studying?",
+    o: [{t:"⏱️ Part-time alongside my job",s:{acca:2}},{t:"📚 Intense focused study windows",s:{cfa:2}},{t:"🎓 Full-time with practical training",s:{ca:2}},{t:"🔄 Flexible — whatever it takes",s:{acca:1,cfa:1,ca:1}}]
+  },
+  { q: "What matters most in a qualification?",
+    o: [{t:"🌐 Global recognition / working abroad",s:{acca:3}},{t:"💰 Highest salary in investment finance",s:{cfa:3}},{t:"🏆 Prestigious local qualification",s:{ca:3}},{t:"⚡ Fastest route to a finance career",s:{acca:2}}]
+  }
+];
+
+var cur = 0, sc = {acca:0,cfa:0,ca:0}, pend = null;
+
+function pick(btn, idx) {
+  var all = document.querySelectorAll('.qopt');
+  for (var i = 0; i < all.length; i++) all[i].classList.remove('sel');
+  btn.classList.add('sel');
+  pend = Qs[cur].o[idx].s;
+  document.getElementById('qNext').style.display = 'inline-block';
+}
+
+function nextQ() {
+  if (!pend) return;
+  for (var k in pend) sc[k] = (sc[k] || 0) + pend[k];
+  pend = null; cur++;
+  if (cur >= Qs.length) { showRes(); return; }
+  document.getElementById('qProg').textContent = 'Question ' + (cur+1) + ' of ' + Qs.length;
+  document.getElementById('qText').textContent = Qs[cur].q;
+  var h = '';
+  for (var i = 0; i < Qs[cur].o.length; i++)
+    h += '<button class="qopt" onclick="pick(this,' + i + ')">' + Qs[cur].o[i].t + '</button>';
+  document.getElementById('qOpts').innerHTML = h;
+  document.getElementById('qNext').style.display = 'none';
+}
+
+function showRes() {
+  var keys = Object.keys(sc).sort(function(a,b){ return sc[b]-sc[a]; });
+  var w = keys[0];
+  var info = {
+    acca:{n:'ACCA',cls:'rb-a', ti:'ACCA is your ideal match!', tx:'Your goals align with ACCA — global flexibility, modular study structure, and recognition in 180+ countries.'},
+    cfa: {n:'CFA', cls:'rb-c', ti:'CFA is your ideal match!',  tx:'Your passion for investment and markets points to the CFA Charter — the gold standard for finance professionals worldwide.'},
+    ca:  {n:'CA',  cls:'rb-ca',ti:'CA is your ideal match!',   tx:'Your preference for domestic prestige, taxation, and comprehensive accounting makes CA the perfect qualification.'}
+  }[w];
+  document.getElementById('qMain').style.display = 'none';
+  document.getElementById('qResult').style.display = 'block';
+  var b = document.getElementById('rBadge');
+  b.textContent = info.n;
+  b.className = 'rbadge ' + info.cls;
+  document.getElementById('rTitle').textContent = info.ti;
+  document.getElementById('rText').textContent  = info.tx;
+}
+
+function resetQ() {
+  cur = 0; sc = {acca:0,cfa:0,ca:0}; pend = null;
+  document.getElementById('qResult').style.display = 'none';
+  document.getElementById('qMain').style.display = 'block';
+  document.getElementById('qProg').textContent = 'Question 1 of ' + Qs.length;
+  document.getElementById('qText').textContent = Qs[0].q;
+  var h = '';
+  for (var i = 0; i < Qs[0].o.length; i++)
+    h += '<button class="qopt" onclick="pick(this,' + i + ')">' + Qs[0].o[i].t + '</button>';
+  document.getElementById('qOpts').innerHTML = h;
+  document.getElementById('qNext').style.display = 'none';
+}
+</script>
+
+</code>
+<script>
+	const heightObserver = new ResizeObserver(([{ contentRect }]) => {
+		window.parent.postMessage({ action: 'iframeHeightUpdated', height: contentRect.height, id: 'z9l41_' }, '*');
+	});
+
+	heightObserver.observe(document.documentElement);
+</script>
+
+</body></html>

@@ -1,0 +1,760 @@
+<!DOCTYPE html><html><head>
+<style>
+	html {
+		overflow: hidden;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+ 	}
+
+ 	iframe {
+ 		max-width: 100%;
+ 	}
+</style>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: Arial, Helvetica, sans-serif; background: #ffffff; color: #1A1A3A; }
+
+/* NAV */
+nav {
+  background: #114BAC;
+  position: sticky; top: 0; z-index: 999;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 2rem; height: 64px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+}
+.logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo img { height: 46px; width: auto; background: #fff; border-radius: 6px; padding: 3px; display: block; }
+.logo-name { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; color: #fff; }
+.logo-name span { color: #FF6600; }
+.logo-sub { color: rgba(255,255,255,0.6); font-size: 10px; }
+nav ul { list-style: none; display: flex; gap: 0; }
+nav ul li a {
+  color: rgba(255,255,255,0.85); text-decoration: none; font-size: 13px; font-weight: 600;
+  padding: 0 14px; line-height: 64px; display: block;
+}
+nav ul li a:hover { color: #FF6600; }
+.nav-cta {
+  background: #FF6600; color: #fff; font-weight: 900;
+  padding: 9px 18px; border-radius: 6px; line-height: normal;
+  margin-left: 12px; text-decoration: none; font-size: 13px;
+}
+
+/* HERO */
+.hero {
+  background: #0A2E7A;
+  padding: 5rem 2rem 4rem;
+}
+.hero-inner { max-width: 1200px; margin: 0 auto; }
+.hero-badge {
+  display: inline-block; background: rgba(255,102,0,0.15);
+  border: 1px solid #FF6600; color: #FF6600;
+  padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; margin-bottom: 1.5rem;
+}
+.hero h1 {
+  font-size: 3.2rem; font-weight: 900; color: #ffffff;
+  line-height: 1.15; margin-bottom: 1rem;
+}
+.hero h1 span { color: #FF6600; }
+.hero-sub {
+  font-size: 1.1rem; color: rgba(255,255,255,0.8);
+  max-width: 650px; line-height: 1.7; margin-bottom: 2rem;
+}
+.hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+.btn-primary {
+  background: #FF6600; color: #fff; font-weight: 900; font-size: 15px;
+  padding: 13px 30px; border-radius: 8px; text-decoration: none;
+}
+.btn-outline {
+  border: 2px solid rgba(255,255,255,0.4); color: #ffffff; font-weight: 700;
+  font-size: 15px; padding: 11px 30px; border-radius: 8px; text-decoration: none;
+}
+.hero-stats {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+}
+.stat-card {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 12px; padding: 1.2rem; text-align: center;
+}
+.stat-num { font-size: 2rem; font-weight: 900; color: #FF6600; }
+.stat-label { font-size: 11px; color: rgba(255,255,255,0.7); margin-top: 4px; line-height: 1.4; }
+
+/* SECTIONS */
+section { padding: 4rem 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.section-tag {
+  display: inline-block; background: rgba(17,75,172,0.08);
+  color: #114BAC; border-left: 4px solid #FF6600;
+  padding: 4px 12px; font-size: 12px; font-weight: 700;
+  letter-spacing: 1px; margin-bottom: 0.75rem;
+}
+.section-title { font-size: 2rem; font-weight: 900; color: #114BAC; margin-bottom: 0.5rem; }
+.section-sub { font-size: 1rem; color: #555577; max-width: 600px; line-height: 1.65; margin-bottom: 2rem; }
+
+/* NRI PROCESS CARDS */
+.process-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+}
+.process-card {
+  background: #EEF4FF; border-radius: 12px; padding: 1.5rem;
+  border-left: 4px solid #114BAC;
+}
+.process-icon { font-size: 1.5rem; margin-bottom: 8px; }
+.process-name { font-weight: 900; color: #114BAC; margin-bottom: 6px; font-size: 0.95rem; }
+.process-desc { font-size: 13px; color: #333355; line-height: 1.6; }
+
+/* QUADRANT */
+.quadrant-section { background: #0A2E7A; }
+.quadrant-section .section-tag { background: rgba(255,102,0,0.15); color: #FF6600; }
+.quadrant-section .section-title { color: #FF6600; }
+.quadrant-section .section-sub { color: rgba(255,255,255,0.7); }
+.quadrant-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+.quad-card { border-radius: 12px; padding: 1.8rem; }
+.q1 { background: #0A3A20; border: 2px solid #1A7A4A; }
+.q2 { background: #0D2A40; border: 2px solid #0D7377; }
+.q3 { background: #2A1040; border: 2px solid #7B2D8B; }
+.q4 { background: #3A0A10; border: 2px solid #C0392B; }
+.quad-rank { font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 6px; color: rgba(255,255,255,0.7); }
+.quad-range { font-size: 1.4rem; font-weight: 900; color: #FF6600; margin-bottom: 12px; }
+.quad-title { font-size: 1.05rem; font-weight: 900; color: #ffffff; margin-bottom: 10px; }
+.quad-items { list-style: none; }
+.quad-items li { font-size: 13px; color: rgba(255,255,255,0.85); padding: 4px 0 4px 18px; position: relative; }
+.quad-items li::before { content: "→"; position: absolute; left: 0; color: #FF6600; font-weight: 700; }
+.insight-box {
+  margin-top: 2rem; background: rgba(255,102,0,0.1);
+  border: 1px solid rgba(255,102,0,0.4); border-radius: 12px;
+  padding: 1.5rem; text-align: center;
+}
+.insight-box .label { color: #FF6600; font-weight: 900; font-size: 1rem; margin-bottom: 8px; }
+.insight-box p { color: rgba(255,255,255,0.85); font-size: 14px; line-height: 1.7; }
+.insight-box strong { color: #FF6600; }
+
+/* FRAMEWORK */
+.framework-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 1.5rem; }
+.framework-card { border-radius: 12px; padding: 2rem; border: 2px solid; }
+.fw-college { border-color: #0D7377; background: #E6F7F8; }
+.fw-branch  { border-color: #D97706; background: #FFF7ED; }
+.fw-header { font-size: 1rem; font-weight: 900; padding: 10px 16px; border-radius: 8px; text-align: center; margin-bottom: 1rem; color: #ffffff; }
+.fw-college .fw-header { background: #0D7377; }
+.fw-branch  .fw-header { background: #D97706; }
+.fw-list { list-style: none; }
+.fw-list li { font-size: 13.5px; color: #2A2A3A; padding: 5px 0 5px 20px; position: relative; line-height: 1.5; }
+.fw-list li::before { content: "✓"; position: absolute; left: 0; font-weight: 900; }
+.fw-college .fw-list li::before { color: #0D7377; }
+.fw-branch  .fw-list li::before { color: #D97706; }
+.fw-insight { margin-top: 1rem; padding: 10px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; line-height: 1.5; }
+.fw-college .fw-insight { background: rgba(13,115,119,0.1); color: #0D7377; }
+.fw-branch  .fw-insight { background: rgba(217,119,6,0.1); color: #B45309; }
+
+/* BRANCHES */
+.branches-section { background: #EEF4FF; }
+.branch-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+.branch-card {
+  background: #ffffff; border-radius: 12px; padding: 1.8rem;
+  border-top: 4px solid #114BAC;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+}
+.branch-card.ece { border-top-color: #0D7377; }
+.branch-card.mech { border-top-color: #8B4513; }
+.branch-card.civil { border-top-color: #5C6BC0; }
+.branch-name { font-size: 1.05rem; font-weight: 900; color: #114BAC; }
+.branch-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin: 1rem 0; }
+.metric { background: #EEF4FF; border-radius: 8px; padding: 0.7rem; }
+.metric-val { font-size: 1.1rem; font-weight: 900; color: #114BAC; }
+.metric-key { font-size: 10px; color: #555577; margin-top: 2px; }
+.branch-insight { font-size: 12px; color: #555577; font-style: italic; border-left: 3px solid #FF6600; padding-left: 10px; }
+
+/* CAREER */
+.career-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+.career-card { border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+.career-header { padding: 1.2rem 1.5rem; background: #114BAC; }
+.career-header.teal { background: #0D7377; }
+.career-header.dark { background: #0A2E7A; }
+.career-icon { font-size: 2rem; margin-bottom: 6px; }
+.career-title { font-size: 1rem; font-weight: 900; color: #ffffff; }
+.career-body { padding: 1.3rem 1.5rem; background: #EEF4FF; }
+.career-body ul { list-style: none; }
+.career-body li { font-size: 12.5px; color: #1A1A3A; padding: 4px 0 4px 14px; position: relative; line-height: 1.5; }
+.career-body li::before { content: "•"; position: absolute; left: 0; color: #FF6600; font-size: 16px; top: -2px; font-weight: 900; }
+
+/* TABLES */
+.comparison-section { background: #EEF4FF; }
+.comp-table-wrap { overflow-x: auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+table { width: 100%; border-collapse: collapse; background: #ffffff; }
+thead tr { background: #114BAC; }
+thead th { color: #ffffff; font-size: 13px; font-weight: 900; padding: 14px 12px; text-align: center; }
+thead th:first-child { text-align: left; }
+thead th:nth-child(2) { background: #0A2E7A; color: #FF6600; }
+tbody tr:nth-child(even) { background: #EEF4FF; }
+tbody td { padding: 11px 12px; font-size: 12.5px; text-align: center; border-bottom: 1px solid #E0E8F5; }
+tbody td:first-child { text-align: left; font-weight: 700; color: #114BAC; }
+tbody tr:last-child td { background: #FFF3DC; font-weight: 900; }
+
+/* POSITION TABLE */
+.position-table { width: 100%; border-collapse: collapse; background: #ffffff; border-radius: 12px; overflow: hidden; }
+.position-table th { background: #114BAC; color: #ffffff; padding: 12px 10px; font-size: 12px; text-align: left; }
+.position-table td { padding: 10px; font-size: 12px; border-bottom: 1px solid #E0E8F5; vertical-align: top; line-height: 1.5; }
+.position-table tr:nth-child(even) td { background: #EEF4FF; }
+.pos-tag { display: inline-block; border-radius: 20px; padding: 2px 10px; font-size: 11px; font-weight: 700; }
+.pos-elite { background: #D1FAE5; color: #065F46; }
+.pos-premium { background: #CFFAFE; color: #065A7A; }
+.pos-strategic { background: #EDE9FE; color: #4C1D95; }
+.pos-risk { background: #FEE2E2; color: #7F1D1D; }
+.pos-nri { background: #FEF3C7; color: #78350F; }
+
+/* NRI ADVANTAGE */
+.nri-section { background: #0A2E7A; }
+.nri-section .section-tag { background: rgba(255,102,0,0.15); color: #FF6600; }
+.nri-section .section-title { color: #FF6600; }
+.nri-section .section-sub { color: rgba(255,255,255,0.7); }
+.nri-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+.nri-card {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px; padding: 1.5rem;
+}
+.nri-card:hover { border-color: #FF6600; }
+.nri-icon { font-size: 2rem; margin-bottom: 10px; }
+.nri-title { font-size: 0.95rem; font-weight: 900; color: #FF6600; margin-bottom: 6px; }
+.nri-desc { font-size: 12.5px; color: rgba(255,255,255,0.8); line-height: 1.6; }
+
+/* CTA */
+.cta-section {
+  background: #0A2E7A;
+  text-align: center; padding: 5rem 2rem;
+}
+.cta-inner { max-width: 750px; margin: 0 auto; }
+.cta-section h2 { font-size: 2.4rem; font-weight: 900; color: #FF6600; margin-bottom: 1rem; }
+.cta-section p { font-size: 1.05rem; color: rgba(255,255,255,0.8); margin-bottom: 2rem; line-height: 1.7; }
+.cta-contact-row { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+.cta-contact-item {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,102,0,0.4);
+  border-radius: 10px; padding: 14px 28px;
+  font-size: 15px; font-weight: 700; color: #ffffff; text-decoration: none;
+}
+.cta-contact-item span { color: #FF6600; }
+.cta-tag { font-size: 11px; color: #FF6600; letter-spacing: 2px; font-weight: 700; margin-bottom: 12px; }
+
+/* FOOTER */
+footer {
+  background: #080F2A; color: rgba(255,255,255,0.5);
+  text-align: center; padding: 1.5rem 2rem; font-size: 12px;
+}
+footer span { color: #FF6600; font-weight: 700; }
+footer a { color: #FF6600; text-decoration: none; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hero-stats, .quadrant-grid, .framework-grid, .branch-grid,
+  .career-grid, .nri-grid, .process-grid { grid-template-columns: 1fr; }
+  nav ul { display: none; }
+  .hero h1 { font-size: 2rem; }
+}
+</style></head>
+	<body>
+
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIT NRI Admissions Expert Guide 2025-26 | EduAakashaA</title>
+
+
+
+
+<!-- NAV -->
+<nav>
+  <a class="logo" href="#">
+    <img src="data:image/png;base64,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AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//2Q==" alt="EduAakashaA">
+    <div>
+      <div class="logo-name"><span>Edu</span>AakashaA</div>
+      <div class="logo-sub">Expert Education Consultants</div>
+    </div>
+  </a>
+  <ul>
+    <li><a href="#overview">VIT Overview</a></li>
+    <li><a href="#rank">Rank Strategy</a></li>
+    <li><a href="#branches">Branches</a></li>
+    <li><a href="#compare">Compare</a></li>
+    <li><a href="#contact" class="nav-cta">Get Expert Advice</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">VIT NRI ADMISSIONS 2025-26 — EXPERT ANALYTICS</div>
+    <h1>College or Branch?<br><span>The Answer Changes</span><br>With Your VITEEE Rank.</h1>
+    <p class="hero-sub">Expert data-driven guidance for NRI parents and students navigating VIT admissions.
+    Understand the VITEEE rank quadrant, NRI quota advantage, and which choice maximises your career outcomes.</p>
+    <div class="hero-btns">
+      <a href="#contact" class="btn-primary">Book 1-on-1 Expert Session</a>
+      <a href="#rank" class="btn-outline">Explore Rank Strategy →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-card">
+        <div class="stat-num">#1</div>
+        <div class="stat-label">Private University<br>in India (NIRF 2024)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">800+</div>
+        <div class="stat-label">Recruiting Companies<br>at VIT (2024)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">₹44L</div>
+        <div class="stat-label">Highest Package<br>Offered This Year</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">~15%</div>
+        <div class="stat-label">NRI Quota Seats<br>at Every Campus</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NRI PROCESS -->
+<section id="overview" style="background:#ffffff;">
+  <div class="container">
+    <div class="section-tag">NRI ADMISSION PROCESS</div>
+    <h2 class="section-title">How NRI Admissions Work at VIT</h2>
+    <p class="section-sub">The NRI admission route is fundamentally different — and more favourable — than the regular VITEEE route.</p>
+    <div class="process-grid">
+      <div class="process-card" style="border-left-color:#114BAC;">
+        <div class="process-icon">📋</div>
+        <div class="process-name" style="color:#114BAC;">No VITEEE Needed</div>
+        <div class="process-desc">NRI quota students are selected based on Class 10 + 12 academic merit — not VITEEE rank. This is a massive strategic advantage.</div>
+      </div>
+      <div class="process-card" style="border-left-color:#0D7377;">
+        <div class="process-icon">📊</div>
+        <div class="process-name" style="color:#0D7377;">Separate Merit List</div>
+        <div class="process-desc">NRI applicants compete only among NRI students — a much smaller pool vs 2L+ VITEEE takers. Better odds for better branches.</div>
+      </div>
+      <div class="process-card" style="border-left-color:#FF6600;">
+        <div class="process-icon">💰</div>
+        <div class="process-name" style="color:#FF6600;">Fee: USD 3,000–5,000/yr</div>
+        <div class="process-desc">Higher than regular (~₹2L/yr), but the ROI is excellent — VIT CSE grads average ₹7.5L+, recovering the premium in ~18 months.</div>
+      </div>
+      <div class="process-card" style="border-left-color:#1A7A4A;">
+        <div class="process-icon">🎯</div>
+        <div class="process-name" style="color:#1A7A4A;">Any Branch at Any Campus</div>
+        <div class="process-desc">With 80%+ in Class 12, NRI students can access CSE at VIT Vellore — the same branch that requires rank &lt;5,000 in VITEEE.</div>
+      </div>
+      <div class="process-card" style="border-left-color:#7B2D8B;">
+        <div class="process-icon">🌐</div>
+        <div class="process-name" style="color:#7B2D8B;">SAT Score Boost</div>
+        <div class="process-desc">Strong SAT scores (1350+) can be submitted to strengthen NRI applications and potentially unlock merit scholarships at VIT.</div>
+      </div>
+      <div class="process-card" style="border-left-color:#C0392B;">
+        <div class="process-icon">📄</div>
+        <div class="process-name" style="color:#C0392B;">Required Documents</div>
+        <div class="process-desc">Passport, NRI proof (visa/PR/OCI), Class 10 &amp; 12 certificates, photographs, income proof. EduAakashaA assists with complete documentation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RANK QUADRANT -->
+<section id="rank" class="quadrant-section">
+  <div class="container">
+    <div class="section-tag">VITEEE RANK STRATEGY</div>
+    <h2 class="section-title">The Decision Quadrant — Where Do You Stand?</h2>
+    <p class="section-sub">Your VITEEE rank determines which colleges and branches are accessible. Understanding these zones is the foundation of a smart admission strategy.</p>
+    <div class="quadrant-grid">
+      <div class="quad-card q1">
+        <div class="quad-rank">🏆 QUADRANT 1 — ELITE ZONE</div>
+        <div class="quad-range">Rank 1 – 5,000</div>
+        <ul class="quad-items">
+          <li>VIT Vellore + CSE/ECE fully accessible</li>
+          <li>No compromise needed — best of both worlds</li>
+          <li>Recommended: Vellore CSE, target FAANG preparation</li>
+          <li>Expected campus offers: ₹12–44L range achievable</li>
+          <li>Full branch choice across all 4 campuses</li>
+        </ul>
+      </div>
+      <div class="quad-card q2">
+        <div class="quad-rank">⚡ QUADRANT 2 — PREMIUM ZONE</div>
+        <div class="quad-range">Rank 5,001 – 15,000</div>
+        <ul class="quad-items">
+          <li>Vellore: ECE/Mech available; CSE difficult</li>
+          <li>Chennai: CSE/IT still accessible — excellent option</li>
+          <li>Expert tip: CSE at Chennai &gt; Mech at Vellore</li>
+          <li>Branch should be prioritised over campus prestige</li>
+          <li>Target ₹7–12L placements with the right preparation</li>
+        </ul>
+      </div>
+      <div class="quad-card q3">
+        <div class="quad-rank">🎯 QUADRANT 3 — STRATEGIC ZONE</div>
+        <div class="quad-range">Rank 15,001 – 40,000</div>
+        <ul class="quad-items">
+          <li>Vellore: Very limited branch options (Mech/Civil)</li>
+          <li>Amaravati/Bhopal: CSE still accessible</li>
+          <li>Is VIT Bhopal CSE better than Manipal/SRM CSE?</li>
+          <li>VIT brand still outperforms peers at any campus</li>
+          <li>NRI quota eliminates this concern entirely!</li>
+        </ul>
+      </div>
+      <div class="quad-card q4">
+        <div class="quad-rank">⚠️ QUADRANT 4 — RE-EVALUATE ZONE</div>
+        <div class="quad-range">Rank 40,000+</div>
+        <ul class="quad-items">
+          <li>Regular admission: Very restricted branch choices</li>
+          <li>Consider Manipal, SRM Chennai, Amrita alternatives</li>
+          <li>NRI students: RANK DOES NOT MATTER HERE!</li>
+          <li>NRI quota based on 12th marks — rank irrelevant</li>
+          <li>Immediate consultation with EduAakashaA recommended</li>
+        </ul>
+      </div>
+    </div>
+    <div class="insight-box">
+      <div class="label">🚨 KEY INSIGHT FOR NRI STUDENTS</div>
+      <p>NRI quota admissions are based on <strong>Class 12 marks, NOT VITEEE rank</strong>.
+      A student with 80%+ in Class 12 can potentially access CSE at VIT Vellore through NRI quota —
+      bypassing the rank barrier that stops regular students who need top-5,000 rank for the same branch.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COLLEGE VS BRANCH -->
+<section style="background:#ffffff;">
+  <div class="container">
+    <div class="section-tag">EXPERT FRAMEWORK</div>
+    <h2 class="section-title">College vs Branch — The Expert Decision Guide</h2>
+    <p class="section-sub">Should you take Mechanical at VIT Vellore or CSE at VIT Chennai? Here's the definitive EduAakashaA framework.</p>
+    <div style="background:#EEF4FF; border-radius:12px; padding:1.2rem; margin-bottom:1.5rem; border:2px solid #114BAC; text-align:center;">
+      <span style="font-weight:900; color:#114BAC; font-size:1rem;">THE MILLION DOLLAR QUESTION: </span>
+      <span style="color:#333355; font-size:0.95rem;">VIT Vellore Mechanical Engineering OR VIT Chennai Computer Science Engineering?</span>
+    </div>
+    <div class="framework-grid">
+      <div class="framework-card fw-college">
+        <div class="fw-header">✅ CHOOSE COLLEGE (Vellore) FIRST</div>
+        <ul class="fw-list">
+          <li>Rank &lt; 10,000 and desired branch still available</li>
+          <li>Targeting global MNCs, FAANG, consulting firms</li>
+          <li>Planning foreign MS/MBA — brand recognition matters</li>
+          <li>Not specifically committed to CS/tech career</li>
+          <li>Passionate about campus life, peer network quality</li>
+          <li>Parents are VIT Vellore alumni — emotional/network value</li>
+        </ul>
+        <div class="fw-insight">💡 Key Data: Vellore avg. ₹7.5L vs Chennai ₹6.2L — 20% brand premium, closing every year.</div>
+      </div>
+      <div class="framework-card fw-branch">
+        <div class="fw-header">🎯 CHOOSE BRANCH (CSE/Tech) FIRST</div>
+        <ul class="fw-list">
+          <li>CSE/AI/Data Science is the clear career goal</li>
+          <li>Rank 10,000–40,000 (Vellore CSE unlikely for regular)</li>
+          <li>Targeting India IT sector or product startups</li>
+          <li>Planning GATE/GRE — department depth matters more</li>
+          <li>Industry skills more valuable than brand name</li>
+          <li>8 out of 10 career scenarios favour branch-first choice</li>
+        </ul>
+        <div class="fw-insight">💡 Key Data: CSE placement 92% vs Mech 78%. CSE at any VIT campus outperforms Mech by 35–50% career ROI.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BRANCHES -->
+<section id="branches" class="branches-section">
+  <div class="container">
+    <div class="section-tag">BRANCH ANALYTICS</div>
+    <h2 class="section-title">Branch Deep Dive — Data-Driven Insights</h2>
+    <p class="section-sub">Real placement data from VIT 2024 placements to help you make an evidence-based branch choice.</p>
+    <div class="branch-grid">
+      <div class="branch-card cse">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.2rem;">
+          <div>
+            <div class="branch-name">Computer Science Engineering</div>
+            <div style="font-size:12px; color:#555577;">CSE, CSE-AI, CSE-DS, CSE-Cybersecurity</div>
+          </div>
+          <div style="font-size:1.4rem;">↑↑↑</div>
+        </div>
+        <div class="branch-metrics">
+          <div class="metric"><div class="metric-val" style="color:#114BAC;">₹7.5–12L</div><div class="metric-key">Average CTC</div></div>
+          <div class="metric"><div class="metric-val" style="color:#1A7A4A;">₹44L+</div><div class="metric-key">Highest Package</div></div>
+          <div class="metric"><div class="metric-val" style="color:#114BAC;">92%</div><div class="metric-key">Placement Rate</div></div>
+          <div class="metric"><div class="metric-val" style="color:#0D7377;">95%</div><div class="metric-key">Internship Conv.</div></div>
+        </div>
+        <div class="branch-insight">AI/ML specializations command a 40% salary premium. Amazon, Google, Microsoft among top recruiters. H-1B sponsorship: 300+ VIT CSE grads/year.</div>
+      </div>
+      <div class="branch-card ece">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.2rem;">
+          <div>
+            <div class="branch-name" style="color:#0D7377;">Electronics &amp; Communication Engg.</div>
+            <div style="font-size:12px; color:#555577;">ECE, VLSI Design, Embedded Systems</div>
+          </div>
+          <div style="font-size:1.4rem;">↑↑</div>
+        </div>
+        <div class="branch-metrics">
+          <div class="metric"><div class="metric-val" style="color:#0D7377;">₹5.5–8L</div><div class="metric-key">Average CTC</div></div>
+          <div class="metric"><div class="metric-val" style="color:#1A7A4A;">₹28L</div><div class="metric-key">Highest Package</div></div>
+          <div class="metric"><div class="metric-val" style="color:#0D7377;">85%</div><div class="metric-key">Placement Rate</div></div>
+          <div class="metric"><div class="metric-val" style="color:#0D7377;">88%</div><div class="metric-key">Internship Conv.</div></div>
+        </div>
+        <div class="branch-insight">VLSI &amp; Embedded Systems open strong overseas pathways — Singapore, Germany semiconductor sectors. Intel, Qualcomm, TI top recruiters.</div>
+      </div>
+      <div class="branch-card mech">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.2rem;">
+          <div>
+            <div class="branch-name" style="color:#8B4513;">Mechanical Engineering</div>
+            <div style="font-size:12px; color:#555577;">Mech, Manufacturing, Automation</div>
+          </div>
+          <div style="font-size:1.4rem;">↑</div>
+        </div>
+        <div class="branch-metrics">
+          <div class="metric"><div class="metric-val" style="color:#8B4513;">₹4.2–6.5L</div><div class="metric-key">Average CTC</div></div>
+          <div class="metric"><div class="metric-val" style="color:#1A7A4A;">₹18L</div><div class="metric-key">Highest Package</div></div>
+          <div class="metric"><div class="metric-val" style="color:#8B4513;">78%</div><div class="metric-key">Placement Rate</div></div>
+          <div class="metric"><div class="metric-val" style="color:#8B4513;">75%</div><div class="metric-key">Internship Conv.</div></div>
+        </div>
+        <div class="branch-insight">Core jobs slower-paced; 45% pursue M.Tech/MBA. EV sector emerging strongly. Vellore brand essential for premium PSU/defence roles.</div>
+      </div>
+      <div class="branch-card civil">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.2rem;">
+          <div>
+            <div class="branch-name" style="color:#5C6BC0;">Civil Engineering</div>
+            <div style="font-size:12px; color:#555577;">Civil, Structural, Environmental</div>
+          </div>
+          <div style="font-size:1.4rem;">→</div>
+        </div>
+        <div class="branch-metrics">
+          <div class="metric"><div class="metric-val" style="color:#5C6BC0;">₹3.8–5.5L</div><div class="metric-key">Average CTC</div></div>
+          <div class="metric"><div class="metric-val" style="color:#1A7A4A;">₹14L</div><div class="metric-key">Highest Package</div></div>
+          <div class="metric"><div class="metric-val" style="color:#5C6BC0;">72%</div><div class="metric-key">Placement Rate</div></div>
+          <div class="metric"><div class="metric-val" style="color:#5C6BC0;">65%</div><div class="metric-key">Internship Conv.</div></div>
+        </div>
+        <div class="branch-insight">India infrastructure boom (₹111L cr through 2030) creating demand. GATE preparation critical from Year 2 for PSU/IIT M.Tech pathways.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREER OUTCOMES -->
+<section style="background:#ffffff;">
+  <div class="container">
+    <div class="section-tag">CAREER OUTCOMES</div>
+    <h2 class="section-title">Jobs, Higher Education &amp; Global Opportunities</h2>
+    <p class="section-sub">Real data on what VIT graduates achieve in India and overseas, across jobs, higher studies, and internships.</p>
+    <div class="career-grid">
+      <div class="career-card">
+        <div class="career-header">
+          <div class="career-icon">🇮🇳</div>
+          <div class="career-title">India Job Market</div>
+        </div>
+        <div class="career-body">
+          <ul>
+            <li>Amazon, Google, Microsoft: 200+ campus offers/year from VIT</li>
+            <li>TCS, Infosys, Wipro: 2,000+ mass offers annually</li>
+            <li>CSE avg: ₹7.5L | Mech avg: ₹4.2L (2024 data)</li>
+            <li>Super dream (₹15L+): 150+ students placed each year</li>
+            <li>CSE avg CTC grew 56% in 6 years (₹4.8L → ₹7.5L)</li>
+            <li>FinTech, EV, HealthTech — growing sectors, active recruiters</li>
+          </ul>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-header teal">
+          <div class="career-icon">🎓</div>
+          <div class="career-title">Higher Education</div>
+        </div>
+        <div class="career-body">
+          <ul>
+            <li>800+ students admitted to US MS programs annually from VIT</li>
+            <li>Cornell, Carnegie Mellon, UT Austin accept VIT graduates</li>
+            <li>GATE: 200+ students to IIT/IISc M.Tech per year</li>
+            <li>IIM/ISB/XLRI: 500+ alumni in India's top B-schools</li>
+            <li>30–40% of US MS applicants receive research/teaching assistantships</li>
+            <li>Top destinations: USA, Germany, Canada, Australia, Singapore</li>
+          </ul>
+        </div>
+      </div>
+      <div class="career-card">
+        <div class="career-header dark">
+          <div class="career-icon">🌏</div>
+          <div class="career-title">Overseas Opportunities</div>
+        </div>
+        <div class="career-body">
+          <ul>
+            <li>USA: Strong H-1B sponsorship track for VIT CSE graduates</li>
+            <li>Canada PR: Express Entry pathway benefits STEM degrees</li>
+            <li>Germany: High VLSI/Embedded demand — 18-month job seeker visa</li>
+            <li>Singapore: Active VIT alumni network in tech sector</li>
+            <li>Average overseas starting: USD 60K–120K per year</li>
+            <li>NRI students: Dual advantage — Indian placement + overseas pathway</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE TABLE -->
+<section id="compare" class="comparison-section">
+  <div class="container">
+    <div class="section-tag">COLLEGE COMPARISON</div>
+    <h2 class="section-title">VIT vs Other Top Private Colleges</h2>
+    <p class="section-sub">An honest, data-backed comparison to help you evaluate VIT against peer institutions when needed.</p>
+    <div class="comp-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>VIT Vellore ⭐</th>
+            <th>VIT Chennai</th>
+            <th>Manipal</th>
+            <th>SRM Chennai</th>
+            <th>Amrita</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>NIRF Rank 2024</td><td>#12 Overall</td><td>~35</td><td>~40</td><td>~55</td><td>~45</td></tr>
+          <tr><td>Avg Placement CTC</td><td>₹7.5L</td><td>₹6.2L</td><td>₹6.8L</td><td>₹5.5L</td><td>₹5.8L</td></tr>
+          <tr><td>CSE Highest Package</td><td>₹44L</td><td>₹32L</td><td>₹38L</td><td>₹28L</td><td>₹25L</td></tr>
+          <tr><td>No. of Recruiters</td><td>800+</td><td>600+</td><td>700+</td><td>500+</td><td>450+</td></tr>
+          <tr><td>NRI Fee (USD/year)</td><td>~$4,500</td><td>~$3,800</td><td>~$4,200</td><td>~$3,500</td><td>~$3,200</td></tr>
+          <tr><td>NRI Quota Seats</td><td>~15%</td><td>~15%</td><td>~10%</td><td>~15%</td><td>~12%</td></tr>
+          <tr><td>Global Reputation</td><td>★★★★★</td><td>★★★★</td><td>★★★★</td><td>★★★</td><td>★★★</td></tr>
+          <tr><td>EduAakashaA Rank</td><td>#1 Choice</td><td>#2 (Tech career)</td><td>#2 (Alternative)</td><td>#3</td><td>#3</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section style="background:#ffffff;">
+  <div class="container">
+    <div class="section-tag">WHERE ARE YOU?</div>
+    <h2 class="section-title">Your Position &amp; Recommended Options</h2>
+    <p class="section-sub">Based on VITEEE rank and Class 12 marks, here is your personalised recommendation matrix.</p>
+    <div class="comp-table-wrap">
+      <table class="position-table">
+        <thead>
+          <tr>
+            <th>VITEEE Rank</th><th>12th Marks</th><th>Zone</th>
+            <th>NRI Quota Route</th><th>Regular Route</th><th>EduAakashaA Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1 – 5,000</td><td>Any</td>
+            <td><span class="pos-tag pos-elite">ELITE</span></td>
+            <td>Vellore CSE/ECE available</td><td>Vellore CSE/ECE available</td>
+            <td>Full freedom — choose Vellore CSE. No compromise needed.</td>
+          </tr>
+          <tr>
+            <td>5,001 – 15,000</td><td>Any</td>
+            <td><span class="pos-tag pos-premium">PREMIUM</span></td>
+            <td>Vellore CSE via NRI merit!</td><td>Vellore ECE OR Chennai CSE</td>
+            <td>NRI: Go Vellore CSE. Regular: Prioritise BRANCH — CSE at Chennai over Mech at Vellore.</td>
+          </tr>
+          <tr>
+            <td>15,001 – 40,000</td><td>Any</td>
+            <td><span class="pos-tag pos-strategic">STRATEGIC</span></td>
+            <td>Vellore ECE or Chennai CSE</td><td>Chennai/Amaravati CSE</td>
+            <td>NRI: Strong options remain. Regular: CSE at Amaravati/Bhopal OR compare Manipal/SRM.</td>
+          </tr>
+          <tr>
+            <td>40,000+</td><td>Any</td>
+            <td><span class="pos-tag pos-risk">EVALUATE</span></td>
+            <td>NRI quota — rank irrelevant!</td><td>Very limited choices</td>
+            <td>NRI quota is game-changer. 12th marks drive NRI merit. VITEEE rank does not matter.</td>
+          </tr>
+          <tr>
+            <td>N/A (NRI Direct)</td><td>80%+</td>
+            <td><span class="pos-tag pos-nri">NRI STRONG</span></td>
+            <td>All branches, all campuses</td><td>N/A</td>
+            <td>Apply NRI quota immediately. Strong merit position for CSE at Vellore.</td>
+          </tr>
+          <tr>
+            <td>N/A (NRI Direct)</td><td>70–80%</td>
+            <td><span class="pos-tag pos-nri">NRI VIABLE</span></td>
+            <td>CSE at Chennai or ECE at Vellore</td><td>N/A</td>
+            <td>Good options. Consultation with EduAakashaA for profile-optimised strategy.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- NRI ADVANTAGE -->
+<section class="nri-section">
+  <div class="container">
+    <div class="section-tag">NRI ADVANTAGE</div>
+    <h2 class="section-title">Why NRI Quota is a Game Changer</h2>
+    <p class="section-sub">The NRI quota fundamentally changes the strategic calculus for admission planning.</p>
+    <div class="nri-grid">
+      <div class="nri-card">
+        <div class="nri-icon">🚫</div>
+        <div class="nri-title">No VITEEE Rank Needed</div>
+        <div class="nri-desc">NRI admissions are based purely on Class 12 marks. A student with 80%+ can access CSE at Vellore — bypassing the need for top-5,000 VITEEE rank.</div>
+      </div>
+      <div class="nri-card">
+        <div class="nri-icon">📊</div>
+        <div class="nri-title">Smaller Competition Pool</div>
+        <div class="nri-desc">NRI applicants compete only among NRI students — a few hundred vs 2 lakh+ VITEEE takers. This dramatically improves admission probability.</div>
+      </div>
+      <div class="nri-card">
+        <div class="nri-icon">💼</div>
+        <div class="nri-title">Strong Financial ROI</div>
+        <div class="nri-desc">NRI premium (~₹12L extra over 4 years) is recovered in 18–24 months for CSE grads earning ₹7.5L+. Sound investment for NRI families with USD income.</div>
+      </div>
+      <div class="nri-card">
+        <div class="nri-icon">🌐</div>
+        <div class="nri-title">Dual Career Pathway</div>
+        <div class="nri-desc">NRI background gives familiarity with overseas work culture. Combined with VIT's global tie-ups, graduates have both Indian AND overseas career options.</div>
+      </div>
+      <div class="nri-card">
+        <div class="nri-icon">📈</div>
+        <div class="nri-title">SAT Score Leverage</div>
+        <div class="nri-desc">SAT scores of 1350+ strengthen NRI applications and can differentiate candidates in close merit scenarios. Not mandatory but highly beneficial.</div>
+      </div>
+      <div class="nri-card">
+        <div class="nri-icon">🏆</div>
+        <div class="nri-title">OCI/PIO Benefits</div>
+        <div class="nri-desc">OCI and PIO card holders also qualify for NRI category admissions. Multiple countries covered — verify your eligibility with our experts.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="contact" class="cta-section">
+  <div class="cta-inner">
+    <div class="cta-tag">READY TO MAKE THE RIGHT DECISION?</div>
+    <h2>Book Your Expert Session Today</h2>
+    <p>1,000+ families trust EduAakashaA for personalised, data-driven VIT NRI admission guidance.
+    Get your customised rank-to-branch mapping, NRI application support, and honest multi-college comparison.</p>
+    <div class="cta-contact-row">
+      <a href="https://www.eduaakashaa.in" class="cta-contact-item" target="_blank">🌐 <span>www.eduaakashaa.in</span></a>
+      <a href="mailto:info@eduaakashaa.com" class="cta-contact-item">📧 <span>info@eduaakashaa.com</span></a>
+    </div>
+    <p style="font-size:13px; color:rgba(255,255,255,0.5);">
+      Services include: Personalised Rank Mapping • NRI Application Support • Multi-College Comparison • Overseas Career Planning
+    </p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 <span>EduAakashaA</span> — Expert Education Consultants. All rights reserved.</p>
+  <p style="margin-top:6px;">
+    <a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a> &nbsp;|&nbsp;
+    <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
+  </p>
+</footer>
+
+
+
+<script>
+	const heightObserver = new ResizeObserver(([{ contentRect }]) => {
+		window.parent.postMessage({ action: 'iframeHeightUpdated', height: contentRect.height, id: 'zp0cHe' }, '*');
+	});
+
+	heightObserver.observe(document.documentElement);
+</script>
+
+</body></html>

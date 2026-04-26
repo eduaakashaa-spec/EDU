@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}NATA 2026 — Architecture Entrance Guide | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">COMPLETE GUIDE · 2026</span>
+    <h1>Master the <span>NATA 2026</span> Exam</h1>
+    <p>Your definitive resource for NATA 2026 — exam process, schedule, top college rankings, career comparison, and personalized interest assessment.</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item"><span class="hero__meta-label">COLLEGES</span><span class="hero__meta-value">450+</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">TOTAL MARKS</span><span class="hero__meta-value">200</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">ATTEMPTS</span><span class="hero__meta-value">3</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">PROGRAMME</span><span class="hero__meta-value">5 yr B.Arch</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">EXAM PROCESS</span>
+      <h2 class="section__title">NATA 2026 Step-by-Step</h2>
+    </div>
+    <p class="content-text">The National Aptitude Test in Architecture (NATA) is conducted by the Council of Architecture (CoA).</p>
+    <div class="steps">
+      <div class="step"><span class="step__num">1</span><div><div class="step__title">Online Registration</div><div class="step__text">Register at <strong>nata.in</strong> with email &amp; mobile. Upload photo / signature. Fee: General ₹1,750 · SC/ST ₹1,250.</div></div></div>
+      <div class="step"><span class="step__num">2</span><div><div class="step__title">Eligibility Check</div><div class="step__text">10+2 with Physics &amp; Maths (50% aggregate) or 10+3 Diploma with Mathematics. Min age 17 by Jul 31, 2026.</div></div></div>
+      <div class="step"><span class="step__num">3</span><div><div class="step__title">Exam Pattern</div><div class="step__text">3-hour exam, 200 marks. Part A: Drawing &amp; Composition (offline, 80). Part B: MCQ/NCQ (online, 120). No negative marking.</div></div></div>
+      <div class="step"><span class="step__num">4</span><div><div class="step__title">Attempt &amp; Score</div><div class="step__text">Up to 3 attempts in Phase 1. Best score is considered. Qualifying cutoff ≈60/200. Top colleges need 120–145+.</div></div></div>
+      <div class="step"><span class="step__num">5</span><div><div class="step__title">Admit Card</div><div class="step__text">Available Tuesday for Friday exams, Wednesday for Saturday exams. Carry printed copy + valid photo ID.</div></div></div>
+      <div class="step"><span class="step__num">6</span><div><div class="step__title">Counselling &amp; Admission</div><div class="step__text">Colleges conduct their own counselling. Apply to 450+ CoA-recognized institutes across India.</div></div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">TOP COLLEGES</span>
+      <h2 class="section__title">Leading Architecture Colleges in India</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>College</th><th>Location</th><th>Type</th><th>Indicative NATA Score</th></tr></thead>
+        <tbody>
+          <tr><td>SPA Delhi</td><td>Delhi</td><td>Central</td><td>140+</td></tr>
+          <tr><td>SPA Bhopal</td><td>Bhopal</td><td>Central</td><td>130+</td></tr>
+          <tr><td>CEPT University</td><td>Ahmedabad</td><td>Private (Deemed)</td><td>135+</td></tr>
+          <tr><td>NIT Calicut</td><td>Kozhikode</td><td>National</td><td>130+</td></tr>
+          <tr><td>NIT Trichy</td><td>Tiruchirappalli</td><td>National</td><td>128+</td></tr>
+          <tr><td>Anna University (CEG, MIT)</td><td>Chennai</td><td>State</td><td>120+</td></tr>
+          <tr><td>Jamia Millia Islamia</td><td>Delhi</td><td>Central</td><td>125+</td></tr>
+          <tr><td>IIT Roorkee / IIT Kharagpur</td><td>Roorkee / Kharagpur</td><td>IIT (JEE Adv Paper 2)</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note">Admissions via NATA score + 10+2 marks. IIT Roorkee &amp; IIT Kharagpur admit through JEE Advanced Architecture Aptitude Test (AAT).</p>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">INTEREST TEST</span>
+      <h2 class="section__title">Is Architecture Right For You?</h2>
+    </div>
+    <ul class="check-list">
+      <li>Enjoy sketching, drawing, visualising 3-D objects from 2-D references.</li>
+      <li>Strong observation skills — notice proportion, scale, light &amp; shadow.</li>
+      <li>Comfortable working long hours on design studio projects.</li>
+      <li>Interest in history, culture &amp; sustainability alongside engineering logic.</li>
+      <li>Patience &amp; attention to detail — CAD, physical models, concept boards.</li>
+    </ul>
+  </section>
+
+  <div class="final-cta">
+    <h2>Need NATA 2026 Guidance?</h2>
+    <p>Get personalized coaching recommendations, portfolio prep guidance, and mentorship from EduAakashaA's design counsellors.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Talk to a Counsellor</a>
+      <a href="https://nata.in" target="_blank" rel="noopener" class="btn-out">Official NATA Portal →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

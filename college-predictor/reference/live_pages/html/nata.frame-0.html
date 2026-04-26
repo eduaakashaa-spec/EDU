@@ -1,0 +1,418 @@
+<!DOCTYPE html><html><head>
+<style>
+	html {
+		overflow: hidden;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+ 	}
+
+ 	iframe {
+ 		max-width: 100%;
+ 	}
+</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Arial,Helvetica,sans-serif;color:#1E293B;background:#fff;line-height:1.7}
+
+/* NAV */
+.nav{background:#0B1D3A;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo img{height:36px}
+.nav-logo span{color:#fff;font-weight:800;font-size:16px}
+.nav-logo em{font-style:normal;color:#F59E0B}
+.nav-tabs{display:flex;gap:4px;flex-wrap:wrap}
+.tab-btn{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.2);border-radius:6px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:Arial}
+.tab-btn:hover,.tab-btn.active{background:#0891B2;border-color:#0891B2}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0B1D3A,#132B52,#0C4A6E);padding:48px 20px 40px;text-align:center}
+.hero-badge{display:inline-block;background:rgba(8,145,178,.2);border:1px solid rgba(34,211,238,.3);color:#22D3EE;padding:4px 16px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.hero h1{font-size:clamp(26px,5vw,38px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:10px}
+.hero h1 .a{color:#22D3EE}
+.hero h1 .g{color:#F59E0B}
+.hero p{font-size:14px;color:rgba(255,255,255,.65);max-width:550px;margin:0 auto 20px}
+.hero-stats{display:flex;justify-content:center;gap:30px;flex-wrap:wrap}
+.hero-stat .n{font-size:28px;font-weight:800;color:#F59E0B;display:block}
+.hero-stat .l{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px}
+
+/* SECTIONS */
+.section{display:none;max-width:960px;margin:0 auto;padding:30px 16px}
+.section.active{display:block}
+.stag{color:#0891B2;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px}
+.stitle{font-size:clamp(20px,4vw,26px);font-weight:800;color:#0B1D3A;margin-bottom:6px}
+.sdesc{color:#475569;margin-bottom:24px;font-size:14px}
+
+/* CARDS GRID */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.card{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:20px}
+.card:hover{box-shadow:0 6px 20px rgba(0,0,0,.06)}
+.cnum{width:36px;height:36px;border-radius:8px;background:#0891B2;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;margin-bottom:10px}
+.card h3{font-size:15px;font-weight:700;color:#0B1D3A;margin-bottom:6px}
+.card p{font-size:13px;color:#475569;line-height:1.6}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid #E2E8F0;font-size:13px}
+.tbl th{background:#0B1D3A;color:#fff;padding:12px 14px;text-align:left;font-size:12px;font-weight:700}
+.tbl td{padding:10px 14px;border-top:1px solid #E2E8F0}
+.tbl tr:nth-child(even){background:#F8FAFC}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700}
+.bp1{background:#DBEAFE;color:#1E40AF}
+.bp2{background:#FEF3C7;color:#92400E}
+
+/* RANK */
+.rbadge{display:inline-flex;width:28px;height:28px;border-radius:6px;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.r1{background:#FEF3C7;color:#92400E}
+.r2{background:#E0E7FF;color:#3730A3}
+.r3{background:#FCE7F3;color:#9D174D}
+.rn{background:#F1F5F9;color:#334155}
+.sbar{height:5px;width:60px;background:#E2E8F0;border-radius:3px;display:inline-block;vertical-align:middle;margin-right:6px;overflow:hidden}
+.sbar span{display:block;height:100%;background:linear-gradient(90deg,#0891B2,#22D3EE);border-radius:3px}
+
+/* COMPARE */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:700px){.comp-grid{grid-template-columns:1fr}}
+.comp-card{border:2px solid #E2E8F0;border-radius:14px;padding:20px;background:#fff}
+.comp-card.ar{border-color:#0891B2}
+.comp-card.en{border-color:#F59E0B}
+.comp-card h3{font-size:17px;font-weight:800;margin-bottom:14px}
+.comp-card.ar h3{color:#0891B2}
+.comp-card.en h3{color:#F59E0B}
+.comp-row{display:flex;gap:8px;padding:8px 0;border-bottom:1px solid #F1F5F9;font-size:13px}
+.comp-row:last-child{border:none}
+.ck{width:18px;height:18px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:2px}
+
+/* QUIZ */
+.quiz-box{background:#0B1D3A;border-radius:16px;padding:28px;color:#fff}
+.qprog{height:4px;background:rgba(255,255,255,.1);border-radius:2px;margin-bottom:24px}
+.qprog-bar{height:100%;background:#22D3EE;border-radius:2px;transition:width .3s}
+.qnum{color:#22D3EE;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.quiz-box h3{font-size:17px;font-weight:700;margin-bottom:16px}
+.qopts{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
+.qopt{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:14px 18px;border-radius:10px;font-size:14px;color:rgba(255,255,255,.85);cursor:pointer;text-align:left;font-family:Arial;transition:all .2s}
+.qopt:hover{background:rgba(8,145,178,.3);border-color:#0891B2}
+.qopt.sel{background:#0891B2;color:#fff;border-color:#0891B2;font-weight:700}
+.qnav{display:flex;justify-content:space-between}
+.qbtn{padding:10px 24px;border-radius:8px;font-weight:700;font-size:13px;cursor:pointer;border:none;font-family:Arial;transition:all .2s}
+.qbtn-prev{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.qbtn-next{background:#0891B2;color:#fff}
+.qbtn:disabled{opacity:.3;cursor:not-allowed}
+.result-box{text-align:center;padding:20px 0}
+.result-icon{width:70px;height:70px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:32px}
+.result-scores{display:flex;justify-content:center;gap:30px;margin:20px 0}
+.result-advice{text-align:left;background:rgba(255,255,255,.06);border-radius:12px;padding:18px;font-size:14px;line-height:1.7;color:rgba(255,255,255,.8);margin-top:20px}
+
+/* INSIGHTS */
+.insight-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px}
+.stream-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:14px}
+.stream-card{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:14px;text-align:center}
+.stream-card:hover{border-color:#0891B2}
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}
+.rec-card{border-radius:14px;padding:20px;color:#fff}
+.rec-card h4{font-size:15px;font-weight:700;margin-bottom:10px}
+.rec-card p{font-size:13px;opacity:.9;line-height:1.7}
+
+/* FOOTER */
+.footer{background:#0B1D3A;color:rgba(255,255,255,.6);padding:24px 20px;text-align:center;margin-top:30px}
+.footer a{color:#22D3EE;text-decoration:none}
+</style></head>
+	<body>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NATA 2026 Complete Guide | EduAakashaA</title>
+
+
+
+
+<!-- NAV -->
+<div class="nav">
+  <a href="https://www.eduaakashaa.in" target="_blank" class="nav-logo">
+    <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/AzGeQnXJ98TKkVNd/logo2-YanyNjlRnwfkQlpE.png" alt="Logo">
+    <span>Edu<em>AakashaA</em></span>
+  </a>
+  <div class="nav-tabs">
+    <button class="tab-btn active" onclick="showTab('process')">Process</button>
+    <button class="tab-btn" onclick="showTab('schedule')">Schedule</button>
+    <button class="tab-btn" onclick="showTab('ranking')">Rankings</button>
+    <button class="tab-btn" onclick="showTab('compare')">Compare</button>
+    <button class="tab-btn" onclick="showTab('quiz')">Interest Test</button>
+    <button class="tab-btn" onclick="showTab('insights')">Insights</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Complete Guide 2026</div>
+  <h1>Master the <span class="a">NATA</span> Exam<br>Shape Your <span class="g">Architecture</span> Future</h1>
+  <p>Your definitive resource for NATA 2026 — exam process, schedule, top college rankings, career comparison, and personalized interest assessment.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="n">450+</span><span class="l">Colleges</span></div>
+    <div class="hero-stat"><span class="n">200</span><span class="l">Total Marks</span></div>
+    <div class="hero-stat"><span class="n">3</span><span class="l">Attempts</span></div>
+    <div class="hero-stat"><span class="n">5 Yrs</span><span class="l">B.Arch</span></div>
+  </div>
+</div>
+
+<!-- ===== PROCESS ===== -->
+<div class="section active" id="sec-process">
+  <div class="stag">STEP BY STEP</div>
+  <div class="stitle">NATA 2026 Exam Process</div>
+  <p class="sdesc">The National Aptitude Test in Architecture (NATA) is conducted by the Council of Architecture (CoA).</p>
+  <div class="cgrid">
+    <div class="card"><div class="cnum">1</div><h3>Online Registration</h3><p>Register at nata.in with email and mobile. Upload photo &amp; signature in JPEG. Pay fees online (General: ₹1750, SC/ST: ₹1250).</p></div>
+    <div class="card"><div class="cnum">2</div><h3>Eligibility Check</h3><p>10+2 with Physics &amp; Maths (50% aggregate) or 10+3 Diploma with Mathematics. Min age: 17 by July 31, 2026. No upper age limit.</p></div>
+    <div class="card"><div class="cnum">3</div><h3>Exam Pattern</h3><p>3-hour exam, 200 marks. Part A: Drawing &amp; Composition (offline, 80 marks). Part B: MCQ/NCQ (online, 120 marks). No negative marking.</p></div>
+    <div class="card"><div class="cnum">4</div><h3>Attempt &amp; Score</h3><p>Up to 3 attempts in Phase 1. Best score is considered. Qualifying cutoff ~60/200. Top colleges need 120-145+. Results within 7-10 days.</p></div>
+    <div class="card"><div class="cnum">5</div><h3>Admit Card</h3><p>Download from nata.in. Available Tuesday for Friday exams, Wednesday for Saturday exams. Carry printed copy + valid photo ID.</p></div>
+    <div class="card"><div class="cnum">6</div><h3>Counselling &amp; Admission</h3><p>Colleges conduct their own counselling. Apply to 450+ CoA-recognized institutes across India. Meet individual college eligibility.</p></div>
+  </div>
+</div>
+
+<!-- ===== SCHEDULE ===== -->
+<div class="section" id="sec-schedule">
+  <div class="stag">IMPORTANT DATES</div>
+  <div class="stitle">NATA 2026 Exam Schedule</div>
+  <p class="sdesc">Official schedule announced by the Council of Architecture.</p>
+  <table class="tbl">
+    <thead><tr><th>Event</th><th>Phase</th><th>Date</th><th>Details</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Registration Opens</strong></td><td><span class="badge bp1">Phase 1</span></td><td>9 March 2026</td><td>Online at nata.in</td></tr>
+      <tr><td><strong>Phase 1 Exam Window</strong></td><td><span class="badge bp1">Phase 1</span></td><td>4 Apr – 13 Jun 2026</td><td>Every Fri &amp; Sat</td></tr>
+      <tr><td><strong>Phase 1 Timing</strong></td><td><span class="badge bp1">Phase 1</span></td><td>Fri: 1:30 – 4:30 PM</td><td>Sat: AM + PM shifts</td></tr>
+      <tr><td><strong>Registration Deadline</strong></td><td><span class="badge bp1">Phase 1</span></td><td>Mon 11:59 PM (Fri)</td><td>Tue 11:59 PM (Sat)</td></tr>
+      <tr><td><strong>Admit Card Release</strong></td><td><span class="badge bp1">Phase 1</span></td><td>Tue (Fri) / Wed (Sat)</td><td>Download from portal</td></tr>
+      <tr><td><strong>Results</strong></td><td><span class="badge bp1">Phase 1</span></td><td>Within 7–10 days</td><td>Best score considered</td></tr>
+      <tr><td><strong>Phase 2 Exam</strong></td><td><span class="badge bp2">Phase 2</span></td><td>7 &amp; 8 August 2026</td><td>AM + PM shifts</td></tr>
+      <tr><td><strong>Phase 2 Note</strong></td><td><span class="badge bp2">Phase 2</span></td><td>Non-Phase 1 only</td><td>Single attempt</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== RANKING ===== -->
+<div class="section" id="sec-ranking">
+  <div class="stag">NIRF 2025</div>
+  <div class="stitle">Top Architecture Colleges in India</div>
+  <p class="sdesc">Based on NIRF 2025 rankings by Ministry of Education, Government of India.</p>
+  <table class="tbl">
+    <thead><tr><th>#</th><th>Institution</th><th>City</th><th>Type</th><th>Score</th><th>Entrance</th></tr></thead>
+    <tbody>
+      <tr><td><span class="rbadge r1">1</span></td><td><strong>IIT Roorkee</strong></td><td>Roorkee</td><td>IIT</td><td><span class="sbar"><span style="width:82%"></span></span><strong style="color:#0891B2">82.01</strong></td><td>JEE Advanced</td></tr>
+      <tr><td><span class="rbadge r2">2</span></td><td><strong>NIT Calicut</strong></td><td>Kozhikode</td><td>NIT</td><td><span class="sbar"><span style="width:74%"></span></span><strong style="color:#0891B2">73.65</strong></td><td>JEE Main / NATA</td></tr>
+      <tr><td><span class="rbadge r3">3</span></td><td><strong>IIT Kharagpur</strong></td><td>Kharagpur</td><td>IIT</td><td><span class="sbar"><span style="width:73%"></span></span><strong style="color:#0891B2">72.88</strong></td><td>JEE Advanced</td></tr>
+      <tr><td><span class="rbadge rn">4</span></td><td><strong>Jamia Millia Islamia</strong></td><td>New Delhi</td><td>Central Univ.</td><td><span class="sbar"><span style="width:69%"></span></span><strong style="color:#0891B2">68.54</strong></td><td>NATA / JEE Main</td></tr>
+      <tr><td><span class="rbadge rn">5</span></td><td><strong>NIT Rourkela</strong></td><td>Rourkela</td><td>NIT</td><td><span class="sbar"><span style="width:67%"></span></span><strong style="color:#0891B2">66.90</strong></td><td>JEE Main / NATA</td></tr>
+      <tr><td><span class="rbadge rn">6</span></td><td><strong>CEPT University</strong></td><td>Ahmedabad</td><td>Private</td><td><span class="sbar"><span style="width:66%"></span></span><strong style="color:#0891B2">65.73</strong></td><td>NATA / JEE Main</td></tr>
+      <tr><td><span class="rbadge rn">7</span></td><td><strong>SPA New Delhi</strong></td><td>New Delhi</td><td>Govt.</td><td><span class="sbar"><span style="width:65%"></span></span><strong style="color:#0891B2">65.11</strong></td><td>NATA</td></tr>
+      <tr><td><span class="rbadge rn">8</span></td><td><strong>NIT Tiruchirappalli</strong></td><td>Trichy</td><td>NIT</td><td><span class="sbar"><span style="width:64%"></span></span><strong style="color:#0891B2">64.30</strong></td><td>JEE Main / NATA</td></tr>
+      <tr><td><span class="rbadge rn">9</span></td><td><strong>VNIT Nagpur</strong></td><td>Nagpur</td><td>NIT</td><td><span class="sbar"><span style="width:61%"></span></span><strong style="color:#0891B2">61.22</strong></td><td>JEE Main / NATA</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:10px;font-size:11px;color:#94A3B8">Source: NIRF India Rankings 2025, Ministry of Education | nirfindia.org</p>
+</div>
+
+<!-- ===== COMPARE ===== -->
+<div class="section" id="sec-compare">
+  <div class="stag">HEAD TO HEAD</div>
+  <div class="stitle">Architecture (NATA) vs Engineering</div>
+  <p class="sdesc">Key differences to help you make an informed career decision.</p>
+  <div class="comp-grid">
+    <div class="comp-card ar">
+      <div style="font-size:28px;margin-bottom:8px">🏛</div>
+      <h3>B.Arch (Architecture via NATA)</h3>
+      <div class="comp-row"><span class="ck" style="background:#0891B2">✓</span><span><strong>Duration:</strong> 5 years (10 semesters)</span></div>
+      <div class="comp-row"><span class="ck" style="background:#0891B2">✓</span><span><strong>Exam:</strong> Aptitude + Drawing + Creativity</span></div>
+      <div class="comp-row"><span class="ck" style="background:#0891B2">✓</span><span><strong>Focus:</strong> Design thinking, spatial visualization, aesthetics</span></div>
+      <div class="comp-row"><span class="ck" style="background:#0891B2">✓</span><span><strong>Subjects:</strong> Design, Architecture History, Building Tech, Sustainability</span></div>
+      <div class="comp-row"><span class="ck" style="background:#0891B2">✓</span><span><strong>Careers:</strong> Architect, Urban Planner, Interior Designer, Landscape Architect</span></div>
+      <div class="comp-row"><span class="ck" style="background:#0891B2">✓</span><span><strong>Salary:</strong> ₹4-8 LPA (top colleges up to ₹70 LPA)</span></div>
+      <div class="comp-row"><span class="ck" style="background:#0891B2">✓</span><span><strong>Best for:</strong> Creative thinkers who love sketching &amp; design</span></div>
+      <div class="comp-row"><span class="ck" style="background:#0891B2">✓</span><span><strong>Regulation:</strong> Council of Architecture (CoA)</span></div>
+    </div>
+    <div class="comp-card en">
+      <div style="font-size:28px;margin-bottom:8px">⚙️</div>
+      <h3>B.Tech / B.E. (Engineering)</h3>
+      <div class="comp-row"><span class="ck" style="background:#F59E0B">✓</span><span><strong>Duration:</strong> 4 years (8 semesters)</span></div>
+      <div class="comp-row"><span class="ck" style="background:#F59E0B">✓</span><span><strong>Exam:</strong> JEE Main / State CETs (MCQ analytical)</span></div>
+      <div class="comp-row"><span class="ck" style="background:#F59E0B">✓</span><span><strong>Focus:</strong> Mathematics, physics, technical problem-solving</span></div>
+      <div class="comp-row"><span class="ck" style="background:#F59E0B">✓</span><span><strong>Subjects:</strong> Varies — CS, Mechanical, ECE, Civil, etc.</span></div>
+      <div class="comp-row"><span class="ck" style="background:#F59E0B">✓</span><span><strong>Careers:</strong> Software Engineer, Data Scientist, Mechanical Engineer</span></div>
+      <div class="comp-row"><span class="ck" style="background:#F59E0B">✓</span><span><strong>Salary:</strong> ₹4-12 LPA (top IITs/NITs much higher)</span></div>
+      <div class="comp-row"><span class="ck" style="background:#F59E0B">✓</span><span><strong>Best for:</strong> Analytical minds who enjoy math, science &amp; tech</span></div>
+      <div class="comp-row"><span class="ck" style="background:#F59E0B">✓</span><span><strong>Regulation:</strong> AICTE — multiple specialization options</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QUIZ ===== -->
+<div class="section" id="sec-quiz">
+  <div class="stag">DISCOVER YOURSELF</div>
+  <div class="stitle">Architecture or Engineering? Take the Interest Test</div>
+  <p class="sdesc">Answer 10 quick questions to find your ideal career path.</p>
+  <div class="quiz-box">
+    <!-- Quiz content rendered by JS -->
+    <div id="quizArea"><div class="qprog"><div class="qprog-bar" style="width:10%"></div></div><div class="qnum">Question 1 of 10</div><h3>When you see a beautiful building, what is your first thought?</h3><div class="qopts"><button class="qopt" onclick="pickAnswer(0,0)">I want to design something like this!</button><button class="qopt" onclick="pickAnswer(0,1)">I wonder how it was built structurally.</button></div><div class="qnav"><button class="qbtn qbtn-prev" onclick="prevQ()" disabled="">← Previous</button><button class="qbtn qbtn-next" onclick="nextQ()" style="opacity:.4;cursor:not-allowed">Next →</button></div></div>
+  </div>
+</div>
+
+<!-- ===== INSIGHTS ===== -->
+<div class="section" id="sec-insights">
+  <div class="stag">DECISION MAKING</div>
+  <div class="stitle">Key Insights for Students &amp; Parents</div>
+  <p class="sdesc">Critical factors to consider before choosing your path.</p>
+  <div class="cgrid">
+    <div class="card"><div class="insight-icon" style="background:rgba(8,145,178,.1)">🎯</div><h3>Follow Aptitude, Not Trends</h3><p>A student who excels in drawing but dislikes JEE math is naturally suited for Architecture. Don't force-fit into popular branches.</p></div>
+    <div class="card"><div class="insight-icon" style="background:rgba(245,158,11,.1)">💰</div><h3>ROI &amp; Salary Comparison</h3><p>Engineering has wider starting salary range, but Architecture from NIRF top 10 colleges offers strong and comparable ROI.</p></div>
+    <div class="card"><div class="insight-icon" style="background:rgba(139,92,246,.1)">📚</div><h3>5 Years vs 4 Years</h3><p>B.Arch takes 5 years vs B.Tech's 4. The extra year includes internship and thesis, giving real-world experience before graduation.</p></div>
+    <div class="card"><div class="insight-icon" style="background:rgba(16,185,129,.1)">🌎</div><h3>Global Opportunities</h3><p>Architecture grads can pursue RIBA/AIA certifications. Engineering offers wider international markets. Both have strong abroad prospects.</p></div>
+    <div class="card"><div class="insight-icon" style="background:rgba(244,63,94,.1)">🚀</div><h3>Emerging Crossover Fields</h3><p>Computational design, sustainable architecture, smart cities, and BIM blend both Architecture and Engineering skills beautifully.</p></div>
+    <div class="card"><div class="insight-icon" style="background:rgba(249,115,22,.1)">💡</div><h3>Practical Test: Try Both</h3><p>Sketch a room design (Architecture test). Solve a math puzzle (Engineering test). Whichever excites you more reveals your true calling.</p></div>
+  </div>
+
+  <h3 style="font-size:20px;font-weight:800;color:#0B1D3A;margin-top:32px;margin-bottom:8px">Stream Selection Guide</h3>
+  <div class="stream-grid">
+    <div class="stream-card"><div style="font-size:28px;margin-bottom:8px">✍️</div><div style="font-size:13px;font-weight:700;color:#0B1D3A;margin-bottom:4px">Architecture &amp; Design</div><span style="display:inline-block;background:rgba(8,145,178,.1);color:#0891B2;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700">NATA / JEE B.Arch</span></div>
+    <div class="stream-card"><div style="font-size:28px;margin-bottom:8px">💻</div><div style="font-size:13px;font-weight:700;color:#0B1D3A;margin-bottom:4px">Computer Science &amp; IT</div><span style="display:inline-block;background:rgba(8,145,178,.1);color:#0891B2;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700">JEE / State CETs</span></div>
+    <div class="stream-card"><div style="font-size:28px;margin-bottom:8px">🔬</div><div style="font-size:13px;font-weight:700;color:#0B1D3A;margin-bottom:4px">Medical &amp; Life Sciences</div><span style="display:inline-block;background:rgba(8,145,178,.1);color:#0891B2;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700">NEET</span></div>
+    <div class="stream-card"><div style="font-size:28px;margin-bottom:8px">📊</div><div style="font-size:13px;font-weight:700;color:#0B1D3A;margin-bottom:4px">Commerce &amp; Business</div><span style="display:inline-block;background:rgba(8,145,178,.1);color:#0891B2;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700">CA / MBA / BBA</span></div>
+    <div class="stream-card"><div style="font-size:28px;margin-bottom:8px">🎨</div><div style="font-size:13px;font-weight:700;color:#0B1D3A;margin-bottom:4px">Fine Arts &amp; Humanities</div><span style="display:inline-block;background:rgba(8,145,178,.1);color:#0891B2;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700">NID / NIFT / BFA</span></div>
+    <div class="stream-card"><div style="font-size:28px;margin-bottom:8px">🚀</div><div style="font-size:13px;font-weight:700;color:#0B1D3A;margin-bottom:4px">Core Engineering</div><span style="display:inline-block;background:rgba(8,145,178,.1);color:#0891B2;padding:2px 10px;border-radius:12px;font-size:10px;font-weight:700">JEE / GATE</span></div>
+  </div>
+
+  <h3 style="font-size:20px;font-weight:800;color:#0B1D3A;margin-top:32px;margin-bottom:8px">EduAakashaA Recommendations</h3>
+  <div class="rec-grid">
+    <div class="rec-card" style="background:linear-gradient(135deg,#065A82,#0891B2)"><h4>🎓 For Architecture Aspirants</h4><p>Start practicing freehand sketching daily. Focus on 3D visualization and color theory. Attempt mock NATA tests early. Visit architectural sites. Build a drawing portfolio.</p></div>
+    <div class="rec-card" style="background:linear-gradient(135deg,#92400E,#F59E0B)"><h4>⚙️ For Engineering Aspirants</h4><p>Focus on JEE/state CET preparation. Strengthen Physics and Mathematics. Explore different branches through online courses. Attend workshops and hackathons.</p></div>
+    <div class="rec-card" style="background:linear-gradient(135deg,#5B21B6,#8B5CF6)"><h4>💬 For Undecided Students</h4><p>Take the interest test above. Talk to professionals in both fields. Try a 1-week challenge: sketch designs one week, solve problems the next. Let your natural energy guide you.</p></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div style="font-size:18px;font-weight:800;color:#fff;margin-bottom:4px">Edu<span style="color:#F59E0B">AakashaA</span></div>
+  <div style="font-size:13px;margin-bottom:4px">Your trusted guide for education &amp; career counselling</div>
+  <a href="https://www.eduaakashaa.in" target="_blank">www.eduaakashaa.in</a>
+  <div style="font-size:10px;opacity:.4;margin-top:8px">NATA by Council of Architecture (CoA). NIRF Rankings by Ministry of Education. All data from official sources.</div>
+</div>
+
+
+
+<script>
+// ===== TAB NAVIGATION =====
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+}
+
+// ===== QUIZ =====
+var questions = [
+  { q: "When you see a beautiful building, what is your first thought?", a: ["I want to design something like this!", "I wonder how it was built structurally."] },
+  { q: "Which activity do you enjoy more?", a: ["Sketching, drawing, or painting", "Solving math puzzles or coding"] },
+  { q: "Your ideal weekend project would be:", a: ["Designing a dream house layout on paper", "Building a robot or writing a program"] },
+  { q: "In a group project, you naturally take charge of:", a: ["The visual design, layout, and presentation look", "The data analysis, logic, and technical parts"] },
+  { q: "Which subject excites you the most?", a: ["Art, History, Geography, Environmental Studies", "Physics, Mathematics, Computer Science"] },
+  { q: "How do you prefer to solve problems?", a: ["Visually \u2014 diagrams, models, spatial thinking", "Analytically \u2014 formulas, data, step-by-step logic"] },
+  { q: "Your dream workspace looks like:", a: ["A creative studio with models, sketches, mood boards", "A tech lab with computers, circuits, whiteboards"] },
+  { q: "Which career sounds more exciting?", a: ["Designing sustainable cities and green buildings", "Developing AI systems or launching a tech startup"] },
+  { q: "When you travel to a new place, you notice:", a: ["The architecture, colors, spaces, landscape design", "The transportation systems, technology, infrastructure"] },
+  { q: "What motivates you more?", a: ["Creating something visually beautiful that people experience", "Building efficient systems that solve real-world problems"] }
+];
+
+var currentQ = 0;
+var ans = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+
+function renderQuiz() {
+  var area = document.getElementById('quizArea');
+  var html = '';
+  html += '<div class="qprog"><div class="qprog-bar" style="width:' + ((currentQ + 1) * 10) + '%"></div></div>';
+  html += '<div class="qnum">Question ' + (currentQ + 1) + ' of 10</div>';
+  html += '<h3>' + questions[currentQ].q + '</h3>';
+  html += '<div class="qopts">';
+  for (var j = 0; j < 2; j++) {
+    var sel = ans[currentQ] === j ? ' sel' : '';
+    html += '<button class="qopt' + sel + '" onclick="pickAnswer(' + currentQ + ',' + j + ')">' + questions[currentQ].a[j] + '</button>';
+  }
+  html += '</div>';
+  html += '<div class="qnav">';
+  html += '<button class="qbtn qbtn-prev" onclick="prevQ()"' + (currentQ === 0 ? ' disabled' : '') + '>\u2190 Previous</button>';
+  html += '<button class="qbtn qbtn-next" onclick="nextQ()"' + (ans[currentQ] === -1 ? ' style="opacity:.4;cursor:not-allowed"' : '') + '>' + (currentQ === 9 ? 'See Results' : 'Next \u2192') + '</button>';
+  html += '</div>';
+  area.innerHTML = html;
+}
+
+function pickAnswer(qi, ai) {
+  ans[qi] = ai;
+  renderQuiz();
+}
+
+function nextQ() {
+  if (ans[currentQ] === -1) return;
+  if (currentQ < 9) { currentQ++; renderQuiz(); }
+  else { showResults(); }
+}
+
+function prevQ() {
+  if (currentQ > 0) { currentQ--; renderQuiz(); }
+}
+
+function showResults() {
+  var archS = 0, engS = 0;
+  for (var i = 0; i < 10; i++) { if (ans[i] === 0) archS += 10; else engS += 10; }
+
+  var icon, title, desc, advice, iconBg;
+  if (archS >= 70) {
+    icon = '\u{1F3DB}\uFE0F'; iconBg = 'rgba(8,145,178,.2)';
+    title = 'You\'re a Natural <span style="color:#22D3EE">Architect!</span>';
+    desc = 'Your creative instincts, spatial thinking, and design sensibility point strongly toward Architecture.';
+    advice = '<strong>Recommended Path:</strong> Prepare for NATA 2026. Start daily sketching practice. Explore design thinking workshops. Target top NIRF-ranked architecture colleges like IIT Roorkee, NIT Calicut, or CEPT University.';
+  } else if (engS >= 70) {
+    icon = '\u2699\uFE0F'; iconBg = 'rgba(245,158,11,.2)';
+    title = 'You\'re a Born <span style="color:#F59E0B">Engineer!</span>';
+    desc = 'Your analytical mind, logical thinking, and technical curiosity align perfectly with Engineering.';
+    advice = '<strong>Recommended Path:</strong> Focus on JEE Main/Advanced or state CET preparation. Explore CS, Mechanical, or ECE based on interests. Target IITs and NITs. Build projects to strengthen your portfolio.';
+  } else {
+    icon = '\u{1F4A1}'; iconBg = 'rgba(139,92,246,.2)';
+    title = 'You Have a <span style="color:#8B5CF6">Dual Aptitude!</span>';
+    desc = 'You show strengths in both creative and analytical thinking. Exciting crossover opportunities await.';
+    advice = '<strong>Recommended Path:</strong> Explore hybrid fields like Computational Design, Smart Cities, BIM, or Industrial Design. Consider preparing for both NATA and JEE simultaneously.';
+  }
+
+  var area = document.getElementById('quizArea');
+  var html = '<div class="result-box">';
+  html += '<div class="result-icon" style="background:' + iconBg + '">' + icon + '</div>';
+  html += '<h2 style="font-size:24px;font-weight:800;margin-bottom:8px">' + title + '</h2>';
+  html += '<div class="result-scores">';
+  html += '<div><div style="font-size:28px;font-weight:800;color:#22D3EE">' + archS + '%</div><div style="font-size:11px;opacity:.5">Architecture</div></div>';
+  html += '<div><div style="font-size:28px;font-weight:800;color:#F59E0B">' + engS + '%</div><div style="font-size:11px;opacity:.5">Engineering</div></div>';
+  html += '</div>';
+  html += '<p style="color:rgba(255,255,255,.7);max-width:450px;margin:0 auto;font-size:14px">' + desc + '</p>';
+  html += '<div class="result-advice">' + advice + '</div>';
+  html += '<button class="qbtn qbtn-next" onclick="resetQuiz()" style="margin-top:20px">Retake Test</button>';
+  html += '</div>';
+  area.innerHTML = html;
+}
+
+function resetQuiz() {
+  currentQ = 0;
+  ans = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1];
+  renderQuiz();
+}
+
+// Initial render
+renderQuiz();
+</script>
+<script>
+	const heightObserver = new ResizeObserver(([{ contentRect }]) => {
+		window.parent.postMessage({ action: 'iframeHeightUpdated', height: contentRect.height, id: 'zSoeKF' }, '*');
+	});
+
+	heightObserver.observe(document.documentElement);
+</script>
+
+</body></html>

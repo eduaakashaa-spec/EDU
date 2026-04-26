@@ -37,8 +37,10 @@
               <li><a href="{{ url_for('main.iiits') }}">IIITs</a></li>
               <li><a href="{{ url_for('main.annanri') }}">Anna_NRI</a></li>
               <li><a href="{{ url_for('main.dasa_seat_matrix') }}">DASA Seat Matrix</a></li>
+              <li><a href="{{ url_for('main.viteee_nri') }}">VITEEE for NRI</a></li>
               <li><a href="{{ url_for('main.dasa_guide') }}">DASA/CIWG</a></li>
               <li><a href="{{ url_for('main.nirf_ranking') }}">NIRF</a></li>
+              <li><a href="{{ url_for('main.amrita_aeee') }}">AMRITA AEEE</a></li>
             </ul>
           </li>
           <li class="nav__item nav__item--dropdown">
@@ -47,17 +49,43 @@
               <li><a href="{{ url_for('main.tneamatrix') }}">TNEA_matrix</a></li>
               <li><a href="{{ url_for('main.tneapc') }}">TNEA_PC</a></li>
               <li><a href="{{ url_for('main.tnea_cutoff') }}">TNEA Cutoff</a></li>
+              <li><a href="{{ url_for('main.tnea_simulator') }}">TNEA Simulator</a></li>
+            </ul>
+          </li>
+          <li class="nav__item nav__item--dropdown">
+            <a href="{{ url_for('main.josaa') }}" class="nav__link{% if '/josaa' in request.path %} nav__link--active{% endif %}">JOSAA <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.josaa') }}">JOSAA Predictor</a></li>
+              <li><a href="{{ url_for('main.josaa_assessment') }}">JOSAA Assessment</a></li>
+              <li><a href="{{ url_for('main.josaa_ea_members') }}">JOSAA_EA Members</a></li>
+            </ul>
+          </li>
+          <li class="nav__item"><a href="{{ url_for('main.nata') }}" class="nav__link{% if request.path == '/nata' %} nav__link--active{% endif %}">NATA</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.nid') }}" class="nav__link{% if request.path == '/nid' %} nav__link--active{% endif %}">NID</a></li>
+          <li class="nav__item nav__item--dropdown">
+            <a href="{{ url_for('main.mbamca') }}" class="nav__link{% if '/mbamca' in request.path or '/tancet' in request.path or '/cat' == request.path %} nav__link--active{% endif %}">MBA/MCA <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.mbamca') }}">MBA/MCA Program</a></li>
+              <li><a href="{{ url_for('main.tancet') }}">TANCET</a></li>
+              <li><a href="{{ url_for('main.tancet_pulse') }}">TANCET PULSE</a></li>
+              <li><a href="{{ url_for('main.cat') }}">CAT</a></li>
+            </ul>
+          </li>
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">Tools <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.student_assessment') }}">Student Assessment</a></li>
+              <li><a href="{{ url_for('main.stream_selection') }}">Stream Selection</a></li>
+              <li><a href="{{ url_for('main.stream_selection_ea') }}">Stream Selection_EA</a></li>
+              <li><a href="{{ url_for('main.conflict_assessment') }}">Conflict Assessment</a></li>
+              <li><a href="{{ url_for('main.exam_schedule') }}">Exam Schedule</a></li>
+              <li><a href="{{ url_for('main.ea_library') }}">EA Library</a></li>
             </ul>
           </li>
           <li class="nav__item"><a href="{{ url_for('main.professional_exam') }}" class="nav__link{% if request.path == '/professional-exam' %} nav__link--active{% endif %}">Professional Exam</a></li>
           <li class="nav__item"><a href="{{ url_for('main.internship') }}" class="nav__link{% if request.path == '/internship-programs' %} nav__link--active{% endif %}">Internship</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.join_our_team') }}" class="nav__link{% if request.path == '/join-our-team' %} nav__link--active{% endif %}">Join Our Team</a></li>
           <li class="nav__item"><a href="{{ url_for('main.contact') }}" class="nav__link{% if request.path == '/contact' %} nav__link--active{% endif %}">Contact</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.mbamca') }}" class="nav__link{% if request.path == '/mbamca-program' %} nav__link--active{% endif %}">MBA/MCA Program</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.tancet') }}" class="nav__link{% if request.path == '/tancet' %} nav__link--active{% endif %}">Tancet</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.ea_library') }}" class="nav__link{% if request.path == '/ea-library' %} nav__link--active{% endif %}">EA Library</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.tancet_pulse') }}" class="nav__link{% if request.path == '/tancet-pulse' %} nav__link--active{% endif %}">TANCET PULSE</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.viteee_nri') }}" class="nav__link{% if request.path == '/viteee-for-nri' %} nav__link--active{% endif %}">VITEEE for NRI</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.josaa') }}" class="nav__link{% if request.path == '/josaa' %} nav__link--active{% endif %}">JOSAA</a></li>
         </ul>
       </nav>
       <div class="header__auth">

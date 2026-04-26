@@ -1,0 +1,195 @@
+<!DOCTYPE html><html><head>
+<style>
+	html {
+		overflow: hidden;
+	}
+
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+ 	}
+
+ 	iframe {
+ 		max-width: 100%;
+ 	}
+</style>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Segoe UI,Tahoma,sans-serif;background:#f8f9fc;color:#1a2440}
+a{text-decoration:none}
+.logo-text{font-size:22px;font-weight:700;color:#1a2e5a;display:inline-flex;align-items:center;gap:6px}
+.logo-text span{color:#e87a2e}
+.logo-box{width:32px;height:32px;background:linear-gradient(135deg,#2456a4,#e87a2e);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:14px}
+.nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.06)}
+.nav a.join{background:#e87a2e;color:#fff;padding:10px 22px;border-radius:50px;font-weight:600;font-size:14px}
+.hero{padding:80px 20px 60px;background:#1a2e5a;color:#fff;text-align:center}
+.hero h1{font-size:42px;font-weight:700;margin-bottom:12px}
+.hero h1 span{color:#f59a0b}
+.hero p{font-size:17px;max-width:600px;margin:0 auto 28px;line-height:1.7;color:#c8d0e0}
+.btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-o{padding:14px 32px;border-radius:50px;font-weight:600;font-size:15px;background:#e87a2e;color:#fff;display:inline-block}
+.btn-w{padding:14px 32px;border-radius:50px;font-weight:600;font-size:15px;border:2px solid rgba(255,255,255,.4);color:#fff;display:inline-block}
+.stats{display:flex;flex-wrap:wrap;justify-content:center;gap:32px;padding:28px 20px;background:#e87a2e;color:#fff;text-align:center}
+.stats b{font-size:28px;display:block}
+.stats small{font-size:13px;opacity:.9}
+.sec{padding:60px 20px}
+.sec-inner{max-width:1060px;margin:0 auto}
+.label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:#e87a2e;margin-bottom:6px}
+.title{font-size:28px;font-weight:700;color:#1a2e5a;margin-bottom:10px}
+.sub{max-width:600px;font-size:15px;line-height:1.7;opacity:.6;margin-bottom:36px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px}
+.card{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 16px rgba(0,0,0,.06);border-top:3px solid #2456a4}
+.card .ic{font-size:24px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:#eaf1fb;border-radius:10px;margin-bottom:10px}
+.card h3{font-size:15px;font-weight:600;color:#1a2e5a;margin-bottom:4px}
+.card p{font-size:13px;line-height:1.6;opacity:.6;margin:0}
+.pale{background:#eaf1fb}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.rcard{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.06)}
+.rcard-h{padding:20px 20px 8px}
+.badge{display:inline-block;padding:3px 12px;border-radius:16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.b-blue{background:rgba(36,86,164,.1);color:#2456a4}
+.b-orange{background:rgba(232,122,46,.12);color:#e87a2e}
+.rcard h3{font-size:20px;font-weight:700;color:#1a2e5a;margin:0}
+.rcard ul{list-style:none;padding:0 20px 20px;margin:0}
+.rcard li{padding:5px 0;font-size:13px;opacity:.7}
+.rcard li::before{content:"\2713  ";color:#e87a2e;font-weight:700}
+.grid4{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.citem{background:#fff;border-radius:10px;padding:18px;text-align:center;box-shadow:0 1px 8px rgba(0,0,0,.04);border:1px solid #eaf1fb}
+.citem .em{font-size:26px;margin-bottom:6px}
+.citem p{font-size:13px;font-weight:500;color:#1a2e5a;margin:0}
+.formsec{background:linear-gradient(160deg,#1a2e5a,#2456a4);color:#fff;text-align:center}
+.formsec .label{color:#f59a0b}
+.formsec .title{color:#fff}
+.formsec .sub{color:rgba(255,255,255,.65);margin-left:auto;margin-right:auto}
+.fbox{max-width:700px;margin:0 auto;background:rgba(255,255,255,.08);border-radius:16px;padding:32px;border:1px solid rgba(255,255,255,.1)}
+.fbox p{color:#c8d0e0;line-height:1.6;margin-bottom:18px}
+.btn-big{padding:16px 40px;border-radius:50px;font-weight:600;font-size:17px;background:#e87a2e;color:#fff;display:inline-block}
+.fnote{margin-top:16px;font-size:12px;opacity:.35;color:#fff}
+footer{text-align:center;padding:28px 20px;background:#0f1a33;color:rgba(255,255,255,.4);font-size:13px}
+@media(max-width:600px){.hero h1{font-size:32px}.btns{flex-direction:column;align-items:center}.sec{padding:40px 16px}.title{font-size:24px}}
+</style></head>
+	<body>
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduAakashaA - Join as Tutor</title>
+
+
+
+ 
+<nav class="nav">
+  <div class="logo-text"><div class="logo-box">EA</div>Edu<span>AakashaA</span></div>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSdZAi0G_y_haqDe-Qvdg6pf0yaGCnPdnDzJ55Y-lIx6K6CiMw/viewform?usp=header" target="_blank" class="join">Join Us</a>
+</nav>
+ 
+<div class="hero">
+  <h1>Edu<span>AakashaA</span></h1>
+  <p>Empowering students across CBSE and State Boards with personalised one-to-one coaching. We are looking for passionate Tutors and Career Counsellors to join our growing network.</p>
+  <div class="btns">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdZAi0G_y_haqDe-Qvdg6pf0yaGCnPdnDzJ55Y-lIx6K6CiMw/viewform?usp=header" target="_blank" class="btn-o">Apply Now</a>
+    <a href="#why" class="btn-w">Learn More</a>
+  </div>
+</div>
+ 
+<div class="stats">
+  <div><b>500+</b><small>Students Enrolled</small></div>
+  <div><b>50+</b><small>Expert Tutors</small></div>
+  <div><b>15+</b><small>Boards Covered</small></div>
+  <div><b>98%</b><small>Satisfaction Rate</small></div>
+</div>
+ 
+<div class="sec" id="why">
+  <div class="sec-inner">
+    <p class="label">Why EduAakashaA?</p>
+    <h2 class="title">Build your teaching career with us</h2>
+    <p class="sub">Join a platform dedicated to quality education, flexible schedules, and meaningful impact on students futures.</p>
+    <div class="grid3">
+      <div class="card"><div class="ic">🌎</div><h3>Reach Students Anywhere</h3><p>Connect with learners across India through our online and hybrid coaching model for CBSE, ICSE, and all major state boards.</p></div>
+      <div class="card"><div class="ic">⏰</div><h3>Flexible Scheduling</h3><p>Set your own time slots and availability. Teach when it works for you - mornings, evenings, or weekends.</p></div>
+      <div class="card"><div class="ic">💰</div><h3>Competitive Compensation</h3><p>Define your own hourly fee. We ensure fair, transparent, and timely payments for every session.</p></div>
+      <div class="card"><div class="ic">📈</div><h3>Grow Your Profile</h3><p>Build your reputation with student reviews, showcase your expertise, and expand your professional network.</p></div>
+      <div class="card"><div class="ic">🛠</div><h3>Tools and Support</h3><p>Access our teaching dashboard, content library, scheduling tools, and dedicated support team.</p></div>
+      <div class="card"><div class="ic">🤝</div><h3>Community of Educators</h3><p>Collaborate with fellow tutors and counsellors. Share resources, strategies, and best practices.</p></div>
+    </div>
+  </div>
+</div>
+ 
+<div class="sec pale">
+  <div class="sec-inner">
+    <p class="label">Open Roles</p>
+    <h2 class="title">Who we are looking for</h2>
+    <p class="sub">Whether you are an experienced teacher or a career guidance expert, there is a place for you at EduAakashaA.</p>
+    <div class="grid2">
+      <div class="rcard">
+        <div class="rcard-h"><span class="badge b-blue">Tutor</span><h3>One-to-One Academic Tutor</h3></div>
+        <ul>
+          <li>Teach subjects across CBSE and State Board curricula (Classes 1 to 12)</li>
+          <li>Personalised lesson plans for each student</li>
+          <li>Conduct live sessions via video or in-person</li>
+          <li>Track student progress and share feedback</li>
+          <li>Upload your own course content and materials</li>
+        </ul>
+      </div>
+      <div class="rcard">
+        <div class="rcard-h"><span class="badge b-orange">Counsellor</span><h3>Career Counsellor / Mentor</h3></div>
+        <ul>
+          <li>Guide students on career paths after 10th and 12th</li>
+          <li>Aptitude assessment and interest mapping</li>
+          <li>College selection and entrance exam strategies</li>
+          <li>One-to-one mentoring sessions</li>
+          <li>Help students build portfolios and applications</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+<div class="sec">
+  <div class="sec-inner">
+    <p class="label">Registration Details</p>
+    <h2 class="title">Information we will need from you</h2>
+    <p class="sub">Our quick registration collects everything needed to set up your tutor or counsellor profile.</p>
+    <div class="grid4">
+      <div class="citem"><div class="em">👤</div><p>Full Name and Contact</p></div>
+      <div class="citem"><div class="em">🎓</div><p>Qualifications and Experience</p></div>
+      <div class="citem"><div class="em">📚</div><p>Subjects / Boards Covered</p></div>
+      <div class="citem"><div class="em">🕐</div><p>Available Time Slots</p></div>
+      <div class="citem"><div class="em">💵</div><p>Fee Per Hour</p></div>
+      <div class="citem"><div class="em">🔗</div><p>LinkedIn Profile URL</p></div>
+      <div class="citem"><div class="em">📎</div><p>Sample Course Content</p></div>
+      <div class="citem"><div class="em">📝</div><p>Brief Bio / Intro</p></div>
+    </div>
+  </div>
+</div>
+ 
+<div class="sec formsec" id="apply">
+  <div class="sec-inner">
+    <p class="label">Ready to Join?</p>
+    <h2 class="title">Register as an EduAakashaA Tutor / Counsellor</h2>
+    <p class="sub">Fill out our quick Google Form to express your interest. Our team will review your profile and get back to you within 48 hours.</p>
+    <div class="fbox">
+      <p>Click the button below to open the registration form. Enter your details, upload sample course content, and choose your preferred time slots.</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdZAi0G_y_haqDe-Qvdg6pf0yaGCnPdnDzJ55Y-lIx6K6CiMw/viewform?usp=header" target="_blank" class="btn-big">Open Registration Form</a>
+      <p class="fnote">Powered by Google Forms - Your data is stored securely</p>
+    </div>
+  </div>
+</div>
+ 
+<footer>
+  <div class="logo-text" style="color:rgba(255,255,255,.6);font-size:18px;margin-bottom:8px"><div class="logo-box" style="width:28px;height:28px;font-size:12px">EA</div>Edu<span>AakashaA</span></div>
+  <p>© 2026 EduAakashaA. All rights reserved. | contact@eduaakashaa.com</p>
+</footer>
+ 
+
+
+<script>
+	const heightObserver = new ResizeObserver(([{ contentRect }]) => {
+		window.parent.postMessage({ action: 'iframeHeightUpdated', height: contentRect.height, id: 'zJI39I' }, '*');
+	});
+
+	heightObserver.observe(document.documentElement);
+</script>
+
+</body></html>

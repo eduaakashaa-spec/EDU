@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Stream Selection EA — Members Portal | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">MEMBERS PORTAL · EDUAAKASHAA</span>
+    <h1>Stream Selection <span>EA</span></h1>
+    <p>Personalised stream guidance for EduAakashaA members — protected by your account credentials.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  {% if current_user.is_authenticated %}
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">WELCOME, {{ current_user.name|upper }}</span>
+      <h2 class="section__title">Your Stream Selection Dashboard</h2>
+    </div>
+    <div class="info-cards info-cards--3">
+      <div class="info-card"><div class="info-card__icon">📋</div><div class="info-card__title">Saved Assessments</div><div class="info-card__text">View assessments you've completed and re-open their PDF reports.</div></div>
+      <div class="info-card"><div class="info-card__icon">🧭</div><div class="info-card__title">Recommended Streams</div><div class="info-card__text">AI-matched streams based on your psychometric + aptitude scores.</div></div>
+      <div class="info-card"><div class="info-card__icon">🎓</div><div class="info-card__title">College Shortlist</div><div class="info-card__text">Short-listed colleges aligned to your stream preference.</div></div>
+    </div>
+    <p class="content-text">This is the members portal placeholder. The full personalised dashboard is rolled out to Premium users as part of Phase 14. For immediate guidance, book a counsellor session.</p>
+    <div class="final-cta">
+      <h2>Want your personalised report now?</h2>
+      <p>Our counsellors prepare a custom stream-selection report within 48 hours.</p>
+      <div class="final-cta__btns">
+        <a href="{{ url_for('main.student_assessment') }}" class="btn-main">Retake Assessment</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Book Counselling</a>
+      </div>
+    </div>
+  </section>
+  {% else %}
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">MEMBERS ONLY</span>
+      <h2 class="section__title">Please sign in to continue</h2>
+    </div>
+    <p class="content-text">The Stream Selection EA dashboard is available to registered EduAakashaA members. Sign in to access your personalised stream guidance, saved assessments and counsellor-curated shortlists.</p>
+    <div class="final-cta">
+      <h2>Access Members Portal</h2>
+      <p>Sign in to your EduAakashaA account or create one for free.</p>
+      <div class="final-cta__btns">
+        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-out">Create Account</a>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

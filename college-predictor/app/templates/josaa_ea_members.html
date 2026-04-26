@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}JOSAA_EA Members | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">JOSAA_EA · MEMBERS AREA</span>
+    <h1>JOSAA EA <span>Members</span></h1>
+    <p>Private members area for JOSAA_EA counselling participants &amp; premium subscribers.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  {% if current_user.is_authenticated %}
+    {% if current_user.is_premium %}
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">PREMIUM MEMBER</span>
+        <h2 class="section__title">Welcome back, {{ current_user.name }}!</h2>
+      </div>
+      <div class="info-cards info-cards--3">
+        <div class="info-card"><div class="info-card__icon">📑</div><div class="info-card__title">JOSAA Playbook 2026</div><div class="info-card__text">Step-by-step choice filling, cutoff trend sheets &amp; round-by-round strategy.</div></div>
+        <div class="info-card"><div class="info-card__icon">📊</div><div class="info-card__title">Unlimited Predictor Runs</div><div class="info-card__text">Full access to the JOSAA predictor with no usage limits.</div></div>
+        <div class="info-card"><div class="info-card__icon">📞</div><div class="info-card__title">Priority Counsellor Hotline</div><div class="info-card__text">Direct WhatsApp / phone line to a dedicated counsellor during rounds.</div></div>
+      </div>
+      <div class="final-cta">
+        <h2>Open the JOSAA Predictor</h2>
+        <p>Jump back into your saved runs or start a new prediction.</p>
+        <div class="final-cta__btns">
+          <a href="{{ url_for('main.josaa') }}" class="btn-main">Open Predictor</a>
+          <a href="{{ url_for('auth.dashboard') }}" class="btn-out">Dashboard</a>
+        </div>
+      </div>
+    </section>
+    {% else %}
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">PREMIUM REQUIRED</span>
+        <h2 class="section__title">Upgrade to access JOSAA_EA Members area</h2>
+      </div>
+      <p class="content-text">You're signed in, but the JOSAA_EA members area is available only to <strong>Premium</strong> subscribers. Premium unlocks unlimited predictor runs, playbooks, and the priority counsellor hotline during JOSAA rounds.</p>
+      <div class="final-cta">
+        <h2>Upgrade to Premium</h2>
+        <p>Enrol once — get access through the entire JOSAA 2026 counselling cycle.</p>
+        <div class="final-cta__btns">
+          <a href="{{ url_for('main.contact') }}" class="btn-main">Request Upgrade</a>
+          <a href="{{ url_for('auth.dashboard') }}" class="btn-out">My Dashboard</a>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+  {% else %}
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">GUEST AREA</span>
+      <h2 class="section__title">Please sign in to access the members area</h2>
+    </div>
+    <p class="content-text">The JOSAA_EA members section is reserved for registered counsellors &amp; premium students. Sign in with your EduAakashaA account to proceed.</p>
+    <div class="final-cta">
+      <h2>Members Login</h2>
+      <p>Don't have an account? Create one for free — premium access is available separately.</p>
+      <div class="final-cta__btns">
+        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-out">Create Account</a>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}
