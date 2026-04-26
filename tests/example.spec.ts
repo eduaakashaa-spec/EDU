@@ -14,6 +14,7 @@ const pages = [
   { path: '/tneamatrix', titlePart: 'TNEA' },
   { path: '/tneapc', titlePart: 'TNEA' },
   { path: '/tnea-cutoff', titlePart: 'TNEA' },
+  { path: '/tnea-simulator', titlePart: 'TNEA' },
   { path: '/professional-exam', titlePart: 'Professional' },
   { path: '/internship-programs', titlePart: 'Internship' },
   { path: '/contact', titlePart: 'Contact' },
@@ -22,6 +23,24 @@ const pages = [
   { path: '/ea-library', titlePart: 'Library' },
   { path: '/tancet-pulse', titlePart: 'TANCET' },
   { path: '/viteee-for-nri', titlePart: 'VITEEE' },
+  { path: '/amrita-aeee', titlePart: 'AMRITA' },
+  { path: '/nata', titlePart: 'NATA' },
+  { path: '/nid', titlePart: 'NID' },
+  { path: '/cat', titlePart: 'CAT' },
+  { path: '/josaa-assessment', titlePart: 'JOSAA' },
+  { path: '/student-assessment', titlePart: 'Assessment' },
+  { path: '/conflict-assessment', titlePart: 'Conflict' },
+  { path: '/stream-selection', titlePart: 'Stream' },
+  { path: '/stream-selectionea', titlePart: 'Stream Selection' },
+  { path: '/josaaea-members', titlePart: 'JOSAA' },
+  { path: '/exam-schedule', titlePart: 'Exam Schedule' },
+  { path: '/join-our-team', titlePart: 'Join' },
+];
+
+const aliasRedirects = [
+  { path: '/homepage', target: '/' },
+  { path: '/contact-us', target: '/contact' },
+  { path: '/tnea', target: '/tnea2026' },
 ];
 
 for (const pg of pages) {
@@ -40,6 +59,14 @@ for (const pg of pages) {
 
     // No JS errors
     expect(errors).toHaveLength(0);
+  });
+}
+
+for (const alias of aliasRedirects) {
+  test(`${alias.path} redirects to ${alias.target}`, async ({ page }) => {
+    const response = await page.goto(`${BASE}${alias.path}`);
+    expect(response?.status()).toBeLessThan(400);
+    await expect(page).toHaveURL(new RegExp(alias.target + '$'));
   });
 }
 

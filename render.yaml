@@ -1,0 +1,27 @@
+# Render Blueprint
+# https://render.com/docs/blueprint-spec
+#
+# Deploys the Flask app in ./college-predictor on Render's free web tier.
+# DATABASE_URL must be filled in via the Render dashboard (Neon connection string).
+# SECRET_KEY is auto-generated on first deploy.
+
+services:
+  - type: web
+    name: eduaakashaa
+    runtime: python
+    plan: free
+    region: singapore
+    rootDir: college-predictor
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn run:app --workers 2 --timeout 120 --access-logfile - --error-logfile -
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.5
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_DEBUG
+        value: "0"
+      - key: DATABASE_URL
+        sync: false
