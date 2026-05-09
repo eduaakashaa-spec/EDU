@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}NRI Arabic Foundation | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">NRI · ARABIC</span>
+    <h1>Arabic <span>Foundation</span></h1>
+    <p>Foundation track for NRI students — language support, academic readiness, and mentorship.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">OVERVIEW</span>
+      <h2 class="section__title">What this program includes</h2>
+    </div>
+    <ul class="check-list">
+      <li>Foundation lessons with structured progression</li>
+      <li>Practice + feedback loops</li>
+      <li>Mentor support and progress checkpoints</li>
+    </ul>
+  </section>
+
+  <div class="final-cta">
+    <h2>Get program details</h2>
+    <p>Tell us the student’s grade level and goals. We’ll share a plan and schedule.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Request Details</a>
+      <a href="{{ url_for('main.training') }}" class="btn-out">See Training →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

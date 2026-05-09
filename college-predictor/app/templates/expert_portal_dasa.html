@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Expert Portal DASA | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">PREMIUM MEMBERSHIP</span>
+    <h1>Expert Portal <span>DASA</span></h1>
+    <p>Premium guidance for DASA/CIWG: strategy, choice filling support, and counsellor-led review.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  {% if current_user.is_authenticated %}
+    {% if current_user.is_premium %}
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">PREMIUM ACCESS</span>
+        <h2 class="section__title">Welcome, {{ current_user.name }}!</h2>
+      </div>
+      <div class="info-cards info-cards--3">
+        <div class="info-card"><div class="info-card__icon">📌</div><div class="info-card__title">Choice Filling Strategy</div><div class="info-card__text">Round-by-round plan based on your rank &amp; priorities.</div></div>
+        <div class="info-card"><div class="info-card__icon">📞</div><div class="info-card__title">Counsellor Review</div><div class="info-card__text">Share your shortlist and get expert feedback.</div></div>
+        <div class="info-card"><div class="info-card__icon">📄</div><div class="info-card__title">Resources</div><div class="info-card__text">Playbooks, deadlines, checklists, and document guides.</div></div>
+      </div>
+      <div class="final-cta">
+        <h2>Run the DASA Predictor</h2>
+        <p>Use the predictor to build your shortlist, then book a review.</p>
+        <div class="final-cta__btns">
+          <a href="{{ url_for('main.dasa_guide') }}" class="btn-main">Open DASA Predictor</a>
+          <a href="{{ url_for('main.contact') }}" class="btn-out">Book a Review</a>
+        </div>
+      </div>
+    </section>
+    {% else %}
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">PREMIUM REQUIRED</span>
+        <h2 class="section__title">Upgrade to access the Expert Portal</h2>
+      </div>
+      <p class="content-text">You're signed in, but the DASA Expert Portal is available only to <strong>Premium</strong> subscribers.</p>
+      <div class="final-cta">
+        <h2>Request Premium Access</h2>
+        <p>We’ll activate your portal after verification.</p>
+        <div class="final-cta__btns">
+          <a href="{{ url_for('main.contact') }}" class="btn-main">Request Upgrade</a>
+          <a href="{{ url_for('auth.dashboard') }}" class="btn-out">My Dashboard</a>
+        </div>
+      </div>
+    </section>
+    {% endif %}
+  {% else %}
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">MEMBERS ONLY</span>
+      <h2 class="section__title">Please sign in to continue</h2>
+    </div>
+    <p class="content-text">Sign in to access the DASA Expert Portal. Premium members get advanced guidance and resources.</p>
+    <div class="final-cta">
+      <h2>Sign in</h2>
+      <p>Use your EduAakashaA account to proceed.</p>
+      <div class="final-cta__btns">
+        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-out">Create Account</a>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}
+

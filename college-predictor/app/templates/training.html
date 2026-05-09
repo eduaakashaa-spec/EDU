@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Training | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">TRAINING</span>
+    <h1>Training <span>Programs</span></h1>
+    <p>Structured programs for exam prep and skill-building — guided by mentors and tracked with milestones.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">PROGRAMS</span>
+      <h2 class="section__title">What we offer</h2>
+    </div>
+    <div class="info-cards info-cards--3">
+      <div class="info-card"><div class="info-card__icon">🧪</div><div class="info-card__title">Entrance Exam Prep</div><div class="info-card__text">JEE / state CETs / aptitude — practice plans and mock tests.</div></div>
+      <div class="info-card"><div class="info-card__icon">💻</div><div class="info-card__title">Skills Bootcamps</div><div class="info-card__text">Coding, communication, interview prep, and portfolio building.</div></div>
+      <div class="info-card"><div class="info-card__icon">🎯</div><div class="info-card__title">Mentor-led Tracking</div><div class="info-card__text">Weekly checkpoints with clear targets and feedback.</div></div>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Enroll / Ask for details</h2>
+    <p>Tell us your current class/level, exam target, and timeline — we’ll share a plan.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Contact Training Team</a>
+      <a href="{{ url_for('main.videos_library') }}" class="btn-out">Watch Demo Videos →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

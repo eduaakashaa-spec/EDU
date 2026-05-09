@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}PER Assessment | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">ASSESSMENT</span>
+    <h1>PER <span>Assessment</span></h1>
+    <p>A guided assessment to understand your strengths, preferences and fit — designed for students making admission and stream decisions.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">WHAT YOU GET</span>
+      <h2 class="section__title">A clear, actionable report</h2>
+    </div>
+    <ul class="check-list">
+      <li>Personal fit summary across interest, aptitude and motivation</li>
+      <li>Recommended next steps: streams, programs and preparation roadmap</li>
+      <li>Shortlist guidance and counsellor discussion points</li>
+    </ul>
+  </section>
+
+  <div class="final-cta">
+    <h2>Start the PER Assessment</h2>
+    <p>Sign in to begin. Your progress can be saved and reviewed by a counsellor.</p>
+    <div class="final-cta__btns">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.dashboard') }}" class="btn-main">Go to Dashboard</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Book a Counsellor</a>
+      {% else %}
+        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login to start</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-out">Create free account</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+

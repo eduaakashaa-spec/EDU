@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Videos Library | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">LEARNING</span>
+    <h1>Videos <span>Library</span></h1>
+    <p>Curated videos on admissions strategy, exam prep, and counselling sessions — organised by topic.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">CATEGORIES</span>
+      <h2 class="section__title">Browse by goal</h2>
+    </div>
+    <div class="info-cards info-cards--4">
+      <div class="info-card"><div class="info-card__icon">📊</div><div class="info-card__title">JOSAA</div><div class="info-card__text">Predictor walkthroughs, choice filling, myths &amp; mistakes.</div></div>
+      <div class="info-card"><div class="info-card__icon">🌍</div><div class="info-card__title">DASA/CIWG</div><div class="info-card__text">Eligibility, tuition, timelines, and shortlisting.</div></div>
+      <div class="info-card"><div class="info-card__icon">🏫</div><div class="info-card__title">TNEA</div><div class="info-card__text">Cutoff strategy, counselling rounds, and selection tips.</div></div>
+      <div class="info-card"><div class="info-card__icon">🧠</div><div class="info-card__title">Assessments</div><div class="info-card__text">How to use psychometric + aptitude results.</div></div>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Want the latest videos?</h2>
+    <p>Follow the official channels or ask us for a curated playlist.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Request Playlist</a>
+      <a href="https://www.youtube.com/@EduAakashaa" target="_blank" rel="noopener" class="btn-out">YouTube Channel →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

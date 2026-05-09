@@ -34,6 +34,8 @@
           <li class="nav__item nav__item--dropdown">
             <a href="{{ url_for('main.nri_guide') }}" class="nav__link{% if '/nri-admissions-guide' in request.path %} nav__link--active{% endif %}">NRI Admission <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
             <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.nri_admission') }}">DASA 2026</a></li>
+              <li><a href="{{ url_for('main.dasa_predictor_alias') }}">DASA predictor</a></li>
               <li><a href="{{ url_for('main.iiits') }}">IIITs</a></li>
               <li><a href="{{ url_for('main.annanri') }}">Anna_NRI</a></li>
               <li><a href="{{ url_for('main.dasa_seat_matrix') }}">DASA Seat Matrix</a></li>
@@ -49,6 +51,7 @@
               <li><a href="{{ url_for('main.tneamatrix') }}">TNEA_matrix</a></li>
               <li><a href="{{ url_for('main.tneapc') }}">TNEA_PC</a></li>
               <li><a href="{{ url_for('main.tnea_cutoff') }}">TNEA Cutoff</a></li>
+              <li><a href="{{ url_for('main.tnea_expert_guidance') }}">TNEA Expert Guidance</a></li>
               <li><a href="{{ url_for('main.tnea_simulator') }}">TNEA Simulator</a></li>
             </ul>
           </li>
@@ -75,11 +78,31 @@
             <a href="#" class="nav__link">Tools <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.student_assessment') }}">Student Assessment</a></li>
+              <li><a href="{{ url_for('main.per_assessment') }}">PER Assessment</a></li>
               <li><a href="{{ url_for('main.stream_selection') }}">Stream Selection</a></li>
               <li><a href="{{ url_for('main.stream_selection_ea') }}">Stream Selection_EA</a></li>
               <li><a href="{{ url_for('main.conflict_assessment') }}">Conflict Assessment</a></li>
               <li><a href="{{ url_for('main.exam_schedule') }}">Exam Schedule</a></li>
               <li><a href="{{ url_for('main.ea_library') }}">EA Library</a></li>
+              <li><a href="{{ url_for('main.career_path') }}">Career Path</a></li>
+              <li><a href="{{ url_for('main.videos_library') }}">Videos Library</a></li>
+              <li><a href="{{ url_for('main.training') }}">Training</a></li>
+            </ul>
+          </li>
+          <li class="nav__item nav__item--dropdown">
+            <a href="{{ url_for('main.members_report') }}" class="nav__link{% if '/members' in request.path or '/expert-portaldasa' in request.path or '/josaaea-members' in request.path %} nav__link--active{% endif %}">Premium Membership <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.josaa_ea_members') }}">JOSAA_EA Members</a></li>
+              <li><a href="{{ url_for('main.expert_portal_dasa') }}">Expert Portal_DASA</a></li>
+              <li><a href="{{ url_for('main.stream_selection') }}">Stream Selection</a></li>
+              <li><a href="{{ url_for('main.members_report') }}">Members Report</a></li>
+            </ul>
+          </li>
+          <li class="nav__item nav__item--dropdown">
+            <a href="{{ url_for('main.nriarabic_foundation') }}" class="nav__link{% if '/nriarabic' in request.path %} nav__link--active{% endif %}">NRI_Arabic <svg class="nav__arrow" width="10" height="7" viewBox="0 0 10 7"><path d="M5 6.5L0.67 0.5H9.33L5 6.5Z" fill="currentColor"/></svg></a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.nriarabicgr') }}">NRI_Arabic_Gr</a></li>
+              <li><a href="{{ url_for('main.nriarabic_foundation') }}">NRI_Arabic Foundation</a></li>
             </ul>
           </li>
           <li class="nav__item"><a href="{{ url_for('main.professional_exam') }}" class="nav__link{% if request.path == '/professional-exam' %} nav__link--active{% endif %}">Professional Exam</a></li>

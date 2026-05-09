@@ -1,9 +1,19 @@
 import { test, expect } from '@playwright/test';
 
-const BASE = 'http://127.0.0.1:5000';
+const BASE = process.env.BASE_URL || 'http://127.0.0.1:5000';
 
 const pages = [
   { path: '/', titlePart: 'EduAakashaA' },
+  { path: '/per-assessment', titlePart: 'PER' },
+  { path: '/career-path', titlePart: 'Career' },
+  { path: '/members-report', titlePart: 'Members' },
+  { path: '/expert-portaldasa', titlePart: 'Expert' },
+  { path: '/tnea-expert-guidance', titlePart: 'TNEA' },
+  { path: '/videos-library', titlePart: 'Videos' },
+  { path: '/training', titlePart: 'Training' },
+  { path: '/nri-admission', titlePart: 'DASA' },
+  { path: '/nriarabic-foundation', titlePart: 'Arabic' },
+  { path: '/nriarabicgr', titlePart: 'Arabic' },
   { path: '/josaa', titlePart: 'JOSAA' },
   { path: '/iiits', titlePart: 'IIIT' },
   { path: '/annanri', titlePart: 'Anna' },
@@ -41,6 +51,8 @@ const aliasRedirects = [
   { path: '/homepage', target: '/' },
   { path: '/contact-us', target: '/contact' },
   { path: '/tnea', target: '/tnea2026' },
+  { path: '/dasa-predictor', target: '/dasa-admissions-guide' },
+  { path: '/mbamca', target: '/mbamca-program' },
 ];
 
 for (const pg of pages) {

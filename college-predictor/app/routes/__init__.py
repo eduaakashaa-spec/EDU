@@ -197,3 +197,68 @@ def stream_selection_ea():
 @main_bp.route('/josaaea-members')
 def josaa_ea_members():
     return render_template('josaa_ea_members.html')
+
+
+# =============================================================
+# New pages (from eduaakashaa.in navigation)
+# =============================================================
+@main_bp.route('/dasa-predictor')
+def dasa_predictor_alias():
+    # Live site uses /dasa-predictor for the same predictor experience
+    return redirect(url_for('main.dasa_guide'), code=301)
+
+
+@main_bp.route('/mbamca')
+def mbamca_alias():
+    # Live site uses /mbamca in navigation
+    return redirect(url_for('main.mbamca'), code=301)
+
+
+@main_bp.route('/per-assessment')
+def per_assessment():
+    return render_template('per_assessment.html')
+
+
+@main_bp.route('/career-path')
+def career_path():
+    return render_template('career_path.html')
+
+
+@main_bp.route('/members-report')
+def members_report():
+    return render_template('members_report.html')
+
+
+@main_bp.route('/expert-portaldasa')
+def expert_portal_dasa():
+    return render_template('expert_portal_dasa.html')
+
+
+@main_bp.route('/tnea-expert-guidance')
+def tnea_expert_guidance():
+    return render_template('tnea_expert_guidance.html')
+
+
+@main_bp.route('/videos-library')
+def videos_library():
+    return render_template('videos_library.html')
+
+
+@main_bp.route('/training')
+def training():
+    return render_template('training.html')
+
+
+@main_bp.route('/nri-admission')
+def nri_admission():
+    return render_template('nri_admission.html')
+
+
+@main_bp.route('/nriarabic-foundation')
+def nriarabic_foundation():
+    return render_template('nriarabic_foundation.html')
+
+
+@main_bp.route('/nriarabicgr')
+def nriarabicgr():
+    return render_template('nriarabicgr.html')

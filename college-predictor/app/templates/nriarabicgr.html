@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}NRI Arabic Gr | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">NRI · ARABIC</span>
+    <h1>Arabic <span>Gr</span></h1>
+    <p>Grade-focused support for NRI Arabic learners — aligned to school outcomes and progression milestones.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">TRACK</span>
+      <h2 class="section__title">Grade-wise learning plan</h2>
+    </div>
+    <div class="info-cards info-cards--3">
+      <div class="info-card"><div class="info-card__icon">📘</div><div class="info-card__title">Core concepts</div><div class="info-card__text">Build grammar + vocabulary systematically.</div></div>
+      <div class="info-card"><div class="info-card__icon">✍️</div><div class="info-card__title">Writing practice</div><div class="info-card__text">Weekly writing tasks with corrections.</div></div>
+      <div class="info-card"><div class="info-card__icon">🗣️</div><div class="info-card__title">Speaking confidence</div><div class="info-card__text">Conversation drills and listening exercises.</div></div>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Enroll / ask questions</h2>
+    <p>Contact us with grade level and preferred schedule.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Contact Us</a>
+      <a href="{{ url_for('main.videos_library') }}" class="btn-out">Watch videos →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

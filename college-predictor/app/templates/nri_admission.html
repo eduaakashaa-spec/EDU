@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}DASA 2026 | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">NRI ADMISSION</span>
+    <h1>DASA <span>2026</span></h1>
+    <p>Timeline, eligibility and strategy for DASA/CIWG admissions — with predictor support and counsellor review.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">QUICK START</span>
+      <h2 class="section__title">What to do now</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="step__num">1</span><div><div class="step__title">Get your JEE Main rank</div><div class="step__text">DASA admissions are based on JEE Main rank.</div></div></div>
+      <div class="step"><span class="step__num">2</span><div><div class="step__title">Use the predictor</div><div class="step__text">Generate a shortlist using real opening/closing ranks.</div></div></div>
+      <div class="step"><span class="step__num">3</span><div><div class="step__title">Choose quota</div><div class="step__text">CIWG vs Non-CIWG changes cutoffs significantly.</div></div></div>
+      <div class="step"><span class="step__num">4</span><div><div class="step__title">Book a review</div><div class="step__text">Validate your shortlist before choice filling.</div></div></div>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Build your DASA shortlist</h2>
+    <p>Start with the predictor, then move to expert review.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.dasa_guide') }}" class="btn-main">Open DASA Predictor</a>
+      <a href="{{ url_for('main.expert_portal_dasa') }}" class="btn-out">Expert Portal →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+

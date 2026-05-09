@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Members Report | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">PREMIUM MEMBERSHIP</span>
+    <h1>Members <span>Report</span></h1>
+    <p>Premium reports with consolidated insights — predictors, assessments, and counsellor notes in one place.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">ACCESS</span>
+      <h2 class="section__title">Your reports, organised</h2>
+    </div>
+    <div class="info-cards info-cards--3">
+      <div class="info-card"><div class="info-card__icon">📄</div><div class="info-card__title">PDF Reports</div><div class="info-card__text">Assessment summaries and counsellor notes.</div></div>
+      <div class="info-card"><div class="info-card__icon">📊</div><div class="info-card__title">Saved Runs</div><div class="info-card__text">Your recent JOSAA / DASA exploration history.</div></div>
+      <div class="info-card"><div class="info-card__icon">🔐</div><div class="info-card__title">Members Only</div><div class="info-card__text">Available to Premium subscribers.</div></div>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Open your report portal</h2>
+    <p>Sign in to view your saved reports and premium resources.</p>
+    <div class="final-cta__btns">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.dashboard') }}" class="btn-main">Go to Dashboard</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Request Premium</a>
+      {% else %}
+        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-out">Create free account</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+

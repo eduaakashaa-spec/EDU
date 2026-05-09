@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Career Path | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">CAREER PLANNING</span>
+    <h1>Career <span>Path</span></h1>
+    <p>Explore career tracks, required skills, exams, and realistic timelines — built for Class 9–12 and UG aspirants.</p>
+  </div>
+</section>
+
+<div class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">FRAMEWORK</span>
+      <h2 class="section__title">From interests → options → action plan</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="step__num">1</span><div><div class="step__title">Discover</div><div class="step__text">Assess interests &amp; strengths (RIASEC / aptitude / self-report).</div></div></div>
+      <div class="step"><span class="step__num">2</span><div><div class="step__title">Map</div><div class="step__text">Match to streams, courses, exams and career ecosystems.</div></div></div>
+      <div class="step"><span class="step__num">3</span><div><div class="step__title">Plan</div><div class="step__text">Create a 90-day plan + 12-month milestones with checkpoints.</div></div></div>
+      <div class="step"><span class="step__num">4</span><div><div class="step__title">Execute</div><div class="step__text">Weekly practice + feedback loop with EduAakashaA mentors.</div></div></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">TOOLS</span>
+      <h2 class="section__title">Use these to get clarity</h2>
+    </div>
+    <div class="info-cards info-cards--3">
+      <div class="info-card"><div class="info-card__icon">🧠</div><div class="info-card__title"><a href="{{ url_for('main.student_assessment') }}">Student Assessment</a></div><div class="info-card__text">Psychometric + aptitude profiling to recommend streams.</div></div>
+      <div class="info-card"><div class="info-card__icon">🧭</div><div class="info-card__title"><a href="{{ url_for('main.stream_selection') }}">Stream Selection</a></div><div class="info-card__text">Decision guide after 10th with exam mapping.</div></div>
+      <div class="info-card"><div class="info-card__icon">📌</div><div class="info-card__title"><a href="{{ url_for('main.contact') }}">Counsellor Session</a></div><div class="info-card__text">Get a personalised roadmap and shortlist strategy.</div></div>
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Build your roadmap</h2>
+    <p>Get a personalised career path based on your inputs and constraints.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Book Career Counselling</a>
+      <a href="{{ url_for('main.student_assessment') }}" class="btn-out">Start Assessment →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
