@@ -1,0 +1,427 @@
+{% extends "base.html" %}
+{% block title %}Engineering Colleges in India · IITs, NITs, IIITs, Deemed &amp; Private | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">COUNTRY BRIEF · ENGINEERING EDUCATION</span>
+    <h1>Where are India's <span>engineering colleges</span> actually located?</h1>
+    <p>India has more than 5,800 AICTE-approved engineering institutions across 31 states and UTs. Filter by IITs, NITs, TNEA, Deemed, Private, IoE, NIRF Top 25 or NAAC A++ — and search 148 of the country's most notable colleges by name, state and branch.</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Total Institutions</span>
+        <span class="hero__meta-value">3,420+</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">States &amp; UTs</span>
+        <span class="hero__meta-value">35</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Most Colleges</span>
+        <span class="hero__meta-value">Tamil Nadu</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">South India Share</span>
+        <span class="hero__meta-value">46%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- National totals -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">AT A GLANCE · NATIONAL TOTALS</span>
+      <h2 class="section__title">India's premier institutions</h2>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__icon">🎓</div>
+        <div class="info-card__title">23 IITs</div>
+        <div class="info-card__text">Admission via JEE Advanced. Combined ~17,000 BTech seats.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏛️</div>
+        <div class="info-card__title">31 NITs</div>
+        <div class="info-card__text">JoSAA counselling using JEE Main. ~24,000 BTech seats.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏫</div>
+        <div class="info-card__title">~125 Deemed universities</div>
+        <div class="info-card__text">UGC-designated autonomous universities — VIT, SRM, BITS, MAHE, Amrita.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">⭐</div>
+        <div class="info-card__title">12 Institutions of Eminence</div>
+        <div class="info-card__text">MoE-conferred status with exceptional autonomy and central support.</div>
+      </div>
+    </div>
+
+    <div class="info-cards info-cards--4" style="margin-top:16px;">
+      <div class="info-card">
+        <div class="info-card__icon">📈</div>
+        <div class="info-card__title">25 NIRF Top 25</div>
+        <div class="info-card__text">Leading engineering institutes by teaching, research and outcomes.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏅</div>
+        <div class="info-card__title">~28 NAAC A++</div>
+        <div class="info-card__text">Highest peer-reviewed quality grade (CGPA 3.51–4.00).</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🧩</div>
+        <div class="info-card__title">3,420+ total institutions</div>
+        <div class="info-card__text">Unique AICTE-approved engineering institutions across the country.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📍</div>
+        <div class="info-card__title">35 states &amp; UTs</div>
+        <div class="info-card__text">Engineering colleges present in nearly every state and union territory.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category breakdown -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">FILTER CATEGORIES · NATIONAL COUNTS</span>
+      <h2 class="section__title">Institutions by category</h2>
+      <p class="section__desc">Counts overlap by design — IIT Madras sits under IITs, IoE, NIRF and NAAC. Each category answers a different question, so totals will not sum cleanly.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Count</th></tr></thead>
+        <tbody>
+          <tr><td><strong>All categories</strong></td><td>3,420</td></tr>
+          <tr><td>IITs</td><td>23</td></tr>
+          <tr><td>NITs</td><td>31</td></tr>
+          <tr><td>TNEA (Tamil Nadu)</td><td>571</td></tr>
+          <tr><td>Deemed</td><td>112</td></tr>
+          <tr><td>Private</td><td>3,213</td></tr>
+          <tr><td>Institutions of Eminence (IoE)</td><td>13</td></tr>
+          <tr><td>NIRF top-ranked</td><td>115</td></tr>
+          <tr><td>NAAC A++</td><td>43</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Top states -->
+  <section class="section" id="states">
+    <div class="section__header">
+      <span class="eyebrow">TOP STATES · ALL CATEGORIES</span>
+      <h2 class="section__title">Total engineering institutions by state</h2>
+      <p class="section__desc">Combined count of unique AICTE-approved institutions (2023–24, approximate). Tamil Nadu, Maharashtra, Andhra Pradesh, Telangana and Karnataka together host nearly 60% of all colleges in India.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>State</th><th>Engineering institutions</th></tr></thead>
+        <tbody>
+          <tr><td>01</td><td><strong>Tamil Nadu</strong></td><td>600</td></tr>
+          <tr><td>02</td><td><strong>Maharashtra</strong></td><td>370</td></tr>
+          <tr><td>03</td><td>Andhra Pradesh</td><td>320</td></tr>
+          <tr><td>04</td><td>Uttar Pradesh</td><td>320</td></tr>
+          <tr><td>05</td><td>Telangana</td><td>260</td></tr>
+          <tr><td>06</td><td>Karnataka</td><td>225</td></tr>
+          <tr><td>07</td><td>Kerala</td><td>155</td></tr>
+          <tr><td>08</td><td>Haryana</td><td>145</td></tr>
+          <tr><td>09</td><td>Madhya Pradesh</td><td>140</td></tr>
+          <tr><td>10</td><td>Rajasthan</td><td>135</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Browse colleges -->
+  <section class="section" id="browse">
+    <div class="section__header">
+      <span class="eyebrow">BROWSE COLLEGES · SEARCH BY NAME, STATE, BRANCH</span>
+      <h2 class="section__title">Find a college that offers the branch you want</h2>
+      <p class="section__desc">148 notable engineering institutions — IITs, NITs, IIITs, IoEs, Deemed Universities and top private colleges. Search by name or location, or filter by type. NIRF rank shown is NIRF Engineering 2026.</p>
+    </div>
+
+    <div class="filter-bar">
+      <input type="text" class="filter-input" id="ecSearch" placeholder="Search by college name, city or state…">
+      <select class="filter-select" id="ecType">
+        <option value="">All types</option>
+        <option value="IIT">IIT</option>
+        <option value="NIT">NIT</option>
+        <option value="IIIT">IIIT</option>
+        <option value="IOE">IoE</option>
+        <option value="DEEMED">Deemed</option>
+        <option value="PRIVATE">Private</option>
+        <option value="STATE">State</option>
+        <option value="CENTRAL">Central</option>
+      </select>
+    </div>
+    <p class="content-text content-text--note" id="ecCount">148 colleges</p>
+
+    <div class="table-wrap">
+      <table id="ecTable">
+        <thead>
+          <tr><th>NIRF</th><th>College</th><th>Location</th><th>Type</th><th>Branches</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>#1</td><td><strong>IIT Madras</strong></td><td>Chennai · Tamil Nadu</td><td>IIT</td><td>12</td></tr>
+          <tr><td>#2</td><td><strong>IIT Delhi</strong></td><td>South Delhi · Delhi</td><td>IIT</td><td>10</td></tr>
+          <tr><td>#3</td><td><strong>IIT Bombay</strong></td><td>Mumbai · Maharashtra</td><td>IIT</td><td>11</td></tr>
+          <tr><td>#4</td><td><strong>IIT Kanpur</strong></td><td>Kanpur · Uttar Pradesh</td><td>IIT</td><td>10</td></tr>
+          <tr><td>#5</td><td><strong>IIT Kharagpur</strong></td><td>Paschim Medinipur · West Bengal</td><td>IIT</td><td>13</td></tr>
+          <tr><td>#6</td><td><strong>IIT Roorkee</strong></td><td>Roorkee · Uttarakhand</td><td>IIT</td><td>12</td></tr>
+          <tr><td>#7</td><td><strong>IIT Hyderabad</strong></td><td>Sangareddy · Telangana</td><td>IIT</td><td>10</td></tr>
+          <tr><td>#8</td><td><strong>IIT Guwahati</strong></td><td>Guwahati · Assam</td><td>IIT</td><td>10</td></tr>
+          <tr><td>#9</td><td><strong>NIT Trichy</strong></td><td>Tiruchirappalli · Tamil Nadu</td><td>NIT</td><td>11</td></tr>
+          <tr><td>#10</td><td><strong>IIT BHU Varanasi</strong></td><td>Varanasi · Uttar Pradesh</td><td>IIT</td><td>12</td></tr>
+          <tr><td>#11</td><td><strong>BITS Pilani</strong></td><td>Jhunjhunu · Rajasthan</td><td>IOE</td><td>12</td></tr>
+          <tr><td>#12</td><td><strong>IIT Indore</strong></td><td>Indore · Madhya Pradesh</td><td>IIT</td><td>10</td></tr>
+          <tr><td>#13</td><td><strong>NIT Rourkela</strong></td><td>Rourkela · Odisha</td><td>NIT</td><td>11</td></tr>
+          <tr><td>#14</td><td><strong>SRM IST Chennai</strong></td><td>Kanchipuram · Tamil Nadu</td><td>DEEMED</td><td>15</td></tr>
+          <tr><td>#15</td><td><strong>IIT ISM Dhanbad</strong></td><td>Dhanbad · Jharkhand</td><td>IIT</td><td>11</td></tr>
+          <tr><td>#16</td><td><strong>VIT Vellore</strong></td><td>Vellore · Tamil Nadu</td><td>DEEMED</td><td>14</td></tr>
+          <tr><td>#17</td><td><strong>NIT Surathkal</strong></td><td>Dakshina Kannada · Karnataka</td><td>NIT</td><td>11</td></tr>
+          <tr><td>#18</td><td><strong>Jadavpur University</strong></td><td>Kolkata · West Bengal</td><td>IOE</td><td>12</td></tr>
+          <tr><td>#19</td><td><strong>IIT Patna</strong></td><td>Patna · Bihar</td><td>IIT</td><td>7</td></tr>
+          <tr><td>#20</td><td><strong>Anna University CEG</strong></td><td>Chennai · Tamil Nadu</td><td>STATE</td><td>18</td></tr>
+          <tr><td>#21</td><td><strong>NIT Calicut</strong></td><td>Kozhikode · Kerala</td><td>NIT</td><td>10</td></tr>
+          <tr><td>#23</td><td><strong>Amrita Coimbatore</strong></td><td>Coimbatore · Tamil Nadu</td><td>DEEMED</td><td>12</td></tr>
+          <tr><td>#24</td><td><strong>Jamia Millia Islamia</strong></td><td>South-East Delhi · Delhi</td><td>CENTRAL</td><td>7</td></tr>
+          <tr><td>#25</td><td><strong>IIT Gandhinagar</strong></td><td>Gandhinagar · Gujarat</td><td>IIT</td><td>8</td></tr>
+          <tr><td>#26</td><td><strong>IIT Mandi</strong></td><td>Mandi · Himachal Pradesh</td><td>IIT</td><td>7</td></tr>
+          <tr><td>#27</td><td><strong>IIT Jodhpur</strong></td><td>Jodhpur · Rajasthan</td><td>IIT</td><td>9</td></tr>
+          <tr><td>#28</td><td><strong>NIT Warangal</strong></td><td>Warangal · Telangana</td><td>NIT</td><td>8</td></tr>
+          <tr><td>#29</td><td><strong>Thapar Institute</strong></td><td>Patiala · Punjab</td><td>DEEMED</td><td>10</td></tr>
+          <tr><td>#30</td><td><strong>DTU (Delhi Tech Univ)</strong></td><td>North-West Delhi · Delhi</td><td>STATE</td><td>14</td></tr>
+          <tr><td>#31</td><td><strong>Chandigarh University</strong></td><td>Mohali · Punjab</td><td>PRIVATE</td><td>10</td></tr>
+          <tr><td>#32</td><td><strong>IIT Ropar</strong></td><td>Rupnagar · Punjab</td><td>IIT</td><td>9</td></tr>
+          <tr><td>#35</td><td><strong>K L University (KLU)</strong></td><td>Guntur · Andhra Pradesh</td><td>DEEMED</td><td>9</td></tr>
+          <tr><td>#36</td><td><strong>KIIT Bhubaneswar</strong></td><td>Bhubaneswar · Odisha</td><td>IOE</td><td>11</td></tr>
+          <tr><td>#37</td><td><strong>Amity University Noida</strong></td><td>Gautam Buddha Nagar · Uttar Pradesh</td><td>PRIVATE</td><td>11</td></tr>
+          <tr><td>#38</td><td><strong>IIIT Hyderabad</strong></td><td>Hyderabad · Telangana</td><td>IIIT</td><td>6</td></tr>
+          <tr><td>#39</td><td><strong>IIT Bhubaneswar</strong></td><td>Bhubaneswar · Odisha</td><td>IIT</td><td>8</td></tr>
+          <tr><td>#40</td><td><strong>SASTRA University</strong></td><td>Thanjavur · Tamil Nadu</td><td>DEEMED</td><td>11</td></tr>
+          <tr><td>#41</td><td><strong>ICT Mumbai</strong></td><td>Mumbai · Maharashtra</td><td>DEEMED</td><td>9</td></tr>
+          <tr><td>#42</td><td><strong>MNIT Jaipur</strong></td><td>Jaipur · Rajasthan</td><td>NIT</td><td>8</td></tr>
+          <tr><td>#44</td><td><strong>VNIT Nagpur</strong></td><td>Nagpur · Maharashtra</td><td>NIT</td><td>9</td></tr>
+          <tr><td>#46</td><td><strong>Symbiosis Inst of Tech</strong></td><td>Pune · Maharashtra</td><td>DEEMED</td><td>7</td></tr>
+          <tr><td>#47</td><td><strong>SSN College of Engg</strong></td><td>Kanchipuram · Tamil Nadu</td><td>PRIVATE</td><td>8</td></tr>
+          <tr><td>#48</td><td><strong>LPU Phagwara</strong></td><td>Kapurthala · Punjab</td><td>PRIVATE</td><td>12</td></tr>
+          <tr><td>#49</td><td><strong>NIT Durgapur</strong></td><td>Burdwan (Purba) · West Bengal</td><td>NIT</td><td>9</td></tr>
+          <tr><td>#50</td><td><strong>NIT Silchar</strong></td><td>Silchar · Assam</td><td>NIT</td><td>6</td></tr>
+          <tr><td>#51</td><td><strong>BIT Mesra</strong></td><td>Ranchi · Jharkhand</td><td>DEEMED</td><td>11</td></tr>
+          <tr><td>#53</td><td><strong>NIT Patna</strong></td><td>Patna · Bihar</td><td>NIT</td><td>6</td></tr>
+          <tr><td>#54</td><td><strong>IIEST Shibpur</strong></td><td>Howrah · West Bengal</td><td>CENTRAL</td><td>12</td></tr>
+          <tr><td>#55</td><td><strong>NIT Jalandhar</strong></td><td>Jalandhar · Punjab</td><td>NIT</td><td>9</td></tr>
+          <tr><td>#56</td><td><strong>IIT Jammu</strong></td><td>Jammu · Jammu and Kashmir</td><td>IIT</td><td>7</td></tr>
+          <tr><td>#57</td><td><strong>IIT Tirupati</strong></td><td>Tirupati · Andhra Pradesh</td><td>IIT</td><td>6</td></tr>
+          <tr><td>#58</td><td><strong>Manipal Univ Jaipur</strong></td><td>Jaipur · Rajasthan</td><td>DEEMED</td><td>11</td></tr>
+          <tr><td>#59</td><td><strong>MAHE Manipal</strong></td><td>Udupi · Karnataka</td><td>IOE</td><td>12</td></tr>
+          <tr><td>#60</td><td><strong>MMMUT Gorakhpur</strong></td><td>Gorakhpur · Uttar Pradesh</td><td>STATE</td><td>8</td></tr>
+          <tr><td>#62</td><td><strong>MNNIT Allahabad</strong></td><td>Prayagraj · Uttar Pradesh</td><td>NIT</td><td>8</td></tr>
+          <tr><td>#63</td><td><strong>IIIT Delhi</strong></td><td>South Delhi · Delhi</td><td>IIIT</td><td>7</td></tr>
+          <tr><td>#64</td><td><strong>IIT Palakkad</strong></td><td>Palakkad · Kerala</td><td>IIT</td><td>6</td></tr>
+          <tr><td>#65</td><td><strong>NIT Delhi</strong></td><td>North-West Delhi · Delhi</td><td>NIT</td><td>5</td></tr>
+          <tr><td>#66</td><td><strong>SVNIT Surat</strong></td><td>Surat · Gujarat</td><td>NIT</td><td>7</td></tr>
+          <tr><td>#67</td><td><strong>PSG Coimbatore</strong></td><td>Coimbatore · Tamil Nadu</td><td>PRIVATE</td><td>13</td></tr>
+          <tr><td>#69</td><td><strong>IIIT Bangalore</strong></td><td>Bengaluru Urban · Karnataka</td><td>IIIT</td><td>2</td></tr>
+          <tr><td>#70</td><td><strong>NSUT Dwarka</strong></td><td>South-West Delhi · Delhi</td><td>STATE</td><td>9</td></tr>
+          <tr><td>#72</td><td><strong>IIT Bhilai</strong></td><td>Bhilai · Chhattisgarh</td><td>IIT</td><td>6</td></tr>
+          <tr><td>#73</td><td><strong>NIT Srinagar</strong></td><td>Srinagar · Jammu and Kashmir</td><td>NIT</td><td>8</td></tr>
+          <tr><td>#75</td><td><strong>MS Ramaiah Inst of Tech</strong></td><td>Bengaluru Urban · Karnataka</td><td>PRIVATE</td><td>10</td></tr>
+          <tr><td>#77</td><td><strong>IIT Dharwad</strong></td><td>Dharwad · Karnataka</td><td>IIT</td><td>6</td></tr>
+          <tr><td>#81</td><td><strong>MANIT Bhopal</strong></td><td>Bhopal · Madhya Pradesh</td><td>NIT</td><td>8</td></tr>
+          <tr><td>#82</td><td><strong>NIT Jamshedpur</strong></td><td>Jamshedpur · Jharkhand</td><td>NIT</td><td>8</td></tr>
+          <tr><td>#83</td><td><strong>NIT Meghalaya</strong></td><td>Shillong · Meghalaya</td><td>NIT</td><td>5</td></tr>
+          <tr><td>#85</td><td><strong>NIT Kurukshetra</strong></td><td>Kurukshetra · Haryana</td><td>NIT</td><td>7</td></tr>
+          <tr><td>#86</td><td><strong>NIT Raipur</strong></td><td>Raipur · Chhattisgarh</td><td>NIT</td><td>11</td></tr>
+          <tr><td>#88</td><td><strong>Andhra Univ CoE</strong></td><td>Visakhapatnam · Andhra Pradesh</td><td>STATE</td><td>11</td></tr>
+          <tr><td>#89</td><td><strong>Chitkara University</strong></td><td>Mohali · Punjab</td><td>PRIVATE</td><td>6</td></tr>
+          <tr><td>#90</td><td><strong>COEP Pune</strong></td><td>Pune · Maharashtra</td><td>STATE</td><td>10</td></tr>
+          <tr><td>#94</td><td><strong>JNTU Hyderabad (UCE)</strong></td><td>Hyderabad · Telangana</td><td>STATE</td><td>11</td></tr>
+          <tr><td>#97</td><td><strong>NIT Hamirpur</strong></td><td>Hamirpur · Himachal Pradesh</td><td>NIT</td><td>8</td></tr>
+          <tr><td>#98</td><td><strong>PDPU Gandhinagar</strong></td><td>Gandhinagar · Gujarat</td><td>STATE</td><td>8</td></tr>
+          <tr><td>#99</td><td><strong>NIT Puducherry</strong></td><td>Karaikal · Puducherry</td><td>NIT</td><td>5</td></tr>
+          <tr><td>101-150</td><td><strong>IIT Goa</strong></td><td>Ponda · Goa</td><td>IIT</td><td>6</td></tr>
+          <tr><td>101-150</td><td><strong>NIT Agartala</strong></td><td>Agartala · Tripura</td><td>NIT</td><td>6</td></tr>
+          <tr><td>101-150</td><td><strong>NIT Goa</strong></td><td>Cuncolim · Goa</td><td>NIT</td><td>5</td></tr>
+          <tr><td>101-150</td><td><strong>NIT Mizoram</strong></td><td>Aizawl · Mizoram</td><td>NIT</td><td>5</td></tr>
+          <tr><td>101-150</td><td><strong>NIT Nagaland</strong></td><td>Dimapur · Nagaland</td><td>NIT</td><td>5</td></tr>
+          <tr><td>101-150</td><td><strong>NIT Arunachal Pradesh</strong></td><td>Jote · Arunachal Pradesh</td><td>NIT</td><td>5</td></tr>
+          <tr><td>101-150</td><td><strong>IIIT Allahabad</strong></td><td>Prayagraj · Uttar Pradesh</td><td>IIIT</td><td>3</td></tr>
+          <tr><td>101-150</td><td><strong>IIIT-DM Jabalpur</strong></td><td>Jabalpur · Madhya Pradesh</td><td>IIIT</td><td>4</td></tr>
+          <tr><td>101-150</td><td><strong>Nirma University</strong></td><td>Ahmedabad · Gujarat</td><td>DEEMED</td><td>9</td></tr>
+          <tr><td>101-150</td><td><strong>VJTI Mumbai</strong></td><td>Mumbai · Maharashtra</td><td>STATE</td><td>9</td></tr>
+          <tr><td>101-150</td><td><strong>Osmania Univ CoE</strong></td><td>Hyderabad · Telangana</td><td>STATE</td><td>9</td></tr>
+          <tr><td>101-150</td><td><strong>Univ College of Engg Trivandrum</strong></td><td>Thiruvananthapuram · Kerala</td><td>STATE</td><td>8</td></tr>
+          <tr><td>101-150</td><td><strong>Thiagarajar College of Engg</strong></td><td>Madurai · Tamil Nadu</td><td>PRIVATE</td><td>8</td></tr>
+          <tr><td>101-150</td><td><strong>Coimbatore Inst of Technology</strong></td><td>Coimbatore · Tamil Nadu</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>101-150</td><td><strong>Karunya Institute</strong></td><td>Coimbatore · Tamil Nadu</td><td>DEEMED</td><td>10</td></tr>
+          <tr><td>101-150</td><td><strong>Easwari Engineering College</strong></td><td>Chennai · Tamil Nadu</td><td>PRIVATE</td><td>8</td></tr>
+          <tr><td>101-150</td><td><strong>Rajalakshmi Engineering College</strong></td><td>Chennai · Tamil Nadu</td><td>PRIVATE</td><td>8</td></tr>
+          <tr><td>101-150</td><td><strong>RV College of Engineering</strong></td><td>Bengaluru Urban · Karnataka</td><td>PRIVATE</td><td>11</td></tr>
+          <tr><td>101-150</td><td><strong>PES University</strong></td><td>Bengaluru Urban · Karnataka</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>101-150</td><td><strong>GITAM Visakhapatnam</strong></td><td>Visakhapatnam · Andhra Pradesh</td><td>DEEMED</td><td>9</td></tr>
+          <tr><td>101-150</td><td><strong>MIT WPU Pune</strong></td><td>Pune · Maharashtra</td><td>DEEMED</td><td>10</td></tr>
+          <tr><td>101-150</td><td><strong>CET Trivandrum</strong></td><td>Thiruvananthapuram · Kerala</td><td>STATE</td><td>8</td></tr>
+          <tr><td>101-150</td><td><strong>IIIT Allahabad (also)</strong></td><td>Prayagraj · Uttar Pradesh</td><td>IIIT</td><td>3</td></tr>
+          <tr><td>101-150</td><td><strong>MNNIT (also listed)</strong></td><td>Prayagraj · Uttar Pradesh</td><td>STATE</td><td>7</td></tr>
+          <tr><td>151-200</td><td><strong>NIT Uttarakhand</strong></td><td>Srinagar (UK) · Uttarakhand</td><td>NIT</td><td>5</td></tr>
+          <tr><td>151-200</td><td><strong>NIT Sikkim</strong></td><td>Ravangla · Sikkim</td><td>NIT</td><td>5</td></tr>
+          <tr><td>151-200</td><td><strong>NIT Manipur</strong></td><td>Imphal · Manipur</td><td>NIT</td><td>5</td></tr>
+          <tr><td>151-200</td><td><strong>Kumaraguru College of Tech</strong></td><td>Coimbatore · Tamil Nadu</td><td>PRIVATE</td><td>9</td></tr>
+          <tr><td>151-200</td><td><strong>BMS College of Engineering</strong></td><td>Bengaluru Urban · Karnataka</td><td>PRIVATE</td><td>9</td></tr>
+          <tr><td>151-200</td><td><strong>KLE Tech University</strong></td><td>Hubli-Dharwad · Karnataka</td><td>DEEMED</td><td>6</td></tr>
+          <tr><td>151-200</td><td><strong>VNR VJIET Hyderabad</strong></td><td>Hyderabad · Telangana</td><td>PRIVATE</td><td>8</td></tr>
+          <tr><td>151-200</td><td><strong>CBIT Hyderabad</strong></td><td>Hyderabad · Telangana</td><td>PRIVATE</td><td>8</td></tr>
+          <tr><td>201-300</td><td><strong>NIT Andhra Pradesh</strong></td><td>Tadepalligudem · Andhra Pradesh</td><td>NIT</td><td>7</td></tr>
+          <tr><td>201-300</td><td><strong>DAIICT Gandhinagar</strong></td><td>Gandhinagar · Gujarat</td><td>DEEMED</td><td>4</td></tr>
+          <tr><td>201-300</td><td><strong>LNMIIT Jaipur</strong></td><td>Jaipur · Rajasthan</td><td>PRIVATE</td><td>5</td></tr>
+          <tr><td>201-300</td><td><strong>Sri Venkateswara CoE</strong></td><td>Kanchipuram · Tamil Nadu</td><td>PRIVATE</td><td>8</td></tr>
+          <tr><td>201-300</td><td><strong>Dayananda Sagar Univ</strong></td><td>Bengaluru Urban · Karnataka</td><td>PRIVATE</td><td>9</td></tr>
+          <tr><td>201-300</td><td><strong>JSS Tech University</strong></td><td>Mysuru · Karnataka</td><td>DEEMED</td><td>7</td></tr>
+          <tr><td>201-300</td><td><strong>GNITS Hyderabad</strong></td><td>Hyderabad · Telangana</td><td>PRIVATE</td><td>6</td></tr>
+          <tr><td>201-300</td><td><strong>HBTU Kanpur</strong></td><td>Kanpur Nagar · Uttar Pradesh</td><td>STATE</td><td>13</td></tr>
+          <tr><td>201-300</td><td><strong>JSS Academy of Tech</strong></td><td>Gautam Buddha Nagar · Uttar Pradesh</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>201-300</td><td><strong>M.S. University Baroda</strong></td><td>Vadodara · Gujarat</td><td>STATE</td><td>11</td></tr>
+          <tr><td>—</td><td><strong>AKGEC Ghaziabad</strong></td><td>Ghaziabad · Uttar Pradesh</td><td>PRIVATE</td><td>6</td></tr>
+          <tr><td>—</td><td><strong>Amrita Amritapuri</strong></td><td>Kollam · Kerala</td><td>DEEMED</td><td>6</td></tr>
+          <tr><td>—</td><td><strong>Bannari Amman Inst of Tech</strong></td><td>Erode · Tamil Nadu</td><td>PRIVATE</td><td>10</td></tr>
+          <tr><td>—</td><td><strong>Bennett University</strong></td><td>Gautam Buddha Nagar · Uttar Pradesh</td><td>PRIVATE</td><td>6</td></tr>
+          <tr><td>—</td><td><strong>BHU Varanasi (IoE)</strong></td><td>Varanasi · Uttar Pradesh</td><td>IOE</td><td>9</td></tr>
+          <tr><td>—</td><td><strong>BITS Goa</strong></td><td>Sancoale · Goa</td><td>DEEMED</td><td>8</td></tr>
+          <tr><td>—</td><td><strong>BITS Hyderabad</strong></td><td>Hyderabad · Telangana</td><td>DEEMED</td><td>11</td></tr>
+          <tr><td>—</td><td><strong>IISc Bangalore</strong></td><td>Bengaluru Urban · Karnataka</td><td>IOE</td><td>12</td></tr>
+          <tr><td>—</td><td><strong>IIIT Kottayam</strong></td><td>Kottayam · Kerala</td><td>IIIT</td><td>3</td></tr>
+          <tr><td>—</td><td><strong>IIIT Sri City</strong></td><td>Chittoor · Andhra Pradesh</td><td>IIIT</td><td>3</td></tr>
+          <tr><td>—</td><td><strong>IIIT Vadodara</strong></td><td>Gandhinagar · Gujarat</td><td>IIIT</td><td>3</td></tr>
+          <tr><td>—</td><td><strong>IIIT-Bangalore</strong></td><td>Bengaluru Urban · Karnataka</td><td>DEEMED</td><td>3</td></tr>
+          <tr><td>—</td><td><strong>Delhi University (DU)</strong></td><td>North Delhi · Delhi</td><td>IOE</td><td>3</td></tr>
+          <tr><td>—</td><td><strong>GEC Thrissur</strong></td><td>Thrissur · Kerala</td><td>STATE</td><td>6</td></tr>
+          <tr><td>—</td><td><strong>Heritage Inst of Tech</strong></td><td>Kolkata · West Bengal</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>—</td><td><strong>JNTU Kakinada</strong></td><td>East Godavari · Andhra Pradesh</td><td>STATE</td><td>8</td></tr>
+          <tr><td>—</td><td><strong>K J Somaiya Inst</strong></td><td>Mumbai · Maharashtra</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>—</td><td><strong>LD College of Engg</strong></td><td>Ahmedabad · Gujarat</td><td>STATE</td><td>12</td></tr>
+          <tr><td>—</td><td><strong>MGIT Hyderabad</strong></td><td>Ranga Reddy · Telangana</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>—</td><td><strong>PICT Pune</strong></td><td>Pune · Maharashtra</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>—</td><td><strong>Rajagiri School of Engg</strong></td><td>Ernakulam · Kerala</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>—</td><td><strong>Sandip University Nashik</strong></td><td>Nashik · Maharashtra</td><td>PRIVATE</td><td>6</td></tr>
+          <tr><td>—</td><td><strong>SRM University AP</strong></td><td>Guntur · Andhra Pradesh</td><td>DEEMED</td><td>6</td></tr>
+          <tr><td>—</td><td><strong>Techno India University</strong></td><td>Kolkata · West Bengal</td><td>PRIVATE</td><td>8</td></tr>
+          <tr><td>—</td><td><strong>TKM College of Engg</strong></td><td>Kollam · Kerala</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>—</td><td><strong>Vasavi College of Engg</strong></td><td>Hyderabad · Telangana</td><td>PRIVATE</td><td>7</td></tr>
+          <tr><td>—</td><td><strong>Velammal Engineering College</strong></td><td>Chennai · Tamil Nadu</td><td>PRIVATE</td><td>9</td></tr>
+          <tr><td>—</td><td><strong>VESIT Mumbai</strong></td><td>Mumbai · Maharashtra</td><td>PRIVATE</td><td>5</td></tr>
+          <tr><td>—</td><td><strong>VIT-AP Amaravati</strong></td><td>Guntur · Andhra Pradesh</td><td>DEEMED</td><td>9</td></tr>
+          <tr><td>—</td><td><strong>IIT Goa (IoE-linked)</strong></td><td>Ponda · Goa</td><td>IIT</td><td>6</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note">How to read this. NIRF publishes exact ranks only to #100; below that it uses bands (101–150, 151–200, 201–300). "—" indicates a notable college outside the published NIRF Engineering 2026 list. Rank reflects research, placements and perception — a different axis from admission demand. Source: NIRF Engineering 2026 (MoE).</p>
+  </section>
+
+  <!-- Glossary -->
+  <section class="section" id="glossary">
+    <div class="section__header">
+      <span class="eyebrow">GLOSSARY · KNOW WHAT EACH CATEGORY MEANS</span>
+      <h2 class="section__title">What's the difference between these?</h2>
+      <p class="section__desc">Each filter represents a different category with its own admission process, fee structure and academic culture. Fit matters more than label.</p>
+    </div>
+
+    <div class="qual-details" style="columns:2;list-style:none;">
+      <ul style="list-style:none;padding:0;margin:0;">
+        <li><strong>01 · IITs (23 institutes)</strong> — Indian Institutes of Technology. Admission via JEE Advanced. Combined ~17,000 BTech seats.</li>
+        <li><strong>02 · NITs (31 institutes)</strong> — National Institutes of Technology. JoSAA using JEE Main. ~24,000 BTech seats.</li>
+        <li><strong>03 · TNEA (571 colleges)</strong> — Tamil Nadu state counselling: government, aided and self-financing colleges. Class 12 cut-off based.</li>
+        <li><strong>04 · Deemed universities (~125)</strong> — UGC-designated autonomous universities. Includes VIT, SRM, BITS, MAHE, Amrita.</li>
+        <li><strong>05 · Private colleges (~5,200)</strong> — Self-financed colleges affiliated to a state technical university. State counselling or management/NRI quota.</li>
+        <li><strong>06 · Institutions of Eminence (12)</strong> — MoE-conferred status with exceptional autonomy and ₹1,000 cr in central support over 5 years.</li>
+        <li><strong>07 · NIRF Top 25 (25)</strong> — MoE National Institutional Ranking Framework 2026 — leading institutes by teaching, research, outcomes, outreach.</li>
+        <li><strong>08 · NAAC A++ (~28)</strong> — National Assessment and Accreditation Council A++ (CGPA 3.51–4.00). The highest peer-reviewed quality grade.</li>
+        <li><strong>09 · Drill-down (31 states)</strong> — District-wise college distribution and notable institutions, state by state.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Methodology -->
+  <section class="section" id="methodology">
+    <div class="section__header">
+      <span class="eyebrow">METHODOLOGY · HOW TO READ THIS</span>
+      <h2 class="section__title">A note on the numbers</h2>
+      <p class="section__desc">Engineering institution counts are fuzzy because AICTE, UGC, NIRF and state DTE lists rarely agree. Here's how we reconciled them.</p>
+    </div>
+
+    <div class="callout callout--info">
+      <div class="callout__icon">📚</div>
+      <div>
+        <span class="callout__label">SOURCES</span>
+        <span class="callout__text">AICTE Approval Process Handbook 2023-24; MoE IoE official list; UGC Deemed Universities list; NIRF 2026 Engineering category; NAAC database (naac.gov.in); TNEA Anna University 2024 participating institutions; state DTE counselling lists. Private counts rounded to nearest 5–10.</span>
+      </div>
+    </div>
+    <div class="callout callout--ok">
+      <div class="callout__icon">✓</div>
+      <div>
+        <span class="callout__label">WHAT COUNTS AS "ENGINEERING"</span>
+        <span class="callout__text">Only institutions offering AICTE-approved B.E./B.Tech programmes. Polytechnics, pure science institutes and B.Sc-only institutions are excluded.</span>
+      </div>
+    </div>
+    <div class="callout callout--info">
+      <div class="callout__icon">🔎</div>
+      <div>
+        <span class="callout__label">TNEA FILTER &amp; OVERLAP</span>
+        <span class="callout__text">TNEA is a counselling process (not a national category), so it highlights only Tamil Nadu. The 571 includes government, aided and self-financing colleges — most of which are also counted under "Private". IIT Madras counts under IITs, IoE, NIRF and NAAC; BITS Pilani under Deemed, IoE, NIRF and NAAC. Totals across filters will not sum cleanly — by design.</span>
+      </div>
+    </div>
+    <div class="callout callout--ok">
+      <div class="callout__icon">📍</div>
+      <div>
+        <span class="callout__label">DISTRICT DRILL-DOWN</span>
+        <span class="callout__text">District figures available for the top 12 states (TN, MH, KA, TG, AP, UP, KL, DL, GJ, WB, MP, RJ). Other states show summary only.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Numbers are the start. Fit is the rest.</h2>
+    <p>Knowing how many IITs exist doesn't tell you which one fits your child's profile, budget and career direction. We map your JEE / CET score to a realistic, well-matched shortlist — not a wishlist.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Book a free 30-min counselling</a>
+      <a href="{{ url_for('main.nirf_ranking') }}" class="btn-out">See NIRF rankings</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const search = document.getElementById('ecSearch');
+  const typeSel = document.getElementById('ecType');
+  const count = document.getElementById('ecCount');
+  const rows = Array.from(document.querySelectorAll('#ecTable tbody tr'));
+  function apply() {
+    const q = search.value.trim().toLowerCase();
+    const t = typeSel.value;
+    let shown = 0;
+    rows.forEach(r => {
+      const text = r.textContent.toLowerCase();
+      const type = r.cells[3].textContent.trim();
+      const ok = (!q || text.includes(q)) && (!t || type === t);
+      r.style.display = ok ? '' : 'none';
+      if (ok) shown++;
+    });
+    count.textContent = shown + ' colleges';
+  }
+  search.addEventListener('input', apply);
+  typeSel.addEventListener('change', apply);
+});
+</script>
+{% endblock %}

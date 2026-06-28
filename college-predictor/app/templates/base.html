@@ -66,11 +66,27 @@
           <li class="nav__item"><a href="{{ url_for('main.nriarabic_foundation') }}" class="nav__link">NRI_Arabic Foundation</a></li>
           <li class="nav__item"><a href="{{ url_for('main.videos_library') }}" class="nav__link">Videos Library</a></li>
           <li class="nav__item"><a href="{{ url_for('main.training') }}" class="nav__link">Training</a></li>
+          <!-- New pages (eduaakashaa.in parity) -->
+          <li class="nav__item"><a href="{{ url_for('main.dasa_2026') }}" class="nav__link">DASA 2026 Atlas</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.dasa2025_ranks') }}" class="nav__link">DASA 2025 Ranks</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.dasa_2025_vs_2026') }}" class="nav__link">DASA 2025 vs 2026</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.dasa_strategic_approach') }}" class="nav__link">DASA Strategy</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.dasa2026_schedule') }}" class="nav__link">DASA Schedule</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.enggcolleges_india') }}" class="nav__link">Engg Colleges India</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.nirf_analytic') }}" class="nav__link">NIRF Analytics</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.tnea_colleges') }}" class="nav__link">TNEA Colleges</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.free_report') }}" class="nav__link">Free Report</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.branch_fitness_assessment') }}" class="nav__link">Branch Fit</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.about') }}" class="nav__link">About</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.members_registration') }}" class="nav__link">Premium Membership</a></li>
           <li class="nav__item"><a href="{{ url_for('main.contact_alias') }}" class="nav__link">Contact</a></li>
         </ul>
       </nav>
       <div class="header__auth">
         {% if current_user.is_authenticated %}
+        {% if current_user.is_admin %}
+        <a href="{{ url_for('membership.admin_list') }}" class="nav__link nav__link--auth">Admin</a>
+        {% endif %}
         <a href="{{ url_for('auth.dashboard') }}" class="nav__link nav__link--auth">Dashboard</a>
         {% else %}
         <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth">Login</a>

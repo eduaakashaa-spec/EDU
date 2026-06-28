@@ -1,52 +1,339 @@
 {% extends "base.html" %}
-{% block title %}Career Path | EduAakashaA{% endblock %}
+{% block title %}Engineering Career Path — Evidence-Based Career Assessment | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 {% endblock %}
+
 {% block content %}
+<!-- ======== HERO ======== -->
 <section class="hero">
   <div class="hero__glow"></div>
   <div class="hero__content">
-    <span class="badge">CAREER PLANNING</span>
-    <h1>Career <span>Path</span></h1>
-    <p>Explore career tracks, required skills, exams, and realistic timelines — built for Class 9–12 and UG aspirants.</p>
+    <span class="badge">Evidence-Based Career Guidance for Engineers</span>
+    <h1>Find the engineering career that <span>actually fits you.</span></h1>
+    <p>Built for Indian and NRI engineering students. We combine interest-profiling, career-adaptability measurement, future-of-work signals, and industry-standard skill frameworks into a single clear pathway &mdash; with a report your parents will understand.</p>
+    <div class="final-cta__btns" style="margin-top:24px;justify-content:flex-start;">
+      <a href="{{ url_for('main.student_assessment') }}" class="btn-main">Take Free Assessment &rarr;</a>
+      <a href="#sample-report" class="btn-out">View Sample Report</a>
+    </div>
   </div>
 </section>
 
-<div class="main-content">
+<main class="main-content">
+
+  <!-- ======== WHAT YOU'LL RECEIVE ======== -->
   <section class="section">
     <div class="section__header">
-      <span class="eyebrow">FRAMEWORK</span>
-      <h2 class="section__title">From interests → options → action plan</h2>
+      <span class="eyebrow">What You'll Receive</span>
+      <h2 class="section__title">A personal 12-page report, not a horoscope.</h2>
     </div>
     <div class="steps">
-      <div class="step"><span class="step__num">1</span><div><div class="step__title">Discover</div><div class="step__text">Assess interests &amp; strengths (RIASEC / aptitude / self-report).</div></div></div>
-      <div class="step"><span class="step__num">2</span><div><div class="step__title">Map</div><div class="step__text">Match to streams, courses, exams and career ecosystems.</div></div></div>
-      <div class="step"><span class="step__num">3</span><div><div class="step__title">Plan</div><div class="step__text">Create a 90-day plan + 12-month milestones with checkpoints.</div></div></div>
-      <div class="step"><span class="step__num">4</span><div><div class="step__title">Execute</div><div class="step__text">Weekly practice + feedback loop with EduAakashaA mentors.</div></div></div>
+      <div class="step"><span class="step__num">01</span><div><div class="step__title">Interest profile mapped to real job families</div><p class="step__text">O*NET-compatible interest profiling that connects you to real-world job families.</p></div></div>
+      <div class="step"><span class="step__num">02</span><div><div class="step__title">Career adaptability score</div><p class="step__text">Measured across four dimensions &mdash; concern, control, curiosity and confidence.</p></div></div>
+      <div class="step"><span class="step__num">03</span><div><div class="step__title">Skill-gap analysis</div><p class="step__text">Visualised with radar, bar chart and heatmap so you can see exactly where to focus.</p></div></div>
+      <div class="step"><span class="step__num">04</span><div><div class="step__title">30 / 60 / 90-day plan</div><p class="step__text">A concrete action plan plus a weekly study schedule to keep you on track.</p></div></div>
+      <div class="step"><span class="step__num">05</span><div><div class="step__title">Expert-reviewed</div><p class="step__text">Every report is checked by a domain expert before it reaches your inbox.</p></div></div>
+    </div>
+
+    <div class="info-cards info-cards--4" style="margin-top:32px;">
+      <div class="info-card"><div class="info-card__value" style="font-size:2rem;color:var(--gold);font-weight:800;">6+</div><div class="info-card__label">Career Frameworks</div></div>
+      <div class="info-card"><div class="info-card__value" style="font-size:2rem;color:var(--gold);font-weight:800;">120+</div><div class="info-card__label">Job Families Mapped</div></div>
+      <div class="info-card"><div class="info-card__value" style="font-size:2rem;color:var(--gold);font-weight:800;">2</div><div class="info-card__label">Counselling Hubs &middot; IN &middot; UAE</div></div>
+      <div class="info-card"><div class="info-card__value" style="font-size:2rem;color:var(--gold);font-weight:800;">100%</div><div class="info-card__label">Consent-First &amp; Private</div></div>
     </div>
   </section>
 
+  <!-- ======== WHAT WE HELP WITH ======== -->
   <section class="section">
     <div class="section__header">
-      <span class="eyebrow">TOOLS</span>
-      <h2 class="section__title">Use these to get clarity</h2>
+      <span class="eyebrow">What We Help With</span>
+      <h2 class="section__title">From stream selection to seat allotment &mdash; end to end.</h2>
+      <p class="section__desc">EduAakashaA supports students across the full education journey. Pick the track that matches your stage and we'll tailor the assessment, counselling and action plan around it.</p>
     </div>
     <div class="info-cards info-cards--3">
-      <div class="info-card"><div class="info-card__icon">🧠</div><div class="info-card__title"><a href="{{ url_for('main.student_assessment') }}">Student Assessment</a></div><div class="info-card__text">Psychometric + aptitude profiling to recommend streams.</div></div>
-      <div class="info-card"><div class="info-card__icon">🧭</div><div class="info-card__title"><a href="{{ url_for('main.stream_selection') }}">Stream Selection</a></div><div class="info-card__text">Decision guide after 10th with exam mapping.</div></div>
-      <div class="info-card"><div class="info-card__icon">📌</div><div class="info-card__title"><a href="{{ url_for('main.contact') }}">Counsellor Session</a></div><div class="info-card__text">Get a personalised roadmap and shortlist strategy.</div></div>
+      <a href="{{ url_for('main.student_assessment') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__label">01</div>
+        <div class="info-card__title">Engineering Career Assessment</div>
+        <p class="info-card__text">RIASEC interest profiling, career-adaptability measurement, and skill-gap analysis mapped to ABET outcomes and CDIO project stages.</p>
+      </a>
+      <a href="{{ url_for('main.nri_guide') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__label">02</div>
+        <div class="info-card__title">NRI Admissions &middot; DASA &middot; CIWG</div>
+        <p class="info-card__text">Guidance for NRI and foreign-nationality students applying to IITs, NITs, IIITs, Anna University, VIT, Amrita and more through DASA/CIWG.</p>
+      </a>
+      <a href="{{ url_for('main.josaa') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__label">03</div>
+        <div class="info-card__title">JOSAA Counselling</div>
+        <p class="info-card__text">Personalised choice-filling, mock-simulator, and branch-vs-institute trade-off modelling backed by past-year cutoff data.</p>
+      </a>
+      <a href="{{ url_for('main.tnea2026') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__label">04</div>
+        <div class="info-card__title">TNEA 2026 Counselling</div>
+        <p class="info-card__text">Tamil Nadu Engineering Admissions support &mdash; seat matrix analysis, cutoff prediction, choice-filling strategy, and PC round guidance.</p>
+      </a>
+      <a href="{{ url_for('main.nata') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__label">05</div>
+        <div class="info-card__title">Design &amp; Architecture (NATA &middot; NID)</div>
+        <p class="info-card__text">Aptitude coaching, portfolio mentoring, and interview prep for design and architecture aspirants aiming at NATA, NID and NIFT.</p>
+      </a>
+      <a href="{{ url_for('main.mbamca') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__label">06</div>
+        <div class="info-card__title">MBA &middot; MCA &middot; TANCET &middot; CAT</div>
+        <p class="info-card__text">For final-year engineers exploring post-graduate routes &mdash; test prep strategy, B-school selection, and TANCET Pulse fast-track.</p>
+      </a>
+      <a href="{{ url_for('main.internship') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__label">07</div>
+        <div class="info-card__title">Internships &amp; Industry Exposure</div>
+        <p class="info-card__text">Curated engineering internships across AI/ML, energy, robotics, smart infrastructure, and cybersecurity &mdash; with CDIO-aligned project plans.</p>
+      </a>
+      <a href="{{ url_for('main.stream_selection') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__label">08</div>
+        <div class="info-card__title">Stream Selection (Class 10 &middot; 12)</div>
+        <p class="info-card__text">Decision-making support before a student commits to Science/Commerce/Arts &mdash; with family-friendly explanations of long-term implications.</p>
+      </a>
+      <a href="{{ url_for('main.contact') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__label">09</div>
+        <div class="info-card__title">Expert Dashboard &amp; Review</div>
+        <p class="info-card__text">Every report is reviewed by a domain expert before release &mdash; with notes, follow-up milestones, and a parent-friendly summary.</p>
+      </a>
     </div>
   </section>
 
-  <div class="final-cta">
-    <h2>Build your roadmap</h2>
-    <p>Get a personalised career path based on your inputs and constraints.</p>
+  <!-- ======== THE ASSESSMENT ======== -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">The Assessment &middot; ~15 min</span>
+      <h2 class="section__title">Take the assessment. Get a pathway that actually makes sense.</h2>
+      <p class="section__desc">Five short stages. No logins. All answers stay private until you consent. At the end you receive a personalised engineering career report that you can discuss with family, share with a mentor, or submit to your placement cell.</p>
+    </div>
     <div class="final-cta__btns">
-      <a href="{{ url_for('main.contact') }}" class="btn-main">Book Career Counselling</a>
-      <a href="{{ url_for('main.student_assessment') }}" class="btn-out">Start Assessment →</a>
+      <a href="{{ url_for('main.student_assessment') }}" class="btn-main">Start Assessment &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ======== SAMPLE REPORT ======== -->
+  <div class="chapter-divider" id="sample-report">
+    <span class="chapter-divider__num">&ldquo;&#x1F4C4;&rdquo;</span>
+    <div>
+      <span class="chapter-divider__label">Sample Report &middot; Infographic Layout</span>
+      <span class="chapter-divider__title">This is what lands in your inbox.</span>
     </div>
   </div>
-</div>
-{% endblock %}
+  <section class="section">
+    <p class="content-text">Here's a full sample report for a 3rd-year ECE student. Every report follows this structure &mdash; your data, your scores, your action plan. Designed to be read by students AND explained to parents.</p>
 
+    <div class="callout" style="margin-top:16px;">
+      <h3 style="margin:0 0 4px;">Career Pathway Report</h3>
+      <p class="content-text--note">Personalised &middot; Evidence-Based &middot; Expert-Reviewed</p>
+      <div class="calc-breakdown" style="justify-content:flex-start;">
+        <p><strong>ID</strong> &middot; EA-2026-0421-A7F9</p>
+        <p><strong>Generated</strong> &middot; 23 Apr 2026</p>
+        <p><strong>Reviewed by</strong> &middot; Dr. S. Vishwanathan</p>
+      </div>
+    </div>
+
+    <!-- 01 Student Profile -->
+    <h3 class="content-subtitle" style="margin-top:28px;">01 &middot; Student Profile</h3>
+    <ul class="qual-details">
+      <li><strong>Name:</strong> Aanya Raghavan</li>
+      <li><strong>Course / Year:</strong> B.E. Electronics &amp; Communication &middot; 3rd year</li>
+      <li><strong>College:</strong> PSG College of Technology, Coimbatore</li>
+      <li><strong>Location:</strong> Coimbatore, Tamil Nadu</li>
+    </ul>
+    <p class="content-text" style="margin-top:12px;"><strong>Top recommended job families:</strong> Embedded Systems Engineer, AI / ML Engineer, Robotics Engineer. <em>Alternates:</em> Hardware Design Engineer, Research Scientist.</p>
+
+    <!-- 02 Why these pathways -->
+    <h3 class="content-subtitle" style="margin-top:28px;">02 &middot; Why these pathways</h3>
+    <p class="content-text">Aanya's profile shows a clear Investigative&ndash;Realistic&ndash;Artistic (I-R-A) interest code. This combines a love for problem analysis, hands-on building, and creative design &mdash; a strong fit for embedded and robotics roles. Her career adaptability is above average on Curiosity and Confidence, which means she's likely to thrive in exploratory early-career roles. Her self-rated skills in programming (Python 4/5) and circuit design (3/5) support a realistic path into embedded-AI, while gaps in cloud/DevOps and product communication define her 90-day focus.</p>
+    <ul class="qual-details" style="margin-top:12px;">
+      <li>RIASEC: I-R-A (87% confidence)</li>
+      <li>CAAS: Curiosity 4.2 / Confidence 4.0</li>
+      <li>Future-of-Work: Robotics skills rising &uarr;</li>
+      <li>Goal-alignment: 0.82</li>
+      <li>SFIA: Digital skills at Level 3</li>
+    </ul>
+
+    <!-- 03 Visualised -->
+    <h3 class="content-subtitle" style="margin-top:28px;">03 &middot; Interest &amp; Adaptability Visualised</h3>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-card__title">RIASEC Interest Profile</div>
+        <p class="content-text--note">Six-dimensional interest fit. Top codes highlighted. Based on an O*NET-compatible framework.</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card__title">Career Adaptability (CAAS-inspired)</div>
+        <p class="content-text--note">Four psychological resources for navigating career transitions.</p>
+      </div>
+    </div>
+
+    <!-- 04 Skill Gap -->
+    <h3 class="content-subtitle" style="margin-top:28px;">04 &middot; Skill Gap Analysis</h3>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-card__title">Current vs Target Skills</div>
+        <p class="content-text--note">Radar of self-rated current skills (blue) versus skills required for top pathway (orange).</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-card__title">Skill Category Heatmap</div>
+        <p class="content-text--note">Deeper red = larger gap. Used to prioritise your 30/60/90 plan.</p>
+        <ul class="qual-details" style="margin-top:12px;">
+          <li>Technical: 1 &middot; 2 &middot; 3 &middot; 2 &middot; 1</li>
+          <li>Digital: 3 &middot; 3 &middot; 4 &middot; 4 &middot; 3</li>
+          <li>Soft: 2 &middot; 2 &middot; 1 &middot; 1 &middot; 1</li>
+          <li>Green: 3 &middot; 2 &middot; 3 &middot; 3 &middot; 2</li>
+          <li>Domain: 2 &middot; 2 &middot; 3 &middot; 2 &middot; 2</li>
+        </ul>
+      </div>
+    </div>
+
+    <h4 class="content-subtitle" style="margin-top:20px;">Top 5 priority gaps</h4>
+    <div class="steps">
+      <div class="step"><span class="step__num">01</span><div><div class="step__title">Embedded C on ARM Cortex <span style="color:var(--red);font-size:.75rem;">HIGH</span></div><p class="step__text">Core skill for embedded/robotics roles &middot; SFIA PROG level 3 &middot; ESCO hardware programming.</p></div></div>
+      <div class="step"><span class="step__num">02</span><div><div class="step__title">Applied machine learning (PyTorch / scikit-learn) <span style="color:var(--red);font-size:.75rem;">HIGH</span></div><p class="step__text">Required by 2 of 3 target pathways &middot; Future-of-Jobs rising skill.</p></div></div>
+      <div class="step"><span class="step__num">03</span><div><div class="step__title">Git, Docker &amp; CI/CD basics <span style="color:var(--gold);font-size:.75rem;">MED</span></div><p class="step__text">Universal across engineering teams &middot; ABET outcome: tools &amp; data.</p></div></div>
+      <div class="step"><span class="step__num">04</span><div><div class="step__title">Technical communication (reports, decks) <span style="color:var(--gold);font-size:.75rem;">MED</span></div><p class="step__text">ABET outcome: communication &middot; often the actual bottleneck at placement.</p></div></div>
+      <div class="step"><span class="step__num">05</span><div><div class="step__title">Sustainable-design awareness (green skill) <span style="color:var(--green);font-size:.75rem;">LOW</span></div><p class="step__text">Rising in robotics/infra; sets you apart in interviews.</p></div></div>
+    </div>
+
+    <!-- 05 Plan -->
+    <h3 class="content-subtitle" style="margin-top:28px;">05 &middot; Your 30 / 60 / 90 Day Plan</h3>
+    <div class="info-cards info-cards--3">
+      <div class="info-card">
+        <div class="info-card__label">Foundation &middot; 30 Days</div>
+        <ul class="check-list">
+          <li>Finish "Embedded C on STM32" micro-course (12h)</li>
+          <li>Rebuild line-follower robot &mdash; add sensor logging</li>
+          <li>Set up GitHub, push 2 repos with READMEs</li>
+          <li>Join 1 IEEE student chapter event</li>
+          <li>Book 1 mentor call via EduAakashaA</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">Build &middot; 60 Days</div>
+        <ul class="check-list">
+          <li>Project &mdash; ML model on edge (TinyML tutorial)</li>
+          <li>Submit paper to college symposium</li>
+          <li>Complete Docker + Git branching course</li>
+          <li>Shadow a robotics lab project (CDIO: Conceive)</li>
+          <li>Start LinkedIn weekly build log</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">Apply &middot; 90 Days</div>
+        <ul class="check-list">
+          <li>Apply to 5 summer internships (embedded-AI)</li>
+          <li>Record 3-min project demo video</li>
+          <li>Draft CDIO-style project portfolio PDF</li>
+          <li>Present internal tech-talk on your ML project</li>
+          <li>Second expert review at EduAakashaA</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 06 Weekly Schedule -->
+    <h3 class="content-subtitle" style="margin-top:28px;">06 &middot; Suggested weekly schedule</h3>
+    <table class="data-table">
+      <thead><tr><th>Day</th><th>Focus</th><th>Time</th></tr></thead>
+      <tbody>
+        <tr><td>Mon</td><td>Embedded C theory + 1 micro-exercise</td><td>1.5 h</td></tr>
+        <tr><td>Tue</td><td>Hands-on &mdash; robot sensor logging</td><td>2 h</td></tr>
+        <tr><td>Wed</td><td>Applied ML reading + Kaggle micro-notebook</td><td>1.5 h</td></tr>
+        <tr><td>Thu</td><td>Communication &mdash; rewrite one project README</td><td>1 h</td></tr>
+        <tr><td>Fri</td><td>Git / Docker tutorial</td><td>1 h</td></tr>
+        <tr><td>Sat</td><td>Long build block &mdash; integrate week's learning</td><td>3 h</td></tr>
+        <tr><td>Sun</td><td>Rest &middot; reflect &middot; 20-min planning for next week</td><td>0.5 h</td></tr>
+      </tbody>
+    </table>
+
+    <!-- 07 Evidence artifacts -->
+    <h3 class="content-subtitle" style="margin-top:28px;">07 &middot; Evidence artifacts to build</h3>
+    <div class="info-cards info-cards--4">
+      <div class="info-card"><div class="info-card__title">GitHub portfolio</div><p class="info-card__text">3&ndash;5 repos with READMEs, demo GIFs, and a pinned project showcase.</p></div>
+      <div class="info-card"><div class="info-card__title">CDIO project report</div><p class="info-card__text">One end-to-end project documented through Conceive&ndash;Design&ndash;Implement&ndash;Operate.</p></div>
+      <div class="info-card"><div class="info-card__title">3-minute demo video</div><p class="info-card__text">For placement interviews &middot; recorded screen + voice-over.</p></div>
+      <div class="info-card"><div class="info-card__title">LinkedIn build log</div><p class="info-card__text">Weekly 1-paragraph post &mdash; recruiters notice consistency.</p></div>
+    </div>
+
+    <!-- 08 Risk flags -->
+    <h3 class="content-subtitle" style="margin-top:28px;">08 &middot; Risk flags &amp; guidance</h3>
+    <div class="callout callout--warning">
+      <strong>&#x26A0; Moderate &middot; Career Concern</strong>
+      <p class="content-text">Your "Concern" adaptability score is slightly lower than peers. This can mean you're under-planning for life after graduation. Coaching advice: schedule one 30-minute "future planning" session every 2 weeks.</p>
+    </div>
+    <div class="callout">
+      <strong>&#x2713; Goal Alignment &middot; Strong</strong>
+      <p class="content-text">Your short-term goal (internship) aligns well with your long-term target (robotics / AI). No mismatch detected. Continue as planned.</p>
+    </div>
+
+    <p class="content-text--note" style="margin-top:20px;">Prepared by EduAakashaA &middot; Coimbatore &middot; Dubai &middot; info@eduaakashaa.com &middot; +91-9150426094 &middot; +971-50-516-8081</p>
+    <p class="content-text--note">This report is advisory. Final career decisions should combine this analysis with mentor conversations, real-world exposure and personal circumstances. Frameworks referenced: O*NET Interest Profiler &middot; CAAS-inspired adaptability &middot; WEF Future of Jobs &middot; SFIA &middot; ESCO &middot; ABET &middot; CDIO.</p>
+
+    <div class="final-cta__btns" style="margin-top:20px;">
+      <a href="{{ url_for('main.student_assessment') }}" class="btn-main">Generate your own report &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ======== FAQ ======== -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Questions Students &amp; Parents Ask Us</span>
+      <h2 class="section__title">Every concern we hear, addressed honestly.</h2>
+      <p class="section__desc">We know you're weighing time, money and a long-term decision. The questions below are grouped by audience &mdash; students, parents, NRI families, and privacy.</p>
+    </div>
+
+    <h3 class="content-subtitle">For Students</h3>
+    <details class="faq-item"><summary>Q&middot;01 &mdash; Isn't this just another personality test? How is it different?</summary><p>Short answer &mdash; no. We don't assign you to a "personality type" and leave. We combine four separate evidence-based frameworks: the RIASEC interest profiler (used by O*NET in the US), a Career Adaptability model (concern, control, curiosity, confidence), the WEF Future of Jobs skill trends, and the SFIA/ESCO competency vocabularies used by real hiring teams. The output is a skill-gap plan mapped to your course, year and goals &mdash; not a generic label.</p></details>
+    <details class="faq-item"><summary>Q&middot;02 &mdash; I'm already in a specific branch &mdash; can this still help me?</summary><p>Yes &mdash; in fact that's our most common case. The assessment helps you pick the right specialisation within your branch: a Mechanical student might discover they're a strong fit for robotics vs automotive design; a CSE student might realise backend systems suit them more than data science. We also handle the "wrong branch" case by recommending bridge pathways (for example, electrical &rarr; embedded-AI via firmware + ML) instead of forcing a dramatic switch.</p></details>
+    <details class="faq-item"><summary>Q&middot;03 &mdash; I don't know what I want. Will I get a useful report anyway?</summary><p>That's the exact scenario the assessment is built for. You don't need a clear goal &mdash; the RIASEC and adaptability sections will surface interests you may not have articulated yet. The report recommends a primary pathway plus two alternates, each with a 30-day starter plan so you can try one before committing. Most "directionless" students walk away with two realistic options after one session.</p></details>
+    <details class="faq-item"><summary>Q&middot;04 &mdash; What if the report recommends something my parents won't approve of?</summary><p>We hear this often. The report is designed to be readable by parents &mdash; every recommendation includes the "why" (which signals contributed), realistic salary/industry context, and a conservative alternate pathway. In addition, our counsellors offer a free family-discussion call (30 min) where we walk the parent through the findings in English, Tamil, Hindi or Arabic.</p></details>
+    <details class="faq-item"><summary>Q&middot;05 &mdash; How long does the assessment take?</summary><p>Around 15&ndash;20 minutes to complete, and the report is ready after expert review &mdash; typically within 2 working days. You can save progress using your AssessmentID and resume later from any device.</p></details>
+
+    <h3 class="content-subtitle" style="margin-top:24px;">For Parents</h3>
+    <details class="faq-item"><summary>Q&middot;06 &mdash; Is the assessment scientifically credible, or is this just a commercial product?</summary><p>The underlying models are grounded in established career-science frameworks: Holland's RIASEC theory, Savickas' Career Construction / Adaptability model, ABET student outcomes (engineering accreditation), CDIO (engineering education framework), SFIA (skills framework for the information age, used by industry), and ESCO (the EU skills taxonomy). We build original questionnaire items that measure those constructs &mdash; we do not reproduce copyrighted test items. Every report is reviewed by a human expert before release.</p></details>
+    <details class="faq-item"><summary>Q&middot;07 &mdash; Will this push my child toward non-traditional or risky careers?</summary><p>No. The recommendation engine explicitly outputs a primary pathway plus two alternates &mdash; typically one ambitious, one stable, one bridge route. You'll see industry data, employability signals from WEF and ILO, and a parent-friendly summary card showing salary ranges and entry-level role titles. Our job is to widen informed options, not narrow them to one risky bet.</p></details>
+    <details class="faq-item"><summary>Q&middot;08 &mdash; How much does this cost?</summary><p>The online self-assessment and PDF report are free for students. Paid tiers include: 1-on-1 expert counselling call (60 min), family discussion session, full JOSAA/TNEA choice-filling support, and end-to-end NRI admissions assistance. Please contact us on +91-9150426094 (India) or +971-50-516-8081 (UAE) for current pricing.</p></details>
+    <details class="faq-item"><summary>Q&middot;09 &mdash; My child is under 18 &mdash; can they take the assessment?</summary><p>Yes, with parental consent. The assessment has a built-in minor-consent checkbox &mdash; a parent or guardian must confirm before any data is stored. For minors we also store only the minimum fields needed (we skip optional items like phone number by default).</p></details>
+    <details class="faq-item"><summary>Q&middot;10 &mdash; Can I sit in on the counselling session?</summary><p>Absolutely. We recommend it. Career decisions in Indian families are typically collaborative, and the counsellor will tailor the conversation for a joint parent-student audience. We schedule the call at a time that works for both &mdash; including weekends, which is why our office hours extend to Saturday and Sunday mornings.</p></details>
+
+    <h3 class="content-subtitle" style="margin-top:24px;">For NRI Families</h3>
+    <details class="faq-item"><summary>Q&middot;11 &mdash; We live in UAE. Can EduAakashaA guide my child through DASA admissions?</summary><p>Yes &mdash; this is one of our core service areas. We guide NRI and foreign-nationality students through DASA (Direct Admission of Students Abroad), CIWG (Children of Indian Workers in Gulf), Anna University NRI quota, VITEEE for NRI, Amrita AEEE, and the IIIT NRI seat matrix. Our UAE-based team (+971-50-516-8081) runs in-person sessions at our Dubai education hub.</p></details>
+    <details class="faq-item"><summary>Q&middot;12 &mdash; My child studied IB / British curriculum. Does the assessment account for that?</summary><p>Yes. The assessment is curriculum-neutral &mdash; it measures interests, adaptability and skills, not your board. For NRI students we additionally layer on equivalency data (IB Diploma, A-levels, American high school diploma) when mapping towards Indian engineering admissions. You can specify curriculum during your counselling call.</p></details>
+    <details class="faq-item"><summary>Q&middot;13 &mdash; Can the report be shared with universities abroad?</summary><p>The report itself is not an accreditation document &mdash; think of it as a personal career guidance document. However, several students have used it as a self-reflection artifact in their Statement of Purpose or university essay, and it has been well-received. We can also generate a shorter 1-page "summary card" for mentors on request.</p></details>
+
+    <h3 class="content-subtitle" style="margin-top:24px;">Privacy &amp; Data</h3>
+    <details class="faq-item"><summary>Q&middot;14 &mdash; Where is my data stored, and who has access to it?</summary><p>Assessment responses are stored in a secured Google Workspace environment (Google Sheets for structured fields + Google Drive for the generated PDF). Access is limited to our counselling team and the assigned reviewing expert &mdash; we enforce role-based permissions (Student / Expert / Admin). We do not sell or share data with third parties. Analytics are aggregated and anonymised.</p></details>
+    <details class="faq-item"><summary>Q&middot;15 &mdash; Can I request deletion of my data?</summary><p>Yes, at any time. Email info@eduaakashaa.com with your AssessmentID (shown on your report) and we will remove your row from our records within 7 working days. Consent is always opt-in &mdash; you must actively check the consent box before any data is stored.</p></details>
+    <details class="faq-item"><summary>Q&middot;16 &mdash; Do I have to share my phone number and email?</summary><p>No. Phone and email are optional. We only use them if you want the report delivered to you or want follow-up counselling. You can complete the assessment with just a name and receive the report via a unique AssessmentID download link.</p></details>
+  </section>
+
+  <!-- ======== CONTACT ======== -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Talk to a Counsellor</span>
+      <h2 class="section__title">Your future deserves a real conversation.</h2>
+      <p class="section__desc">Share a few details and our counsellor will reach out &mdash; typically within one working day. We operate from Coimbatore (India) and Dubai (UAE), and counsel students in English, Tamil, Hindi, Telugu, Malayalam and Arabic.</p>
+    </div>
+    <div class="contact-info-card">
+      <div class="contact-info-item"><span class="contact-info-icon">&#x1F4DE;</span><div><strong>India Office &middot; Calls</strong><p>+91 91504 26094 &middot; Coimbatore, Tamil Nadu</p></div></div>
+      <div class="contact-info-item"><span class="contact-info-icon">&#x1F30D;</span><div><strong>UAE Office &middot; Calls</strong><p>+971 50 516 8081 &middot; Dubai &middot; Middle East NRI support</p></div></div>
+      <div class="contact-info-item"><span class="contact-info-icon">&#x2709;</span><div><strong>Email</strong><p>info@eduaakashaa.com</p></div></div>
+      <div class="contact-info-item"><span class="contact-info-icon">&#x1F310;</span><div><strong>Website</strong><p>www.eduaakashaa.in</p></div></div>
+      <div class="contact-info-item"><span class="contact-info-icon">&#x1F551;</span><div><strong>Opening Hours</strong><p>Mon&ndash;Fri &middot; 9:00&ndash;22:00 &middot; Sat &middot; 9:00&ndash;16:00 &middot; Sun &middot; 9:00&ndash;16:00 (yes, we work weekends)</p></div></div>
+    </div>
+    <div class="final-cta__btns" style="margin-top:20px;">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Request a callback &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ======== CTA ======== -->
+  <div class="final-cta">
+    <h2>Ready to find your engineering pathway?</h2>
+    <p>Take the free, consent-first assessment and get an evidence-based, expert-reviewed report your whole family can understand.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.student_assessment') }}" class="btn-main">Take Free Assessment &rarr;</a>
+      <a href="{{ url_for('main.contact') }}" class="btn-out">Talk to a Counsellor</a>
+    </div>
+  </div>
+
+</main>
+{% endblock %}

@@ -15,12 +15,19 @@ pip install -r requirements.txt
 
 # Initialise database & seed admin user
 python manage.py init_db
+python manage.py seed_sequences            # reference / invoice / receipt counters
 python manage.py create_admin admin@eduaakashaa.com Admin123
+python manage.py seed_demo                 # optional — sample membership rows
 
 # Run the app
 python run.py
 # → http://127.0.0.1:5000
+# Admin membership portal → http://127.0.0.1:5000/admin/membership
 ```
+
+> **Migration note:** the membership/invoicing system is being migrated off
+> Google Apps Script + Google Sheets into this app (PostgreSQL).
+> See `../MIGRATION_GUIDE.md` and `ARCHITECTURE.md` → "Apps Script → Flask Migration".
 
 ---
 
@@ -106,6 +113,20 @@ college-predictor/
 | `/logout` | GET | Logout + redirect |
 | `/dashboard` | GET | User profile & tier info (login required) |
 | `/contact-submit` | POST | Contact form submission |
+
+### Membership & Admin Routes (`membership_bp`)
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/membership/apply` | POST | Public membership application intake (replaces Apps Script `doPost`) |
+| `/admin/membership` | GET | Admin: all requests — search, filter, paginate, KPI cards |
+| `/admin/membership/<id>` | GET | Admin: single request detail + actions |
+| `/admin/membership/<id>/update` | POST | Edit fields / status / notes (recomputes GST) |
+| `/admin/membership/<id>/discount` | POST | Apply discount + reason |
+| `/admin/membership/<id>/adhoc` | POST | Set ad-hoc line items (JSON) |
+| `/admin/membership/<id>/invoice` | POST | Issue invoice (transaction-safe number) |
+| `/admin/membership/<id>/payment` | POST | Record payment / issue receipt |
+| `/admin/membership/export.xlsx` | GET | Download all (filtered) rows as Excel |
 
 ### API Endpoints (`api_bp` — prefix `/api`)
 
@@ -319,6 +340,17 @@ All pages (including the homepage) share a single `style.css` design system:
 
 ---
 
+### Phase 14 — Apps Script → Flask Membership Migration (in progress)
+- Assessed Google Sheets/Drive as a production DB (security, GST integrity, speed) — see `../MIGRATION_GUIDE.md`
+- Extracted the legacy Apps Script backend structure (50 functions, 35-column sheet schema) → `../migration/LEGACY_APPS_SCRIPT_REFERENCE.md`
+- Added `models_membership.py` — `MembershipApplication`, `MembershipInvoice`, `DocSequence` (paise-based money)
+- Added `services/pricing.py` — GST engine (CGST/SGST/IGST, GST-inclusive); math unit-verified
+- Added `routes/membership.py` — public `/membership/apply` intake + full admin portal + Excel export
+- Added admin templates (`templates/admin/`) in the EduAakashaa design system
+- Transaction-safe reference/invoice/receipt numbering via `doc_sequences`
+- Wired into `app/__init__.py`; added `seed_sequences` / `seed_demo` to `manage.py`
+- **Pending (Phase B):** invoice/receipt PDF generation, transactional email, one-time Sheet→Postgres backfill
+
 ## Future Roadmap
 
 - [x] **Server-side prediction** — Pandas-based prediction engine via Flask API endpoints
@@ -330,6 +362,12 @@ All pages (including the homepage) share a single `style.css` design system:
 - [x] **DASA predict API** — Real DASA 2025 cutoff data (324 records), lead logging, RBAC-gated
 - [x] **Homepage unification** — All pages share the same `style.css` design system
 - [x] **PostgreSQL migration** — Switched from SQLite to PostgreSQL; `DATABASE_URL` env-var driven
+- [x] **Membership data model** — MembershipApplication, MembershipInvoice, DocSequence
+- [x] **GST pricing engine** — CGST/SGST/IGST, GST-inclusive, paise-based
+- [x] **Admin membership portal + Excel export** — non-tech staff data view
+- [ ] **Membership PDFs** — invoice/receipt generation (WeasyPrint/ReportLab)
+- [ ] **Membership emails** — application/invoice/receipt notifications
+- [ ] **Sheet → Postgres backfill** — one-time import of legacy data
 - [ ] **Razorpay payments** — Subscription checkout for premium tier upgrades
 - [ ] **Services layer** — Extract prediction/RBAC logic into dedicated service modules
 - [ ] **Playwright tests** — Replace boilerplate test with actual page tests

@@ -1,14 +1,40 @@
 // EduAakashaa – Frontend JS
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Mobile hamburger toggle
+  // Collapsible nav toggle (all screen sizes)
   const hamburger = document.getElementById('hamburger');
   const nav = document.getElementById('nav');
 
   if (hamburger && nav) {
-    hamburger.addEventListener('click', () => {
+    const closeNav = () => {
+      nav.classList.remove('open');
+      hamburger.classList.remove('active');
+    };
+
+    hamburger.addEventListener('click', (e) => {
+      e.stopPropagation();
       nav.classList.toggle('open');
       hamburger.classList.toggle('active');
+    });
+
+    // Close after picking a destination (but let dropdown parents expand)
+    nav.querySelectorAll('.nav__link').forEach(link => {
+      link.addEventListener('click', () => {
+        if (!link.closest('.nav__item--dropdown')) closeNav();
+      });
+    });
+
+    // Close when clicking outside the menu
+    document.addEventListener('click', (e) => {
+      if (nav.classList.contains('open') &&
+          !nav.contains(e.target) && !hamburger.contains(e.target)) {
+        closeNav();
+      }
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeNav();
     });
   }
 

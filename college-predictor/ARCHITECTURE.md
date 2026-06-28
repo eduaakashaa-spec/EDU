@@ -26,8 +26,37 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 | DASA predict API | ✅ Done | Real 324-record dataset, Pandas filtering, NIRF-sorted, lead logging, RBAC-gated |
 | Admin CLI | ✅ Done | `manage.py` — init_db, create_admin commands |
 | PostgreSQL | ✅ Done | Migrated from SQLite; `DATABASE_URL` env-var driven via `.env` + python-dotenv |
-| Services layer | 🔲 Planned | `services/predictor.py`, `services/rbac.py`, etc. |
+| Services layer | 🟡 Started | `services/pricing.py` (GST engine) done; predictor/rbac extraction still planned |
+| **Membership models** | ✅ Done | `models_membership.py` — MembershipApplication, MembershipInvoice, DocSequence |
+| **Membership intake API** | ✅ Done | `POST /membership/apply` — replaces Apps Script `doPost` |
+| **Admin membership portal** | ✅ Done | `routes/membership.py` — list/search/filter, detail, edit, discount, ad-hoc, issue invoice, record payment |
+| **GST pricing engine** | ✅ Done | `services/pricing.py` — CGST/SGST/IGST, GST-inclusive, paise-based; unit-verified |
+| **Excel export** | ✅ Done | `GET /admin/membership/export.xlsx` (openpyxl) — for non-tech staff |
+| Invoice/receipt PDFs | 🔲 Planned (Phase B) | hook marked in `admin_invoice` / `admin_payment` |
+| Membership emails | 🔲 Planned (Phase B) | hook marked in intake + invoice + payment |
+| Sheet → Postgres backfill | 🔲 Planned (Phase B) | one-time import of legacy "Requests" sheet |
 | Payments (Razorpay) | 🔲 Planned | `routes/payment.py` — checkout flow |
+
+---
+
+## Apps Script → Flask Migration (membership & invoicing)
+
+The membership/invoicing system previously ran on **Google Apps Script** with a
+**Google Sheet as the database** and **Google Drive** for invoice/receipt PDFs.
+After a security/speed assessment (see `../MIGRATION_GUIDE.md`) it is being
+migrated into this Flask app, with **PostgreSQL as the single source of truth**.
+
+**Why move off Google Sheets:** link-shared PDFs exposing PII, a single shared
+admin password, no transactional invoice numbering (GST risk), Sheets/Apps
+Script latency and quotas. This app already had Postgres + auth + RBAC, so the
+membership layer belongs here.
+
+**Non-tech staff visibility** (the original reason for using a spreadsheet) is
+preserved by the **admin portal** + a one-click **Export to Excel** — no one
+edits a sheet or the database directly.
+
+Legacy reference (functions, sheet schema, secrets to migrate):
+`../migration/LEGACY_APPS_SCRIPT_REFERENCE.md`.
 
 ---
 
@@ -72,6 +101,15 @@ Connection configured via `DATABASE_URL` environment variable (`.env` file, load
 | `Payment` | `payments` | id, user_id (FK), razorpay_order_id, razorpay_payment_id, amount, currency, status, plan, created_at |
 | `ContactInquiry` | `contact_inquiries` | id, first_name, last_name, email, interested, message, created_at |
 
+#### Membership / invoicing models (`app/models_membership.py`)
+All money stored in **paise** (integers) to avoid float errors.
+
+| Model | Table | Key Fields |
+|---|---|---|
+| `MembershipApplication` | `membership_applications` | reference, name, email, phone, city, state, tier, tier_price, addon/adhoc/discount, taxable_value, cgst, sgst, igst, total_gst, final_total, status, internal_notes |
+| `MembershipInvoice` | `membership_invoices` | application_id (FK), invoice_no, invoice_date, invoice_pdf_path, payment_status, amount_paid, balance_due, payment_mode/ref/date, receipt_no, receipt_pdf_path |
+| `DocSequence` | `doc_sequences` | name (`reference`/`invoice`/`receipt`), prefix, value — transaction-safe counters (replaces Apps Script PropertiesService) |
+
 ---
 
 ## Project Structure
@@ -89,12 +127,18 @@ college-predictor/
 │   ├── __init__.py                 # App factory — create_app(), extensions init, 3 blueprints
 │   ├── extensions.py               # db (SQLAlchemy), login_manager, bcrypt instances
 │   ├── models.py                   # 5 SQLAlchemy models (User, DasaLead, Prediction, Payment, ContactInquiry)
+│   ├── models_membership.py        # MembershipApplication, MembershipInvoice, DocSequence
+│   │
+│   ├── services/
+│   │   ├── __init__.py
+│   │   └── pricing.py              # GST engine (compute_totals, rupees, to_paise)
 │   │
 │   ├── routes/
 │   │   ├── __init__.py             # (package init)
 │   │   ├── main.py                 # main_bp — 19 page routes
 │   │   ├── api.py                  # api_bp — 7 JSON API endpoints (/api/...)
-│   │   └── auth.py                 # auth_bp — login, register, logout, dashboard, contact_submit
+│   │   ├── auth.py                 # auth_bp — login, register, logout, dashboard, contact_submit
+│   │   └── membership.py           # membership_bp — public intake + admin portal + Excel export
 │   │
 │   ├── data/
 │   │   ├── __init__.py
@@ -127,10 +171,13 @@ college-predictor/
 │   │   ├── viteee_nri.html         # VITEEE for NRI students
 │   │   ├── contact.html            # Contact page
 │   │   ├── placeholder.html        # Generic "Coming Soon" template (no longer used)
-│   │   └── auth/
-│   │       ├── login.html          # Login form
-│   │       ├── register.html       # Registration form
-│   │       └── dashboard.html      # User dashboard
+│   │   ├── auth/
+│   │   │   ├── login.html          # Login form
+│   │   │   ├── register.html       # Registration form
+│   │   │   └── dashboard.html      # User dashboard
+│   │   └── admin/
+│   │       ├── membership_list.html    # Admin: all requests (search/filter/export)
+│   │       └── membership_detail.html  # Admin: single request + actions
 │   │
 │   └── static/
 │       ├── css/
@@ -349,6 +396,49 @@ def requires_tier(*allowed_tiers):
     <a href="/pricing">Upgrade to Premium</a>
 {% endif %}
 ```
+
+---
+
+## Membership & Admin Routes (`membership_bp`)
+
+Public intake + admin back-office for memberships. Admin routes are gated by an
+`admin_required` decorator (login required **and** `tier == 'admin'`).
+
+| Route | Method | Purpose |
+|-------|--------|---------|
+| `/membership/apply` | POST | Public application intake (form or JSON) → creates `MembershipApplication` with a transaction-safe `EA-PREM-####` reference. Replaces Apps Script `doPost`. |
+| `/admin/membership` | GET | Searchable/filterable/paginated list of all requests + KPI cards. The non-tech-staff data view. |
+| `/admin/membership/<id>` | GET | Single application: details, totals, invoice, payment. |
+| `/admin/membership/<id>/update` | POST | Edit fields, tier, price, status, notes → recompute totals. |
+| `/admin/membership/<id>/discount` | POST | Set discount + reason → recompute. |
+| `/admin/membership/<id>/adhoc` | POST | Set ad-hoc line items (JSON) → recompute. |
+| `/admin/membership/<id>/invoice` | POST | Issue invoice — allocates `EA/####` number transactionally, sets status `Invoiced`. (PDF + email = Phase B.) |
+| `/admin/membership/<id>/payment` | POST | Record a payment; on full payment allocates `RCPT/####` and sets status `Paid`. |
+| `/admin/membership/export.xlsx` | GET | Download all (filtered) rows as a formatted Excel workbook. |
+
+### GST Pricing Engine (`app/services/pricing.py`)
+
+Ports the Apps Script `computeTotals`/`recalcRow`. Prices are **GST-inclusive**;
+the engine backs out the taxable value and tax components:
+
+```
+gross         = tier_price + addon + adhoc − discount        # paise
+final_total   = gross
+taxable_value = round(final_total / (1 + GST_RATE))          # GST_RATE = 0.18
+total_gst     = final_total − taxable_value
+# place of supply: customer state == HOME_STATE (Tamil Nadu)?
+#   intra-state → CGST = SGST = total_gst / 2 ; IGST = 0
+#   inter-state → IGST = total_gst            ; CGST = SGST = 0
+```
+
+Verified: ₹118 inclusive → ₹100 taxable + ₹18 GST (₹9/₹9 intra-state, ₹18 IGST inter-state).
+
+### Invoice numbering integrity
+
+Reference/invoice/receipt numbers come from the `doc_sequences` table, allocated
+inside the request transaction with `SELECT ... FOR UPDATE` (Postgres) so numbers
+are **unique and gap-free** — a GST compliance requirement the spreadsheet
+approach could not guarantee.
 
 ---
 

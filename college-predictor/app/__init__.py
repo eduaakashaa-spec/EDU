@@ -25,6 +25,7 @@ def create_app():
     # Create tables if they don't exist
     with app.app_context():
         from app import models  # noqa: F401 – ensure all models are imported
+        from app import models_membership  # noqa: F401 – membership/invoice tables
         db.create_all()
 
     # Load JOSAA + NIRF data into memory once at startup
@@ -39,5 +40,8 @@ def create_app():
 
     from app.routes.auth import auth_bp
     app.register_blueprint(auth_bp)
+
+    from app.routes.membership import membership_bp
+    app.register_blueprint(membership_bp)
 
     return app

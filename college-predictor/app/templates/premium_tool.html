@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ tool_title }} | EduAakashaA{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">Premium Member Tool</span>
+    <h1>{{ tool_title }}</h1>
+    <p>{{ tool_desc }}</p>
+  </div>
+</section>
+
+<main class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">What you get</span>
+      <h2 class="section__title">Built for serious applicants</h2>
+      <p class="section__desc">{{ tool_long or tool_desc }}</p>
+    </div>
+    <div class="info-cards">
+      {% for f in features %}
+      <div class="info-card">
+        <div class="info-card__icon">{{ f.icon }}</div>
+        <div class="info-card__title">{{ f.title }}</div>
+        <p class="info-card__text">{{ f.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <div class="final-cta">
+    {% if current_user.is_authenticated and current_user.is_premium %}
+      <h2>You're in — {{ tool_title }} is rolling out</h2>
+      <p>This premium tool is being finalised for your account. We'll notify you the moment it's live.</p>
+      <div class="final-cta__btns">
+        <a href="{{ url_for('auth.dashboard') }}" class="btn-main">Go to Dashboard</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Talk to a counsellor →</a>
+      </div>
+    {% else %}
+      <h2>Unlock {{ tool_title }}</h2>
+      <p>This is an EduAakashaa premium member tool. Become a member to get full access, expert review, and personalised reports.</p>
+      <div class="final-cta__btns">
+        <a href="{{ url_for('main.members_registration') }}" class="btn-main">Become a Member</a>
+        {% if not current_user.is_authenticated %}
+        <a href="{{ url_for('auth.login') }}" class="btn-out">Member Login →</a>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

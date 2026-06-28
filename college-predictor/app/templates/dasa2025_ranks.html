@@ -1,0 +1,464 @@
+{% extends "base.html" %}
+{% block title %}DASA & CIWG 2025 Closing Ranks | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">DASA · CIWG 2026 · SEAT PREDICTOR</span>
+    <h1>Will my CIWG rank get me into NIT Trichy CSE, <span>or somewhere better?</span></h1>
+    <p>Real opening &amp; closing ranks from all three DASA-2025 rounds, mapped across India and filtered to your rank. Built for Indian-passport NRIs and CIWG-eligible candidates planning their 2026 admission honestly — no hype, just data.</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">CIWG PROGRAMS</span>
+        <span class="hero__meta-value">215+</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">NON-CIWG PROGRAMS</span>
+        <span class="hero__meta-value">109</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">BEST CIWG OPENING (CSE)</span>
+        <span class="hero__meta-value">5,686</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">INSTITUTES (DASA-LISTED)</span>
+        <span class="hero__meta-value">47</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">STATES &amp; UTs</span>
+        <span class="hero__meta-value">25+</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">2025 COUNSELLING ROUNDS</span>
+        <span class="hero__meta-value">3</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Round summary -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">DASA · 2025 ROUND SUMMARY</span>
+      <h2 class="section__title">324 programs, 3 rounds, 47 institutes</h2>
+      <p class="section__desc">Across NITs, IIITs, SPAs and other DASA-participating institutes — 69 unique branches available in the 2025 cycle.</p>
+    </div>
+  </section>
+
+  <!-- Foundations: DASA vs CIWG -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">FOUNDATIONS · DASA &amp; CIWG</span>
+      <h2 class="section__title">Two paths into India's NITs that look identical — but aren't.</h2>
+      <p class="section__desc">Most families discover the difference between DASA and CIWG only after they've started filling forms. Here's the plain-English version, before you commit to anything.</p>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card__icon">🎓</div>
+        <div class="info-card__title">DASA — Direct Admission of Students Abroad</div>
+        <div class="info-card__text">The umbrella scheme run on behalf of the Ministry of Education by a rotating coordinating NIT (NIT Calicut for the 2026 cycle, expected). It opens seats at NITs, IIITs, SPAs and other CFTIs to NRIs, OCI/PIO and foreign nationals. Admission is based solely on JEE Main 2026 All India Rank — SAT Subject Tests are permanently discontinued.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🪪</div>
+        <div class="info-card__title">CIWG — Children of Indian Workers in Gulf</div>
+        <div class="info-card__text">A sub-category inside DASA carved out for children of Indian-passport-holding workers in the six GCC countries (UAE, KSA, Oman, Qatar, Bahrain, Kuwait). The 2025 cycle filled 215 programs here. Since 2021, CIWG admissions are ranked on the same JEE Main AIR — not SAT.</div>
+      </div>
+    </div>
+
+    <div class="qual-details">
+      <div><strong>DASA eligibility</strong></div><div>Valid JEE Main 2026 rank + Class XII (PCM, min. 75% aggregate or 7.5 CGPA).</div>
+      <div><strong>DASA application</strong></div><div>Online at dasanit.org; registration fee USD 300 (non-refundable).</div>
+      <div><strong>DASA (NRI route)</strong></div><div>Class XI &amp; XII completed abroad (min. 2 years of study in the last 8).</div>
+      <div><strong>CIWG tuition (2025)</strong></div><div>₹62,500 per semester — roughly half the Non-CIWG DASA seat fee.</div>
+      <div><strong>CIWG proof</strong></div><div>Parent's GCC employment + Indian passport for both parent &amp; child must be documented.</div>
+      <div><strong>CIWG merit</strong></div><div>Same JEE Main rank pool, but a separate merit list &amp; closing ranks — usually more accessible than Non-CIWG.</div>
+    </div>
+  </section>
+
+  <!-- Geographic distribution -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">INDIA · GEOGRAPHIC DISTRIBUTION</span>
+      <h2 class="section__title">Where can a DASA or CIWG seat take you in India?</h2>
+      <p class="section__desc">Of the 47 institutes that accepted DASA candidates in 2025, programmes are spread across 25 states and UTs.</p>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__icon">🗺</div>
+        <div class="info-card__title">324 seats total</div>
+        <div class="info-card__text">All DASA programmes across the 2025 cycle.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🪪</div>
+        <div class="info-card__title">215 CIWG · 109 Non-CIWG</div>
+        <div class="info-card__text">CIWG dominates the seat count under the Gulf-worker quota.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏛</div>
+        <div class="info-card__title">24 NITs · 8 IIITs · 3 SPAs</div>
+        <div class="info-card__text">Plus 12 State / Other participating institutes.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📍</div>
+        <div class="info-card__title">25 states &amp; UTs</div>
+        <div class="info-card__text">From Delhi and Tamil Nadu to Tripura and J&amp;K.</div>
+      </div>
+    </div>
+
+    <h3 class="chart-card__title" style="margin-top:32px;">Top states · DASA presence (programmes)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>State</th><th>Programmes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>01</td><td>Delhi</td><td>42</td></tr>
+          <tr><td>02</td><td>Karnataka</td><td>32</td></tr>
+          <tr><td>03</td><td>Tamil Nadu</td><td>31</td></tr>
+          <tr><td>04</td><td>Kerala</td><td>30</td></tr>
+          <tr><td>05</td><td>Telangana</td><td>25</td></tr>
+          <tr><td>06</td><td>Odisha</td><td>19</td></tr>
+          <tr><td>07</td><td>Uttar Pradesh</td><td>16</td></tr>
+          <tr><td>08</td><td>Gujarat</td><td>16</td></tr>
+          <tr><td>09</td><td>Madhya Pradesh</td><td>14</td></tr>
+          <tr><td>10</td><td>Maharashtra</td><td>14</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout--info">
+      <span class="callout__icon">💡</span>
+      <div>
+        <span class="callout__label">Pro tip</span>
+        <span class="callout__text">Filter by CIWG or Non-CIWG to see how the seat distribution shifts. CIWG closing ranks are usually more accessible than the Non-CIWG / NRI quota for the same institute and branch.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- All programs table (sample) -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">📊</span>
+      <div>
+        <span class="chapter-divider__label">DATABASE · ALL 324 PROGRAMS</span>
+        <span class="chapter-divider__title">The full DASA &amp; CIWG 2025 closing-rank table</span>
+      </div>
+    </div>
+
+    <p class="content-text">Search by institute, branch or state. This is the same data the predictor uses — useful when you want to scan the most competitive seats before narrowing down. Ranks are JEE Main 2025 All India Ranks.</p>
+
+    <div class="filter-bar">
+      <input type="text" id="rankSearch" class="filter-input" placeholder="Search institute, branch or state...">
+      <select id="rankFilter" class="filter-select">
+        <option value="">CIWG &amp; Non-CIWG</option>
+        <option value="ciwg">CIWG only</option>
+        <option value="non-ciwg">Non-CIWG only</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table id="rankTable">
+        <thead>
+          <tr>
+            <th>Institute</th>
+            <th>State</th>
+            <th>Branch</th>
+            <th>Quota</th>
+            <th>Opening</th>
+            <th>Closing</th>
+            <th>Rounds</th>
+          </tr>
+        </thead>
+        <tbody id="rankTableBody">
+          <tr><td>NIT Calicut</td><td>Kerala</td><td>Architecture 5Y</td><td>CIWG</td><td>711</td><td>1,071</td><td>R1</td></tr>
+          <tr><td>SPA Delhi</td><td>Delhi</td><td>Architecture 5Y</td><td>CIWG</td><td>798</td><td>1,132</td><td>R1</td></tr>
+          <tr><td>NIT Tiruchirappalli</td><td>Tamil Nadu</td><td>Architecture 5Y</td><td>CIWG</td><td>1,384</td><td>1,384</td><td>R1</td></tr>
+          <tr><td>SPA Delhi</td><td>Delhi</td><td>Planning 4Y</td><td>CIWG</td><td>2,466</td><td>2,466</td><td>R1</td></tr>
+          <tr><td>SPA Vijayawada</td><td>Andhra Pradesh</td><td>Architecture 5Y</td><td>CIWG</td><td>1,642</td><td>3,514</td><td>R1</td></tr>
+          <tr><td>SPA Bhopal</td><td>Madhya Pradesh</td><td>Architecture 5Y</td><td>CIWG</td><td>2,752</td><td>5,223</td><td>R1</td></tr>
+          <tr><td>SPA Delhi</td><td>Delhi</td><td>Architecture 5Y</td><td>Non-CIWG</td><td>279</td><td>6,016</td><td>R1</td></tr>
+          <tr><td>VNIT Nagpur</td><td>Maharashtra</td><td>Architecture 5Y</td><td>CIWG</td><td>5,225</td><td>6,816</td><td>R1</td></tr>
+          <tr><td>SPA Vijayawada</td><td>Andhra Pradesh</td><td>Planning 4Y</td><td>CIWG</td><td>7,689</td><td>7,689</td><td>R1</td></tr>
+          <tr><td>SPA Vijayawada</td><td>Andhra Pradesh</td><td>Architecture 5Y</td><td>Non-CIWG</td><td>9,956</td><td>9,956</td><td>R1</td></tr>
+          <tr><td>NIT Hamirpur</td><td>Himachal Pradesh</td><td>Architecture 5Y</td><td>CIWG</td><td>8,521</td><td>10,999</td><td>R1</td></tr>
+          <tr><td>Malaviya NIT Jaipur</td><td>Rajasthan</td><td>Architecture &amp; Planning 5Y</td><td>CIWG</td><td>11,084</td><td>11,084</td><td>R1</td></tr>
+          <tr><td>NIT Tiruchirappalli</td><td>Tamil Nadu</td><td>Computer Science &amp; Engineering 4Y</td><td>CIWG</td><td>5,686</td><td>16,522</td><td>R1, R2</td></tr>
+          <tr><td>NIT Tiruchirappalli</td><td>Tamil Nadu</td><td>Computer Science &amp; Engineering 4Y</td><td>Non-CIWG</td><td>4,891</td><td>17,478</td><td>R1, R2</td></tr>
+          <tr><td>NIT Calicut</td><td>Kerala</td><td>Architecture 5Y</td><td>Non-CIWG</td><td>1,735</td><td>19,111</td><td>R1, R2</td></tr>
+          <tr><td>NIT Tiruchirappalli</td><td>Tamil Nadu</td><td>Architecture 5Y</td><td>Non-CIWG</td><td>1,189</td><td>21,988</td><td>R1, R2</td></tr>
+          <tr><td>MA NIT Bhopal</td><td>Madhya Pradesh</td><td>Architecture 5Y</td><td>CIWG</td><td>12,004</td><td>22,175</td><td>R1</td></tr>
+          <tr><td>NIT Karnataka, Surathkal</td><td>Karnataka</td><td>Computer Science &amp; Engineering 4Y</td><td>CIWG</td><td>14,980</td><td>22,657</td><td>R1, R2</td></tr>
+          <tr><td>NIT Raipur</td><td>Chhattisgarh</td><td>Architecture 5Y</td><td>CIWG</td><td>26,086</td><td>26,086</td><td>R1</td></tr>
+          <tr><td>NIT Karnataka, Surathkal</td><td>Karnataka</td><td>Computer Science &amp; Engineering 4Y</td><td>Non-CIWG</td><td>3,706</td><td>33,736</td><td>R1, R2</td></tr>
+          <tr><td>NIT Tiruchirappalli</td><td>Tamil Nadu</td><td>Electronics &amp; Communication 4Y</td><td>CIWG</td><td>16,467</td><td>33,868</td><td>R1</td></tr>
+          <tr><td>NIT Warangal</td><td>Telangana</td><td>Computer Science &amp; Engineering 4Y</td><td>CIWG</td><td>13,108</td><td>38,176</td><td>R1</td></tr>
+          <tr><td>NIT Karnataka, Surathkal</td><td>Karnataka</td><td>Artificial Intelligence 4Y</td><td>CIWG</td><td>28,039</td><td>43,849</td><td>R1, R2</td></tr>
+          <tr><td>NIT Karnataka, Surathkal</td><td>Karnataka</td><td>Information Technology 4Y</td><td>CIWG</td><td>22,657</td><td>46,502</td><td>R1, R2</td></tr>
+          <tr><td>NIT Tiruchirappalli</td><td>Tamil Nadu</td><td>Electronics &amp; Communication 4Y</td><td>Non-CIWG</td><td>11,074</td><td>46,614</td><td>R1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note">Showing the 25 most competitive of 324 programmes. Use the EduAakashaa DASA predictor for the full table filtered to your exact rank, category and branch preferences.</p>
+  </section>
+
+  <!-- Insights -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">INSIGHTS · 2025 CYCLE</span>
+      <h2 class="section__title">What the numbers actually say about a DASA seat.</h2>
+      <p class="section__desc">Three quick reads from the 2025 round before you build your wishlist.</p>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card__icon">🏷</div>
+        <div class="info-card__title">Programs by institute type</div>
+        <div class="info-card__text">CIWG and Non-CIWG counts side-by-side. NITs dominate but IIITs are catching up.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🔁</div>
+        <div class="info-card__title">Programs by counselling round</div>
+        <div class="info-card__text">Most seats clear in R1. The 37 seats that needed R3 make a good list of "second-chance" options.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🥇</div>
+        <div class="info-card__title">Most competitive CIWG branches</div>
+        <div class="info-card__text">Lower closing rank = harder to crack. Architecture &amp; Planning top the list because seats are scarce, not because there's mass demand.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NIRF table -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">🏆</span>
+      <div>
+        <span class="chapter-divider__label">NIRF 2026 · INDIA RANKINGS · MOE</span>
+        <span class="chapter-divider__title">NIRF ranks of every DASA-participating institute</span>
+      </div>
+    </div>
+
+    <p class="content-text">Cross-reference the official NIRF Engineering 2026 ranking against each institute's DASA &amp; CIWG presence in the 2025 cycle. "Unranked" means outside the NIRF top 100 or not separately ranked in the Engineering category. Best closing ranks are JEE Main 2025 AIRs.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>NIRF Rank</th>
+            <th>Institute</th>
+            <th>NIRF Score</th>
+            <th>CIWG Progs</th>
+            <th>Best CIWG Closing</th>
+            <th>Non-CIWG Progs</th>
+            <th>Best Non-CIWG Closing</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>#9</td><td>NIT Tiruchirappalli · Tamil Nadu</td><td>68.14</td><td>10</td><td>1,384</td><td>10</td><td>17,478</td></tr>
+          <tr><td>#13</td><td>NIT Rourkela · Odisha</td><td>66.62</td><td>11</td><td>1,02,778</td><td>8</td><td>1,40,041</td></tr>
+          <tr><td>#17</td><td>NIT Karnataka, Surathkal · Karnataka</td><td>64.59</td><td>11</td><td>22,657</td><td>10</td><td>33,736</td></tr>
+          <tr><td>#21</td><td>NIT Calicut · Kerala</td><td>63.05</td><td>12</td><td>1,071</td><td>11</td><td>19,111</td></tr>
+          <tr><td>#28</td><td>NIT Warangal · Telangana</td><td>61.05</td><td>14</td><td>38,176</td><td>10</td><td>84,741</td></tr>
+          <tr><td>#30</td><td>DTU Delhi · Delhi</td><td>60.85</td><td>10</td><td>1,03,543</td><td>6</td><td>2,41,277</td></tr>
+          <tr><td>#42</td><td>Malaviya NIT Jaipur · Rajasthan</td><td>57.45</td><td>7</td><td>11,084</td><td>4</td><td>4,94,231</td></tr>
+          <tr><td>#44</td><td>VNIT Nagpur · Maharashtra</td><td>56.58</td><td>7</td><td>6,816</td><td>3</td><td>2,80,185</td></tr>
+          <tr><td>#49</td><td>NIT Durgapur · West Bengal</td><td>55.94</td><td>3</td><td>1,94,796</td><td>2</td><td>3,58,272</td></tr>
+          <tr><td>#50</td><td>NIT Silchar · Assam</td><td>55.91</td><td>2</td><td>3,27,195</td><td>—</td><td>—</td></tr>
+          <tr><td>#53</td><td>NIT Patna · Bihar</td><td>53.89</td><td>4</td><td>5,21,760</td><td>—</td><td>—</td></tr>
+          <tr><td>#55</td><td>NIT Jalandhar · Punjab</td><td>53.38</td><td>4</td><td>4,97,878</td><td>1</td><td>13,47,319</td></tr>
+          <tr><td>#59</td><td>MIT Manipal · Karnataka (Private)</td><td>52.55</td><td>9</td><td>5,15,477</td><td>2</td><td>1,14,474</td></tr>
+          <tr><td>#62</td><td>MN NIT Allahabad · Uttar Pradesh</td><td>52.15</td><td>7</td><td>2,56,738</td><td>2</td><td>5,33,851</td></tr>
+          <tr><td>#65</td><td>NIT Delhi · Delhi</td><td>50.79</td><td>8</td><td>1,53,753</td><td>3</td><td>9,26,908</td></tr>
+          <tr><td>#66</td><td>SV NIT Surat · Gujarat</td><td>50.77</td><td>9</td><td>2,65,144</td><td>5</td><td>62,656</td></tr>
+          <tr><td>#73</td><td>NIT Srinagar · Jammu &amp; Kashmir</td><td>50.23</td><td>1</td><td>4,27,477</td><td>—</td><td>—</td></tr>
+          <tr><td>#81</td><td>MA NIT Bhopal · Madhya Pradesh</td><td>48.26</td><td>5</td><td>22,175</td><td>1</td><td>10,17,981</td></tr>
+          <tr><td>#82</td><td>NIT Jamshedpur · Jharkhand</td><td>48.25</td><td>2</td><td>3,86,800</td><td>1</td><td>12,45,851</td></tr>
+          <tr><td>#85</td><td>NIT Kurukshetra · Haryana</td><td>47.98</td><td>11</td><td>3,28,768</td><td>3</td><td>5,27,060</td></tr>
+          <tr><td>#86</td><td>NIT Raipur · Chhattisgarh</td><td>47.59</td><td>3</td><td>26,086</td><td>—</td><td>—</td></tr>
+          <tr><td>#96</td><td>ABV-IIITM Gwalior · Madhya Pradesh</td><td>46.25</td><td>5</td><td>3,47,668</td><td>1</td><td>5,30,871</td></tr>
+          <tr><td>#97</td><td>NIT Hamirpur · Himachal Pradesh</td><td>46.10</td><td>2</td><td>10,999</td><td>—</td><td>—</td></tr>
+          <tr><td>#99</td><td>NIT Puducherry · Karaikal</td><td>45.83</td><td>5</td><td>2,14,464</td><td>1</td><td>6,66,619</td></tr>
+          <tr><td>Unranked</td><td>Gautam Buddha University · Greater Noida</td><td>N/A</td><td>1</td><td>7,92,983</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>IIIT Pune · Maharashtra</td><td>N/A</td><td>2</td><td>5,59,773</td><td>2</td><td>3,11,942</td></tr>
+          <tr><td>Unranked</td><td>IIIT Sri City · Andhra Pradesh</td><td>N/A</td><td>2</td><td>4,08,977</td><td>2</td><td>5,30,805</td></tr>
+          <tr><td>Unranked</td><td>IIIT Kottayam · Kerala</td><td>N/A</td><td>4</td><td>2,02,105</td><td>3</td><td>7,65,097</td></tr>
+          <tr><td>Unranked</td><td>IIIT Vadodara · Gujarat</td><td>N/A</td><td>1</td><td>3,47,943</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>IIIT Allahabad · Uttar Pradesh</td><td>N/A</td><td>3</td><td>1,93,900</td><td>3</td><td>2,75,947</td></tr>
+          <tr><td>Unranked</td><td>IIITDM Kancheepuram · Tamil Nadu</td><td>N/A</td><td>8</td><td>2,46,213</td><td>3</td><td>3,69,594</td></tr>
+          <tr><td>Unranked</td><td>IIEST Shibpur · West Bengal</td><td>N/A</td><td>3</td><td>3,17,467</td><td>3</td><td>5,55,613</td></tr>
+          <tr><td>Unranked</td><td>Indian Maritime University · Visakhapatnam</td><td>N/A</td><td>1</td><td>5,82,932</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>IGDTUW · Delhi</td><td>N/A</td><td>4</td><td>3,39,012</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>JNU · Delhi</td><td>N/A</td><td>1</td><td>5,84,509</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>NIT Agartala · Tripura</td><td>N/A</td><td>1</td><td>9,31,692</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>NIT Goa · Goa</td><td>N/A</td><td>4</td><td>2,74,261</td><td>3</td><td>5,51,924</td></tr>
+          <tr><td>Unranked</td><td>NIT Andhra Pradesh · Tadepalligudem</td><td>N/A</td><td>2</td><td>3,06,480</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>NSUT · Delhi</td><td>N/A</td><td>4</td><td>2,02,143</td><td>3</td><td>5,14,758</td></tr>
+          <tr><td>Unranked</td><td>Pandit Deendayal Energy University · Gandhinagar</td><td>N/A</td><td>1</td><td>3,42,862</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>PDPM IIITDM Jabalpur · Madhya Pradesh</td><td>N/A</td><td>1</td><td>6,89,088</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>Puducherry Technological University · Puducherry</td><td>N/A</td><td>1</td><td>6,12,144</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>Punjab Engineering College · Chandigarh</td><td>N/A</td><td>3</td><td>5,60,637</td><td>1</td><td>8,19,399</td></tr>
+          <tr><td>Unranked</td><td>SPA Delhi · Delhi</td><td>N/A</td><td>2</td><td>1,132</td><td>1</td><td>6,016</td></tr>
+          <tr><td>Unranked</td><td>SPA Bhopal · Madhya Pradesh</td><td>N/A</td><td>1</td><td>5,223</td><td>—</td><td>—</td></tr>
+          <tr><td>Unranked</td><td>SPA Vijayawada · Andhra Pradesh</td><td>N/A</td><td>2</td><td>3,514</td><td>1</td><td>9,956</td></tr>
+          <tr><td>Unranked</td><td>University of Hyderabad · Telangana</td><td>N/A</td><td>1</td><td>6,64,049</td><td>—</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note">Source · NIRF Engineering 2026 (Ministry of Education) · DASA 2025 closing ranks (MNIT Jaipur).</p>
+  </section>
+
+  <!-- Process -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">🧭</span>
+      <div>
+        <span class="chapter-divider__label">PROCESS · 6 STEPS · DASANIT.ORG</span>
+        <span class="chapter-divider__title">The DASA 2026 admission journey, JEE Main first</span>
+      </div>
+    </div>
+
+    <p class="content-text">Since 2021 the Ministry of Education has made JEE Main the sole entrance exam for DASA and CIWG. SAT Subject Tests are permanently discontinued. Here is the exact 2026 sequence — expected dates from official communication so far; the final calendar is confirmed in the DASA 2026 brochure on dasanit.org.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">1</span>
+        <div>
+          <div class="step__title">Appear for JEE Main 2026</div>
+          <div class="step__text">B.E./B.Tech → Paper 1. B.Arch → Paper 2A. B.Plan → Paper 2B. JEE Main runs twice (January &amp; April) by NTA; the better of the two scores is used. NRIs can write it from designated overseas centres including the UAE.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">2</span>
+        <div>
+          <div class="step__title">Confirm eligibility</div>
+          <div class="step__text">Born on or after 1 Oct 2001. Class XII passed (or appearing 2026) with PCM &amp; min. 75% aggregate (7.5 CGPA), 70% / 7.0 for SC/ST. NRIs: Class XI &amp; XII abroad (min. 2 years of foreign schooling in the last 8). CIWG candidates additionally need GCC-employment proof for their parent.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">3</span>
+        <div>
+          <div class="step__title">Register on dasanit.org</div>
+          <div class="step__text">Application window opens around late April / early May 2026 and stays open ~30 days. Use your JEE Main 2026 application number as username; activate via the email link. The coordinating institute for 2026 is expected to be NIT Calicut.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">4</span>
+        <div>
+          <div class="step__title">Documents &amp; fee payment</div>
+          <div class="step__text">Upload passport, JEE Main scorecard, Class X &amp; XII marksheets, residence/study proof, and (for CIWG) parent's GCC visa + employer letter. Pay the non-refundable USD 300 fee via SWIFT / NEFT / card / UPI. Names must match exactly across passport, JEE Main and DASA form.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">5</span>
+        <div>
+          <div class="step__title">Choice filling &amp; locking</div>
+          <div class="step__text">Pick institute×branch combinations in priority order from the DASA 2026 seat matrix — fill 40+ choices. Lock before the deadline; unlocked choices are not considered. A mock allotment runs before Round 1 so you can revise.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">6</span>
+        <div>
+          <div class="step__title">3 rounds → reporting</div>
+          <div class="step__text">Rounds 1, 2 &amp; 3 run late June through July. After each allotment choose Accept (locks the seat), Accept &amp; Upgrade (stays in the running for a higher choice), or Decline (exits). Pay first-semester tuition — ₹62,500 for CIWG, equivalent USD for Non-CIWG — and report by late July / early August 2026.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">FAQ · 2026 CYCLE</span>
+      <h2 class="section__title">Questions Gulf-NRI families ask us every week.</h2>
+      <p class="section__desc">Straight, fact-checked answers from the official DASA 2026 brochure, dasanit.org and NTA circulars. If yours isn't here, write to info@eduaakashaa.com.</p>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary class="faq-item__q">Do I still need to write the SAT for DASA or CIWG in 2026?</summary>
+        <div class="faq-item__a">No. The Ministry of Education made JEE Main mandatory for all DASA/CIWG admissions in 2021, and the College Board has since permanently discontinued SAT Subject Tests worldwide. JEE Main 2026 is the sole entrance exam for DASA UG 2026 admissions to NITs, IIITs, SPAs and other CFTIs — for NRIs, OCI/PIO, foreign nationals and CIWG candidates alike. The SAT plays no role.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">Can my child write JEE Main 2026 from Dubai / Doha / Riyadh?</summary>
+        <div class="faq-item__a">Yes. NTA conducts JEE Main twice a year (January &amp; April) and operates designated overseas centres in the GCC including the UAE (Dubai &amp; Abu Dhabi), Bahrain (Manama), Kuwait, Oman (Muscat), Qatar (Doha) and Saudi Arabia (Riyadh, Jeddah, Dammam), plus Kathmandu, Singapore, Colombo, Lagos and others. NRI candidates register on jeemain.nta.nic.in and pick the nearest overseas centre. The better of the two session scores is used for the DASA merit list.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">Is my child eligible for CIWG, or only Non-CIWG DASA?</summary>
+        <div class="faq-item__a">CIWG eligibility hinges on three things: (1) your child holds an Indian passport, (2) you (the parent) hold an Indian passport and are currently employed in one of the six GCC countries — UAE, KSA, Oman, Qatar, Bahrain, Kuwait, (3) your child completed Class XI and XII abroad (min. 2 years of foreign schooling in the last 8). If any of these is missing, the only DASA route open is Non-CIWG (NRI Quota), which has significantly higher fees but typically slightly more competitive closing ranks.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">How is my DASA / CIWG merit rank decided in 2026?</summary>
+        <div class="faq-item__a">By your JEE Main 2026 All India Rank — nothing else. SAT Subject Tests are permanently discontinued worldwide. DASA produces two separate ranked lists each year (CIWG and Non-CIWG / NRI Quota), but both are drawn from the same JEE Main score pool. The closing ranks shown across this page are JEE Main AIRs from the 2025 cycle.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">What's the real fee difference between CIWG and Non-CIWG?</summary>
+        <div class="faq-item__a">For the 2025 cycle: CIWG seats at NITs were ₹62,500 per semester (approx. ₹1.25 lakh per year). Non-CIWG / DASA NRI seats were billed in USD — roughly USD 4,000 per semester for SAARC candidates and ~USD 8,000 per semester for non-SAARC at NITs (lower at SPAs &amp; some IIITs). Add hostel and one-time admission charges. Both categories pay the same USD 300 non-refundable application fee. Confirm 2026 figures on dasanit.org before transferring funds.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">My CIWG rank is 25,000 — what can I realistically expect?</summary>
+        <div class="faq-item__a">At a JEE Main 2025 AIR of 25,000 in the CIWG list, you'd be competitive for a wide spread of NIT branches in core engineering (Mechanical, Civil, Electrical, EEE) at second-tier NITs, plus several IIITs in CSE-adjacent branches. CSE at top NITs like Trichy or Surathkal will be very tight. The predictor will show your exact Safe, Moderate and Reach options — try it with your actual JEE Main rank.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">Is a DASA NIT seat treated equal to a JEE NIT seat after graduation?</summary>
+        <div class="faq-item__a">Yes. The degree certificate is identical — same institute, same syllabus, same campus, same placement cell. Recruiters do not distinguish between DASA and JEE entrants on the degree itself. The only operational difference is the fee structure during the four (or five) years of study.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">How many choices should I fill, and in what order?</summary>
+        <div class="faq-item__a">Fill at least 40 choices. The rule we recommend: top-load with your Reach options (programs slightly above your rank — the system follows your order strictly, so don't fill in fear of being auto-allotted something unwanted), then Moderate, then Safe. Skipping the safe ones is a common mistake — a single round of bad luck and the seat slips. The predictor splits your options exactly along these lines.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">Does the data on this page reflect 2026 admissions?</summary>
+        <div class="faq-item__a">The closing ranks here are JEE Main 2025 All India Ranks from the actual 2025 DASA cycle — not projections. The 2026 ranks will be published by the coordinating institute (NIT Calicut, expected) on dasanit.org after each round. Year-on-year closing ranks historically shift 5–15% in either direction; treat the 2025 numbers as a strong baseline, not a guarantee. We refresh this page within 48 hours of each official 2026 round release.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Want a human to walk you through your specific rank?</h2>
+    <p>Book a 45-minute video session with an EduAakashaa counsellor in Coimbatore or Dubai. We'll review your rank, your dream branches, your family's fee constraints, and hand you a finalised choice-filling order.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.dasa_guide') }}" class="btn-main">Open DASA Predictor</a>
+      <a href="{{ url_for('main.contact') }}" class="btn-out">Book a Counsellor</a>
+    </div>
+  </div>
+
+  <p class="content-text content-text--note">Data: DASA-2025 · MNIT Jaipur, NIRF 2026. Independent, evidence-based education counselling for Indian students and Gulf-NRI families.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const search = document.getElementById('rankSearch');
+  const filter = document.getElementById('rankFilter');
+  const tbody = document.getElementById('rankTableBody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+
+  function filterTable() {
+    const q = search.value.toLowerCase();
+    const cat = filter.value;
+    rows.forEach(r => {
+      const text = r.textContent.toLowerCase();
+      const quota = r.cells[3].textContent.toLowerCase();
+      const matchQ = !q || text.includes(q);
+      const matchCat = !cat ||
+        (cat === 'ciwg' && quota === 'ciwg') ||
+        (cat === 'non-ciwg' && quota === 'non-ciwg');
+      r.style.display = matchQ && matchCat ? '' : 'none';
+    });
+  }
+
+  search.addEventListener('input', filterTable);
+  filter.addEventListener('change', filterTable);
+});
+</script>
+{% endblock %}

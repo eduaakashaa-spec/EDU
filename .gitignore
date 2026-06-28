@@ -30,3 +30,7 @@ node_modules/
 # OS
 Thumbs.db
 .DS_Store
+
+# Claude Code session/local config
+.claude/
+mcp.json

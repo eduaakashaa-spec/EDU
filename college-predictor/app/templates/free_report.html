@@ -1,0 +1,248 @@
+{% extends "base.html" %}
+{% block title %}Free TNEA 2026 College Prediction Report | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+  <!-- ======== HERO ======== -->
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="hero__content">
+      <span class="badge">TNEA 2026 &middot; Engineering Admissions</span>
+      <h1>TNEA 2026<br><span>Engineering Admissions</span></h1>
+      <p>Your trusted guide to Tamil Nadu Engineering Admissions. Predict colleges, plan your choices, and get expert counselling from EduAakashaA.</p>
+      <div class="hero__meta">
+        <div class="hero__meta-item"><span class="hero__meta-label">Colleges Analyzed</span><span class="hero__meta-value">433+</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Branch Records</span><span class="hero__meta-value">3,469+</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Branches Available</span><span class="hero__meta-value">107+</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Community Categories</span><span class="hero__meta-value">9</span></div>
+      </div>
+      <p class="content-text--note" style="margin-top:18px;color:rgba(255,255,255,.75);">Registration deadline: June 2, 2026 &middot; Rank list June 29 &middot; Counselling starts July 2026</p>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <!-- ======== FREE REPORT CTA ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Free &middot; TNEA 2026 Report</span>
+        <h2 class="section__title">Free TNEA College Prediction Report</h2>
+        <p class="section__desc">Register your cut-off marks and branch of choice &mdash; get your personalised college list, ranking and placement insights.</p>
+      </div>
+
+      <div class="info-cards info-cards--4">
+        <div class="info-card"><div class="info-card__icon">&#x1F4CB;</div><div class="info-card__title">Personalised College List</div><p class="info-card__text">A curated list of colleges that match your cut-off marks and branch preference.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F3C5;</div><div class="info-card__title">College Ranking</div><p class="info-card__text">Where each college stands &mdash; ranked for your profile and category.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F500;</div><div class="info-card__title">Branch Options</div><p class="info-card__text">Best-fit branches available for your score across the colleges shortlisted.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F4BC;</div><div class="info-card__title">Placement Insights</div><p class="info-card__text">Placement records and best options as per your rank to plan ahead.</p></div>
+      </div>
+
+      <!-- ======== REQUEST FORM ======== -->
+      <div class="contact-form-card" style="max-width:760px;margin:32px auto 0;">
+        <h3 class="chart-card__title" style="font-size:1.15rem;">&#x1F381; Get My Free Report</h3>
+        <p class="content-text" style="margin-bottom:18px;">Fill in your details below and our team will send your personalised TNEA 2026 prediction report &mdash; it&rsquo;s 100% free.</p>
+        <form class="contact-form" method="post" action="{{ url_for('main.contact') }}">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fr-name">Full Name</label>
+              <input type="text" id="fr-name" name="name" placeholder="Student full name" required>
+            </div>
+            <div class="form-group">
+              <label for="fr-email">Email</label>
+              <input type="email" id="fr-email" name="email" placeholder="you@email.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fr-phone">WhatsApp Number</label>
+              <input type="tel" id="fr-phone" name="phone" placeholder="+91 80157 22706" required>
+            </div>
+            <div class="form-group">
+              <label for="fr-cutoff">Cut-off Marks (out of 200)</label>
+              <input type="number" id="fr-cutoff" name="cutoff" min="0" max="200" step="0.01" placeholder="e.g. 178.5">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="fr-branch">Branch of Choice</label>
+              <select id="fr-branch" name="branch">
+                <option value="">&mdash; Select &mdash;</option>
+                <option>Computer Science (CSE)</option>
+                <option>Artificial Intelligence &amp; Data Science</option>
+                <option>Electronics &amp; Communication (ECE)</option>
+                <option>Electrical (EEE)</option>
+                <option>Mechanical</option>
+                <option>Civil</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="fr-community">Community</label>
+              <select id="fr-community" name="community">
+                <option value="">&mdash; Select &mdash;</option>
+                <option>OC</option>
+                <option>BC</option>
+                <option>BCM</option>
+                <option>MBC</option>
+                <option>MBC(DNC)</option>
+                <option>MBC(V)</option>
+                <option>SC</option>
+                <option>SCA</option>
+                <option>ST</option>
+              </select>
+            </div>
+          </div>
+          <button type="submit" class="btn-main">Get My Free Report &rarr;</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ======== FUTURE OF JOBS ======== -->
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">&ldquo;&#x1F4C8;&rdquo;</span>
+      <div>
+        <span class="chapter-divider__label">WEF Report &middot; Future of Jobs 2025</span>
+        <span class="chapter-divider__title">Future Jobs 2025&ndash;2030</span>
+      </div>
+    </div>
+    <section class="section">
+      <p class="content-text">Your 2026 branch choice defines your 2030 career. CSE/AI branches map to 9 of the top 15 fastest-growing roles.</p>
+      <div class="info-cards info-cards--4">
+        <div class="info-card"><div class="info-card__icon">&#x1F195;</div><div class="info-card__title">170M+</div><p class="info-card__text">New jobs created globally by 2030.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x26A0;</div><div class="info-card__title">92M</div><p class="info-card__text">Roles displaced as the economy shifts.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F504;</div><div class="info-card__title">39%</div><p class="info-card__text">Of core skills will change by 2030.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F916;</div><div class="info-card__title">86%</div><p class="info-card__text">Of businesses say AI drives growth.</p></div>
+      </div>
+    </section>
+
+    <!-- ======== CUTOFF CALCULATOR ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Calculator &middot; Cutoff Score</span>
+        <h2 class="section__title">Cutoff Mark Calculator</h2>
+        <p class="section__desc">Formula: Maths + (Physics / 2) + (Chemistry / 2) = Max 200</p>
+      </div>
+      <div class="anna-calc" style="max-width:680px;margin:0 auto;">
+        <div class="calc-inputs">
+          <div class="form-group">
+            <label for="calc-m">Mathematics (out of 100)</label>
+            <input type="number" id="calc-m" min="0" max="100" placeholder="0 - 100" oninput="eaCutoff()">
+          </div>
+          <div class="form-group">
+            <label for="calc-p">Physics (out of 100)</label>
+            <input type="number" id="calc-p" min="0" max="100" placeholder="0 - 100" oninput="eaCutoff()">
+          </div>
+          <div class="form-group">
+            <label for="calc-c">Chemistry (out of 100)</label>
+            <input type="number" id="calc-c" min="0" max="100" placeholder="0 - 100" oninput="eaCutoff()">
+          </div>
+        </div>
+        <div class="calc-result">
+          <span class="calc-result__label">Out of 200</span>
+          <div class="calc-result__score">
+            <span class="calc-result__value" id="calc-out">0.00</span>
+            <span class="calc-result__max">/ 200</span>
+          </div>
+          <div class="calc-breakdown"><p>Cutoff = M + (P / 2) + (C / 2)</p></div>
+        </div>
+        <div style="text-align:center;margin-top:18px;">
+          <a href="{{ url_for('main.tnea2026') }}" class="btn-main">Predict My Colleges &rarr;</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== KEY DATES ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Timeline &middot; Key Dates</span>
+        <h2 class="section__title">Important Dates 2026</h2>
+      </div>
+      <div class="qual-details" style="columns:1;max-width:760px;margin:0 auto;">
+        <ul style="list-style:none;padding:0;margin:0;">
+          <li class="content-text"><strong>Mar 2026</strong> &mdash; TN HSC Board Exams (Completed)</li>
+          <li class="content-text"><strong>May 3</strong> &mdash; TNEA Registration Started</li>
+          <li class="content-text"><strong>May 8</strong> &mdash; HSC Results Declared (95.20% pass)</li>
+          <li class="content-text"><strong>Jun 2</strong> &mdash; Registration Deadline &mdash; Apply Now!</li>
+          <li class="content-text"><strong>Jun 5</strong> &mdash; Random Number Generation</li>
+          <li class="content-text"><strong>Jun 29</strong> &mdash; TNEA Rank List Publication</li>
+          <li class="content-text"><strong>Jul (4th Wk)</strong> &mdash; Counselling Round 1 &mdash; Choice Filling</li>
+          <li class="content-text"><strong>Aug 2026</strong> &mdash; Counselling Rounds 2 &amp; 3</li>
+          <li class="content-text"><strong>Aug&ndash;Sep</strong> &mdash; Supplementary Counselling</li>
+          <li class="content-text"><strong>Sep 2026</strong> &mdash; Classes Commence</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ======== LATEST NEWS ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Updates &middot; Latest News</span>
+        <h2 class="section__title">Latest Announcements</h2>
+      </div>
+      <div class="info-cards">
+        <div class="info-card">
+          <span class="info-card__label" style="color:var(--red);">Urgent</span>
+          <div class="info-card__title">TNEA 2026 Registration Open &mdash; Deadline June 2</div>
+          <p class="info-card__text">Registration started May 3 at tneaonline.org. Apply before June 2. Fee: Rs.500 (General), Rs.250 (SC/ST).</p>
+          <span class="info-card__label">May 9, 2026</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card__label" style="color:var(--green);">New</span>
+          <div class="info-card__title">TN HSC 12th Results Declared &mdash; 95.20% Pass</div>
+          <p class="info-card__text">Results released May 8 at 9:30 AM. 7.53 lakh students passed. Check at tnresults.nic.in.</p>
+          <span class="info-card__label">May 8, 2026</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card__label" style="color:var(--blue);">Info</span>
+          <div class="info-card__title">Random Number Release on June 5</div>
+          <p class="info-card__text">TNEA random numbers for tie-breaking will be released on June 5, 2026. Rank list expected June 29.</p>
+          <span class="info-card__label">May 9, 2026</span>
+        </div>
+        <div class="info-card">
+          <span class="info-card__label">Update</span>
+          <div class="info-card__title">Counselling Round 1 Expected Late July</div>
+          <p class="info-card__text">Three rounds of online counselling planned. Choice filling to begin in 4th week of July.</p>
+          <span class="info-card__label">May 9, 2026</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== QUICK LINKS ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Navigation &middot; Resources</span>
+        <h2 class="section__title">Quick Links</h2>
+      </div>
+      <div class="toc-grid">
+        <a href="{{ url_for('main.tnea2026') }}" class="toc-card"><span class="toc-card__num">&#x1F3EB; TNEA 2026</span><span class="toc-card__text">Engineering admissions hub</span></a>
+        <a href="{{ url_for('main.tneamatrix') }}" class="toc-card"><span class="toc-card__num">&#x1F4CA; College Predictor</span><span class="toc-card__text">Seat matrix &amp; cut-off analysis</span></a>
+        <a href="{{ url_for('main.ea_library') }}" class="toc-card"><span class="toc-card__num">&#x1F4D6; Insights &amp; Guide</span><span class="toc-card__text">Resources &amp; study material</span></a>
+        <a href="{{ url_for('main.branch_fitness_assessment') }}" class="toc-card"><span class="toc-card__num">&#x2699; Aptitude Assessment</span><span class="toc-card__text">Discover your ideal branch</span></a>
+      </div>
+    </section>
+
+    <!-- ======== REQUEST CALLBACK CTA ======== -->
+    <div class="final-cta">
+      <h2>Free &middot; Expert Consultation</h2>
+      <p>Request a callback &mdash; our counsellor will call you within 24 hours to help with choice filling, branch selection, college comparison or aptitude assessment.</p>
+      <div class="final-cta__btns">
+        <a href="{{ url_for('main.contact') }}" class="btn-main">Request a Callback &rarr;</a>
+        <a href="{{ url_for('main.tnea2026') }}" class="btn-out">Explore TNEA 2026</a>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function eaCutoff() {
+      var m = parseFloat(document.getElementById('calc-m').value) || 0;
+      var p = parseFloat(document.getElementById('calc-p').value) || 0;
+      var c = parseFloat(document.getElementById('calc-c').value) || 0;
+      var score = m + (p / 2) + (c / 2);
+      if (score > 200) score = 200;
+      document.getElementById('calc-out').textContent = score.toFixed(2);
+    }
+  </script>
+{% endblock %}

@@ -1,39 +1,235 @@
 {% extends "base.html" %}
-{% block title %}NRI Arabic Foundation | EduAakashaA{% endblock %}
+{% block title %}Beginner Arabic &mdash; Foundation Programme | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .arabic-glyph { font-size: 2.4rem; line-height: 1; color: var(--gold); font-family: 'Times New Roman', serif; }
+  .arabic-glyph--lg { font-size: 4rem; }
+  .letter-card__glyph { font-size: 2.6rem; color: var(--gold); line-height: 1; margin-bottom: 6px; }
+  .letter-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 768px) { .letter-grid { grid-template-columns: repeat(2, 1fr); } }
+  .stroke-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .stroke-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 600px) { .stroke-grid { grid-template-columns: repeat(2, 1fr); } }
+  .arabic-tag { font-size: .8rem; color: var(--text-dim); display: block; }
+</style>
 {% endblock %}
 {% block content %}
-<section class="hero">
-  <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">NRI · ARABIC</span>
-    <h1>Arabic <span>Foundation</span></h1>
-    <p>Foundation track for NRI students — language support, academic readiness, and mentorship.</p>
-  </div>
-</section>
-
-<div class="main-content">
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">OVERVIEW</span>
-      <h2 class="section__title">What this program includes</h2>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="hero__content">
+      <span class="badge">Beginner Arabic &middot; Level 01</span>
+      <h1>Learn Arabic from the <span>very first letter</span> &mdash; step by gentle step.</h1>
+      <p>A complete beginner&rsquo;s programme covering alphabets, vowels, sukun, shadda, tanween, sun &amp; moon letters &mdash; with audio, animated writing practice, and assessments. Built for students of every grade and every mother tongue.</p>
+      <div class="hero__meta">
+        <div class="hero__meta-item"><span class="hero__meta-label">Letters Covered</span><span class="hero__meta-value">28+</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Core Chapters</span><span class="hero__meta-value">9</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Modes / Lesson</span><span class="hero__meta-value">5</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Audio &amp; Animation</span><span class="hero__meta-value">100%</span></div>
+      </div>
     </div>
-    <ul class="check-list">
-      <li>Foundation lessons with structured progression</li>
-      <li>Practice + feedback loops</li>
-      <li>Mentor support and progress checkpoints</li>
-    </ul>
   </section>
 
-  <div class="final-cta">
-    <h2>Get program details</h2>
-    <p>Tell us the student’s grade level and goals. We’ll share a plan and schedule.</p>
-    <div class="final-cta__btns">
-      <a href="{{ url_for('main.contact') }}" class="btn-main">Request Details</a>
-      <a href="{{ url_for('main.training') }}" class="btn-out">See Training →</a>
-    </div>
-  </div>
-</div>
-{% endblock %}
+  <main class="main-content">
 
+    <!-- Today's letter callout -->
+    <section class="section">
+      <div class="info-cards info-cards--4">
+        <div class="info-card" style="grid-column: span 2; align-items:center; text-align:center;">
+          <span class="arabic-glyph arabic-glyph--lg">&#x0628;</span>
+          <h4 class="info-card__title">Today&rsquo;s Letter &mdash; Baa</h4>
+          <p class="info-card__text"><strong>Name:</strong> Baa &middot; <strong>Sound:</strong> b &middot; <strong>Order:</strong> 2nd letter of the alphabet</p>
+        </div>
+        <div class="info-card" style="align-items:center; text-align:center; justify-content:center;">
+          <a href="#ch1" class="btn-main" style="font-size:.85rem;padding:10px 22px;">Begin Lesson 01 &rarr;</a>
+        </div>
+        <div class="info-card" style="align-items:center; text-align:center; justify-content:center;">
+          <a href="#handbook" class="btn-out" style="font-size:.85rem;padding:10px 22px;">Open Writing Handbook</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Curriculum -->
+    <section class="section" id="curriculum">
+      <div class="section__header">
+        <span class="eyebrow">Curriculum &middot; 9 Chapters</span>
+        <h2 class="section__title">A path that actually fits you, whether you&rsquo;re 8 or 80.</h2>
+        <p class="section__desc">Each chapter follows the same five-stage rhythm &mdash; Explanation, Writing, Listening, Reading, Speaking &mdash; so you build confidence one skill at a time. Pick a chapter and dive in.</p>
+      </div>
+      <div class="toc-grid">
+        <a href="#ch1" class="toc-card"><span class="toc-card__num">01</span><span class="toc-card__text">Arabic alphabet &mdash; &#x0627;&#x0644;&#x0623;&#x0628;&#x062C;&#x062F;&#x064A;&#x0629;</span></a>
+        <a href="#ch1" class="toc-card"><span class="toc-card__num">02</span><span class="toc-card__text">Short vowels (Harakat) &mdash; &#x0627;&#x0644;&#x062D;&#x0631;&#x0643;&#x0627;&#x062A;</span></a>
+        <a href="#ch1" class="toc-card"><span class="toc-card__num">03</span><span class="toc-card__text">Long vowels (Madd) &mdash; &#x062D;&#x0631;&#x0648;&#x0641; &#x0627;&#x0644;&#x0645;&#x062F;</span></a>
+        <a href="#ch1" class="toc-card"><span class="toc-card__num">04</span><span class="toc-card__text">Letters with Sukun &mdash; &#x0627;&#x0644;&#x0633;&#x0643;&#x0648;&#x0646;</span></a>
+        <a href="#ch1" class="toc-card"><span class="toc-card__num">05</span><span class="toc-card__text">Letters with Shadda &mdash; &#x0627;&#x0644;&#x0634;&#x062F;&#x0651;&#x0629;</span></a>
+        <a href="#ch1" class="toc-card"><span class="toc-card__num">06</span><span class="toc-card__text">Tanween (nunation) &mdash; &#x0627;&#x0644;&#x062A;&#x0646;&#x0648;&#x064A;&#x0646;</span></a>
+        <a href="#ch1" class="toc-card"><span class="toc-card__num">07</span><span class="toc-card__text">Naughty (non-connector) letters &mdash; &#x0627;&#x0644;&#x062D;&#x0631;&#x0648;&#x0641; &#x063A;&#x064A;&#x0631; &#x0627;&#x0644;&#x0645;&#x062A;&#x0635;&#x0644;&#x0629;</span></a>
+        <a href="#ch1" class="toc-card"><span class="toc-card__num">08</span><span class="toc-card__text">Sun letters (Shamsiyyah) &mdash; &#x0627;&#x0644;&#x062D;&#x0631;&#x0648;&#x0641; &#x0627;&#x0644;&#x0634;&#x0645;&#x0633;&#x064A;&#x0629;</span></a>
+        <a href="#ch1" class="toc-card"><span class="toc-card__num">09</span><span class="toc-card__text">Moon letters (Qamariyyah) &mdash; &#x0627;&#x0644;&#x062D;&#x0631;&#x0648;&#x0641; &#x0627;&#x0644;&#x0642;&#x0645;&#x0631;&#x064A;&#x0629;</span></a>
+      </div>
+    </section>
+
+    <!-- Chapter 1 -->
+    <div class="chapter-divider" id="ch1">
+      <span class="chapter-divider__num">&ldquo;01&rdquo;</span>
+      <div>
+        <span class="chapter-divider__label">Chapter 01 &middot; &#x0627;&#x0644;&#x0623;&#x0628;&#x062C;&#x062F;&#x064A;&#x0629;</span>
+        <span class="chapter-divider__title">Arabic alphabet</span>
+      </div>
+    </div>
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Explanation &middot; Writing &middot; Listening &middot; Reading &middot; Speaking</span>
+        <h2 class="section__title">What this chapter teaches</h2>
+        <p class="section__desc">The 28 Arabic letters &mdash; the foundation of everything you will read, write or pronounce.</p>
+      </div>
+      <p class="content-text">Arabic has 28 letters, all consonants. They flow right to left and most of them join up like cursive English. Each letter has a name (like &ldquo;Baa&rdquo;) and a sound (like &ldquo;b&rdquo;). Some letters look similar but differ by tiny dots above or below &mdash; pay attention to those dots. Once you know the 28 letters, you can read any Arabic word, even before you understand its meaning.</p>
+      <ul class="check-list">
+        <li>Arabic is written and read <strong>right to left</strong> &mdash; even your eyes need to retrain.</li>
+        <li>Most letters change shape slightly when they join others (initial, medial, final).</li>
+        <li>Dots above or below distinguish letters with the same base shape (&#x0628; &#x062A; &#x062B;).</li>
+        <li>There are no capital letters in Arabic. One form fits all positions in a sentence.</li>
+      </ul>
+
+      <h3 class="content-h3">Letters in this chapter</h3>
+      <p class="content-text content-text--note">In the live lesson, tap any letter card to hear it. Below are the first letters of the chapter.</p>
+      <div class="letter-grid">
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0627;</span><h4 class="info-card__title">Alif</h4><span class="arabic-tag">A</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0628;</span><h4 class="info-card__title">Baa</h4><span class="arabic-tag">B</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x062A;</span><h4 class="info-card__title">Taa</h4><span class="arabic-tag">T</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x062B;</span><h4 class="info-card__title">Thaa</h4><span class="arabic-tag">TH</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x062C;</span><h4 class="info-card__title">Jeem</h4><span class="arabic-tag">J</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x062D;</span><h4 class="info-card__title">Haa</h4><span class="arabic-tag">&#x1E24;</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x062E;</span><h4 class="info-card__title">Khaa</h4><span class="arabic-tag">KH</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x062F;</span><h4 class="info-card__title">Daal</h4><span class="arabic-tag">D</span></div>
+      </div>
+      <p class="content-text content-text--note">&hellip; and 20 more in Listening &amp; Reading modes.</p>
+    </section>
+
+    <!-- Writing handbook -->
+    <div class="chapter-divider" id="handbook">
+      <span class="chapter-divider__num">&ldquo;&#x270D;&rdquo;</span>
+      <div>
+        <span class="chapter-divider__label">Writing Handbook &middot; Stroke Order</span>
+        <span class="chapter-divider__title">Watch each letter being written</span>
+      </div>
+    </div>
+    <section class="section">
+      <div class="section__header">
+        <p class="section__desc">Tap any letter to watch it being written &mdash; with directional arrows showing exactly how.</p>
+      </div>
+      <p class="content-text">Arabic is written from right to left, but each individual letter has its own stroke order. Click any card to play its writing animation: a green dot marks the start, an orange highlighter traces the direction, and arrows confirm the path.</p>
+      <div class="stroke-grid">
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0627;</span><h4 class="info-card__title">Alif</h4><span class="arabic-tag">A &middot; 1 stroke</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0628;</span><h4 class="info-card__title">Baa</h4><span class="arabic-tag">B &middot; 2 strokes</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x062A;</span><h4 class="info-card__title">Taa</h4><span class="arabic-tag">T &middot; 3 strokes</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x062B;</span><h4 class="info-card__title">Thaa</h4><span class="arabic-tag">TH &middot; 4 strokes</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x062F;</span><h4 class="info-card__title">Daal</h4><span class="arabic-tag">D &middot; 1 stroke</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0631;</span><h4 class="info-card__title">Raa</h4><span class="arabic-tag">R &middot; 1 stroke</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0633;</span><h4 class="info-card__title">Seen</h4><span class="arabic-tag">S &middot; 1 stroke</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0635;</span><h4 class="info-card__title">Saad</h4><span class="arabic-tag">&#x1E62; &middot; 2 strokes</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0639;</span><h4 class="info-card__title">Ayn</h4><span class="arabic-tag">&#x02BF; &middot; 1 stroke</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0644;</span><h4 class="info-card__title">Laam</h4><span class="arabic-tag">L &middot; 1 stroke</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0645;</span><h4 class="info-card__title">Meem</h4><span class="arabic-tag">M &middot; 2 strokes</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0646;</span><h4 class="info-card__title">Noon</h4><span class="arabic-tag">N &middot; 2 strokes</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0647;</span><h4 class="info-card__title">Haa</h4><span class="arabic-tag">H &middot; 1 stroke</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x0648;</span><h4 class="info-card__title">Waaw</h4><span class="arabic-tag">W &middot; 2 strokes</span></div>
+        <div class="info-card" style="align-items:center;text-align:center;"><span class="letter-card__glyph">&#x064A;</span><h4 class="info-card__title">Yaa</h4><span class="arabic-tag">Y &middot; 3 strokes</span></div>
+      </div>
+      <div class="anna-footer">
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Print handbook for offline practice</a>
+      </div>
+    </section>
+
+    <!-- Assessment -->
+    <section class="section" id="assessment">
+      <div class="section__header">
+        <span class="eyebrow">Assessment &middot; Per Chapter</span>
+        <h2 class="section__title">A short quiz at the end of every chapter &mdash; gentle, but honest.</h2>
+        <p class="section__desc">Pick the chapter you&rsquo;ve just finished and take a five-question check. Your score is saved into your progress report below, so parents and teachers can see real evidence of growth.</p>
+      </div>
+      <div class="callout callout--info">
+        <span class="callout__icon">i</span>
+        <div>
+          <span class="callout__label">Quiz &middot; Pick a Chapter</span>
+          <p class="callout__text">Choose any of the nine chapters &mdash; Arabic alphabet, Short vowels (Harakat), Long vowels (Madd), Letters with Sukun, Letters with Shadda, Tanween (nunation), Naughty (non-connector) letters, Sun letters (Shamsiyyah), Moon letters (Qamariyyah) &mdash; to begin a five-question check.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Summary report -->
+    <section class="section" id="report">
+      <div class="section__header">
+        <span class="eyebrow">Summary Report &middot; For Students &amp; Parents</span>
+        <h2 class="section__title">A document you can share with school, hand to parents, or hold yourself accountable to.</h2>
+        <p class="section__desc">Add the student&rsquo;s details, then download or print the report. Charts update from quiz scores you&rsquo;ve taken on this device.</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <caption style="text-align:left;font-weight:700;padding:8px 0;">EduAakashaa &middot; Beginner Arabic Report &mdash; Chapter-wise progress</caption>
+          <thead><tr><th>Chapter</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Arabic alphabet</td><td>Pending</td></tr>
+            <tr><td>Short vowels (Harakat)</td><td>Pending</td></tr>
+            <tr><td>Long vowels (Madd)</td><td>Pending</td></tr>
+            <tr><td>Letters with Sukun</td><td>Pending</td></tr>
+            <tr><td>Letters with Shadda</td><td>Pending</td></tr>
+            <tr><td>Tanween (nunation)</td><td>Pending</td></tr>
+            <tr><td>Naughty (non-connector) letters</td><td>Pending</td></tr>
+            <tr><td>Sun letters (Shamsiyyah)</td><td>Pending</td></tr>
+            <tr><td>Moon letters (Qamariyyah)</td><td>Pending</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="content-text content-text--note">The progress report includes a skill radar, score-by-chapter snapshot of your most recent attempt, and a mastery curve averaged across all completed chapters. It can be printed or saved as a PDF.</p>
+    </section>
+
+    <!-- FAQ -->
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">&ldquo;?&rdquo;</span>
+      <div>
+        <span class="chapter-divider__label">FAQ &middot; For Parents &amp; Learners</span>
+        <span class="chapter-divider__title">Honest answers to the questions we hear most</span>
+      </div>
+    </div>
+    <section class="section">
+      <div class="faq-list">
+        <details class="faq-item" open>
+          <summary class="faq-item__q">Q&middot;01 &middot; For Students &mdash; I have never seen Arabic before. Where do I start?</summary>
+          <p class="faq-item__a">Begin with Chapter 01 (the alphabet) and don&rsquo;t skip ahead. Spend ten quiet minutes per chapter. Use the Listen mode first, then the Writing mode. Your eyes need to retrain to read right-to-left &mdash; go gently with yourself.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q">Q&middot;02 &middot; For Parents &mdash; How long does this beginner programme take to complete?</summary>
+          <p class="faq-item__a">Most beginners finish all nine chapters in three to four weeks at fifteen minutes a day. Younger children may need six to eight weeks. We deliberately keep each chapter small and reviewable, so coming back to it builds confidence rather than pressure.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q">Q&middot;03 &middot; For Parents &mdash; Do I need to know Arabic to support my child?</summary>
+          <p class="faq-item__a">No. Every chapter has a written explanation in plain English, audio narration, and a clear written tip for what to practise. The progress report (further down this page) is designed to be readable by a parent who has never studied Arabic.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q">Q&middot;04 &middot; For Students &mdash; My handwriting looks nothing like the example. Is that bad?</summary>
+          <p class="faq-item__a">Not at all. Arabic calligraphy takes years to master. The Writing handbook on this page shows the basic stroke direction; what matters at this stage is that the letter is recognisable and that the dots are in the right place. Speed comes later; accuracy comes first.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q">Q&middot;05 &middot; For Everyone &mdash; Why do some letters change shape when I see them in books?</summary>
+          <p class="faq-item__a">Arabic letters connect like cursive English. Most letters have an isolated, initial, medial and final form &mdash; small variations of the same shape. We focus on the isolated form first, since that&rsquo;s the foundation. Connected forms are introduced in our Level 02 programme.</p>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-item__q">Q&middot;06 &middot; For Students &mdash; I keep mixing up similar letters like &#x0628; &#x062A; &#x062B;. Help?</summary>
+          <p class="faq-item__a">You are not alone &mdash; this is the most common beginner challenge. The trick is to say the dot count aloud as you write: &ldquo;Baa, one dot below&rdquo;; &ldquo;Taa, two dots above&rdquo;; &ldquo;Thaa, three dots above&rdquo;. The body of the letter is identical; the dots tell the whole story.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+      <h2>Start learning today</h2>
+      <p>Education counselling and beginner Arabic instruction for students of every grade and every mother tongue. Coimbatore &middot; Dubai.</p>
+      <div class="final-cta__btns">
+        <a href="#ch1" class="btn-main">Begin Lesson 01 &rarr;</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Contact Us</a>
+      </div>
+    </section>
+  </main>
+{% endblock %}

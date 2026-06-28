@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Memberships — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500..700&family=Plus+Jakarta+Sans:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+<style>
+  :root{ --navy:#0E3A8A; --navy-ink:#071A44; --orange:#FF6B0A; --cream:#FBF7EE;
+         --paper:#FFFDF7; --ink:#0E1B3D; --muted:#5A6278; --hairline:#E8DFC8;
+         --green:#1F8B5C; --amber:#E89A1C; --red:#C23A3A; }
+  .adm{ background:var(--cream); min-height:100vh; padding:32px 24px;
+        font-family:'Plus Jakarta Sans',sans-serif; color:var(--ink); }
+  .adm-wrap{ max-width:1280px; margin:0 auto; }
+  .adm h1{ font-family:'Fraunces',serif; color:var(--navy-ink); font-size:2rem;
+           letter-spacing:-.02em; margin:0; }
+  .adm-eyebrow{ font-family:'JetBrains Mono',monospace; text-transform:uppercase;
+                letter-spacing:.2em; font-size:11px; color:var(--navy); }
+  .adm-top{ display:flex; align-items:flex-end; justify-content:space-between;
+            gap:16px; flex-wrap:wrap; margin-bottom:24px; }
+  .adm-kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+             background:var(--hairline); border:1px solid var(--hairline);
+             border-radius:14px; overflow:hidden; margin-bottom:22px; }
+  .adm-kpi{ background:var(--paper); padding:18px 20px; }
+  .adm-kpi .n{ font-family:'Fraunces',serif; font-size:1.9rem; color:var(--navy-ink); }
+  .adm-kpi .l{ font-family:'JetBrains Mono',monospace; font-size:10px;
+               text-transform:uppercase; letter-spacing:.15em; color:var(--muted); }
+  .adm-bar{ display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+            background:var(--paper); border:1px solid var(--hairline);
+            border-radius:14px; padding:14px 16px; margin-bottom:18px; }
+  .adm-bar input, .adm-bar select{ font-family:'Plus Jakarta Sans'; font-size:14px;
+            padding:9px 12px; border:1.5px solid var(--hairline); border-radius:9px;
+            background:var(--cream); color:var(--ink); outline:none; }
+  .adm-bar input:focus, .adm-bar select:focus{ border-color:var(--navy);
+            box-shadow:0 0 0 4px rgba(14,58,138,.08); }
+  .btn{ font-weight:600; font-size:14px; border:none; cursor:pointer;
+        border-radius:999px; padding:10px 18px; display:inline-flex; gap:6px;
+        align-items:center; text-decoration:none; transition:.2s; }
+  .btn-navy{ background:var(--navy); color:#fff; } .btn-navy:hover{ background:var(--orange); }
+  .btn-ghost{ background:transparent; color:var(--navy-ink); border:1.5px solid var(--navy-ink); }
+  .btn-ghost:hover{ background:var(--navy-ink); color:#fff; }
+  .adm-table-wrap{ background:var(--paper); border:1px solid var(--hairline);
+            border-radius:14px; overflow:auto; }
+  table.adm-table{ width:100%; border-collapse:collapse; font-size:13.5px; }
+  .adm-table th{ font-family:'JetBrains Mono',monospace; font-size:10px;
+            text-transform:uppercase; letter-spacing:.12em; color:var(--muted);
+            text-align:left; padding:12px 14px; border-bottom:1px solid var(--hairline);
+            white-space:nowrap; }
+  .adm-table td{ padding:11px 14px; border-bottom:1px solid #f1ead7; white-space:nowrap; }
+  .adm-table tr:hover td{ background:#faf5e8; }
+  .adm-table a.ref{ color:var(--navy); font-weight:700; text-decoration:none; font-family:'JetBrains Mono'; }
+  .pill{ font-family:'JetBrains Mono'; font-size:10px; letter-spacing:.06em;
+         text-transform:uppercase; padding:3px 9px; border-radius:999px; }
+  .s-New{ background:rgba(14,58,138,.10); color:var(--navy); }
+  .s-Approved{ background:rgba(232,154,28,.16); color:#9a6a10; }
+  .s-Invoiced{ background:rgba(232,154,28,.16); color:#9a6a10; }
+  .s-PartiallyPaid{ background:rgba(232,154,28,.16); color:#9a6a10; }
+  .s-Paid{ background:rgba(31,139,92,.14); color:var(--green); }
+  .adm-pager{ display:flex; gap:6px; justify-content:center; margin:22px 0; flex-wrap:wrap; }
+  .adm-pager a, .adm-pager span{ padding:7px 12px; border-radius:8px;
+         border:1px solid var(--hairline); background:var(--paper);
+         text-decoration:none; color:var(--ink); font-size:13px; }
+  .adm-pager .cur{ background:var(--navy); color:#fff; border-color:var(--navy); }
+  .flash-list{ list-style:none; padding:0; margin:0 0 16px; }
+  .flash-list li{ padding:10px 14px; border-radius:8px; font-size:.9rem; margin-bottom:8px; }
+  .flash-success{ background:#e6f9ed; color:#276738; border:1px solid #b8e6c8; }
+  .flash-danger{ background:#fce4e4; color:#a33; border:1px solid #f0bcbc; }
+  .flash-info{ background:#e4edf9; color:#2c5282; border:1px solid #bcd4f0; }
+  @media (max-width:720px){ .adm-kpis{ grid-template-columns:repeat(2,1fr); } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<ul class="flash-list">
+      {% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}
+    </ul>{% endif %}
+  {% endwith %}
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Memberships</div>
+      <h1>Membership Requests</h1>
+    </div>
+    <a class="btn btn-navy"
+       href="{{ url_for('membership.admin_export', q=q, status=status, tier=tier) }}">
+       ↓ Export to Excel</a>
+  </div>
+
+  <div class="adm-kpis">
+    <div class="adm-kpi"><div class="n">{{ stats.total }}</div><div class="l">Total</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.new }}</div><div class="l">New</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.invoiced }}</div><div class="l">Invoiced</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.paid }}</div><div class="l">Paid</div></div>
+  </div>
+
+  <form class="adm-bar" method="get" action="{{ url_for('membership.admin_list') }}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search name, email, phone, reference…" style="flex:1; min-width:200px;">
+    <select name="status">
+      <option value="">All statuses</option>
+      {% for s in STATUSES %}<option value="{{ s }}" {{ 'selected' if status==s }}>{{ s }}</option>{% endfor %}
+    </select>
+    <select name="tier">
+      <option value="">All tiers</option>
+      {% for t in TIERS %}<option value="{{ t }}" {{ 'selected' if tier==t }}>{{ t }}</option>{% endfor %}
+    </select>
+    <button class="btn btn-navy" type="submit">Filter</button>
+    <a class="btn btn-ghost" href="{{ url_for('membership.admin_list') }}">Reset</a>
+  </form>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr>
+        <th>Reference</th><th>Created</th><th>Name</th><th>Email</th><th>Phone</th>
+        <th>State</th><th>Tier</th><th>Total</th><th>Invoice</th><th>Payment</th><th>Status</th>
+      </tr></thead>
+      <tbody>
+        {% for a in rows %}
+        <tr>
+          <td><a class="ref" href="{{ url_for('membership.admin_detail', app_id=a.id) }}">{{ a.reference }}</a></td>
+          <td>{{ a.created_at.strftime('%d %b %Y') if a.created_at }}</td>
+          <td>{{ a.name }}</td>
+          <td>{{ a.email }}</td>
+          <td>{{ a.phone }}</td>
+          <td>{{ a.state }}</td>
+          <td>{{ a.tier }}</td>
+          <td>{{ rupees(a.final_total) }}</td>
+          <td>{{ a.invoice.invoice_no if a.invoice else '—' }}</td>
+          <td>{{ a.invoice.payment_status if a.invoice else '—' }}</td>
+          <td><span class="pill s-{{ a.status|replace(' ','') }}">{{ a.status }}</span></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="11" style="text-align:center; padding:40px; color:var(--muted);">No requests found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if pagination.pages > 1 %}
+  <div class="adm-pager">
+    {% if pagination.has_prev %}<a href="{{ url_for('membership.admin_list', page=pagination.prev_num, q=q, status=status, tier=tier) }}">‹ Prev</a>{% endif %}
+    {% for p in pagination.iter_pages() %}
+      {% if p %}
+        {% if p == pagination.page %}<span class="cur">{{ p }}</span>
+        {% else %}<a href="{{ url_for('membership.admin_list', page=p, q=q, status=status, tier=tier) }}">{{ p }}</a>{% endif %}
+      {% else %}<span>…</span>{% endif %}
+    {% endfor %}
+    {% if pagination.has_next %}<a href="{{ url_for('membership.admin_list', page=pagination.next_num, q=q, status=status, tier=tier) }}">Next ›</a>{% endif %}
+  </div>
+  {% endif %}
+
+</div></div>
+{% endblock %}

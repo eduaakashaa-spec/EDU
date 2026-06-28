@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}About Us | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+  <!-- ======== HERO ======== -->
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="hero__content">
+      <span class="badge">About EduAakashaA</span>
+      <h1>Welcome to<br><span>EduAakashaA</span></h1>
+      <p>Your trusted source for JOSAA seat allotment results and NRI admissions guidance.</p>
+      <div class="final-cta__btns" style="margin-top:24px;">
+        <a href="{{ url_for('main.josaa') }}" class="btn-main">Get Started &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <!-- ======== OUR MISSION ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Our Mission</span>
+        <h2 class="section__title">Guiding Students Towards the Right Future</h2>
+        <p class="section__desc">To simplify your engineering admissions journey with clear, timely, and reliable information.</p>
+      </div>
+      <div class="info-cards info-cards--3">
+        <div class="info-card"><div class="info-card__icon">&#x1F4CA;</div><div class="info-card__title">JOSAA Seat Allotment</div><p class="info-card__text">Search and explore your seat allotment results across IITs, NITs, IIEST and other premier institutes.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F30D;</div><div class="info-card__title">NRI Admissions</div><p class="info-card__text">Dedicated guidance on special seat allotments for Non-Resident Indians in engineering institutes.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F551;</div><div class="info-card__title">Always Up to Date</div><p class="info-card__text">Results, counselling schedules and updates reflected promptly on our platform &mdash; 24/7 access.</p></div>
+      </div>
+    </section>
+
+    <!-- ======== FAQs ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">FAQs</span>
+        <h2 class="section__title">Frequently Asked Questions</h2>
+      </div>
+      <div class="faq-list">
+        <details class="faq-item"><summary class="faq-item__q">What is JOSAA?</summary><p class="faq-item__a">JOSAA manages seat allocation for premier Indian engineering institutes.</p></details>
+        <details class="faq-item"><summary class="faq-item__q">How to check results?</summary><p class="faq-item__a">Use our interactive viewer to search and explore your seat allotment results easily.</p></details>
+        <details class="faq-item"><summary class="faq-item__q">Who can apply through JOSAA?</summary><p class="faq-item__a">Indian and NRI candidates aspiring for IITs, NITs, IIEST, and other colleges can participate.</p></details>
+        <details class="faq-item"><summary class="faq-item__q">What are NRI admissions?</summary><p class="faq-item__a">Special seat allotments for Non-Resident Indians in engineering institutes.</p></details>
+        <details class="faq-item"><summary class="faq-item__q">Are results updated regularly?</summary><p class="faq-item__a">Yes, results and updates are reflected promptly on our platform.</p></details>
+        <details class="faq-item"><summary class="faq-item__q">Where can I find counseling details?</summary><p class="faq-item__a">Counseling schedules and procedures are listed alongside seat allotment results here.</p></details>
+      </div>
+    </section>
+
+    <!-- ======== GET IN TOUCH ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Get in Touch</span>
+        <h2 class="section__title">Questions? Reach out anytime.</h2>
+        <p class="section__desc">We&rsquo;re here to help &mdash; check your JOSAA seat allotment results and NRI admissions updates.</p>
+      </div>
+      <div class="contact-grid">
+        <div class="contact-form-card">
+          <h3 class="chart-card__title" style="font-size:1.15rem;">Check Your Results</h3>
+          <form class="contact-form" method="post" action="{{ url_for('main.contact') }}">
+            <div class="form-group">
+              <label for="ab-name">Full Name</label>
+              <input type="text" id="ab-name" name="name" placeholder="Your full name">
+            </div>
+            <div class="form-group">
+              <label for="ab-email">Email <span style="color:var(--red);">*</span></label>
+              <input type="email" id="ab-email" name="email" placeholder="you@email.com" required>
+            </div>
+            <div class="form-group">
+              <label for="ab-roll">JOSAA Roll No <span style="color:var(--red);">*</span></label>
+              <input type="text" id="ab-roll" name="roll_no" placeholder="Your JOSAA roll number" required>
+            </div>
+            <button type="submit" class="btn-main">Check Results &rarr;</button>
+          </form>
+        </div>
+
+        <div class="contact-info-card">
+          <div class="contact-info-item">
+            <div class="contact-info-icon">&#x1F4CD;</div>
+            <div><strong>Address</strong><p>Online portal only</p></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">&#x1F551;</div>
+            <div><strong>Hours</strong><p>24/7 access</p></div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-info-icon">&#x1F310;</div>
+            <div><strong>Location</strong><p>Find us online anytime to check your JOSAA seat allotment results and NRI admissions updates.</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== CTA ======== -->
+    <div class="final-cta">
+      <h2>Ready to Plan Your Admission?</h2>
+      <p>Explore our JOSAA predictor and NRI admissions guidance, or talk to a counsellor for personalised help.</p>
+      <div class="final-cta__btns">
+        <a href="{{ url_for('main.josaa') }}" class="btn-main">JOSAA Predictor &rarr;</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Contact Us</a>
+      </div>
+    </div>
+
+  </main>
+{% endblock %}

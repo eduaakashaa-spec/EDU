@@ -1,86 +1,418 @@
 {% extends "base.html" %}
-{% block title %}NATA 2026 — Architecture Entrance Guide | EduAakashaA{% endblock %}
+{% block title %}NATA 2026 — Architecture Admissions Guide | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 {% endblock %}
 
 {% block content %}
+<!-- Hero -->
 <section class="hero">
   <div class="hero__glow"></div>
   <div class="hero__content">
-    <span class="badge">COMPLETE GUIDE · 2026</span>
-    <h1>Master the <span>NATA 2026</span> Exam</h1>
-    <p>Your definitive resource for NATA 2026 — exam process, schedule, top college rankings, career comparison, and personalized interest assessment.</p>
+    <span class="badge">ARCHITECTURE &middot; NATA 2026</span>
+    <h1>Master the <span>NATA Exam</span>, shape your future</h1>
+    <p>Your definitive resource for NATA 2026 &mdash; official exam process, schedule, NIRF rankings, career comparison, and a personalised interest test to find the path that fits you.</p>
     <div class="hero__meta">
-      <div class="hero__meta-item"><span class="hero__meta-label">COLLEGES</span><span class="hero__meta-value">450+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">TOTAL MARKS</span><span class="hero__meta-value">200</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">ATTEMPTS</span><span class="hero__meta-value">3</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">PROGRAMME</span><span class="hero__meta-value">5 yr B.Arch</span></div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Colleges</span>
+        <span class="hero__meta-value">450+</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Total Marks</span>
+        <span class="hero__meta-value">200</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Attempts / Year</span>
+        <span class="hero__meta-value">3</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">B.Arch Duration</span>
+        <span class="hero__meta-value">5 Yrs</span>
+      </div>
     </div>
   </div>
 </section>
 
-<div class="main-content">
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">EXAM PROCESS</span>
-      <h2 class="section__title">NATA 2026 Step-by-Step</h2>
-    </div>
-    <p class="content-text">The National Aptitude Test in Architecture (NATA) is conducted by the Council of Architecture (CoA).</p>
-    <div class="steps">
-      <div class="step"><span class="step__num">1</span><div><div class="step__title">Online Registration</div><div class="step__text">Register at <strong>nata.in</strong> with email &amp; mobile. Upload photo / signature. Fee: General ₹1,750 · SC/ST ₹1,250.</div></div></div>
-      <div class="step"><span class="step__num">2</span><div><div class="step__title">Eligibility Check</div><div class="step__text">10+2 with Physics &amp; Maths (50% aggregate) or 10+3 Diploma with Mathematics. Min age 17 by Jul 31, 2026.</div></div></div>
-      <div class="step"><span class="step__num">3</span><div><div class="step__title">Exam Pattern</div><div class="step__text">3-hour exam, 200 marks. Part A: Drawing &amp; Composition (offline, 80). Part B: MCQ/NCQ (online, 120). No negative marking.</div></div></div>
-      <div class="step"><span class="step__num">4</span><div><div class="step__title">Attempt &amp; Score</div><div class="step__text">Up to 3 attempts in Phase 1. Best score is considered. Qualifying cutoff ≈60/200. Top colleges need 120–145+.</div></div></div>
-      <div class="step"><span class="step__num">5</span><div><div class="step__title">Admit Card</div><div class="step__text">Available Tuesday for Friday exams, Wednesday for Saturday exams. Carry printed copy + valid photo ID.</div></div></div>
-      <div class="step"><span class="step__num">6</span><div><div class="step__title">Counselling &amp; Admission</div><div class="step__text">Colleges conduct their own counselling. Apply to 450+ CoA-recognized institutes across India.</div></div></div>
-    </div>
-  </section>
+<main class="main-content">
 
-  <section class="section">
+  <!-- Quick Facts -->
+  <section class="section" id="facts">
     <div class="section__header">
-      <span class="eyebrow">TOP COLLEGES</span>
-      <h2 class="section__title">Leading Architecture Colleges in India</h2>
+      <span class="eyebrow">Quick Facts</span>
+      <h2 class="section__title">NATA 2026 &mdash; At a Glance</h2>
+      <p class="section__desc">The essentials every architecture aspirant should know before registering.</p>
     </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>College</th><th>Location</th><th>Type</th><th>Indicative NATA Score</th></tr></thead>
-        <tbody>
-          <tr><td>SPA Delhi</td><td>Delhi</td><td>Central</td><td>140+</td></tr>
-          <tr><td>SPA Bhopal</td><td>Bhopal</td><td>Central</td><td>130+</td></tr>
-          <tr><td>CEPT University</td><td>Ahmedabad</td><td>Private (Deemed)</td><td>135+</td></tr>
-          <tr><td>NIT Calicut</td><td>Kozhikode</td><td>National</td><td>130+</td></tr>
-          <tr><td>NIT Trichy</td><td>Tiruchirappalli</td><td>National</td><td>128+</td></tr>
-          <tr><td>Anna University (CEG, MIT)</td><td>Chennai</td><td>State</td><td>120+</td></tr>
-          <tr><td>Jamia Millia Islamia</td><td>Delhi</td><td>Central</td><td>125+</td></tr>
-          <tr><td>IIT Roorkee / IIT Kharagpur</td><td>Roorkee / Kharagpur</td><td>IIT (JEE Adv Paper 2)</td><td>—</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="content-text content-text--note">Admissions via NATA score + 10+2 marks. IIT Roorkee &amp; IIT Kharagpur admit through JEE Advanced Architecture Aptitude Test (AAT).</p>
-  </section>
-
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">INTEREST TEST</span>
-      <h2 class="section__title">Is Architecture Right For You?</h2>
-    </div>
-    <ul class="check-list">
-      <li>Enjoy sketching, drawing, visualising 3-D objects from 2-D references.</li>
-      <li>Strong observation skills — notice proportion, scale, light &amp; shadow.</li>
-      <li>Comfortable working long hours on design studio projects.</li>
-      <li>Interest in history, culture &amp; sustainability alongside engineering logic.</li>
-      <li>Patience &amp; attention to detail — CAD, physical models, concept boards.</li>
+    <ul class="qual-details">
+      <li><strong>Conducted by:</strong> Council of Architecture (CoA)</li>
+      <li><strong>Format:</strong> Hybrid &mdash; Drawing (offline) + MCQ (online)</li>
+      <li><strong>Total Marks:</strong> 200 (Part A: 80 + Part B: 120)</li>
+      <li><strong>Duration:</strong> 3 hours (90 min each part)</li>
+      <li><strong>Negative Marking:</strong> None</li>
+      <li><strong>Score Validity:</strong> Best of all attempts considered</li>
     </ul>
   </section>
 
-  <div class="final-cta">
-    <h2>Need NATA 2026 Guidance?</h2>
-    <p>Get personalized coaching recommendations, portfolio prep guidance, and mentorship from EduAakashaA's design counsellors.</p>
-    <div class="final-cta__btns">
-      <a href="{{ url_for('main.contact') }}" class="btn-main">Talk to a Counsellor</a>
-      <a href="https://nata.in" target="_blank" rel="noopener" class="btn-out">Official NATA Portal →</a>
+  <!-- Exam Process -->
+  <section class="section" id="process">
+    <div class="section__header">
+      <span class="eyebrow">Step by Step &middot; Registration to Admission</span>
+      <h2 class="section__title">NATA 2026 Exam Process</h2>
+      <p class="section__desc">Conducted by the Council of Architecture (CoA) for B.Arch admission at 450+ recognised institutions across India.</p>
     </div>
-  </div>
-</div>
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">01</span>
+        <div>
+          <h4 class="step__title">Online Registration</h4>
+          <p class="step__text">Register at nata.in. Upload photo (4&ndash;100 KB) &amp; signature (1&ndash;30 KB) in JPG. Fee: General/OBC &#8377;1,750 | SC/ST/EWS/PwD &#8377;1,250 | Transgender &#8377;1,000. Print confirmation page.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">02</span>
+        <div>
+          <h4 class="step__title">Eligibility Check</h4>
+          <p class="step__text">10+2 with Physics &amp; Mathematics (compulsory) + Chemistry/Biology/CS/IT. Or 10+3 Diploma with Maths. Min 45% aggregate (40% SC/ST/OBC). Age: 17+ by 31 July 2026.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">03</span>
+        <div>
+          <h4 class="step__title">Exam Pattern</h4>
+          <p class="step__text">200 marks, 3 hrs. Part A: Drawing &amp; Composition (offline, 3 Qs, 80 marks, 90 min). Part B: MCQ &amp; NCQ (computer-based, 50 Qs, 120 marks, 90 min). No negative marking.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">04</span>
+        <div>
+          <h4 class="step__title">Multiple Attempts</h4>
+          <p class="step__text">Max 3 attempts (2 in Phase 1, 1 in Phase 2). Best of 2 scores considered. For 3 attempts, valid score = average of best two. Not mandatory to take all attempts.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">05</span>
+        <div>
+          <h4 class="step__title">Admit Card &amp; Results</h4>
+          <p class="step__text">Download from nata.in. Available Tue (for Fri exam) / Wed (for Sat exam). Carry printed copy + photo ID. Results within 7&ndash;10 days. Save scorecard for admissions.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">06</span>
+        <div>
+          <h4 class="step__title">Counselling &amp; Admission</h4>
+          <p class="step__text">CoA does not conduct centralised counselling. Apply directly to colleges or state counselling. Each college sets own cutoff marks. Top colleges typically need 120&ndash;145+ marks.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Exam Schedule -->
+  <section class="section" id="schedule">
+    <div class="section__header">
+      <span class="eyebrow">Important Dates &middot; Official Schedule</span>
+      <h2 class="section__title">NATA 2026 Exam Schedule</h2>
+      <p class="section__desc">Official schedule by the Council of Architecture. Subject to change under unavoidable circumstances.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Event</th><th>Phase</th><th>Date</th><th>Details</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Registration Opens</strong></td><td>Phase 1</td><td>9 March 2026</td><td>Online at nata.in</td></tr>
+          <tr><td><strong>Phase 1 Exams</strong></td><td>Phase 1</td><td>4 Apr &ndash; 13 Jun 2026</td><td>Every Fri &amp; Sat</td></tr>
+          <tr><td><strong>Friday Timing</strong></td><td>Phase 1</td><td>1:30 &ndash; 4:30 PM</td><td>Afternoon only</td></tr>
+          <tr><td><strong>Saturday Timing</strong></td><td>Phase 1</td><td>10 AM &ndash; 1 PM &amp; 1:30 &ndash; 4:30 PM</td><td>Morning + Afternoon</td></tr>
+          <tr><td><strong>Apply Deadline</strong></td><td>Phase 1</td><td>Mon 11:59 PM (Fri) / Tue 11:59 PM (Sat)</td><td>Weekly rolling</td></tr>
+          <tr><td><strong>Correction Window</strong></td><td>Phase 1</td><td>Tue 11:59 PM (Fri) / Wed 11:59 PM (Sat)</td><td>One-time only</td></tr>
+          <tr><td><strong>Results</strong></td><td>Phase 1</td><td>Within 7&ndash;10 days</td><td>Best score considered</td></tr>
+          <tr><td><strong>Phase 2 Exam</strong></td><td>Phase 2</td><td>7 &amp; 8 August 2026</td><td>AM + PM shifts</td></tr>
+          <tr><td><strong>Phase 2 Note</strong></td><td>Phase 2</td><td>Non-Phase 1 candidates only</td><td>Single attempt</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Top Colleges -->
+  <section class="section" id="colleges">
+    <div class="section__header">
+      <span class="eyebrow">NIRF 2025 &middot; Ministry of Education</span>
+      <h2 class="section__title">Top Architecture Colleges in India</h2>
+      <p class="section__desc">Based on NIRF 2025 rankings. Considers teaching quality, research, graduation outcomes, and inclusivity.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>Institution</th><th>City</th><th>Type</th><th>Score</th><th>Entrance</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td><strong>IIT Roorkee</strong></td><td>Roorkee</td><td>IIT</td><td>82.01</td><td>JEE Advanced</td></tr>
+          <tr><td>2</td><td><strong>NIT Calicut</strong></td><td>Kozhikode</td><td>NIT</td><td>73.65</td><td>JEE Main / NATA</td></tr>
+          <tr><td>3</td><td><strong>IIT Kharagpur</strong></td><td>Kharagpur</td><td>IIT</td><td>72.88</td><td>JEE Advanced</td></tr>
+          <tr><td>4</td><td><strong>Jamia Millia Islamia</strong></td><td>New Delhi</td><td>Central Univ.</td><td>68.54</td><td>NATA / JEE Main</td></tr>
+          <tr><td>5</td><td><strong>NIT Rourkela</strong></td><td>Rourkela</td><td>NIT</td><td>66.90</td><td>JEE Main / NATA</td></tr>
+          <tr><td>6</td><td><strong>CEPT University</strong></td><td>Ahmedabad</td><td>Private</td><td>65.73</td><td>NATA / JEE Main</td></tr>
+          <tr><td>7</td><td><strong>SPA New Delhi</strong></td><td>New Delhi</td><td>Govt.</td><td>65.11</td><td>NATA</td></tr>
+          <tr><td>8</td><td><strong>NIT Tiruchirappalli</strong></td><td>Trichy</td><td>NIT</td><td>64.30</td><td>JEE Main / NATA</td></tr>
+          <tr><td>9</td><td><strong>VNIT Nagpur</strong></td><td>Nagpur</td><td>NIT</td><td>61.22</td><td>JEE Main / NATA</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note">Source: NIRF India Rankings 2025 &bull; nirfindia.org</p>
+  </section>
+
+  <!-- Architecture vs Engineering -->
+  <section class="section" id="compare">
+    <div class="section__header">
+      <span class="eyebrow">Head to Head &middot; Career Comparison</span>
+      <h2 class="section__title">Architecture vs Engineering</h2>
+      <p class="section__desc">Key differences for an informed career decision.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Aspect</th><th>B.Arch (Architecture via NATA)</th><th>B.Tech / B.E. (Engineering)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Duration</strong></td><td>5 years (10 semesters)</td><td>4 years (8 semesters)</td></tr>
+          <tr><td><strong>Exam</strong></td><td>Aptitude + Drawing + Creativity</td><td>JEE Main / State CETs (MCQ)</td></tr>
+          <tr><td><strong>Focus</strong></td><td>Design thinking, spatial visualization</td><td>Math, physics, problem-solving</td></tr>
+          <tr><td><strong>Subjects</strong></td><td>Design, Arch History, Building Tech</td><td>CS, Mechanical, ECE, Civil, etc.</td></tr>
+          <tr><td><strong>Careers</strong></td><td>Architect, Urban Planner, Interior Designer</td><td>Software Eng, Data Scientist, Mech Eng</td></tr>
+          <tr><td><strong>Salary</strong></td><td>4&ndash;8 LPA (top: 70+ LPA)</td><td>4&ndash;12 LPA (top IITs much higher)</td></tr>
+          <tr><td><strong>Best for</strong></td><td>Creative thinkers who love design</td><td>Analytical minds who enjoy tech</td></tr>
+          <tr><td><strong>Regulation</strong></td><td>Council of Architecture (CoA)</td><td>AICTE</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Interest Test -->
+  <section class="section" id="test">
+    <div class="section__header">
+      <span class="eyebrow">Discover Yourself &middot; 10 Questions</span>
+      <h2 class="section__title">Architecture or Engineering?</h2>
+      <p class="section__desc">Answer 10 quick questions to find your ideal career path.</p>
+    </div>
+    <div class="quiz-container">
+      <div id="quizBody">
+        <span class="eyebrow" id="quizProgress">Question 1 of 10</span>
+        <p class="quiz-question" id="quizQuestion">When you see a beautiful building, what is your first thought?</p>
+        <div class="quiz-options" id="quizOptions">
+          <button type="button" class="quiz-opt" data-val="arch">I want to design something like this!</button>
+          <button type="button" class="quiz-opt" data-val="eng">I wonder how it was built structurally.</button>
+        </div>
+      </div>
+      <div class="quiz-result" id="quizResult" style="display:none;">
+        <h3 id="quizVerdict"></h3>
+        <p id="quizVerdictText"></p>
+      </div>
+      <div class="anna-footer">
+        <button type="button" class="btn-out" id="quizPrev">&larr; Previous</button>
+        <button type="button" class="btn-main" id="quizNext">Next &rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stream Selection Guide -->
+  <section class="section" id="streams">
+    <div class="section__header">
+      <span class="eyebrow">Career Streams &middot; Guide</span>
+      <h2 class="section__title">Stream Selection Guide</h2>
+      <p class="section__desc">Based on your personality and interests.</p>
+    </div>
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <span class="info-card__icon">&#9997;&#65039;</span>
+        <h4 class="info-card__title">Architecture &amp; Design</h4>
+        <p class="info-card__text">NATA / JEE B.ARCH</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#128187;</span>
+        <h4 class="info-card__title">Computer Science</h4>
+        <p class="info-card__text">JEE / STATE CETS</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#128300;</span>
+        <h4 class="info-card__title">Medical Sciences</h4>
+        <p class="info-card__text">NEET</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#128202;</span>
+        <h4 class="info-card__title">Commerce &amp; Business</h4>
+        <p class="info-card__text">CA / MBA / BBA</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#127912;</span>
+        <h4 class="info-card__title">Fine Arts</h4>
+        <p class="info-card__text">NID / NIFT / BFA</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#128640;</span>
+        <h4 class="info-card__title">Core Engineering</h4>
+        <p class="info-card__text">JEE / GATE</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Insights -->
+  <section class="section" id="insights">
+    <div class="section__header">
+      <span class="eyebrow">Decision Making &middot; Insights</span>
+      <h2 class="section__title">Key Insights for Students &amp; Parents</h2>
+      <p class="section__desc">Critical factors before choosing your path.</p>
+    </div>
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <span class="info-card__icon">&#127919;</span>
+        <h4 class="info-card__title">Follow Aptitude, Not Trends</h4>
+        <p class="info-card__text">If drawing excites you but JEE math feels like a struggle, don&rsquo;t force-fit into engineering just because it&rsquo;s popular.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#128176;</span>
+        <h4 class="info-card__title">ROI &amp; Salary</h4>
+        <p class="info-card__text">Engineering has wider starting salary range, but Architecture from top NIRF colleges offers strong and comparable ROI.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#128218;</span>
+        <h4 class="info-card__title">5 Years vs 4 Years</h4>
+        <p class="info-card__text">B.Arch&rsquo;s extra year includes mandatory internship and thesis, giving real-world experience before graduation.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#127758;</span>
+        <h4 class="info-card__title">Global Opportunities</h4>
+        <p class="info-card__text">Architects can pursue RIBA (UK) and AIA (USA) certifications. Both paths offer strong international prospects.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#128640;</span>
+        <h4 class="info-card__title">Crossover Fields</h4>
+        <p class="info-card__text">Computational design, sustainable architecture, smart cities, and BIM blend both Architecture and Engineering skills.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#128161;</span>
+        <h4 class="info-card__title">Try Before You Decide</h4>
+        <p class="info-card__text">Sketch a room design vs solve a math puzzle. Whichever excites you more reveals your true calling.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recommendations -->
+  <section class="section" id="recommendations">
+    <div class="section__header">
+      <span class="eyebrow">EduAakashaa Recommendations</span>
+      <h2 class="section__title">A Plan for Every Aspirant</h2>
+    </div>
+    <div class="service-cards">
+      <div class="service-card">
+        <span class="service-card__icon">&#9997;&#65039;</span>
+        <h4 class="service-card__title">For Architecture Aspirants</h4>
+        <p class="service-card__text">Practise freehand sketching daily. Study colour theory. Attempt mock NATA tests early. Visit architectural sites. Build a drawing portfolio.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-card__icon">&#128187;</span>
+        <h4 class="service-card__title">For Engineering Aspirants</h4>
+        <p class="service-card__text">Focus on JEE/CET preparation. Strengthen Physics and Maths. Explore branches via online courses. Attend hackathons. Check placement records.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-card__icon">&#129300;</span>
+        <h4 class="service-card__title">For Undecided Students</h4>
+        <p class="service-card__text">Take the interest test above. Talk to professionals. Try a 1-week design challenge, then a 1-week coding challenge. Let your energy guide you.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="final-cta">
+    <h2>Find the right future for you.</h2>
+    <p>Guiding students towards the right future &mdash; the right to quality education and career. Get personalised NATA and architecture admission guidance from EduAakashaa.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Get Counselling &rarr;</a>
+      <a href="#test" class="btn-out">Take the Interest Test</a>
+    </div>
+  </section>
+
+</main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const questions = [
+    { q: 'When you see a beautiful building, what is your first thought?',
+      a: 'I want to design something like this!', b: 'I wonder how it was built structurally.' },
+    { q: 'Which task sounds more enjoyable on a free afternoon?',
+      a: 'Sketching a room layout or a facade.', b: 'Solving a tricky maths or physics problem.' },
+    { q: 'How do you prefer to express an idea?',
+      a: 'Through drawings, models and visuals.', b: 'Through formulas, code or logical steps.' },
+    { q: 'Which school subject did you enjoy the most?',
+      a: 'Art, design or geography.', b: 'Mathematics or computer science.' },
+    { q: 'When working on a project, you care most about...',
+      a: 'How it looks and feels to people.', b: 'How efficiently and correctly it works.' },
+    { q: 'A 5-year course with internship and thesis...',
+      a: 'Sounds great &mdash; more time to master the craft.', b: 'I would rather finish in 4 years and start working.' },
+    { q: 'Your ideal workplace is...',
+      a: 'A studio with drawings, materials and site visits.', b: 'A lab or office building software and systems.' },
+    { q: 'Which career excites you more?',
+      a: 'Architect, urban planner, interior designer.', b: 'Software engineer, data scientist, mechanical engineer.' },
+    { q: 'You are naturally better at...',
+      a: 'Imagining spaces and visual composition.', b: 'Breaking problems into logical pieces.' },
+    { q: 'Pick the statement that fits you best.',
+      a: 'I am a creative thinker who loves design.', b: 'I am an analytical mind who enjoys tech.' }
+  ];
+
+  let idx = 0;
+  const answers = new Array(questions.length).fill(null);
+
+  const progress = document.getElementById('quizProgress');
+  const qEl = document.getElementById('quizQuestion');
+  const optsEl = document.getElementById('quizOptions');
+  const body = document.getElementById('quizBody');
+  const result = document.getElementById('quizResult');
+  const verdict = document.getElementById('quizVerdict');
+  const verdictText = document.getElementById('quizVerdictText');
+  const prevBtn = document.getElementById('quizPrev');
+  const nextBtn = document.getElementById('quizNext');
+
+  function render() {
+    const item = questions[idx];
+    progress.textContent = 'Question ' + (idx + 1) + ' of ' + questions.length;
+    qEl.innerHTML = item.q;
+    optsEl.innerHTML =
+      '<button type="button" class="quiz-opt' + (answers[idx] === 'arch' ? ' selected' : '') + '" data-val="arch">' + item.a + '</button>' +
+      '<button type="button" class="quiz-opt' + (answers[idx] === 'eng' ? ' selected' : '') + '" data-val="eng">' + item.b + '</button>';
+    prevBtn.disabled = idx === 0;
+    nextBtn.textContent = idx === questions.length - 1 ? 'See result →' : 'Next →';
+  }
+
+  optsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('.quiz-opt');
+    if (!btn) return;
+    answers[idx] = btn.dataset.val;
+    optsEl.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+  });
+
+  prevBtn.addEventListener('click', () => { if (idx > 0) { idx--; render(); } });
+
+  nextBtn.addEventListener('click', () => {
+    if (!answers[idx]) { return; }
+    if (idx < questions.length - 1) { idx++; render(); return; }
+    const arch = answers.filter(a => a === 'arch').length;
+    const eng = answers.length - arch;
+    body.style.display = 'none';
+    result.style.display = 'block';
+    if (arch > eng) {
+      verdict.textContent = 'Architecture suits you best (' + arch + '/10)';
+      verdictText.textContent = 'Your answers lean towards design thinking and visual creativity. Explore NATA and B.Arch — start sketching and attempt a mock NATA test.';
+    } else if (eng > arch) {
+      verdict.textContent = 'Engineering suits you best (' + eng + '/10)';
+      verdictText.textContent = 'Your answers lean towards analytical problem-solving. Explore JEE/CET pathways and shortlist engineering branches that excite you.';
+    } else {
+      verdict.textContent = "It's a tie (5/5)";
+      verdictText.textContent = 'You have balanced strengths. Try a 1-week design challenge and a 1-week coding challenge — whichever energises you more is your direction.';
+    }
+  });
+
+  render();
+});
+</script>
 {% endblock %}

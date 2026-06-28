@@ -1,44 +1,214 @@
 {% extends "base.html" %}
-{% block title %}PER Assessment | EduAakashaA{% endblock %}
+{% block title %}PER Physics Diagnostic — Understand How You Think About Physics | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 {% endblock %}
+
 {% block content %}
+<!-- ======== HERO ======== -->
 <section class="hero">
   <div class="hero__glow"></div>
   <div class="hero__content">
-    <span class="badge">ASSESSMENT</span>
-    <h1>PER <span>Assessment</span></h1>
-    <p>A guided assessment to understand your strengths, preferences and fit — designed for students making admission and stream decisions.</p>
+    <span class="badge">Physics Diagnostic &middot; PER-Based Assessment</span>
+    <h1>Understand <span>how you think</span> about physics &mdash; not just what you score.</h1>
+    <p>A scientific diagnostic built on Physics Education Research, cognitive science, and learning psychology. Identify misconceptions, mental models, and skill gaps. Get a personalised 7-day action plan from our experts.</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item"><span class="hero__meta-label">Questions</span><span class="hero__meta-value">10+</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">Duration</span><span class="hero__meta-value">35 min</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">Learner Profiles</span><span class="hero__meta-value">4</span></div>
+      <div class="hero__meta-item"><span class="hero__meta-label">Plan</span><span class="hero__meta-value">7-day</span></div>
+    </div>
+    <div class="final-cta__btns" style="margin-top:24px;justify-content:flex-start;">
+      <a href="#your-details" class="btn-main">Start your assessment &rarr;</a>
+      <a href="#framework" class="btn-out">See the framework</a>
+    </div>
   </div>
 </section>
 
-<div class="main-content">
+<main class="main-content">
+
+  <!-- ======== INSIDE THIS ASSESSMENT ======== -->
   <section class="section">
     <div class="section__header">
-      <span class="eyebrow">WHAT YOU GET</span>
-      <h2 class="section__title">A clear, actionable report</h2>
+      <span class="eyebrow">Inside This Assessment</span>
+      <h2 class="section__title">Eight scientific lenses</h2>
+      <p class="section__desc">A diagnostic report (PER &middot; v1.0) that looks beyond right and wrong answers.</p>
     </div>
-    <ul class="check-list">
-      <li>Personal fit summary across interest, aptitude and motivation</li>
-      <li>Recommended next steps: streams, programs and preparation roadmap</li>
-      <li>Shortlist guidance and counsellor discussion points</li>
-    </ul>
+    <div class="steps">
+      <div class="step"><span class="step__num">01</span><div><div class="step__title">Mental model analysis</div><p class="step__text">How you imagine physics.</p></div></div>
+      <div class="step"><span class="step__num">02</span><div><div class="step__title">Misconception diagnosis</div><p class="step__text">Misconception diagnosis &amp; conceptual change.</p></div></div>
+      <div class="step"><span class="step__num">03</span><div><div class="step__title">Dual coding</div><p class="step__text">Visual + verbal reasoning.</p></div></div>
+      <div class="step"><span class="step__num">04</span><div><div class="step__title">Cognitive load &amp; chunking</div><p class="step__text">Chunking ability under load.</p></div></div>
+      <div class="step"><span class="step__num">05</span><div><div class="step__title">Confidence vs correctness</div><p class="step__text">Confidence vs correctness matrix.</p></div></div>
+      <div class="step"><span class="step__num">06</span><div><div class="step__title">Error pattern analysis</div><p class="step__text">Recurring error patterns surfaced.</p></div></div>
+      <div class="step"><span class="step__num">07</span><div><div class="step__title">Conceptual &harr; numerical transfer</div><p class="step__text">Bridging ideas and calculations.</p></div></div>
+      <div class="step"><span class="step__num">08</span><div><div class="step__title">Real-world application</div><p class="step__text">Real-world application reasoning.</p></div></div>
+    </div>
   </section>
 
-  <div class="final-cta">
-    <h2>Start the PER Assessment</h2>
-    <p>Sign in to begin. Your progress can be saved and reviewed by a counsellor.</p>
-    <div class="final-cta__btns">
+  <!-- ======== FRAMEWORK ======== -->
+  <div class="chapter-divider" id="framework">
+    <span class="chapter-divider__num">&ldquo;&#x1F9EA;&rdquo;</span>
+    <div>
+      <span class="chapter-divider__label">Framework &middot; Built on Research</span>
+      <span class="chapter-divider__title">Grounded in Physics Education Research, not guesswork.</span>
+    </div>
+  </div>
+  <section class="section">
+    <p class="content-text">We don't grade you on what you got wrong. We diagnose <em>why</em> you got it wrong &mdash; and what cognitive pattern produced the error.</p>
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__label">01</div>
+        <div class="info-card__title">Mental models</div>
+        <p class="info-card__text">Diagnose how you internally picture motion, force, and energy. Reveals whether your reasoning matches Newtonian or Aristotelian models.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">02</div>
+        <div class="info-card__title">Misconception traps</div>
+        <p class="info-card__text">30% of items are research-validated distractors. Selecting one identifies a specific conceptual confusion to target.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">03</div>
+        <div class="info-card__title">Confidence mapping</div>
+        <p class="info-card__text">You rate your certainty on every answer (1&ndash;5). Confidence &times; correctness reveals mastery, gaps, and dangerous misconceptions.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">04</div>
+        <div class="info-card__title">Skill profile</div>
+        <p class="info-card__text">Six-skill tagging &mdash; conceptual, visual, mathematical, multi-step, misconception, and transfer &mdash; produces your learner type (A/B/C/D).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== CHOOSE YOUR PORTAL ======== -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Choose Your Portal</span>
+      <h2 class="section__title">Student or Expert?</h2>
+      <p class="section__desc">Students take the diagnostic and request a report. Experts review submissions, generate insights, and send the report back to the student.</p>
+    </div>
+    <div class="info-cards">
+      <a href="#your-details" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F9D1;&#x200D;&#x1F393;</div>
+        <div class="info-card__title">Student</div>
+        <p class="info-card__text">Take the diagnostic and request your personalised report.</p>
+      </a>
       {% if current_user.is_authenticated %}
-        <a href="{{ url_for('auth.dashboard') }}" class="btn-main">Go to Dashboard</a>
-        <a href="{{ url_for('main.contact') }}" class="btn-out">Book a Counsellor</a>
+      <a href="{{ url_for('auth.dashboard') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F9D1;&#x200D;&#x1F3EB;</div>
+        <div class="info-card__title">Expert / Counsellor</div>
+        <p class="info-card__text">Review submissions, generate insights, and send the report back.</p>
+      </a>
       {% else %}
-        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login to start</a>
-        <a href="{{ url_for('auth.register') }}" class="btn-out">Create free account</a>
+      <a href="{{ url_for('auth.login', next=request.path) }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F9D1;&#x200D;&#x1F3EB;</div>
+        <div class="info-card__title">Expert / Counsellor</div>
+        <p class="info-card__text">Log in to review submissions, generate insights, and send the report back.</p>
+      </a>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- ======== STUDENT DETAILS FORM ======== -->
+  <section class="section" id="your-details">
+    <div class="section__header">
+      <span class="eyebrow">Step 01 &middot; Your Details</span>
+      <h2 class="section__title">Tell us about you.</h2>
+      <p class="section__desc">We use these details to personalise your diagnostic report and have our expert counsellor reach out.</p>
+    </div>
+    <div class="contact-form-card">
+      <form class="contact-form" method="post" action="{{ url_for('main.contact') }}">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="per-name">Full name</label>
+            <input type="text" id="per-name" name="name" placeholder="e.g. Aarav Sharma" required>
+          </div>
+          <div class="form-group">
+            <label for="per-email">Email address</label>
+            <input type="email" id="per-email" name="email" placeholder="you@example.com">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="per-phone">Phone (with code)</label>
+            <input type="tel" id="per-phone" name="phone" placeholder="+91 90000 00000">
+          </div>
+          <div class="form-group">
+            <label for="per-class">Class / Exam</label>
+            <select id="per-class" name="class_exam">
+              <option value="">Select your level</option>
+              <option>Class 11 — CBSE</option>
+              <option>Class 12 — CBSE</option>
+              <option>JEE Main aspirant</option>
+              <option>JEE Advanced aspirant</option>
+              <option>NEET aspirant</option>
+              <option>State Board</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="per-school">School / coaching (optional)</label>
+            <input type="text" id="per-school" name="school" placeholder="e.g. PSG Public School">
+          </div>
+          <div class="form-group">
+            <label for="per-topic">Assessment topic</label>
+            <select id="per-topic" name="topic">
+              <option value="">— Choose a topic —</option>
+              <option>Mixed (all topics) — recommended</option>
+              <option>Kinematics</option>
+              <option>Newton's Laws of Motion</option>
+              <option>Work, Energy &amp; Power</option>
+              <option>Electricity &amp; Current</option>
+              <option>Waves &amp; Optics</option>
+              <option>Thermodynamics</option>
+              <option>Rotational Motion</option>
+              <option>Gravitation</option>
+              <option>Modern Physics &amp; Atomic Structure</option>
+              <option>Fluid Mechanics &amp; Properties of Matter</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="per-goal">What's your physics goal? (one line)</label>
+          <input type="text" id="per-goal" name="goal" placeholder="e.g. Score 90+ in Class 12 boards &amp; clear JEE Main">
+        </div>
+        <div class="final-cta__btns" style="justify-content:flex-start;">
+          <button type="submit" class="btn-main">Begin diagnostic &rarr;</button>
+          <button type="reset" class="btn-out">Reset</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- ======== HOW IT WORKS ======== -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">How It Works &middot; Three Steps</span>
+      <h2 class="section__title">From submission to action plan, in 24 hours.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="step__num">01</span><div><div class="step__title">Student takes the diagnostic</div><p class="step__text">10 calibrated questions, 35 minutes, with confidence ratings on every answer. Submit through the student portal.</p></div></div>
+      <div class="step"><span class="step__num">02</span><div><div class="step__title">Expert reviews &amp; analyses</div><p class="step__text">A trained counsellor analyses confidence-correctness patterns, error types, and misconceptions in the expert portal.</p></div></div>
+      <div class="step"><span class="step__num">03</span><div><div class="step__title">Personalised report sent</div><p class="step__text">A colourful, insight-rich report &mdash; with classification, gaps, misconceptions, and a 7-day plan &mdash; is emailed within 24 hours.</p></div></div>
+      <div class="step"><span class="step__num">&#9733;</span><div><div class="step__title">Bonus &middot; Free 30-min counselling</div><p class="step__text">Walk through your report with our counsellor. Refine the action plan and get answers to every question, on us.</p></div></div>
+    </div>
+  </section>
+
+  <!-- ======== CTA ======== -->
+  <div class="final-cta">
+    <h2>Ready to diagnose how you think about physics?</h2>
+    <p>Take the PER diagnostic, get an expert-reviewed report with a 7-day plan, and a free 30-minute counselling call to walk through it.</p>
+    <div class="final-cta__btns">
+      <a href="#your-details" class="btn-main">Take Assessment &rarr;</a>
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('auth.dashboard') }}" class="btn-out">Expert Login</a>
+      {% else %}
+        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-out">Expert Login</a>
       {% endif %}
     </div>
   </div>
-</div>
-{% endblock %}
 
+</main>
+{% endblock %}

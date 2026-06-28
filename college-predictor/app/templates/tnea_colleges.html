@@ -1,0 +1,310 @@
+{% extends "base.html" %}
+{% block title %}TNEA Colleges in Tamil Nadu 2026 · District &amp; Cut-off Guide | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">TNEA · STATE COUNSELLING BRIEF</span>
+    <h1>Where are Tamil Nadu's <span>TNEA colleges?</span></h1>
+    <p>Tamil Nadu has 571 engineering colleges participating in TNEA — the centralised state counselling run by Anna University. Chennai and Coimbatore alone host 32% of them.</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Total Colleges</span>
+        <span class="hero__meta-value">571</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Districts</span>
+        <span class="hero__meta-value">38</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Most Colleges</span>
+        <span class="hero__meta-value">Chennai</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Chennai + CBE Share</span>
+        <span class="hero__meta-value">30%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Quick facts -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">QUICK FACTS · TNEA 2024</span>
+      <h2 class="section__title">What makes TNEA different</h2>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__icon">🏫</div>
+        <div class="info-card__title">571 Total Colleges</div>
+        <div class="info-card__text">All 38 of 38 districts covered by participating institutions.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📊</div>
+        <div class="info-card__title">Cut-off out of 200</div>
+        <div class="info-card__text">Based on Class 12 PCM — Maths × 1 + Physics × 0.5 + Chemistry × 0.5.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">✓</div>
+        <div class="info-card__title">No JEE Needed</div>
+        <div class="info-card__text">Admission is purely on Class 12 board marks — no entrance exam required.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏛️</div>
+        <div class="info-card__title">69% Government Quota</div>
+        <div class="info-card__text">21 government and 6 govt-aided colleges; 544 self-financing colleges.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- District distribution -->
+  <section class="section" id="districts">
+    <div class="section__header">
+      <span class="eyebrow">DISTRICT MAP · WHERE THE COLLEGES ARE</span>
+      <h2 class="section__title">Top districts by participating-college count</h2>
+      <p class="section__desc">The 571 colleges spread across all 38 TN districts. Chennai, Coimbatore, Kanchipuram, Chengalpattu and Tiruchirappalli together host nearly half of them.</p>
+    </div>
+
+    <div class="callout callout--info" style="margin-bottom:24px;">
+      <div class="callout__icon">📍</div>
+      <div>
+        <span class="callout__label">FILTER BY TYPE</span>
+        <span class="callout__text">All TNEA: 571 · Government: 21 · Govt-Aided: 6 · Self-Financing: 544 · Top-tier (NIRF / A++): 10</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>#</th><th>District</th><th>Participating colleges</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>01</td><td><strong>Chennai</strong></td><td>105</td></tr>
+          <tr><td>02</td><td><strong>Coimbatore</strong></td><td>80</td></tr>
+          <tr><td>03</td><td>Kanchipuram</td><td>38</td></tr>
+          <tr><td>04</td><td>Chengalpattu</td><td>32</td></tr>
+          <tr><td>05</td><td>Tiruchirappalli</td><td>30</td></tr>
+          <tr><td>06</td><td>Madurai</td><td>28</td></tr>
+          <tr><td>07</td><td>Salem</td><td>25</td></tr>
+          <tr><td>08</td><td>Erode</td><td>24</td></tr>
+          <tr><td>09</td><td>Tiruvallur</td><td>22</td></tr>
+          <tr><td>10</td><td>Tirunelveli</td><td>22</td></tr>
+          <tr><td>11</td><td>Vellore</td><td>20</td></tr>
+          <tr><td>12</td><td>Tiruvannamalai</td><td>16</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Cut-off bands -->
+  <section class="section" id="cutoffs">
+    <div class="section__header">
+      <span class="eyebrow">CUT-OFF BANDS · TNEA 2024 (APPROXIMATE)</span>
+      <h2 class="section__title">What cut-off gets you which college?</h2>
+      <p class="section__desc">TNEA cut-offs are out of 200 (Maths × 1 + Physics × 0.5 + Chemistry × 0.5). These ranges are approximate, based on the 2024 General-OC closing cut-offs for the most-demanded branches.</p>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card" style="border-color:var(--gold);">
+        <div class="info-card__icon" style="background:#FFF8F0;color:var(--gold);">🥇</div>
+        <div class="info-card__title">Top Tier · CSE · 199–200</div>
+        <div class="info-card__text">Anna University constituent colleges. Anna University CEG (Chennai) CSE 199.75, MIT Chrompet CSE 199.5, CEG ECE 199.5.</div>
+      </div>
+      <div class="info-card" style="border-color:var(--blue);">
+        <div class="info-card__icon" style="background:var(--blue-bg);color:var(--blue);">🥈</div>
+        <div class="info-card__title">High Tier · CSE · 195–199</div>
+        <div class="info-card__text">Top autonomous self-financing colleges. PSG Tech CSE 198.5, SSN College CSE 198.0, CIT Coimbatore CSE 197.5, Govt CT Coimbatore CSE 197.</div>
+      </div>
+      <div class="info-card" style="border-color:var(--green);">
+        <div class="info-card__icon" style="background:var(--green-bg);color:var(--green);">🥉</div>
+        <div class="info-card__title">Strong Tier · CSE · 188–195</div>
+        <div class="info-card__text">Reputed private autonomous colleges. Thiagarajar Madurai CSE 192, Kumaraguru CoT CSE 191, Bannari Amman IoT CSE 190, Rajalakshmi CSE 192.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🏫</div>
+        <div class="info-card__title">Mid Tier · CSE · 175–188</div>
+        <div class="info-card__text">Established self-financing colleges. Velammal Chennai CSE 187, Easwari CSE 184, Saveetha Thandalam CSE 182, Hindustan IT&amp;S CSE 178.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📘</div>
+        <div class="info-card__title">Entry Tier · CSE · 150–175</div>
+        <div class="info-card__text">Self-financing with wide branch availability. SRM Valliammai CSE 168, Jeppiaar CSE 162, Panimalar IoT CSE 165, MNM Jain CSE 158.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🔓</div>
+        <div class="info-card__title">Open Tier · 100–150</div>
+        <div class="info-card__text">Most branches available. Mech, Civil, EEE often available 130+. Most non-Chennai districts CSE 130–150; Govt CT Erode EEE 140; Govt CT Salem Mech 135.</div>
+      </div>
+    </div>
+
+    <div class="callout callout--warn" style="margin-top:24px;">
+      <div class="callout__icon">!</div>
+      <div>
+        <span class="callout__label">IMPORTANT</span>
+        <span class="callout__text">Cut-offs vary year-on-year and by reservation category (BC, MBC, SC/ST). The numbers shown are approximate General-OC closing cut-offs for CSE in 2024. EEE and ECE are typically 3–8 points lower than CSE at the same college; Mech and Civil are usually 8–15 points lower. Always check the official table at tneaonline.org for your specific category and branch.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Browse colleges -->
+  <section class="section" id="browse">
+    <div class="section__header">
+      <span class="eyebrow">BROWSE TNEA COLLEGES · SEARCH AND FILTER</span>
+      <h2 class="section__title">Find a TN college that fits your cut-off</h2>
+      <p class="section__desc">44 notable TNEA colleges across 15 districts. Cut-offs shown are approximate General-OC CSE closing for 2024 — use them as a tier indicator, not a guarantee.</p>
+    </div>
+
+    <div class="filter-bar">
+      <input type="text" class="filter-input" id="tneaSearch" placeholder="Search by college name or district…">
+      <select class="filter-select" id="tneaType">
+        <option value="">All types</option>
+        <option value="GOVT">Govt</option>
+        <option value="AIDED">Aided</option>
+        <option value="CONSTITUENT">Constituent</option>
+        <option value="SF">Self-Financing</option>
+      </select>
+    </div>
+
+    <div class="table-wrap">
+      <table id="tneaTable">
+        <thead>
+          <tr><th>College</th><th>District</th><th>Type</th><th>CSE cut-off</th><th>Branches</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Anna University CEG</strong></td><td>Chennai</td><td>CONSTITUENT</td><td>199</td><td>16</td></tr>
+          <tr><td><strong>MIT Chrompet</strong></td><td>Chennai</td><td>CONSTITUENT</td><td>199</td><td>9</td></tr>
+          <tr><td><strong>PSG College of Tech</strong></td><td>Coimbatore</td><td>SF</td><td>198.5</td><td>13</td></tr>
+          <tr><td><strong>SSN College of Engg</strong></td><td>Kanchipuram</td><td>SF</td><td>198</td><td>8</td></tr>
+          <tr><td><strong>CIT Coimbatore</strong></td><td>Coimbatore</td><td>SF</td><td>197.5</td><td>7</td></tr>
+          <tr><td><strong>AC Tech Anna Univ</strong></td><td>Chennai</td><td>CONSTITUENT</td><td>197</td><td>6</td></tr>
+          <tr><td><strong>Govt CT Coimbatore</strong></td><td>Coimbatore</td><td>GOVT</td><td>197</td><td>5</td></tr>
+          <tr><td><strong>Sri Sivasubramaniya Nadar</strong></td><td>Kanchipuram</td><td>SF</td><td>196</td><td>6</td></tr>
+          <tr><td><strong>Rajalakshmi Engg College</strong></td><td>Chengalpattu</td><td>SF</td><td>192</td><td>8</td></tr>
+          <tr><td><strong>Thiagarajar College of Engg</strong></td><td>Madurai</td><td>SF</td><td>192</td><td>8</td></tr>
+          <tr><td><strong>Kumaraguru CoT</strong></td><td>Coimbatore</td><td>SF</td><td>191</td><td>9</td></tr>
+          <tr><td><strong>Bharathidasan IoT (BIT)</strong></td><td>Tiruchirappalli</td><td>CONSTITUENT</td><td>191</td><td>6</td></tr>
+          <tr><td><strong>Bannari Amman IoT</strong></td><td>Erode</td><td>SF</td><td>190</td><td>10</td></tr>
+          <tr><td><strong>Govt CT Tiruchirappalli</strong></td><td>Tiruchirappalli</td><td>GOVT</td><td>188</td><td>5</td></tr>
+          <tr><td><strong>Kongu Engineering College</strong></td><td>Erode</td><td>SF</td><td>187</td><td>9</td></tr>
+          <tr><td><strong>Velammal Engg College</strong></td><td>Chennai</td><td>SF</td><td>187</td><td>9</td></tr>
+          <tr><td><strong>Sri Sairam Engg College</strong></td><td>Chennai</td><td>SF</td><td>185</td><td>7</td></tr>
+          <tr><td><strong>Sri Sai Ram (Tambaram)</strong></td><td>Chengalpattu</td><td>SF</td><td>185</td><td>7</td></tr>
+          <tr><td><strong>Easwari Engg College</strong></td><td>Chennai</td><td>SF</td><td>184</td><td>8</td></tr>
+          <tr><td><strong>Anna University Madurai Regional</strong></td><td>Madurai</td><td>CONSTITUENT</td><td>184</td><td>6</td></tr>
+          <tr><td><strong>National Engg College</strong></td><td>Tirunelveli</td><td>SF</td><td>184</td><td>6</td></tr>
+          <tr><td><strong>Mepco Schlenk Engg College</strong></td><td>Virudhunagar</td><td>AIDED</td><td>182</td><td>8</td></tr>
+          <tr><td><strong>Saveetha Engg College</strong></td><td>Chengalpattu</td><td>SF</td><td>182</td><td>10</td></tr>
+          <tr><td><strong>Sona College of Tech</strong></td><td>Salem</td><td>SF</td><td>178</td><td>7</td></tr>
+          <tr><td><strong>Karunya Inst of Tech</strong></td><td>Coimbatore</td><td>SF</td><td>178</td><td>10</td></tr>
+          <tr><td><strong>Hindustan Inst of T&amp;S</strong></td><td>Chengalpattu</td><td>SF</td><td>178</td><td>9</td></tr>
+          <tr><td><strong>Govt CT Madurai</strong></td><td>Madurai</td><td>GOVT</td><td>178</td><td>5</td></tr>
+          <tr><td><strong>K.S. Rangasamy CT</strong></td><td>Namakkal</td><td>SF</td><td>178</td><td>7</td></tr>
+          <tr><td><strong>Velammal CET</strong></td><td>Madurai</td><td>SF</td><td>175</td><td>6</td></tr>
+          <tr><td><strong>PSNA College of Engg</strong></td><td>Dindigul</td><td>SF</td><td>174</td><td>6</td></tr>
+          <tr><td><strong>Sri Krishna College of Engg</strong></td><td>Coimbatore</td><td>SF</td><td>174</td><td>6</td></tr>
+          <tr><td><strong>Govt CT Erode</strong></td><td>Erode</td><td>GOVT</td><td>174</td><td>5</td></tr>
+          <tr><td><strong>Saranathan College of Engg</strong></td><td>Tiruchirappalli</td><td>SF</td><td>174</td><td>7</td></tr>
+          <tr><td><strong>Vel Tech Engg College</strong></td><td>Tiruvallur</td><td>SF</td><td>174</td><td>8</td></tr>
+          <tr><td><strong>Adhiyamaan College of Engg</strong></td><td>Krishnagiri</td><td>SF</td><td>172</td><td>6</td></tr>
+          <tr><td><strong>Govt CT Salem</strong></td><td>Salem</td><td>GOVT</td><td>172</td><td>5</td></tr>
+          <tr><td><strong>Govt CT Tirunelveli</strong></td><td>Tirunelveli</td><td>GOVT</td><td>172</td><td>5</td></tr>
+          <tr><td><strong>SRM Valliammai Engg College</strong></td><td>Chengalpattu</td><td>SF</td><td>168</td><td>7</td></tr>
+          <tr><td><strong>K Ramakrishnan College of Engg</strong></td><td>Tiruchirappalli</td><td>SF</td><td>168</td><td>6</td></tr>
+          <tr><td><strong>Govt CT Cuddalore</strong></td><td>Cuddalore</td><td>GOVT</td><td>168</td><td>5</td></tr>
+          <tr><td><strong>Panimalar IoT</strong></td><td>Chennai</td><td>SF</td><td>165</td><td>7</td></tr>
+          <tr><td><strong>Jeppiaar Engg College</strong></td><td>Chennai</td><td>SF</td><td>162</td><td>7</td></tr>
+          <tr><td><strong>Francis Xavier Engg College</strong></td><td>Tirunelveli</td><td>SF</td><td>162</td><td>6</td></tr>
+          <tr><td><strong>M.A.M. College of Engg</strong></td><td>Tiruchirappalli</td><td>SF</td><td>162</td><td>6</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- TNEA process -->
+  <section class="section" id="process">
+    <div class="section__header">
+      <span class="eyebrow">TNEA PROCESS · FIVE STEPS</span>
+      <h2 class="section__title">How does TNEA actually work?</h2>
+      <p class="section__desc">From registration to seat allotment, TNEA runs as a centralised process between May and August. Here's the timeline at a glance.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">01</span>
+        <div>
+          <div class="step__title">Registration</div>
+          <div class="step__text">Apply online at tneaonline.org with Class 12 marksheet, community certificate and ₹500–600 fee. Window opens early May.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">02</span>
+        <div>
+          <div class="step__title">Random number</div>
+          <div class="step__text">Anna University assigns a random number for tie-breaking when two candidates share the same cut-off score.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">03</span>
+        <div>
+          <div class="step__title">Rank list</div>
+          <div class="step__text">Cut-off + random number determine the overall rank. Separate rank lists published for OC, BC, BCM, MBC, SC, SCA, ST.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">04</span>
+        <div>
+          <div class="step__title">Choice filling</div>
+          <div class="step__text">Candidates fill college-branch preferences (up to 75) in order. Higher rank → earlier counselling slot.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">05</span>
+        <div>
+          <div class="step__title">Allotment</div>
+          <div class="step__text">Seats allotted in three rounds (Aug–Sep) based on rank, choice order and availability. Confirm by paying the seat fee.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Your cut-off is a number. We turn it into a shortlist.</h2>
+    <p>Knowing your TNEA cut-off doesn't tell you which 12 colleges to actually rank in choice filling. We build a category-aware shortlist based on cut-off, district preference, branch interest and family budget.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.tnea_expert_guidance') }}" class="btn-main">Book a TNEA strategy session</a>
+      <a href="{{ url_for('main.contact') }}" class="btn-out">Call us</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const search = document.getElementById('tneaSearch');
+  const typeSel = document.getElementById('tneaType');
+  const rows = Array.from(document.querySelectorAll('#tneaTable tbody tr'));
+  function apply() {
+    const q = search.value.trim().toLowerCase();
+    const t = typeSel.value;
+    rows.forEach(r => {
+      const text = r.textContent.toLowerCase();
+      const type = r.cells[2].textContent.trim();
+      const show = (!q || text.includes(q)) && (!t || type === t);
+      r.style.display = show ? '' : 'none';
+    });
+  }
+  search.addEventListener('input', apply);
+  typeSel.addEventListener('change', apply);
+});
+</script>
+{% endblock %}

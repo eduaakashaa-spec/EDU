@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+{% block title %}DASA &amp; CIWG Choice-Filling Strategy | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">DASA &amp; CIWG &middot; Choice-Filling Strategy</span>
+    <h1>Pick a strategy, <span>not just a college</span></h1>
+    <p>Most students freeze at one question: chase the top NIT, or chase the branch you love? This approach turns that decision into six clear, named strategies &mdash; then helps you build a ready-to-fill, laddered choice list tuned to your rank and quota.</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Named Plays</span>
+        <span class="hero__meta-value">6</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">College Tiers</span>
+        <span class="hero__meta-value">4</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">CIWG Reserved</span>
+        <span class="hero__meta-value">~1/3</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+
+  <!-- The decision -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">The Decision Behind Every List</span>
+      <h2 class="section__title">College, branch, or the smart middle?</h2>
+    </div>
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="info-card__icon">&#x1F3DB;&#xFE0F;</span>
+        <h4 class="info-card__title">Top tier, any branch</h4>
+        <p class="info-card__text">The NIT brand matters most to you.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#x1F4BB;</span>
+        <h4 class="info-card__title">The branch, any college</h4>
+        <p class="info-card__text">You want CSE/AI even at a lower tier.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#x2696;&#xFE0F;</span>
+        <h4 class="info-card__title">The smart middle</h4>
+        <p class="info-card__text">Circuit at the top, core as backup &mdash; the balanced play most experts recommend.</p>
+      </div>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__label">Named Strategy Plays</div>
+        <div class="info-card__icon">&#x265F;&#xFE0F;</div>
+        <div class="info-card__title">6</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">College Tiers Mapped</div>
+        <div class="info-card__icon">&#x1F3EB;</div>
+        <div class="info-card__title">4</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">DASA UG Seats / Year</div>
+        <div class="info-card__icon">&#x1FA91;</div>
+        <div class="info-card__title">~3,900+</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">Reserved for CIWG</div>
+        <div class="info-card__icon">&#x1F30D;</div>
+        <div class="info-card__title">1/3</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The six plays -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">&ldquo;&#x265F;&#xFE0F;&rdquo;</span>
+      <div>
+        <span class="chapter-divider__label">The Six Plays &middot; Explained</span>
+        <span class="chapter-divider__title">Six ways to play your rank</span>
+      </div>
+    </div>
+
+    <p class="content-text">Every strong DASA list is one of these strategies in disguise. Read them, find yours, then map it to your rank in the matrix below.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">01</span>
+        <div>
+          <div class="step__title">College-First &mdash; Top tier &middot; any branch</div>
+          <div class="step__text">You want the flagship NIT name above all. Hold the tier and flex the branch downward &mdash; circuit, then core &mdash; to stay inside the top colleges.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">02</span>
+        <div>
+          <div class="step__title">Branch-First &mdash; Your branch &middot; any tier</div>
+          <div class="step__text">You are set on a top branch (CSE/IT/AI). Hold the branch and let the college tier slide down until the branch becomes safe.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">03</span>
+        <div>
+          <div class="step__title">Circuit at Top &mdash; Circuit branches &middot; flagship NITs</div>
+          <div class="step__text">The smart squeeze: when CSE at a flagship is just out of reach, take a circuit branch (ECE/EEE) at the same top NIT &mdash; strong placements, gentler cutoff.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">04</span>
+        <div>
+          <div class="step__title">Core at Top &mdash; Core branches &middot; flagship NITs</div>
+          <div class="step__text">Prestige with a solid discipline: hold the flagship NIT name and take a core branch (Mechanical/Civil/Chemical) where cutoffs are friendlier.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">05</span>
+        <div>
+          <div class="step__title">Balanced Ladder &mdash; Recommended hybrid</div>
+          <div class="step__text">The play most experts run: circuit branch at a top NIT up top, your favourite branch at a mid NIT in the middle, and safe core at the bottom &mdash; best of every world.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">06</span>
+        <div>
+          <div class="step__title">Tier-Hedge &mdash; Core at top &middot; circuit at lower</div>
+          <div class="step__text">For students torn between prestige and branch: list a core branch at a flagship NIT, then immediately a circuit branch at a strong/mid NIT &mdash; so you win either way.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout--info">
+      <span class="callout__icon">i</span>
+      <div>
+        <span class="callout__label">How to read this</span>
+        <p class="callout__text">Each play produces a different choice order from the same rank. Cutoffs shift yearly with applicant volume and paper difficulty &mdash; treat this as a planning blueprint, then verify exact ranks on the official DASA PDF.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Vocabulary -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">&ldquo;&#x1F5FA;&#xFE0F;&rdquo;</span>
+      <div>
+        <span class="chapter-divider__label">The Vocabulary &middot; Know the Map</span>
+        <span class="chapter-divider__title">College tiers &amp; branch families</span>
+      </div>
+    </div>
+
+    <p class="content-text">Strategies only make sense once you know what &ldquo;top tier&rdquo; and &ldquo;circuit branch&rdquo; actually mean. Here&rsquo;s the shared map every counsellor uses.</p>
+
+    <h3 class="content-h3">College tiers</h3>
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__label">Tier 1 &middot; Flagship</div>
+        <h4 class="info-card__title">The top NITs</h4>
+        <p class="info-card__text">Highest-ranked, most competitive, strongest placements and brand pull. Trichy &middot; Surathkal &middot; Warangal.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">Tier 2 &middot; Strong</div>
+        <h4 class="info-card__title">Established NITs</h4>
+        <p class="info-card__text">Excellent outcomes, broadly respected, cutoffs a notch below flagship. Calicut &middot; MNIT Jaipur &middot; Rourkela &middot; Allahabad.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">Tier 3 &middot; Mid</div>
+        <h4 class="info-card__title">Mid-tier NITs &amp; IIITs</h4>
+        <p class="info-card__text">Solid options where CSE / circuit branches stay open at higher ranks. Other NITs &middot; IIITs &middot; CFTIs.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">Tier 4 &middot; Emerging</div>
+        <h4 class="info-card__title">Newer NITs &amp; SPAs</h4>
+        <p class="info-card__text">Newer institutes &amp; specialised schools &mdash; your dependable safe anchors. Newer NITs &middot; SPAs &middot; CFTIs.</p>
+      </div>
+    </div>
+
+    <h3 class="content-h3">Branch families</h3>
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__label">Top / Coveted</div>
+        <h4 class="info-card__title">Highest demand</h4>
+        <p class="info-card__text">Tightest cutoffs. CSE &middot; IT &middot; AI &amp; Data Science.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">Circuit Branches</div>
+        <h4 class="info-card__title">Electrical-electronics group</h4>
+        <p class="info-card__text">Strong, flexible, good placements. ECE &middot; EEE &middot; EIE &middot; Instrumentation.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">Core Branches</div>
+        <h4 class="info-card__title">Traditional engineering</h4>
+        <p class="info-card__text">Open at higher ranks even at top tiers. Mechanical &middot; Civil &middot; Chemical &middot; Metallurgy.</p>
+      </div>
+      <div class="info-card">
+        <div class="info-card__label">Specialised</div>
+        <h4 class="info-card__title">Niche programmes</h4>
+        <p class="info-card__text">Architecture, planning &amp; niche programmes with their own cutoffs. B.Arch &middot; B.Plan &middot; Production &middot; Bio.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategy matrix -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">&ldquo;&#x1F4CA;&rdquo;</span>
+      <div>
+        <span class="chapter-divider__label">The Full Picture &middot; Rank &times; Strategy</span>
+        <span class="chapter-divider__title">The complete strategy matrix</span>
+      </div>
+    </div>
+
+    <p class="content-text">Every rank band against the three zones of a choice list, in one grid. College names are representative tier anchors drawn from DASA 2025 closing-rank patterns.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Rank Band</th>
+            <th>Reach &mdash; List First</th>
+            <th>Match &mdash; On Target</th>
+            <th>Safe &mdash; Anchor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Sharp</strong><br><span class="content-text--note">AIR under 25,000</span></td>
+            <td>NIT Trichy &middot; CSE<br>NIT Surathkal &middot; CSE<br>NIT Warangal &middot; CSE / AI</td>
+            <td>NIT Trichy &middot; ECE / EEE<br>NIT Surathkal &middot; ECE / IT<br>NIT Calicut &middot; CSE</td>
+            <td>MNIT Jaipur &middot; CSE / ECE<br>NIT Surathkal &middot; Mechanical<br>Mid-tier NITs &middot; CSE</td>
+          </tr>
+          <tr>
+            <td><strong>Strong</strong><br><span class="content-text--note">25,000 &ndash; 75,000</span></td>
+            <td>NIT Trichy &middot; CSE / ECE<br>NIT Surathkal &middot; CSE / IT<br>NIT Warangal &middot; CSE</td>
+            <td>NIT Surathkal &middot; ECE / EEE<br>NIT Calicut &middot; CSE / ECE<br>MNIT Jaipur &middot; CSE</td>
+            <td>Mid-tier NITs &middot; CSE / ECE<br>IIITs &middot; CSE / IT<br>NIT Calicut &middot; core</td>
+          </tr>
+          <tr>
+            <td><strong>Mid</strong><br><span class="content-text--note">75,000 &ndash; 150,000</span></td>
+            <td>NIT Surathkal &middot; ECE / EEE<br>NIT Warangal &middot; EEE<br>NIT Calicut &middot; CSE</td>
+            <td>NIT Calicut &middot; ECE / EEE<br>MNIT Jaipur &middot; ECE<br>Mid-tier NITs &middot; CSE</td>
+            <td>Newer NITs &middot; CSE / ECE<br>IIITs &middot; CSE / IT<br>CFTIs &middot; circuit</td>
+          </tr>
+          <tr>
+            <td><strong>Open</strong><br><span class="content-text--note">150,000 &ndash; 350,000</span></td>
+            <td>NIT Calicut &middot; ECE / EEE<br>MNIT Jaipur &middot; ECE<br>NIT Rourkela &middot; CSE</td>
+            <td>Mid-tier NITs &middot; ECE / EEE<br>IIITs &middot; ECE / IT<br>NIT Surathkal &middot; core</td>
+            <td>Newer NITs &middot; core / circuit<br>CFTIs &middot; engineering<br>IIITs &middot; allied</td>
+          </tr>
+          <tr>
+            <td><strong>Wide</strong><br><span class="content-text--note">350,000 +</span></td>
+            <td>Mid-tier NITs &middot; ECE / EEE<br>IIITs &middot; ECE / IT<br>NIT Rourkela &middot; core</td>
+            <td>Newer NITs &middot; ECE / core<br>IIITs &middot; allied<br>CFTIs &middot; engineering</td>
+            <td>Newer NITs &middot; core branches<br>SPAs &middot; Planning<br>CFTIs &middot; various</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout--info">
+      <span class="callout__icon">i</span>
+      <div>
+        <span class="callout__label">A note on the numbers</span>
+        <p class="callout__text">College names are representative tier anchors drawn from DASA 2025 closing-rank patterns, not exact seat guarantees. Always confirm the precise college&ndash;branch&ndash;round figure on the official DASA closing-rank PDF before locking choices.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Three rules -->
+  <section class="section">
+    <div class="chapter-divider">
+      <span class="chapter-divider__num">&ldquo;&#x1F4CC;&rdquo;</span>
+      <div>
+        <span class="chapter-divider__label">Turning Strategy Into a List</span>
+        <span class="chapter-divider__title">Three rules that never change</span>
+      </div>
+    </div>
+
+    <p class="content-text">Whichever play you pick, these three habits separate a smart list from a risky one.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">01</span>
+        <div>
+          <div class="step__title">True preference order, always</div>
+          <div class="step__text">DASA allots strictly top-down. List choices in the order you genuinely want them &mdash; never put an &ldquo;easier&rdquo; seat above a dream seat you also qualify for, or you&rsquo;ll be locked out of the better one.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">02</span>
+        <div>
+          <div class="step__title">Pack the match zone deep</div>
+          <div class="step__text">This is where most allotments land. Fill many on-target combinations &mdash; same college other branch, same branch other college &mdash; so a small rank swing never leaves you with nothing.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">03</span>
+        <div>
+          <div class="step__title">End on safe anchors</div>
+          <div class="step__text">Close every list with 3&ndash;4 high-probability seats. Going unallotted is the one outcome with almost no recovery in spot rounds &mdash; anchors are cheap insurance against it.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reading the data -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Reading the Data</span>
+      <h2 class="section__title">What makes a strategy win</h2>
+      <p class="section__desc">The quirks of DASA allotment that decide whether your chosen play actually pays off.</p>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <span class="info-card__icon">&#x21BB;</span>
+        <h4 class="info-card__title">Seats slide between rounds</h4>
+        <p class="info-card__text">A branch out of reach in Round 1 often opens later as higher-rankers withdraw. That&rsquo;s why Reach choices stay at the top &mdash; internal sliding only lifts you if they&rsquo;re listed above your safe seats.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#x1F4BB;</span>
+        <h4 class="info-card__title">Branch demand skews everything</h4>
+        <p class="info-card__text">CSE / AI close many times tighter than core at the same college. Trading branch for tier &mdash; or tier for branch &mdash; is the single biggest lever you control, and it&rsquo;s exactly what the six plays formalise.</p>
+      </div>
+      <div class="info-card">
+        <span class="info-card__icon">&#x1F30D;</span>
+        <h4 class="info-card__title">CIWG changes the maths</h4>
+        <p class="info-card__text">You compete for the reserved CIWG pool first; unfilled CIWG seats fold back to general DASA. The same rank can support a far more ambitious play under CIWG &mdash; always check both views.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Questions &middot; Students &amp; Parents</span>
+      <h2 class="section__title">Before you fill your choices</h2>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary class="faq-item__q">Should I chase a top NIT or my favourite branch?</summary>
+        <div class="faq-item__a">That&rsquo;s the exact question the six plays answer. If brand and peer group matter most, go College-First and accept a core branch at a flagship NIT. If you&rsquo;re set on CSE/AI, go Branch-First and accept a lower tier. Most students land best with the Balanced Ladder &mdash; a circuit branch at a top NIT, with mid-tier CSE and safe core below it.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">What exactly is a &ldquo;circuit branch&rdquo;?</summary>
+        <div class="faq-item__a">Circuit branches are the electrical-and-electronics family &mdash; ECE, EEE, EIE and Instrumentation. They sit between ultra-competitive CSE and the core branches in both cutoff and demand, which makes them the smart middle ground: strong placements, more flexible cutoffs, and often available at a top NIT when CSE there has closed.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">Is a top NIT with a core branch better than CSE at a lower one?</summary>
+        <div class="faq-item__a">There&rsquo;s no universal answer &mdash; it depends on your child&rsquo;s interest, aptitude and the placement pattern of each specific branch. As a guide, a strong branch at a flagship NIT often outperforms a weaker fit elsewhere, but a clear passion for computing can justify Branch-First. We weigh this individually in a one-on-one session rather than guess.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">What&rsquo;s the difference between DASA and CIWG?</summary>
+        <div class="faq-item__a">DASA is the broad scheme for NRI/OCI/PIO/foreign-national students. CIWG (Children of Indian Workers in Gulf) is a sub-category reserving one-third of DASA seats, at a much lower fee, for families with a parent working in a Gulf country. CIWG closing ranks differ from general DASA, so always check which quota applies to you.</div>
+      </details>
+      <details class="faq-item">
+        <summary class="faq-item__q">How many choices should I actually fill?</summary>
+        <div class="faq-item__a">As many as the portal allows, in true preference order. A complete list runs Reach choices on top, a deep Match middle, and several Safe anchors at the bottom. Filling more valid choices only helps &mdash; it never hurts, because allotment stops at the first one you clear.</div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Related -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Related</span>
+      <h2 class="section__title">More DASA &amp; CIWG Resources</h2>
+    </div>
+    <div class="info-cards info-cards--4">
+      <a class="info-card" href="{{ url_for('main.dasa_2026') }}" style="text-decoration:none;">
+        <span class="info-card__icon">&#x1F5FA;&#xFE0F;</span>
+        <h4 class="info-card__title">DASA 2026 Atlas</h4>
+        <p class="info-card__text">The complete 2026 pathway atlas &mdash; fees, dates, tracks, and FAQs.</p>
+      </a>
+      <a class="info-card" href="{{ url_for('main.dasa_2025_vs_2026') }}" style="text-decoration:none;">
+        <span class="info-card__icon">&#x1F504;</span>
+        <h4 class="info-card__title">DASA 2025 vs 2026</h4>
+        <p class="info-card__text">A clause-by-clause change report on what moved between brochures.</p>
+      </a>
+      <a class="info-card" href="{{ url_for('main.dasa_seat_matrix') }}" style="text-decoration:none;">
+        <span class="info-card__icon">&#x1F4CA;</span>
+        <h4 class="info-card__title">DASA Seat Matrix</h4>
+        <p class="info-card__text">Institute-wise seats and category breakdown across the DASA pool.</p>
+      </a>
+      <a class="info-card" href="{{ url_for('main.dasa_guide') }}" style="text-decoration:none;">
+        <span class="info-card__icon">&#x1F30D;</span>
+        <h4 class="info-card__title">DASA Admissions Guide</h4>
+        <p class="info-card__text">The full DASA &amp; CIWG admissions guide for NRI families.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Let an expert pressure-test your play</h2>
+    <p>Bring your rank and the strategy you&rsquo;re leaning towards. In one session we&rsquo;ll stress-test it band by band, plug the gaps, and order every choice so you never leave a better seat on the table. India: +91 91504 26094 &middot; UAE: +971 50 516 8081.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Talk to an Expert</a>
+      <a href="{{ url_for('main.dasa_guide') }}" class="btn-out">DASA Admissions Guide</a>
+    </div>
+  </div>
+
+  <p class="content-text content-text--note">DASA &amp; CIWG Strategy Matrix. Disclaimer: This strategy matrix is an independent planning aid built from publicly reported DASA 2025 round-wise closing ranks. EduAakashaa is not affiliated with DASA, MNNIT, or the Ministry of Education. Cutoffs change every admission cycle; always confirm exact figures on the official DASA portal before locking your choices.</p>
+</div>
+{% endblock %}

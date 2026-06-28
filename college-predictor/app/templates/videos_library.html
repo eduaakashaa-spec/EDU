@@ -1,40 +1,298 @@
 {% extends "base.html" %}
-{% block title %}Videos Library | EduAakashaA{% endblock %}
+{% block title %}Video Library | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 {% endblock %}
+
 {% block content %}
+<!-- ======== HERO ======== -->
 <section class="hero">
   <div class="hero__glow"></div>
   <div class="hero__content">
-    <span class="badge">LEARNING</span>
-    <h1>Videos <span>Library</span></h1>
-    <p>Curated videos on admissions strategy, exam prep, and counselling sessions — organised by topic.</p>
+    <span class="badge">VIDEO LIBRARY &middot; FREE TO WATCH</span>
+    <h1>Watch, learn, and decide your future<br><span>without the noise.</span></h1>
+    <p>A curated collection of every video we've made for students and parents &mdash; JEE counselling strategy, DASA &amp; CIWG admissions, branch decisions, and the questions parents really ask. No hype. No paywall.</p>
+
+    <div class="final-cta__btns" style="margin-top:24px;justify-content:flex-start;">
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="btn-main">Subscribe on YouTube &rarr;</a>
+      <a href="https://www.instagram.com/eduaakashaa" target="_blank" rel="noopener" class="btn-out">Follow on Instagram</a>
+    </div>
+
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Subscribers</span>
+        <span class="hero__meta-value">12K+</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Videos &amp; Reels</span>
+        <span class="hero__meta-value">10+</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Total Views</span>
+        <span class="hero__meta-value">680K</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Live Q&amp;A Sessions</span>
+        <span class="hero__meta-value">2&times; / month</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<div class="main-content">
+<main class="main-content">
+
+  <!-- ======== CHANNELS ======== -->
   <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">CATEGORIES</span>
-      <h2 class="section__title">Browse by goal</h2>
-    </div>
-    <div class="info-cards info-cards--4">
-      <div class="info-card"><div class="info-card__icon">📊</div><div class="info-card__title">JOSAA</div><div class="info-card__text">Predictor walkthroughs, choice filling, myths &amp; mistakes.</div></div>
-      <div class="info-card"><div class="info-card__icon">🌍</div><div class="info-card__title">DASA/CIWG</div><div class="info-card__text">Eligibility, tuition, timelines, and shortlisting.</div></div>
-      <div class="info-card"><div class="info-card__icon">🏫</div><div class="info-card__title">TNEA</div><div class="info-card__text">Cutoff strategy, counselling rounds, and selection tips.</div></div>
-      <div class="info-card"><div class="info-card__icon">🧠</div><div class="info-card__title">Assessments</div><div class="info-card__text">How to use psychometric + aptitude results.</div></div>
+    <div class="info-cards">
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x25B6;</div>
+        <div class="info-card__title">@eduaakashaa</div>
+        <p class="info-card__text">YouTube &middot; Verified Counsellor &mdash; long-form counselling strategy and walkthroughs.</p>
+      </a>
+      <a href="https://www.instagram.com/eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F4F8;</div>
+        <div class="info-card__title">@eduaakashaa</div>
+        <p class="info-card__text">Instagram &middot; Reels &amp; Tips &mdash; bite-size guidance and parent moments.</p>
+      </a>
     </div>
   </section>
 
-  <div class="final-cta">
-    <h2>Want the latest videos?</h2>
-    <p>Follow the official channels or ask us for a curated playlist.</p>
-    <div class="final-cta__btns">
-      <a href="{{ url_for('main.contact') }}" class="btn-main">Request Playlist</a>
-      <a href="https://www.youtube.com/@EduAakashaa" target="_blank" rel="noopener" class="btn-out">YouTube Channel →</a>
+  <!-- ======== FEATURED ======== -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">TNEA &middot; Most Watched</span>
+      <h2 class="section__title">Featured This Week</h2>
+    </div>
+    <div class="callout callout--info">
+      <div class="callout__icon">&#x25B6;</div>
+      <div>
+        <span class="callout__label">FEATURED &middot; 00:05:00 &middot; YOUTUBE</span>
+        <span class="callout__text">TNEA 2026 &mdash; The Ultimate Choice Filling Guide. Our most-watched walkthrough of the TNEA choice-filling process.
+          <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener">Watch on YouTube &rarr;</a></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== ARCHIVE ======== -->
+  <div class="chapter-divider">
+    <span class="chapter-divider__num">&ldquo;&#x1F4DA;&rdquo;</span>
+    <div>
+      <span class="chapter-divider__label">Browse the Archive &middot; 6 Categories</span>
+      <span class="chapter-divider__title">Every guidance video, organised the way students think.</span>
     </div>
   </div>
-</div>
-{% endblock %}
+  <section class="section">
+    <p class="content-text">Filter by topic or search a question. We've grouped the channel into the six conversations students and parents actually have with us &mdash; so you can find what you need in under a minute.</p>
 
+    <div class="tnea-tabs" style="margin-bottom:24px;">
+      <span class="tnea-tab active">All (10)</span>
+      <span class="tnea-tab">JEE Strategy (0)</span>
+      <span class="tnea-tab">DASA / CIWG (3)</span>
+      <span class="tnea-tab">Career &amp; Branch (0)</span>
+      <span class="tnea-tab">For Parents (0)</span>
+      <span class="tnea-tab">Live &amp; Webinars (0)</span>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <p class="info-card__label">TNEA &middot; 00:14:00</p>
+        <div class="info-card__title">DASA 2026 &mdash; the complete walkthrough</div>
+        <p class="info-card__text">YouTube &middot; 200 views &middot; 2 months ago</p>
+      </div>
+      <div class="info-card">
+        <p class="info-card__label">DASA &middot; 00:14:00</p>
+        <div class="info-card__title">DASA 2026 &mdash; the complete walkthrough</div>
+        <p class="info-card__text">YouTube &middot; 200 views &middot; 2 months ago</p>
+      </div>
+      <div class="info-card">
+        <p class="info-card__label">DASA &middot; 00:08:00</p>
+        <div class="info-card__title">EduAakashaA DASA CIWG Analytics</div>
+        <p class="info-card__text">YouTube &middot; 150 views &middot; 2 months ago</p>
+      </div>
+      <div class="info-card">
+        <p class="info-card__label">DASA &middot; 00:14:00</p>
+        <div class="info-card__title">DASA 2026 &mdash; the complete walkthrough</div>
+        <p class="info-card__text">YouTube &middot; 200 views &middot; 2 months ago</p>
+      </div>
+      <div class="info-card">
+        <p class="info-card__label">TNEA &middot; 00:09:00</p>
+        <div class="info-card__title">TNEA 2026 introduction</div>
+        <p class="info-card__text">YouTube &middot; 150 views &middot; 2 months ago</p>
+      </div>
+      <div class="info-card">
+        <p class="info-card__label">TNEA &middot; 00:14:00</p>
+        <div class="info-card__title">DASA 2026 &mdash; the complete walkthrough</div>
+        <p class="info-card__text">YouTube &middot; 200 views &middot; 2 months ago</p>
+      </div>
+      <div class="info-card">
+        <p class="info-card__label">JEE Strategy &middot; 00:07:00</p>
+        <div class="info-card__title">EduAakashaA DASA CIWG Analytics</div>
+        <p class="info-card__text">YouTube &middot; 150 views &middot; 2 months ago</p>
+      </div>
+      <div class="info-card">
+        <p class="info-card__label">For Parents &middot; 00:14:00</p>
+        <div class="info-card__title">DASA 2026 &mdash; the complete walkthrough</div>
+        <p class="info-card__text">YouTube &middot; 200 views &middot; 2 months ago</p>
+      </div>
+      <div class="info-card">
+        <p class="info-card__label">Career &amp; Branch &middot; 00:05:00</p>
+        <div class="info-card__title">EduAakashaA Future Jobs 2026</div>
+        <p class="info-card__text">YouTube &middot; 150 views &middot; 2 months ago</p>
+      </div>
+    </div>
+
+    <div class="final-cta__btns" style="justify-content:flex-start;margin-top:24px;">
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="btn-main">View all videos on YouTube &rarr;</a>
+    </div>
+  </section>
+
+  <!-- ======== INSTAGRAM REELS ======== -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Instagram Reels &middot; Bite-Size Guidance</span>
+      <h2 class="section__title">One-minute answers, scrolled the way you actually scroll.</h2>
+      <p class="section__desc">Quick takes, parent moments, and the questions students DM us most. Tap any reel to open it on Instagram.</p>
+    </div>
+    <div class="info-cards">
+      <a href="https://www.instagram.com/eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F4F8;</div>
+        <div class="info-card__title">NRI Admission</div>
+        <p class="info-card__text">@eduaakashaa &middot; &#x2665; 124 &middot; 00:52</p>
+      </a>
+      <a href="https://www.instagram.com/eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F4F8;</div>
+        <div class="info-card__title">Stream Selection</div>
+        <p class="info-card__text">@eduaakashaa &middot; &#x2665; 186 &middot; 00:52</p>
+      </a>
+      <a href="https://www.instagram.com/eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F4F8;</div>
+        <div class="info-card__title">DASA</div>
+        <p class="info-card__text">@eduaakashaa &middot; &#x2665; 1,400 &middot; 00:52</p>
+      </a>
+      <a href="https://www.instagram.com/eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F4F8;</div>
+        <div class="info-card__title">CIWG</div>
+        <p class="info-card__text">@eduaakashaa &middot; &#x2665; 1,200 &middot; 00:52</p>
+      </a>
+      <a href="https://www.instagram.com/eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F4F8;</div>
+        <div class="info-card__title">Assessment / Conflict</div>
+        <p class="info-card__text">@eduaakashaa &middot; &#x2665; 2,000 &middot; 00:52</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ======== CURATED PLAYLISTS ======== -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Curated Playlists &middot; Watch in Order</span>
+      <h2 class="section__title">Start-to-finish series, made for one decision at a time.</h2>
+      <p class="section__desc">Four playlists, sequenced by us. If you're at the start of your counselling journey, watch them in order. If you're at a specific step &mdash; jump in.</p>
+    </div>
+    <div class="info-cards">
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <p class="info-card__label">Series 01 &middot; NRI Track &middot; 8 videos</p>
+        <div class="info-card__title">The complete DASA &amp; CIWG playbook</div>
+        <p class="info-card__text">From eligibility documents to college locking &mdash; every step a DASA / CIWG applicant needs, in the order it actually happens.</p>
+        <p class="info-card__value">2H 14M total &middot; Open playlist &rarr;</p>
+      </a>
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <p class="info-card__label">Series 02 &middot; JEE Track &middot; 6 videos</p>
+        <div class="info-card__title">JoSAA choice filling, end to end</div>
+        <p class="info-card__text">How many choices, in what order, with what backup logic. Pulled from 6 years of post-counselling debriefs with our students.</p>
+        <p class="info-card__value">1H 38M total &middot; Open playlist &rarr;</p>
+      </a>
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <p class="info-card__label">Series 03 &middot; For Parents &middot; 5 videos</p>
+        <div class="info-card__title">The parent's counselling primer</div>
+        <p class="info-card__text">What to ask, what to skip, and how to back your child without micromanaging the decision. Recorded for parents, not students.</p>
+        <p class="info-card__value">1H 12M total &middot; Open playlist &rarr;</p>
+      </a>
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <p class="info-card__label">Series 04 &middot; Career Track &middot; 7 videos</p>
+        <div class="info-card__title">Branch decisions, with real data</div>
+        <p class="info-card__text">CSE, ECE, Mechanical, Civil, AI/DS &mdash; each branch with placement data, day-in-the-life, and the questions to ask before you lock it.</p>
+        <p class="info-card__value">1H 56M total &middot; Open playlist &rarr;</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ======== LIVE SESSIONS ======== -->
+  <div class="chapter-divider">
+    <span class="chapter-divider__num">&ldquo;&#x1F534;&rdquo;</span>
+    <div>
+      <span class="chapter-divider__label">Live &middot; Twice a Month</span>
+      <span class="chapter-divider__title">Bring your actual question to a live session.</span>
+    </div>
+  </div>
+  <section class="section">
+    <p class="content-text">Twice a month we open the channel for live Q&amp;As &mdash; DASA application weeks, JoSAA result days, and parent-only sessions. Free, recorded, and added to the library after.</p>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">AUG 15</span>
+        <div>
+          <div class="step__title">DASA 2026 open house &mdash; for NRI parents</div>
+          <p class="step__text">7:00 PM IST &middot; 90 min &middot; YouTube Live</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">AUG 28</span>
+        <div>
+          <div class="step__title">JoSAA Round 1 debrief &mdash; what changed this year</div>
+          <p class="step__text">6:30 PM IST &middot; 60 min &middot; YouTube Live</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">SEP 12</span>
+        <div>
+          <div class="step__title">Branch deep-dive: AI &amp; Data Science across NITs</div>
+          <p class="step__text">7:00 PM IST &middot; 75 min &middot; YouTube Live</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="final-cta__btns" style="justify-content:flex-start;margin-top:24px;">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Reserve your seat &rarr;</a>
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="btn-out">Set YouTube reminders</a>
+    </div>
+  </section>
+
+  <!-- ======== STAY IN THE LOOP ======== -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Stay in the Loop &middot; Free</span>
+      <h2 class="section__title">Don't miss the next video.</h2>
+      <p class="section__desc">We post fresh guidance every week &mdash; counselling cycles, branch updates, parent talks. Subscribe on the platform you actually use, and we'll show up there.</p>
+    </div>
+    <div class="info-cards">
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x25B6;</div>
+        <div class="info-card__title">YouTube &mdash; long form</div>
+        <p class="info-card__text">@eduaakashaa &middot; Subscribe for updates &rarr;</p>
+      </a>
+      <a href="https://www.instagram.com/eduaakashaa" target="_blank" rel="noopener" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F4F8;</div>
+        <div class="info-card__title">Instagram &mdash; reels &amp; tips</div>
+        <p class="info-card__text">@eduaakashaa &middot; Daily posts &rarr;</p>
+      </a>
+      <a href="{{ url_for('main.contact') }}" class="info-card" style="text-decoration:none;">
+        <div class="info-card__icon">&#x1F4E9;</div>
+        <div class="info-card__title">Newsletter &mdash; weekly digest</div>
+        <p class="info-card__text">Best video + one parent tip &middot; Sundays &rarr;</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ======== CTA ======== -->
+  <div class="final-cta">
+    <h2>Watch, learn, and decide &mdash; with evidence, not hype.</h2>
+    <p>Guiding students towards the right future. Subscribe on the platform you use, or book a 1-to-1 session for personalised counselling.</p>
+    <div class="final-cta__btns">
+      <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="btn-main">Subscribe &mdash; it's free &rarr;</a>
+      <a href="{{ url_for('main.contact') }}" class="btn-out">Book a 1-to-1 session</a>
+    </div>
+  </div>
+
+</main>
+{% endblock %}

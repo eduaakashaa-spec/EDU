@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from flask import Blueprint, Response, abort, current_app, redirect, render_template, url_for
+from flask_login import login_required, current_user
 
 main_bp = Blueprint('main', __name__)
 
@@ -8,6 +9,9 @@ main_bp = Blueprint('main', __name__)
 def render_reference_page(filename: str, fallback_template: str | None = None, **context):
     ref_dir = Path(current_app.root_path).parent / 'reference' / 'live_pages' / 'html'
     ref_file = ref_dir / filename
+    # In local debug mode prefer the Jinja2 templates so local static/css is used.
+    if current_app.debug and fallback_template:
+        return render_template(fallback_template, **context)
     if ref_file.exists():
         return Response(ref_file.read_text(encoding='utf-8'), mimetype='text/html')
     if fallback_template:
@@ -274,3 +278,195 @@ def nriarabic_foundation():
 @main_bp.route('/nriarabicgr')
 def nriarabicgr():
     return render_reference_page('nriarabicgr.html', 'nriarabicgr.html')
+
+
+# =============================================================
+# New public content pages (eduaakashaa.in nav parity) — built from live captures
+# =============================================================
+@main_bp.route('/dasa-2026')
+def dasa_2026():
+    return render_reference_page('dasa-2026.html', 'dasa_2026.html')
+
+
+@main_bp.route('/dasa-2025-vs-2026')
+def dasa_2025_vs_2026():
+    return render_reference_page('dasa-2025-vs-2026.html', 'dasa_2025_vs_2026.html')
+
+
+@main_bp.route('/dasa-strategic-approach')
+def dasa_strategic_approach():
+    return render_reference_page('dasa-strategic-approach.html', 'dasa_strategic_approach.html')
+
+
+@main_bp.route('/dasa2025-ranks')
+def dasa2025_ranks():
+    return render_reference_page('dasa2025-ranks.html', 'dasa2025_ranks.html')
+
+
+@main_bp.route('/dasa2026-schedule')
+def dasa2026_schedule():
+    return render_reference_page('dasa2026-schedule.html', 'dasa2026_schedule.html')
+
+
+@main_bp.route('/enggcolleges-india')
+def enggcolleges_india():
+    return render_reference_page('enggcolleges-india.html', 'enggcolleges_india.html')
+
+
+@main_bp.route('/nirf-analytic')
+def nirf_analytic():
+    return render_reference_page('nirf-analytic.html', 'nirf_analytic.html')
+
+
+@main_bp.route('/tnea-colleges')
+def tnea_colleges():
+    return render_reference_page('tnea-colleges.html', 'tnea_colleges.html')
+
+
+@main_bp.route('/free-report')
+def free_report():
+    return render_reference_page('free-report.html', 'free_report.html')
+
+
+@main_bp.route('/branch-fitness-assessment')
+def branch_fitness_assessment():
+    return render_reference_page('branch-fitness-assessment.html', 'branch_fitness_assessment.html')
+
+
+@main_bp.route('/about')
+def about():
+    return render_reference_page('about.html', 'about.html')
+
+
+# =============================================================
+# Membership / member-facing pages (wired to auth + membership system)
+# =============================================================
+@main_bp.route('/members-registration')
+def members_registration():
+    # Public premium-membership page with the application form (posts to membership.apply)
+    return render_template('members_registration.html')
+
+
+# Legacy alias used in live nav
+@main_bp.route('/premium-membership')
+def premium_membership():
+    return redirect(url_for('main.members_registration'))
+
+
+@main_bp.route('/members-login')
+def members_login():
+    return redirect(url_for('auth.login'))
+
+
+@main_bp.route('/counsellor-dashboard')
+@login_required
+def counsellor_dashboard():
+    return render_template('premium_tool.html',
+                           tool_title='Counsellor Dashboard',
+                           tool_desc='Your workspace for managing assigned students, reviews and reports.',
+                           tool_long='Track assigned applicants, submit expert reviews, and manage report '
+                                     'delivery. The full counsellor workspace is being rolled out.',
+                           features=[
+                               {'icon': '\U0001F4CB', 'title': 'Assigned students', 'text': 'See every applicant assigned to you with status and deadlines.'},
+                               {'icon': '\U0001F4DD', 'title': 'Submit reviews', 'text': 'Add expert notes and validated recommendations to each profile.'},
+                               {'icon': '\U0001F4E4', 'title': 'Report delivery', 'text': 'Generate and share the final Stream & College-Fit report.'},
+                           ])
+
+
+@main_bp.route('/ea-admin-portal')
+@login_required
+def ea_admin_portal():
+    # Admins go straight to the membership admin; others see the gate.
+    if current_user.is_admin:
+        return redirect(url_for('membership.admin_list'))
+    abort(403)
+
+
+# =============================================================
+# Premium member tools (gated/coming-soon on the live site)
+# =============================================================
+def _premium(title, desc, features):
+    return render_template('premium_tool.html', tool_title=title,
+                           tool_desc=desc, features=features)
+
+
+@main_bp.route('/why-cse')
+def why_cse():
+    return _premium('Why CSE?', 'Data-driven analysis of the Computer Science branch — demand, placements, and fit.',
+                    [{'icon': '\U0001F4BB', 'title': 'Demand & placements', 'text': 'Branch-level placement and salary trends across top institutes.'},
+                     {'icon': '\U0001F9ED', 'title': 'Is CSE right for you?', 'text': 'Aptitude and interest mapping against the CSE curriculum.'},
+                     {'icon': '\U0001F4CA', 'title': 'Alternatives compared', 'text': 'CSE vs allied branches (AI/DS, ECE, IT) with trade-offs.'}])
+
+
+@main_bp.route('/best-location')
+def best_location():
+    return _premium('Best Location Analyzer', 'Compare colleges by city, cost of living, climate and opportunity.',
+                    [{'icon': '\U0001F4CD', 'title': 'City comparison', 'text': 'Weigh metros vs tier-2 cities on cost, safety and exposure.'},
+                     {'icon': '\U0001F4B0', 'title': 'Cost of living', 'text': 'Realistic hostel, food and travel estimates per location.'},
+                     {'icon': '\U0001F91D', 'title': 'Opportunity index', 'text': 'Internships, industry presence and alumni networks by region.'}])
+
+
+@main_bp.route('/engineering-insights')
+def engineering_insights():
+    return _premium('Engineering Insights', 'Curated branch, college and career insights for confident decisions.',
+                    [{'icon': '\U0001F50D', 'title': 'Branch deep-dives', 'text': 'What each branch actually studies and leads to.'},
+                     {'icon': '\U0001F3DB️', 'title': 'College intel', 'text': 'Placement, faculty and infrastructure signals that matter.'},
+                     {'icon': '\U0001F4C8', 'title': 'Career mapping', 'text': 'Where each path leads — roles, sectors and growth.'}])
+
+
+@main_bp.route('/hostel-and-culture-analytics')
+def hostel_culture_analytics():
+    return _premium('Hostel & Culture Analytics', 'Campus life, hostel quality and culture — the factors brochures hide.',
+                    [{'icon': '\U0001F3E0', 'title': 'Hostel quality', 'text': 'Rooms, mess, facilities and real student feedback.'},
+                     {'icon': '\U0001F389', 'title': 'Campus culture', 'text': 'Clubs, fests, diversity and day-to-day student life.'},
+                     {'icon': '⚖️', 'title': 'Fit assessment', 'text': 'Match campus environment to the student’s personality.'}])
+
+
+@main_bp.route('/choice-builder-pro')
+def choice_builder_pro():
+    return _premium('Choice Builder Pro', 'Build and optimise your JOSAA/TNEA/DASA choice list with expert logic.',
+                    [{'icon': '\U0001F9F1', 'title': 'Smart ordering', 'text': 'Safe / match / reach ordering tuned to your rank and quota.'},
+                     {'icon': '✅', 'title': 'Validation', 'text': 'Catch gaps, duplicates and risky ordering before you submit.'},
+                     {'icon': '\U0001F4DD', 'title': 'Expert review', 'text': 'Have a counsellor validate your final list.'}])
+
+
+@main_bp.route('/dasa2026-expert-report')
+def dasa2026_expert_report():
+    return _premium('DASA 2026 Expert Report', 'Personalised DASA/CIWG decision-matrix report with expert guidance.',
+                    [{'icon': '\U0001F3AF', 'title': 'College predictor', 'text': 'NITs & IIITs decision-matrix tuned to your JEE rank.'},
+                     {'icon': '\U0001F9ED', 'title': 'Choice strategy', 'text': 'CIWG vs Non-CIWG option analysis and ordering.'},
+                     {'icon': '\U0001F468‍\U0001F3EB', 'title': 'Expert guidance', 'text': 'Counsellor support through choice filling.'}])
+
+
+@main_bp.route('/tnea-expert')
+def tnea_expert():
+    return _premium('TNEA Expert', 'End-to-end TNEA counselling — cutoff, choice filling and allotment strategy.',
+                    [{'icon': '\U0001F4D0', 'title': 'Cutoff mastery', 'text': 'Your cutoff, category analysis and realistic targets.'},
+                     {'icon': '\U0001F9F1', 'title': 'Choice filling', 'text': 'College-code strategy and lookalike-college guidance.'},
+                     {'icon': '\U0001F4DE', 'title': 'Allotment support', 'text': 'Round-by-round guidance until you confirm a seat.'}])
+
+
+# =============================================================
+# Legacy / duplicate slug aliases (eduaakashaa.in URL parity)
+# =============================================================
+@main_bp.route('/ea-home')
+@main_bp.route('/eahome')
+@main_bp.route('/eahomepage')
+def home_alias():
+    return redirect(url_for('main.home'))
+
+
+@main_bp.route('/josaa-2026')
+@main_bp.route('/josaa-predictor')
+def josaa_alias():
+    return redirect(url_for('main.josaa'))
+
+
+@main_bp.route('/contactus')
+def contactus_alias():
+    return redirect(url_for('main.contact'))
+
+
+@main_bp.route('/dasaseatmatrix')
+def dasaseatmatrix_alias():
+    return redirect(url_for('main.dasa_seat_matrix'))

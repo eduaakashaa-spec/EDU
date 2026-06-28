@@ -1,39 +1,160 @@
 {% extends "base.html" %}
-{% block title %}NRI Arabic Gr | EduAakashaA{% endblock %}
+{% block title %}Arabic from Zero &mdash; Beginner Manual | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .arabic-mark { font-size: 2.2rem; line-height: 1; color: var(--gold); font-family: 'Times New Roman', serif; }
+  .vowel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 600px) { .vowel-grid { grid-template-columns: 1fr; } }
+</style>
 {% endblock %}
 {% block content %}
-<section class="hero">
-  <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">NRI · ARABIC</span>
-    <h1>Arabic <span>Gr</span></h1>
-    <p>Grade-focused support for NRI Arabic learners — aligned to school outcomes and progression milestones.</p>
-  </div>
-</section>
-
-<div class="main-content">
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">TRACK</span>
-      <h2 class="section__title">Grade-wise learning plan</h2>
-    </div>
-    <div class="info-cards info-cards--3">
-      <div class="info-card"><div class="info-card__icon">📘</div><div class="info-card__title">Core concepts</div><div class="info-card__text">Build grammar + vocabulary systematically.</div></div>
-      <div class="info-card"><div class="info-card__icon">✍️</div><div class="info-card__title">Writing practice</div><div class="info-card__text">Weekly writing tasks with corrections.</div></div>
-      <div class="info-card"><div class="info-card__icon">🗣️</div><div class="info-card__title">Speaking confidence</div><div class="info-card__text">Conversation drills and listening exercises.</div></div>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="hero__content">
+      <span class="badge">Foundation Course &middot; Beginner Manual</span>
+      <h1>Arabic from zero, the way it <span>actually sticks</span>.</h1>
+      <p>Ten focused modules covering all 28 letters, every form they take, the three short vowels, sukun, shadda, tanween, and the sun &amp; moon letters. Each module ends with a quiz, audio playback for every letter, and a progress meter that remembers where you left off.</p>
+      <div class="hero__meta">
+        <div class="hero__meta-item"><span class="hero__meta-label">Modules</span><span class="hero__meta-value">10</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Quiz Items</span><span class="hero__meta-value">100</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Audio</span><span class="hero__meta-value">Every Letter</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Progress</span><span class="hero__meta-value">Auto-Saves</span></div>
+      </div>
     </div>
   </section>
 
-  <div class="final-cta">
-    <h2>Enroll / ask questions</h2>
-    <p>Contact us with grade level and preferred schedule.</p>
-    <div class="final-cta__btns">
-      <a href="{{ url_for('main.contact') }}" class="btn-main">Contact Us</a>
-      <a href="{{ url_for('main.videos_library') }}" class="btn-out">Watch videos →</a>
-    </div>
-  </div>
-</div>
-{% endblock %}
+  <main class="main-content">
 
+    <!-- Progress + module list -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Your Progress</span>
+        <h2 class="section__title">Pick up where you left off</h2>
+        <p class="section__desc">0 / 10 modules done &middot; 0 / 100 quiz score. Your progress is saved on this device automatically.</p>
+      </div>
+      <div class="toc-grid">
+        <a href="#module1" class="toc-card"><span class="toc-card__num">01</span><span class="toc-card__text">Welcome</span></a>
+        <a href="#module1" class="toc-card"><span class="toc-card__num">02</span><span class="toc-card__text">Letters 1&ndash;7</span></a>
+        <a href="#module1" class="toc-card"><span class="toc-card__num">03</span><span class="toc-card__text">Letters 8&ndash;14</span></a>
+        <a href="#module1" class="toc-card"><span class="toc-card__num">04</span><span class="toc-card__text">Letters 15&ndash;21</span></a>
+        <a href="#module1" class="toc-card"><span class="toc-card__num">05</span><span class="toc-card__text">Letters 22&ndash;28</span></a>
+        <a href="#module1" class="toc-card"><span class="toc-card__num">06</span><span class="toc-card__text">Letter Forms</span></a>
+        <a href="#module1" class="toc-card"><span class="toc-card__num">07</span><span class="toc-card__text">Short Vowels</span></a>
+        <a href="#module1" class="toc-card"><span class="toc-card__num">08</span><span class="toc-card__text">Sukun &amp; Shadda</span></a>
+        <a href="#module1" class="toc-card"><span class="toc-card__num">09</span><span class="toc-card__text">Tanween</span></a>
+        <a href="#module1" class="toc-card"><span class="toc-card__num">10</span><span class="toc-card__text">Sun &middot; Moon &middot; Long</span></a>
+      </div>
+    </section>
+
+    <!-- Module 01 -->
+    <div class="chapter-divider" id="module1">
+      <span class="chapter-divider__num">&ldquo;01&rdquo;</span>
+      <div>
+        <span class="chapter-divider__label">Module 01 &middot; Quiz: 5 questions &middot; ~10 min</span>
+        <span class="chapter-divider__title">Welcome to Arabic</span>
+      </div>
+    </div>
+    <section class="section">
+      <div class="section__header">
+        <p class="section__desc">Before any letter, the basics: how Arabic is read, why letters look different in different positions, and the three things every learner gets wrong on day one.</p>
+      </div>
+
+      <h3 class="content-h3">Three things to know before letter one</h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step__num">1</span>
+          <div>
+            <h4 class="step__title">Arabic reads right-to-left</h4>
+            <p class="step__text">Books open from what English speakers call &ldquo;the back&rdquo;. Sentences flow from right to left. Numbers, oddly, still read left-to-right.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step__num">2</span>
+          <div>
+            <h4 class="step__title">There are 28 letters</h4>
+            <p class="step__text">No vowels in the alphabet itself &mdash; vowels are added as small marks above or below letters. We&rsquo;ll cover those in Module 7.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step__num">3</span>
+          <div>
+            <h4 class="step__title">Most letters change shape based on position</h4>
+            <p class="step__text">A single letter has up to four forms: alone (isolated), at the start of a word, in the middle, and at the end. This sounds harder than it is &mdash; the shapes are predictable.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout--warn">
+        <span class="callout__icon">!</span>
+        <div>
+          <span class="callout__label">Common Mistake</span>
+          <p class="callout__text"><strong>Mistake:</strong> Trying to memorise all 4 forms of a letter before learning the next letter. <strong>Better:</strong> Learn the isolated form of all 28 letters first, then come back for forms in Module 6.</p>
+        </div>
+      </div>
+
+      <h3 class="content-h3">The three short vowels &mdash; preview</h3>
+      <p class="content-text">Arabic has three short vowels written as small marks. You&rsquo;ll meet them properly in Module 7, but here&rsquo;s the headline:</p>
+      <div class="vowel-grid">
+        <div class="info-card" style="align-items:center;text-align:center;">
+          <span class="arabic-mark">&#x064E;</span>
+          <h4 class="info-card__title">Fatha</h4>
+          <p class="info-card__text">&ldquo;A&rdquo; sound</p>
+        </div>
+        <div class="info-card" style="align-items:center;text-align:center;">
+          <span class="arabic-mark">&#x0650;</span>
+          <h4 class="info-card__title">Kasra</h4>
+          <p class="info-card__text">&ldquo;I&rdquo; sound</p>
+        </div>
+        <div class="info-card" style="align-items:center;text-align:center;">
+          <span class="arabic-mark">&#x064F;</span>
+          <h4 class="info-card__title">Damma</h4>
+          <p class="info-card__text">&ldquo;U&rdquo; sound</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quiz -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Module 01 &middot; Check Yourself</span>
+        <h2 class="section__title">Quick quiz</h2>
+        <p class="section__desc">Question 1 of 5 &middot; Score: 0 / 5</p>
+      </div>
+      <div class="quiz-container">
+        <p class="quiz-question">Arabic is read in which direction?</p>
+        <div class="quiz-options">
+          <button type="button" class="quiz-opt">A &mdash; Left to right</button>
+          <button type="button" class="quiz-opt">B &mdash; Right to left</button>
+          <button type="button" class="quiz-opt">C &mdash; Top to bottom</button>
+          <button type="button" class="quiz-opt">D &mdash; It depends on the word</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Module nav -->
+    <section class="section">
+      <div class="fee-compare">
+        <div class="fee-compare__card">
+          <span class="fee-compare__sub">&larr; Previous</span>
+          <h4 class="fee-compare__heading">First module</h4>
+        </div>
+        <a href="#module1" class="fee-compare__card" style="text-decoration:none;">
+          <span class="fee-compare__sub">Next Module &rarr;</span>
+          <h4 class="fee-compare__heading">Letters 1&ndash;7</h4>
+        </a>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+      <h2>Guiding students towards the right future</h2>
+      <p>Education counselling, Arabic tuition, and overseas study planning &mdash; based in Coimbatore (India) and Dubai (UAE).</p>
+      <div class="final-cta__btns">
+        <a href="#module1" class="btn-main">Start Module 1 &rarr;</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Reach Us</a>
+      </div>
+    </section>
+  </main>
+{% endblock %}

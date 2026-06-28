@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block title %}Engineering Branch Fit Assessment | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+{% endblock %}
+
+{% block content %}
+  <!-- ======== HERO ======== -->
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="hero__content">
+      <span class="badge">Student Assessment &middot; Branch Fit Analysis</span>
+      <h1>Engineering Branch<br><span>Fit Assessment</span></h1>
+      <p>A 30-question assessment mapping your interests, aptitude, knowledge and core skills to the right engineering branch &mdash; then comparing your own branch preferences against your assessment fit, pinpointing skill gaps, and recommending how to close them. Includes your top 10 DASA colleges, the 2026 schedule and document checklist in a downloadable PDF.</p>
+      <div class="hero__meta">
+        <div class="hero__meta-item"><span class="hero__meta-label">Questions</span><span class="hero__meta-value">30</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Top Colleges</span><span class="hero__meta-value">10 DASA</span></div>
+        <div class="hero__meta-item"><span class="hero__meta-label">Output</span><span class="hero__meta-value">PDF Report</span></div>
+      </div>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <!-- ======== STUDENT INFORMATION FORM ======== -->
+    <section class="section">
+      <div class="contact-form-card" style="max-width:860px;margin:0 auto;">
+        <h2 class="chart-card__title" style="font-size:1.3rem;">&#x1F464; Student Information</h2>
+        <p class="content-text" style="margin-bottom:20px;">This information helps our counselors prepare your personalised college and branch recommendation. All fields marked <span style="color:var(--red);">*</span> are required.</p>
+
+        <form class="contact-form" method="post" action="{{ url_for('main.contact') }}">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ba-name">Student Full Name <span style="color:var(--red);">*</span></label>
+              <input type="text" id="ba-name" name="name" placeholder="As per passport" required>
+            </div>
+            <div class="form-group">
+              <label for="ba-email">Email <span style="color:var(--red);">*</span></label>
+              <input type="email" id="ba-email" name="email" placeholder="student@email.com" required>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ba-whatsapp">WhatsApp Number <span style="color:var(--red);">*</span></label>
+              <input type="tel" id="ba-whatsapp" name="whatsapp" placeholder="+971 5x xxx xxxx" required>
+            </div>
+            <div class="form-group">
+              <label for="ba-country">Country of Residence <span style="color:var(--red);">*</span></label>
+              <select id="ba-country" name="country" required>
+                <option value="">&mdash; Select &mdash;</option>
+                <option>UAE</option>
+                <option>Saudi Arabia</option>
+                <option>Qatar</option>
+                <option>Kuwait</option>
+                <option>Oman</option>
+                <option>Bahrain</option>
+                <option>Singapore</option>
+                <option>Malaysia</option>
+                <option>USA</option>
+                <option>UK</option>
+                <option>India</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ba-board">Class 12 Board</label>
+              <select id="ba-board" name="board">
+                <option value="">&mdash; Select &mdash;</option>
+                <option>CBSE</option>
+                <option>ICSE / ISC</option>
+                <option>IGCSE / A-Levels</option>
+                <option>IB</option>
+                <option>American Curriculum</option>
+                <option>State Board</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="ba-jee">JEE Main Status</label>
+              <select id="ba-jee" name="jee_status">
+                <option value="">&mdash; Select &mdash;</option>
+                <option>Appeared &mdash; have rank</option>
+                <option>Appearing in upcoming session</option>
+                <option>Not yet registered</option>
+                <option>Not planning JEE</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="ba-rank">JEE CRL Rank (if available)</label>
+              <input type="text" id="ba-rank" name="jee_rank" placeholder="e.g. 45000">
+            </div>
+            <div class="form-group">
+              <label for="ba-pathway">Admission Pathway</label>
+              <select id="ba-pathway" name="pathway">
+                <option value="">&mdash; Select &mdash;</option>
+                <option>DASA</option>
+                <option>CIWG</option>
+                <option>DASA + CIWG</option>
+                <option>NRI Quota (Deemed/State)</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="ba-considering">Branch Currently Being Considered (if any)</label>
+            <input type="text" id="ba-considering" name="branch_considering" placeholder="e.g. CSE at NIT Trichy — or leave blank if undecided">
+          </div>
+
+          <div class="form-group">
+            <label>Rank Your Branch Preferences (most &rarr; least preferred &mdash; recommended)</label>
+            <div class="form-row" style="grid-template-columns:1fr 1fr 1fr;">
+              <select name="pref_1">
+                <option value="">1st choice&hellip;</option>
+                <option>Computer Science (CSE)</option>
+                <option>Electronics &amp; Comm (ECE)</option>
+                <option>Electrical (EEE)</option>
+                <option>Mechanical</option>
+                <option>Civil</option>
+                <option>Chemical</option>
+              </select>
+              <select name="pref_2">
+                <option value="">2nd choice&hellip;</option>
+                <option>Computer Science (CSE)</option>
+                <option>Electronics &amp; Comm (ECE)</option>
+                <option>Electrical (EEE)</option>
+                <option>Mechanical</option>
+                <option>Civil</option>
+                <option>Chemical</option>
+              </select>
+              <select name="pref_3">
+                <option value="">3rd choice&hellip;</option>
+                <option>Computer Science (CSE)</option>
+                <option>Electronics &amp; Comm (ECE)</option>
+                <option>Electrical (EEE)</option>
+                <option>Mechanical</option>
+                <option>Civil</option>
+                <option>Chemical</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-main">Begin Assessment &rarr;</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ======== WHAT'S INCLUDED ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">What You Get</span>
+        <h2 class="section__title">Inside Your Branch Fit Report</h2>
+        <p class="section__desc">A clear, data-backed view of where you fit &mdash; and exactly how to get there.</p>
+      </div>
+      <div class="info-cards info-cards--3">
+        <div class="info-card"><div class="info-card__icon">&#x1F9ED;</div><div class="info-card__title">Branch Fit Mapping</div><p class="info-card__text">Your interests, aptitude, knowledge and core skills mapped to the right engineering branch.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x2696;</div><div class="info-card__title">Preference vs Fit</div><p class="info-card__text">Your own branch preferences compared against your assessed fit to spot mismatches.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F4C9;</div><div class="info-card__title">Skill Gap Analysis</div><p class="info-card__text">Pinpoints the gaps holding you back &mdash; and how to close them before admission.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F3DB;</div><div class="info-card__title">Top 10 DASA Colleges</div><p class="info-card__text">A shortlist of your best DASA college options based on your profile.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F4C5;</div><div class="info-card__title">2026 Schedule</div><p class="info-card__text">The full DASA / CIWG 2026 timeline so you never miss a deadline.</p></div>
+        <div class="info-card"><div class="info-card__icon">&#x1F4C4;</div><div class="info-card__title">Document Checklist</div><p class="info-card__text">A downloadable PDF checklist of every document you&rsquo;ll need to apply.</p></div>
+      </div>
+    </section>
+
+    <!-- ======== CTA ======== -->
+    <div class="final-cta">
+      <h2>Expert Guidance for NRI Families</h2>
+      <p>Navigating DASA, CIWG &amp; NRI quota admissions across India&rsquo;s top engineering colleges. Talk to a counsellor before you fill your preferences.</p>
+      <div class="final-cta__btns">
+        <a href="{{ url_for('main.contact') }}" class="btn-main">WhatsApp Us for Counseling &rarr;</a>
+        <a href="{{ url_for('main.nri_guide') }}" class="btn-out">Read NRI Guide</a>
+      </div>
+    </div>
+
+  </main>
+{% endblock %}

@@ -1,0 +1,481 @@
+{% extends "base.html" %}
+{% block title %}Premium Membership | EduAakashaA{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  /* ---------- Membership page-specific ---------- */
+  .mem-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 8px 0 0;
+  }
+  @media (max-width: 700px) { .mem-stats { grid-template-columns: 1fr 1fr; } }
+  .mem-stat {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  .mem-stat__value { font-size: 1.8rem; font-weight: 800; color: var(--gold); line-height: 1; }
+  .mem-stat__label {
+    margin-top: 8px; font-size: .72rem; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--text-dim);
+  }
+
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 980px) { .tier-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .tier-grid { grid-template-columns: 1fr; } }
+  .tier-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 26px 24px;
+    display: flex;
+    flex-direction: column;
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .tier-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 22px rgba(0,0,0,.08);
+    border-color: var(--gold);
+  }
+  .tier-card__eyebrow {
+    font-size: .68rem; letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 700; color: var(--blue); margin-bottom: 10px;
+  }
+  .tier-card__name { font-size: 1.35rem; font-weight: 700; color: var(--dark); }
+  .tier-card__price { font-size: 2rem; font-weight: 800; color: var(--gold); margin-top: 6px; line-height: 1; }
+  .tier-card__per { font-size: .68rem; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dim); margin-top: 6px; }
+  .tier-card__list { list-style: none; margin: 18px 0 22px; padding: 0; flex: 1 1 auto; }
+  .tier-card__list li {
+    position: relative; padding-left: 26px; margin-bottom: 10px;
+    font-size: .92rem; color: var(--text);
+  }
+  .tier-card__list li::before {
+    content: "\2713"; position: absolute; left: 0; top: 0;
+    color: var(--green); font-weight: 700;
+  }
+  .tier-card__btn {
+    appearance: none; cursor: pointer; width: 100%;
+    background: var(--dark); color: #fff; border: none;
+    border-radius: 8px; padding: 11px 16px;
+    font-size: .8rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+    transition: background .2s, transform .1s;
+  }
+  .tier-card__btn:hover { background: var(--gold); }
+  .tier-card__btn:active { transform: scale(.98); }
+
+  .faq-item {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+  }
+  .faq-item__tag {
+    font-size: .68rem; letter-spacing: 1px; text-transform: uppercase;
+    font-weight: 700; color: var(--blue); display: block; margin-bottom: 8px;
+  }
+  .faq-item__q { font-size: 1.1rem; font-weight: 700; color: var(--dark); margin-bottom: 8px; }
+  .faq-item__a { font-size: .95rem; color: var(--text-dim); }
+
+  .mem-form-wrap {
+    max-width: 720px; margin: 0 auto;
+  }
+  .mem-note {
+    margin-top: 14px; font-size: .85rem; color: var(--text-dim);
+    background: var(--cream); border: 1px dashed var(--border);
+    border-radius: 8px; padding: 12px 14px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+  <!-- ======== HERO ======== -->
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="hero__content">
+      <span class="badge">Premium Membership &middot; For Students &amp; Parents</span>
+      <h1>Same marks. Different colleges.<br><span>The decision is the difference.</span></h1>
+      <p>EduAakashaa is your year-long admission mentor &mdash; turning marks, deadlines and confusing choices into one clear, written plan. Application is free. You pay only after we approve your profile.</p>
+      <div class="final-cta__btns" style="margin-top:24px;">
+        <a href="#apply" class="btn-main">Start your free application &rarr;</a>
+        <a href="#paths" class="btn-out">See all six paths</a>
+      </div>
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <!-- ======== STATS BAND ======== -->
+    <section class="section">
+      <p class="content-text" style="text-align:center; letter-spacing:.5px; text-transform:uppercase; font-size:.78rem; color:var(--text-dim);">
+        No upfront payment &middot; Approval in 2 working days &middot; 100% online &middot; Mentors from anywhere
+      </p>
+      <div class="mem-stats">
+        <div class="mem-stat"><div class="mem-stat__value">12+</div><div class="mem-stat__label">Exam Pathways</div></div>
+        <div class="mem-stat"><div class="mem-stat__value">100%</div><div class="mem-stat__label">Online &amp; Remote</div></div>
+        <div class="mem-stat"><div class="mem-stat__value">2-day</div><div class="mem-stat__label">Approval Window</div></div>
+        <div class="mem-stat"><div class="mem-stat__value">&#8377;0</div><div class="mem-stat__label">To Apply</div></div>
+      </div>
+    </section>
+
+    <!-- ======== WHAT A MEMBER GETS ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">What a member gets</span>
+        <h2 class="section__title">Not a chat group. A structured counselling relationship.</h2>
+      </div>
+      <div class="info-cards info-cards--4">
+        <div class="info-card">
+          <div class="info-card__icon">&#x1F4C4;</div>
+          <div class="info-card__title">Written Stream &amp; College-Fit Report</div>
+          <p class="info-card__text">Evidence, not opinions &mdash; a clear written plan you can act on.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card__icon">&#x1F9ED;</div>
+          <div class="info-card__title">12+ Exam Pathways</div>
+          <p class="info-card__text">All handled under one mentor, so you never juggle consultants.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card__icon">&#x23F0;</div>
+          <div class="info-card__title">Deadline Tracking</div>
+          <p class="info-card__text">JOSAA, TNEA, DASA &amp; more &mdash; nothing slips through the cracks.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card__icon">&#x1F91D;</div>
+          <div class="info-card__title">Parent &amp; Student Alignment</div>
+          <p class="info-card__text">Decisions explained in plain language everyone understands.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== SIX PATHS ======== -->
+    <section class="section" id="paths">
+      <div class="section__header">
+        <span class="eyebrow">Six paths &middot; Pick yours</span>
+        <h2 class="section__title">Built around your year, not your wallet.</h2>
+        <p class="section__desc">Choose the path that matches where the student is right now. Tap a card to select it &mdash; it will carry into the application form below. All prices are per year, inclusive of GST.</p>
+      </div>
+      <div class="tier-grid">
+
+        <!-- Foundation Path -->
+        <div class="tier-card">
+          <div class="tier-card__eyebrow">Class 9&ndash;10</div>
+          <div class="tier-card__name">Foundation Path</div>
+          <div class="tier-card__price">&#8377;14,999</div>
+          <div class="tier-card__per">Per year &middot; Incl. GST</div>
+          <ul class="tier-card__list">
+            <li>Stream &amp; aptitude discovery</li>
+            <li>Subject-strength mapping</li>
+            <li>Early roadmap to Class 11 choices</li>
+            <li>Parent guidance sessions</li>
+          </ul>
+          <button type="button" class="tier-card__btn" data-tier="Foundation Path">Select this path</button>
+        </div>
+
+        <!-- Aspirant Path -->
+        <div class="tier-card">
+          <div class="tier-card__eyebrow">Class 11&ndash;12 &middot; JOSAA &middot; TNEA</div>
+          <div class="tier-card__name">Aspirant Path</div>
+          <div class="tier-card__price">&#8377;24,999</div>
+          <div class="tier-card__per">Per year &middot; Incl. GST</div>
+          <ul class="tier-card__list">
+            <li>Full Stream &amp; College-Fit report</li>
+            <li>JOSAA &amp; TNEA choice-filling</li>
+            <li>Deadline &amp; document tracking</li>
+            <li>Mock-vs-final score guidance</li>
+          </ul>
+          <button type="button" class="tier-card__btn" data-tier="Aspirant Path">Select this path</button>
+        </div>
+
+        <!-- NRI / Global -->
+        <div class="tier-card">
+          <div class="tier-card__eyebrow">DASA &middot; CIWG &middot; Overseas</div>
+          <div class="tier-card__name">NRI / Global</div>
+          <div class="tier-card__price">&#8377;39,999</div>
+          <div class="tier-card__per">Per year &middot; Incl. GST</div>
+          <ul class="tier-card__list">
+            <li>DASA / CIWG admission strategy</li>
+            <li>Overseas &amp; Indian options compared</li>
+            <li>Document attestation guidance</li>
+            <li>Time-zone-friendly mentoring</li>
+          </ul>
+          <button type="button" class="tier-card__btn" data-tier="NRI / Global">Select this path</button>
+        </div>
+
+        <!-- NRI · AI Report -->
+        <div class="tier-card">
+          <div class="tier-card__eyebrow">DASA 2026 &middot; CIWG &amp; Non-CIWG</div>
+          <div class="tier-card__name">NRI &middot; AI Report</div>
+          <div class="tier-card__price">&#8377;5,000</div>
+          <div class="tier-card__per">DASA Package 1 &middot; Incl. GST</div>
+          <ul class="tier-card__list">
+            <li>Personalised college predictor</li>
+            <li>NITs &amp; IIITs decision-matrix reports</li>
+            <li>Choice-filling strategy guide</li>
+            <li>CIWG &amp; Non-CIWG option analysis</li>
+          </ul>
+          <button type="button" class="tier-card__btn" data-tier="NRI &middot; AI Report">Select this path</button>
+        </div>
+
+        <!-- NRI · Expert Guidance -->
+        <div class="tier-card">
+          <div class="tier-card__eyebrow">DASA 2026 &middot; Full support to choice filling</div>
+          <div class="tier-card__name">NRI &middot; Expert Guidance</div>
+          <div class="tier-card__price">&#8377;20,000</div>
+          <div class="tier-card__per">DASA Package 2 &middot; Incl. GST</div>
+          <ul class="tier-card__list">
+            <li>Everything in AI Report, plus:</li>
+            <li>Expert guidance until choice filling</li>
+            <li>Document &amp; eligibility review + validation</li>
+            <li>Membership portal access &amp; updated insights</li>
+          </ul>
+          <button type="button" class="tier-card__btn" data-tier="NRI &middot; Expert Guidance">Select this path</button>
+        </div>
+
+        <!-- Elite Mentorship -->
+        <div class="tier-card">
+          <div class="tier-card__eyebrow">1:1 mentor &middot; Full year</div>
+          <div class="tier-card__name">Elite Mentorship</div>
+          <div class="tier-card__price">&#8377;74,999</div>
+          <div class="tier-card__per">Per year &middot; Incl. GST</div>
+          <ul class="tier-card__list">
+            <li>Dedicated 1:1 senior mentor</li>
+            <li>Priority access all year</li>
+            <li>Everything in NRI / Global</li>
+            <li>Quarterly progress reviews</li>
+          </ul>
+          <button type="button" class="tier-card__btn" data-tier="Elite Mentorship">Select this path</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======== HOW IT WORKS ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">How it works &middot; Four steps</span>
+        <h2 class="section__title">Free to apply. Pay only after we approve.</h2>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <span class="step__num">01</span>
+          <div>
+            <div class="step__title">Apply free</div>
+            <p class="step__text">Fill the short form below. No payment, no obligation.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step__num">02</span>
+          <div>
+            <div class="step__title">We review</div>
+            <p class="step__text">A mentor checks your profile and confirms the right path within two working days.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step__num">03</span>
+          <div>
+            <div class="step__title">Pay on approval</div>
+            <p class="step__text">You receive a clear GST invoice. Pay only once you&rsquo;re approved and ready.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="step__num">04</span>
+          <div>
+            <div class="step__title">Mentoring begins</div>
+            <p class="step__text">Your written report and year-long guidance start immediately.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== APPLICATION FORM ======== -->
+    <section class="section" id="apply">
+      <div class="section__header">
+        <span class="eyebrow">Membership Registration</span>
+        <h2 class="section__title">Start your free application.</h2>
+        <p class="section__desc">Takes two minutes. We&rsquo;ll email you a confirmation with your reference number, then review and get back within two working days.</p>
+      </div>
+
+      <div class="mem-form-wrap">
+        <div class="contact-form-card">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div style="margin-bottom:16px;">
+            {% for cat, msg in messages %}
+            <div style="padding:10px 14px; border-radius:8px; font-size:.9rem; margin-bottom:6px; {% if cat == 'success' %}background:#e6f9ed; color:#276738; border:1px solid #b8e6c8;{% else %}background:#fce4e4; color:#a33; border:1px solid #f0bcbc;{% endif %}">{{ msg }}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% endwith %}
+
+          <!-- Inline result banner (populated by JS on successful free application) -->
+          <div id="memResult" style="display:none; padding:12px 16px; border-radius:8px; font-size:.92rem; margin-bottom:16px; background:#e6f9ed; color:#276738; border:1px solid #b8e6c8;"></div>
+
+          <form class="contact-form" id="memForm" method="post" action="{{ url_for('membership.apply') }}">
+            <div class="form-group">
+              <label for="name">Student&rsquo;s Full Name *</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone / WhatsApp *</label>
+                <input type="tel" id="phone" name="phone" required>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City *</label>
+                <input type="text" id="city" name="city" required>
+              </div>
+              <div class="form-group">
+                <label for="state">State / Region *</label>
+                <input type="text" id="state" name="state" placeholder="Used for GST place-of-supply" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="tier">Membership Path *</label>
+              <select id="tier" name="tier" required>
+                <option value="">Choose a path&hellip;</option>
+                <option value="Foundation Path">Foundation Path &mdash; &#8377;14,999</option>
+                <option value="Aspirant Path">Aspirant Path &mdash; &#8377;24,999</option>
+                <option value="NRI / Global">NRI / Global &mdash; &#8377;39,999</option>
+                <option value="NRI &middot; AI Report">NRI &middot; AI Report (DASA) &mdash; &#8377;5,000</option>
+                <option value="NRI &middot; Expert Guidance">NRI &middot; Expert Guidance (DASA) &mdash; &#8377;20,000</option>
+                <option value="Elite Mentorship">Elite Mentorship &mdash; &#8377;74,999</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-main" id="memSubmit">Start my free application &rarr;</button>
+          </form>
+
+          <p class="mem-note">
+            Submitting now costs nothing &mdash; application is completely free with no obligation.
+            We issue a formal GST invoice only once your profile is approved, and you pay only after that.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== FAQ ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Questions &middot; For students &amp; parents</span>
+        <h2 class="section__title">The things parents ask first.</h2>
+      </div>
+
+      <div class="faq-item">
+        <span class="faq-item__tag">Q&middot;01 &middot; For parents</span>
+        <div class="faq-item__q">Do we pay anything to apply?</div>
+        <p class="faq-item__a">No. The application is completely free and carries no obligation. You only receive an invoice &mdash; and only pay &mdash; after we&rsquo;ve reviewed the profile and approved the right path. There is no upfront payment at any point.</p>
+      </div>
+
+      <div class="faq-item">
+        <span class="faq-item__tag">Q&middot;02 &middot; For parents</span>
+        <div class="faq-item__q">How is this different from coaching?</div>
+        <p class="faq-item__a">Coaching teaches the answers for an exam. Mentorship decides which questions to ask &mdash; which stream, which colleges, which exams, and in what order. Both matter, but only the decision determines where a student actually ends up. EduAakashaa is the decision layer, delivered as a written, evidence-based plan.</p>
+      </div>
+
+      <div class="faq-item">
+        <span class="faq-item__tag">Q&middot;03 &middot; For students</span>
+        <div class="faq-item__q">Which exams do you guide for?</div>
+        <p class="faq-item__a">Over twelve pathways under one mentor &mdash; including JOSAA, TNEA, DASA, NATA, NID, NEET, CIWG, IIIT, VITEEE, AMRITA, CAT and MCA admissions. You don&rsquo;t juggle multiple consultants; one mentor coordinates the whole picture.</p>
+      </div>
+
+      <div class="faq-item">
+        <span class="faq-item__tag">Q&middot;04 &middot; For parents</span>
+        <div class="faq-item__q">Is the mentoring online or in person?</div>
+        <p class="faq-item__a">All mentoring is fully online &mdash; over video calls, phone, WhatsApp and email &mdash; so a student anywhere in India or abroad gets the same senior mentor without travel. You&rsquo;ll have scheduled sessions plus message support through the year. Mentoring hours are Monday to Friday 9:00&ndash;22:00 and Saturday &amp; Sunday 9:00&ndash;16:00 (IST).</p>
+      </div>
+    </section>
+
+    <!-- ======== FINAL CTA ======== -->
+    <div class="final-cta">
+      <h2>Apply free. Pay only after approval.</h2>
+      <p>Same marks, different colleges &mdash; the decision is the difference. Start your free application today and a mentor will confirm your path within two working days.</p>
+      <div class="final-cta__btns">
+        <a href="#apply" class="btn-main">Start my free application &rarr;</a>
+        <a href="{{ url_for('main.contact') }}" class="btn-out">Talk to us first</a>
+      </div>
+    </div>
+
+  </main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  (function () {
+    var select = document.getElementById('tier');
+
+    // "Select this path" cards -> set the dropdown + scroll to the form.
+    document.querySelectorAll('.tier-card__btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var tier = btn.getAttribute('data-tier');
+        if (select) {
+          for (var i = 0; i < select.options.length; i++) {
+            if (select.options[i].value === tier) { select.selectedIndex = i; break; }
+          }
+        }
+        var form = document.getElementById('apply');
+        if (form) { form.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+
+    // Submit the free application via fetch (the endpoint returns JSON),
+    // so the user stays on the page and sees their reference number.
+    var form = document.getElementById('memForm');
+    var result = document.getElementById('memResult');
+    var submitBtn = document.getElementById('memSubmit');
+
+    if (form) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Submitting…'; }
+
+        fetch(form.action, {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: new FormData(form)
+        })
+          .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+          .then(function (res) {
+            if (res.ok && res.data && res.data.ok) {
+              result.style.display = 'block';
+              result.style.background = '#e6f9ed';
+              result.style.color = '#276738';
+              result.style.borderColor = '#b8e6c8';
+              result.innerHTML = 'Thank you! Your free application is in. Reference: <strong>' +
+                (res.data.reference || '—') +
+                '</strong>. We will review and get back within two working days. No payment is due now.';
+              form.reset();
+              result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+              throw new Error((res.data && res.data.error) || 'Something went wrong.');
+            }
+          })
+          .catch(function (err) {
+            result.style.display = 'block';
+            result.style.background = '#fce4e4';
+            result.style.color = '#a33';
+            result.style.borderColor = '#f0bcbc';
+            result.textContent = err.message || 'Sorry, we could not submit your application. Please try again.';
+          })
+          .finally(function () {
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Start my free application →'; }
+          });
+      });
+    }
+  })();
+</script>
+{% endblock %}

@@ -1,0 +1,385 @@
+{% extends "base.html" %}
+{% block title %}NIRF Engineering 2023–2025 · 3-Year Rank Analytics | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">NIRF 2023 · 2024 · 2025 · ENGINEERING</span>
+    <h1>Three years, one story: <span>who moved and who didn't</span></h1>
+    <p>The top 4 hasn't budged for 3 years. Past rank 10, the table is in motion — private universities climbing, traditional regional names slipping. We laid the matrix out and pulled the patterns.</p>
+    <div class="hero__meta">
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Years Compared</span>
+        <span class="hero__meta-value">3</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Frozen at the Top</span>
+        <span class="hero__meta-value">4</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Biggest Gain</span>
+        <span class="hero__meta-value">+22</span>
+      </div>
+      <div class="hero__meta-item">
+        <span class="hero__meta-label">Biggest Fall · Top 10</span>
+        <span class="hero__meta-value">−8</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+  <!-- Snapshot: biggest moves -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">SNAPSHOT · BIGGEST 3-YEAR MOVES</span>
+      <h2 class="section__title">The four to watch</h2>
+    </div>
+
+    <div class="top5-grid" style="grid-template-columns:repeat(4,1fr);">
+      <div class="top5-card top5-card--gold">
+        <span class="top5-rank">↑22</span>
+        <h3>IIT Patna</h3>
+        <span class="top5-score">41 → 19</span>
+        <span class="top5-loc">2023 → 2025</span>
+      </div>
+      <div class="top5-card">
+        <span class="top5-rank">↑14</span>
+        <h3>SRM IST Chennai</h3>
+        <span class="top5-score">28 → 14</span>
+        <span class="top5-loc">2023 → 2025</span>
+      </div>
+      <div class="top5-card">
+        <span class="top5-rank">↑14</span>
+        <h3>BITS Pilani</h3>
+        <span class="top5-score">25 → 11</span>
+        <span class="top5-loc">2023 → 2025</span>
+      </div>
+      <div class="top5-card top5-card--bronze">
+        <span class="top5-rank">↓8</span>
+        <h3>Jadavpur Univ.</h3>
+        <span class="top5-score">10 → 18</span>
+        <span class="top5-loc">2023 → 2025</span>
+      </div>
+    </div>
+
+    <div class="info-cards info-cards--4">
+      <div class="info-card">
+        <div class="info-card__icon">📅</div>
+        <div class="info-card__title">3 Years Compared</div>
+        <div class="info-card__text">NIRF 2023, 2024 and 2025 Engineering rankings, laid out side by side.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🔒</div>
+        <div class="info-card__title">4 Frozen at the Top</div>
+        <div class="info-card__text">IIT Madras, Delhi, Bombay and Kanpur held ranks 1–4 for all 3 years.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🚀</div>
+        <div class="info-card__title">+22 Biggest Gain</div>
+        <div class="info-card__text">IIT Patna: rank 41 (2023) → 19 (2025).</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">📉</div>
+        <div class="info-card__title">−8 Biggest Fall · Top 10</div>
+        <div class="info-card__text">Jadavpur University: rank 10 (2023) → 18 (2025).</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The 3-year rank matrix -->
+  <section class="section" id="matrix">
+    <div class="section__header">
+      <span class="eyebrow">01 · THE 3-YEAR RANK MATRIX</span>
+      <h2 class="section__title">Every top-25 college, side by side</h2>
+      <p class="section__desc">Each row is one institution; each column is one year. The numbers are NIRF ranks; the move column shows how many places they climbed or fell between 2023 and 2025. "—" means the college wasn't in the published top-30 that year.</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Institution</th>
+            <th>2023</th>
+            <th>2024</th>
+            <th>2025</th>
+            <th>3-Yr Move</th>
+            <th>Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>IIT Madras</strong><br><small>Chennai</small></td><td>1</td><td>1</td><td>1</td><td>— same</td><td>IIT</td></tr>
+          <tr><td><strong>IIT Delhi</strong><br><small>New Delhi</small></td><td>2</td><td>2</td><td>2</td><td>— same</td><td>IIT</td></tr>
+          <tr><td><strong>IIT Bombay</strong><br><small>Mumbai</small></td><td>3</td><td>3</td><td>3</td><td>— same</td><td>IIT</td></tr>
+          <tr><td><strong>IIT Kanpur</strong><br><small>Kanpur</small></td><td>4</td><td>4</td><td>4</td><td>— same</td><td>IIT</td></tr>
+          <tr><td><strong>IIT Kharagpur</strong><br><small>Kharagpur</small></td><td>6</td><td>5</td><td>5</td><td>↑ +1</td><td>IIT</td></tr>
+          <tr><td><strong>IIT Roorkee</strong><br><small>Roorkee</small></td><td>5</td><td>6</td><td>6</td><td>↓ -1</td><td>IIT</td></tr>
+          <tr><td><strong>IIT Hyderabad</strong><br><small>Hyderabad</small></td><td>8</td><td>8</td><td>7</td><td>↑ +1</td><td>IIT</td></tr>
+          <tr><td><strong>IIT Guwahati</strong><br><small>Guwahati</small></td><td>7</td><td>7</td><td>8</td><td>↓ -1</td><td>IIT</td></tr>
+          <tr><td><strong>NIT Tiruchirappalli</strong><br><small>Tiruchirappalli</small></td><td>9</td><td>9</td><td>9</td><td>— same</td><td>NIT</td></tr>
+          <tr><td><strong>IIT (BHU) Varanasi</strong><br><small>Varanasi</small></td><td>15</td><td>10</td><td>10</td><td>↑ +5</td><td>IIT</td></tr>
+          <tr><td><strong>BITS Pilani</strong><br><small>Pilani</small></td><td>25</td><td>20</td><td>11</td><td>↑ +14</td><td>PRIVATE</td></tr>
+          <tr><td><strong>IIT Indore</strong><br><small>Indore</small></td><td>16</td><td>14</td><td>12</td><td>↑ +4</td><td>IIT</td></tr>
+          <tr><td><strong>NIT Rourkela</strong><br><small>Rourkela</small></td><td>19</td><td>16</td><td>13</td><td>↑ +6</td><td>NIT</td></tr>
+          <tr><td><strong>SRM Institute of Science and Technology</strong><br><small>Chennai</small></td><td>28</td><td>13</td><td>14</td><td>↑ +14</td><td>PRIVATE</td></tr>
+          <tr><td><strong>IIT (ISM) Dhanbad</strong><br><small>Dhanbad</small></td><td>17</td><td>15</td><td>15</td><td>↑ +2</td><td>IIT</td></tr>
+          <tr><td><strong>Vellore Institute of Technology</strong><br><small>Vellore</small></td><td>11</td><td>11</td><td>16</td><td>↓ -5</td><td>PRIVATE</td></tr>
+          <tr><td><strong>NIT Karnataka, Surathkal</strong><br><small>Surathkal</small></td><td>12</td><td>17</td><td>17</td><td>↓ -5</td><td>NIT</td></tr>
+          <tr><td><strong>Jadavpur University</strong><br><small>Kolkata</small></td><td>10</td><td>12</td><td>18</td><td>↓ -8</td><td>STATE UNIV.</td></tr>
+          <tr><td><strong>IIT Patna</strong><br><small>Patna</small></td><td>41</td><td>34</td><td>19</td><td>↑ +22</td><td>IIT</td></tr>
+          <tr><td><strong>Anna University</strong><br><small>Chennai</small></td><td>14</td><td>18</td><td>20</td><td>↓ -6</td><td>STATE UNIV.</td></tr>
+          <tr><td><strong>NIT Calicut</strong><br><small>Kozhikode</small></td><td>23</td><td>25</td><td>21</td><td>↑ +2</td><td>NIT</td></tr>
+          <tr><td><strong>Siksha 'O' Anusandhan</strong><br><small>Bhubaneswar</small></td><td>27</td><td>26</td><td>22</td><td>↑ +5</td><td>PRIVATE</td></tr>
+          <tr><td><strong>Amrita Vishwa Vidyapeetham</strong><br><small>Coimbatore</small></td><td>19</td><td>23</td><td>23</td><td>↓ -4</td><td>PRIVATE</td></tr>
+          <tr><td><strong>Jamia Millia Islamia</strong><br><small>New Delhi</small></td><td>26</td><td>24</td><td>24</td><td>↑ +2</td><td>STATE UNIV.</td></tr>
+          <tr><td><strong>IIT Gandhinagar</strong><br><small>Gandhinagar</small></td><td>22</td><td>22</td><td>25</td><td>↓ -3</td><td>IIT</td></tr>
+          <tr><td><strong>Delhi Technological University</strong><br><small>New Delhi</small></td><td>29</td><td>27</td><td>30</td><td>↓ -1</td><td>STATE UNIV.</td></tr>
+          <tr><td><strong>IIT Ropar</strong><br><small>Rupnagar</small></td><td>21</td><td>29</td><td>32</td><td>↓ -11</td><td>IIT</td></tr>
+          <tr><td><strong>Kalinga Institute of Industrial Technology</strong><br><small>Bhubaneswar</small></td><td>39</td><td>37</td><td>36</td><td>↑ +3</td><td>PRIVATE</td></tr>
+          <tr><td><strong>IIIT Hyderabad</strong><br><small>Hyderabad</small></td><td>55</td><td>47</td><td>38</td><td>↑ +17</td><td>PRIVATE</td></tr>
+          <tr><td><strong>Institute of Chemical Technology</strong><br><small>Mumbai</small></td><td>15</td><td>28</td><td>41</td><td>↓ -26</td><td>STATE UNIV.</td></tr>
+          <tr><td><strong>UPES Dehradun</strong><br><small>Dehradun</small></td><td>54</td><td>42</td><td>43</td><td>↑ +11</td><td>PRIVATE</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note">Source · nirfindia.org · MoE NIRF 2023, 2024, 2025 Engineering</p>
+  </section>
+
+  <!-- Movers & fallers -->
+  <section class="section" id="movers">
+    <div class="section__header">
+      <span class="eyebrow">02 · MOVERS &amp; FALLERS</span>
+      <h2 class="section__title">Who climbed hardest, who slipped the most</h2>
+      <p class="section__desc">Movement of 5+ ranks over 3 years is rare and meaningful. These are the ten institutions where the change was significant enough to signal a real shift in performance — not just survey noise.</p>
+    </div>
+
+    <h3 class="chart-card__title" style="color:var(--green);">↑ Top 5 climbers — gained ranks</h3>
+    <div class="info-cards info-cards--4" style="margin-bottom:32px;">
+      <div class="info-card" style="border-color:var(--green);">
+        <div class="info-card__label">Bihar · IIT</div>
+        <div class="info-card__title">IIT Patna</div>
+        <div class="info-card__text">41 → 19 &nbsp; <strong style="color:var(--green);">+22</strong></div>
+      </div>
+      <div class="info-card" style="border-color:var(--green);">
+        <div class="info-card__label">Chennai · Private</div>
+        <div class="info-card__title">SRM Institute of Science &amp; Tech</div>
+        <div class="info-card__text">28 → 14 &nbsp; <strong style="color:var(--green);">+14</strong></div>
+      </div>
+      <div class="info-card" style="border-color:var(--green);">
+        <div class="info-card__label">Rajasthan · Private</div>
+        <div class="info-card__title">BITS Pilani</div>
+        <div class="info-card__text">25 → 11 &nbsp; <strong style="color:var(--green);">+14</strong></div>
+      </div>
+      <div class="info-card" style="border-color:var(--green);">
+        <div class="info-card__label">Telangana · Govt-Aided</div>
+        <div class="info-card__title">IIIT Hyderabad</div>
+        <div class="info-card__text">55 → 38 &nbsp; <strong style="color:var(--green);">+17</strong></div>
+      </div>
+    </div>
+
+    <h3 class="chart-card__title" style="color:var(--red);">↓ Top 5 fallers — lost ranks</h3>
+    <div class="info-cards info-cards--4">
+      <div class="info-card" style="border-color:var(--red);">
+        <div class="info-card__label">Kolkata · State Univ.</div>
+        <div class="info-card__title">Jadavpur University</div>
+        <div class="info-card__text">10 → 18 &nbsp; <strong style="color:var(--red);">−8</strong></div>
+      </div>
+      <div class="info-card" style="border-color:var(--red);">
+        <div class="info-card__label">Tamil Nadu · Private</div>
+        <div class="info-card__title">VIT Vellore</div>
+        <div class="info-card__text">11 → 16 &nbsp; <strong style="color:var(--red);">−5</strong></div>
+      </div>
+      <div class="info-card" style="border-color:var(--red);">
+        <div class="info-card__label">Karnataka · NIT</div>
+        <div class="info-card__title">NIT Surathkal</div>
+        <div class="info-card__text">12 → 17 &nbsp; <strong style="color:var(--red);">−5</strong></div>
+      </div>
+      <div class="info-card" style="border-color:var(--red);">
+        <div class="info-card__label">Maharashtra · State Univ.</div>
+        <div class="info-card__title">ICT Mumbai</div>
+        <div class="info-card__text">15 → 41 &nbsp; <strong style="color:var(--red);">−26</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Rank & score trajectory -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">03 · RANK &amp; SCORE TRAJECTORY</span>
+      <h2 class="section__title">Three years of motion, plotted</h2>
+      <p class="section__desc">The line chart shows where each top-10 college sat in each year (lower line = better rank). The score chart shows the absolute score they earned out of 100. Both tell different parts of the same story.</p>
+    </div>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3 class="chart-card__title">Top 10 rank trajectory</h3>
+        <canvas id="chartRank" height="300"></canvas>
+        <p class="content-text content-text--note">Y-axis is inverted (1 at top). Lines that go up mean the college fell in rank; lines that go down mean it climbed.</p>
+      </div>
+      <div class="chart-card">
+        <h3 class="chart-card__title">Biggest 3-year moves (2023 → 2025)</h3>
+        <canvas id="chartMoves" height="300"></canvas>
+        <p class="content-text content-text--note">Even at #1, IIT Madras's score has slipped 1.07 points in 2 years (89.79 → 88.72). Across the top 10, the middle is gaining on the leaders.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Six takeaways -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">04 · SIX TAKEAWAYS FROM THREE YEARS OF DATA</span>
+      <h2 class="section__title">What the matrix is actually telling us</h2>
+      <p class="section__desc">Honest reads of patterns in the data — not hype, not predictions. These are the things a counsellor should explain before a student finalises a shortlist.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__num">01</span>
+        <div>
+          <div class="step__title">The top 4 is locked. Don't waste energy waiting for it to change.</div>
+          <div class="step__text">IIT Madras, IIT Delhi, IIT Bombay and IIT Kanpur held ranks 1, 2, 3 and 4 in 2023, 2024 and 2025 — no movement at all. For students choosing between them, NIRF rank is no longer a discriminator. Branch, location, faculty fit and campus culture decide. <em>Rank-1 score, 3-year drift: 89.79 → 88.72.</em></div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">02</span>
+        <div>
+          <div class="step__title">Private universities are climbing faster than any other category.</div>
+          <div class="step__text">Three of the five biggest climbers are private: BITS Pilani (+14), SRM (+14), UPES (+11). NIRF rewards research output, financial resources and placement data — areas where well-funded private institutions can iterate faster than state universities tied to government budgets. <em>3/5 top-5 climbers are private: BITS · SRM · UPES.</em></div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">03</span>
+        <div>
+          <div class="step__title">State universities are losing ground — even good ones.</div>
+          <div class="step__text">Jadavpur fell 8 ranks (10→18), Anna University fell 6 (14→20), ICT Mumbai fell 26 (15→41). These are institutions with strong alumni and reputations — but they trail on financial-resource and research-output metrics where private universities are aggressively investing. <em>Avg fall among top 5 fallers: −10 ranks.</em></div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">04</span>
+        <div>
+          <div class="step__title">Newer IITs are catching up to the founding seven.</div>
+          <div class="step__text">IIT Patna jumped from rank 41 to 19 in two years. IIT Hyderabad overtook IIT Guwahati for the first time in 2025 (7 vs 8). IIT BHU climbed from 15 to 10 by 2024 and held. The "old IIT vs new IIT" hierarchy is real but narrowing. <em>IIT Patna · +22 places in 2 years.</em></div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">05</span>
+        <div>
+          <div class="step__title">Score gaps are compressing — the middle is catching up.</div>
+          <div class="step__text">In 2023, the gap between rank 5 (IIT Roorkee, 75.64) and rank 10 was about 6–7 points. By 2025, ranks 5–10 span just 11.45 points (78.69 down to 67.24), and ranks 11–25 are packed into a single 2.32-point band. A 1-point swing now equals 4–5 rank places. <em>Rank 11–25 score band, 2025: 63.51–67.02.</em></div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step__num">06</span>
+        <div>
+          <div class="step__title">Year-to-year rank changes of 1–2 places are mostly noise.</div>
+          <div class="step__text">IIT Kharagpur and IIT Roorkee swapped 5/6 in 2024, then held. IIT Hyderabad and IIT Guwahati swapped 7/8 in 2025. These are score differences under 0.5 points — statistical noise. Treat 3-year direction as signal; treat single-year jumps with skepticism. <em>IIT Hyderabad vs Guwahati 2025 gap: 0.07 points.</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What this means for you -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">05 · WHAT THIS MEANS FOR YOU</span>
+      <h2 class="section__title">How to actually use 3-year trends in your shortlist</h2>
+      <p class="section__desc">A single-year NIRF rank is a snapshot. The 3-year trajectory tells you which direction the institution is moving in — which matters far more for the four years you'll spend there.</p>
+    </div>
+
+    <div class="info-cards">
+      <div class="info-card">
+        <div class="info-card__icon">📈</div>
+        <div class="info-card__title">Look at the trajectory, not the snapshot</div>
+        <div class="info-card__text">A college at rank 25 climbing to 11 in two years is on a stronger growth path than one stuck at rank 14 for three years. By the time you graduate, the climber may have overtaken the static name.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🔍</div>
+        <div class="info-card__title">Distinguish movement from noise</div>
+        <div class="info-card__text">1–2 rank swings between consecutive years usually mean nothing. A 5+ rank move sustained over 2 years is a real signal. Use the 3-year delta in our matrix as your filter.</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card__icon">🎯</div>
+        <div class="info-card__title">Match rank momentum to your branch</div>
+        <div class="info-card__text">NIRF ranks the institute as a whole. If a college's climb is driven by new research labs, its CSE/ECE branches benefit first. If the climb is from placement data, all branches likely benefit. Ask which sub-parameter is driving the move.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <h2>Want a shortlist built on 3-year trends, not just last year's rank?</h2>
+    <p>Our counsellors pair NIRF trajectories with your JEE / TNEA / KCET rank, branch preference and budget — and produce a realistic college plan in one sitting.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.contact') }}" class="btn-main">Book a free 30-min call</a>
+      <a href="{{ url_for('main.nirf_ranking') }}" class="btn-out">See the full NIRF table</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const palette = ['#1B4F9B', '#C9A84C', '#2D6A4F', '#8B2635', '#6B7280', '#B87333', '#1A1A2E', '#0d8abc', '#9b1b8f', '#1b9b6b'];
+
+  // Top 10 rank trajectory (inverted axis)
+  const rankData = [
+    ['IIT Madras', [1, 1, 1]],
+    ['IIT Delhi', [2, 2, 2]],
+    ['IIT Bombay', [3, 3, 3]],
+    ['IIT Kanpur', [4, 4, 4]],
+    ['IIT Kharagpur', [6, 5, 5]],
+    ['IIT Roorkee', [5, 6, 6]],
+    ['IIT Hyderabad', [8, 8, 7]],
+    ['IIT Guwahati', [7, 7, 8]],
+    ['NIT Trichy', [9, 9, 9]],
+    ['IIT BHU Varanasi', [15, 10, 10]],
+  ];
+  new Chart(document.getElementById('chartRank'), {
+    type: 'line',
+    data: {
+      labels: ['2023', '2024', '2025'],
+      datasets: rankData.map((d, i) => ({
+        label: d[0], data: d[1], borderColor: palette[i],
+        backgroundColor: palette[i], tension: 0.25, borderWidth: 2, pointRadius: 3
+      }))
+    },
+    options: {
+      responsive: true,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 10 } } } },
+      scales: { y: { reverse: true, title: { display: true, text: 'NIRF Rank (lower = better)' } } }
+    }
+  });
+
+  // Biggest 3-year rank moves (sourced from the matrix)
+  const moves = [
+    ['IIT Patna', 22], ['IIIT Hyderabad', 17], ['BITS Pilani', 14], ['SRM IST Chennai', 14],
+    ['UPES Dehradun', 11], ['Anna University', -6], ['VIT Vellore', -5], ['NIT Surathkal', -5],
+    ['Jadavpur University', -8], ['IIT Ropar', -11], ['ICT Mumbai', -26]
+  ];
+  new Chart(document.getElementById('chartMoves'), {
+    type: 'bar',
+    data: {
+      labels: moves.map(m => m[0]),
+      datasets: [{
+        label: 'Rank places gained/lost (2023→2025)',
+        data: moves.map(m => m[1]),
+        backgroundColor: moves.map(m => m[1] >= 0 ? '#2D6A4F' : '#8B2635')
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      plugins: { legend: { display: false } },
+      scales: { x: { title: { display: true, text: 'Rank places (+ climbed / − fell)' } } }
+    }
+  });
+});
+</script>
+{% endblock %}
