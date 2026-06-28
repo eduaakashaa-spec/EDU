@@ -1,22 +1,14 @@
-from pathlib import Path
-
-from flask import Blueprint, Response, abort, current_app, redirect, render_template, url_for
+from flask import Blueprint, abort, redirect, render_template, url_for
 from flask_login import login_required, current_user
 
 main_bp = Blueprint('main', __name__)
 
 
-def render_reference_page(filename: str, fallback_template: str | None = None, **context):
-    ref_dir = Path(current_app.root_path).parent / 'reference' / 'live_pages' / 'html'
-    ref_file = ref_dir / filename
-    # In local debug mode prefer the Jinja2 templates so local static/css is used.
-    if current_app.debug and fallback_template:
-        return render_template(fallback_template, **context)
-    if ref_file.exists():
-        return Response(ref_file.read_text(encoding='utf-8'), mimetype='text/html')
-    if fallback_template:
-        return render_template(fallback_template, **context)
-    abort(404)
+def render_reference_page(filename: str, fallback_template: str, **context):
+    # Every page is now a proper, styled Jinja template (clean HTML, no Hostinger
+    # iframes), so we render the template directly. `filename` is kept only as a
+    # label of the original live-site page this template was migrated from.
+    return render_template(fallback_template, **context)
 
 
 # =============================================================
