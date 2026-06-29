@@ -175,6 +175,58 @@ img { max-width: 100%; display: block; }
 }
 .nav__link--auth:hover { opacity: .8; color: #fff !important; }
 
+/* Membership = primary conversion CTA in the header */
+.header__auth { gap: 8px; }
+.nav__link--membership {
+  background: #E07016;
+  color: #fff !important;
+  padding: 6px 16px !important;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: .85rem;
+  letter-spacing: .3px;
+  white-space: nowrap;
+  transition: background .2s, transform .1s;
+}
+.nav__link--membership:hover { background: #c45f0d; color: #fff !important; transform: translateY(-1px); }
+
+/* Login becomes a quieter ghost button beside Membership */
+.nav__link--ghost {
+  background: transparent !important;
+  color: var(--dark) !important;
+  border: 1.5px solid var(--border);
+}
+.nav__link--ghost:hover { border-color: var(--gold); opacity: 1; }
+
+/* Visual separator before the de-emphasised items in the "More" menu */
+.nav__dropdown-divider { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 6px; }
+
+/* Floating WhatsApp click-to-chat */
+.wa-float {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 900;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #25D366;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: .9rem;
+  padding: 11px 16px 11px 12px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(37,211,102,.45);
+  transition: transform .15s, box-shadow .15s;
+}
+.wa-float:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(37,211,102,.55); }
+.wa-float svg { flex-shrink: 0; }
+@media (max-width: 600px) {
+  .wa-float span { display: none; }
+  .wa-float { padding: 12px; right: 14px; bottom: 14px; }
+}
+
 .nav__arrow {
   width: 8px;
   height: 6px;

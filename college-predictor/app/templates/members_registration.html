@@ -72,6 +72,24 @@
   .tier-card__btn:hover { background: var(--gold); }
   .tier-card__btn:active { transform: scale(.98); }
 
+  /* Featured tier — the flagship Elite Mentorship */
+  .tier-card--featured {
+    border-color: var(--gold);
+    border-width: 2px;
+    box-shadow: 0 10px 28px rgba(201,168,76,.22);
+    position: relative;
+  }
+  .tier-card--featured .tier-card__btn { background: #E07016; }
+  .tier-card--featured .tier-card__btn:hover { background: var(--gold); }
+  .tier-badge {
+    position: absolute;
+    top: -12px; left: 50%; transform: translateX(-50%);
+    background: #E07016; color: #fff;
+    font-size: .64rem; font-weight: 800; letter-spacing: 1.2px;
+    text-transform: uppercase; padding: 5px 14px; border-radius: 999px;
+    white-space: nowrap; box-shadow: 0 4px 10px rgba(224,112,22,.35);
+  }
+
   .faq-item {
     background: var(--white);
     border: 1px solid var(--border);
@@ -104,10 +122,10 @@
     <div class="hero__content">
       <span class="badge">Premium Membership &middot; For Students &amp; Parents</span>
       <h1>Same marks. Different colleges.<br><span>The decision is the difference.</span></h1>
-      <p>EduAakashaa is your year-long admission mentor &mdash; turning marks, deadlines and confusing choices into one clear, written plan. Application is free. You pay only after we approve your profile.</p>
+      <p>EduAakashaa is your year-long admission mentor &mdash; turning marks, deadlines and confusing choices into one clear, written plan. No upfront fee: you pay only after a mentor approves your plan.</p>
       <div class="final-cta__btns" style="margin-top:24px;">
-        <a href="#apply" class="btn-main">Start your free application &rarr;</a>
-        <a href="#paths" class="btn-out">See all six paths</a>
+        <a href="#apply" class="btn-main">Talk to a Mentor &rarr;</a>
+        <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
       </div>
     </div>
   </section>
@@ -123,7 +141,7 @@
         <div class="mem-stat"><div class="mem-stat__value">12+</div><div class="mem-stat__label">Exam Pathways</div></div>
         <div class="mem-stat"><div class="mem-stat__value">100%</div><div class="mem-stat__label">Online &amp; Remote</div></div>
         <div class="mem-stat"><div class="mem-stat__value">2-day</div><div class="mem-stat__label">Approval Window</div></div>
-        <div class="mem-stat"><div class="mem-stat__value">&#8377;0</div><div class="mem-stat__label">To Apply</div></div>
+        <div class="mem-stat"><div class="mem-stat__value">&#8377;0</div><div class="mem-stat__label">Upfront</div></div>
       </div>
     </section>
 
@@ -241,8 +259,9 @@
           <button type="button" class="tier-card__btn" data-tier="NRI &middot; Expert Guidance">Select this path</button>
         </div>
 
-        <!-- Elite Mentorship -->
-        <div class="tier-card">
+        <!-- Elite Mentorship (flagship / most popular) -->
+        <div class="tier-card tier-card--featured">
+          <span class="tier-badge">★ Most Popular</span>
           <div class="tier-card__eyebrow">1:1 mentor &middot; Full year</div>
           <div class="tier-card__name">Elite Mentorship</div>
           <div class="tier-card__price">&#8377;74,999</div>
@@ -263,14 +282,14 @@
     <section class="section">
       <div class="section__header">
         <span class="eyebrow">How it works &middot; Four steps</span>
-        <h2 class="section__title">Free to apply. Pay only after we approve.</h2>
+        <h2 class="section__title">Talk to a mentor. Pay only after we approve.</h2>
       </div>
       <div class="steps">
         <div class="step">
           <span class="step__num">01</span>
           <div>
-            <div class="step__title">Apply free</div>
-            <p class="step__text">Fill the short form below. No payment, no obligation.</p>
+            <div class="step__title">Talk to a mentor</div>
+            <p class="step__text">Tell us about the student using the short form below &mdash; no payment, no obligation.</p>
           </div>
         </div>
         <div class="step">
@@ -301,8 +320,8 @@
     <section class="section" id="apply">
       <div class="section__header">
         <span class="eyebrow">Membership Registration</span>
-        <h2 class="section__title">Start your free application.</h2>
-        <p class="section__desc">Takes two minutes. We&rsquo;ll email you a confirmation with your reference number, then review and get back within two working days.</p>
+        <h2 class="section__title">Talk to a Mentor</h2>
+        <p class="section__desc">Takes two minutes. We&rsquo;ll email you a confirmation with your reference number, then a mentor reviews and gets back within two working days. No payment now.</p>
       </div>
 
       <div class="mem-form-wrap">
@@ -317,7 +336,7 @@
           {% endif %}
           {% endwith %}
 
-          <!-- Inline result banner (populated by JS on successful free application) -->
+          <!-- Inline result banner (populated by JS on a successful enquiry) -->
           <div id="memResult" style="display:none; padding:12px 16px; border-radius:8px; font-size:.92rem; margin-bottom:16px; background:#e6f9ed; color:#276738; border:1px solid #b8e6c8;"></div>
 
           <form class="contact-form" id="memForm" method="post" action="{{ url_for('membership.apply') }}">
@@ -357,12 +376,18 @@
                 <option value="Elite Mentorship">Elite Mentorship &mdash; &#8377;74,999</option>
               </select>
             </div>
-            <button type="submit" class="btn-main" id="memSubmit">Start my free application &rarr;</button>
+            <button type="submit" class="btn-main" id="memSubmit">Talk to a Mentor &rarr;</button>
           </form>
 
+          <p style="text-align:center; margin:14px 0 0; font-size:.9rem; color:var(--text-dim);">
+            Prefer to chat now?
+            <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" style="color:#1f8b4d; font-weight:700;">Message us on WhatsApp &rarr;</a>
+          </p>
+
           <p class="mem-note">
-            Submitting now costs nothing &mdash; application is completely free with no obligation.
-            We issue a formal GST invoice only once your profile is approved, and you pay only after that.
+            Enquiring costs nothing and carries no obligation. We issue a formal GST
+            invoice only once a mentor approves the right path for the student &mdash;
+            and you pay only after that.
           </p>
         </div>
       </div>
@@ -377,8 +402,8 @@
 
       <div class="faq-item">
         <span class="faq-item__tag">Q&middot;01 &middot; For parents</span>
-        <div class="faq-item__q">Do we pay anything to apply?</div>
-        <p class="faq-item__a">No. The application is completely free and carries no obligation. You only receive an invoice &mdash; and only pay &mdash; after we&rsquo;ve reviewed the profile and approved the right path. There is no upfront payment at any point.</p>
+        <div class="faq-item__q">Do we pay anything to enquire?</div>
+        <p class="faq-item__a">No. Reaching out carries no upfront fee and no obligation. You only receive an invoice &mdash; and only pay &mdash; after a mentor has reviewed the profile and approved the right path. There is no upfront payment at any point.</p>
       </div>
 
       <div class="faq-item">
@@ -402,11 +427,11 @@
 
     <!-- ======== FINAL CTA ======== -->
     <div class="final-cta">
-      <h2>Apply free. Pay only after approval.</h2>
-      <p>Same marks, different colleges &mdash; the decision is the difference. Start your free application today and a mentor will confirm your path within two working days.</p>
+      <h2>Talk to a mentor. Pay only after approval.</h2>
+      <p>Same marks, different colleges &mdash; the decision is the difference. Reach out today and a mentor will confirm the right path within two working days. No upfront fee.</p>
       <div class="final-cta__btns">
-        <a href="#apply" class="btn-main">Start my free application &rarr;</a>
-        <a href="{{ url_for('main.contact') }}" class="btn-out">Talk to us first</a>
+        <a href="#apply" class="btn-main">Talk to a Mentor &rarr;</a>
+        <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
       </div>
     </div>
 
@@ -432,7 +457,7 @@
       });
     });
 
-    // Submit the free application via fetch (the endpoint returns JSON),
+    // Submit the enquiry via fetch (the endpoint returns JSON),
     // so the user stays on the page and sees their reference number.
     var form = document.getElementById('memForm');
     var result = document.getElementById('memResult');
@@ -455,9 +480,9 @@
               result.style.background = '#e6f9ed';
               result.style.color = '#276738';
               result.style.borderColor = '#b8e6c8';
-              result.innerHTML = 'Thank you! Your free application is in. Reference: <strong>' +
+              result.innerHTML = 'Thank you! Your enquiry is in. Reference: <strong>' +
                 (res.data.reference || '—') +
-                '</strong>. We will review and get back within two working days. No payment is due now.';
+                '</strong>. A mentor will review and get back within two working days. No payment is due now.';
               form.reset();
               result.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else {
@@ -472,7 +497,7 @@
             result.textContent = err.message || 'Sorry, we could not submit your application. Please try again.';
           })
           .finally(function () {
-            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Start my free application →'; }
+            if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Talk to a Mentor →'; }
           });
       });
     }

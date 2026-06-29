@@ -33,91 +33,74 @@
           <li class="nav__item"><a href="{{ url_for('main.home') }}" class="nav__link">Home</a></li>
 
           <li class="nav__item nav__item--dropdown">
-            <a href="#" class="nav__link">DASA / NRI</a>
-            <ul class="nav__dropdown">
-              <li><a href="{{ url_for('main.dasa_2026') }}">DASA 2026 Atlas</a></li>
-              <li><a href="{{ url_for('main.dasa_predictor_alias') }}">DASA Predictor</a></li>
-              <li><a href="{{ url_for('main.dasa_seat_matrix') }}">DASA Seat Matrix</a></li>
-              <li><a href="{{ url_for('main.dasa_guide') }}">DASA / CIWG Guide</a></li>
-              <li><a href="{{ url_for('main.dasa_strategic_approach') }}">DASA Strategy</a></li>
-              <li><a href="{{ url_for('main.dasa2025_ranks') }}">DASA 2025 Ranks</a></li>
-              <li><a href="{{ url_for('main.dasa_2025_vs_2026') }}">DASA 2025 vs 2026</a></li>
-              <li><a href="{{ url_for('main.dasa2026_schedule') }}">DASA Schedule</a></li>
-              <li><a href="{{ url_for('main.nri_admission') }}">NRI Admission</a></li>
-              <li><a href="{{ url_for('main.iiits') }}">IIITs</a></li>
-              <li><a href="{{ url_for('main.annanri') }}">Anna NRI</a></li>
-              <li><a href="{{ url_for('main.viteee_nri') }}">VITEEE for NRI</a></li>
-              <li><a href="{{ url_for('main.amrita_aeee') }}">AMRITA AEEE</a></li>
-              <li><a href="{{ url_for('main.branch_fitness_assessment') }}">Branch Fit</a></li>
-              <li><a href="{{ url_for('main.expert_portal_dasa') }}">Expert Portal</a></li>
-            </ul>
-          </li>
-
-          <li class="nav__item nav__item--dropdown">
             <a href="#" class="nav__link">TNEA</a>
             <ul class="nav__dropdown">
-              <li><a href="{{ url_for('main.tnea2026') }}">TNEA 2026</a></li>
-              <li><a href="{{ url_for('main.tnea_expert_guidance') }}">TNEA Expert Guidance</a></li>
-              <li><a href="{{ url_for('main.tnea_simulator') }}">TNEA Simulator</a></li>
+              <li><a href="{{ url_for('main.tnea2026') }}">TNEA 2026 Admissions</a></li>
+              <li><a href="{{ url_for('main.tnea_expert_guidance') }}">Expert Guidance</a></li>
               <li><a href="{{ url_for('main.tnea_colleges') }}">TNEA Colleges</a></li>
-              <li><a href="{{ url_for('main.free_report') }}">Free Report</a></li>
+              <li><a href="{{ url_for('main.tnea_simulator') }}">Cutoff Simulator</a></li>
+              <li><a href="{{ url_for('main.free_report') }}">Free TNEA Report</a></li>
             </ul>
           </li>
 
           <li class="nav__item nav__item--dropdown">
-            <a href="#" class="nav__link">JOSAA</a>
+            <a href="#" class="nav__link">JEE / JOSAA</a>
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.josaa') }}">JOSAA Predictor</a></li>
               <li><a href="{{ url_for('main.josaa_assessment') }}">JOSAA Assessment</a></li>
+              <li><a href="{{ url_for('main.enggcolleges_india') }}">Engineering Colleges (India)</a></li>
               <li><a href="{{ url_for('main.josaa_ea_members') }}">JOSAA EA Members</a></li>
             </ul>
           </li>
 
           <li class="nav__item nav__item--dropdown">
-            <a href="#" class="nav__link">Exams &amp; Colleges</a>
+            <a href="#" class="nav__link">DASA / NRI</a>
             <ul class="nav__dropdown">
-              <li><a href="{{ url_for('main.enggcolleges_india') }}">Engg Colleges India</a></li>
+              <li><a href="{{ url_for('main.nri_admission') }}">NRI Admission Guide</a></li>
+              <li><a href="{{ url_for('main.dasa_2026') }}">DASA 2026</a></li>
+              <li><a href="{{ url_for('main.dasa_predictor_alias') }}">DASA Predictor</a></li>
+              <li><a href="{{ url_for('main.dasa_seat_matrix') }}">Seat Matrix</a></li>
+              <li><a href="{{ url_for('main.dasa_guide') }}">DASA / CIWG Guide</a></li>
+              <li><a href="{{ url_for('main.dasa_strategic_approach') }}">Choice-Filling Strategy</a></li>
+              <li><a href="{{ url_for('main.dasa2025_ranks') }}">2025 Closing Ranks</a></li>
+              <li><a href="{{ url_for('main.dasa_2025_vs_2026') }}">2025 vs 2026 Changes</a></li>
+              <li><a href="{{ url_for('main.dasa2026_schedule') }}">2026 Schedule</a></li>
+              <li><a href="{{ url_for('main.iiits') }}">IIITs</a></li>
+              <li><a href="{{ url_for('main.branch_fitness_assessment') }}">Branch-Fit Assessment</a></li>
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">Colleges &amp; Exams</a>
+            <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.nirf_ranking') }}">NIRF Rankings</a></li>
               <li><a href="{{ url_for('main.nirf_analytic') }}">NIRF Analytics</a></li>
-              <li><a href="{{ url_for('main.nata') }}">NATA</a></li>
-              <li><a href="{{ url_for('main.nid') }}">NID</a></li>
+              <li><a href="{{ url_for('main.annanri') }}">Anna University (NRI)</a></li>
+              <li><a href="{{ url_for('main.viteee_nri') }}">VITEEE</a></li>
+              <li><a href="{{ url_for('main.amrita_aeee') }}">Amrita AEEE</a></li>
+              <li><a href="{{ url_for('main.nata') }}">NATA (Architecture)</a></li>
+              <li><a href="{{ url_for('main.nid') }}">NID (Design)</a></li>
               <li><a href="{{ url_for('main.mbamca_alias') }}">MBA / MCA</a></li>
               <li><a href="{{ url_for('main.cat') }}">CAT</a></li>
-              <li><a href="{{ url_for('main.professional_exam') }}">Professional Exam</a></li>
-              <li><a href="{{ url_for('main.exam_schedule') }}">Exam Schedule</a></li>
+              <li><a href="{{ url_for('main.professional_exam') }}">Professional Exams</a></li>
             </ul>
           </li>
 
           <li class="nav__item nav__item--dropdown">
-            <a href="#" class="nav__link">Assessments</a>
+            <a href="#" class="nav__link">More</a>
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.student_assessment') }}">Student Assessment</a></li>
-              <li><a href="{{ url_for('main.per_assessment') }}">PER Assessment</a></li>
-              <li><a href="{{ url_for('main.conflict_assessment') }}">Conflict Assessment</a></li>
               <li><a href="{{ url_for('main.career_path') }}">Career Path</a></li>
               <li><a href="{{ url_for('main.stream_selection') }}">Stream Selection</a></li>
-              <li><a href="{{ url_for('main.stream_selection_ea') }}">Stream Selection (EA)</a></li>
-            </ul>
-          </li>
-
-          <li class="nav__item nav__item--dropdown">
-            <a href="#" class="nav__link">Resources</a>
-            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.per_assessment') }}">PER Assessment</a></li>
               <li><a href="{{ url_for('main.videos_library') }}">Videos Library</a></li>
+              <li><a href="{{ url_for('main.exam_schedule') }}">Exam Schedule</a></li>
+              <li><a href="{{ url_for('main.members_report') }}">Members Report</a></li>
+              <li class="nav__dropdown-divider"><a href="{{ url_for('main.internship') }}">Internship</a></li>
               <li><a href="{{ url_for('main.training') }}">Training</a></li>
-              <li><a href="{{ url_for('main.internship') }}">Internship</a></li>
-              <li><a href="{{ url_for('main.join_our_team') }}">Join our Team</a></li>
               <li><a href="{{ url_for('main.nriarabic_foundation') }}">NRI Arabic — Foundation</a></li>
               <li><a href="{{ url_for('main.nriarabicgr') }}">NRI Arabic — Grammar</a></li>
-            </ul>
-          </li>
-
-          <li class="nav__item nav__item--dropdown">
-            <a href="#" class="nav__link">Members</a>
-            <ul class="nav__dropdown">
-              <li><a href="{{ url_for('main.members_registration') }}">Premium Membership</a></li>
-              <li><a href="{{ url_for('main.members_report') }}">Members Report</a></li>
-              <li><a href="{{ url_for('main.counsellor_dashboard') }}">Counsellor Dashboard</a></li>
+              <li><a href="{{ url_for('main.join_our_team') }}">Join our Team</a></li>
             </ul>
           </li>
 
@@ -126,13 +109,14 @@
         </ul>
       </nav>
       <div class="header__auth">
+        <a href="{{ url_for('main.members_registration') }}" class="nav__link nav__link--membership">★ Membership</a>
         {% if current_user.is_authenticated %}
         {% if current_user.is_admin %}
         <a href="{{ url_for('membership.admin_list') }}" class="nav__link nav__link--auth">Admin</a>
         {% endif %}
         <a href="{{ url_for('auth.dashboard') }}" class="nav__link nav__link--auth">Dashboard</a>
         {% else %}
-        <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth">Login</a>
+        <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth nav__link--ghost">Login</a>
         {% endif %}
       </div>
     </div>
@@ -148,15 +132,28 @@
         <p>Illuminating Your Academic Future</p>
       </div>
       <div class="footer__links">
-        <a href="{{ url_for('main.home') }}">Home</a>
-        <a href="{{ url_for('main.josaa') }}">JOSAA Predictor</a>
+        <a href="{{ url_for('main.members_registration') }}">Membership</a>
+        <a href="{{ url_for('main.tnea2026') }}">TNEA</a>
+        <a href="{{ url_for('main.josaa') }}">JOSAA</a>
+        <a href="{{ url_for('main.nri_admission') }}">DASA / NRI</a>
+        <a href="{{ url_for('main.about') }}">About</a>
         <a href="{{ url_for('main.contact') }}">Contact</a>
+        <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">WhatsApp</a>
       </div>
       <div class="footer__copy">
         &copy; 2025 EduAakashaA. All rights reserved.
       </div>
     </div>
   </footer>
+
+  <!-- Floating WhatsApp click-to-chat (mirrors the live site) -->
+  <a href="{{ WHATSAPP_URL }}" class="wa-float" target="_blank" rel="noopener"
+     aria-label="Chat with EduAakashaa on WhatsApp">
+    <svg viewBox="0 0 32 32" width="30" height="30" aria-hidden="true">
+      <path fill="#fff" d="M16 3C9.4 3 4 8.4 4 15c0 2.1.6 4.2 1.6 6L4 29l8.2-1.6c1.7.9 3.6 1.4 5.5 1.4h.3C24.6 28.8 30 23.4 30 16.8 30 9.9 23.6 3 16 3zm0 23.3c-1.7 0-3.4-.5-4.9-1.3l-.4-.2-3.9.8.8-3.8-.2-.4c-.9-1.5-1.4-3.2-1.4-5 0-5.4 4.4-9.8 9.9-9.8 2.6 0 5.1 1 7 2.9 1.9 1.9 2.9 4.3 2.9 7 0 5.4-4.5 9.6-9.9 9.6zm5.5-7.3c-.3-.2-1.8-.9-2-1-.3-.1-.5-.2-.7.2-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-1.8-.9-3-1.6-4.2-3.6-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.5 0-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.2.2 2.1 3.3 5.2 4.6 2.6 1.1 3.1.9 3.7.8.6-.1 1.8-.7 2-1.5.3-.7.3-1.4.2-1.5-.1-.1-.3-.2-.6-.4z"/>
+    </svg>
+    <span>Chat with a mentor</span>
+  </a>
 
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   {% block scripts %}{% endblock %}
