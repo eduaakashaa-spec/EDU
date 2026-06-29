@@ -5,38 +5,54 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">DASA · CIWG 2026 · SEAT PREDICTOR</span>
-    <h1>Will my CIWG rank get me into NIT Trichy CSE, <span>or somewhere better?</span></h1>
-    <p>Real opening &amp; closing ranks from all three DASA-2025 rounds, mapped across India and filtered to your rank. Built for Indian-passport NRIs and CIWG-eligible candidates planning their 2026 admission honestly — no hype, just data.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">CIWG PROGRAMS</span>
-        <span class="hero__meta-value">215+</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">DASA · CIWG 2026 · Seat Predictor</span>
+        <h1 style="margin-top:22px;">Will my CIWG rank get me into NIT Trichy CSE, <span class="accent">or somewhere better?</span></h1>
+        <p class="hero-sub">Real opening &amp; closing ranks from all three DASA-2025 rounds, mapped across India and filtered to your rank. Built for Indian-passport NRIs and CIWG-eligible candidates planning their 2026 admission honestly — no hype, just data.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">→</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">NON-CIWG PROGRAMS</span>
-        <span class="hero__meta-value">109</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">BEST CIWG OPENING (CSE)</span>
-        <span class="hero__meta-value">5,686</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">INSTITUTES (DASA-LISTED)</span>
-        <span class="hero__meta-value">47</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">STATES &amp; UTs</span>
-        <span class="hero__meta-value">25+</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">2025 COUNSELLING ROUNDS</span>
-        <span class="hero__meta-value">3</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">DASA · 2025 Round Summary</div>
+        <div class="hero-card-title">324 programs, 3 rounds, 47 institutes</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">CIWG Programs</span>
+            <span class="hcr-value">215<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Non-CIWG Programs</span>
+            <span class="hcr-value">109</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Best CIWG Opening (CSE)</span>
+            <span class="hcr-value">5,686<span class="accent">.</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Best CIWG Opening (Arch.)</span>
+            <span class="hcr-value">711<span class="accent">.</span></span>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- Stats strip -->
+<section class="stats-strip">
+  <div class="container">
+    <div class="stats-strip__grid">
+      <div class="stat-cell"><div class="stat-num">47</div><div class="stat-label">Institutes (DASA-listed)</div></div>
+      <div class="stat-cell"><div class="stat-num">25<span>+</span></div><div class="stat-label">States &amp; UTs</div></div>
+      <div class="stat-cell"><div class="stat-num">3</div><div class="stat-label">2025 Counselling Rounds</div></div>
+      <div class="stat-cell"><div class="stat-num">324</div><div class="stat-label">Total Programs</div></div>
     </div>
   </div>
 </section>

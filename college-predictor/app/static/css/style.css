@@ -31,6 +31,8 @@
   --radius-sm: 10px;
   --shadow-1: 0 1px 2px rgba(14,27,61,.05), 0 4px 12px rgba(14,27,61,.04);
   --shadow-2: 0 10px 30px rgba(14,27,61,.10), 0 2px 6px rgba(14,27,61,.06);
+  --max: 1200px;
+  --cream-2: #F3ECDD;
 }
 
 body {
@@ -466,13 +468,9 @@ img { max-width: 100%; display: block; }
 }
 
 .section__header {
-  margin-bottom: 32px;
-  text-align: center;
-  max-width: 720px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 36px;
+  max-width: 760px;
 }
-.section__header .section__desc { margin-left: auto; margin-right: auto; }
 
 .eyebrow {
   font-family: 'Plus Jakarta Sans', sans-serif;

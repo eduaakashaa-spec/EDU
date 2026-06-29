@@ -1,0 +1,227 @@
+/* ==========================================================
+   components.css — editorial layout components ported 1:1 from the
+   live eduaakashaa.in source. Reusable across all pages.
+   Tokens (--navy, --orange, --cream, --paper, --hairline, --radius,
+   --shadow-1/2, --max, --cream-2) are defined in style.css.
+   ========================================================== */
+
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 28px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ---- Eyebrow pill (mono label with orange dot) — exact live spec ---- */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--navy-ink);
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: 999px;
+  padding: 8px 16px 8px 24px;
+  position: relative;
+  margin-bottom: 0;
+}
+.eyebrow::before {
+  content: "";
+  position: absolute;
+  left: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 3px rgba(255,107,10,.15);
+}
+
+/* ---- Section head (left-aligned editorial) ---- */
+.section-head { max-width: 780px; margin-bottom: 56px; }
+.section-head .eyebrow { margin-bottom: 22px; }
+.section-head h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--navy-ink);
+}
+.section-head p {
+  font-size: 18px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 16px;
+  margin-bottom: 0;
+}
+
+/* ---- Pill buttons ---- */
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--navy);
+  color: #fff;
+  border: none;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 16px 28px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-primary .arrow { display: inline-block; transition: transform 0.2s ease; }
+.btn-primary:hover { background: var(--orange); transform: translateY(-2px); box-shadow: var(--shadow-2); }
+.btn-primary:hover .arrow { transform: translateX(4px); }
+
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: transparent;
+  color: var(--navy-ink);
+  border: 1.5px solid var(--navy-ink);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 14.5px 26px;
+  border-radius: 999px;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn-ghost:hover { background: var(--navy-ink); color: #fff; transform: translateY(-2px); }
+
+/* ---- Editorial hero (split: copy + side card) ---- */
+.hero-editorial { padding: 80px 0 90px; position: relative; background: var(--cream); }
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: start;
+}
+.hero-editorial h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  color: var(--navy-ink);
+  margin-bottom: 24px;
+}
+.hero-editorial h1 .accent { color: var(--orange); font-style: italic; }
+.hero-sub {
+  font-size: 19px;
+  color: var(--muted);
+  line-height: 1.6;
+  max-width: 540px;
+  margin-bottom: 32px;
+}
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* ---- Hero side summary card ---- */
+.hero-card {
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  padding: 32px;
+  box-shadow: var(--shadow-2);
+  position: relative;
+  overflow: hidden;
+}
+.hero-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,107,10,.15), transparent 50%);
+  pointer-events: none;
+}
+.hero-card-eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em;
+  color: var(--orange); margin-bottom: 16px; position: relative;
+}
+.hero-card-title {
+  font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600;
+  margin-bottom: 18px; color: var(--navy-ink); position: relative;
+}
+.hero-card-rows { display: flex; flex-direction: column; gap: 14px; position: relative; }
+.hero-card-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding-bottom: 12px; border-bottom: 1px solid var(--hairline);
+}
+.hero-card-row:last-child { border-bottom: none; padding-bottom: 0; }
+.hcr-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+  text-transform: uppercase; letter-spacing: 0.18em; color: var(--muted);
+}
+.hcr-value { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 600; color: var(--navy-ink); }
+.hcr-value .accent { color: var(--orange); }
+
+/* ---- Stats strip ---- */
+.stats-strip {
+  background: var(--paper);
+  border-top: 1px solid var(--hairline);
+  border-bottom: 1px solid var(--hairline);
+  padding: 44px 0;
+}
+.stats-strip__grid { display: flex; flex-wrap: wrap; gap: 24px 0; }
+.stat-cell { padding: 0 28px; border-right: 1px solid var(--hairline); flex: 1; min-width: 150px; }
+.stat-cell:first-child { padding-left: 0; }
+.stat-cell:last-child { border-right: none; padding-right: 0; }
+.stat-num {
+  font-family: 'Fraunces', serif; font-size: clamp(32px, 3.4vw, 44px);
+  font-weight: 700; color: var(--navy-ink); line-height: 1; margin-bottom: 10px;
+  letter-spacing: -0.02em;
+}
+.stat-num span { color: var(--orange); }
+.stat-label {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px;
+  text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted);
+}
+
+/* ---- Panel / map cards ---- */
+.panel-card {
+  background: var(--paper);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow-1);
+  position: relative;
+}
+.panel-card-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 18px; gap: 16px;
+}
+.panel-card-title {
+  font-family: 'Fraunces', serif; font-size: 20px; font-weight: 600;
+  color: var(--navy-ink); line-height: 1.2; margin-bottom: 4px;
+}
+.panel-card-note {
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px;
+  letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted);
+}
+
+/* ---- Dark band (CTA / feature) ---- */
+.dark-section { background: var(--navy-ink); color: #fff; padding: 72px 0; }
+.dark-section h2 { font-family: 'Fraunces', serif; color: #fff; }
+.dark-section p { color: rgba(255,255,255,0.72); }
+.dark-section .eyebrow { color: #fff; background: transparent; border-color: rgba(255,255,255,0.25); }
+.dark-section .eyebrow::before { background: var(--orange); box-shadow: 0 0 0 3px rgba(255,107,10,.25); }
+.dark-section .btn-primary { background: var(--orange); color: #fff; }
+.dark-section .btn-primary:hover { background: var(--orange-soft); }
+.dark-section .btn-ghost { border-color: rgba(255,255,255,.4); color: #fff; }
+.dark-section .btn-ghost:hover { background: #fff; color: var(--navy-ink); }
+
+/* ---- Responsive ---- */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+  .hero-editorial { padding: 50px 0 60px; }
+  .stat-cell { border-right: none; padding: 0; flex-basis: 45%; }
+}
