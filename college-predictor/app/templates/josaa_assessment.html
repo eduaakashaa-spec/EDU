@@ -54,16 +54,11 @@
       The live assessment is available to logged-in users. Once you sign in, your progress is saved and the final report is generated as a PDF shareable with parents and counsellors.
     </p>
     <div class="final-cta">
-      <h2>Ready to begin?</h2>
-      <p>Sign in (or create a free account) to start the 9-stage JOSAA assessment and unlock your personalised branch report.</p>
+      <h2>An assessment shows the fit. A mentor builds the JOSAA plan.</h2>
+      <p>Same marks, different colleges — a mentor turns your branch fit-score into the right choice-filling decision for the student.</p>
       <div class="final-cta__btns">
-        {% if current_user.is_authenticated %}
-          <a href="{{ url_for('main.josaa') }}" class="btn-main">Go to JOSAA Predictor</a>
-          <a href="{{ url_for('auth.dashboard') }}" class="btn-out">Dashboard</a>
-        {% else %}
-          <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login to start</a>
-          <a href="{{ url_for('auth.register') }}" class="btn-out">Create free account</a>
-        {% endif %}
+        <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor →</a>
+        <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
       </div>
     </div>
   </section>

@@ -198,15 +198,11 @@
 
   <!-- ======== CTA ======== -->
   <div class="final-cta">
-    <h2>Ready to diagnose how you think about physics?</h2>
-    <p>Take the PER diagnostic, get an expert-reviewed report with a 7-day plan, and a free 30-minute counselling call to walk through it.</p>
+    <h2>Your physics scores tell one story. A mentor reveals the rest.</h2>
+    <p>Same marks, different paths &mdash; a mentor turns your diagnostic into the right study plan and decisions for the student.</p>
     <div class="final-cta__btns">
-      <a href="#your-details" class="btn-main">Take Assessment &rarr;</a>
-      {% if current_user.is_authenticated %}
-        <a href="{{ url_for('auth.dashboard') }}" class="btn-out">Expert Login</a>
-      {% else %}
-        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-out">Expert Login</a>
-      {% endif %}
+      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor &rarr;</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
     </div>
   </div>
 

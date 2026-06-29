@@ -223,13 +223,13 @@
     </section>
 
     <!-- Final CTA -->
-    <section class="final-cta">
-      <h2>Start learning today</h2>
-      <p>Education counselling and beginner Arabic instruction for students of every grade and every mother tongue. Coimbatore &middot; Dubai.</p>
+    <div class="final-cta">
+      <h2>Not sure where your child should start with Arabic? Talk to a mentor.</h2>
+      <p>Same lessons, very different learners &mdash; a mentor turns this foundation into the right pace and plan for your student.</p>
       <div class="final-cta__btns">
-        <a href="#ch1" class="btn-main">Begin Lesson 01 &rarr;</a>
-        <a href="{{ url_for('main.contact') }}" class="btn-out">Contact Us</a>
+        <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor &rarr;</a>
+        <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
       </div>
-    </section>
+    </div>
   </main>
 {% endblock %}

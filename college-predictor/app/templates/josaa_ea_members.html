@@ -47,7 +47,7 @@
         <h2>Upgrade to Premium</h2>
         <p>Enrol once — get access through the entire JOSAA 2026 counselling cycle.</p>
         <div class="final-cta__btns">
-          <a href="{{ url_for('main.contact') }}" class="btn-main">Request Upgrade</a>
+          <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor</a>
           <a href="{{ url_for('auth.dashboard') }}" class="btn-out">My Dashboard</a>
         </div>
       </div>
@@ -70,5 +70,14 @@
     </div>
   </section>
   {% endif %}
+
+  <div class="final-cta">
+    <h2>Same JEE rank, different colleges. A mentor makes the call.</h2>
+    <p>Predictors and playbooks give you the data — a mentor turns it into the right JOSAA choice list for your student.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor →</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
+    </div>
+  </div>
 </div>
 {% endblock %}

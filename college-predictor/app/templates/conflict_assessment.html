@@ -42,16 +42,11 @@
   </section>
 
   <div class="final-cta">
-    <h2>Begin the Scientific Assessment</h2>
-    <p>Sign in to start. The assessment can be completed individually by student &amp; parent before the joint counselling call.</p>
+    <h2>Parent and student pulling in different directions? Talk to a mentor.</h2>
+    <p>The same marks open very different doors. A mentor turns a disagreement into one aligned decision the whole family can stand behind.</p>
     <div class="final-cta__btns">
-      {% if current_user.is_authenticated %}
-        <a href="{{ url_for('main.student_assessment') }}" class="btn-main">Student Assessment</a>
-        <a href="{{ url_for('main.contact') }}" class="btn-out">Book a Counsellor</a>
-      {% else %}
-        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login to start</a>
-        <a href="{{ url_for('auth.register') }}" class="btn-out">Create free account</a>
-      {% endif %}
+      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor →</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
     </div>
   </div>
 </div>
