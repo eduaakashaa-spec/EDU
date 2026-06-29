@@ -38,14 +38,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Mobile dropdown toggles
+  // Grouped dropdown toggles. The top-level item is a category (href="#"), so
+  // never navigate on click. Below 1024px the nav is a panel and the dropdown
+  // is an accordion toggled by tap; above that it opens on hover (CSS).
   const dropdownItems = document.querySelectorAll('.nav__item--dropdown');
   dropdownItems.forEach(item => {
     const link = item.querySelector('.nav__link');
     if (link) {
       link.addEventListener('click', (e) => {
-        if (window.innerWidth <= 768) {
-          e.preventDefault();
+        e.preventDefault();
+        if (window.innerWidth <= 1024) {
+          // accordion: only one section open at a time
+          dropdownItems.forEach(o => { if (o !== item) o.classList.remove('open'); });
           item.classList.toggle('open');
         }
       });

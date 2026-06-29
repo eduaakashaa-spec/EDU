@@ -30,55 +30,98 @@
       </button>
       <nav class="header__nav" id="nav">
         <ul class="nav__list">
-          <li class="nav__item"><a href="{{ url_for('main.home') }}" class="nav__link">Homepage</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.dasa_predictor_alias') }}" class="nav__link">DASA predictor</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.nri_admission') }}" class="nav__link">DASA 2026</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.dasa_seat_matrix') }}" class="nav__link">DASA Seat Matrix</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.dasa_guide') }}" class="nav__link">DASA/CIWG</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.iiits') }}" class="nav__link">IIITs</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.annanri') }}" class="nav__link">Anna_NRI</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.viteee_nri') }}" class="nav__link">VITEEE for NRI</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.amrita_aeee') }}" class="nav__link">AMRITA AEEE</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.nirf_ranking') }}" class="nav__link">NIRF</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.tnea2026') }}" class="nav__link">TNEA-2026</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.tnea_expert_guidance') }}" class="nav__link">TNEA Expert Guidance</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.tnea_simulator') }}" class="nav__link">TNEA Simulator</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.josaa') }}" class="nav__link">JOSAA</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.josaa_assessment') }}" class="nav__link">JOSAA Assessment</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.nata') }}" class="nav__link">NATA</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.nid') }}" class="nav__link">NID</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.mbamca_alias') }}" class="nav__link">MBA/MCA</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.cat') }}" class="nav__link">CAT</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.professional_exam') }}" class="nav__link">Professional Exam</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.exam_schedule') }}" class="nav__link">Exam Schedule</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.stream_selection_ea') }}" class="nav__link">Stream Selection_EA</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.per_assessment') }}" class="nav__link">PER Assessment</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.conflict_assessment') }}" class="nav__link">Conflict Assessment</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.career_path') }}" class="nav__link">Career Path</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.student_assessment') }}" class="nav__link">Student Assessment</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.internship') }}" class="nav__link">Internship</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.join_our_team') }}" class="nav__link">Join our Team</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.josaa_ea_members') }}" class="nav__link">JOSAA_EA Members</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.expert_portal_dasa') }}" class="nav__link">Expert Portal_DASA</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.stream_selection') }}" class="nav__link">Stream Selection</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.members_report') }}" class="nav__link">Members Report</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.nriarabicgr') }}" class="nav__link">NRI_Arabic_Gr</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.nriarabic_foundation') }}" class="nav__link">NRI_Arabic Foundation</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.videos_library') }}" class="nav__link">Videos Library</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.training') }}" class="nav__link">Training</a></li>
-          <!-- New pages (eduaakashaa.in parity) -->
-          <li class="nav__item"><a href="{{ url_for('main.dasa_2026') }}" class="nav__link">DASA 2026 Atlas</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.dasa2025_ranks') }}" class="nav__link">DASA 2025 Ranks</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.dasa_2025_vs_2026') }}" class="nav__link">DASA 2025 vs 2026</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.dasa_strategic_approach') }}" class="nav__link">DASA Strategy</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.dasa2026_schedule') }}" class="nav__link">DASA Schedule</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.enggcolleges_india') }}" class="nav__link">Engg Colleges India</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.nirf_analytic') }}" class="nav__link">NIRF Analytics</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.tnea_colleges') }}" class="nav__link">TNEA Colleges</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.free_report') }}" class="nav__link">Free Report</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.branch_fitness_assessment') }}" class="nav__link">Branch Fit</a></li>
+          <li class="nav__item"><a href="{{ url_for('main.home') }}" class="nav__link">Home</a></li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">DASA / NRI</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.dasa_2026') }}">DASA 2026 Atlas</a></li>
+              <li><a href="{{ url_for('main.dasa_predictor_alias') }}">DASA Predictor</a></li>
+              <li><a href="{{ url_for('main.dasa_seat_matrix') }}">DASA Seat Matrix</a></li>
+              <li><a href="{{ url_for('main.dasa_guide') }}">DASA / CIWG Guide</a></li>
+              <li><a href="{{ url_for('main.dasa_strategic_approach') }}">DASA Strategy</a></li>
+              <li><a href="{{ url_for('main.dasa2025_ranks') }}">DASA 2025 Ranks</a></li>
+              <li><a href="{{ url_for('main.dasa_2025_vs_2026') }}">DASA 2025 vs 2026</a></li>
+              <li><a href="{{ url_for('main.dasa2026_schedule') }}">DASA Schedule</a></li>
+              <li><a href="{{ url_for('main.nri_admission') }}">NRI Admission</a></li>
+              <li><a href="{{ url_for('main.iiits') }}">IIITs</a></li>
+              <li><a href="{{ url_for('main.annanri') }}">Anna NRI</a></li>
+              <li><a href="{{ url_for('main.viteee_nri') }}">VITEEE for NRI</a></li>
+              <li><a href="{{ url_for('main.amrita_aeee') }}">AMRITA AEEE</a></li>
+              <li><a href="{{ url_for('main.branch_fitness_assessment') }}">Branch Fit</a></li>
+              <li><a href="{{ url_for('main.expert_portal_dasa') }}">Expert Portal</a></li>
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">TNEA</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.tnea2026') }}">TNEA 2026</a></li>
+              <li><a href="{{ url_for('main.tnea_expert_guidance') }}">TNEA Expert Guidance</a></li>
+              <li><a href="{{ url_for('main.tnea_simulator') }}">TNEA Simulator</a></li>
+              <li><a href="{{ url_for('main.tnea_colleges') }}">TNEA Colleges</a></li>
+              <li><a href="{{ url_for('main.free_report') }}">Free Report</a></li>
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">JOSAA</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.josaa') }}">JOSAA Predictor</a></li>
+              <li><a href="{{ url_for('main.josaa_assessment') }}">JOSAA Assessment</a></li>
+              <li><a href="{{ url_for('main.josaa_ea_members') }}">JOSAA EA Members</a></li>
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">Exams &amp; Colleges</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.enggcolleges_india') }}">Engg Colleges India</a></li>
+              <li><a href="{{ url_for('main.nirf_ranking') }}">NIRF Rankings</a></li>
+              <li><a href="{{ url_for('main.nirf_analytic') }}">NIRF Analytics</a></li>
+              <li><a href="{{ url_for('main.nata') }}">NATA</a></li>
+              <li><a href="{{ url_for('main.nid') }}">NID</a></li>
+              <li><a href="{{ url_for('main.mbamca_alias') }}">MBA / MCA</a></li>
+              <li><a href="{{ url_for('main.cat') }}">CAT</a></li>
+              <li><a href="{{ url_for('main.professional_exam') }}">Professional Exam</a></li>
+              <li><a href="{{ url_for('main.exam_schedule') }}">Exam Schedule</a></li>
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">Assessments</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.student_assessment') }}">Student Assessment</a></li>
+              <li><a href="{{ url_for('main.per_assessment') }}">PER Assessment</a></li>
+              <li><a href="{{ url_for('main.conflict_assessment') }}">Conflict Assessment</a></li>
+              <li><a href="{{ url_for('main.career_path') }}">Career Path</a></li>
+              <li><a href="{{ url_for('main.stream_selection') }}">Stream Selection</a></li>
+              <li><a href="{{ url_for('main.stream_selection_ea') }}">Stream Selection (EA)</a></li>
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">Resources</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.videos_library') }}">Videos Library</a></li>
+              <li><a href="{{ url_for('main.training') }}">Training</a></li>
+              <li><a href="{{ url_for('main.internship') }}">Internship</a></li>
+              <li><a href="{{ url_for('main.join_our_team') }}">Join our Team</a></li>
+              <li><a href="{{ url_for('main.nriarabic_foundation') }}">NRI Arabic — Foundation</a></li>
+              <li><a href="{{ url_for('main.nriarabicgr') }}">NRI Arabic — Grammar</a></li>
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">Members</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.members_registration') }}">Premium Membership</a></li>
+              <li><a href="{{ url_for('main.members_report') }}">Members Report</a></li>
+              <li><a href="{{ url_for('main.counsellor_dashboard') }}">Counsellor Dashboard</a></li>
+            </ul>
+          </li>
+
           <li class="nav__item"><a href="{{ url_for('main.about') }}" class="nav__link">About</a></li>
-          <li class="nav__item"><a href="{{ url_for('main.members_registration') }}" class="nav__link">Premium Membership</a></li>
           <li class="nav__item"><a href="{{ url_for('main.contact_alias') }}" class="nav__link">Contact</a></li>
         </ul>
       </nav>
