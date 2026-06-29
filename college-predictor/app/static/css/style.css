@@ -13,6 +13,8 @@
   --gold: #FF6B0A;          /* primary accent — orange */
   --gold-dark: #D4560A;     /* orange hover */
   --orange: #FF6B0A;
+  --orange-soft: #FF8A3D;
+  --navy-deep: #0A2560;
   --cream: #FBF7EE;         /* page background (warm paper) */
   --paper: #FFFDF7;         /* cards / raised surfaces */
   --border: #E8DFC8;        /* hairline */
@@ -25,6 +27,10 @@
   --red: #C23A3A;
   --red-bg: #F7E1E1;
   --white: #ffffff;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --shadow-1: 0 1px 2px rgba(14,27,61,.05), 0 4px 12px rgba(14,27,61,.04);
+  --shadow-2: 0 10px 30px rgba(14,27,61,.10), 0 2px 6px rgba(14,27,61,.06);
 }
 
 body {
@@ -39,7 +45,9 @@ body {
 h1, h2, h3, h4, h5, .sticky-bar__title, .hero h1, .section__title,
 .final-cta h2, .info-card__title, .step__title {
   font-family: 'Fraunces', Georgia, serif;
-  letter-spacing: -0.01em;
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
 }
 
 /* Mono eyebrows / labels — JetBrains Mono */
@@ -334,10 +342,11 @@ img { max-width: 100%; display: block; }
 }
 .badge::before {
   content: "";
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--gold);
+  box-shadow: 0 0 0 3px rgba(255,107,10,.15);
   flex-shrink: 0;
 }
 
@@ -618,13 +627,14 @@ img { max-width: 100%; display: block; }
 .info-card {
   background: var(--paper);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 22px 20px;
+  border-radius: var(--radius);
+  padding: 24px 22px;
+  box-shadow: var(--shadow-1);
   transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
 }
 .info-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(7,26,68,0.10);
+  box-shadow: var(--shadow-2);
   border-color: rgba(255,107,10,0.45);
 }
 
@@ -1153,36 +1163,44 @@ img { max-width: 100%; display: block; }
    Buttons
    =========================== */
 .btn-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   background: var(--gold);
   color: #fff;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.93rem;
-  font-weight: 700;
-  padding: 13px 28px;
-  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 15px 28px;
+  border-radius: 999px;
   text-decoration: none;
-  display: inline-block;
-  box-shadow: 0 4px 14px rgba(232,122,30,0.30);
-  transition: background 0.2s, transform 0.1s;
+  box-shadow: 0 6px 18px rgba(255,107,10,0.28);
+  transition: all 0.2s ease;
 }
 
-.btn-main:hover { background: var(--gold-dark); transform: translateY(-1px); }
+.btn-main:hover { background: var(--gold-dark); transform: translateY(-2px); box-shadow: var(--shadow-2); }
 
 .btn-out {
   background: transparent;
   color: var(--white);
-  border: 1.5px solid rgba(255,255,255,0.32);
+  border: 1.5px solid var(--navy-ink);
+  color: var(--navy-ink);
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 0.93rem;
+  font-size: 15px;
   font-weight: 600;
-  padding: 12px 26px;
-  border-radius: 10px;
+  padding: 14px 26px;
+  border-radius: 999px;
   text-decoration: none;
-  display: inline-block;
-  transition: border-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s ease;
 }
 
-.btn-out:hover { border-color: rgba(255,255,255,0.6); }
+.btn-out:hover { background: var(--navy-ink); color: #fff; }
+/* On dark CTA bands the outline button inverts to white */
+.final-cta .btn-out { color: #fff; border-color: rgba(255,255,255,0.45); }
+.final-cta .btn-out:hover { background: #fff; color: var(--navy-ink); border-color: #fff; }
 
 /* ===========================
    Footer
