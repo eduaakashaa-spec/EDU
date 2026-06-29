@@ -6,27 +6,35 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --dark: #1A1A2E;
-  --gold: #C9A84C;
-  --cream: #F9F5EE;
-  --border: #E5DDD0;
-  --text: #2B2B2B;
-  --text-dim: #6B7280;
-  --green: #2D6A4F;
-  --green-bg: #D8F3DC;
-  --blue: #1B4F9B;
-  --blue-bg: #DBE9FF;
-  --red: #8B2635;
-  --red-bg: #FFE0E4;
+  /* Palette aligned to the live eduaakashaa.in design — slate + orange + blue */
+  --dark: #0f172a;          /* slate-900 — headings, dark sections, footer */
+  --gold: #e87a1e;          /* primary accent (orange) */
+  --gold-dark: #c2410c;     /* orange hover */
+  --cream: #f1f5f9;         /* slate-100 — subtle accent backgrounds */
+  --surface: #f8fafc;       /* slate-50 — page background */
+  --border: #e2e8f0;        /* slate-200 */
+  --text: #1e293b;          /* slate-800 */
+  --text-dim: #64748b;      /* slate-500 */
+  --green: #15803d;
+  --green-bg: #dcfce7;
+  --blue: #1d4ed8;
+  --blue-bg: #dbeafe;
+  --red: #dc2626;
+  --red-bg: #fee2e2;
   --white: #ffffff;
 }
 
 body {
-  font-family: Georgia, 'Times New Roman', serif;
-  background: var(--cream);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--white);
   color: var(--text);
   overflow-x: hidden;
   line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, .sticky-bar__title, .hero h1, .section__title,
+.final-cta h2, .info-card__title, .step__title {
+  font-family: 'Outfit', system-ui, sans-serif;
 }
 
 a { color: inherit; }
@@ -46,7 +54,7 @@ img { max-width: 100%; display: block; }
 }
 
 .sticky-bar__title {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.2rem;
   font-weight: 400;
 }
@@ -138,7 +146,7 @@ img { max-width: 100%; display: block; }
   align-items: center;
   gap: 4px;
   padding: 12px 14px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
   font-weight: 400;
   color: #0d141a;
@@ -260,7 +268,7 @@ img { max-width: 100%; display: block; }
 .nav__dropdown a {
   display: block;
   padding: 9px 18px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.83rem;
   color: #0d141a;
   text-decoration: none;
@@ -287,8 +295,8 @@ img { max-width: 100%; display: block; }
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 55% 45% at 15% 35%, rgba(45,106,79,0.35) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 55% at 85% 70%, rgba(27,79,155,0.30) 0%, transparent 60%);
+    radial-gradient(ellipse 55% 45% at 18% 30%, rgba(232,122,30,0.28) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 55% at 85% 75%, rgba(29,78,216,0.30) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -299,9 +307,9 @@ img { max-width: 100%; display: block; }
 
 .badge {
   display: inline-block;
-  border: 1px solid rgba(201,168,76,0.5);
+  border: 1px solid rgba(232,122,30,0.55);
   color: var(--gold);
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2.5px;
@@ -322,12 +330,11 @@ img { max-width: 100%; display: block; }
 
 .hero h1 span {
   color: var(--gold);
-  font-style: italic;
 }
 
 .hero p {
   margin: 22px auto 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: clamp(0.95rem, 2vw, 1.15rem);
   color: rgba(255,255,255,0.62);
   max-width: 520px;
@@ -349,7 +356,7 @@ img { max-width: 100%; display: block; }
 }
 
 .hero__meta-label {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -358,7 +365,7 @@ img { max-width: 100%; display: block; }
 }
 
 .hero__meta-value {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
   font-weight: 700;
   color: rgba(255,255,255,0.8);
@@ -383,7 +390,7 @@ img { max-width: 100%; display: block; }
 }
 
 .sidebar__brand {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -394,7 +401,7 @@ img { max-width: 100%; display: block; }
 }
 
 .sidebar__link {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.7rem;
   color: rgba(255,255,255,0.5);
   text-decoration: none;
@@ -428,10 +435,15 @@ img { max-width: 100%; display: block; }
 
 .section__header {
   margin-bottom: 32px;
+  text-align: center;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
+.section__header .section__desc { margin-left: auto; margin-right: auto; }
 
 .eyebrow {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 3px;
@@ -450,7 +462,7 @@ img { max-width: 100%; display: block; }
 }
 
 .section__desc {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1rem;
   color: var(--text-dim);
   max-width: 520px;
@@ -479,7 +491,7 @@ img { max-width: 100%; display: block; }
 }
 
 .chapter-divider__label {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 10.5px;
   font-weight: 700;
   letter-spacing: 3px;
@@ -519,11 +531,11 @@ img { max-width: 100%; display: block; }
 
 .toc-card:hover {
   border-color: var(--gold);
-  box-shadow: 0 4px 16px rgba(201,168,76,0.12);
+  box-shadow: 0 4px 16px rgba(232,122,30,0.12);
 }
 
 .toc-card__num {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -542,7 +554,7 @@ img { max-width: 100%; display: block; }
    Content Elements
    =========================== */
 .content-text {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
   line-height: 1.75;
   color: #444;
@@ -582,9 +594,15 @@ img { max-width: 100%; display: block; }
 
 .info-card {
   background: var(--white);
-  border: 1.5px solid var(--border);
+  border: 1px solid var(--border);
   border-radius: 14px;
   padding: 22px 20px;
+  transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+}
+.info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(15,23,42,0.08);
+  border-color: #cbd5e1;
 }
 
 .info-card__icon {
@@ -594,12 +612,12 @@ img { max-width: 100%; display: block; }
   width: 42px;
   height: 42px;
   border-radius: 10px;
-  background: var(--cream);
-  border: 1px solid var(--border);
-  font-family: Arial, sans-serif;
-  font-size: 12px;
+  background: #fff3e8;
+  border: 1px solid #fde0c2;
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
   font-weight: 900;
-  color: var(--dark);
+  color: var(--gold);
   margin-bottom: 12px;
 }
 
@@ -611,7 +629,7 @@ img { max-width: 100%; display: block; }
 }
 
 .info-card__text {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
   line-height: 1.72;
   color: var(--text-dim);
@@ -635,7 +653,7 @@ img { max-width: 100%; display: block; }
   width: 38px;
   height: 38px;
   border-radius: 10px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 14px;
   font-weight: 900;
   flex-shrink: 0;
@@ -643,7 +661,7 @@ img { max-width: 100%; display: block; }
 }
 
 .callout__label {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 1px;
@@ -653,7 +671,7 @@ img { max-width: 100%; display: block; }
 }
 
 .callout__text {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.88rem;
   line-height: 1.72;
 }
@@ -710,7 +728,7 @@ img { max-width: 100%; display: block; }
 
 .country-tag__code {
   display: block;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
   font-weight: 900;
   color: var(--dark);
@@ -719,7 +737,7 @@ img { max-width: 100%; display: block; }
 
 .country-tag__name {
   display: block;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.72rem;
   color: var(--text-dim);
 }
@@ -744,7 +762,7 @@ img { max-width: 100%; display: block; }
 .table-wrap thead th {
   padding: 14px 18px;
   text-align: left;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.76rem;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -756,7 +774,7 @@ img { max-width: 100%; display: block; }
 
 .table-wrap tbody td {
   padding: 12px 18px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.87rem;
   border-bottom: 1px solid var(--border);
   color: var(--text);
@@ -779,7 +797,7 @@ img { max-width: 100%; display: block; }
 .check-list li {
   position: relative;
   padding: 8px 0 8px 32px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
   line-height: 1.65;
   color: var(--text);
@@ -811,7 +829,7 @@ img { max-width: 100%; display: block; }
 .warn-list li {
   position: relative;
   padding: 8px 0 8px 32px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
   line-height: 1.65;
   color: var(--text);
@@ -866,7 +884,7 @@ img { max-width: 100%; display: block; }
 }
 
 .step__num {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1.2rem;
   font-weight: 900;
   color: var(--gold);
@@ -883,7 +901,7 @@ img { max-width: 100%; display: block; }
 }
 
 .step__text {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.87rem;
   line-height: 1.72;
   color: var(--text-dim);
@@ -914,7 +932,7 @@ img { max-width: 100%; display: block; }
   height: 42px;
   border-radius: 10px;
   background: var(--dark);
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 12px;
   font-weight: 900;
   color: var(--gold);
@@ -929,7 +947,7 @@ img { max-width: 100%; display: block; }
 }
 
 .service-card__text {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
   line-height: 1.72;
   color: var(--text-dim);
@@ -969,7 +987,7 @@ img { max-width: 100%; display: block; }
 }
 
 .fee-compare__sub {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.73rem;
   font-weight: 700;
   letter-spacing: 1.5px;
@@ -984,7 +1002,7 @@ img { max-width: 100%; display: block; }
   justify-content: space-between;
   padding: 8px 0;
   border-bottom: 1px solid rgba(0,0,0,0.06);
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.85rem;
   color: var(--text);
 }
@@ -1041,7 +1059,7 @@ img { max-width: 100%; display: block; }
 
 .faq-item__a {
   padding: 0 20px 16px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.87rem;
   line-height: 1.72;
   color: var(--text-dim);
@@ -1066,7 +1084,7 @@ img { max-width: 100%; display: block; }
 }
 
 .cta-box p {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
   color: rgba(255,255,255,0.6);
   max-width: 480px;
@@ -1093,7 +1111,7 @@ img { max-width: 100%; display: block; }
 }
 
 .final-cta p {
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.95rem;
   color: rgba(255,255,255,0.55);
   max-width: 520px;
@@ -1113,28 +1131,29 @@ img { max-width: 100%; display: block; }
    =========================== */
 .btn-main {
   background: var(--gold);
-  color: var(--dark);
-  font-family: Arial, sans-serif;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
   font-size: 0.93rem;
   font-weight: 700;
-  padding: 14px 32px;
-  border-radius: 100px;
+  padding: 13px 28px;
+  border-radius: 10px;
   text-decoration: none;
   display: inline-block;
-  transition: opacity 0.2s;
+  box-shadow: 0 4px 14px rgba(232,122,30,0.30);
+  transition: background 0.2s, transform 0.1s;
 }
 
-.btn-main:hover { opacity: 0.9; }
+.btn-main:hover { background: var(--gold-dark); transform: translateY(-1px); }
 
 .btn-out {
   background: transparent;
   color: var(--white);
-  border: 1.5px solid rgba(255,255,255,0.28);
-  font-family: Arial, sans-serif;
+  border: 1.5px solid rgba(255,255,255,0.32);
+  font-family: 'Inter', sans-serif;
   font-size: 0.93rem;
   font-weight: 600;
-  padding: 13px 30px;
-  border-radius: 100px;
+  padding: 12px 26px;
+  border-radius: 10px;
   text-decoration: none;
   display: inline-block;
   transition: border-color 0.2s;
@@ -1150,7 +1169,7 @@ img { max-width: 100%; display: block; }
   color: rgba(255,255,255,0.35);
   text-align: center;
   padding: 34px 24px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', sans-serif;
   font-size: 0.82rem;
   line-height: 1.8;
 }
@@ -1264,7 +1283,7 @@ img { max-width: 100%; display: block; }
 }
 
 .footer__brand {
-  font-family: 'Oswald', sans-serif;
+  font-family: 'Outfit', sans-serif;
   font-size: 1.4rem;
   margin-bottom: 8px;
 }
