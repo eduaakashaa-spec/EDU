@@ -5,30 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">ARCHITECTURE &middot; NATA 2026</span>
-    <h1>Master the <span>NATA Exam</span>, shape your future</h1>
-    <p>Your definitive resource for NATA 2026 &mdash; official exam process, schedule, NIRF rankings, career comparison, and a personalised interest test to find the path that fits you.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Colleges</span>
-        <span class="hero__meta-value">450+</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">ARCHITECTURE &middot; NATA 2026</span>
+        <h1 style="margin-top:22px;">Master the NATA Exam, <span class="accent">shape your future</span></h1>
+        <p class="hero-sub">Your definitive resource for NATA 2026 &mdash; official exam process, schedule, NIRF rankings, career comparison, and a personalised interest test to find the path that fits you.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Total Marks</span>
-        <span class="hero__meta-value">200</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Attempts / Year</span>
-        <span class="hero__meta-value">3</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">B.Arch Duration</span>
-        <span class="hero__meta-value">5 Yrs</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">NATA &middot; 2026 At a Glance</div>
+        <div class="hero-card-title">Architecture admissions at a glance</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Colleges</span>
+            <span class="hcr-value">450<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Total Marks</span>
+            <span class="hcr-value">200</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Attempts / Year</span>
+            <span class="hcr-value">3</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">B.Arch Duration</span>
+            <span class="hcr-value">5 <span class="accent">Yrs</span></span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

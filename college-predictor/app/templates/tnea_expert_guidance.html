@@ -5,30 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">TNEA 2026 &middot; TAMIL NADU &middot; B.E. / B.TECH ADMISSIONS</span>
-    <h1>TNEA 2026 Expert Guidance <span>for parents &amp; students</span></h1>
-    <p>Every step, every document, every mistake people make &mdash; explained clearly. Registration opens in the second week of May 2026 on tneaonline.org. No entrance exam; admission is based on your normalised Class 12 PCM score out of 200.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Participating Colleges</span>
-        <span class="hero__meta-value">519+</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">TNEA 2026 &middot; Tamil Nadu &middot; B.E. / B.Tech Admissions</span>
+        <h1 style="margin-top:22px;">TNEA 2026 Expert Guidance <span class="accent">for parents &amp; students</span></h1>
+        <p class="hero-sub">Every step, every document, every mistake people make &mdash; explained clearly. Registration opens in the second week of May 2026 on tneaonline.org. No entrance exam; admission is based on your normalised Class 12 PCM score out of 200.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Total Seats</span>
-        <span class="hero__meta-value">1.85L+</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Annual Applicants</span>
-        <span class="hero__meta-value">3L+</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Counselling Rounds</span>
-        <span class="hero__meta-value">04</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">TNEA 2026 &middot; At a Glance</div>
+        <div class="hero-card-title">Tamil Nadu engineering admissions, decoded</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Participating Colleges</span>
+            <span class="hcr-value">519<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Total Seats</span>
+            <span class="hcr-value">1.85L<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Annual Applicants</span>
+            <span class="hcr-value">3L<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Counselling Rounds</span>
+            <span class="hcr-value">04</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

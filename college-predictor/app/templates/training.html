@@ -5,49 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<!-- ======== HERO ======== -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">AI TOOLS &amp; TECHNIQUES &middot; LIVE &amp; SELF-PACED</span>
-    <h1>Learn AI that<br><span>actually ships.</span></h1>
-    <p>Live virtual and self-paced courses in AI tools and techniques &mdash; built for students starting out and professionals levelling up.</p>
-
-    <div class="info-cards" style="margin-top:24px;">
-      <div class="info-card">
-        <div class="info-card__icon">&#x1F393;</div>
-        <div class="info-card__title">Student</div>
-        <p class="info-card__text">Foundations, projects, career.</p>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">AI TOOLS &amp; TECHNIQUES &middot; LIVE &amp; SELF-PACED</span>
+        <h1 style="margin-top:22px;">Learn AI that <span class="accent">actually ships.</span></h1>
+        <p class="hero-sub">Live virtual and self-paced courses in AI tools and techniques &mdash; built for students starting out and professionals levelling up.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="info-card">
-        <div class="info-card__icon">&#x1F4BC;</div>
-        <div class="info-card__title">Professional</div>
-        <p class="info-card__text">Productivity, role-based skills.</p>
-      </div>
-    </div>
-
-    <div class="final-cta__btns" style="margin-top:24px;justify-content:flex-start;">
-      <a href="#courses" class="btn-main">Browse Schedule &rarr;</a>
-      <a href="#" class="btn-out">Download Brochure (PDF)</a>
-    </div>
-
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Format</span>
-        <span class="hero__meta-value">Live Cohorts</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Practice</span>
-        <span class="hero__meta-value">Hands-on Labs</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Guidance</span>
-        <span class="hero__meta-value">Mentor Support</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Recognition</span>
-        <span class="hero__meta-value">Certificates</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">AI Training &middot; At a Glance</div>
+        <div class="hero-card-title">Practical AI skills, built for outcomes</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Format</span>
+            <span class="hcr-value">Live Cohorts</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Practice</span>
+            <span class="hcr-value">Hands-on Labs</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Guidance</span>
+            <span class="hcr-value">Mentor Support</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Recognition</span>
+            <span class="hcr-value">Certificates</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

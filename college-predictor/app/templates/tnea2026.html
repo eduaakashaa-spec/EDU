@@ -5,18 +5,16 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
+<!-- Hero — editorial centered -->
 <section class="hero">
   <div class="hero__glow"></div>
   <div class="hero__content">
     <span class="badge">TAMIL NADU ENGINEERING ADMISSIONS</span>
     <h1>TNEA <span>2026</span></h1>
     <p>Your complete guide to Tamil Nadu Engineering Admissions — cutoff calculator, important dates, and top college data</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">COUNTDOWN</span>
-        <span class="hero__meta-value" id="countdownTimer">Loading...</span>
-      </div>
+    <div class="final-cta__btns" style="margin-top:26px;">
+      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor &rarr;</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
     </div>
   </div>
 </section>
@@ -260,6 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const timerEl = document.getElementById('countdownTimer');
 
   function updateCountdown() {
+    if (!timerEl) return;
     const now = Date.now();
     const diff = target - now;
     if (diff <= 0) {
@@ -271,8 +270,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const mins = Math.floor((diff % 3600000) / 60000);
     timerEl.textContent = days + 'd ' + hrs + 'h ' + mins + 'm to Registration';
   }
-  updateCountdown();
-  setInterval(updateCountdown, 60000);
+  if (timerEl) {
+    updateCountdown();
+    setInterval(updateCountdown, 60000);
+  }
 
   // Cutoff Calculator
   const maths = document.getElementById('tneaMaths');

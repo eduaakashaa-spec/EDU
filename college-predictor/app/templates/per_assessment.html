@@ -5,22 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<!-- ======== HERO ======== -->
-<section class="hero">
+<!-- ======== HERO — editorial split (copy + summary card) ======== -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">Physics Diagnostic &middot; PER-Based Assessment</span>
-    <h1>Understand <span>how you think</span> about physics &mdash; not just what you score.</h1>
-    <p>A scientific diagnostic built on Physics Education Research, cognitive science, and learning psychology. Identify misconceptions, mental models, and skill gaps. Get a personalised 7-day action plan from our experts.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item"><span class="hero__meta-label">Questions</span><span class="hero__meta-value">10+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">Duration</span><span class="hero__meta-value">35 min</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">Learner Profiles</span><span class="hero__meta-value">4</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">Plan</span><span class="hero__meta-value">7-day</span></div>
-    </div>
-    <div class="final-cta__btns" style="margin-top:24px;justify-content:flex-start;">
-      <a href="#your-details" class="btn-main">Start your assessment &rarr;</a>
-      <a href="#framework" class="btn-out">See the framework</a>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">Physics Diagnostic &middot; PER-Based Assessment</span>
+        <h1 style="margin-top:22px;">Understand how you think about physics &mdash; <span class="accent">not just what you score.</span></h1>
+        <p class="hero-sub">A scientific diagnostic built on Physics Education Research, cognitive science, and learning psychology. Identify misconceptions, mental models, and skill gaps. Get a personalised 7-day action plan from our experts.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">PER &middot; Diagnostic at a Glance</div>
+        <div class="hero-card-title">How you think, not what you score</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Questions</span>
+            <span class="hcr-value">10<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Duration</span>
+            <span class="hcr-value">35 min</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Learner Profiles</span>
+            <span class="hcr-value">4</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Plan</span>
+            <span class="hcr-value">7-day</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

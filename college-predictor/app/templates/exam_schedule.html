@@ -5,17 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">UPDATED APRIL 2026</span>
-    <h1>Engineering &amp; Design <span>Exam Schedule 2026</span></h1>
-    <p>44+ exams across 4 streams — with dates, boards, state, and status. Filter by stream, type, state and plan ahead with EduAakashaA.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item"><span class="hero__meta-label">EXAMS</span><span class="hero__meta-value">44</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">STREAMS</span><span class="hero__meta-value">4</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">STATES</span><span class="hero__meta-value">15+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">STUDENTS</span><span class="hero__meta-value">50 L+</span></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">UPDATED APRIL 2026</span>
+        <h1 style="margin-top:22px;">Engineering &amp; Design <span class="accent">Exam Schedule 2026</span></h1>
+        <p class="hero-sub">44+ exams across 4 streams — with dates, boards, state, and status. Filter by stream, type, state and plan ahead with EduAakashaA.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">2026 Exam Calendar</div>
+        <div class="hero-card-title">Every entrance, one schedule</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Exams</span>
+            <span class="hcr-value">44</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Streams</span>
+            <span class="hcr-value">4</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">States</span>
+            <span class="hcr-value">15<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Students</span>
+            <span class="hcr-value">50 L<span class="accent">+</span></span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

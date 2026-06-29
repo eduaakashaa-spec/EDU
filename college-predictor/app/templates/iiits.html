@@ -5,26 +5,38 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">NRI ADMISSIONS 2026</span>
-    <h1>NRI Admissions to <span>IIITs</span></h1>
-    <p>Three distinct admission routes to India's top IIITs — SAT-based, JEE-based, and DASA portal</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">ROUTE A</span>
-        <span class="hero__meta-value">IIIT Hyderabad (SAT)</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">NRI Admissions 2026</span>
+        <h1 style="margin-top:22px;">NRI Admissions to <span class="accent">IIITs</span></h1>
+        <p class="hero-sub">Three distinct admission routes to India's top IIITs — SAT-based, JEE-based, and DASA portal.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">ROUTE B</span>
-        <span class="hero__meta-value">IIIT Bangalore (JEE/Own)</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">ROUTE C</span>
-        <span class="hero__meta-value">All Others (JEE via DASA)</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">IIIT Admission Routes</div>
+        <div class="hero-card-title">Three ways into the top IIITs</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Route A</span>
+            <span class="hcr-value">IIIT Hyderabad (SAT)</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Route B</span>
+            <span class="hcr-value">IIIT Bangalore (JEE/Own)</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Route C</span>
+            <span class="hcr-value">All Others (JEE via DASA)</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

@@ -5,30 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">TNEA 2026</span>
-    <h1>College <span>Predictor</span></h1>
-    <p>Predict your best-fit engineering colleges in Tamil Nadu based on community, cutoff marks &amp; district</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">COLLEGES</span>
-        <span class="hero__meta-value">433</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">TNEA 2026 · College Predictor</span>
+        <h1 style="margin-top:22px;">Find your best-fit Tamil Nadu engineering <span class="accent">college</span></h1>
+        <p class="hero-sub">Predict your best-fit engineering colleges in Tamil Nadu based on community, cutoff marks &amp; district.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">BRANCHES</span>
-        <span class="hero__meta-value">3,469</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">CATEGORIES</span>
-        <span class="hero__meta-value">9</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">BRANCH TYPES</span>
-        <span class="hero__meta-value">106</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">TNEA · 2025 Data Summary</div>
+        <div class="hero-card-title">Tamil Nadu admissions at a glance</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Colleges</span>
+            <span class="hcr-value">433</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Branches</span>
+            <span class="hcr-value">3,469</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Categories</span>
+            <span class="hcr-value">9</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Branch Types</span>
+            <span class="hcr-value">106</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

@@ -5,13 +5,17 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
+<!-- Hero — centered editorial -->
 <section class="hero">
   <div class="hero__glow"></div>
   <div class="hero__content">
     <span class="badge">GET IN TOUCH</span>
     <h1>Contact <span>EduAakashaa</span></h1>
     <p>We'd love to hear from you. Reach out for admissions guidance, counselling, or any questions.</p>
+    <div class="final-cta__btns" style="margin-top:26px;">
+      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor &rarr;</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
+    </div>
   </div>
 </section>
 

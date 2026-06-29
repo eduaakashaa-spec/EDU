@@ -3,29 +3,41 @@
 
 {% block content %}
   <!-- ======== HERO ======== -->
-  <section class="hero">
+  <section class="hero-editorial">
     <div class="hero__glow"></div>
-    <div class="hero__content">
-      <span class="badge">2025 &ndash; 26 Edition</span>
-      <h1>Illuminating Your<br><span>Academic Future</span></h1>
-      <p>Expert guidance for NRI admissions, JOSAA counselling, TNEA predictions, and career planning &mdash; backed by 12,000+ data points and years of experience.</p>
-      <div class="hero__meta">
-        <div class="hero__meta-item">
-          <span class="hero__meta-label">Data Points</span>
-          <span class="hero__meta-value">12,000+</span>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">2025 &ndash; 26 Edition</span>
+          <h1 style="margin-top:22px;">Illuminating Your <span class="accent">Academic Future</span></h1>
+          <p class="hero-sub">Expert guidance for NRI admissions, JOSAA counselling, TNEA predictions, and career planning &mdash; backed by 12,000+ data points and years of experience.</p>
+          <div class="hero-ctas">
+            <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+            <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+          </div>
         </div>
-        <div class="hero__meta-item">
-          <span class="hero__meta-label">Institutes</span>
-          <span class="hero__meta-value">47+</span>
-        </div>
-        <div class="hero__meta-item">
-          <span class="hero__meta-label">Programs</span>
-          <span class="hero__meta-value">300+</span>
-        </div>
-        <div class="hero__meta-item">
-          <span class="hero__meta-label">Experience</span>
-          <span class="hero__meta-value">6+ Years</span>
-        </div>
+        <aside class="hero-card">
+          <div class="hero-card-eyebrow">EduAakashaA &middot; At a Glance</div>
+          <div class="hero-card-title">Data-backed admission guidance</div>
+          <div class="hero-card-rows">
+            <div class="hero-card-row">
+              <span class="hcr-label">Data Points</span>
+              <span class="hcr-value">12,000<span class="accent">+</span></span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hcr-label">Institutes</span>
+              <span class="hcr-value">47<span class="accent">+</span></span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hcr-label">Programs</span>
+              <span class="hcr-value">300<span class="accent">+</span></span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hcr-label">Experience</span>
+              <span class="hcr-value">6<span class="accent">+</span> Years</span>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   </section>

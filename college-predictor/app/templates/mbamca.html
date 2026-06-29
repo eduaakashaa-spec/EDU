@@ -6,26 +6,38 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">TANCET MBA / MCA ANALYTICS</span>
-    <h1>MBA & MCA <span>Program Guide</span></h1>
-    <p>TANCET analytics dashboard — 242 colleges, OC cutoff distributions, tier analysis, and community-wise deep insights</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">COLLEGES</span>
-        <span class="hero__meta-value">242</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">TANCET MBA / MCA Analytics</span>
+        <h1 style="margin-top:22px;">MBA &amp; MCA <span class="accent">Program Guide</span></h1>
+        <p class="hero-sub">TANCET analytics dashboard — 242 colleges, OC cutoff distributions, tier analysis, and community-wise deep insights.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">COMMUNITIES</span>
-        <span class="hero__meta-value">7</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">PROGRAMS</span>
-        <span class="hero__meta-value">MBA & MCA</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">TANCET · Analytics Snapshot</div>
+        <div class="hero-card-title">TANCET admissions at a glance</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Colleges</span>
+            <span class="hcr-value">242</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Communities</span>
+            <span class="hcr-value">7</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Programs</span>
+            <span class="hcr-value">MBA &amp; MCA</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

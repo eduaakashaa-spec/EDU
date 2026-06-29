@@ -5,30 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">DASA & CIWG 2025</span>
-    <h1>DASA College <span>Predictor</span></h1>
-    <p>Official opening & closing ranks from all 3 rounds · Recommendations ranked by NIRF 2026 Engineering Rankings</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">PROGRAMS</span>
-        <span class="hero__meta-value">324</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">DASA &amp; CIWG 2025</span>
+        <h1 style="margin-top:22px;">DASA College <span class="accent">Predictor</span></h1>
+        <p class="hero-sub">Official opening &amp; closing ranks from all 3 rounds · Recommendations ranked by NIRF 2026 Engineering Rankings.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">CIWG</span>
-        <span class="hero__meta-value">215</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">NON-CIWG</span>
-        <span class="hero__meta-value">109</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">INSTITUTES</span>
-        <span class="hero__meta-value">47</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">DASA · 2025 Seat Summary</div>
+        <div class="hero-card-title">Every DASA &amp; CIWG seat, decoded</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Programs</span>
+            <span class="hcr-value">324</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">CIWG</span>
+            <span class="hcr-value">215</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Non-CIWG</span>
+            <span class="hcr-value">109</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Institutes</span>
+            <span class="hcr-value">47</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

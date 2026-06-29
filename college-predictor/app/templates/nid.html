@@ -5,17 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">NID 2026 · DESIGN ADMISSION GUIDE</span>
-    <h1>NID <span>Admission Guide 2026-27</span></h1>
-    <p>Your complete roadmap to cracking the National Institute of Design entrance — from registration to placement. Expert insights by EduAakashaA.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item"><span class="hero__meta-label">CAMPUSES</span><span class="hero__meta-value">7</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">B.Des SEATS</span><span class="hero__meta-value">425+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">AVG PACKAGE</span><span class="hero__meta-value">₹21 LPA</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">PLACEMENT</span><span class="hero__meta-value">90%+</span></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">NID 2026 · Design Admission Guide</span>
+        <h1 style="margin-top:22px;">NID <span class="accent">Admission Guide 2026-27</span></h1>
+        <p class="hero-sub">Your complete roadmap to cracking the National Institute of Design entrance — from registration to placement. Expert insights by EduAakashaA.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">NID · At a Glance</div>
+        <div class="hero-card-title">Design admissions, decoded</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Campuses</span>
+            <span class="hcr-value">7</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">B.Des Seats</span>
+            <span class="hcr-value">425<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Avg Package</span>
+            <span class="hcr-value">₹21 LPA</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Placement</span>
+            <span class="hcr-value">90%<span class="accent">+</span></span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

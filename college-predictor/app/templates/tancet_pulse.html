@@ -5,13 +5,17 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
+<!-- Hero — centered editorial -->
 <section class="hero">
   <div class="hero__glow"></div>
   <div class="hero__content">
     <span class="badge">MICROLEARN PLATFORM</span>
     <h1>TANCET <span>PULSE</span></h1>
     <p>Adaptive learning platform with daily practice, confidence tracking, and analytics — for students, parents, teachers & admins</p>
+    <div class="final-cta__btns" style="margin-top:26px;">
+      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor &rarr;</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
+    </div>
   </div>
 </section>
 

@@ -44,17 +44,47 @@
   </div>
 </div>
 
-<!-- HERO -->
-<section class="hero">
-  <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/AzGeQnXJ98TKkVNd/logo2-YanyNjlRnwfkQlpE.png" alt="EduAakashaa" class="hero-logo">
-  <h1>Find Your Dream College<br>with <span>AI-Powered</span> Precision</h1>
-  <p>Powered by JOSAA 2025 Round 1–6 closing ranks · NIRF Engineering 2026 · 12,123 Data Points</p>
-  <div class="stats-bar">
-    <div class="stat-item"><div class="num">12,123</div><div class="lbl">Data Points</div></div>
-    <div class="stat-item"><div class="num">128</div><div class="lbl">Institutes</div></div>
-    <div class="stat-item"><div class="num">253</div><div class="lbl">Programs</div></div>
-    <div class="stat-item"><div class="num">6</div><div class="lbl">Rounds Covered</div></div>
-    <div class="stat-item"><div class="num">300</div><div class="lbl">NIRF Ranked</div></div>
+<!-- HERO — editorial split (copy + summary card) -->
+<section class="hero-editorial">
+  <div class="hero__glow"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">JOSAA 2025 · College Predictor</span>
+        <h1 style="margin-top:22px;">Find your dream college with <span class="accent">AI-powered precision</span></h1>
+        <p class="hero-sub">Powered by JOSAA 2025 Round 1–6 closing ranks · NIRF Engineering 2026 · 12,123 data points — mapped to your JEE Main rank, category and quota.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">→</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">JOSAA · 2025 Data Summary</div>
+        <div class="hero-card-title">Every JOSAA seat, decoded</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Data Points</span>
+            <span class="hcr-value">12,123</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Institutes</span>
+            <span class="hcr-value">128</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Programs</span>
+            <span class="hcr-value">253</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Rounds Covered</span>
+            <span class="hcr-value">6</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">NIRF Ranked</span>
+            <span class="hcr-value">300</span>
+          </div>
+        </div>
+      </aside>
+    </div>
   </div>
 </section>
 

@@ -5,17 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">COMPLETE GUIDE · UPDATED 2026</span>
-    <h1>Master the <span>CAT 2026</span> Exam</h1>
-    <p>Your complete guide from preparation to placement. CAT is the national-level entrance for IIM MBA admissions — this page covers process, schedule, rankings, cutoffs, NRI pathway and the latest news.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item"><span class="hero__meta-label">IIMs</span><span class="hero__meta-value">21</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">COLLEGES</span><span class="hero__meta-value">1,600+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">ASPIRANTS</span><span class="hero__meta-value">3 L+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">HIGHEST CTC</span><span class="hero__meta-value">₹1.1 Cr</span></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">COMPLETE GUIDE · UPDATED 2026</span>
+        <h1 style="margin-top:22px;">Master the <span class="accent">CAT 2026</span> Exam</h1>
+        <p class="hero-sub">Your complete guide from preparation to placement. CAT is the national-level entrance for IIM MBA admissions — this page covers process, schedule, rankings, cutoffs, NRI pathway and the latest news.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">CAT · At a Glance</div>
+        <div class="hero-card-title">India's MBA gateway, decoded</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">IIMs</span>
+            <span class="hcr-value">21</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Colleges</span>
+            <span class="hcr-value">1,600<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Aspirants</span>
+            <span class="hcr-value">3 L<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Highest CTC</span>
+            <span class="hcr-value">₹1.1 Cr</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

@@ -6,34 +6,46 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">DASA 2025 DATA</span>
-    <h1>DASA Seat Matrix <span>& Analytics</span></h1>
-    <p>77 institutes · 32 states · 559 programmes · 5,589 total seats across Non-CIWG and CIWG categories</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">INSTITUTES</span>
-        <span class="hero__meta-value">77</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">DASA 2025 DATA</span>
+        <h1 style="margin-top:22px;">DASA Seat Matrix <span class="accent">&amp; Analytics</span></h1>
+        <p class="hero-sub">77 institutes · 32 states · 559 programmes · 5,589 total seats across Non-CIWG and CIWG categories.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">PROGRAMMES</span>
-        <span class="hero__meta-value">559</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">TOTAL SEATS</span>
-        <span class="hero__meta-value">5,589</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">NON-CIWG</span>
-        <span class="hero__meta-value">3,752</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">CIWG</span>
-        <span class="hero__meta-value">1,837</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">DASA · 2025 Seat Summary</div>
+        <div class="hero-card-title">Every DASA seat, at a glance</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Institutes</span>
+            <span class="hcr-value">77</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Programmes</span>
+            <span class="hcr-value">559</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Total Seats</span>
+            <span class="hcr-value">5,589</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Non-CIWG</span>
+            <span class="hcr-value">3,752</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">CIWG</span>
+            <span class="hcr-value">1,837</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

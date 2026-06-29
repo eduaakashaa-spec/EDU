@@ -5,16 +5,38 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">BY EDUAAKASHAA</span>
-    <h1>Psychometric <span>Career Assessment</span></h1>
-    <p>A comprehensive, scientifically-designed assessment with 60+ questions across psychometric profiling, aptitude testing, practical application and subject confidence — delivering personalised stream recommendations with visual analytics, career roadmaps and action plans.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item"><span class="hero__meta-label">DURATION</span><span class="hero__meta-value">25–30 min</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">QUESTIONS</span><span class="hero__meta-value">60+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">OUTPUT</span><span class="hero__meta-value">PDF Report</span></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">BY EDUAAKASHAA</span>
+        <h1 style="margin-top:22px;">Psychometric <span class="accent">Career Assessment</span></h1>
+        <p class="hero-sub">A comprehensive, scientifically-designed assessment with 60+ questions across psychometric profiling, aptitude testing, practical application and subject confidence — delivering personalised stream recommendations with visual analytics, career roadmaps and action plans.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">Assessment · At a Glance</div>
+        <div class="hero-card-title">Your strengths, scientifically mapped</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Duration</span>
+            <span class="hcr-value">25–30 min</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Questions</span>
+            <span class="hcr-value">60<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Output</span>
+            <span class="hcr-value">PDF Report</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

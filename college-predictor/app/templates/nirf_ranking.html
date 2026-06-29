@@ -6,30 +6,42 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">NIRF ENGINEERING 2026</span>
-    <h1>NIRF Engineering <span>Rankings</span></h1>
-    <p>Analytics dashboard for 300 institutions across 4 ranking bands — Top 100 with scores, 101–300 alphabetical</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">TOTAL INSTITUTIONS</span>
-        <span class="hero__meta-value">300</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">NIRF ENGINEERING 2026</span>
+        <h1 style="margin-top:22px;">NIRF Engineering <span class="accent">Rankings</span></h1>
+        <p class="hero-sub">Analytics dashboard for 300 institutions across 4 ranking bands — Top 100 with scores, 101–300 alphabetical.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">SCORED (1–100)</span>
-        <span class="hero__meta-value">100</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">TOP SCORE</span>
-        <span class="hero__meta-value">88.72 (IIT Madras)</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">STATES</span>
-        <span class="hero__meta-value">32</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">NIRF 2026 · At a Glance</div>
+        <div class="hero-card-title">India's engineering rankings, decoded</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Total Institutions</span>
+            <span class="hcr-value">300</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Scored (1–100)</span>
+            <span class="hcr-value">100</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Top Score</span>
+            <span class="hcr-value">88.72 <span class="accent">(IIT Madras)</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">States</span>
+            <span class="hcr-value">32</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

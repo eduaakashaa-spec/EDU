@@ -9,18 +9,42 @@
 </style>
 {% endblock %}
 {% block content %}
-  <!-- Hero -->
-  <section class="hero">
+  <!-- Hero — editorial split (copy + summary card) -->
+  <section class="hero-editorial">
     <div class="hero__glow"></div>
-    <div class="hero__content">
-      <span class="badge">Foundation Course &middot; Beginner Manual</span>
-      <h1>Arabic from zero, the way it <span>actually sticks</span>.</h1>
-      <p>Ten focused modules covering all 28 letters, every form they take, the three short vowels, sukun, shadda, tanween, and the sun &amp; moon letters. Each module ends with a quiz, audio playback for every letter, and a progress meter that remembers where you left off.</p>
-      <div class="hero__meta">
-        <div class="hero__meta-item"><span class="hero__meta-label">Modules</span><span class="hero__meta-value">10</span></div>
-        <div class="hero__meta-item"><span class="hero__meta-label">Quiz Items</span><span class="hero__meta-value">100</span></div>
-        <div class="hero__meta-item"><span class="hero__meta-label">Audio</span><span class="hero__meta-value">Every Letter</span></div>
-        <div class="hero__meta-item"><span class="hero__meta-label">Progress</span><span class="hero__meta-value">Auto-Saves</span></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Foundation Course &middot; Beginner Manual</span>
+          <h1 style="margin-top:22px;">Arabic from zero, the way it <span class="accent">actually sticks</span>.</h1>
+          <p class="hero-sub">Ten focused modules covering all 28 letters, every form they take, the three short vowels, sukun, shadda, tanween, and the sun &amp; moon letters. Each module ends with a quiz, audio playback for every letter, and a progress meter that remembers where you left off.</p>
+          <div class="hero-ctas">
+            <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+            <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <div class="hero-card-eyebrow">Course &middot; At a Glance</div>
+          <div class="hero-card-title">All 28 letters, properly learned</div>
+          <div class="hero-card-rows">
+            <div class="hero-card-row">
+              <span class="hcr-label">Modules</span>
+              <span class="hcr-value">10</span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hcr-label">Quiz Items</span>
+              <span class="hcr-value">100</span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hcr-label">Audio</span>
+              <span class="hcr-value">Every Letter</span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hcr-label">Progress</span>
+              <span class="hcr-value">Auto-Saves</span>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   </section>

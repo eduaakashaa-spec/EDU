@@ -15,18 +15,42 @@
 </style>
 {% endblock %}
 {% block content %}
-  <!-- Hero -->
-  <section class="hero">
+  <!-- Hero — editorial split (copy + summary card) -->
+  <section class="hero-editorial">
     <div class="hero__glow"></div>
-    <div class="hero__content">
-      <span class="badge">Beginner Arabic &middot; Level 01</span>
-      <h1>Learn Arabic from the <span>very first letter</span> &mdash; step by gentle step.</h1>
-      <p>A complete beginner&rsquo;s programme covering alphabets, vowels, sukun, shadda, tanween, sun &amp; moon letters &mdash; with audio, animated writing practice, and assessments. Built for students of every grade and every mother tongue.</p>
-      <div class="hero__meta">
-        <div class="hero__meta-item"><span class="hero__meta-label">Letters Covered</span><span class="hero__meta-value">28+</span></div>
-        <div class="hero__meta-item"><span class="hero__meta-label">Core Chapters</span><span class="hero__meta-value">9</span></div>
-        <div class="hero__meta-item"><span class="hero__meta-label">Modes / Lesson</span><span class="hero__meta-value">5</span></div>
-        <div class="hero__meta-item"><span class="hero__meta-label">Audio &amp; Animation</span><span class="hero__meta-value">100%</span></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">Beginner Arabic &middot; Level 01</span>
+          <h1 style="margin-top:22px;">Learn Arabic from the <span class="accent">very first letter</span> &mdash; step by gentle step.</h1>
+          <p class="hero-sub">A complete beginner&rsquo;s programme covering alphabets, vowels, sukun, shadda, tanween, sun &amp; moon letters &mdash; with audio, animated writing practice, and assessments. Built for students of every grade and every mother tongue.</p>
+          <div class="hero-ctas">
+            <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+            <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+          </div>
+        </div>
+        <aside class="hero-card">
+          <div class="hero-card-eyebrow">Foundation &middot; At a Glance</div>
+          <div class="hero-card-title">Arabic from scratch, made gentle</div>
+          <div class="hero-card-rows">
+            <div class="hero-card-row">
+              <span class="hcr-label">Letters Covered</span>
+              <span class="hcr-value">28<span class="accent">+</span></span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hcr-label">Core Chapters</span>
+              <span class="hcr-value">9</span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hcr-label">Modes / Lesson</span>
+              <span class="hcr-value">5</span>
+            </div>
+            <div class="hero-card-row">
+              <span class="hcr-label">Audio &amp; Animation</span>
+              <span class="hcr-value">100<span class="accent">%</span></span>
+            </div>
+          </div>
+        </aside>
       </div>
     </div>
   </section>

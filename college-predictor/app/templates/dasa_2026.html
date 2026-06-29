@@ -5,26 +5,38 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">DASA 2026 &middot; Interactive Pathway Atlas</span>
-    <h1>The complete DASA &amp; CIWG <span>roadmap, built for 2026</span></h1>
-    <p>Three quick questions about your passport, schooling, and parent&rsquo;s employment &mdash; and the diagram traces your exact admission pathway. CIWG, General DASA, OCI/PIO, Foreign National, or the JoSAA fallback: it all becomes clear in under a minute.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Institutes</span>
-        <span class="hero__meta-value">84</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">DASA 2026 &middot; Interactive Pathway Atlas</span>
+        <h1 style="margin-top:22px;">The complete DASA &amp; CIWG <span class="accent">roadmap, built for 2026</span></h1>
+        <p class="hero-sub">Three quick questions about your passport, schooling, and parent&rsquo;s employment &mdash; and the diagram traces your exact admission pathway. CIWG, General DASA, OCI/PIO, Foreign National, or the JoSAA fallback: it all becomes clear in under a minute.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Entrance</span>
-        <span class="hero__meta-value">JEE Main 2026</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Coordinator</span>
-        <span class="hero__meta-value">IIEST Shibpur</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">DASA 2026 &middot; At a Glance</div>
+        <div class="hero-card-title">Every pathway, one cycle</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Institutes</span>
+            <span class="hcr-value">84</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Entrance</span>
+            <span class="hcr-value">JEE Main 2026</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Coordinator</span>
+            <span class="hcr-value">IIEST Shibpur</span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

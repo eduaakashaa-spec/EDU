@@ -5,30 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<!-- Hero -->
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">TNEA · STATE COUNSELLING BRIEF</span>
-    <h1>Where are Tamil Nadu's <span>TNEA colleges?</span></h1>
-    <p>Tamil Nadu has 571 engineering colleges participating in TNEA — the centralised state counselling run by Anna University. Chennai and Coimbatore alone host 32% of them.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Total Colleges</span>
-        <span class="hero__meta-value">571</span>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">TNEA · STATE COUNSELLING BRIEF</span>
+        <h1 style="margin-top:22px;">Where are Tamil Nadu's <span class="accent">TNEA colleges?</span></h1>
+        <p class="hero-sub">Tamil Nadu has 571 engineering colleges participating in TNEA — the centralised state counselling run by Anna University. Chennai and Coimbatore alone host 32% of them.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
       </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Districts</span>
-        <span class="hero__meta-value">38</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Most Colleges</span>
-        <span class="hero__meta-value">Chennai</span>
-      </div>
-      <div class="hero__meta-item">
-        <span class="hero__meta-label">Chennai + CBE Share</span>
-        <span class="hero__meta-value">30%</span>
-      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">TNEA · 2026 At a Glance</div>
+        <div class="hero-card-title">Tamil Nadu's engineering map, decoded</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Total Colleges</span>
+            <span class="hcr-value">571</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Districts</span>
+            <span class="hcr-value">38</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Most Colleges</span>
+            <span class="hcr-value">Chennai</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Chennai + CBE Share</span>
+            <span class="hcr-value">30<span class="accent">%</span></span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>

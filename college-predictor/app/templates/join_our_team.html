@@ -5,17 +5,42 @@
 {% endblock %}
 
 {% block content %}
-<section class="hero">
+<!-- Hero — editorial split (copy + summary card) -->
+<section class="hero-editorial">
   <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">WE'RE HIRING</span>
-    <h1>Join <span>EduAakashaA</span></h1>
-    <p>Empowering students across CBSE and State Boards with personalised one-to-one coaching. We are looking for passionate Tutors and Career Counsellors to join our growing network.</p>
-    <div class="hero__meta">
-      <div class="hero__meta-item"><span class="hero__meta-label">STUDENTS</span><span class="hero__meta-value">500+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">TUTORS</span><span class="hero__meta-value">50+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">BOARDS</span><span class="hero__meta-value">15+</span></div>
-      <div class="hero__meta-item"><span class="hero__meta-label">SATISFACTION</span><span class="hero__meta-value">98%</span></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">WE'RE HIRING</span>
+        <h1 style="margin-top:22px;">Teach, mentor and grow with <span class="accent">EduAakashaA</span></h1>
+        <p class="hero-sub">Empowering students across CBSE and State Boards with personalised one-to-one coaching. We are looking for passionate Tutors and Career Counsellors to join our growing network.</p>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">EduAakashaA · Network Snapshot</div>
+        <div class="hero-card-title">A teaching network that's growing</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row">
+            <span class="hcr-label">Students</span>
+            <span class="hcr-value">500<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Tutors</span>
+            <span class="hcr-value">50<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Boards</span>
+            <span class="hcr-value">15<span class="accent">+</span></span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">Satisfaction</span>
+            <span class="hcr-value">98<span class="accent">%</span></span>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
 </section>
