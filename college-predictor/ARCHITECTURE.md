@@ -36,8 +36,55 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 | Membership emails | 🔲 Planned (Phase B) | hook marked in intake + invoice + payment |
 | Sheet → Postgres backfill | 🔲 Planned (Phase B) | one-time import of legacy "Requests" sheet |
 | Payments (Razorpay) | 🔲 Planned | `routes/payment.py` — checkout flow |
+| **Editorial re-skin** | ✅ Done | Navy/orange/cream + Fraunces/Plus Jakarta/JetBrains Mono, matching the live site; `components.css` + dot-grid bg |
+| **Full nav site (~50 pages)** | ✅ Done | All live nav pages render; grouped dropdown nav, ★Membership CTA, WhatsApp float |
+| **1:1 interactive ports** | ✅ Done | 21 data pages ported from live source (D3 maps, Chart.js, predictors) — scoped under `.ported`, per-page css/js |
+| **Deploy (Render + Neon)** | ✅ Done | `render.yaml` autoDeploy; Neon Postgres; GH Actions `/ping` keep-alive |
 
 ---
+
+## Frontend, Design & Site Migration (2026 — current state)
+
+**Design system** (extracted 1:1 from the live Hostinger source — see README → Design System):
+navy `#0E3A8A`/`#071A44` + orange `#FF6B0A` on cream `#FBF7EE`/paper `#FFFDF7`; Fraunces
+(serif display) + Plus Jakarta Sans (body) + JetBrains Mono (eyebrow/labels); subtle navy
+dot-grid `body` background; `--radius 18px`, layered `--shadow-1/2`. Stylesheets: `style.css`
+(base + sticky header/nav + hero + footer + WhatsApp float), `components.css` (editorial
+components: split hero `.hero-editorial`/`.hero-card`, `.stats-strip`, `.section-head`,
+`.panel-card`, pill `.btn-primary`/`.btn-ghost`, `.eyebrow` pill, `.dark-section`), `pages.css`.
+
+**Navigation** (`base.html`): single sticky `<header>` (title bar + nav merged, `top:0`).
+Top-level = Home · TNEA · JEE/JOSAA · DASA/NRI · Colleges & Exams · More · About · Contact,
+with hover dropdowns on desktop and a hamburger accordion ≤1024px. `header__auth` holds the
+orange **★ Membership** CTA + ghost Login (+ Admin link when `current_user.is_admin`).
+
+**Conversion:** a context processor injects `WHATSAPP_URL` (`wa.me/918015722706`) on every
+template → floating WhatsApp button + a "Talk to a Mentor" (→ `main.members_registration`) +
+"Chat on WhatsApp" CTA band on each page. `/members-registration` is the public membership
+page (6 tiers, ₹74,999 Elite Mentorship featured as "Most Popular") posting to `membership.apply`.
+
+**Page strategy** — two kinds of pages:
+1. **Content pages** → clean Jinja templates in the editorial design (home, about, contact,
+   nata, nid, iiits, the NRI/DASA guides, etc.). `render_reference_page(file, template)` in
+   `routes/__init__.py` now always renders the template (the old `reference/live_pages` HTML
+   snapshot mechanism was removed).
+2. **Interactive pages (1:1 ported)** → the live page had a real app (D3 India choropleth +
+   drilldown, Chart.js dashboards, predictors, simulators, calculators, multi-step assessments)
+   we couldn't easily rebuild, so the self-contained content was ported from the Hostinger
+   source. Pipeline per page: extract body+`<style>`+`<script>` from the captured content frame
+   → **scope the CSS under `.ported`** (a brace-walking prefixer, so it can't touch base
+   nav/footer) → write `static/css/<slug>.css` + `static/js/<slug>.js` → template wraps the body
+   in `<div class="ported">{% raw %}…{% endraw %}</div>`, loads the per-page css/js + CDN libs
+   (d3@7.8.5 / chart.js@4.4.x) in `{% block head %}`/`{% block scripts %}`, hides the frame's own
+   header/footer, and injects our membership CTA. Ported: dasa2025_ranks, josaa, dasa_seat_matrix,
+   nirf_ranking, nirf_analytic, mbamca, dasa_guide, conflict/career/per/student_assessment,
+   dasa_2025_vs_2026, tnea_simulator/2026/expert_guidance, free_report, josaa_assessment,
+   branch_fitness_assessment, stream_selection, enggcolleges_india, tnea_colleges. (videos_library
+   rebuilt cleanly with 3 real YouTube embeds.)
+
+**Static reference/build artifacts** (not in the repo) live in the session scratchpad: the
+Playwright capture/audit/porter scripts. The porter (`scratchpad/porter.py`) is the reusable
+tool if more pages need porting — point it at a captured `content.html`.
 
 ## Apps Script → Flask Migration (membership & invoicing)
 
@@ -611,12 +658,25 @@ class Config:
 
 ---
 
-## Deployment Notes
+## Deployment Notes (current)
 
-- **Dev:** `flask run` with debug mode
-- **Prod:** Gunicorn + Nginx on a VPS (DigitalOcean, AWS Lightsail, etc.) or Railway/Render for managed hosting
-- SQLite file lives on disk alongside the app. Back it up periodically.
-- For Excel file updates: replace file in `app/data/files/`, restart the app.
+- **Dev:** `python run.py` (loads `.env` via python-dotenv; `FLASK_DEBUG=1`).
+- **Prod:** **Render** free web service from `render.yaml` (rootDir `college-predictor`,
+  `buildCommand` pip install, `startCommand` gunicorn `run:app`, `healthCheckPath /`,
+  `autoDeploy: true`). `Procfile` mirrors the start command. Push to `main` → auto-deploys.
+  Live: `https://eduaakashaa.onrender.com`. Repo: GitHub `eduaakashaa-spec/EDU` (public).
+- **Database:** **Neon** PostgreSQL. `DATABASE_URL` is set in the Render dashboard
+  (`sync: false`) and in local `.env`; `config.py` rewrites `postgres://`→`postgresql://`.
+  Tables auto-create on boot (`db.create_all()`), but run **once** against Neon:
+  `python manage.py create_admin <email> <pw>` + `python manage.py seed_sequences`
+  (else `/admin/membership` 403s — no admin user exists yet).
+- **Render env:** `SECRET_KEY` auto-generated, `FLASK_DEBUG=0`, `DATABASE_URL` dashboard-set.
+- **Keep-alive:** Render free spins down after ~15 min idle. `/ping` (lightweight, no DB) +
+  `.github/workflows/keepalive.yml` (GH Actions cron every 10 min) keeps it warm. One free
+  service 24/7 ≈ 720–744 hrs/month, under Render's 750-hr free quota.
+- **Secrets:** `.env`, `mcp.json`, `.claude/` are gitignored — never commit. Bank/PAN/GST/
+  admin creds and `DATABASE_URL` live only in `.env` / Render env vars.
+- For Excel/CSV/JSON data updates: replace the file in `app/data/files/`, redeploy/restart.
 
 ---
 

@@ -214,19 +214,30 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
 
 ---
 
-## Design System
+## Design System (current — editorial, matches the live site)
 
-All pages (including the homepage) share a single `style.css` design system:
+> ⚠️ The original dark/gold/Oswald theme was **replaced** in 2026 with the live
+> site's editorial design system. Values below are extracted 1:1 from the live
+> Hostinger source.
 
-| Property | Main site (`style.css`) | JOSAA portal (`josaa.css`) |
-|----------|------------------------|---------------------------|
-| Primary | `#1A1A2E` (dark) | `#1E4DB7` (blue) |
-| Accent | `#C9A84C` (gold) | `#F97316` (orange) |
-| Background | `#F9F5EE` (cream) | `#F0F4FF` (light blue) |
-| Font | Georgia, serif | Arial, sans-serif |
-| Scoping | Global | `.josaa-portal` wrapper |
+| Token | Value | Use |
+|-------|-------|-----|
+| `--navy` / `--navy-ink` | `#0E3A8A` / `#071A44` | links, headings, dark bands, footer |
+| `--gold` / `--orange` | `#FF6B0A` | primary accent (orange) |
+| `--cream` / `--paper` | `#FBF7EE` / `#FFFDF7` | page background / cards |
+| `--border` (hairline) | `#E8DFC8` | borders |
+| `--ink` / `--muted` | `#0E1B3D` / `#5A6278` | body text / muted |
+| `--radius`, `--shadow-1/2` | 18px, layered | cards |
 
-**Key `style.css` components:** `.hero`, `.main-content` (900px max-width), `.section`, `.eyebrow`, `.section__title`, `.info-cards`, `.service-cards`, `.toc-grid`, `.chapter-divider`, `.steps`, `.check-list`, `.fee-compare`, `.final-cta`, `.btn-main`, `.btn-out`
+- **Fonts:** Fraunces (serif display headings) + Plus Jakarta Sans (body) + JetBrains Mono (eyebrow/labels). Loaded in `base.html`.
+- **Background:** subtle navy dot-grid paper texture (`body` radial-gradient at 3px).
+- **Stylesheets:**
+  - `style.css` — tokens, base, sticky header+nav, hero, sections, info-cards, buttons, footer, WhatsApp float.
+  - `components.css` — editorial layout components ported 1:1 from the live source: `.hero-editorial`/`.hero-grid` (split hero), `.hero-card` (summary card), `.stats-strip`/`.stat-*`, `.section-head`, `.panel-card`, pill buttons (`.btn-primary` navy→orange, `.btn-ghost`), `.dark-section`, the `.eyebrow` pill (orange-dot).
+  - `pages.css` — form/card/table helpers used by content pages.
+  - `dasa_ranks.css`, `<slug>.css` — **per-page** stylesheets for the 1:1-ported interactive pages, each **scoped under `.ported`** (or `.dasa-port`) so they can't leak onto the base nav/footer.
+
+**Key components:** `.hero` / `.hero-editorial`, `.eyebrow` (mono pill + orange dot), `.section__header`/`.section-head`, `.info-cards`/`.info-card`, `.steps`, `.stats-strip`, `.final-cta` (dark band + orange glow), `.btn-main`/`.btn-out` (pill), `.btn-primary`/`.btn-ghost`, `.wa-float`.
 
 ---
 
@@ -241,10 +252,12 @@ All pages (including the homepage) share a single `style.css` design system:
 | API | Flask Blueprints (`api_bp`) — 7 JSON endpoints |
 | Templating | Jinja2 (server-rendered) |
 | Routing | 3 Flask Blueprints (`main_bp`, `api_bp`, `auth_bp`) |
-| Frontend | Vanilla HTML/CSS/JS |
-| Charts | Chart.js 4.4.0 (CDN) |
-| Fonts | Google Fonts (Oswald) |
-| Deployment | Gunicorn 23.0.0 |
+| Frontend | Vanilla HTML/CSS/JS (server-rendered Jinja) |
+| Charts / Maps | Chart.js 4.4.x + D3 7.8.5 (CDN, per-page on ported pages) |
+| Fonts | Google Fonts: Fraunces + Plus Jakarta Sans + JetBrains Mono |
+| Deployment | **Render** (free web service, `render.yaml` blueprint, autoDeploy) + Gunicorn 23 |
+| Database (prod) | **Neon** PostgreSQL (`DATABASE_URL` in Render env + local `.env`) |
+| Repo / CI | GitHub `eduaakashaa-spec/EDU` (public); GH Actions cron pings `/ping` every 10 min to keep Render awake |
 
 ---
 
@@ -350,6 +363,17 @@ All pages (including the homepage) share a single `style.css` design system:
 - Transaction-safe reference/invoice/receipt numbering via `doc_sequences`
 - Wired into `app/__init__.py`; added `seed_sequences` / `seed_demo` to `manage.py`
 - **Pending (Phase B):** invoice/receipt PDF generation, transactional email, one-time Sheet→Postgres backfill
+
+### Phase 15 — Full site migration, editorial re-skin, deploy (2026)
+- **Captured the live site with Playwright** (content lives in `srcdoc` iframes / Astro islands); built all remaining pages so ~50 nav pages render in Flask.
+- **Re-skinned the whole app** to the live editorial design (navy/orange/cream, Fraunces + Plus Jakarta + JetBrains Mono, dot-grid bg) — see Design System above. Added `components.css`.
+- **Navbar restructured** around the 3 college tracks (TNEA · JEE/JOSAA · DASA/NRI) + Colleges & Exams + "More"; grouped dropdowns, collapsible hamburger ≤1024px, prominent **★ Membership** CTA, ghost Login.
+- **Conversion focus:** every page ends with a "Talk to a Mentor" → membership + "Chat on WhatsApp" CTA; global floating WhatsApp button (`WHATSAPP_URL` context processor, `wa.me/918015722706`). Membership page features the ₹74,999 Elite Mentorship as "Most Popular".
+- **1:1-ported the interactive pages** from the live source (kept editorial versions for content-only pages): DASA-2025-Ranks (D3 India choropleth + drilldown + Chart.js), josaa (predictor, 10 charts), dasa_seat_matrix, nirf_ranking/analytic, mbamca, dasa_guide, conflict/career/per/student assessments, tnea_simulator/2026/expert_guidance, free_report, branch_fitness, stream_selection, enggcolleges_india + tnea_colleges (D3 maps). Each: scoped CSS under `.ported`, static JS file, CDN libs (d3/chart.js) loaded per-page, frame's own header/footer hidden, our CTA injected. videos-library rebuilt cleanly with the 3 real YouTube embeds.
+- **Deploy:** `render.yaml` (rootDir `college-predictor`, autoDeploy, `DATABASE_URL` dashboard-set, `SECRET_KEY` auto, `FLASK_DEBUG=0`), `Procfile` (gunicorn `run:app`). `run.py` loads `.env`. Live at `https://eduaakashaa.onrender.com`.
+- **Header:** title bar + nav merged into one `position:sticky; top:0` `<header>` (no gap).
+
+> **Important for prod (Neon):** tables auto-create on boot (`db.create_all()`), but run once against Neon: `python manage.py create_admin <email> <pw>` and `python manage.py seed_sequences` so `/admin/membership` works.
 
 ## Future Roadmap
 
