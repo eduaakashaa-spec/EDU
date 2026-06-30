@@ -1,7 +1,14 @@
-from flask import Blueprint, abort, redirect, render_template, url_for
+from flask import Blueprint, abort, redirect, render_template, url_for, Response
 from flask_login import login_required, current_user
 
 main_bp = Blueprint('main', __name__)
+
+
+# Lightweight keep-alive endpoint — no DB, no templates, no data load.
+# An external scheduler pings this so the Render free instance doesn't sleep.
+@main_bp.route('/ping')
+def ping():
+    return Response('ok', mimetype='text/plain')
 
 
 def render_reference_page(filename: str, fallback_template: str, **context):
