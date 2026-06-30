@@ -1,426 +1,482 @@
 {% extends "base.html" %}
-{% block title %}DASA 2025 vs 2026 — Brochure Change Report | EduAakashaA{% endblock %}
+{% block title %}Dasa 2025 Vs 2026 | EduAakashaA{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dasa_2025_vs_2026.css') }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
 {% endblock %}
 
 {% block content %}
-<!-- Hero — editorial split (copy + summary card) -->
-<section class="hero-editorial">
-  <div class="hero__glow"></div>
-  <div class="container">
+<div class="ported ported-dasa_2025_vs_2026">
+{% raw %}
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DASA 2026 vs 2025 — Change Report | EduAakashaa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&amp;family=Plus+Jakarta+Sans:wght@300..800&amp;family=JetBrains+Mono:wght@400..600&amp;display=swap" rel="stylesheet">
+
+
+
+
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" aria-label="EduAakashaa home">
+      <div>
+        <div class="nm">Edu<b>Aakashaa</b></div>
+        <div class="tg">Guiding students towards the right future</div>
+      </div>
+    </a>
+    <nav class="nav-links">
+      <a href="#glance">At a glance</a>
+      <a href="#rounds">Rounds</a>
+      <a href="#institutes">Institutes</a>
+      <a href="#fees">Fees</a>
+      <a href="#eligibility">Eligibility</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <button class="hamb" id="hamb" aria-label="Open menu"><span></span></button>
+  </div>
+</header>
+<div id="mob">
+  <a href="#glance">At a glance</a>
+  <a href="#rounds">Rounds &amp; Schedule</a>
+  <a href="#institutes">Participating Institutes</a>
+  <a href="#fees">Fees</a>
+  <a href="#eligibility">Eligibility</a>
+  <a href="#faq">FAQ</a>
+  <a href="#contact">Book counselling</a>
+</div>
+
+<a id="top"></a>
+<section class="hero">
+  <div class="wrap">
     <div class="hero-grid">
-      <div class="hero-copy">
-        <span class="eyebrow">DASA UG &middot; Brochure Change Report &middot; 2025 &rarr; 2026</span>
-        <h1 style="margin-top:22px;">What changed in DASA 2026 <span class="accent">versus last year</span></h1>
-        <p class="hero-sub">A clause-by-clause, counsellor-grade comparison of the official DASA 2025 and the latest DASA 2026 (UG) Information Brochure (Version 1.3, 17 Jun 2026) &mdash; every change in rounds, institutes, fees, eligibility and CIWG rules, verified against the source documents.</p>
-        <div class="hero-ctas">
-          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
-          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+      <div>
+        <span class="eyebrow">DASA UG · Brochure change report · 2025 → 2026</span>
+        <h1>What changed in <span class="highlight">DASA 2026</span> <em>versus</em> last year</h1>
+        <p class="sub">A clause-by-clause, counsellor-grade comparison of the official DASA 2025 and the latest DASA 2026 (UG) Information Brochure (Version 1.3, 17 Jun 2026) — every change in rounds, institutes, fees, eligibility and CIWG rules, verified against the source documents.</p>
+        <div class="hero-cta">
+          <a href="#glance" class="btn-primary">See the changes <span class="ar">→</span></a>
+          <a href="#flags" class="btn-ghost">Counsellor flags</a>
         </div>
       </div>
       <aside class="hero-card">
-        <div class="hero-card-eyebrow">DASA 2026 &middot; At a Glance</div>
-        <div class="hero-card-title">2025 vs 2026, the headline shifts</div>
-        <div class="hero-card-rows">
-          <div class="hero-card-row">
-            <span class="hcr-label">Institutes 2026</span>
-            <span class="hcr-value">86</span>
-          </div>
-          <div class="hero-card-row">
-            <span class="hcr-label">Net New vs 2025</span>
-            <span class="hcr-value"><span class="accent">+</span>9</span>
-          </div>
-          <div class="hero-card-row">
-            <span class="hcr-label">Rounds 2026</span>
-            <span class="hcr-value">2</span>
-          </div>
-        </div>
+        <div class="meta">Headline shifts · DASA 2026</div>
+        <h3>The five that matter</h3>
+        <div class="minirow"><span>Seat-allocation rounds</span><span><b>3 → 2</b> <span class="tag t-chg">Changed</span></span></div>
+        <div class="minirow"><span>Participating institutes</span><span><b>77 → 86</b> <span class="tag t-new">+9</span></span></div>
+        <div class="minirow"><span>IIITs in the pool</span><span><b>13 → 18</b> <span class="tag t-new">+5</span></span></div>
+        <div class="minirow"><span>Fees / DEF structure</span><span><b>US$4300</b> <span class="tag t-same">No change</span></span></div>
+        <div class="minirow"><span>CIWG vacancy revert</span><span><b>R-III → R-II</b> <span class="tag t-chg">Earlier</span></span></div>
       </aside>
+    </div>
+
+    <div class="stats reveal visible">
+      <div class="stat"><div class="n">86</div><div class="l">Participating institutes 2026</div></div>
+      <div class="stat"><div class="n">+9</div><div class="l">Net new institutes vs 2025</div></div>
+      <div class="stat"><div class="n">2</div><div class="l">Seat-allocation rounds (schedule)</div></div>
+      <div class="stat"><div class="n">US$<span>0</span></div><div class="l">Change in DASA enrolment fee</div></div>
     </div>
   </div>
 </section>
 
-<div class="main-content">
-
-  <!-- Headline shifts -->
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">Headline Shifts &middot; DASA 2026</span>
-      <h2 class="section__title">The five that matter</h2>
+<!-- AT A GLANCE -->
+<section id="glance">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Executive summary · What moved</span>
+      <h2>The big picture for 2026</h2>
+      <p>Fees and the core CIWG framework are unchanged year-on-year, so the decisive shifts are structural: a leaner round structure, a wider and reshuffled institute pool, and an earlier, compressed timeline. Here is the at-a-glance read.</p>
     </div>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>Item</th><th>2025</th><th>2026</th><th>Verdict</th></tr>
-        </thead>
-        <tbody>
-          <tr><td><strong>Seat-allocation rounds</strong></td><td>3</td><td>2</td><td>Changed</td></tr>
-          <tr><td><strong>Participating institutes</strong></td><td>77</td><td>86</td><td>+9</td></tr>
-          <tr><td><strong>IIITs in the pool</strong></td><td>13</td><td>18</td><td>+5</td></tr>
-          <tr><td><strong>Fees / DEF structure</strong></td><td>US$ 4,300</td><td>US$ 4,300</td><td>No change</td></tr>
-          <tr><td><strong>CIWG vacancy revert</strong></td><td>Round-III</td><td>Round-II</td><td>Earlier</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Executive summary -->
-  <section class="section">
-    <div class="chapter-divider">
-      <span class="chapter-divider__num">&ldquo;&#x1F50D;&rdquo;</span>
-      <div>
-        <span class="chapter-divider__label">Executive Summary &middot; What Moved</span>
-        <span class="chapter-divider__title">The big picture for 2026</span>
+    <div class="grid3 reveal">
+      <div class="gc">
+        <span class="num">01</span>
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h12"></path></svg></div>
+        <div class="big">3 → <span>2</span></div>
+        <h4>Fewer rounds</h4>
+        <p>Brochure V1.3 confirms DASA 2026 "conducts a total of two rounds" — Round-III is dropped, and the CIWG vacancy reversion now happens at Round-II.</p>
       </div>
-    </div>
-
-    <p class="content-text">Fees and the core CIWG framework are unchanged year-on-year, so the decisive shifts are structural: a leaner round structure, a wider and reshuffled institute pool, and an earlier, compressed timeline. Here is the at-a-glance read.</p>
-
-    <div class="info-cards info-cards--4">
-      <div class="info-card">
-        <div class="info-card__label">01 &middot; 3 &rarr; 2</div>
-        <h4 class="info-card__title">Fewer rounds</h4>
-        <p class="info-card__text">Brochure V1.3 confirms DASA 2026 &ldquo;conducts a total of two rounds&rdquo; &mdash; Round-III is dropped, and the CIWG vacancy reversion now happens at Round-II.</p>
+      <div class="gc">
+        <span class="num">02</span>
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"></path></svg></div>
+        <div class="big">77 → <span>86</span></div>
+        <h4>Bigger institute pool</h4>
+        <p>Net +9 institutes: 5 new IIITs added and the GFTI/other list reshuffled (7 in, 3 out). NIT + IIEST count is unchanged at 31. Figures reflect Brochure V1.3 (17 Jun 2026).</p>
       </div>
-      <div class="info-card">
-        <div class="info-card__label">02 &middot; 77 &rarr; 86</div>
-        <h4 class="info-card__title">Bigger institute pool</h4>
-        <p class="info-card__text">Net +9 institutes: 5 new IIITs added and the GFTI/other list reshuffled (7 in, 3 out). NIT + IIEST count is unchanged at 31.</p>
+      <div class="gc">
+        <span class="num">03</span>
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+        <div class="big">US$<span>4300</span></div>
+        <h4>Fees held flat</h4>
+        <p>Registration US$300 + first-semester tuition US$4000 (or US$2000 with the SAARC 50% waiver) — identical to 2025. CIWG remains US$300 + ₹62,500.</p>
       </div>
-      <div class="info-card">
-        <div class="info-card__label">03 &middot; US$ 4,300</div>
-        <h4 class="info-card__title">Fees held flat</h4>
-        <p class="info-card__text">Registration US$ 300 + first-semester tuition US$ 4,000 (or US$ 2,000 with the SAARC 50% waiver) &mdash; identical to 2025. CIWG remains US$ 300 + &#8377;62,500.</p>
+      <div class="gc">
+        <span class="num">04</span>
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></div>
+        <div class="big">~1 <span>wk</span></div>
+        <h4>Earlier &amp; tighter</h4>
+        <p>Registration opens 28 Jul 2026 (vs 30 Jul 2025) and the whole process wraps roughly a week earlier — with one round fewer to fit it in.</p>
       </div>
-      <div class="info-card">
-        <div class="info-card__label">04 &middot; ~1 wk</div>
-        <h4 class="info-card__title">Earlier &amp; tighter</h4>
-        <p class="info-card__text">Registration opens 28 Jul 2026 (vs 30 Jul 2025) and the whole process wraps roughly a week earlier &mdash; with one round fewer to fit it in.</p>
+      <div class="gc">
+        <span class="num">05</span>
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21c0-4 4-6 8-6s8 2 8 6"></path></svg></div>
+        <div class="big">2000 → <span>2001</span></div>
+        <h4>Age cut-off rolls on</h4>
+        <p>Candidates must be born on or after 01 Oct 2001. Class XII must be 2025-26, with final results by 30 Sep 2026. Marks bar held at 75% / 7.5 CGPA.</p>
       </div>
-      <div class="info-card">
-        <div class="info-card__label">05 &middot; 2000 &rarr; 2001</div>
-        <h4 class="info-card__title">Age cut-off rolls on</h4>
-        <p class="info-card__text">Candidates must be born on or after 01 Oct 2001. Class XII must be 2025-26, with final results by 30 Sep 2026. Marks bar held at 75% / 7.5 CGPA.</p>
+      <div class="gc">
+        <span class="num">06</span>
+        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"></path><path d="M9 12l2 2 4-4"></path></svg></div>
+        <div class="big">5%<span> / </span>⅓</div>
+        <h4>CIWG intact</h4>
+        <p>The 5%-within-15% (one-third of DASA seats) CIWG reservation and the 8 eligible Gulf countries are unchanged. Only the revert round and the parent-employment reference year move.</p>
       </div>
-      <div class="info-card">
-        <div class="info-card__label">06 &middot; 5% / &frac13;</div>
-        <h4 class="info-card__title">CIWG intact</h4>
-        <p class="info-card__text">The 5%-within-15% (one-third of DASA seats) CIWG reservation and the 8 eligible Gulf countries are unchanged. Only the revert round and the parent-employment reference year move.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Change 01: Process structure -->
-  <section class="section">
-    <div class="chapter-divider">
-      <span class="chapter-divider__num">&ldquo;01&rdquo;</span>
-      <div>
-        <span class="chapter-divider__label">Change 01 &middot; Process Structure</span>
-        <span class="chapter-divider__title">Seat-allocation rounds &amp; schedule</span>
-      </div>
-    </div>
-
-    <p class="content-text">The single most consequential change for applicants. DASA 2025 ran three rounds; DASA 2026 (Brochure V1.3, 17 Jun 2026) runs only two &mdash; meaning fewer chances to upgrade a seat and a faster decision window.</p>
-
-    <h3 class="content-h3">Rounds &mdash; side by side</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Item</th><th>DASA 2025</th><th>DASA 2026</th><th>Verdict</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Rounds in schedule</strong></td><td>Round-I, II &amp; III</td><td>Round-I &amp; II only</td><td>One fewer</td></tr>
-          <tr><td><strong>CIWG vacant-seat revert</strong></td><td>Converted at Round-III</td><td>Converted at Round-II</td><td>Earlier</td></tr>
-          <tr><td><strong>Round-I result</strong></td><td>Sat, 09 Aug 2025</td><td>Thu, 06 Aug 2026</td><td>3 days earlier</td></tr>
-          <tr><td><strong>Round-II result</strong></td><td>Thu, 14 Aug 2025</td><td>Wed, 12 Aug 2026 (final round)</td><td>2 days earlier</td></tr>
-          <tr><td><strong>Round-III result</strong></td><td>Tue, 19 Aug 2025</td><td>&mdash; removed &mdash;</td><td>Dropped</td></tr>
-          <tr><td><strong>Exit window</strong></td><td>Up to 2nd round (before last)</td><td>Up to 2nd round (before last)</td><td>Same</td></tr>
-          <tr><td><strong>Willingness options</strong></td><td>Freeze &middot; Slide &middot; Float &middot; Surrender &middot; Withdraw &middot; Exit</td><td>Freeze &middot; Slide &middot; Float &middot; Surrender &middot; Withdraw &middot; Exit</td><td>Same</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3 class="content-h3">Indicative timeline</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Milestone</th><th>DASA 2025</th><th>DASA 2026</th><th>Shift</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Registration / DEF / choice filling opens</strong></td><td>30 Jul 2025</td><td>28 Jul 2026</td><td>2 days earlier</td></tr>
-          <tr><td><strong>Mock seat allocation</strong></td><td>03 Aug 2025</td><td>31 Jul 2026</td><td>Earlier</td></tr>
-          <tr><td><strong>Registration / DEF ends</strong></td><td>03&ndash;04 Aug 2025</td><td>03 Aug 2026</td><td>~Same</td></tr>
-          <tr><td><strong>Choice locking ends</strong></td><td>08 Aug 2025</td><td>05 Aug 2026</td><td>Earlier</td></tr>
-          <tr><td><strong>Physical reporting at institute</strong></td><td>~from 21 Aug 2025</td><td>13&ndash;18 Aug 2026 (tentative)</td><td>~1 wk earlier</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="callout callout--info">
-      <span class="callout__icon">i</span>
-      <div>
-        <span class="callout__label">Note on dates</span>
-        <p class="callout__text">Dates are reproduced from each brochure&rsquo;s Annexure 3 and are tentative; the institute&rsquo;s own website governs actual physical-reporting dates. Always confirm the live schedule on csab.nic.in.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Change 02: Seat pool -->
-  <section class="section">
-    <div class="chapter-divider">
-      <span class="chapter-divider__num">&ldquo;02&rdquo;</span>
-      <div>
-        <span class="chapter-divider__label">Change 02 &middot; The Seat Pool</span>
-        <span class="chapter-divider__title">Participating institutes &mdash; what&rsquo;s in and out</span>
-      </div>
-    </div>
-
-    <p class="content-text">The 2026 pool grows to 86 institutes (Brochure V1.3). The headline is a five-IIIT expansion; alongside it, the &ldquo;Other-GFTI / Technical Institutes&rdquo; list was substantially reshuffled &mdash; seven institutes added and three removed, including some popular private and self-financed names.</p>
-
-    <h3 class="content-h3">Count by category</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Category</th><th>DASA 2025</th><th>DASA 2026</th><th>Change</th></tr></thead>
-        <tbody>
-          <tr><td><strong>NITs + IIEST Shibpur</strong></td><td>31</td><td>31</td><td>No change</td></tr>
-          <tr><td><strong>IIITs</strong></td><td>13</td><td>18</td><td>+5</td></tr>
-          <tr><td><strong>Other-GFTIs / Technical Institutes</strong></td><td>33</td><td>37</td><td>+4 net</td></tr>
-          <tr><td><strong>Total participating institutes</strong></td><td>77</td><td>86</td><td>+9</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3 class="content-h3">Newly added in 2026</h3>
-    <p class="content-text content-text--note">12 institutes joined &middot; 5 IIITs + 7 GFTI/Other</p>
-    <ul class="check-list">
-      <li><strong>IIIT Guwahati</strong></li>
-      <li><strong>IIIT Tiruchirappalli</strong></li>
-      <li><strong>IIIT Dharwad</strong></li>
-      <li><strong>IIIT Bhagalpur</strong></li>
-      <li><strong>IIIT Raichur</strong>, Karnataka</li>
-      <li><strong>Guru Ghasidas Vishwavidyalaya</strong>, Bilaspur</li>
-      <li><strong>School of Studies of Engg &amp; Technology</strong>, Chhattisgarh</li>
-      <li><strong>NIFTEM, Kundli</strong> &mdash; Nat&rsquo;l Inst. of Food Tech. Entrepreneurship &amp; Mgmt, Sonipat, Haryana</li>
-      <li><strong>Central University of Jammu</strong></li>
-      <li><strong>Central University of Karnataka</strong></li>
-      <li><strong>Rajiv Gandhi National Aviation University</strong></li>
-      <li><strong>Islamic University of Science &amp; Technology</strong>, Kashmir</li>
-      <li><strong>NITTTR, Bhopal</strong> &mdash; Nat&rsquo;l Inst. of Technical Teachers&rsquo; Training &amp; Research, M.P.</li>
-    </ul>
-
-    <h3 class="content-h3">Dropped from 2025</h3>
-    <p class="content-text content-text--note">3 institutes no longer in the DASA pool</p>
-    <ul class="warn-list">
-      <li><strong>Pandit Deendayal Energy University, Gandhinagar</strong> (Gujarat) &mdash; popular energy/engineering option now out</li>
-      <li><strong>Charotar University of Science &amp; Technology (CHARUSAT)</strong> (Gujarat)</li>
-      <li><strong>Puducherry Technological University, Puducherry</strong></li>
-    </ul>
-
-    <div class="callout callout--warn">
-      <span class="callout__icon">!</span>
-      <div>
-        <span class="callout__label">Counsellor Note</span>
-        <p class="callout__text">Families targeting PDEU, CHARUSAT or PTU through DASA must re-plan their choice list for 2026. Manipal Institute of Technology and IGDTUW were briefly absent in earlier 2026 drafts (V1.1) but were reinstated in Brochure V1.3 &mdash; both remain in the pool.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Change 03: Fees -->
-  <section class="section">
-    <div class="chapter-divider">
-      <span class="chapter-divider__num">&ldquo;03&rdquo;</span>
-      <div>
-        <span class="chapter-divider__label">Change 03 &middot; Money</span>
-        <span class="chapter-divider__title">Fees &amp; DASA Enrolment Fee (DEF)</span>
-      </div>
-    </div>
-
-    <p class="content-text">Good news for budgeting: the fee architecture is identical to 2025. No increase to registration, first-semester tuition, the SAARC waiver, the CIWG rupee component, or the NRI Non-CIWG opt-in amount.</p>
-
-    <h3 class="content-h3">DEF by candidate tag (unchanged)</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Candidate Tag</th><th>Registration (non-refundable)</th><th>1st-Sem Tuition</th><th>Total DEF</th></tr></thead>
-        <tbody>
-          <tr><td><strong>DASA-CIWG (Single Tag)</strong></td><td>US$ 300</td><td>&#8377;62,500</td><td>US$ 300 + &#8377;62,500</td></tr>
-          <tr><td><strong>DASA (Non-SAARC)</strong></td><td>US$ 300</td><td>US$ 4,000</td><td>US$ 4,300</td></tr>
-          <tr><td><strong>DASA (SAARC) &mdash; 50% waiver</strong></td><td>US$ 300</td><td>US$ 2,000</td><td>US$ 2,300</td></tr>
-          <tr><td><strong>CIWG + Non-SAARC (Double Tag)</strong></td><td>US$ 300</td><td>US$ 4,000</td><td>US$ 4,300</td></tr>
-          <tr><td><strong>NRI opting for Non-CIWG seats</strong></td><td>US$ 300</td><td>US$ 4,000</td><td>US$ 4,300</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="callout callout--ok">
-      <span class="callout__icon">OK</span>
-      <div>
-        <span class="callout__label">What stayed identical</span>
-        <p class="callout__text">Registration fee remains non-refundable; full payment in one online transaction (card / net-banking / UPI / e-challan for INR); parents may pay in INR at the prevailing exchange rate; tuition-refund rules (Annexure 6) and the NRI CIWG-to-Non-CIWG refund mechanism are unchanged.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Change 04: Eligibility -->
-  <section class="section">
-    <div class="chapter-divider">
-      <span class="chapter-divider__num">&ldquo;04&rdquo;</span>
-      <div>
-        <span class="chapter-divider__label">Change 04 &middot; Who Can Apply</span>
-        <span class="chapter-divider__title">Eligibility &amp; CIWG rules</span>
-      </div>
-    </div>
-
-    <p class="content-text">The eligibility framework is stable. Changes are the routine year-roll of the age and academic-year references, plus one helpful clarification on how the 75% is computed.</p>
-
-    <h3 class="content-h3">Eligibility &mdash; line by line</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Criterion</th><th>DASA 2025</th><th>DASA 2026</th><th>Verdict</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Qualifying exam</strong></td><td>JEE (Main) 2025</td><td>JEE (Main) 2026</td><td>Year roll</td></tr>
-          <tr><td><strong>Age &mdash; born on or after</strong></td><td>01 Oct 2000</td><td>01 Oct 2001</td><td>+1 year</td></tr>
-          <tr><td><strong>Class XII appearing year</strong></td><td>2024-25</td><td>2025-26</td><td>Year roll</td></tr>
-          <tr><td><strong>Final results latest by</strong></td><td>30 Sep 2025</td><td>30 Sep 2026</td><td>Year roll</td></tr>
-          <tr><td><strong>Minimum marks</strong></td><td>75% / 7.5 CGPA</td><td>75% / 7.5 CGPA &mdash; &ldquo;in aggregate in 5 subjects&rdquo;; refer JoSAA 2026 Business Rule Annexure 2(b)</td><td>Clarified</td></tr>
-          <tr><td><strong>Required subjects (B.E./B.Tech.)</strong></td><td>Maths, Physics + 1 of Chem/Biotech/CS/Bio</td><td>Maths, Physics + 1 of Chem/Biotech/CS/Bio</td><td>Same</td></tr>
-          <tr><td><strong>Residential requirement</strong></td><td>2 yrs (11th &amp; 12th) abroad in last 8 yrs</td><td>2 yrs (11th &amp; 12th) abroad in last 8 yrs</td><td>Same</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3 class="content-h3">CIWG (Children of Indian Workers in Gulf)</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Aspect</th><th>DASA 2025</th><th>DASA 2026</th><th>Verdict</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Reservation</strong></td><td>5% within 15% (&asymp; one-third of DASA seats)</td><td>5% within 15% (&asymp; one-third of DASA seats)</td><td>Same</td></tr>
-          <tr><td><strong>Eligible Gulf countries</strong></td><td>UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia</td><td>UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia</td><td>8, same</td></tr>
-          <tr><td><strong>Parent worked / working &ldquo;till any date of&rdquo;</strong></td><td>year 2025</td><td>year 2026</td><td>Year roll</td></tr>
-          <tr><td><strong>Vacant CIWG seats convert at</strong></td><td>Round-III</td><td>Round-II</td><td>Earlier</td></tr>
-          <tr><td><strong>NRI option for Non-CIWG seats</strong></td><td>Pay US$ 4,300 to be shown both seat types</td><td>Pay US$ 4,300 to be shown both seat types</td><td>Same</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Counsellor desk flags -->
-  <section class="section">
-    <div class="chapter-divider">
-      <span class="chapter-divider__num">&ldquo;&#x1F6A9;&rdquo;</span>
-      <div>
-        <span class="chapter-divider__label">Counsellor Desk &middot; Read Before Advising</span>
-        <span class="chapter-divider__title">Flags &amp; advisory notes</span>
-      </div>
-    </div>
-
-    <p class="content-text">Points that need a counsellor&rsquo;s judgement &mdash; including one internal inconsistency in the 2026 brochure that families should verify on the portal.</p>
-
-    <div class="callout callout--ok">
-      <span class="callout__icon">OK</span>
-      <div>
-        <span class="callout__label">Confirmed: DASA 2026 runs two rounds (V1.3)</span>
-        <p class="callout__text">Earlier 2026 drafts (V1.1) contained a contradiction &mdash; the schedule showed two rounds while clause 55 still read &ldquo;three rounds.&rdquo; Brochure V1.3 (17 Jun 2026) corrects this: it explicitly states DASA 2026 &ldquo;conducts a total of two rounds,&rdquo; consistent with the two-round Annexure 3 schedule and the Round-II CIWG reversion. Plan for exactly two rounds.</p>
-      </div>
-    </div>
-    <div class="callout callout--info">
-      <span class="callout__icon">i</span>
-      <div>
-        <span class="callout__label">The institute list moved between brochure versions &mdash; use V1.3</span>
-        <p class="callout__text">The participating-institute list changed across 2026 versions. V1.1 had dropped Manipal Institute of Technology and IGDTUW; V1.3 (titled &ldquo;Inclusion of New Institutions&rdquo;) reinstated both, taking the total to 86. Always advise from the latest version and the live list on csab.nic.in.</p>
-      </div>
-    </div>
-    <div class="callout callout--warn">
-      <span class="callout__icon">!</span>
-      <div>
-        <span class="callout__label">Fewer rounds = front-load the choice list</span>
-        <p class="callout__text">With likely only two rounds, the cost of a poorly ordered choice list is higher &mdash; there are fewer opportunities to slide/float into a better seat. Lock a carefully ranked, realistic list before Round-I.</p>
-      </div>
-    </div>
-    <div class="callout callout--warn">
-      <span class="callout__icon">!</span>
-      <div>
-        <span class="callout__label">Re-plan if you were targeting a dropped institute</span>
-        <p class="callout__text">PDEU Gandhinagar, CHARUSAT and Puducherry Technological University are no longer in the DASA 2026 pool. Students must either secure them through the institute&rsquo;s own NRI/management route or substitute equivalent newly-added options.</p>
-      </div>
-    </div>
-    <div class="callout callout--info">
-      <span class="callout__icon">i</span>
-      <div>
-        <span class="callout__label">Verify the 75% on the JoSAA 2026 basis</span>
-        <p class="callout__text">2026 explicitly anchors the 75% / 7.5 CGPA to &ldquo;aggregate in 5 subjects&rdquo; per JoSAA 2026 Business Rule Annexure 2(b). Re-compute borderline candidates&rsquo; aggregates on the 5-subject basis before declaring eligibility.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">Counsellor FAQ &middot; DASA 2026</span>
-      <h2 class="section__title">Questions families are asking</h2>
-    </div>
-
-    <div class="faq-list">
-      <details class="faq-item" open>
-        <summary class="faq-item__q">Does DASA 2026 really have only two rounds?</summary>
-        <div class="faq-item__a">Yes &mdash; two rounds. Brochure V1.3 (17 Jun 2026) explicitly states DASA 2026 &ldquo;conducts a total of two rounds,&rdquo; and Annexure 3 lists only Round-I (result 06 Aug 2026) and Round-II (result 12 Aug 2026), with the CIWG vacancy reversion at Round-II. (An earlier draft, V1.1, had conflicting &ldquo;three rounds&rdquo; wording that has since been corrected.) DASA 2025, by contrast, ran three rounds.</div>
-      </details>
-      <details class="faq-item">
-        <summary class="faq-item__q">Have the DASA fees increased for 2026?</summary>
-        <div class="faq-item__a">No. The DASA Enrolment Fee is unchanged: US$ 300 non-refundable registration plus US$ 4,000 first-semester tuition (total US$ 4,300) for Non-SAARC; US$ 2,000 tuition (total US$ 2,300) for SAARC candidates with the 50% waiver; and US$ 300 + &#8377;62,500 for CIWG. NRI candidates opting to also be shown Non-CIWG seats still pay US$ 4,300.</div>
-      </details>
-      <details class="faq-item">
-        <summary class="faq-item__q">Which institutes are new, and which were removed?</summary>
-        <div class="faq-item__a">Newly added (12): IIIT Guwahati, IIIT Tiruchirappalli, IIIT Dharwad, IIIT Bhagalpur, IIIT Raichur, plus Guru Ghasidas Vishwavidyalaya (Bilaspur), NIFTEM Kundli, Central University of Jammu, Central University of Karnataka, Rajiv Gandhi National Aviation University, Islamic University of Science &amp; Technology (Kashmir) and NITTTR Bhopal. Removed (3): PDEU Gandhinagar, CHARUSAT and Puducherry Technological University. Manipal Institute of Technology and IGDTUW were briefly dropped in draft V1.1 but reinstated in V1.3. Net total moves from 77 to 86 institutes (NIT+IIEST 31, IIITs 18, Other-GFTI 37).</div>
-      </details>
-      <details class="faq-item">
-        <summary class="faq-item__q">Who is eligible by age and academics in 2026?</summary>
-        <div class="faq-item__a">Candidates must be Foreign Nationals / OCI / PIO / NRI, born on or after 01 Oct 2001, with a valid JEE (Main) 2026 score, and at least 75% (or 7.5 CGPA) in aggregate over 5 subjects in Class XII with Maths, Physics and one of Chemistry / Biotechnology / Computer Science / Biology. Those appearing in 2025-26 may apply if final results are available by 30 Sep 2026.</div>
-      </details>
-      <details class="faq-item">
-        <summary class="faq-item__q">Did anything change for Gulf-worker children (CIWG)?</summary>
-        <div class="faq-item__a">The core benefit is unchanged: 5% of seats (within the 15% DASA supernumerary quota &mdash; about one-third of DASA seats) are reserved for CIWG across the same 8 Gulf countries (UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia). Two small updates: the parent-employment reference rolls to &ldquo;any date of the year 2026,&rdquo; and unfilled CIWG seats now convert to Non-CIWG at Round-II rather than Round-III.</div>
-      </details>
-    </div>
-  </section>
-
-  <!-- Related -->
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">Related</span>
-      <h2 class="section__title">Continue Your DASA 2026 Planning</h2>
-    </div>
-    <div class="info-cards info-cards--4">
-      <a class="info-card" href="{{ url_for('main.dasa_2026') }}" style="text-decoration:none;">
-        <span class="info-card__icon">&#x1F5FA;&#xFE0F;</span>
-        <h4 class="info-card__title">DASA 2026 Atlas</h4>
-        <p class="info-card__text">The complete 2026 pathway atlas &mdash; fees, dates, tracks, and FAQs.</p>
-      </a>
-      <a class="info-card" href="{{ url_for('main.dasa_strategic_approach') }}" style="text-decoration:none;">
-        <span class="info-card__icon">&#x265F;&#xFE0F;</span>
-        <h4 class="info-card__title">Strategic Approach</h4>
-        <p class="info-card__text">Build a laddered choice list with six named strategies.</p>
-      </a>
-      <a class="info-card" href="{{ url_for('main.dasa_guide') }}" style="text-decoration:none;">
-        <span class="info-card__icon">&#x1F30D;</span>
-        <h4 class="info-card__title">DASA Admissions Guide</h4>
-        <p class="info-card__text">The full DASA &amp; CIWG admissions guide for NRI families.</p>
-      </a>
-      <a class="info-card" href="{{ url_for('main.dasa_seat_matrix') }}" style="text-decoration:none;">
-        <span class="info-card__icon">&#x1F4CA;</span>
-        <h4 class="info-card__title">DASA Seat Matrix</h4>
-        <p class="info-card__text">Institute-wise seats and category breakdown.</p>
-      </a>
-    </div>
-  </section>
-
-  <!-- Final CTA -->
-  <div class="final-cta">
-    <h2>Planning a DASA 2026 application? Let&rsquo;s build your choice list.</h2>
-    <p>With one round fewer and a reshuffled institute pool, ordering your choices correctly matters more than ever. EduAakashaa&rsquo;s counsellors map your JEE (Main) 2026 rank and CIWG status to a realistic, well-ranked list. India: +91 80157 22706 &middot; UAE: +971 50 516 8081.</p>
-    <div class="final-cta__btns">
-      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor &rarr;</a>
-      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
     </div>
   </div>
+</section>
 
-  <p class="content-text content-text--note">DASA 2025 vs 2026 (UG) change report &middot; DASA 2026 Brochure V1.3 &middot; prepared 21 Jun 2026. Disclaimer: This comparison is compiled from the official DASA 2025 and DASA 2026 (UG) Information Brochures for guidance only. Figures and dates are reproduced from those documents (DASA 2026 Brochure Version 1.3, 17 June 2026) and are subject to change; the official portal csab.nic.in and individual institute websites are the authoritative source. EduAakashaa is not affiliated with CSAB, DASA or the Ministry of Education.</p>
+<!-- ROUNDS -->
+<section id="rounds" style="background:var(--cream-2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Change 01 · Process structure</span>
+      <h2>Seat-allocation rounds &amp; schedule</h2>
+      <p>The single most consequential change for applicants. DASA 2025 ran three rounds; DASA 2026 (Brochure V1.3, 17 Jun 2026) runs only two — meaning fewer chances to upgrade a seat and a faster decision window.</p>
+    </div>
+
+    <div class="cmp reveal">
+      <div class="cmp-h">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-6"></path></svg></div>
+        <h3>Rounds — side by side</h3>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>Item</th><th>DASA 2025</th><th>DASA 2026</th><th>Verdict</th></tr></thead>
+        <tbody>
+          <tr><td>Rounds in schedule</td><td class="c25">Round-I, II &amp; III</td><td class="c26">Round-I &amp; II only</td><td class="vmark"><span class="tag t-chg">One fewer</span></td></tr>
+          <tr><td>CIWG vacant-seat revert</td><td class="c25">Converted at Round-III</td><td class="c26">Converted at Round-II</td><td class="vmark"><span class="tag t-chg">Earlier</span></td></tr>
+          <tr><td>Round-I result</td><td class="c25">Sat, 09 Aug 2025</td><td class="c26">Thu, 06 Aug 2026</td><td class="vmark"><span class="delta">3 days earlier</span></td></tr>
+          <tr><td>Round-II result</td><td class="c25">Thu, 14 Aug 2025</td><td class="c26">Wed, 12 Aug 2026 <small style="color:var(--muted)">(final round)</small></td><td class="vmark"><span class="delta">2 days earlier</span></td></tr>
+          <tr><td>Round-III result</td><td class="c25">Tue, 19 Aug 2025</td><td class="c26">— removed —</td><td class="vmark"><span class="tag t-cut">Dropped</span></td></tr>
+          <tr><td>Exit window</td><td class="c25">Up to 2nd round (before last)</td><td class="c26">Up to 2nd round (before last)</td><td class="vmark"><span class="tag t-same">Same</span></td></tr>
+          <tr><td>Willingness options</td><td class="c25">Freeze · Slide · Float · Surrender · Withdraw · Exit</td><td class="c26">Freeze · Slide · Float · Surrender · Withdraw · Exit</td><td class="vmark"><span class="tag t-same">Same</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cmp reveal">
+      <div class="cmp-h">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4M8 2v4M3 10h18"></path></svg></div>
+        <h3>Indicative timeline</h3>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>Milestone</th><th>DASA 2025</th><th>DASA 2026</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Registration / DEF / choice filling opens</td><td class="c25">30 Jul 2025</td><td class="c26">28 Jul 2026</td><td class="vmark"><span class="delta">2 days earlier</span></td></tr>
+          <tr><td>Mock seat allocation</td><td class="c25">03 Aug 2025</td><td class="c26">31 Jul 2026</td><td class="vmark"><span class="delta">earlier</span></td></tr>
+          <tr><td>Registration / DEF ends</td><td class="c25">03–04 Aug 2025</td><td class="c26">03 Aug 2026</td><td class="vmark"><span class="tag t-same">~same</span></td></tr>
+          <tr><td>Choice locking ends</td><td class="c25">08 Aug 2025</td><td class="c26">05 Aug 2026</td><td class="vmark"><span class="delta">earlier</span></td></tr>
+          <tr><td>Physical reporting at institute</td><td class="c25">~from 21 Aug 2025</td><td class="c26">13–18 Aug 2026 (tentative)</td><td class="vmark"><span class="delta">~1 wk earlier</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12.5px;color:var(--muted);max-width:780px">Dates are reproduced from each brochure's Annexure 3 and are tentative; the institute's own website governs actual physical-reporting dates. Always confirm the live schedule on <a href="https://csab.nic.in" target="_blank" rel="noopener">csab.nic.in</a>.</p>
+  </div>
+</section>
+
+<!-- INSTITUTES -->
+<section id="institutes">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Change 02 · The seat pool</span>
+      <h2>Participating institutes — what's <em>in</em> and <em>out</em></h2>
+      <p>The 2026 pool grows to 86 institutes (Brochure V1.3). The headline is a five-IIIT expansion; alongside it, the "Other-GFTI / Technical Institutes" list was substantially reshuffled — seven institutes added and three removed, including some popular private and self-financed names.</p>
+    </div>
+
+    <div class="cmp reveal">
+      <div class="cmp-h">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3"></path></svg></div>
+        <h3>Count by category</h3>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>Category</th><th>DASA 2025</th><th>DASA 2026</th><th>Change</th></tr></thead>
+        <tbody>
+          <tr><td>NITs + IIEST Shibpur</td><td class="c25">31</td><td class="c26">31</td><td class="vmark"><span class="tag t-same">No change</span></td></tr>
+          <tr><td>IIITs</td><td class="c25">13</td><td class="c26">18</td><td class="vmark"><span class="tag t-new">+5</span></td></tr>
+          <tr><td>Other-GFTIs / Technical Institutes</td><td class="c25">33</td><td class="c26">37</td><td class="vmark"><span class="tag t-new">+4 net</span></td></tr>
+          <tr><td><b>Total participating institutes</b></td><td class="c25"><b>77</b></td><td class="c26"><b>86</b></td><td class="vmark"><span class="tag t-new">+9</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="inst-grid reveal">
+      <div class="inst-card added">
+        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F8B5C" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg> Newly added in 2026</h4>
+        <div class="cnt">12 institutes joined · 5 IIITs + 7 GFTI/Other</div>
+        <ul class="ilist">
+          <li>IIIT Guwahati</li>
+          <li>IIIT Tiruchirappalli</li>
+          <li>IIIT Dharwad</li>
+          <li>IIIT Bhagalpur</li>
+          <li>IIIT Raichur, Karnataka</li>
+          <li>Guru Ghasidas Vishwavidyalaya, Bilaspur <small>School of Studies of Engg &amp; Technology, Chhattisgarh</small></li>
+          <li>NIFTEM, Kundli <small>Nat'l Inst. of Food Tech. Entrepreneurship &amp; Mgmt, Sonipat, Haryana</small></li>
+          <li>Central University of Jammu</li>
+          <li>Central University of Karnataka</li>
+          <li>Rajiv Gandhi National Aviation University</li>
+          <li>Islamic University of Science &amp; Technology, Kashmir</li>
+          <li>NITTTR, Bhopal <small>Nat'l Inst. of Technical Teachers' Training &amp; Research, M.P.</small></li>
+        </ul>
+      </div>
+      <div class="inst-card removed">
+        <h4><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C23A3A" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14"></path></svg> Dropped from 2025</h4>
+        <div class="cnt">3 institutes no longer in the DASA pool</div>
+        <ul class="ilist">
+          <li>Pandit Deendayal Energy University, Gandhinagar <small>Gujarat — popular energy/engineering option now out</small></li>
+          <li>Charotar University of Science &amp; Technology (CHARUSAT) <small>Gujarat</small></li>
+          <li>Puducherry Technological University, Puducherry</li>
+        </ul>
+        <p style="font-size:12.5px;color:var(--muted);margin-top:16px">Counsellor note: families targeting PDEU, CHARUSAT or PTU through DASA must re-plan their choice list for 2026. Manipal Institute of Technology and IGDTUW were briefly absent in earlier 2026 drafts (V1.1) but were <b>reinstated</b> in Brochure V1.3 — both remain in the pool.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DARK CHART -->
+<section class="dark">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow on-dark">Data view · Institute pool</span>
+      <h2>How the seat pool reshaped</h2>
+      <p>NIT + IIEST capacity is steady; the entire net growth comes from IIITs and a churned GFTI list.</p>
+    </div>
+    <div class="chart-grid reveal">
+      <div class="chart-card">
+        <h3>Institutes by category</h3>
+        <div class="note">Count of participating institutes, DASA 2025 vs 2026</div>
+        <div class="canvas-box"><canvas id="barChart" width="531" height="300" style="display: block; box-sizing: border-box; height: 300px; width: 531px;"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <h3>GFTI / Other list churn</h3>
+        <div class="note">Composition of the 2026 "Other" list vs additions &amp; removals</div>
+        <div class="canvas-box"><canvas id="doughChart" width="531" height="300" style="display: block; box-sizing: border-box; height: 300px; width: 531px;"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEES -->
+<section id="fees" style="background:var(--cream-2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Change 03 · Money</span>
+      <h2>Fees &amp; DASA Enrolment Fee (DEF)</h2>
+      <p>Good news for budgeting: the fee architecture is identical to 2025. No increase to registration, first-semester tuition, the SAARC waiver, the CIWG rupee component, or the NRI Non-CIWG opt-in amount.</p>
+    </div>
+    <div class="cmp reveal">
+      <div class="cmp-h">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v10M15 9.5C15 8 13.5 7.5 12 7.5S9 8 9 9.5s1.5 2 3 2.5 3 1 3 2.5-1.5 2-3 2-3-.5-3-2"></path></svg></div>
+        <h3>DEF by candidate tag (unchanged)</h3>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>Candidate tag</th><th>Registration (non-refundable)</th><th>1st-sem tuition</th><th>Total DEF</th></tr></thead>
+        <tbody>
+          <tr><td>DASA-CIWG (Single Tag)</td><td class="c25">US$300</td><td class="c26">₹62,500</td><td class="vmark"><b>US$300 + ₹62,500</b></td></tr>
+          <tr><td>DASA (Non-SAARC)</td><td class="c25">US$300</td><td class="c26">US$4,000</td><td class="vmark"><b>US$4,300</b></td></tr>
+          <tr><td>DASA (SAARC) — 50% waiver</td><td class="c25">US$300</td><td class="c26">US$2,000</td><td class="vmark"><b>US$2,300</b></td></tr>
+          <tr><td>CIWG + Non-SAARC (Double Tag)</td><td class="c25">US$300</td><td class="c26">US$4,000</td><td class="vmark"><b>US$4,300</b></td></tr>
+          <tr><td>NRI opting for Non-CIWG seats</td><td class="c25">US$300</td><td class="c26">US$4,000</td><td class="vmark"><b>US$4,300</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="flag good reveal">
+      <div class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F8B5C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></div>
+      <div><h4>What stayed identical</h4><p>Registration fee remains non-refundable; full payment in one online transaction (card / net-banking / UPI / e-challan for INR); parents may pay in INR at the prevailing exchange rate; tuition-refund rules (Annexure 6) and the NRI CIWG-to-Non-CIWG refund mechanism are unchanged.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ELIGIBILITY -->
+<section id="eligibility">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Change 04 · Who can apply</span>
+      <h2>Eligibility &amp; CIWG rules</h2>
+      <p>The eligibility framework is stable. Changes are the routine year-roll of the age and academic-year references, plus one helpful clarification on how the 75% is computed.</p>
+    </div>
+    <div class="cmp reveal">
+      <div class="cmp-h">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 2 9 2 12 0v-5"></path></svg></div>
+        <h3>Eligibility — line by line</h3>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>Criterion</th><th>DASA 2025</th><th>DASA 2026</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Qualifying exam</td><td class="c25">JEE (Main) 2025</td><td class="c26">JEE (Main) 2026</td><td class="vmark"><span class="tag t-chg">Year roll</span></td></tr>
+          <tr><td>Age — born on or after</td><td class="c25">01 Oct 2000</td><td class="c26">01 Oct 2001</td><td class="vmark"><span class="tag t-chg">+1 year</span></td></tr>
+          <tr><td>Class XII appearing year</td><td class="c25">2024-25</td><td class="c26">2025-26</td><td class="vmark"><span class="tag t-chg">Year roll</span></td></tr>
+          <tr><td>Final results latest by</td><td class="c25">30 Sep 2025</td><td class="c26">30 Sep 2026</td><td class="vmark"><span class="tag t-chg">Year roll</span></td></tr>
+          <tr><td>Minimum marks</td><td class="c25">75% / 7.5 CGPA</td><td class="c26">75% / 7.5 CGPA — "in aggregate in <b>5 subjects</b>"; refer JoSAA 2026 Business Rule Annexure 2(b)</td><td class="vmark"><span class="tag t-chg">Clarified</span></td></tr>
+          <tr><td>Required subjects (B.E./B.Tech.)</td><td class="c25">Maths, Physics + 1 of Chem/Biotech/CS/Bio</td><td class="c26">Maths, Physics + 1 of Chem/Biotech/CS/Bio</td><td class="vmark"><span class="tag t-same">Same</span></td></tr>
+          <tr><td>Residential requirement</td><td class="c25">2 yrs (11th &amp; 12th) abroad in last 8 yrs</td><td class="c26">2 yrs (11th &amp; 12th) abroad in last 8 yrs</td><td class="vmark"><span class="tag t-same">Same</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="cmp reveal">
+      <div class="cmp-h">
+        <div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8 8 10 4.5-2 8-5 8-10V6z"></path></svg></div>
+        <h3>CIWG (Children of Indian Workers in Gulf)</h3>
+      </div>
+      <table class="tbl">
+        <thead><tr><th>Aspect</th><th>DASA 2025</th><th>DASA 2026</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Reservation</td><td class="c25">5% within 15% (≈ one-third of DASA seats)</td><td class="c26">5% within 15% (≈ one-third of DASA seats)</td><td class="vmark"><span class="tag t-same">Same</span></td></tr>
+          <tr><td>Eligible Gulf countries</td><td class="c25">UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia</td><td class="c26">UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia</td><td class="vmark"><span class="tag t-same">8, same</span></td></tr>
+          <tr><td>Parent worked / working "till any date of"</td><td class="c25">year 2025</td><td class="c26">year 2026</td><td class="vmark"><span class="tag t-chg">Year roll</span></td></tr>
+          <tr><td>Vacant CIWG seats convert at</td><td class="c25">Round-III</td><td class="c26">Round-II</td><td class="vmark"><span class="tag t-chg">Earlier</span></td></tr>
+          <tr><td>NRI option for Non-CIWG seats</td><td class="c25">Pay US$4,300 to be shown both seat types</td><td class="c26">Pay US$4,300 to be shown both seat types</td><td class="vmark"><span class="tag t-same">Same</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FLAGS -->
+<section id="flags" style="background:var(--cream-2)">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Counsellor desk · Read before advising</span>
+      <h2>Flags &amp; advisory notes</h2>
+      <p>Points that need a counsellor's judgement — including one internal inconsistency in the 2026 brochure that families should verify on the portal.</p>
+    </div>
+    <div class="reveal">
+      <div class="flag good">
+        <div class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F8B5C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></div>
+        <div><h4>Confirmed: DASA 2026 runs two rounds (V1.3)</h4><p>Earlier 2026 drafts (V1.1) contained a contradiction — the schedule showed two rounds while clause 55 still read "three rounds." Brochure V1.3 (17 Jun 2026) corrects this: it explicitly states DASA 2026 "conducts a total of two rounds," consistent with the two-round Annexure 3 schedule and the Round-II CIWG reversion. Plan for exactly two rounds.</p></div>
+      </div>
+      <div class="flag">
+        <div class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E89A1C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg></div>
+        <div><h4>The institute list moved between brochure versions — use V1.3</h4><p>The participating-institute list changed across 2026 versions. V1.1 had dropped Manipal Institute of Technology and IGDTUW; V1.3 (titled "Inclusion of New Institutions") reinstated both, taking the total to 86. Always advise from the latest version and the live list on csab.nic.in.</p></div>
+      </div>
+      <div class="flag">
+        <div class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E89A1C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg></div>
+        <div><h4>Fewer rounds = front-load the choice list</h4><p>With likely only two rounds, the cost of a poorly ordered choice list is higher — there are fewer opportunities to slide/float into a better seat. Lock a carefully ranked, realistic list before Round-I.</p></div>
+      </div>
+      <div class="flag">
+        <div class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E89A1C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v5M12 16h.01"></path></svg></div>
+        <div><h4>Re-plan if you were targeting a dropped institute</h4><p>PDEU Gandhinagar, CHARUSAT and Puducherry Technological University are no longer in the DASA 2026 pool. Students must either secure them through the institute's own NRI/management route or substitute equivalent newly-added options.</p></div>
+      </div>
+      <div class="flag good">
+        <div class="fic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1F8B5C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></div>
+        <div><h4>Verify the 75% on the JoSAA 2026 basis</h4><p>2026 explicitly anchors the 75% / 7.5 CGPA to "aggregate in 5 subjects" per JoSAA 2026 Business Rule Annexure 2(b). Re-compute borderline candidates' aggregates on the 5-subject basis before declaring eligibility.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Counsellor FAQ · DASA 2026</span>
+      <h2>Questions families are asking</h2>
+    </div>
+    <div class="reveal">
+      <div class="faq-item">
+        <div class="faq-q"><span class="qlab">Q·01 · Rounds</span><span class="qtx">Does DASA 2026 really have only two rounds?</span><span class="faq-tog">+</span></div>
+        <div class="faq-a"><div class="inner">Yes — two rounds. Brochure V1.3 (17 Jun 2026) explicitly states DASA 2026 "conducts a total of two rounds," and Annexure 3 lists only Round-I (result 06 Aug 2026) and Round-II (result 12 Aug 2026), with the CIWG vacancy reversion at Round-II. (An earlier draft, V1.1, had conflicting "three rounds" wording that has since been corrected.) DASA 2025, by contrast, ran three rounds.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qlab">Q·02 · Fees</span><span class="qtx">Have the DASA fees increased for 2026?</span><span class="faq-tog">+</span></div>
+        <div class="faq-a"><div class="inner">No. The DASA Enrolment Fee is unchanged: US$300 non-refundable registration plus US$4,000 first-semester tuition (total US$4,300) for Non-SAARC; US$2,000 tuition (total US$2,300) for SAARC candidates with the 50% waiver; and US$300 + ₹62,500 for CIWG. NRI candidates opting to also be shown Non-CIWG seats still pay US$4,300.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qlab">Q·03 · Institutes</span><span class="qtx">Which institutes are new, and which were removed?</span><span class="faq-tog">+</span></div>
+        <div class="faq-a"><div class="inner">Newly added (12): IIIT Guwahati, IIIT Tiruchirappalli, IIIT Dharwad, IIIT Bhagalpur, IIIT Raichur, plus Guru Ghasidas Vishwavidyalaya (Bilaspur), NIFTEM Kundli, Central University of Jammu, Central University of Karnataka, Rajiv Gandhi National Aviation University, Islamic University of Science &amp; Technology (Kashmir) and NITTTR Bhopal. Removed (3): PDEU Gandhinagar, CHARUSAT and Puducherry Technological University. Manipal Institute of Technology and IGDTUW were briefly dropped in draft V1.1 but reinstated in V1.3. Net total moves from 77 to 86 institutes (NIT+IIEST 31, IIITs 18, Other-GFTI 37).</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qlab">Q·04 · Eligibility</span><span class="qtx">Who is eligible by age and academics in 2026?</span><span class="faq-tog">+</span></div>
+        <div class="faq-a"><div class="inner">Candidates must be Foreign Nationals / OCI / PIO / NRI, born on or after 01 Oct 2001, with a valid JEE (Main) 2026 score, and at least 75% (or 7.5 CGPA) in aggregate over 5 subjects in Class XII with Maths, Physics and one of Chemistry / Biotechnology / Computer Science / Biology. Those appearing in 2025-26 may apply if final results are available by 30 Sep 2026.</div></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span class="qlab">Q·05 · CIWG</span><span class="qtx">Did anything change for Gulf-worker children (CIWG)?</span><span class="faq-tog">+</span></div>
+        <div class="faq-a"><div class="inner">The core benefit is unchanged: 5% of seats (within the 15% DASA supernumerary quota — about one-third of DASA seats) are reserved for CIWG across the same 8 Gulf countries (UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia). Two small updates: the parent-employment reference rolls to "any date of the year 2026," and unfilled CIWG seats now convert to Non-CIWG at Round-II rather than Round-III.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / CTA -->
+<section id="contact" class="dark" style="padding:80px 0">
+  <div class="wrap">
+    <div style="max-width:720px">
+      <span class="eyebrow on-dark">Talk to a DASA expert</span>
+      <h2 style="margin:18px 0 16px">Planning a DASA 2026 application? Let's build your choice list.</h2>
+      <p style="color:#c2cdf0;font-size:17px;margin-bottom:28px">With one round fewer and a reshuffled institute pool, ordering your choices correctly matters more than ever. EduAakashaa's counsellors map your JEE (Main) 2026 rank and CIWG status to a realistic, well-ranked list.</p>
+      <a href="https://www.eduaakashaa.in" target="_blank" rel="noopener" class="btn-primary" style="background:var(--orange)">Book a counselling session <span class="ar">→</span></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand" style="gap:12px">
+          <div>
+            <div class="nm" style="font-family:'Fraunces';font-weight:700;font-size:20px">Edu<b style="color:var(--orange)">Aakashaa</b></div>
+            <div class="tg" style="font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.18em;text-transform:uppercase">Guiding students towards the right future</div>
+          </div>
+        </div>
+        <p>Evidence-based education counselling for students and parents — DASA, CSAB-Special, JoSAA, NRI and overseas admissions.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="tel:+918015722706">India: +91-80157 22706</a>
+        <a href="tel:+971505168081">UAE: +971 50 516 8081</a>
+        <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
+        <a href="https://www.eduaakashaa.in" target="_blank" rel="noopener">www.eduaakashaa.in</a>
+      </div>
+      <div class="foot-col">
+        <h5>Offices &amp; hours</h5>
+        <div>Coimbatore, Tamil Nadu</div>
+        <div>Dubai, UAE</div>
+        <div>Mon–Fri · 9:00–22:00</div>
+        <div>Sat &amp; Sun · 9:00–16:00</div>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 EduAakashaa. All rights reserved.</span>
+      <span>DASA 2025 vs 2026 (UG) change report · DASA 2026 Brochure V1.3 · prepared 21 Jun 2026</span>
+    </div>
+    <p class="disc">Disclaimer: This comparison is compiled from the official DASA 2025 and DASA 2026 (UG) Information Brochures for guidance only. Figures and dates are reproduced from those documents (DASA 2026 Brochure Version 1.3, 17 June 2026) and are subject to change; the official portal <a href="https://csab.nic.in" target="_blank" rel="noopener" style="color:var(--orange-soft)">csab.nic.in</a> and individual institute websites are the authoritative source. EduAakashaa is not affiliated with CSAB, DASA or the Ministry of Education.</p>
+  </div>
+</footer>
+
+
+
+
+
+
+
+
+{% endraw %}
+
+<div style="background:#071A44;color:#fff;border-radius:20px;padding:48px 32px;text-align:center;margin:48px auto;max-width:1100px;">
+  <h2 style="font-family:'Fraunces',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600;margin-bottom:12px;">Same data, very different outcomes. A mentor turns it into your decision.</h2>
+  <p style="color:rgba(255,255,255,.72);max-width:560px;margin:0 auto 24px;">Get a written, year-long admission plan built around the student &mdash; no upfront fee.</p>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+    <a href="{{ url_for('main.members_registration') }}" style="background:#FF6B0A;color:#fff;font-weight:700;padding:14px 28px;border-radius:999px;text-decoration:none;">Talk to a Mentor &rarr;</a>
+    <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" style="border:1.5px solid rgba(255,255,255,.5);color:#fff;font-weight:700;padding:13px 26px;border-radius:999px;text-decoration:none;">Chat on WhatsApp</a>
+  </div>
 </div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dasa_2025_vs_2026.js') }}" defer></script>
 {% endblock %}
