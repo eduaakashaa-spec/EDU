@@ -13,15 +13,13 @@
 </head>
 <body>
 
-  <!-- Sticky Top Bar -->
-  <div class="sticky-bar">
-    <h1 class="sticky-bar__title">
-      <strong class="orange">Edu</strong><strong class="blue">Aakashaa</strong>
-    </h1>
-  </div>
-
-  <!-- Header / Navbar -->
+  <!-- Header / Navbar (title bar + nav as one sticky unit) -->
   <header class="header" id="header">
+    <div class="sticky-bar">
+      <h1 class="sticky-bar__title">
+        <strong class="orange">Edu</strong><strong class="blue">Aakashaa</strong>
+      </h1>
+    </div>
     <div class="header__inner">
       <a href="{{ url_for('main.home') }}" class="header__logo">
         <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/AzGeQnXJ98TKkVNd/logo2-YanyNjlRnwfkQlpE.png" alt="EduAakashaA logo">
