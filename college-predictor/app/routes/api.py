@@ -1,10 +1,30 @@
 """API Blueprint — server-side JOSAA/NIRF endpoints."""
+import json
 import re
 import pandas as pd
-from flask import Blueprint, jsonify, request
-from app.data.loader import get_josaa_df, get_nirf_df, get_metadata, get_nirf_lookup, get_dasa_df
+from flask import Blueprint, Response, abort, jsonify, request
+from app.data.loader import (get_josaa_df, get_nirf_df, get_metadata,
+                             get_nirf_lookup, get_dasa_df, get_college_dataset)
 
 api_bp = Blueprint('api', __name__, url_prefix='/api')
+
+
+@api_bp.route('/data/<name>.js')
+def college_data_js(name):
+    """Serve a college dataset (loaded from CSVs in app/data/files) as a
+    classic script that assigns window globals. Pages include this with
+    `defer` right before their page script, so the data is available
+    synchronously — same behavior as when the arrays were hard-coded."""
+    dataset = get_college_dataset(name)
+    if dataset is None:
+        abort(404)
+    body = '\n'.join(
+        f'window.{key} = {json.dumps(value, ensure_ascii=False, separators=(",", ":"))};'
+        for key, value in dataset.items()
+    )
+    resp = Response(body, mimetype='application/javascript')
+    resp.headers['Cache-Control'] = 'public, max-age=3600'
+    return resp
 
 # Branch category keyword mapping for grouped filtering
 BRANCH_CAT_KEYWORDS = {

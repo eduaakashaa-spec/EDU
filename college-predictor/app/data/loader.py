@@ -1,4 +1,5 @@
-"""Load JOSAA cutoff, NIRF ranking, and DASA cutoff data into memory at startup."""
+"""Load JOSAA cutoff, NIRF ranking, DASA cutoff, and college directory data into memory at startup."""
+import csv
 import json
 import os
 import re
@@ -12,8 +13,97 @@ _programs = None
 _quotas = None
 _seat_types = None
 _genders = None
+_college_datasets = {}
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'files')
+
+
+def _read_csv_dicts(filename):
+    path = os.path.join(DATA_DIR, filename)
+    with open(path, encoding='utf-8') as f:
+        return list(csv.DictReader(f))
+
+
+def _num(value, as_int=False):
+    """'' -> None; otherwise int/float."""
+    if value is None or value == '':
+        return None
+    f = float(value)
+    return int(f) if as_int or f.is_integer() else f
+
+
+def _num_or_str(value):
+    """Numeric when possible, otherwise the raw string (e.g. NIRF band '101-150')."""
+    try:
+        return _num(value)
+    except ValueError:
+        return value
+
+
+def _load_college_datasets():
+    """Load the college directory CSVs (extracted from what used to be
+    hard-coded JS arrays) and rebuild the exact structures the front-end
+    scripts expect. Served to pages via /api/data/<name>.js."""
+    global _college_datasets
+
+    # Engineering colleges across India (enggcolleges_india page)
+    engg = [{
+        'n': r['name'], 's': r['state'], 'd': r['district'], 't': r['type'],
+        'r': _num(r['nirf_rank'], as_int=True),
+        'nb': r['nirf_band'] or None,
+        'cp': [int(x) for x in r['cutoff_profile'].split('|')] if r['cutoff_profile'] else [],
+        'b': r['branches'].split('|') if r['branches'] else [],
+    } for r in _read_csv_dicts('engg_colleges_india.csv')]
+
+    # TNEA notable colleges by district (tnea_colleges map page)
+    tn_top = [{
+        'n': r['name'], 'd': r['district'], 't': r['type'],
+        'co': _num(r['cutoff']),
+        'b': r['branches'].split('|') if r['branches'] else [],
+    } for r in _read_csv_dicts('tnea_top_colleges.csv')]
+
+    # TNEA expert guidance: 35-college benchmark table
+    benchmark = [{
+        'rank': _num_or_str(r['rank']), 'name': r['name'], 'short': r['short'],
+        'city': r['city'], 'est': _num_or_str(r['est']), 'naac': r['naac'],
+        'type': r['type'], 'typeLabel': r['typeLabel'], 'cutoff': r['cutoff'],
+        'highest': r['highest'], 'median': r['median'], 'admission': r['admission'],
+        'admitClass': r['admitClass'], 'typeFamily': r['typeFamily'],
+    } for r in _read_csv_dicts('tnea_benchmark_colleges.csv')]
+
+    # TNEA expert guidance: full college list + branches + cutoff records
+    colleges = [{'n': r['name'], 'd': r['district'], 't': r['type']}
+                for r in _read_csv_dicts('tnea_all_colleges.csv')]
+    branches = [{'c': r['code'], 'n': r['name']}
+                for r in _read_csv_dicts('tnea_branches.csv')]
+    college_idx = {c['n']: i for i, c in enumerate(colleges)}
+    branch_idx = {b['c']: i for i, b in enumerate(branches)}
+    records = [[college_idx[r['college']], branch_idx[r['branch_code']],
+                _num(r['oc']), _num(r['bc']), _num(r['bcm']), _num(r['mbc']),
+                _num(r['sc']), _num(r['sca']), _num(r['st'])]
+               for r in _read_csv_dicts('tnea_cutoff_records.csv')]
+    tnea_data = {'colleges': colleges, 'branches': branches, 'records': records}
+
+    # DASA institute-wise seat matrix
+    seat_matrix = [{
+        'inst_code': r['inst_code'], 'institute': r['institute'], 'program': r['program'],
+        'ciwg': _num(r['ciwg'], as_int=True), 'nonciwg': _num(r['nonciwg'], as_int=True),
+        'dasa_total': _num(r['dasa_total'], as_int=True), 'branch_cat': r['branch_cat'],
+        'group': r['group'], 'nirf_rank': _num(r['nirf_rank'], as_int=True),
+        'nirf_score': _num(r['nirf_score']), 'city': r['city'], 'state': r['state'],
+    } for r in _read_csv_dicts('dasa_seat_matrix.csv')]
+
+    _college_datasets = {
+        'engg-colleges-india': {'EA_ENGG_COLLEGES': engg},
+        'tnea-colleges': {'EA_TN_COLLEGES': tn_top},
+        'tnea-expert-guidance': {'EA_TNEA_BENCHMARK': benchmark, 'EA_TNEA_DATA': tnea_data},
+        'dasa-seat-matrix': {'EA_DASA_SEAT_MATRIX': seat_matrix},
+    }
+
+
+def get_college_dataset(name):
+    """Return {js_global_name: payload} for /api/data/<name>.js, or None."""
+    return _college_datasets.get(name)
 
 
 def _get_type(name):
@@ -71,6 +161,9 @@ def load_data():
                     'overall_open', 'overall_close']:
             _dasa_df[col] = pd.to_numeric(_dasa_df[col], errors='coerce')
         _dasa_df['nirf_rank'] = pd.to_numeric(_dasa_df['nirf_rank'], errors='coerce')
+
+    # --- College directory CSVs (extracted from formerly hard-coded JS) ---
+    _load_college_datasets()
 
 
 def get_josaa_df():

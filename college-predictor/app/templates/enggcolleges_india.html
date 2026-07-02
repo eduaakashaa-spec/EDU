@@ -13,7 +13,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Interactive map of engineering colleges across India — filter by IITs, NITs, TNEA, Deemed, Private, IoE, NIRF Top 25 and NAAC A++. Drill down to state-level district view. By EduAakashaa.">
+{% block meta_description %}<meta name="description" content="Interactive map of engineering colleges across India — filter by IITs, NITs, TNEA, Deemed, Private, IoE, NIRF Top 25 and NAAC A++. Drill down to state-level district view. By EduAakashaa.">{% endblock %}
 <title>Engineering Colleges in India · Interactive Map · EduAakashaa</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -353,5 +353,6 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('api.college_data_js', name='engg-colleges-india') }}" defer></script>
 <script src="{{ url_for('static', filename='js/enggcolleges_india.js') }}" defer></script>
 {% endblock %}

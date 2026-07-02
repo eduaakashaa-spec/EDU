@@ -509,52 +509,8 @@ const BRANCH_LABELS = {
 };
 
 // TN-specific college DB with cut-offs
-const TN_COLLEGES = [
-  { n: "Anna University CEG", d: "Chennai", t: "Constituent", co: 199, b: ["CSE","IT","ECE","EEE","Mech","Civil","Chem","Bio","Geo","Aero","Auto","Mining","Mfg","Mat","Print","Rubber"] },
-  { n: "MIT Chrompet", d: "Chennai", t: "Constituent", co: 199, b: ["CSE","IT","ECE","EEE","Mech","Civil","Auto","Aero","Prod"] },
-  { n: "AC Tech Anna Univ", d: "Chennai", t: "Constituent", co: 197, b: ["CSE","Chem","Bio","Food","Pharma","Mat"] },
-  { n: "PSG College of Tech", d: "Coimbatore", t: "SF", co: 198.5, b: ["CSE","IT","ECE","EEE","Mech","Civil","Chem","Auto","Bio","Prod","Robot","Mechatronics","AIML"] },
-  { n: "SSN College of Engg", d: "Kanchipuram", t: "SF", co: 198, b: ["CSE","IT","ECE","EEE","Mech","Civil","Chem","Bio"] },
-  { n: "CIT Coimbatore", d: "Coimbatore", t: "SF", co: 197.5, b: ["CSE","IT","ECE","EEE","Mech","Civil","AIDS"] },
-  { n: "Govt CT Coimbatore", d: "Coimbatore", t: "Govt", co: 197, b: ["CSE","ECE","EEE","Mech","Civil"] },
-  { n: "Sri Sivasubramaniya Nadar", d: "Kanchipuram", t: "SF", co: 196, b: ["CSE","IT","ECE","EEE","Mech","Civil"] },
-  { n: "Rajalakshmi Engg College", d: "Chengalpattu", t: "SF", co: 192, b: ["CSE","IT","ECE","EEE","Mech","Civil","AIML","AIDS"] },
-  { n: "Thiagarajar College of Engg", d: "Madurai", t: "SF", co: 192, b: ["CSE","IT","ECE","EEE","Mech","Civil","Mechatronics","AIDS"] },
-  { n: "Kumaraguru CoT", d: "Coimbatore", t: "SF", co: 191, b: ["CSE","IT","ECE","EEE","Mech","Civil","Auto","AIDS","Robot"] },
-  { n: "Bharathidasan IoT (BIT)", d: "Tiruchirappalli", t: "Constituent", co: 191, b: ["CSE","IT","ECE","EEE","Mech","Civil"] },
-  { n: "Bannari Amman IoT", d: "Erode", t: "SF", co: 190, b: ["CSE","IT","ECE","EEE","Mech","Civil","Bio","AIML","Mechatronics","Food"] },
-  { n: "Kongu Engineering College", d: "Erode", t: "SF", co: 187, b: ["CSE","IT","ECE","EEE","Mech","Civil","Chem","Food","Auto"] },
-  { n: "Velammal Engg College", d: "Chennai", t: "SF", co: 187, b: ["CSE","IT","ECE","EEE","Mech","Civil","Bio","AIDS","Cyber"] },
-  { n: "Sri Sairam Engg College", d: "Chennai", t: "SF", co: 185, b: ["CSE","IT","ECE","EEE","Mech","Civil","AIDS"] },
-  { n: "Sri Sai Ram (Tambaram)", d: "Chengalpattu", t: "SF", co: 185, b: ["CSE","IT","ECE","EEE","Mech","Civil","AIML"] },
-  { n: "Easwari Engg College", d: "Chennai", t: "SF", co: 184, b: ["CSE","IT","ECE","EEE","Mech","Civil","AIML","AIDS"] },
-  { n: "Anna University Madurai Regional", d: "Madurai", t: "Constituent", co: 184, b: ["CSE","IT","ECE","EEE","Mech","Civil"] },
-  { n: "National Engg College", d: "Tirunelveli", t: "SF", co: 184, b: ["CSE","IT","ECE","EEE","Mech","Civil"] },
-  { n: "Mepco Schlenk Engg College", d: "Virudhunagar", t: "Aided", co: 182, b: ["CSE","IT","ECE","EEE","Mech","Civil","Chem","AIDS"] },
-  { n: "Saveetha Engg College", d: "Chengalpattu", t: "SF", co: 182, b: ["CSE","IT","ECE","EEE","Mech","Civil","Bio","AIML","AIDS","Cyber"] },
-  { n: "Sona College of Tech", d: "Salem", t: "SF", co: 178, b: ["CSE","IT","ECE","EEE","Mech","Civil","Bio"] },
-  { n: "Karunya Inst of Tech", d: "Coimbatore", t: "SF", co: 178, b: ["CSE","IT","ECE","EEE","Mech","Civil","Aero","Bio","Food","AIDS"] },
-  { n: "Hindustan Inst of T&S", d: "Chengalpattu", t: "SF", co: 178, b: ["CSE","IT","ECE","EEE","Mech","Civil","Auto","Aero","AIML"] },
-  { n: "Govt CT Madurai", d: "Madurai", t: "Govt", co: 178, b: ["CSE","ECE","EEE","Mech","Civil"] },
-  { n: "K.S. Rangasamy CT", d: "Namakkal", t: "SF", co: 178, b: ["CSE","IT","ECE","EEE","Mech","Civil","Auto"] },
-  { n: "PSNA College of Engg", d: "Dindigul", t: "SF", co: 174, b: ["CSE","IT","ECE","EEE","Mech","Civil"] },
-  { n: "Sri Krishna College of Engg", d: "Coimbatore", t: "SF", co: 174, b: ["CSE","IT","ECE","EEE","Mech","AIDS"] },
-  { n: "Govt CT Erode", d: "Erode", t: "Govt", co: 174, b: ["CSE","ECE","EEE","Mech","Civil"] },
-  { n: "Saranathan College of Engg", d: "Tiruchirappalli", t: "SF", co: 174, b: ["CSE","IT","ECE","EEE","Mech","Civil","AIDS"] },
-  { n: "Vel Tech Engg College", d: "Tiruvallur", t: "SF", co: 174, b: ["CSE","IT","ECE","EEE","Mech","Civil","Auto","Aero"] },
-  { n: "Adhiyamaan College of Engg", d: "Krishnagiri", t: "SF", co: 172, b: ["CSE","IT","ECE","EEE","Mech","Civil"] },
-  { n: "Govt CT Salem", d: "Salem", t: "Govt", co: 172, b: ["CSE","ECE","EEE","Mech","Civil"] },
-  { n: "Govt CT Tirunelveli", d: "Tirunelveli", t: "Govt", co: 172, b: ["CSE","ECE","EEE","Mech","Civil"] },
-  { n: "SRM Valliammai Engg College", d: "Chengalpattu", t: "SF", co: 168, b: ["CSE","IT","ECE","EEE","Mech","Civil","AIDS"] },
-  { n: "K Ramakrishnan College of Engg", d: "Tiruchirappalli", t: "SF", co: 168, b: ["CSE","IT","ECE","EEE","Mech","Civil"] },
-  { n: "Govt CT Cuddalore", d: "Cuddalore", t: "Govt", co: 168, b: ["CSE","ECE","EEE","Mech","Civil"] },
-  { n: "Govt CT Tiruchirappalli", d: "Tiruchirappalli", t: "Govt", co: 188, b: ["CSE","ECE","EEE","Mech","Civil"] },
-  { n: "Panimalar IoT", d: "Chennai", t: "SF", co: 165, b: ["CSE","IT","ECE","EEE","Mech","AIDS","Cyber"] },
-  { n: "Jeppiaar Engg College", d: "Chennai", t: "SF", co: 162, b: ["CSE","IT","ECE","EEE","Mech","Civil","AIDS"] },
-  { n: "Francis Xavier Engg College", d: "Tirunelveli", t: "SF", co: 162, b: ["CSE","IT","ECE","EEE","Mech","Civil"] },
-  { n: "M.A.M. College of Engg", d: "Tiruchirappalli", t: "SF", co: 162, b: ["CSE","IT","ECE","EEE","Mech","Civil"] },
-  { n: "Velammal CET", d: "Madurai", t: "SF", co: 175, b: ["CSE","IT","ECE","EEE","Mech","Civil"] }
-];
+// Data now lives in app/data/files/*.csv and is served by /api/data/*.js
+const TN_COLLEGES = window.EA_TN_COLLEGES || [];
 
 const ALL_BRANCHES = Array.from(new Set(TN_COLLEGES.flatMap(c => c.b))).sort();
 const ALL_TYPES = ["Govt","Aided","Constituent","SF"];

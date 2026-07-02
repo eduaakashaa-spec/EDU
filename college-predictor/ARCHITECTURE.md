@@ -13,6 +13,7 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 |-----------|--------|-------|
 | Flask app factory | ✅ Done | `app/__init__.py` — loads data at startup, registers 3 Blueprints |
 | Data loader | ✅ Done | `app/data/loader.py` — reads JOSAA Excel + NIRF CSV + DASA JSON into Pandas DataFrames |
+| **College data → CSV** | ✅ Done | All college datasets formerly hard-coded in page JS now live in `app/data/files/*.csv` (engg_colleges_india, tnea_top_colleges, tnea_benchmark_colleges, tnea_all_colleges, tnea_branches, tnea_cutoff_records, dasa_seat_matrix). Loaded at startup and served by `GET /api/data/<name>.js` (window-global assignment script, 1h cache), included with `defer` before each page script — front-end behavior unchanged. |
 | Server-side API | ✅ Done | `app/routes/api.py` — 7 JSON endpoints (meta, predict, matrix, nirf, insights, analytics, DASA predict) |
 | Page routes | ✅ Done | `app/routes/main.py` — 19 routes on `main_bp` Blueprint |
 | JOSAA portal UI | ✅ Done | 7-tab SPA in `josaa.html` with `josaa.js` (fetch-based) + `josaa.css` |

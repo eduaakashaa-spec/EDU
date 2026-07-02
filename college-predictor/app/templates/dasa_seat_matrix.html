@@ -6505,5 +6505,6 @@ DASA Seats: 41"><div class="nc-rank" style="color:#3B82F6">#99</div>
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('api.college_data_js', name='dasa-seat-matrix') }}" defer></script>
 <script src="{{ url_for('static', filename='js/dasa_seat_matrix.js') }}" defer></script>
 {% endblock %}
