@@ -3,7 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}EduAakashaA{% endblock %}</title>
+  <title>{% block title %}EduAakashaA — College Admission Guidance{% endblock %}</title>
+  {% block meta_description %}
+  <meta name="description" content="EduAakashaa — expert guidance for NRI admissions (DASA/CIWG), JOSAA counselling, TNEA predictions and career planning, backed by 12,000+ official data points.">
+  {% endblock %}
+  <meta name="theme-color" content="#0E3A8A">
+  <link rel="canonical" href="{{ request.base_url }}">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/favicon.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/logo.png') }}">
+  <meta property="og:site_name" content="EduAakashaa">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ self.title() }}">
+  <meta property="og:url" content="{{ request.base_url }}">
+  <meta property="og:image" content="{{ url_for('static', filename='images/logo.png', _external=True) }}">
+  <meta name="twitter:card" content="summary">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500..700;1,9..144,500..700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -13,21 +26,23 @@
 </head>
 <body>
 
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
   <!-- Header / Navbar (title bar + nav as one sticky unit) -->
   <header class="header" id="header">
     <div class="sticky-bar">
-      <h1 class="sticky-bar__title">
+      <p class="sticky-bar__title">
         <strong class="orange">Edu</strong><strong class="blue">Aakashaa</strong>
-      </h1>
+      </p>
     </div>
     <div class="header__inner">
       <a href="{{ url_for('main.home') }}" class="header__logo">
-        <img src="https://assets.zyrosite.com/cdn-cgi/image/format=auto,w=375,fit=crop/AzGeQnXJ98TKkVNd/logo2-YanyNjlRnwfkQlpE.png" alt="EduAakashaA logo">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="EduAakashaA logo" width="375" height="375">
       </a>
-      <button class="header__hamburger" id="hamburger" aria-label="Toggle menu">
+      <button class="header__hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav">
         <span></span><span></span><span></span>
       </button>
-      <nav class="header__nav" id="nav">
+      <nav class="header__nav" id="nav" aria-label="Main navigation">
         <ul class="nav__list">
           <li class="nav__item"><a href="{{ url_for('main.home') }}" class="nav__link">Home</a></li>
 
@@ -121,7 +136,9 @@
     </div>
   </header>
 
+  <div id="main-content">
   {% block content %}{% endblock %}
+  </div>
 
   <!-- Footer -->
   <footer class="footer">
@@ -140,7 +157,7 @@
         <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">WhatsApp</a>
       </div>
       <div class="footer__copy">
-        &copy; 2025 EduAakashaA. All rights reserved.
+        &copy; {{ CURRENT_YEAR }} EduAakashaA. All rights reserved.
       </div>
     </div>
   </footer>

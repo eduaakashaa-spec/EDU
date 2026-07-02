@@ -9,12 +9,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeNav = () => {
       nav.classList.remove('open');
       hamburger.classList.remove('active');
+      hamburger.setAttribute('aria-expanded', 'false');
     };
 
     hamburger.addEventListener('click', (e) => {
       e.stopPropagation();
       nav.classList.toggle('open');
       hamburger.classList.toggle('active');
+      hamburger.setAttribute('aria-expanded', String(nav.classList.contains('open')));
     });
 
     // Close after picking a destination (but let dropdown parents expand)

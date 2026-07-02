@@ -11,6 +11,37 @@ def ping():
     return Response('ok', mimetype='text/plain')
 
 
+@main_bp.route('/robots.txt')
+def robots_txt():
+    lines = [
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /admin/',
+        'Disallow: /dashboard',
+        f'Sitemap: {url_for("main.sitemap_xml", _external=True)}',
+    ]
+    return Response('\n'.join(lines) + '\n', mimetype='text/plain')
+
+
+@main_bp.route('/sitemap.xml')
+def sitemap_xml():
+    from flask import current_app
+    urls = []
+    for rule in current_app.url_map.iter_rules():
+        if (rule.endpoint.startswith('main.')
+                and 'GET' in rule.methods
+                and not rule.arguments
+                and not rule.endpoint.endswith('_alias')
+                and rule.endpoint not in ('main.ping', 'main.robots_txt', 'main.sitemap_xml')):
+            urls.append(url_for(rule.endpoint, _external=True))
+    body = ['<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for u in sorted(set(urls)):
+        body.append(f'  <url><loc>{u}</loc></url>')
+    body.append('</urlset>')
+    return Response('\n'.join(body), mimetype='application/xml')
+
+
 def render_reference_page(filename: str, fallback_template: str, **context):
     # Every page is now a proper, styled Jinja template (clean HTML, no Hostinger
     # iframes), so we render the template directly. `filename` is kept only as a

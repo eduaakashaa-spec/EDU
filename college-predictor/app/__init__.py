@@ -33,10 +33,12 @@ def create_app():
         digits = ''.join(c for c in num_in if c.isdigit())
         msg = ("Hi EduAakashaa, I'd like to know more about your mentorship "
                "and college-admission guidance.")
+        from datetime import date
         return {
             'WHATSAPP_NUMBER': num_in,
             'WHATSAPP_NUMBER_UAE': num_uae,
             'WHATSAPP_URL': f'https://wa.me/{digits}?text={quote(msg)}',
+            'CURRENT_YEAR': date.today().year,
         }
 
     # Create tables if they don't exist
