@@ -5,6 +5,10 @@ A Flask-based college admission helper portal for Indian engineering aspirants, 
 > **Live reference site:** <https://eduaakashaa.in/>  
 > **Origin:** Migrated from a Hostinger/Zyro website builder into a proper Flask codebase.
 
+> 📖 **New here? Start with [GUIDE.md](GUIDE.md)** — step-by-step first-time setup
+> (local + production on Render/Neon), the full **admin workflow** (memberships,
+> leads, inquiries, users), and how **clients (students & parents)** use the site.
+
 ---
 
 ## Quick Start
@@ -46,6 +50,7 @@ college-predictor/
 ├── manage.py                       # CLI — init_db, create_admin commands
 ├── requirements.txt                # Python dependencies
 ├── ARCHITECTURE.md                 # Full architecture spec
+├── GUIDE.md                        # First-time setup + admin & client usage guide
 ├── README.md                       # ← You are here
 │
 └── app/
