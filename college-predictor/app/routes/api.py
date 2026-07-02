@@ -26,6 +26,58 @@ def college_data_js(name):
     resp.headers['Cache-Control'] = 'public, max-age=3600'
     return resp
 
+
+def _find_field(obj, keys, depth=0):
+    """Search a (possibly nested) dict for the first non-empty value under any
+    of the given keys. Assessment payloads nest contact info differently
+    ({payload: {...}}, {data: {...}}), so we walk one level deep too."""
+    if not isinstance(obj, dict) or depth > 2:
+        return None
+    for k in keys:
+        v = obj.get(k)
+        if isinstance(v, (str, int, float)) and str(v).strip():
+            return str(v).strip()
+    for v in obj.values():
+        if isinstance(v, dict):
+            found = _find_field(v, keys, depth + 1)
+            if found:
+                return found
+    return None
+
+
+@api_bp.route('/leads', methods=['POST'])
+def capture_lead():
+    """Generic lead intake for page forms and assessments.
+
+    Accepts any JSON body (assessment scripts send Content-Type text/plain to
+    avoid CORS preflight, so we force-parse) or form data. The whole payload is
+    stored; name/email/phone are extracted for the admin list."""
+    import json as _json
+    from app.extensions import db
+    from app.models import PageLead
+
+    data = request.get_json(silent=True, force=True)
+    if data is None:
+        data = request.form.to_dict() or {}
+    if not isinstance(data, dict):
+        data = {'value': data}
+
+    source = (request.args.get('source') or data.get('source') or 'unknown')[:60]
+    payload = _json.dumps(data, ensure_ascii=False)
+    if len(payload) > 100_000:
+        # Keep the lead but drop the oversized body (never slice JSON mid-string)
+        payload = _json.dumps({'truncated': True, 'original_size': len(payload)})
+    lead = PageLead(
+        source=source,
+        name=(_find_field(data, ['name', 'studentName', 'fullName']) or '')[:150],
+        email=(_find_field(data, ['email', 'to']) or '')[:200],
+        phone=(_find_field(data, ['phone', 'mobile', 'parentPhone']) or '')[:40],
+        payload_json=payload,
+    )
+    db.session.add(lead)
+    db.session.commit()
+    return jsonify({'ok': True, 'id': lead.id})
+
 # Branch category keyword mapping for grouped filtering
 BRANCH_CAT_KEYWORDS = {
     'cs': ['Computer Science', 'Information Technology', 'Artificial Intelligence', 'Data Science', 'Software', 'Computing'],

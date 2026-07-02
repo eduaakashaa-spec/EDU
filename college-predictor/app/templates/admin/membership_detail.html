@@ -46,7 +46,9 @@
   {% endwith %}
 
   <a class="adm-eyebrow" href="{{ url_for('membership.admin_list') }}" style="text-decoration:none;">← All requests</a>
-  <h1 style="margin-top:6px;">{{ a.reference }} — {{ a.name }}</h1>
+  <h1 style="margin-top:6px; margin-bottom:16px;">{{ a.reference }} — {{ a.name }}</h1>
+
+  {% with admin_tab='memberships' %}{% include "admin/_nav.html" %}{% endwith %}
 
   <div class="grid">
     <div>

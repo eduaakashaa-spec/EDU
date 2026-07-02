@@ -1,0 +1,15 @@
+<style>
+  .adm-nav{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+  .adm-nav a{ font-family:'JetBrains Mono',monospace; font-size:11px;
+              text-transform:uppercase; letter-spacing:.12em; text-decoration:none;
+              padding:8px 16px; border-radius:999px; border:1.5px solid var(--hairline);
+              background:var(--paper); color:var(--ink); transition:.15s; }
+  .adm-nav a:hover{ border-color:var(--navy); color:var(--navy); }
+  .adm-nav a.on{ background:var(--navy); border-color:var(--navy); color:#fff; }
+</style>
+<nav class="adm-nav" aria-label="Admin sections">
+  <a href="{{ url_for('membership.admin_list') }}" class="{{ 'on' if admin_tab == 'memberships' }}">Memberships</a>
+  <a href="{{ url_for('membership.admin_leads') }}" class="{{ 'on' if admin_tab == 'leads' }}">Leads &amp; Assessments</a>
+  <a href="{{ url_for('membership.admin_inquiries') }}" class="{{ 'on' if admin_tab == 'inquiries' }}">Contact Inquiries</a>
+  <a href="{{ url_for('membership.admin_users') }}" class="{{ 'on' if admin_tab == 'users' }}">Users</a>
+</nav>

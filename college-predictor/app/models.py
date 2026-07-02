@@ -72,6 +72,22 @@ class Payment(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
 
+class PageLead(db.Model):
+    """Generic lead/response captured from any page form or assessment.
+
+    The full submitted payload is kept as JSON so nothing is lost; name/email/
+    phone are extracted into columns for searching and admin display."""
+    __tablename__ = 'page_leads'
+
+    id = db.Column(db.Integer, primary_key=True)
+    source = db.Column(db.String(60), index=True)  # page slug, e.g. 'free-report'
+    name = db.Column(db.String(150))
+    email = db.Column(db.String(200))
+    phone = db.Column(db.String(40))
+    payload_json = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+
 class ContactInquiry(db.Model):
     __tablename__ = 'contact_inquiries'
 

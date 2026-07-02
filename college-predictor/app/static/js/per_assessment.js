@@ -330,6 +330,7 @@ async function submitAssessment() {
   state.submissions.push(submission);
   saveSubmissionsToStorage();
 
+  try{fetch('/api/leads?source=per-assessment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'submit',payload:submission})}).catch(function(){});}catch(e){}
   // Try to send to backend
   if (APPS_SCRIPT_URL) {
     try {

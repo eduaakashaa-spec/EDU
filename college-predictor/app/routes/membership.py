@@ -356,3 +356,109 @@ def admin_export():
     fname = f'eduaakashaa_memberships_{datetime.now():%Y%m%d}.xlsx'
     return send_file(buf, as_attachment=True, download_name=fname,
                      mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+
+
+# --------------------------------------------------------------------------- #
+# admin — leads, contact inquiries, users (all captured data in one place)
+# --------------------------------------------------------------------------- #
+@membership_bp.route('/admin/leads')
+@admin_required
+def admin_leads():
+    from app.models import PageLead, DasaLead
+
+    q = (request.args.get('q') or '').strip()
+    source = (request.args.get('source') or '').strip()
+    page = request.args.get('page', 1, type=int)
+
+    query = PageLead.query
+    if q:
+        like = f'%{q}%'
+        query = query.filter(db.or_(
+            PageLead.name.ilike(like),
+            PageLead.email.ilike(like),
+            PageLead.phone.ilike(like),
+        ))
+    if source:
+        query = query.filter(PageLead.source == source)
+
+    pagination = (query.order_by(PageLead.created_at.desc())
+                  .paginate(page=page, per_page=25, error_out=False))
+
+    sources = [s[0] for s in db.session.query(PageLead.source)
+               .distinct().order_by(PageLead.source)]
+    stats = {
+        'total': PageLead.query.count(),
+        'sources': len(sources),
+        'dasa_leads': DasaLead.query.count(),
+    }
+    dasa_rows = (DasaLead.query.order_by(DasaLead.timestamp.desc()).limit(25).all()
+                 if not q and not source else [])
+
+    return render_template('admin/leads_list.html', admin_tab='leads',
+                           pagination=pagination, rows=pagination.items,
+                           sources=sources, stats=stats, q=q, source=source,
+                           dasa_rows=dasa_rows)
+
+
+@membership_bp.route('/admin/leads/<int:lead_id>')
+@admin_required
+def admin_lead_detail(lead_id):
+    from app.models import PageLead
+    lead = db.session.get(PageLead, lead_id) or abort(404)
+    try:
+        pretty = json.dumps(json.loads(lead.payload_json or '{}'),
+                            indent=2, ensure_ascii=False)
+    except ValueError:
+        pretty = lead.payload_json or ''
+    return render_template('admin/lead_detail.html', admin_tab='leads',
+                           lead=lead, pretty=pretty)
+
+
+@membership_bp.route('/admin/inquiries')
+@admin_required
+def admin_inquiries():
+    from app.models import ContactInquiry
+
+    q = (request.args.get('q') or '').strip()
+    page = request.args.get('page', 1, type=int)
+
+    query = ContactInquiry.query
+    if q:
+        like = f'%{q}%'
+        query = query.filter(db.or_(
+            ContactInquiry.first_name.ilike(like),
+            ContactInquiry.last_name.ilike(like),
+            ContactInquiry.email.ilike(like),
+            ContactInquiry.message.ilike(like),
+        ))
+
+    pagination = (query.order_by(ContactInquiry.created_at.desc())
+                  .paginate(page=page, per_page=25, error_out=False))
+    return render_template('admin/inquiries_list.html', admin_tab='inquiries',
+                           pagination=pagination, rows=pagination.items,
+                           total=ContactInquiry.query.count(), q=q)
+
+
+@membership_bp.route('/admin/users')
+@admin_required
+def admin_users():
+    from app.models import User
+
+    q = (request.args.get('q') or '').strip()
+    page = request.args.get('page', 1, type=int)
+
+    query = User.query
+    if q:
+        like = f'%{q}%'
+        query = query.filter(db.or_(User.name.ilike(like), User.email.ilike(like)))
+
+    pagination = (query.order_by(User.created_at.desc())
+                  .paginate(page=page, per_page=25, error_out=False))
+    stats = {
+        'total': User.query.count(),
+        'premium': User.query.filter_by(tier='premium').count(),
+        'admin': User.query.filter_by(tier='admin').count(),
+    }
+    return render_template('admin/users_list.html', admin_tab='users',
+                           pagination=pagination, rows=pagination.items,
+                           stats=stats, q=q)

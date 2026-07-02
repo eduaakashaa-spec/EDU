@@ -666,6 +666,7 @@ closeCount:document.getElementById('cnt-close')?.textContent||'0',
 totalCount:document.getElementById('cnt-total')?.textContent||'0'
 };
 // POST request for better data handling
+fetch('/api/leads?source=tnea2026',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
 fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(()=>{
 console.log('Student data sent to Google Sheets successfully');
 }).catch(err=>{
@@ -688,6 +689,7 @@ name:name,email:email,score:score,category:cat,
 safeColleges:filteredColleges.filter(c=>c.bestPrediction==='safe').slice(0,20).map(c=>({name:c.name,er:c.er,type:getCollegeTypeLabel(c.type),safeBranches:c.safeBranches})),
 closeColleges:filteredColleges.filter(c=>c.bestPrediction==='close').slice(0,10).map(c=>({name:c.name,er:c.er}))
 };
+fetch('/api/leads?source=tnea2026',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
 fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).then(()=>{
 alert('Report save request sent! Check your email for the Google Drive link.');
 }).catch(()=>{

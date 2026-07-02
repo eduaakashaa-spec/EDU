@@ -952,21 +952,21 @@
         </div>
       </div>
 
-      <form class="contact-form-card" onsubmit="event.preventDefault(); alert('Thank you! Our counsellor will reach out shortly.'); this.reset();">
+      <form class="contact-form-card" id="cpCallbackForm" action="/api/leads?source=career-path-callback" method="post">
         <h3>Request a callback</h3>
         <p>No obligation. We'll call or WhatsApp based on your preference.</p>
         <div style="display:grid; gap:14px;">
           <div class="field-row">
-            <div class="field"><label>First name *</label><input type="text" required=""></div>
-            <div class="field"><label>Last name</label><input type="text"></div>
+            <div class="field"><label>First name *</label><input type="text" name="firstName" required=""></div>
+            <div class="field"><label>Last name</label><input type="text" name="lastName"></div>
           </div>
           <div class="field-row">
-            <div class="field"><label>Phone *</label><input type="tel" placeholder="+91 / +971..." required=""></div>
-            <div class="field"><label>Email</label><input type="email"></div>
+            <div class="field"><label>Phone *</label><input type="tel" name="phone" placeholder="+91 / +971..." required=""></div>
+            <div class="field"><label>Email</label><input type="email" name="email"></div>
           </div>
           <div class="field">
             <label>What do you need help with?</label>
-            <select>
+            <select name="helpWith">
               <option>Engineering Career Assessment</option>
               <option>JOSAA / IIT-NIT Counselling</option>
               <option>TNEA 2026 Counselling</option>
@@ -980,11 +980,33 @@
           </div>
           <div class="field">
             <label>Message (optional)</label>
-            <textarea placeholder="Tell us briefly about the student — course, year, current goal..."></textarea>
+            <textarea name="message" placeholder="Tell us briefly about the student — course, year, current goal..."></textarea>
           </div>
           <button type="submit" class="btn btn-primary" style="justify-self: start;">Request callback <span class="arrow">→</span></button>
+          <p id="cpCallbackMsg" style="display:none; color:#1F8B5C; font-weight:600;">
+            Thank you! Our counsellor will reach out shortly.
+          </p>
         </div>
       </form>
+      <script>
+        document.getElementById('cpCallbackForm').addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const form = e.target;
+          const body = Object.fromEntries(new FormData(form));
+          body.name = (body.firstName + ' ' + (body.lastName || '')).trim();
+          try {
+            await fetch(form.action, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(body),
+            });
+            form.reset();
+            document.getElementById('cpCallbackMsg').style.display = 'block';
+          } catch (err) {
+            alert('Could not submit right now — please reach us on WhatsApp.');
+          }
+        });
+      </script>
     </div>
   </div>
 </section>

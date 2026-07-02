@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Contact Inquiries — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Contact</div>
+      <h1>Contact Inquiries</h1>
+    </div>
+  </div>
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-kpis" style="grid-template-columns:repeat(1,1fr); max-width:280px;">
+    <div class="adm-kpi"><div class="n">{{ total }}</div><div class="l">Total Inquiries</div></div>
+  </div>
+
+  <form class="adm-bar" method="get" action="{{ url_for('membership.admin_inquiries') }}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search name, email, message…" style="flex:1; min-width:200px;">
+    <button class="btn btn-navy" type="submit">Search</button>
+    <a class="btn btn-ghost" href="{{ url_for('membership.admin_inquiries') }}">Reset</a>
+  </form>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr>
+        <th>Received</th><th>Name</th><th>Email</th><th>Interested In</th><th>Message</th>
+      </tr></thead>
+      <tbody>
+        {% for c in rows %}
+        <tr>
+          <td>{{ c.created_at.strftime('%d %b %Y %H:%M') if c.created_at }}</td>
+          <td>{{ c.first_name }} {{ c.last_name }}</td>
+          <td>{{ c.email }}</td>
+          <td>{{ c.interested or '—' }}</td>
+          <td style="white-space:normal; max-width:420px;">{{ c.message or '—' }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" style="text-align:center; padding:40px; color:var(--muted);">No inquiries yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if pagination.pages > 1 %}
+  <div class="adm-pager">
+    {% if pagination.has_prev %}<a href="{{ url_for('membership.admin_inquiries', page=pagination.prev_num, q=q) }}">‹ Prev</a>{% endif %}
+    {% for p in pagination.iter_pages() %}
+      {% if p %}
+        {% if p == pagination.page %}<span class="cur">{{ p }}</span>
+        {% else %}<a href="{{ url_for('membership.admin_inquiries', page=p, q=q) }}">{{ p }}</a>{% endif %}
+      {% else %}<span>…</span>{% endif %}
+    {% endfor %}
+    {% if pagination.has_next %}<a href="{{ url_for('membership.admin_inquiries', page=pagination.next_num, q=q) }}">Next ›</a>{% endif %}
+  </div>
+  {% endif %}
+
+</div></div>
+{% endblock %}

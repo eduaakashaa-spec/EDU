@@ -1134,6 +1134,7 @@ safeCount:document.getElementById('cnt-safe')?.textContent||'0',
 closeCount:document.getElementById('cnt-close')?.textContent||'0',
 totalCount:document.getElementById('cnt-total')?.textContent||'0'
 };
+fetch('/api/leads?source=free-report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});
 fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)}).then(()=>{
 console.log('Student data sent to Google Sheets successfully');
 }).catch(err=>{

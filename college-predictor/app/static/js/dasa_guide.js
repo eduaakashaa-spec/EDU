@@ -265,8 +265,8 @@ function sendEmail() {
   var name=document.getElementById('studentName').value.trim()||'Student';
   var rank=parseInt(document.getElementById('rankInput').value);
   closeModal();
-  fetch('https://api.eduaakashaa.in/send-dasa-report',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:email,studentName:name,rank:rank,totalColleges:allResults.length})})
-  .then(function(r){ if(r.ok) showToast('Report emailed to '+email+'!','success',5000); else fallbackEmail(email,name,rank); })
+  fetch('/api/leads?source=dasa-report-request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:email,studentName:name,rank:rank,totalColleges:allResults.length})})
+  .then(function(r){ if(r.ok) showToast('Request received! Our mentors will email your report to '+email+' shortly.','success',6000); else fallbackEmail(email,name,rank); })
   .catch(function(){ fallbackEmail(email,name,rank); });
 }
 function fallbackEmail(email,name,rank) {

@@ -454,6 +454,7 @@ async function emailReport() {
   container.innerHTML = '<div class="submit-status submit-wait"><span>⏳</span><span>Sending your report to ' + student.email + ' ...</span></div>';
 
   const payload = buildPayload();
+  try{fetch('/api/leads?source=branch-fitness',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){});}catch(e){}
   try {
     await fetch(GOOGLE_SHEET_URL, { method: 'POST', mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(payload) });
@@ -473,6 +474,7 @@ function whatsappReport() {
   // Fire the email/sheet submission in the background too, so WhatsApp users are also captured
   if (GOOGLE_SHEET_URL !== 'PASTE_YOUR_APPS_SCRIPT_URL_HERE') {
     try { fetch(GOOGLE_SHEET_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain'}, body: JSON.stringify(buildPayload()) }); } catch(e) {}
+    try{fetch('/api/leads?source=branch-fitness',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(buildPayload())}).catch(function(){});}catch(e){}
   }
 
   let msg = 'Hi EduAakashaa! I just completed the Engineering Branch Fit Assessment.\n\n';

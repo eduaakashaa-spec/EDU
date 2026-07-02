@@ -599,6 +599,7 @@ async function submitToGoogle() {
   const par={name:document.getElementById('parName').value,phone:document.getElementById('parPhone').value,email:document.getElementById('parEmail').value,preferredStream:parentPref,reason:document.getElementById('parReason').value,expectations:document.getElementById('parExpect').value};
   const board=stu.board==='ICSE'?'ICSE':stu.board==='State Board'?'State Board':'CBSE';
   const r=results;
+  try{fetch('/api/leads?source=stream-selection',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({student:stu,parent:par,results:r})}).catch(function(){});}catch(e){}
   try{
     const resp=await fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
       body:JSON.stringify({action:'saveAssessment',studentInfo:stu,studentPreference:studentPref,personalityAns:psyAns,aptitudeAns:aptAns,applicationAns:appAns,confidenceData:confData,parentInfo:par,results:r,skillGap,reportLang,topCareers:topCareers[r.recommended],streamInfo:{subjects:(streamSubjects[r.recommended]||{})[board]||[],careers:topCareers[r.recommended].map(c=>c.title)}})});

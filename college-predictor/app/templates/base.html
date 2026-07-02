@@ -136,6 +136,16 @@
     </div>
   </header>
 
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="global-flash" role="status">
+      {% for cat, msg in messages %}
+      <div class="global-flash__item global-flash__item--{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endwith %}
+
   <div id="main-content">
   {% block content %}{% endblock %}
   </div>

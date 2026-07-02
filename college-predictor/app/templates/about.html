@@ -61,7 +61,8 @@
       <div class="contact-grid">
         <div class="contact-form-card">
           <h3 class="chart-card__title" style="font-size:1.15rem;">Check Your Results</h3>
-          <form class="contact-form" method="post" action="{{ url_for('main.contact') }}">
+          <form class="contact-form" id="abResultsForm" method="post"
+                action="{{ url_for('api.capture_lead', source='about-check-results') }}">
             <div class="form-group">
               <label for="ab-name">Full Name</label>
               <input type="text" id="ab-name" name="name" placeholder="Your full name">
@@ -75,7 +76,28 @@
               <input type="text" id="ab-roll" name="roll_no" placeholder="Your JOSAA roll number" required>
             </div>
             <button type="submit" class="btn-main">Check Results &rarr;</button>
+            <p id="abResultsMsg" style="display:none; margin-top:10px; color:var(--green); font-weight:600;">
+              Thank you! Our team will check your allotment and get back to you by email.
+            </p>
           </form>
+          <script>
+            document.getElementById('abResultsForm').addEventListener('submit', async (e) => {
+              e.preventDefault();
+              const form = e.target;
+              const body = Object.fromEntries(new FormData(form));
+              try {
+                await fetch(form.action, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(body),
+                });
+                form.reset();
+                document.getElementById('abResultsMsg').style.display = 'block';
+              } catch (err) {
+                alert('Could not submit right now — please reach us on WhatsApp.');
+              }
+            });
+          </script>
         </div>
 
         <div class="contact-info-card">

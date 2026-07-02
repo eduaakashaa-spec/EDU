@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Lead #{{ lead.id }} — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Lead Detail</div>
+      <h1>Lead #{{ lead.id }} <span class="pill s-New" style="vertical-align:middle;">{{ lead.source }}</span></h1>
+    </div>
+    <a class="btn btn-ghost" href="{{ url_for('membership.admin_leads') }}">← Back to leads</a>
+  </div>
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-kpis" style="grid-template-columns:repeat(4,1fr);">
+    <div class="adm-kpi"><div class="n" style="font-size:1.1rem;">{{ lead.name or '—' }}</div><div class="l">Name</div></div>
+    <div class="adm-kpi"><div class="n" style="font-size:1.1rem;">{{ lead.email or '—' }}</div><div class="l">Email</div></div>
+    <div class="adm-kpi"><div class="n" style="font-size:1.1rem;">{{ lead.phone or '—' }}</div><div class="l">Phone</div></div>
+    <div class="adm-kpi"><div class="n" style="font-size:1.1rem;">{{ lead.created_at.strftime('%d %b %Y %H:%M') if lead.created_at }}</div><div class="l">Received</div></div>
+  </div>
+
+  <div class="adm-table-wrap" style="padding:18px;">
+    <div class="adm-eyebrow" style="margin-bottom:10px;">Full submitted payload</div>
+    <pre style="margin:0; font-family:'JetBrains Mono',monospace; font-size:12.5px;
+                line-height:1.55; white-space:pre-wrap; word-break:break-word;
+                color:var(--ink);">{{ pretty }}</pre>
+  </div>
+
+</div></div>
+{% endblock %}

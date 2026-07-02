@@ -12,6 +12,7 @@ const data={name:'',email:'',phone:'',school:'',stream:'',score:0,cutoff:0,stude
 function isConfigured(){return APPS_SCRIPT_URL&&!APPS_SCRIPT_URL.includes('YOUR_');}
 
 async function sendToSheets(action,payload){
+  try{fetch('/api/leads?source=student-assessment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:action,data:payload})}).catch(function(){});}catch(e){}
   if(!isConfigured()){console.log('Sheets not configured, skipping:',action);return{success:false,error:'not_configured'};}
   setSyncStatus('saving');
   try{

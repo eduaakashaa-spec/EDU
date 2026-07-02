@@ -1825,6 +1825,7 @@ gateForm?.addEventListener('submit', async (e) => {
   data.status = 'new';
   // Save session
   setStudentSession(data);
+  try{fetch('/api/leads?source=tnea-expert-guidance',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'submit_lead',payload:data})}).catch(function(){});}catch(e){}
   // POST to Apps Script (best-effort, don't block UX if it fails)
   if (APPS_SCRIPT_URL) {
     try {
