@@ -25,6 +25,12 @@ python run.py
 # Admin membership portal → http://127.0.0.1:5000/admin/membership
 ```
 
+```bash
+# Full-site smoke test (from the repo root, app running)
+npm install && npx playwright install chromium     # first time only
+BASE_URL=http://127.0.0.1:5000 npx playwright test tests/smoke.spec.ts --project=chromium
+```
+
 > **Migration note:** the membership/invoicing system is being migrated off
 > Google Apps Script + Google Sheets into this app (PostgreSQL).
 > See `../MIGRATION_GUIDE.md` and `ARCHITECTURE.md` → "Apps Script → Flask Migration".
@@ -49,12 +55,13 @@ college-predictor/
     │
     ├── routes/
     │   ├── main.py                 # main_bp — 19 page routes
-    │   ├── api.py                  # api_bp — 7 JSON API endpoints
+    │   ├── api.py                  # api_bp — JOSAA/DASA JSON endpoints + /api/data/<name>.js
     │   └── auth.py                 # auth_bp — login, register, logout, dashboard, contact
     │
     ├── data/
-    │   ├── loader.py               # Load JOSAA Excel + NIRF CSV into Pandas DataFrames
-    │   └── files/                  # josaa_cutoffs.xlsx, nirf_rankings.csv
+    │   ├── loader.py               # Load JOSAA Excel + NIRF CSV + DASA JSON + college CSVs at startup
+    │   └── files/                  # josaa_cutoffs.xlsx, nirf_rankings.csv, dasa_cutoffs.json,
+    │                               # + 7 college-directory CSVs (see "Data Sources" below)
     │
     ├── templates/                  # 25 Jinja2 templates
     │   ├── base.html               # Master layout — sticky bar, nav, footer
@@ -66,13 +73,15 @@ college-predictor/
     │
     └── static/
         ├── css/
-        │   ├── style.css           # Global styles (dark/gold theme, all components)
-        │   ├── josaa.css           # JOSAA portal (blue/orange, .josaa-portal scope)
-        │   └── pages.css           # Page-specific overrides
+        │   ├── style.css           # Global styles (editorial navy/orange/cream design system)
+        │   ├── components.css      # Editorial layout components (hero, stats strip, panels)
+        │   ├── pages.css           # Page-specific overrides
+        │   └── <slug>.css          # Per-page styles for ported interactive pages (.ported scope)
         ├── js/
-        │   ├── main.js             # Hamburger menu, scroll spy
-        │   └── josaa.js            # Predictor logic, Chart.js charts
-        └── images/
+        │   ├── main.js             # Hamburger menu, dropdowns, scroll spy
+        │   ├── josaa.js            # Predictor logic, Chart.js charts
+        │   └── <slug>.js           # Per-page scripts for ported interactive pages
+        └── images/                 # logo.png, favicon.png (served locally)
 ```
 
 ---
@@ -139,6 +148,7 @@ college-predictor/
 | `/api/josaa/insights` | GET | Pre-computed IIT/NIT branch analysis |
 | `/api/josaa/analytics` | GET | Pre-computed chart datasets (8 Chart.js charts) |
 | `/api/dasa/predict` | POST | DASA prediction with lead logging + RBAC-gated results |
+| `/api/data/<name>.js` | GET | College dataset as a window-global script (CSV-backed, 1h cache) — names: `engg-colleges-india`, `tnea-colleges`, `tnea-expert-guidance`, `dasa-seat-matrix` |
 
 ---
 
@@ -199,8 +209,22 @@ The `/josaa` page is a single-page app within the Flask template, with 7 tabs:
 | JOSAA cutoffs | 487 KB | Excel (`app/data/files/josaa_cutoffs.xlsx`) | 128 institutes, 253 programs, 6 quotas, 10 seat types, 2 genders, 12,274 records |
 | NIRF 2026 | 16 KB | CSV (`app/data/files/nirf_rankings.csv`) | ~300 engineering colleges with Name + NIRF Rank |
 | DASA cutoffs | 30 KB | JSON (`app/data/files/dasa_cutoffs.json`) | 324 records — 215 CIWG + 109 Non-CIWG, 47 institutes, 11 branch categories, 3 rounds |
+| Engg colleges (India) | — | CSV (`engg_colleges_india.csv`) | 148 colleges — name, state, district, type, NIRF rank/band, cutoff profile, branches |
+| TNEA top colleges | — | CSV (`tnea_top_colleges.csv`) | 44 notable TN colleges — district, type, cutoff, branches |
+| TNEA benchmark table | — | CSV (`tnea_benchmark_colleges.csv`) | 35-college NIRF/NAAC/placement benchmark roster |
+| TNEA full college list | — | CSV (`tnea_all_colleges.csv`) | 424 TNEA colleges — name, district, type |
+| TNEA branches | — | CSV (`tnea_branches.csv`) | 106 branch codes + names |
+| TNEA cutoff records | — | CSV (`tnea_cutoff_records.csv`) | 3,463 cutoff rows — college, branch, OC/BC/BCM/MBC/SC/SCA/ST |
+| DASA seat matrix | — | CSV (`dasa_seat_matrix.csv`) | 559 rows — institute, program, CIWG/non-CIWG seats, NIRF, city, state |
 
-Data is loaded server-side at startup using Pandas. The client never sees the full dataset — all data access goes through 6 JSON API endpoints:
+> **College data is CSV-driven (July 2026).** The seven college CSVs above used
+> to be hard-coded arrays inside the page JavaScript. They now load at startup
+> (`loader.py`) and are served by `GET /api/data/<name>.js` as a window-global
+> assignment script, included with `defer` immediately before each page script —
+> so the front-end behavior is unchanged. **To update college data, edit the CSV
+> only; no JS changes are needed.**
+
+Data is loaded server-side at startup using Pandas. The client never sees the full JOSAA/DASA cutoff dataset — access goes through the JSON API endpoints:
 
 | Endpoint | Purpose |
 |----------|---------|
@@ -375,6 +399,26 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
 
 > **Important for prod (Neon):** tables auto-create on boot (`db.create_all()`), but run once against Neon: `python manage.py create_admin <email> <pw>` and `python manage.py seed_sequences` so `/admin/membership` works.
 
+### Phase 16 — College data → CSV, go-live hardening (July 2026)
+- **Extracted all hard-coded college data out of the page JS into CSVs** (`app/data/files/`):
+  `engg_colleges_india` (148), `tnea_top_colleges` (44), `tnea_benchmark_colleges` (35),
+  `tnea_all_colleges` (424), `tnea_branches` (106), `tnea_cutoff_records` (3,463),
+  `dasa_seat_matrix` (559). Round-trip verified byte-identical against the original literals.
+- **New endpoint `GET /api/data/<name>.js`** — serves each dataset as a window-global
+  assignment script (1h cache); pages include it with `defer` before their page script,
+  so data is available synchronously exactly as before. ~420 KB of literals removed from JS.
+- **SEO:** default + per-page `meta description` block, Open Graph/Twitter tags, canonical
+  URLs, `/robots.txt` + `/sitemap.xml` (generated from the route map), single `<h1>` per page.
+- **Assets:** logo + favicon now hosted locally in `static/images/` (previously hotlinked
+  from the Zyrosite CDN); fixed two ported pages referencing logo files left on the old host.
+- **Accessibility:** skip-to-content link, `:focus-visible` ring, `prefers-reduced-motion`
+  support, `aria-expanded`/`aria-controls` on the hamburger, nav `aria-label`.
+- **Footer year** now dynamic via context processor (`CURRENT_YEAR`).
+- **Full-site smoke test** — `tests/smoke.spec.ts` (repo root) visits all 78 public pages in
+  Chromium and asserts <400 status, zero console/page JS errors, and non-empty content.
+  Run: `BASE_URL=http://127.0.0.1:5000 npx playwright test tests/smoke.spec.ts --project=chromium`
+  (from the repo root). Verified green locally **and against the live Render deploy**.
+
 ## Future Roadmap
 
 - [x] **Server-side prediction** — Pandas-based prediction engine via Flask API endpoints
@@ -389,11 +433,15 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
 - [x] **Membership data model** — MembershipApplication, MembershipInvoice, DocSequence
 - [x] **GST pricing engine** — CGST/SGST/IGST, GST-inclusive, paise-based
 - [x] **Admin membership portal + Excel export** — non-tech staff data view
+- [x] **College data → CSV** — all college datasets extracted from JS into `app/data/files/*.csv`, served via `/api/data/<name>.js`
+- [x] **Playwright tests** — full-site smoke suite (`tests/smoke.spec.ts`, 78 pages, status + JS-error + content checks)
+- [x] **SEO & accessibility baseline** — meta/OG tags, sitemap, robots.txt, skip link, focus styles, reduced motion
+- [x] **Production deployment** — Render (Gunicorn) + Neon Postgres, autoDeploy from `main`
 - [ ] **Membership PDFs** — invoice/receipt generation (WeasyPrint/ReportLab)
 - [ ] **Membership emails** — application/invoice/receipt notifications
 - [ ] **Sheet → Postgres backfill** — one-time import of legacy data
 - [ ] **Razorpay payments** — Subscription checkout for premium tier upgrades
 - [ ] **Services layer** — Extract prediction/RBAC logic into dedicated service modules
-- [ ] **Playwright tests** — Replace boilerplate test with actual page tests
 - [ ] **Email notifications** — Payment receipts, tier expiry reminders
-- [ ] **Production deployment** — Gunicorn + Nginx, environment variable config
+- [ ] **Self-host chart/map libs** — bundle D3 + Chart.js locally instead of CDN
+- [ ] **Remaining JS data dedup** — `josaa.js` / `free_report.js` still embed data that mirrors the xlsx/json files

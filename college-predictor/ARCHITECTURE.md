@@ -87,6 +87,22 @@ page (6 tiers, ₹74,999 Elite Mentorship featured as "Most Popular") posting to
 Playwright capture/audit/porter scripts. The porter (`scratchpad/porter.py`) is the reusable
 tool if more pages need porting — point it at a captured `content.html`.
 
+**Go-live hardening (July 2026):**
+- **College data extracted from JS → CSV** (see Data Loader below): the ported pages'
+  hard-coded college arrays now come from `app/data/files/*.csv` via `GET /api/data/<name>.js`.
+  Remaining embedded data (accepted for now): base64 images in `tnea_expert_guidance.js`;
+  `josaa.js`/`free_report.js` carry data mirroring the xlsx/json files.
+- **SEO:** default + per-page overridable `{% block meta_description %}`, Open Graph/Twitter
+  tags, canonical URL, `/robots.txt` and `/sitemap.xml` generated from the route map
+  (`_alias` endpoints excluded). Header brand demoted from `<h1>` so each page has one h1.
+- **Assets:** logo + favicon served from `static/images/` (no more Zyrosite CDN hotlink).
+- **Accessibility:** skip-to-content link, `:focus-visible` ring, `prefers-reduced-motion`,
+  `aria-expanded`/`aria-controls` on the hamburger (synced in `main.js`), nav `aria-label`.
+- **Footer year** injected via context processor (`CURRENT_YEAR`).
+- **Testing:** `tests/smoke.spec.ts` (repo root) — Chromium visits all 78 public pages,
+  asserting <400 status, zero console/page JS errors, non-empty content. Route list in
+  `tests/all_pages.json`; regenerate from `app.url_map` when routes change.
+
 ## Apps Script → Flask Migration (membership & invoicing)
 
 The membership/invoicing system previously ran on **Google Apps Script** with a
@@ -184,17 +200,24 @@ college-predictor/
 │   ├── routes/
 │   │   ├── __init__.py             # (package init)
 │   │   ├── main.py                 # main_bp — 19 page routes
-│   │   ├── api.py                  # api_bp — 7 JSON API endpoints (/api/...)
+│   │   ├── api.py                  # api_bp — JOSAA/DASA JSON endpoints + /api/data/<name>.js college datasets
 │   │   ├── auth.py                 # auth_bp — login, register, logout, dashboard, contact_submit
 │   │   └── membership.py           # membership_bp — public intake + admin portal + Excel export
 │   │
 │   ├── data/
 │   │   ├── __init__.py
-│   │   ├── loader.py               # Load JOSAA Excel + NIRF CSV + DASA JSON into Pandas DataFrames at startup
+│   │   ├── loader.py               # Load all data files into memory at startup (Pandas + CSV dicts)
 │   │   └── files/
-│   │       ├── josaa_cutoffs.xlsx   # 12,274 JOSAA records
-│   │       ├── nirf_rankings.csv   # ~300 NIRF-ranked engineering colleges
-│   │       └── dasa_cutoffs.json   # 324 DASA 2025 cutoff records (all 3 rounds)
+│   │       ├── josaa_cutoffs.xlsx           # 12,274 JOSAA records
+│   │       ├── nirf_rankings.csv            # ~300 NIRF-ranked engineering colleges
+│   │       ├── dasa_cutoffs.json            # 324 DASA 2025 cutoff records (all 3 rounds)
+│   │       ├── engg_colleges_india.csv      # 148 colleges (map page) — was hard-coded in enggcolleges_india.js
+│   │       ├── tnea_top_colleges.csv        # 44 notable TN colleges — was in tnea_colleges.js
+│   │       ├── tnea_benchmark_colleges.csv  # 35-college benchmark table — was in tnea_expert_guidance.js
+│   │       ├── tnea_all_colleges.csv        # 424 TNEA colleges — was in tnea_expert_guidance.js
+│   │       ├── tnea_branches.csv            # 106 TNEA branch codes
+│   │       ├── tnea_cutoff_records.csv      # 3,463 TNEA cutoff rows (7 communities)
+│   │       └── dasa_seat_matrix.csv         # 559 DASA seat-matrix rows — was in dasa_seat_matrix.js
 │   │
 │   ├── templates/                  # 25 Jinja2 templates
 │   │   ├── base.html               # Master layout — sticky bar, nav, footer, conditional Login/Dashboard
@@ -290,22 +313,23 @@ def create_app():
 
 ## Data Loader
 
-```python
-# app/data/loader.py
-import pandas as pd
-import os
+`app/data/loader.py` — `load_data()` runs once at startup (called from `create_app()`):
 
-DATA_DIR = os.path.join(os.path.dirname(__file__), 'files')
+- **JOSAA cutoffs** (`josaa_cutoffs.xlsx`) → Pandas DataFrame; renames columns, strips the
+  preparatory `P` suffix from PwD ranks, derives `InstType`/`CleanProgram`, caches dropdown
+  metadata (institutes/programs/quotas/seat types/genders).
+- **NIRF rankings** (`nirf_rankings.csv`) → DataFrame + name→rank lookup dict.
+- **DASA cutoffs** (`dasa_cutoffs.json`) → DataFrame with numeric-coerced rank columns.
+- **College directory CSVs** (`_load_college_datasets()`) → the seven CSVs listed above are
+  parsed into the exact structures the front-end scripts expect (compact keys such as
+  `n`/`s`/`d`/`t`, pipe-joined lists split back into arrays, TNEA cutoff records re-indexed
+  against the college/branch lists). Exposed via `get_college_dataset(name)`.
 
-def load_all_data():
-    data = {}
-    data['cutoffs'] = pd.read_excel(os.path.join(DATA_DIR, 'josaa_cutoffs.xlsx'))
-    data['nirf'] = pd.read_excel(os.path.join(DATA_DIR, 'nirf_rankings.xlsx'))
-    # Normalize column names
-    for key in data:
-        data[key].columns = data[key].columns.str.strip().str.lower().str.replace(' ', '_')
-    return data
-```
+**Serving pattern:** `GET /api/data/<name>.js` (in `routes/api.py`) renders a dataset as
+`window.<GLOBAL> = <json>;` with `Cache-Control: public, max-age=3600`. Each interactive page
+loads it with `defer` immediately before its own page script, so the data is available
+synchronously — identical behavior to when the arrays were hard-coded in the JS. Dataset
+names: `engg-colleges-india`, `tnea-colleges`, `tnea-expert-guidance`, `dasa-seat-matrix`.
 
 ---
 
