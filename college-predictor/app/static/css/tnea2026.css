@@ -257,8 +257,6 @@ background:linear-gradient(135deg,rgba(10,37,96,.82) 0%,rgba(7,26,68,.78) 100%),
 .ported header, .ported .wa-float, .ported .nav-links, .ported .hero, .ported footer {display:none}
 .ported .page {display:block!important}
 }
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;
-.ported 0, .ported 9..144, .ported 600;0, .ported 9..144, .ported 700;1, .ported 9..144, .ported 500&family=Plus+Jakarta+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 * {margin:0;padding:0;box-sizing:border-box}
 .ported {font-family:'Plus Jakarta Sans',sans-serif;color:#0E1B3D;background:#FBF7EE;line-height:1.6}
 .ported .page {max-width:800px;margin:0 auto;padding:40px 48px;min-height:100vh;background:#FFFDF7;position:relative}
