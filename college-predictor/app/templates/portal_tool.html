@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{{ tool_title }} | EA Team Portal{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">🛡️ EA Team · Counsellor Portal</span>
+    <h1>{{ tool_title }}</h1>
+    <p>{{ tool_desc }}</p>
+    <div class="final-cta__btns" style="margin-top:26px;">
+      <a href="{{ live_url }}" target="_blank" rel="noopener" class="btn-main">Open the tool ↗</a>
+      <a href="{{ url_for('membership.admin_list') }}" class="btn-out">Membership Admin</a>
+    </div>
+  </div>
+</section>
+
+<main class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">Staff tool</span>
+      <h2 class="section__title">What this does</h2>
+      <p class="section__desc">You reached this because you're signed in as EA Team (admin). The tool currently runs on our existing Google workspace backend — it opens in a new tab. We're migrating it into the app; this page stays the single entry point once that lands.</p>
+    </div>
+    <div class="info-cards">
+      {% for f in features %}
+      <div class="info-card">
+        <div class="info-card__icon">{{ f.icon }}</div>
+        <div class="info-card__title">{{ f.title }}</div>
+        <p class="info-card__text">{{ f.text }}</p>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</main>
+{% endblock %}

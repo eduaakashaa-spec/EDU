@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Premium Members Only | EduAakashaA{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">🔒 Premium Membership</span>
+    <h1>This is a <span>members-only</span> page</h1>
+    <p>You're signed in, but this tool is part of EduAakashaA Premium Membership. Upgrade to unlock every premium analysis, report and expert-review tool.</p>
+    <div class="final-cta__btns" style="margin-top:26px;">
+      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Become a Premium Member</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Talk to us on WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<main class="main-content">
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">What membership unlocks</span>
+      <h2 class="section__title">Premium tools &amp; expert guidance</h2>
+    </div>
+    <div class="info-cards info-cards--3">
+      <div class="info-card"><div class="info-card__icon">📊</div><div class="info-card__title">Data-backed analyses</div><p class="info-card__text">Why-CSE, best-location and hostel &amp; culture deep-dives.</p></div>
+      <div class="info-card"><div class="info-card__icon">🎯</div><div class="info-card__title">Personalised reports</div><p class="info-card__text">DASA prediction &amp; expert reports mapped to your rank.</p></div>
+      <div class="info-card"><div class="info-card__icon">🧑‍🏫</div><div class="info-card__title">Counsellor review</div><p class="info-card__text">A mentor validates your choices before you submit.</p></div>
+    </div>
+  </section>
+</main>
+{% endblock %}

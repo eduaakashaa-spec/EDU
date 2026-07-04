@@ -1,5 +1,6 @@
-from flask import Blueprint, abort, redirect, render_template, url_for, Response
-from flask_login import login_required, current_user
+from flask import Blueprint, redirect, render_template, url_for, Response
+
+from app.decorators import admin_required, premium_required
 
 main_bp = Blueprint('main', __name__)
 
@@ -220,6 +221,7 @@ def conflict_assessment():
 
 
 @main_bp.route('/stream-selection')
+@premium_required
 def stream_selection():
     return render_reference_page('stream-selection.html', 'stream_selection.html')
 
@@ -241,6 +243,7 @@ def stream_selection_ea():
 
 
 @main_bp.route('/josaaea-members')
+@premium_required
 def josaa_ea_members():
     return render_reference_page('josaaea-members.html', 'josaa_ea_members.html')
 
@@ -271,11 +274,13 @@ def career_path():
 
 
 @main_bp.route('/members-report')
+@premium_required
 def members_report():
     return render_reference_page('members-report.html', 'members_report.html')
 
 
 @main_bp.route('/expert-portaldasa')
+@premium_required
 def expert_portal_dasa():
     return render_reference_page('expert-portaldasa.html', 'expert_portal_dasa.html')
 
@@ -388,39 +393,96 @@ def members_login():
     return redirect(url_for('auth.login'))
 
 
+# =============================================================
+# EA Team / Counsellor Portal — internal staff tools (admin only).
+#
+# The interactive tools still run on the existing Google Apps Script /
+# Sheets backend. We gate ENTRY with our own RBAC (admin tier) and hand
+# off to the live tool; each body is swapped for an in-app version as it
+# is migrated (Choice Builder PRO code pending from the team).
+# =============================================================
+_LIVE_SITE = 'https://www.eduaakashaa.in'
+
+
+def _portal_tool(title, desc, live_url, features):
+    return render_template('portal_tool.html', tool_title=title,
+                           tool_desc=desc, live_url=live_url, features=features)
+
+
 @main_bp.route('/counsellor-dashboard')
-@login_required
+@admin_required
 def counsellor_dashboard():
-    return render_template('premium_tool.html',
-                           tool_title='Counsellor Dashboard',
-                           tool_desc='Your workspace for managing assigned students, reviews and reports.',
-                           tool_long='Track assigned applicants, submit expert reviews, and manage report '
-                                     'delivery. The full counsellor workspace is being rolled out.',
-                           features=[
-                               {'icon': '\U0001F4CB', 'title': 'Assigned students', 'text': 'See every applicant assigned to you with status and deadlines.'},
-                               {'icon': '\U0001F4DD', 'title': 'Submit reviews', 'text': 'Add expert notes and validated recommendations to each profile.'},
-                               {'icon': '\U0001F4E4', 'title': 'Report delivery', 'text': 'Generate and share the final Stream & College-Fit report.'},
-                           ])
+    return _portal_tool(
+        'Counsellor Dashboard',
+        'Review student DASA 2026 preference submissions, sort by confidence and export as CSV.',
+        f'{_LIVE_SITE}/counsellor-dashboard',
+        [{'icon': '\U0001F4CB', 'title': 'Student submissions', 'text': 'Every DASA 2026 preference list submitted through Choice Builder.'},
+         {'icon': '\U0001F522', 'title': 'Sort & triage', 'text': 'Order by newest or by confidence to prioritise outreach.'},
+         {'icon': '\U0001F4E4', 'title': 'CSV export', 'text': 'Download the full submission set for offline review.'}])
 
 
 @main_bp.route('/ea-admin-portal')
-@login_required
+@admin_required
 def ea_admin_portal():
-    # Admins go straight to the membership admin; others see the gate.
-    if current_user.is_admin:
-        return redirect(url_for('membership.admin_list'))
-    abort(403)
+    # Our Flask membership admin replaces the legacy Apps Script admin portal.
+    return redirect(url_for('membership.admin_list'))
+
+
+@main_bp.route('/choice-builder-pro')
+@admin_required
+def choice_builder_pro():
+    return _portal_tool(
+        'Choice Builder PRO',
+        'Guided DASA 2026 preference-list builder — rank colleges and submit for counsellor review.',
+        f'{_LIVE_SITE}/choice-builder-pro',
+        [{'icon': '\U0001F9F1', 'title': 'Smart ordering', 'text': 'Safe / match / reach ordering tuned to rank and quota.'},
+         {'icon': '✅', 'title': 'Validation', 'text': 'Catch gaps, duplicates and risky ordering before submitting.'},
+         {'icon': '\U0001F4DD', 'title': 'Counsellor review', 'text': 'Submissions land in the Counsellor Dashboard.'}])
+
+
+@main_bp.route('/choice-builder-pro-2')
+@admin_required
+def choice_builder_pro_2():
+    return _portal_tool(
+        'Choice Builder PRO 2',
+        'Second-round DASA 2026 choice-builder variant for revised preference lists.',
+        f'{_LIVE_SITE}/choice-builder-pro-2',
+        [{'icon': '\U0001F501', 'title': 'Round 2 lists', 'text': 'Rebuild preferences for later counselling rounds.'},
+         {'icon': '\U0001F9ED', 'title': 'Revised strategy', 'text': 'Adjust ordering after Round 1 allotment results.'},
+         {'icon': '\U0001F4DD', 'title': 'Counsellor review', 'text': 'Submissions land in the Counsellor Dashboard.'}])
+
+
+@main_bp.route('/dasa2026-expert-report')
+@admin_required
+def dasa2026_expert_report():
+    return _portal_tool(
+        'DASA 2026 Expert Report',
+        'Generate the personalised DASA/CIWG decision-matrix report for a student.',
+        f'{_LIVE_SITE}/dasa2026-expert-report',
+        [{'icon': '\U0001F3AF', 'title': 'College predictor', 'text': 'NITs & IIITs decision-matrix tuned to the JEE rank.'},
+         {'icon': '\U0001F9ED', 'title': 'Choice strategy', 'text': 'CIWG vs Non-CIWG option analysis and ordering.'},
+         {'icon': '\U0001F468‍\U0001F3EB', 'title': 'Expert guidance', 'text': 'Counsellor support through choice filling.'}])
 
 
 # =============================================================
-# Premium member tools (gated/coming-soon on the live site)
+# Premium member tools / analyses (premium tier required)
 # =============================================================
 def _premium(title, desc, features):
     return render_template('premium_tool.html', tool_title=title,
                            tool_desc=desc, features=features)
 
 
+@main_bp.route('/dasa-prediction-report')
+@premium_required
+def dasa_prediction_report():
+    return _premium('DASA Prediction Report', 'Your personalised DASA/CIWG college-prediction report, member edition.',
+                    [{'icon': '\U0001F3AF', 'title': 'Personalised list', 'text': 'Colleges and branches matched to your DASA rank and quota.'},
+                     {'icon': '\U0001F4CA', 'title': 'Chance analysis', 'text': 'Safe / moderate / reach classification for every option.'},
+                     {'icon': '\U0001F4DD', 'title': 'Counsellor notes', 'text': 'Expert commentary added to your report before delivery.'}])
+
+
 @main_bp.route('/why-cse')
+@premium_required
 def why_cse():
     return _premium('Why CSE?', 'Data-driven analysis of the Computer Science branch — demand, placements, and fit.',
                     [{'icon': '\U0001F4BB', 'title': 'Demand & placements', 'text': 'Branch-level placement and salary trends across top institutes.'},
@@ -429,6 +491,7 @@ def why_cse():
 
 
 @main_bp.route('/best-location')
+@premium_required
 def best_location():
     return _premium('Best Location Analyzer', 'Compare colleges by city, cost of living, climate and opportunity.',
                     [{'icon': '\U0001F4CD', 'title': 'City comparison', 'text': 'Weigh metros vs tier-2 cities on cost, safety and exposure.'},
@@ -437,6 +500,7 @@ def best_location():
 
 
 @main_bp.route('/engineering-insights')
+@premium_required
 def engineering_insights():
     return _premium('Engineering Insights', 'Curated branch, college and career insights for confident decisions.',
                     [{'icon': '\U0001F50D', 'title': 'Branch deep-dives', 'text': 'What each branch actually studies and leads to.'},
@@ -445,6 +509,7 @@ def engineering_insights():
 
 
 @main_bp.route('/hostel-and-culture-analytics')
+@premium_required
 def hostel_culture_analytics():
     return _premium('Hostel & Culture Analytics', 'Campus life, hostel quality and culture — the factors brochures hide.',
                     [{'icon': '\U0001F3E0', 'title': 'Hostel quality', 'text': 'Rooms, mess, facilities and real student feedback.'},
@@ -452,23 +517,8 @@ def hostel_culture_analytics():
                      {'icon': '⚖️', 'title': 'Fit assessment', 'text': 'Match campus environment to the student’s personality.'}])
 
 
-@main_bp.route('/choice-builder-pro')
-def choice_builder_pro():
-    return _premium('Choice Builder Pro', 'Build and optimise your JOSAA/TNEA/DASA choice list with expert logic.',
-                    [{'icon': '\U0001F9F1', 'title': 'Smart ordering', 'text': 'Safe / match / reach ordering tuned to your rank and quota.'},
-                     {'icon': '✅', 'title': 'Validation', 'text': 'Catch gaps, duplicates and risky ordering before you submit.'},
-                     {'icon': '\U0001F4DD', 'title': 'Expert review', 'text': 'Have a counsellor validate your final list.'}])
-
-
-@main_bp.route('/dasa2026-expert-report')
-def dasa2026_expert_report():
-    return _premium('DASA 2026 Expert Report', 'Personalised DASA/CIWG decision-matrix report with expert guidance.',
-                    [{'icon': '\U0001F3AF', 'title': 'College predictor', 'text': 'NITs & IIITs decision-matrix tuned to your JEE rank.'},
-                     {'icon': '\U0001F9ED', 'title': 'Choice strategy', 'text': 'CIWG vs Non-CIWG option analysis and ordering.'},
-                     {'icon': '\U0001F468‍\U0001F3EB', 'title': 'Expert guidance', 'text': 'Counsellor support through choice filling.'}])
-
-
 @main_bp.route('/tnea-expert')
+@premium_required
 def tnea_expert():
     return _premium('TNEA Expert', 'End-to-end TNEA counselling — cutoff, choice filling and allotment strategy.',
                     [{'icon': '\U0001F4D0', 'title': 'Cutoff mastery', 'text': 'Your cutoff, category analysis and realistic targets.'},

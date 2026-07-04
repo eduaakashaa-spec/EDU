@@ -63,7 +63,6 @@
               <li><a href="{{ url_for('main.josaa') }}">JOSAA Predictor</a></li>
               <li><a href="{{ url_for('main.josaa_assessment') }}">JOSAA Assessment</a></li>
               <li><a href="{{ url_for('main.enggcolleges_india') }}">Engineering Colleges (India)</a></li>
-              <li><a href="{{ url_for('main.josaa_ea_members') }}">JOSAA EA Members</a></li>
             </ul>
           </li>
 
@@ -105,11 +104,9 @@
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.student_assessment') }}">Student Assessment</a></li>
               <li><a href="{{ url_for('main.career_path') }}">Career Path</a></li>
-              <li><a href="{{ url_for('main.stream_selection') }}">Stream Selection</a></li>
               <li><a href="{{ url_for('main.per_assessment') }}">PER Assessment</a></li>
               <li><a href="{{ url_for('main.videos_library') }}">Videos Library</a></li>
               <li><a href="{{ url_for('main.exam_schedule') }}">Exam Schedule</a></li>
-              <li><a href="{{ url_for('main.members_report') }}">Members Report</a></li>
               <li class="nav__dropdown-divider"><a href="{{ url_for('main.internship') }}">Internship</a></li>
               <li><a href="{{ url_for('main.training') }}">Training</a></li>
               <li><a href="{{ url_for('main.nriarabic_foundation') }}">NRI Arabic — Foundation</a></li>
@@ -117,6 +114,37 @@
               <li><a href="{{ url_for('main.join_our_team') }}">Join our Team</a></li>
             </ul>
           </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">Premium Membership</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.members_registration') }}">Members Registration</a></li>
+              <li class="nav__dropdown-divider"><a href="{{ url_for('main.dasa_prediction_report') }}">🔒 DASA Prediction Report</a></li>
+              <li><a href="{{ url_for('main.dasa2026_schedule') }}">DASA 2026 Schedule</a></li>
+              <li><a href="{{ url_for('main.hostel_culture_analytics') }}">🔒 Hostel &amp; Culture Analytics</a></li>
+              <li><a href="{{ url_for('main.engineering_insights') }}">🔒 Engineering Insights</a></li>
+              <li><a href="{{ url_for('main.best_location') }}">🔒 Best Location</a></li>
+              <li><a href="{{ url_for('main.why_cse') }}">🔒 Why CSE</a></li>
+              <li><a href="{{ url_for('main.josaa_ea_members') }}">🔒 JOSAA EA Members</a></li>
+              <li><a href="{{ url_for('main.expert_portal_dasa') }}">🔒 Expert Portal — DASA</a></li>
+              <li><a href="{{ url_for('main.tnea_expert') }}">🔒 TNEA Expert</a></li>
+              <li><a href="{{ url_for('main.stream_selection') }}">🔒 Stream Selection</a></li>
+              <li><a href="{{ url_for('main.members_report') }}">🔒 Members Report</a></li>
+            </ul>
+          </li>
+
+          {% if current_user.is_authenticated and current_user.is_admin %}
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">EA Team / Counsellor Portal</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.ea_admin_portal') }}">EA Admin Portal</a></li>
+              <li><a href="{{ url_for('main.counsellor_dashboard') }}">Counsellor Dashboard</a></li>
+              <li><a href="{{ url_for('main.choice_builder_pro') }}">Choice Builder PRO</a></li>
+              <li><a href="{{ url_for('main.choice_builder_pro_2') }}">Choice Builder PRO 2</a></li>
+              <li><a href="{{ url_for('main.dasa2026_expert_report') }}">DASA 2026 Expert Report</a></li>
+            </ul>
+          </li>
+          {% endif %}
 
           <li class="nav__item"><a href="{{ url_for('main.about') }}" class="nav__link">About</a></li>
           <li class="nav__item"><a href="{{ url_for('main.contact_alias') }}" class="nav__link">Contact</a></li>

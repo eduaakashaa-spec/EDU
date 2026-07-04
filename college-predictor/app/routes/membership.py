@@ -19,13 +19,13 @@ PDF generation and email sending are Phase B (stubs are clearly marked).
 import io
 import json
 from datetime import datetime, timezone
-from functools import wraps
 
 from flask import (Blueprint, request, jsonify, render_template, redirect,
                    url_for, flash, abort, current_app, send_file)
-from flask_login import current_user, login_required
+from flask_login import current_user
 
 from app.extensions import db
+from app.decorators import admin_required
 from app.models_membership import (MembershipApplication, MembershipInvoice,
                                    DocSequence, TIERS, APP_STATUSES)
 from app.services.pricing import compute_totals, rupees, to_paise
@@ -36,17 +36,6 @@ membership_bp = Blueprint('membership', __name__)
 # --------------------------------------------------------------------------- #
 # helpers
 # --------------------------------------------------------------------------- #
-def admin_required(f):
-    """Allow only logged-in users with the 'admin' tier."""
-    @wraps(f)
-    @login_required
-    def wrapped(*args, **kwargs):
-        if not current_user.is_admin:
-            abort(403)
-        return f(*args, **kwargs)
-    return wrapped
-
-
 def _seq(name, prefix):
     """Fetch (or lazily create) a DocSequence row, locked for update."""
     seq = db.session.get(DocSequence, name)
