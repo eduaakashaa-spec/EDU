@@ -664,51 +664,34 @@ function showConvResults(rank, pct) {
   document.getElementById('convResults').style.display = 'flex';
 }
 
-// ========== POWER AUTOMATE → SHAREPOINT LEAD CAPTURE ==========
-// Paste your Power Automate HTTP trigger URL below
-// See: SharePoint_PowerAutomate_Setup_Guide.md for full instructions
-var PA_WEBHOOK_URL = 'PASTE_YOUR_POWER_AUTOMATE_HTTP_TRIGGER_URL_HERE';
-
+// ========== LEAD CAPTURE (saved to the site database, visible in admin) ==========
 function captureLeadToSheets(rank, totalFound) {
   var el = document.getElementById('gsStatus');
-  if (!PA_WEBHOOK_URL || PA_WEBHOOK_URL.indexOf('PASTE') !== -1) {
-    if (el) { el.textContent = 'Not configured — paste webhook URL'; el.style.color = '#e65100'; }
-    return;
-  }
   var email = document.getElementById('studentEmail').value.trim();
   var name  = document.getElementById('studentName').value.trim();
   if (!email) return; // only capture if student entered email
 
-  if (el) { el.textContent = 'Saving to SharePoint...'; el.style.color = '#0277bd'; }
+  if (el) { el.textContent = 'Saving...'; el.style.color = '#0277bd'; }
 
   var payload = {
-    Timestamp:   new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
-    StudentName: name  || '(Not provided)',
-    Email:       email,
-    DASARank:    rank,
-    TotalFound:  totalFound,
-    Quota:       document.getElementById('quotaSelect').value,
-    Category:    document.getElementById('catFilter').value || 'All Categories',
-    Source:      'DASA Predictor 2025',
-    UserAgent:   navigator.userAgent.slice(0, 120)
+    name: name || '(Not provided)',
+    email: email,
+    rank: rank,
+    totalFound: totalFound,
+    quota: document.getElementById('quotaSelect').value,
+    category: document.getElementById('catFilter').value || 'All Categories'
   };
 
-  fetch(PA_WEBHOOK_URL, {
+  fetch('/api/leads?source=dasa_guide', {
     method:  'POST',
     headers: { 'Content-Type': 'application/json' },
     body:    JSON.stringify(payload)
   })
   .then(function(r) {
-    if (r.ok || r.status === 202) {
-      if (el) { el.textContent = '\u2713 Saved to SharePoint'; el.style.color = '#1b5e20'; }
-    } else {
-      if (el) { el.textContent = '\u26A0 HTTP ' + r.status + ' — check flow'; el.style.color = '#c62828'; }
-    }
+    if (el) { el.textContent = r.ok ? '\u2713 Saved' : '\u26A0 Save failed'; el.style.color = r.ok ? '#1b5e20' : '#c62828'; }
   })
   .catch(function() {
-    // CORS will block response in browser — but the POST still reaches Power Automate
-    // so treat network errors as likely success if URL is set
-    if (el) { el.textContent = '\u2713 Request sent to SharePoint'; el.style.color = '#1b5e20'; }
+    if (el) { el.textContent = '\u26A0 Save failed'; el.style.color = '#c62828'; }
   });
 }
 
