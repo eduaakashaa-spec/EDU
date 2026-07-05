@@ -18,6 +18,14 @@ class Config:
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    # Neon (serverless Postgres) drops idle connections, so pooled connections
+    # can go stale and raise `SSL connection has been closed unexpectedly`.
+    # Validate each connection before use and recycle below Neon's idle timeout.
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        'pool_pre_ping': True,   # validate connections before use (fixes Neon SSL drops)
+        'pool_recycle': 280,     # recycle below Neon's idle timeout
+    }
+
     # ---------------------------------------------------------------------
     # Membership / invoicing (migrated from the Apps Script CONFIG block).
     # Fill the sensitive values via environment variables / .env — never commit.
