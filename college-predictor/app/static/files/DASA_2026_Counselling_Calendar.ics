@@ -1,0 +1,125 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//EduAakashaa//DASA 2026 Counselling Calendar//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:DASA 2026 Counselling — EduAakashaa
+X-WR-TIMEZONE:Asia/Kolkata
+BEGIN:VEVENT
+UID:dasa2026-01@eduaakashaa.in
+DTSTAMP:20260705T000000Z
+DTSTART:20260728T043000Z
+DTEND:20260728T063000Z
+SUMMARY:DASA 2026 — Registration\, DEF payment & choice filling OPEN
+DESCRIPTION:Display of vacancies after JoSAA rounds. Registration\, payment of DASA Enrolment Fee (DEF) and document uploading begin at 10:00 IST on dasanit.org. Choices can be filled only after successful document verification. — EduAakashaa
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:DASA 2026 registration opens tomorrow (28 Jul, 10:00 IST)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dasa2026-02@eduaakashaa.in
+DTSTAMP:20260705T000000Z
+DTSTART:20260731T043000Z
+DTEND:20260731T063000Z
+SUMMARY:DASA 2026 — Mock seat allocation display
+DESCRIPTION:Mock allotment based on choices filled by 30 Jul\, 17:00 IST. Use it to refine and re-order your choices. — EduAakashaa
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:DASA 2026 mock seat allocation is displayed tomorrow (31 Jul)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dasa2026-03@eduaakashaa.in
+DTSTAMP:20260705T000000Z
+DTSTART:20260803T043000Z
+DTEND:20260803T063000Z
+SUMMARY:DASA 2026 — DEADLINE: Registration\, DEF payment & document upload END
+DESCRIPTION:Last opportunity to complete registration\, pay the enrolment fee and upload all required documents (Annexure 5). Late submissions are not accepted. — EduAakashaa
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:DASA 2026 registration & document upload closes TOMORROW (03 Aug, 10:00 IST)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dasa2026-04@eduaakashaa.in
+DTSTAMP:20260705T000000Z
+DTSTART:20260804T153000Z
+DTEND:20260804T163000Z
+SUMMARY:DASA 2026 — DEADLINE: Verification queries & balance DEF
+DESCRIPTION:Last day (21:00 IST) to respond to Document Verifying Officer queries and pay balance DEF. Payment-issue resolution closes 17:00 IST. Unresolved queries lead to cancellation. — EduAakashaa
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:DASA 2026 verification-query deadline TOMORROW (04 Aug, 21:00 IST)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dasa2026-05@eduaakashaa.in
+DTSTAMP:20260705T000000Z
+DTSTART:20260805T083000Z
+DTEND:20260805T093000Z
+SUMMARY:DASA 2026 — DEADLINE: Choice filling & locking END (auto-lock 14:00 IST)
+DESCRIPTION:The system auto-locks your last saved choices at 14:00 IST. Lock your choices early — unsaved choices are not considered. — EduAakashaa
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:DASA 2026 choice locking closes TOMORROW (05 Aug, 14:00 IST)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dasa2026-06@eduaakashaa.in
+DTSTAMP:20260705T000000Z
+DTSTART:20260806T113000Z
+DTEND:20260806T123000Z
+SUMMARY:DASA 2026 — Round-I seat allotment result (17:00 IST)
+DESCRIPTION:First seat allotment displayed on the portal. Allotted candidates must report online and exercise willingness (FREEZE / SLIDE / FLOAT / SURRENDER / WITHDRAW / EXIT) by 10 Aug\, 17:00 IST. — EduAakashaa
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:DASA 2026 Round-I result today at 17:00 IST
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dasa2026-07@eduaakashaa.in
+DTSTAMP:20260705T000000Z
+DTSTART:20260810T113000Z
+DTEND:20260810T123000Z
+SUMMARY:DASA 2026 — DEADLINE: Exercise willingness (online reporting)
+DESCRIPTION:Last day (17:00 IST) to choose FREEZE / SLIDE / FLOAT / SURRENDER / WITHDRAW / EXIT for your Round-I allotment. No response means the default option applies. — EduAakashaa
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:DASA 2026 willingness deadline TOMORROW (10 Aug, 17:00 IST)
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dasa2026-08@eduaakashaa.in
+DTSTAMP:20260705T000000Z
+DTSTART:20260812T113000Z
+DTEND:20260812T123000Z
+SUMMARY:DASA 2026 — Round-II (FINAL) seat allotment result (17:00 IST)
+DESCRIPTION:The final DASA round — all allotments in Round-II are presumed accepted. Prepare for physical reporting at your allotted institute. — EduAakashaa
+BEGIN:VALARM
+TRIGGER:-PT2H
+ACTION:DISPLAY
+DESCRIPTION:DASA 2026 FINAL round result today at 17:00 IST
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:dasa2026-09@eduaakashaa.in
+DTSTAMP:20260705T000000Z
+DTSTART;VALUE=DATE:20260813
+DTEND;VALUE=DATE:20260819
+SUMMARY:DASA 2026 — Physical reporting & balance fee payment (13–18 Aug)
+DESCRIPTION:Tentative window for physical reporting at the allotted institute and payment of balance fees. Check your institute's website for exact dates and class commencement. — EduAakashaa
+BEGIN:VALARM
+TRIGGER:-P1D
+ACTION:DISPLAY
+DESCRIPTION:DASA 2026 physical reporting window starts tomorrow (13 Aug)
+END:VALARM
+END:VEVENT
+END:VCALENDAR

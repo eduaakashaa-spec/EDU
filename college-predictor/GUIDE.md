@@ -299,11 +299,28 @@ premium members get unlimited results and member-only reports.
 Premium-only tool pages live under the **Premium Membership** nav dropdown
 (marked with a 🔒 in the menu) and are gated with `@premium_required` —
 anonymous visitors are asked to log in, and logged-in free-tier users see
-`premium_locked.html`. Example: **Engineering Branch Selection Guide**
-(`/engineering-branch-selection-guide`) — an interactive dashboard comparing
-12 engineering branches on subjects, skills, salary reality, AI impact and
-NRI suitability, with a branch-fitness quiz and a year-by-year skill roadmap
-generator.
+`premium_locked.html`. The premium catalogue (all full ports of the legacy
+live-site content, no placeholders):
+
+| Page | Route | What it is |
+|------|-------|------------|
+| Why CSE? | `/why-cse` | CSE vs core branches — service/product salary data, AI-impact analysis, career roadmap |
+| Best Location | `/best-location` | City-by-city study-destination analyzer (D3 + Chart.js) |
+| Engineering Insights | `/engineering-insights` | Branch guide with scoring assessment + PDF report (jsPDF); submissions land in `/admin/leads` |
+| Hostel & Culture Analytics | `/hostel-and-culture-analytics` | DASA hostel/campus-culture report with D3 visuals |
+| TNEA Expert | `/tnea-expert` | Full TNEA 2026 guide — college table, cutoff predictor, Leaflet map, Student/Expert modes; expert-review requests land in `/admin/leads` |
+| JOSAA EA Members | `/josaaea-members` | JOSAA 2025 college predictor with choice wizard + XLSX/PDF export; submissions land in `/admin/leads` |
+| Expert Portal — DASA | `/expert-portaldasa` | DASA choice-filling matrix ("Beyond NIRF") |
+| Engineering Branch Selection Guide | `/engineering-branch-selection-guide` | Interactive 12-branch comparison dashboard with fitness quiz + roadmap generator |
+| DASA Prediction Report | `/dasa-prediction-report` | Member-edition prediction report (landing page) |
+| Stream Selection / Members Report | `/stream-selection`, `/members-report` | Member pages (stream-selection psychometric port pending) |
+
+`/dasa2026-schedule` (counselling calendar with a downloadable `.ics` of every
+DASA 2026 deadline) is public. The **EA Team / Counsellor Portal** dropdown is
+admin-only: `/counsellor-dashboard` (in-app triage of DASA 2026 Choice Builder
+submissions, read live from the team Google Sheet), `/choice-builder-pro`
+(in-app allotment analyzer), `/ea-admin-portal` (→ `/admin/membership`) and
+`/dasa2026-expert-report`.
 
 ---
 

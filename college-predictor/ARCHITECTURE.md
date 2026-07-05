@@ -40,6 +40,8 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 | **Editorial re-skin** | ✅ Done | Navy/orange/cream + Fraunces/Plus Jakarta/JetBrains Mono, matching the live site; `components.css` + dot-grid bg |
 | **Full nav site (~50 pages)** | ✅ Done | All live nav pages render; grouped dropdown nav, ★Membership CTA, WhatsApp float |
 | **1:1 interactive ports** | ✅ Done | 21 data pages ported from live source (D3 maps, Chart.js, predictors) — scoped under `.ported`, per-page css/js |
+| **Premium content pages** | ✅ Done | 8 full live-site ports gated `@premium_required` (Why CSE, Best Location, Engineering Insights, Hostel & Culture, TNEA Expert, JOSAA EA Members, Expert Portal DASA, Branch Selection Guide) — in-page lead forms wired to `POST /api/leads` |
+| **EA Team / Counsellor Portal** | ✅ Done | Admin-only nav dropdown: Choice Builder PRO + Counsellor Dashboard run in-app (dashboard reads the team Google Sheet via its Apps Script JSONP API; app RBAC replaced the legacy per-page passcodes); EA Admin → `/admin/membership` |
 | **Deploy (Render + Neon)** | ✅ Done | `render.yaml` autoDeploy; Neon Postgres; GH Actions `/ping` keep-alive |
 
 ---

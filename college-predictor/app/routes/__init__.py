@@ -412,13 +412,10 @@ def _portal_tool(title, desc, live_url, features):
 @main_bp.route('/counsellor-dashboard')
 @admin_required
 def counsellor_dashboard():
-    return _portal_tool(
-        'Counsellor Dashboard',
-        'Review student DASA 2026 preference submissions, sort by confidence and export as CSV.',
-        f'{_LIVE_SITE}/counsellor-dashboard',
-        [{'icon': '\U0001F4CB', 'title': 'Student submissions', 'text': 'Every DASA 2026 preference list submitted through Choice Builder.'},
-         {'icon': '\U0001F522', 'title': 'Sort & triage', 'text': 'Order by newest or by confidence to prioritise outreach.'},
-         {'icon': '\U0001F4E4', 'title': 'CSV export', 'text': 'Download the full submission set for offline review.'}])
+    # In-app DASA 2026 counsellor triage tool. Reads submissions from the
+    # team's Google Sheet via its Apps Script API; our admin gate replaces
+    # the page's old passcode overlay.
+    return render_template('counsellor_dashboard.html')
 
 
 @main_bp.route('/ea-admin-portal')
@@ -465,49 +462,36 @@ def dasa_prediction_report():
                      {'icon': '\U0001F4DD', 'title': 'Counsellor notes', 'text': 'Expert commentary added to your report before delivery.'}])
 
 
+# The pages below are full ports of the live-site premium content
+# (migrated from the Hostinger embeds; see migration/ notes).
 @main_bp.route('/why-cse')
 @premium_required
 def why_cse():
-    return _premium('Why CSE?', 'Data-driven analysis of the Computer Science branch — demand, placements, and fit.',
-                    [{'icon': '\U0001F4BB', 'title': 'Demand & placements', 'text': 'Branch-level placement and salary trends across top institutes.'},
-                     {'icon': '\U0001F9ED', 'title': 'Is CSE right for you?', 'text': 'Aptitude and interest mapping against the CSE curriculum.'},
-                     {'icon': '\U0001F4CA', 'title': 'Alternatives compared', 'text': 'CSE vs allied branches (AI/DS, ECE, IT) with trade-offs.'}])
+    return render_template('why_cse.html')
 
 
 @main_bp.route('/best-location')
 @premium_required
 def best_location():
-    return _premium('Best Location Analyzer', 'Compare colleges by city, cost of living, climate and opportunity.',
-                    [{'icon': '\U0001F4CD', 'title': 'City comparison', 'text': 'Weigh metros vs tier-2 cities on cost, safety and exposure.'},
-                     {'icon': '\U0001F4B0', 'title': 'Cost of living', 'text': 'Realistic hostel, food and travel estimates per location.'},
-                     {'icon': '\U0001F91D', 'title': 'Opportunity index', 'text': 'Internships, industry presence and alumni networks by region.'}])
+    return render_template('best_location.html')
 
 
 @main_bp.route('/engineering-insights')
 @premium_required
 def engineering_insights():
-    return _premium('Engineering Insights', 'Curated branch, college and career insights for confident decisions.',
-                    [{'icon': '\U0001F50D', 'title': 'Branch deep-dives', 'text': 'What each branch actually studies and leads to.'},
-                     {'icon': '\U0001F3DB️', 'title': 'College intel', 'text': 'Placement, faculty and infrastructure signals that matter.'},
-                     {'icon': '\U0001F4C8', 'title': 'Career mapping', 'text': 'Where each path leads — roles, sectors and growth.'}])
+    return render_template('engineering_insights.html')
 
 
 @main_bp.route('/hostel-and-culture-analytics')
 @premium_required
 def hostel_culture_analytics():
-    return _premium('Hostel & Culture Analytics', 'Campus life, hostel quality and culture — the factors brochures hide.',
-                    [{'icon': '\U0001F3E0', 'title': 'Hostel quality', 'text': 'Rooms, mess, facilities and real student feedback.'},
-                     {'icon': '\U0001F389', 'title': 'Campus culture', 'text': 'Clubs, fests, diversity and day-to-day student life.'},
-                     {'icon': '⚖️', 'title': 'Fit assessment', 'text': 'Match campus environment to the student’s personality.'}])
+    return render_template('hostel_culture_analytics.html')
 
 
 @main_bp.route('/tnea-expert')
 @premium_required
 def tnea_expert():
-    return _premium('TNEA Expert', 'End-to-end TNEA counselling — cutoff, choice filling and allotment strategy.',
-                    [{'icon': '\U0001F4D0', 'title': 'Cutoff mastery', 'text': 'Your cutoff, category analysis and realistic targets.'},
-                     {'icon': '\U0001F9F1', 'title': 'Choice filling', 'text': 'College-code strategy and lookalike-college guidance.'},
-                     {'icon': '\U0001F4DE', 'title': 'Allotment support', 'text': 'Round-by-round guidance until you confirm a seat.'}])
+    return render_template('tnea_expert.html')
 
 
 @main_bp.route('/engineering-branch-selection-guide')

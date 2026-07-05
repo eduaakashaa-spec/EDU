@@ -1,0 +1,625 @@
+{% extends "base.html" %}
+{% block title %}Best Location | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/best_location.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ported ported-best_location">
+{% raw %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Best Place to Study in India — EduAakashaa</title>
+<meta name="description" content="Beyond college rankings — an intelligence platform for Indian &#x26; NRI parents to discover the safest, smartest and most suitable Indian city for their child&#x27;s higher education.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&#x26;family=JetBrains+Mono:wght@400..600&#x26;family=Plus+Jakarta+Sans:wght@300..800&#x26;display=swap" rel="stylesheet">
+
+
+
+
+
+
+
+
+<!-- ============== NAV ============== -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand-lockup" aria-label="EduAakashaa home">
+      <div>
+        <div class="brand-name">Edu<b>Aakashaa</b></div>
+        <div class="brand-tag">Guiding students · Coimbatore · Dubai</div>
+      </div>
+    </a>
+    <nav class="nav-links" id="navLinks">
+     
+    </nav>
+    <button class="hamburger" aria-label="Open menu" onclick="document.getElementById(&#x27;navLinks&#x27;).classList.toggle(&#x27;open&#x27;)">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <span class="eyebrow">Study Destination Intelligence · India 2026</span>
+        <h1>Where should your child <span class="highlight">study in India</span>?</h1>
+        <p class="hero-sub">Beyond college rankings — discover the <em>safest, smartest and most suitable</em> Indian city for your child's higher education. Built for Indian and NRI families weighing safety, culture, placements and quality of life all at once.</p>
+        <div class="hero-cta-row">
+         
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-map-wrap">
+          <span class="hero-map-label">Live · 10 Education Hubs</span>
+          <svg id="hero-india-svg" viewBox="0 0 600 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+
+          <div class="float-card fc-1">
+            <div class="fc-label">Safety Index</div>
+            <div class="fc-value">8.4 <small>/ 10</small></div>
+            <div class="fc-bar"><i style="width:84%"></i></div>
+          </div>
+          <div class="float-card fc-2">
+            <div class="fc-label">Placement Quality</div>
+            <div class="fc-value">9.1 <small>↑ 2.3%</small></div>
+            <div class="fc-bar"><i style="width:91%"></i></div>
+          </div>
+          <div class="float-card fc-3">
+            <div class="fc-label">NRI Comfort</div>
+            <div class="fc-value">7.8 <small>/ 10</small></div>
+            <div class="fc-bar"><i style="width:78%"></i></div>
+          </div>
+          <div class="float-card fc-4">
+            <div class="fc-label">Cost of Living</div>
+            <div class="fc-value">₹18.4k <small>/ mo</small></div>
+            <div class="fc-bar"><i style="width:46%"></i></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== STATS ============== -->
+<div class="container">
+  <div class="stats-strip">
+    <div class="stat">
+      <div class="stat-num">28<span>+</span></div>
+      <div class="stat-label">States Analysed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">10</div>
+      <div class="stat-label">Education Hubs</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">12<span>+</span></div>
+      <div class="stat-label">Decision Metrics</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">1.4k<span>+</span></div>
+      <div class="stat-label">Families Guided</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============== INTERACTIVE INDIA MAP ============== -->
+<section id="map" class="map-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section 01 · Interactive India</span>
+      <h2>Hover any state. Click a hub. <em>Drill down</em> to the data parents actually care about.</h2>
+      <p class="sub">Filter by stream — engineering, medical, arts &#x26; science, AI/data, semiconductor, business. The map updates the education score, safety index, hostel quality and cost-of-living view in real time.</p>
+    </div>
+
+    <div class="filter-bar reveal">
+      <span class="filter-label">Stream</span>
+      <button class="filter-pill" data-filter="all" aria-pressed="true">All Streams</button>
+      <button class="filter-pill" data-filter="engineering" aria-pressed="false">Engineering</button>
+      <button class="filter-pill" data-filter="medical" aria-pressed="false">Medical</button>
+      <button class="filter-pill" data-filter="arts" aria-pressed="false">Arts &#x26; Science</button>
+      <button class="filter-pill" data-filter="ai" aria-pressed="false">AI &#x26; Data</button>
+      <button class="filter-pill" data-filter="semi" aria-pressed="false">Semiconductor</button>
+      <button class="filter-pill" data-filter="bschool" aria-pressed="false">Business Schools</button>
+    </div>
+
+    <div class="map-shell reveal">
+      <div class="map-card">
+        <div class="map-card-head">
+          <div>
+            <div class="map-card-title">India · Education-hub heatmap</div>
+            <div class="map-card-sub">Darker shading = stronger education ecosystem. Orange pins = top 10 hubs.</div>
+          </div>
+        </div>
+        <svg id="india-svg" viewBox="0 0 720 720" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+
+      <aside class="detail-panel" id="detailPanel">
+        <button class="dp-back" id="dpBack">India view</button>
+        <div class="dp-header">
+          <span class="dp-eyebrow" id="dpEyebrow">Top study destinations</span>
+          <div class="dp-title" id="dpTitle">Ranked by education score</div>
+        </div>
+        <div id="dpBody"></div>
+      </aside>
+    </div>
+
+    <div class="map-tooltip" id="mapTooltip"></div>
+  </div>
+</section>
+
+<!-- ============== SUITABILITY INDEX ============== -->
+<section id="index" class="dash-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section 02 · Suitability Index</span>
+      <h2>One score isn't enough. Build <em>your family's</em> weighting model.</h2>
+      <p class="sub">Move the sliders. Pick a preset. We re-rank the top Indian study destinations against your priorities — academics, safety, culture, careers, lifestyle, parent confidence.</p>
+    </div>
+
+    <div class="dash-grid">
+      <div class="priorities-card reveal">
+        <h3>Your priorities</h3>
+        <p class="ph-sub">Pick a preset, or fine-tune the six dimensions.</p>
+
+        <div class="preset-row">
+          <button class="preset-pill active" data-preset="balanced">Balanced</button>
+          <button class="preset-pill" data-preset="safety">Safety-focused</button>
+          <button class="preset-pill" data-preset="placement">Placement-focused</button>
+          <button class="preset-pill" data-preset="nri">NRI comfort</button>
+          <button class="preset-pill" data-preset="budget">Budget-conscious</button>
+        </div>
+
+        <div class="slider-group">
+          <div class="slider-row">
+            <label>Academic strength</label>
+            <input type="range" min="0" max="50" value="30" data-key="academic">
+            <span class="slider-val">30%</span>
+          </div>
+          <div class="slider-row">
+            <label>Student safety</label>
+            <input type="range" min="0" max="50" value="20" data-key="safety">
+            <span class="slider-val">20%</span>
+          </div>
+          <div class="slider-row">
+            <label>Culture &#x26; comfort</label>
+            <input type="range" min="0" max="50" value="15" data-key="culture">
+            <span class="slider-val">15%</span>
+          </div>
+          <div class="slider-row">
+            <label>Career opportunities</label>
+            <input type="range" min="0" max="50" value="15" data-key="career">
+            <span class="slider-val">15%</span>
+          </div>
+          <div class="slider-row">
+            <label>City quality of life</label>
+            <input type="range" min="0" max="50" value="10" data-key="lifestyle">
+            <span class="slider-val">10%</span>
+          </div>
+          <div class="slider-row">
+            <label>Parent confidence</label>
+            <input type="range" min="0" max="50" value="10" data-key="parent">
+            <span class="slider-val">10%</span>
+          </div>
+        </div>
+
+        <div class="slider-total">
+          <span class="lt-label">Total weight</span>
+          <span class="lt-val" id="weightTotal">100<span>%</span></span>
+        </div>
+      </div>
+
+      <div class="results-card reveal">
+        <span class="eyebrow">Live recommendation engine</span>
+        <h3>Your top matches</h3>
+        <p class="res-sub">Re-ranks every time you move a slider.</p>
+
+        <div class="radar-wrap">
+          <canvas id="radarChart"></canvas>
+        </div>
+
+        <div class="match-grid" id="matchGrid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== PARENT DECISION TOOL ============== -->
+<section id="decision" class="tool-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section 03 · Parent Decision Tool</span>
+      <h2>Ten questions. One <em>shortlist that fits your family</em>.</h2>
+      <p class="sub">A guided questionnaire that converts how your family actually lives — food preference, climate tolerance, budget, language comfort, hostel preferences — into a ranked shortlist of Indian study destinations.</p>
+    </div>
+
+    <div class="tool-shell reveal">
+      <div class="tool-grid">
+        <div class="tool-left">
+          <div class="tool-progress">
+            <div class="tp-bar"><i id="tpBar"></i></div>
+            <span class="tp-num" id="tpNum">01 / 10</span>
+          </div>
+
+          <div class="tool-step active" data-step="1">
+            <span class="step-label">Question 01 · Climate</span>
+            <div class="step-q">What climate suits your child best?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="warm">Warm &#x26; coastal<small>Chennai, Mumbai, Mangalore</small></button>
+              <button class="opt-tile" data-val="moderate">Moderate year-round<small>Bengaluru, Pune, Coimbatore</small></button>
+              <button class="opt-tile" data-val="cool">Cool hill stations<small>Manipal, Dehradun</small></button>
+              <button class="opt-tile" data-val="any">No preference<small>Open to anywhere</small></button>
+            </div>
+          </div>
+
+          <div class="tool-step" data-step="2">
+            <span class="step-label">Question 02 · Food</span>
+            <div class="step-q">Food preference at hostel &#x26; city?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="veg">Strict vegetarian<small>Pure-veg mess priority</small></button>
+              <button class="opt-tile" data-val="jain">Jain / Sattvic<small>Specialised diet</small></button>
+              <button class="opt-tile" data-val="mixed">Mixed — both<small>Veg &#x26; non-veg options</small></button>
+              <button class="opt-tile" data-val="halal">Halal / Muslim<small>Halal access important</small></button>
+            </div>
+          </div>
+
+          <div class="tool-step" data-step="3">
+            <span class="step-label">Question 03 · Budget</span>
+            <div class="step-q">Total budget per year (tuition + hostel + living)?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="under3">Under ₹3 L<small>Government colleges</small></button>
+              <button class="opt-tile" data-val="3to6">₹3 – 6 L<small>State &#x26; aided</small></button>
+              <button class="opt-tile" data-val="6to12">₹6 – 12 L<small>Private &#x26; deemed</small></button>
+              <button class="opt-tile" data-val="above12">Above ₹12 L<small>Top private / IB pathway</small></button>
+            </div>
+          </div>
+
+          <div class="tool-step" data-step="4">
+            <span class="step-label">Question 04 · Language</span>
+            <div class="step-q">Preferred language environment outside class?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="english">English-first<small>Hyderabad, Bengaluru</small></button>
+              <button class="opt-tile" data-val="hindi">Hindi comfort<small>Delhi NCR, Pune</small></button>
+              <button class="opt-tile" data-val="tamil">Tamil comfort<small>Chennai, Coimbatore, Trichy</small></button>
+              <button class="opt-tile" data-val="any">Flexible<small>Any language</small></button>
+            </div>
+          </div>
+
+          <div class="tool-step" data-step="5">
+            <span class="step-label">Question 05 · Airport</span>
+            <div class="step-q">How close should the airport be?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="within30">Within 30 min<small>Direct hub city</small></button>
+              <button class="opt-tile" data-val="within2h">Up to 2 hours<small>Tier-2 hub</small></button>
+              <button class="opt-tile" data-val="anywhere">Not important<small>Once-a-year travel</small></button>
+              <button class="opt-tile" data-val="international">International direct<small>NRI priority</small></button>
+            </div>
+          </div>
+
+          <div class="tool-step" data-step="6">
+            <span class="step-label">Question 06 · Safety</span>
+            <div class="step-q">How critical is "safe city" reputation?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="top">Top priority<small>Tier-1 safety</small></button>
+              <button class="opt-tile" data-val="important">Important<small>Above-average</small></button>
+              <button class="opt-tile" data-val="balanced">Balanced<small>Reasonable</small></button>
+              <button class="opt-tile" data-val="open">Flexible<small>Other factors win</small></button>
+            </div>
+          </div>
+
+          <div class="tool-step" data-step="7">
+            <span class="step-label">Question 07 · Placements</span>
+            <div class="step-q">How important are campus placements &#x26; internships?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="critical">Mission critical<small>Tier-1 corporate access</small></button>
+              <button class="opt-tile" data-val="important">Important<small>Strong recruiters</small></button>
+              <button class="opt-tile" data-val="moderate">Moderate<small>Industry exposure</small></button>
+              <button class="opt-tile" data-val="abroad">Going abroad anyway<small>MS / GRE focus</small></button>
+            </div>
+          </div>
+
+          <div class="tool-step" data-step="8">
+            <span class="step-label">Question 08 · Hostel</span>
+            <div class="step-q">Hostel preference?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="oncampus">On-campus only<small>Walking-distance safety</small></button>
+              <button class="opt-tile" data-val="approved">College-approved PG<small>Slightly off-campus</small></button>
+              <button class="opt-tile" data-val="day">Day scholar<small>Local relatives nearby</small></button>
+              <button class="opt-tile" data-val="open">Open to both<small>Decide after admission</small></button>
+            </div>
+          </div>
+
+          <div class="tool-step" data-step="9">
+            <span class="step-label">Question 09 · Girls-only safety focus</span>
+            <div class="step-q">Is girls-only safety / women-friendly campus a priority?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="yes">Yes · top priority<small>Women-only options preferred</small></button>
+              <button class="opt-tile" data-val="strict">Strong campus safety<small>Strict gate-pass culture</small></button>
+              <button class="opt-tile" data-val="standard">Standard expected<small>Reasonable campus norms</small></button>
+              <button class="opt-tile" data-val="na">Not applicable<small>Boy / co-ed open</small></button>
+            </div>
+          </div>
+
+          <div class="tool-step" data-step="10">
+            <span class="step-label">Question 10 · Alumni</span>
+            <div class="step-q">Strong alumni network value?</div>
+            <div class="opt-grid">
+              <button class="opt-tile" data-val="critical">Very important<small>Career mobility</small></button>
+              <button class="opt-tile" data-val="nice">Nice to have<small>Bonus, not deciding</small></button>
+              <button class="opt-tile" data-val="lessimp">Less important<small>Skills > network</small></button>
+              <button class="opt-tile" data-val="any">No preference<small>Open</small></button>
+            </div>
+          </div>
+
+          <div class="tool-nav">
+            <button class="btn-back" id="toolBack" disabled>← Back</button>
+            <span class="tp-num" id="toolHelper">Pick an option to continue</span>
+          </div>
+        </div>
+
+        <div class="tool-right">
+          <span class="tr-eyebrow">AI-matched destinations</span>
+          <div class="tr-title" id="trTitle">Your shortlist will appear here</div>
+          <p class="tr-sub" id="trSub">Answer the questions on the left — we'll rebuild your top 4 study destinations live as you go.</p>
+          <div class="recommendation-list" id="recList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== CITY COMPARISON ============== -->
+<section id="compare" class="compare-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section 04 · Head-to-head</span>
+      <h2>Chennai vs Bengaluru vs Pune vs Hyderabad vs Coimbatore vs Ahmedabad.</h2>
+      <p class="sub">Toggle any two or more cities. We surface the metrics that move the decision — placement quality, safety, cost of living, pollution, internet, startup density, public transport, medical access.</p>
+    </div>
+
+    <div class="city-chip-row reveal" id="cityChips">
+      <button class="city-chip active" data-city="Chennai"><span class="dot"></span>Chennai</button>
+      <button class="city-chip active" data-city="Bengaluru"><span class="dot"></span>Bengaluru</button>
+      <button class="city-chip active" data-city="Pune"><span class="dot"></span>Pune</button>
+      <button class="city-chip active" data-city="Hyderabad"><span class="dot"></span>Hyderabad</button>
+      <button class="city-chip" data-city="Coimbatore"><span class="dot"></span>Coimbatore</button>
+      <button class="city-chip" data-city="Ahmedabad"><span class="dot"></span>Ahmedabad</button>
+    </div>
+
+    <div class="compare-grid reveal">
+      <div class="compare-card">
+        <h3>Twelve metrics, side by side</h3>
+        <p class="cc-sub">Scores are EduAakashaa composites blending public datasets, employer reports and on-ground student feedback (May 2026).</p>
+        <div id="metricTable"></div>
+      </div>
+
+      <div class="compare-card compare-chart-card">
+        <h3>Multi-dimensional shape</h3>
+        <p class="cc-sub">Each city's strengths drawn as a radar. Bigger area on the right side = stronger ecosystem.</p>
+        <canvas id="cityRadarChart"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== NRI EXPERIENCE ============== -->
+<section id="nri" class="nri-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="color:rgba(255,255,255,.85)">Section 05 · For NRI Families</span>
+      <h2>If you're abroad, your <em>presence is a video call</em>. Our presence is on the ground.</h2>
+      <p class="sub">From DASA and CIWG counselling to airport pickups and hostel onboarding — the operational layer for families who can't fly down for every step.</p>
+    </div>
+
+    <div class="nri-grid">
+      <article class="nri-card reveal">
+        <div class="nri-icon"><svg viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"></path></svg></div>
+        <div class="nri-num">Module · 01</div>
+        <h3>DASA &#x26; CIWG counselling</h3>
+        <p>Stream-by-stream guidance for the Direct Admission of Students Abroad and Children of Indian Workers in Gulf countries quotas — from cut-offs to choice filling.</p>
+      </article>
+      <article class="nri-card reveal">
+        <div class="nri-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"></path></svg></div>
+        <div class="nri-num">Module · 02</div>
+        <h3>JOSAA / CSAB virtual support</h3>
+        <p>Live counselling over video for IIT, NIT, IIIT and GFTI choice filling. Time-zone aware. We sit through every round with your child.</p>
+      </article>
+      <article class="nri-card reveal">
+        <div class="nri-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+        <div class="nri-num">Module · 03</div>
+        <h3>TNEA &#x26; state counselling</h3>
+        <p>Cut-off interpretation for Tamil Nadu, Karnataka KCET, Maharashtra MHT-CET, Andhra EAMCET — and which one to register where.</p>
+      </article>
+      <article class="nri-card reveal">
+        <div class="nri-icon"><svg viewBox="0 0 24 24"><path d="M2 12l5-3v6l-5-3zM22 12l-5-3v6l5-3zM7 9h10v6H7z"></path></svg></div>
+        <div class="nri-num">Module · 04</div>
+        <h3>Airport pickup &#x26; first-week onboarding</h3>
+        <p>Verified pickup partners at Chennai, Bengaluru, Hyderabad, Mumbai and Delhi airports. Hostel allotment paperwork, SIM card, local bank — handled.</p>
+      </article>
+      <article class="nri-card reveal">
+        <div class="nri-icon"><svg viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM2 21a10 10 0 0120 0"></path></svg></div>
+        <div class="nri-num">Module · 05</div>
+        <h3>Multicultural campus matching</h3>
+        <p>If your child is from Dubai, Singapore or London — we shortlist campuses where the international student cohort actually exists and is integrated.</p>
+      </article>
+      <article class="nri-card reveal">
+        <div class="nri-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"></path></svg></div>
+        <div class="nri-num">Module · 06</div>
+        <h3>Quarterly parent reviews</h3>
+        <p>Once your child is admitted, we don't disappear. Quarterly video review of academics, mental health, hostel and placement readiness — for you abroad.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== AI INSIGHTS ============== -->
+<section class="insights-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Section 06 · Pattern Recognition</span>
+      <h2>Six observations from the data that we'd want <em>every parent</em> to know.</h2>
+      <p class="sub">Not opinions. Patterns drawn from NIRF rankings, NCRB safety data, employer placement reports and EduAakashaa's own onboarding cohorts.</p>
+    </div>
+
+    <div class="insights-grid reveal">
+      <article class="insight-card">
+        <div class="insight-stamp">INS · 01</div>
+        <span class="insight-tag">South India</span>
+        <h3>South India has India's highest engineering ecosystem density.</h3>
+        <p>Tamil Nadu, Karnataka, Andhra and Telangana account for ~46% of India's accredited engineering seats — and ~52% of placement-active CSE seats.</p>
+        <div class="insight-mini-chart">
+          <div class="imc-bar" style="height:90%"></div><div class="imc-bar" style="height:78%"></div><div class="imc-bar" style="height:64%"></div><div class="imc-bar" style="height:48%"></div><div class="imc-bar" style="height:38%"></div><div class="imc-bar" style="height:30%"></div><div class="imc-bar" style="height:22%"></div>
+        </div>
+      </article>
+
+      <article class="insight-card">
+        <div class="insight-stamp">INS · 02</div>
+        <span class="insight-tag">Startup density</span>
+        <h3>Bengaluru and Pune dominate startup access.</h3>
+        <p>Across India's DPIIT-recognised startups, Bengaluru + Pune host the largest share — translating into more internship offers per CSE student than any other corridor.</p>
+        <div class="insight-mini-chart">
+          <div class="imc-bar" style="height:95%"></div><div class="imc-bar" style="height:82%"></div><div class="imc-bar" style="height:52%"></div><div class="imc-bar" style="height:44%"></div><div class="imc-bar" style="height:36%"></div><div class="imc-bar" style="height:28%"></div>
+        </div>
+      </article>
+
+      <article class="insight-card">
+        <div class="insight-stamp">INS · 03</div>
+        <span class="insight-tag">Safety</span>
+        <h3>Tamil Nadu ranks among the safest engineering education ecosystems for NRI families.</h3>
+        <p>NCRB crime-against-student indicators combined with hostel safety self-reporting place TN consistently in the top quartile — particularly for women students.</p>
+        <div class="insight-mini-chart">
+          <div class="imc-bar" style="height:88%"></div><div class="imc-bar" style="height:82%"></div><div class="imc-bar" style="height:74%"></div><div class="imc-bar" style="height:62%"></div><div class="imc-bar" style="height:54%"></div><div class="imc-bar" style="height:42%"></div><div class="imc-bar" style="height:36%"></div>
+        </div>
+      </article>
+
+      <article class="insight-card">
+        <div class="insight-stamp">INS · 04</div>
+        <span class="insight-tag">Semiconductor</span>
+        <h3>Hyderabad is the fastest-growing semiconductor ecosystem.</h3>
+        <p>With ITM-1 wafer fabs and ATMP units anchoring around the city, ECE / VLSI specialisation graduates from Hyderabad-region colleges saw the steepest placement uplift in 2025–26.</p>
+        <div class="insight-mini-chart">
+          <div class="imc-bar" style="height:30%"></div><div class="imc-bar" style="height:38%"></div><div class="imc-bar" style="height:52%"></div><div class="imc-bar" style="height:68%"></div><div class="imc-bar" style="height:82%"></div><div class="imc-bar" style="height:96%"></div>
+        </div>
+      </article>
+
+      <article class="insight-card">
+        <div class="insight-stamp">INS · 05</div>
+        <span class="insight-tag">Affordable</span>
+        <h3>Coimbatore is the emerging affordable engineering hub.</h3>
+        <p>Cost of living ~38% below Bengaluru; placement parity with Tier-1 South-Indian peers across PSG, CIT and KCT; international airport directly connected to Dubai and Singapore.</p>
+        <div class="insight-mini-chart">
+          <div class="imc-bar" style="height:42%"></div><div class="imc-bar" style="height:52%"></div><div class="imc-bar" style="height:60%"></div><div class="imc-bar" style="height:72%"></div><div class="imc-bar" style="height:84%"></div><div class="imc-bar" style="height:88%"></div>
+        </div>
+      </article>
+
+      <article class="insight-card">
+        <div class="insight-stamp">INS · 06</div>
+        <span class="insight-tag">For NRI families</span>
+        <h3>Direct international flights matter more than parents expect.</h3>
+        <p>Cities with daily direct flights to Dubai, Singapore and London — Chennai, Bengaluru, Hyderabad, Coimbatore, Mumbai — show 2× higher NRI student retention compared to single-stop cities.</p>
+        <div class="insight-mini-chart">
+          <div class="imc-bar" style="height:92%"></div><div class="imc-bar" style="height:88%"></div><div class="imc-bar" style="height:78%"></div><div class="imc-bar" style="height:68%"></div><div class="imc-bar" style="height:50%"></div><div class="imc-bar" style="height:42%"></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FINAL CTA ============== -->
+<section class="final-cta" id="contact">
+  <div class="container">
+    <span class="eyebrow">Get expert guidance</span>
+    <h2>Talk to a counsellor who's <em>walked this road</em> with 1,400+ families.</h2>
+    <p>We sit with you for an honest hour — your child's profile, the family's constraints, the cities that fit. No upsell. No hype. Just the shortlist that makes sense for *you*.</p>
+    <div class="final-cta-row">
+      <a href="tel:+918015722706" class="btn btn-primary">Book a counselling session <span class="arrow">→</span></a>
+      <a href="mailto:info@eduaakashaa.com" class="btn btn-ghost">Write to us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div>
+            <div class="fb-name">Edu<b>Aakashaa</b></div>
+            <div class="fb-tag">Guiding students towards the right future</div>
+          </div>
+        </div>
+        <p class="footer-blurb">Education counselling for Indian and NRI families. Evidence-based, parent-friendly, honest. Coimbatore · Dubai.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <ul>
+          <li><a href="#map">Interactive India map</a></li>
+          <li><a href="#index">Suitability index</a></li>
+          <li><a href="#decision">Parent decision tool</a></li>
+          <li><a href="#compare">City comparison</a></li>
+          <li><a href="#nri">For NRI parents</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact · India</h4>
+        <ul>
+          <li>
+            <span class="label">Phone</span>
+            <strong>+91 80157 22706</strong>
+            <a href="tel:+918015722706">Call our Coimbatore office</a>
+          </li>
+          <li>
+            <span class="label">Office</span>
+            <strong>Coimbatore, Tamil Nadu</strong>
+          </li>
+          <li>
+            <span class="label">Hours</span>
+            Mon–Fri 9:00–22:00<br>Sat &#x26; Sun 9:00–16:00
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Contact · UAE</h4>
+        <ul>
+          <li>
+            <span class="label">Phone</span>
+            <strong>+971 50 516 8081</strong>
+            <a href="tel:+971505168081">Call our Dubai office</a>
+          </li>
+          <li>
+            <span class="label">Email</span>
+            <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
+          </li>
+          <li>
+            <span class="label">Web</span>
+            <a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>© 2026 EduAakashaa · All rights reserved</div>
+      <div>Coimbatore · Dubai · Guiding students</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============== SCRIPTS ============== -->
+{% endraw %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/best_location.js') }}"></script>
+{% endblock %}

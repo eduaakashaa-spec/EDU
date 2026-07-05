@@ -1,0 +1,824 @@
+{% extends "base.html" %}
+{% block title %}Engineering Insights | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/engineering_insights.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.0/jspdf.plugin.autotable.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ported ported-engineering_insights">
+{% raw %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Branches — Complete Parent-Student Guide | EduAakashaa</title>
+<meta name="description" content="One place for all engineering branches in JOSAA 2026 — Electronics, Electrical, Mechanical, CSE, Civil, Chemical, AI &#x26; Data Science. Take the combined branch-fit assessment and get a personalised PDF report.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&#x26;family=Plus+Jakarta+Sans:wght@300..800&#x26;family=JetBrains+Mono:wght@400..600&#x26;display=swap" rel="stylesheet">
+
+
+
+
+
+
+
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="brand" aria-label="EduAakashaa Home">
+      <span class="brand-text">
+        <span class="brand-name">Edu<span class="ak">Aakashaa</span></span>
+        <span class="brand-tag">Learn · Grow · Succeed</span>
+      </span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#branches">Branches</a>
+      <a href="#subjects">Subjects</a>
+      <a href="#jobs">Top 100 Jobs</a>
+      <a href="#opportunities">India Map</a>
+      <a href="#regret">Case Studies</a>
+      <a href="#student-info">Assessment</a>
+      <a href="#cta" class="btn-primary nav-cta">Talk to counsellor <span class="arr">→</span></a>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span></button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="container">
+    <div class="reveal">
+      <span class="eyebrow">Engineering Branches Hub · JOSAA 2026</span>
+      <h1>Every engineering branch, <span class="highlight">in <em>one honest place</em></span></h1>
+      <p class="hero-sub">Seven complete parent-student guides — Electronics, Electrical, Mechanical, CSE, Civil, Chemical, and AI &#x26; Data Science. Take the combined 15-question branch-fit assessment and walk away with a personalised PDF report.</p>
+      <div class="hero-actions">
+        <a href="#student-info" class="btn-primary">Take the branch-fit assessment <span class="arr">→</span></a>
+        <a href="#branches" class="btn-ghost">Browse all 7 branches</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="n">7</div>
+          <div class="l">Branch guides · evidence-based</div>
+        </div>
+        <div class="hero-stat">
+          <div class="n">85<span>+</span></div>
+          <div class="l">Branch options decoded</div>
+        </div>
+        <div class="hero-stat">
+          <div class="n">15<span>Q</span></div>
+          <div class="l">Smart cross-branch assessment</div>
+        </div>
+        <div class="hero-stat">
+          <div class="n">1.4<span>K+</span></div>
+          <div class="l">Families counselled since 2014</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POSTER 1 -->
+    <div class="reveal" style="margin-top:60px">
+      <figure class="poster">
+        <img src="./poster_confusion.png" alt="EduAakashaa — Focus on studies, leave the confusion to experts">
+        <figcaption class="poster-caption">
+          <span class="title">Focus on studies · leave confusion to experts</span>
+          <span>EduAakashaa · Expert guidance, brighter future</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- BRANCHES GRID -->
+<section class="branches-section" id="branches">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">All Seven Guides · Click Through</span>
+      <h2 class="acc-title">Pick the branch you're <em>most curious about</em></h2>
+      <p>Each guide is a complete walk-through — branches decoded, India industry data, charts, WEF-referenced future-of-jobs analysis, parent-FAQs, and a branch-specific 10-question self-assessment.</p>
+    </div>
+
+    <div class="branches-hub reveal">
+      <a href="./electronics_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 01</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M7 10v4M12 10v4M17 10v4M3 12h2M19 12h2"></path></svg></div>
+        <h3>Electronics Engineering</h3>
+        <div class="codes">ECE · EI · Mechatronics · VLSI · IoT · BME</div>
+        <p>The flagship hardware-software hybrid. India's chip mission, 5G/6G, embedded AI, robotics, semiconductor + EV systems. 31% of ECE grads also work in software.</p>
+        <div class="tags"><span class="tag">VLSI</span><span class="tag">Embedded</span><span class="tag">Robotics</span><span class="tag">IoT</span></div>
+      </a>
+
+      <a href="./electrical_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 02</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"></path></svg></div>
+        <h3>Electrical Engineering</h3>
+        <div class="codes">EEE · EE · Energy · EV-Tech · Smart Grid · Power</div>
+        <p>India's 500 GW renewable target, 30% EV penetration, smart-grid push and green hydrogen mission. The branch quietly powering India's energy revolution.</p>
+        <div class="tags"><span class="tag">EV</span><span class="tag">Solar</span><span class="tag">Smart Grid</span><span class="tag">PSU</span></div>
+      </a>
+
+      <a href="./mechanical_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 03</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
+        <h3>Mechanical Engineering</h3>
+        <div class="codes">ME · Aero · Auto · Mechatronics · Marine · Production</div>
+        <p>Make in India · $1T auto industry · 200+ space startups · aerospace boom · 100M new manufacturing jobs targeted. The branch building everything physical.</p>
+        <div class="tags"><span class="tag">Aerospace</span><span class="tag">EV</span><span class="tag">Robotics</span><span class="tag">Manufacturing</span></div>
+      </a>
+
+      <a href="./computer_science_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 04</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></div>
+        <h3>Computer Science Engg</h3>
+        <div class="codes">CSE · IT · CSE-AI · Cyber · M&#x26;C · CSBS · Cloud</div>
+        <p>The most chosen — and most misunderstood. 60% of aspirants want CSE; only 1.5M seats. AI shift, tier reality, specialisation choices. Honest take.</p>
+        <div class="tags"><span class="tag">Coding</span><span class="tag">Cloud</span><span class="tag">Cyber</span><span class="tag">M&#x26;C</span></div>
+      </a>
+
+      <a href="./civil_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 05</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-4"></path></svg></div>
+        <h3>Civil Engineering</h3>
+        <div class="codes">CE · Structural · Construction · Transport · Water · Env</div>
+        <p>India's ₹100 lakh crore infra pipeline · 100 Smart Cities · 7,000 km metro · Bharatmala · the largest construction wave in India's history.</p>
+        <div class="tags"><span class="tag">Smart Cities</span><span class="tag">Metro</span><span class="tag">UPSC</span><span class="tag">IES</span></div>
+      </a>
+
+      <a href="./chemical_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 06</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M10 2v7.31M14 9.3V2M8.5 2h7M14 9.3a6.5 6.5 0 1 1-4 0M5.5 22h13"></path></svg></div>
+        <h3>Chemical Engineering</h3>
+        <div class="codes">ChE · Petroleum · Pharma · Polymer · Bio · Food · Process</div>
+        <p>India's $100B specialty-chem target by 2027 · $130B pharma vision · green H₂ mission · battery materials. The China+1 beneficiary branch.</p>
+        <div class="tags"><span class="tag">Specialty Chem</span><span class="tag">Pharma</span><span class="tag">Green H₂</span><span class="tag">FMCG</span></div>
+      </a>
+
+      <a href="./ai_data_science_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 07</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6"></path></svg></div>
+        <h3>AI &#x26; Data Science</h3>
+        <div class="codes">AI&#x26;DS · AIML · M&#x26;C · Data Sci · CSE-AI · Quant · Bio-AI</div>
+        <p>The most hyped — and most asymmetric — branch. $28B India AI market target. LLMs, ML engineering, MLOps, quant. Tier matters more here than CSE.</p>
+        <div class="tags"><span class="tag">LLMs</span><span class="tag">ML</span><span class="tag">Quant</span><span class="tag">PhD</span></div>
+      </a>
+
+      <a href="./computer_science_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 08</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"></rect><path d="M2 10h20M6 14h2M10 14h2M14 14h2M6 18h12"></path></svg></div>
+        <h3>Information Technology</h3>
+        <div class="codes">IT · Cloud · Networks · Web · DevOps · 4 years</div>
+        <p>Close cousin of CSE — applied IT focus on cloud architecture, networking, web/mobile delivery and full-stack engineering. Same recruiters as CSE; closing ranks slightly lower at most NITs and IIITs.</p>
+        <div class="tags"><span class="tag">Cloud</span><span class="tag">DevOps</span><span class="tag">Networks</span><span class="tag">Full-stack</span></div>
+      </a>
+
+      <a href="./chemical_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 09</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M8 2c0 4 8 6 8 10s-8 6-8 10M16 2c0 4-8 6-8 10s8 6 8 10"></path></svg></div>
+        <h3>Biotechnology</h3>
+        <div class="codes">BT · Bio-Pharma · Genomics · Agri-bio · 4 years</div>
+        <p>Biology + engineering bridge. Vaccines, fermentation, bioprocess, drug discovery, agri-biotech, genomics. India's "pharmacy of the world" plus Biocon, Serum Institute and Bharat Biotech drive demand.</p>
+        <div class="tags"><span class="tag">Vaccines</span><span class="tag">Genomics</span><span class="tag">Biopharma</span><span class="tag">Agri-bio</span></div>
+      </a>
+
+      <a href="./mechanical_engineering_guide.html" class="branch-link">
+        <span class="num">GUIDE 10</span>
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="9" width="18" height="12" rx="2"></rect><circle cx="9" cy="15" r="1.4"></circle><circle cx="15" cy="15" r="1.4"></circle><path d="M7 9V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3M12 4V2M10 2h4"></path></svg></div>
+        <h3>Robotics &#x26; Automation</h3>
+        <div class="codes">R&#x26;A · Mechatronics · Industrial Autom · Cobots · 4 years</div>
+        <p>Mechanical + Electronics + AI software. Industrial robots, drones, surgical robots, CNC, autonomous vehicles. Industry 4.0's flagship branch — ABB, KUKA, Siemens, Fanuc plus deep-tech startups.</p>
+        <div class="tags"><span class="tag">Robotics</span><span class="tag">Drones</span><span class="tag">Industry 4.0</span><span class="tag">Cobots</span></div>
+      </a>
+
+      <a href="#student-info" class="branch-link" style="background:linear-gradient(135deg,rgba(255,107,10,.10),rgba(255,107,10,.04));border:1.5px solid rgba(255,107,10,.25)">
+        <span class="num">FIND YOUR FIT</span>
+        <div class="icon" style="background:var(--orange)"><svg viewBox="0 0 24 24" style="stroke:#fff"><circle cx="11" cy="11" r="8"></circle><path d="M21 21l-4.35-4.35"></path></svg></div>
+        <h3>Branch-Fit Assessment</h3>
+        <div class="codes">15 Questions · 5 minutes · Personalised PDF Report</div>
+        <p>Not sure which branch? Take the smart cross-branch assessment. We rank all 7 branches by fit, deliver a free PDF report, and route your data to our counselling team.</p>
+        <div class="tags"><span class="tag">Free</span><span class="tag">5 mins</span><span class="tag">PDF Report</span><span class="tag">Honest</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SUBJECTS & SKILLS -->
+<section id="subjects">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">What You'll Actually Study · 4-Year Curriculum</span>
+      <h2 class="acc-title">Subjects, skills &#x26; <em>futuristic electives</em></h2>
+      <p>Before you pick a branch, see exactly what you'll study. Common foundation subjects vs branch-specific deep-dives vs the trending futuristic electives every employer is asking about by 2030.</p>
+    </div>
+
+    <div class="skills-grid-row reveal" id="skillsRow"></div>
+
+    <div class="filter-bar reveal" style="margin-top:60px">
+      <span class="filter-label">Filter Subjects:</span>
+      <button class="chip active" data-subj-filter="all">All Subjects</button>
+      <button class="chip" data-subj-filter="F">Foundation (shared)</button>
+      <button class="chip" data-subj-filter="X">Cross-Core</button>
+      <button class="chip" data-subj-filter="B">Branch-Specific</button>
+      <button class="chip alt" data-subj-filter="FUT">★ Futuristic</button>
+      <button class="chip" data-subj-filter="COMMON">Common Across ≥ 4 Branches</button>
+    </div>
+
+    <div class="matrix-wrap reveal">
+      <div class="matrix-scroll">
+        <table class="matrix" id="subjectsMatrix">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>ECE</th>
+              <th>EEE</th>
+              <th>MECH</th>
+              <th>CSE</th>
+              <th>CIVIL</th>
+              <th>CHEM</th>
+              <th>AI/DS</th>
+            </tr>
+          </thead>
+          <tbody id="subjectsBody"></tbody>
+        </table>
+      </div>
+      <div class="matrix-legend">
+        <div class="leg"><span class="dot core-dot">C</span> Core Subject</div>
+        <div class="leg"><span class="dot common-dot">C</span> Common Foundation (≥ 4 branches)</div>
+        <div class="leg"><span class="dot elec-dot">E</span> Elective</div>
+        <div class="leg"><span class="dot na-dot">—</span> Not in curriculum</div>
+        <div class="leg"><span class="fut" style="margin:0">FUT</span> Futuristic / In-demand 2030</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOP 100 JOBS MATRIX -->
+<section id="jobs" style="background:var(--cream-2);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Top 100 Engineering Jobs · Mapped to Branches</span>
+      <h2 class="acc-title">Where will each branch <em>actually take you</em>?</h2>
+      <p>100 real engineering jobs across software, hardware, energy, infra, process, automotive, consulting and government. Each mapped to the branches that feed it, with current salary band, sector and demand status. Filter by branch, salary, govt/private, or demand to focus on what matters to you.</p>
+    </div>
+
+    <div class="jobs-stats reveal">
+      <div class="job-stat"><div class="num">100</div><div class="lbl">Engineering jobs decoded</div></div>
+      <div class="job-stat"><div class="num">35<span>+</span></div><div class="lbl">Highly-paid roles (₹12 L+)</div></div>
+      <div class="job-stat"><div class="num">18</div><div class="lbl">Government &#x26; PSU roles</div></div>
+      <div class="job-stat"><div class="num">42<span>%</span></div><div class="lbl">Marked "hot" / fast-growing</div></div>
+    </div>
+
+    <div class="filter-bar reveal">
+      <span class="filter-label">Branch:</span>
+      <button class="chip active" data-job-branch="all">All</button>
+      <button class="chip" data-job-branch="electronics">Electronics</button>
+      <button class="chip" data-job-branch="electrical">Electrical</button>
+      <button class="chip" data-job-branch="mechanical">Mechanical</button>
+      <button class="chip" data-job-branch="cse">CSE</button>
+      <button class="chip" data-job-branch="civil">Civil</button>
+      <button class="chip" data-job-branch="chemical">Chemical</button>
+      <button class="chip" data-job-branch="ai_ds">AI/DS</button>
+    </div>
+    <div class="filter-bar reveal">
+      <span class="filter-label">Salary:</span>
+      <button class="chip active" data-job-salary="all">All</button>
+      <button class="chip alt" data-job-salary="top">₹25L+ Top</button>
+      <button class="chip" data-job-salary="high">₹12–25L High</button>
+      <button class="chip" data-job-salary="mid">₹6–12L Mid</button>
+      <button class="chip" data-job-salary="low">₹3–6L Low</button>
+      <span class="filter-label" style="margin-left:18px">Sector:</span>
+      <button class="chip" data-job-type="govt">Government / PSU</button>
+      <button class="chip" data-job-type="private">Private</button>
+      <span class="filter-label" style="margin-left:18px">Demand:</span>
+      <button class="chip" data-job-status="hot">🔥 Hot</button>
+      <button class="chip" data-job-status="stable">Stable</button>
+      <button class="chip" data-job-status="declining">Declining</button>
+    </div>
+
+    <div class="matrix-wrap reveal">
+      <div class="matrix-scroll">
+        <table class="jobs-table" id="jobsTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Job Role</th>
+              <th>Branches that Feed</th>
+              <th>Salary Band</th>
+              <th>Sector</th>
+              <th>Demand</th>
+            </tr>
+          </thead>
+          <tbody id="jobsBody"></tbody>
+        </table>
+      </div>
+      <div class="matrix-legend">
+        <div class="leg"><span class="salary-badge salary-top">TOP ₹25L+</span> Top quartile salary</div>
+        <div class="leg"><span class="salary-badge salary-high">HIGH ₹12-25L</span> Highly paid</div>
+        <div class="leg"><span class="salary-badge salary-mid">MID ₹6-12L</span> Mid-range</div>
+        <div class="leg"><span class="salary-badge salary-low">LOW ₹3-6L</span> Entry level</div>
+        <div class="leg"><span class="govt-flag">GOVT</span> Government / PSU</div>
+        <div class="leg"><span class="status-tag status-hot">🔥 HOT</span> Growing fast</div>
+        <div class="leg"><span class="status-tag status-declining">DECLINING</span> Shrinking demand</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDIA OPPORTUNITIES MAP -->
+<section class="dark-section" id="opportunities">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Job Opportunities Map · Top 100 Companies in India</span>
+      <h2 class="acc-title" style="color:#fff">Where the <em>opportunities</em> actually are</h2>
+      <p>Major employment hubs across India — government &#x26; PSU, IT, manufacturing, oil &#x26; chemical, pharma, minerals, infrastructure. Click a sector filter to see which cities light up — and the top 100 companies hiring engineers across India.</p>
+    </div>
+
+    <div class="filter-bar reveal">
+      <span class="filter-label">Sector:</span>
+      <button class="chip active" data-map-filter="all">All Sectors</button>
+      <button class="chip" data-map-filter="govt">Government / PSU</button>
+      <button class="chip" data-map-filter="it">IT / Software</button>
+      <button class="chip" data-map-filter="manufacturing">Manufacturing / Auto</button>
+      <button class="chip" data-map-filter="heavy">Heavy Industry</button>
+      <button class="chip" data-map-filter="oil">Oil &#x26; Chemical</button>
+      <button class="chip" data-map-filter="pharma">Pharma &#x26; Bio</button>
+      <button class="chip" data-map-filter="energy">Energy / EV / Renewable</button>
+      <button class="chip" data-map-filter="construction">Construction / Infra</button>
+      <button class="chip" data-map-filter="mining">Mining / Minerals</button>
+      <button class="chip" data-map-filter="startups">Startups / Product</button>
+    </div>
+
+    <div class="india-map-wrap reveal">
+      <!-- D3-rendered India Map (real GeoJSON) -->
+      <div class="india-map-card">
+        <svg viewBox="0 0 720 720" id="indiaMap" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" aria-label="India job opportunities map">
+          <g class="states-layer"></g>
+          <g class="pins-layer"></g>
+        </svg>
+        <div class="map-loading" id="mapLoading">
+          <div class="ml-spin"></div>
+          <div class="ml-text">Loading India geo-data…</div>
+        </div>
+        <div class="map-tooltip" id="mapTooltip"></div>
+      </div>
+
+      <!-- Sector summary side panel -->
+      <div class="india-side">
+        <div class="map-summary" id="mapSummary">
+          <div class="ms-eyebrow">Active filter</div>
+          <div class="ms-title" id="msTitle">All Sectors</div>
+          <div class="ms-desc" id="msDesc">All major job hubs across India highlighted. Use the filter chips above to focus on a specific sector — only the cities active in that sector will glow.</div>
+          <div class="ms-counts">
+            <div class="ms-count"><div class="n" id="msHubs">16</div><div class="l">Active hubs</div></div>
+            <div class="ms-count"><div class="n" id="msCos">100</div><div class="l">Companies shown below</div></div>
+          </div>
+        </div>
+        <div class="map-hub-list" id="mapHubList"></div>
+      </div>
+    </div>
+
+    <!-- TOP 100 COMPANIES GRID -->
+    <h3 style="color:#fff;margin-top:60px;margin-bottom:6px;font-size:30px;letter-spacing:-0.02em">Top 100 Companies hiring engineers in India</h3>
+    <p style="color:rgba(255,255,255,.7);font-size:15px;margin-bottom:24px;max-width:780px">Filtered live by the chip selected above. Click a chip to drill down by sector. Each company card shows brand mark + sector tag + city.</p>
+    <div class="companies-grid reveal" id="companiesGrid"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="dark-section" id="how">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">How This Works · 4 Steps</span>
+      <h2 class="acc-title" style="color:#fff">From confusion to clarity, <em>in under 10 minutes</em></h2>
+      <p>Most JOSAA-2026 aspirants spend 6–15 hours/week on admission confusion. Our assessment is designed to give you data-backed clarity in a single session.</p>
+    </div>
+
+    <div class="steps-grid reveal">
+      <div class="step-card">
+        <div class="step-num">STEP 01</div>
+        <h4>Share student info</h4>
+        <p>Quick form — name, contact, class, board, expected rank. Saved securely to our counselling pipeline.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">STEP 02</div>
+        <h4>Take 15 questions</h4>
+        <p>Smart cross-branch sliders mapping math, physics, coding, hands-on, field-readiness across 7 branches.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">STEP 03</div>
+        <h4>See your branch ranking</h4>
+        <p>Live radar chart + ranked list of top 7 branches by fit %. No vague advice — just data.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">STEP 04</div>
+        <h4>Download PDF report</h4>
+        <p>EduAakashaa-branded PDF with student details, scores, recommendations, and counsellor contact.</p>
+      </div>
+    </div>
+
+    <!-- POSTER 2 -->
+    <div class="reveal" style="margin-top:60px">
+      <figure class="poster">
+        <img src="./poster_josaa_dasa.png" alt="JOSAA 2026 · DASA &#x26; CIWG 2026 — EduAakashaa">
+        <figcaption class="poster-caption">
+          <span class="title">JOSAA 2026 · DASA &#x26; CIWG 2026</span>
+          <span>Full-spectrum admissions counselling</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- STUDENT INFO FORM -->
+<section id="student-info">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Step 01 · Tell Us About You</span>
+      <h2 class="acc-title">Quick form before the <em>assessment</em></h2>
+      <p>Three reasons we ask: (1) so we can email you the PDF report, (2) so our counselling team can follow up if you'd like personalised guidance, (3) so the assessment can store your responses against your profile. We don't share your data with anyone.</p>
+    </div>
+
+    <form id="studentForm" class="form-wrap reveal" autocomplete="on">
+      <div class="intro">
+        <h3>Student Information</h3>
+        <p>Required fields are marked <span style="color:var(--orange);font-weight:600">*</span>. Hit "Save &#x26; Start Assessment" to unlock the 15-question branch-fit test.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="f_name">Student Full Name <span class="req">*</span></label>
+          <input type="text" id="f_name" name="name" placeholder="e.g. Aarav Kumar" required>
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="f_email">Email (for PDF report) <span class="req">*</span></label>
+          <input type="email" id="f_email" name="email" placeholder="aarav@example.com" required>
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="f_phone">Mobile Number <span class="req">*</span></label>
+          <input type="tel" id="f_phone" name="phone" placeholder="+91 98XXX XXXXX" required pattern="[0-9+\s\-]{10,15}">
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="f_parent_name">Parent / Guardian Name</label>
+          <input type="text" id="f_parent_name" name="parent_name" placeholder="Optional but recommended">
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="f_class">Current Class <span class="req">*</span></label>
+          <select id="f_class" name="class" required>
+            <option value="">Select…</option>
+            <option value="Class 11">Class 11</option>
+            <option value="Class 12">Class 12</option>
+            <option value="Dropper / Repeater">Dropper / Repeater</option>
+            <option value="College Year 1">College Year 1</option>
+          </select>
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="f_board">Board <span class="req">*</span></label>
+          <select id="f_board" name="board" required>
+            <option value="">Select…</option>
+            <option value="CBSE">CBSE</option>
+            <option value="State Board (TN)">State Board (TN)</option>
+            <option value="State Board (Other)">State Board (Other)</option>
+            <option value="ICSE">ICSE</option>
+            <option value="IB">IB</option>
+            <option value="IGCSE / Cambridge">IGCSE / Cambridge</option>
+            <option value="NRI / Overseas">NRI / Overseas</option>
+          </select>
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="f_jee_rank">Expected / Actual JEE Rank</label>
+          <input type="text" id="f_jee_rank" name="jee_rank" placeholder="e.g. 12000 or &#x27;Not yet&#x27;">
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="f_target_exam">Target Exam <span class="req">*</span></label>
+          <select id="f_target_exam" name="target_exam" required>
+            <option value="">Select…</option>
+            <option value="JEE Main + JOSAA">JEE Main + JOSAA</option>
+            <option value="JEE Advanced">JEE Advanced</option>
+            <option value="TNEA">TNEA (Tamil Nadu)</option>
+            <option value="DASA / CIWG">DASA / CIWG (NRI)</option>
+            <option value="BITSAT">BITSAT</option>
+            <option value="Other state CET">Other state CET</option>
+            <option value="Multiple / Not Decided">Multiple / Not Decided</option>
+          </select>
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="f_city">City / Country <span class="req">*</span></label>
+          <input type="text" id="f_city" name="city" placeholder="e.g. Coimbatore · Dubai · Chennai" required>
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field">
+          <label for="f_parent_phone">Parent Mobile (optional)</label>
+          <input type="tel" id="f_parent_phone" name="parent_phone" placeholder="+91 / +971…">
+          <div class="err"></div>
+        </div>
+
+        <div class="form-field full">
+          <label for="f_notes">Anything specific you'd like us to know?</label>
+          <input type="text" id="f_notes" name="notes" placeholder="e.g. Strong in math, want PSU career, considering MS abroad…">
+          <div class="err"></div>
+        </div>
+      </div>
+
+      <div class="form-status" id="formStatus"></div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary" id="formSubmit">Save &#x26; Start Assessment <span class="arr">→</span></button>
+        <button type="button" class="btn-ghost" id="formReset">Reset form</button>
+      </div>
+
+      <div class="setup-note">
+        <strong>One-time setup · for the website owner</strong>
+        To send form responses to a Google Sheet, replace the <code>GOOGLE_SHEETS_WEBHOOK_URL</code> constant in the script below with your Apps Script Web App URL. Setup steps are explained in the comment block at the top of the <code>&#x3C;script></code>. Until configured, the form runs in <em>local-only</em> mode and the assessment still unlocks.
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- ASSESSMENT -->
+<section class="dark-section" id="assessment">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Step 02 · 15 Questions, 1–10 Scale</span>
+      <h2 class="acc-title" style="color:#fff">Find your <em>top engineering branch fit</em></h2>
+      <p>One smart assessment that scores you simultaneously across all 7 branches. Each slider contributes weighted scores to the relevant branches. Move all sliders, then scroll down for your ranked results.</p>
+    </div>
+
+    <div class="assess-lock reveal" id="assessLock">
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+      Fill in the student information form above to unlock the 15-question assessment.
+    </div>
+
+    <div class="assess-wrap reveal" id="assessWrap">
+      <div class="intro">
+        <h3>How this works</h3>
+        <p>Rate each statement from <strong>1 (strongly disagree)</strong> to <strong>10 (strongly agree)</strong>. The system simultaneously scores you across <em>Electronics, Electrical, Mechanical, CSE, Civil, Chemical and AI/DS</em>. Results appear automatically as you move sliders.</p>
+      </div>
+
+      <!-- 15 Questions -->
+      <div class="question"><div class="q-top"><span class="q-num">Q·01</span><span class="q-text">I'm comfortable with <em>mathematics</em> — calculus, algebra, probability — and don't avoid it.</span><span class="q-val" id="v1">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="1" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·02</span><span class="q-text"><em>Chemistry</em> in 11th–12th felt natural to me — physical, organic, or inorganic.</span><span class="q-val" id="v2">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="2" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·03</span><span class="q-text"><em>Physics</em> — mechanics, electromagnetism, materials — felt natural and interesting.</span><span class="q-val" id="v3">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="3" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·04</span><span class="q-text">I <em>already code</em> regularly — projects, websites, scripts — not just school assignments.</span><span class="q-val" id="v4">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="4" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·05</span><span class="q-text">I'm fascinated by <em>how machines and devices physically work</em> — phones, EVs, drones, satellites.</span><span class="q-val" id="v5">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="5" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·06</span><span class="q-text">I'm interested in <em>real-world infrastructure</em> — buildings, bridges, metros, smart cities, dams.</span><span class="q-val" id="v6">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="6" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·07</span><span class="q-text">I want to work on <em>energy, EVs, renewables, or smart-grid</em> — power systems and electrification.</span><span class="q-val" id="v7">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="7" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·08</span><span class="q-text">I'd love to work on <em>pharma, specialty chemicals, materials, FMCG or manufacturing</em>.</span><span class="q-val" id="v8">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="8" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·09</span><span class="q-text">I'm excited by <em>AI, machine learning, LLMs, deep learning</em> — not just using them, building them.</span><span class="q-val" id="v9">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="9" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·10</span><span class="q-text">I enjoy <em>hands-on work</em> — building circuits, working models, lab experiments, prototyping.</span><span class="q-val" id="v10">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="10" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·11</span><span class="q-text">I can <em>visualise objects in 3D</em> — rotating parts, exploding assemblies, structures in space.</span><span class="q-val" id="v11">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="11" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·12</span><span class="q-text">I'm <em>open to plant, site or field work</em> — factories, construction zones, refineries — not just an office.</span><span class="q-val" id="v12">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="12" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·13</span><span class="q-text">A <em>PSU / government / UPSC / IES career</em> appeals to me long-term — stability, public works, prestige.</span><span class="q-val" id="v13">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="13" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·14</span><span class="q-text">I <em>read research papers / tech blogs / Kaggle / GitHub</em> already, on my own initiative.</span><span class="q-val" id="v14">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="14" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+
+      <div class="question"><div class="q-top"><span class="q-num">Q·15</span><span class="q-text">I'm okay with <em>continuous re-learning</em> — tech stacks, tools, methods change every 6–12 months.</span><span class="q-val" id="v15">5</span></div><div class="slider-wrap"><input type="range" min="1" max="10" value="5" data-q="15" style="--p:44%"></div><div class="slider-scale"><span>1 · Disagree</span><span>5 · Neutral</span><span>10 · Strongly agree</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="results-section" id="results">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Step 03 · Your Branch Fit</span>
+      <h2 class="acc-title">Your top engineering branch <em>match</em></h2>
+      <p>Live ranking across all 7 branches. The radar chart shows your fit profile. Click "Download PDF report" to get a branded EduAakashaa report with your full details + scores + recommendations.</p>
+    </div>
+
+    <div class="results-wrap reveal">
+      <div class="results-top">
+        <div class="result-summary">
+          <h3 id="resultTitle">Your top fit</h3>
+          <p id="resultBody">Move the assessment sliders above. The system simultaneously scores you across all seven branches and ranks them by fit. You'll see your top match here.</p>
+          <div class="top-pick">
+            <div class="pct" id="topPct">—</div>
+            <div class="info">
+              <div class="lbl">Top recommendation</div>
+              <div class="br" id="topBranch">Complete assessment above</div>
+            </div>
+          </div>
+        </div>
+        <div class="result-chart">
+          <canvas id="branchRadar"></canvas>
+        </div>
+      </div>
+
+      <div class="rankings">
+        <h4>Full ranking across all 7 branches</h4>
+        <div id="rankList"></div>
+      </div>
+
+      <div class="results-actions">
+        <button type="button" class="btn-primary" id="downloadPdf">Download PDF Report <span class="arr">↓</span></button>
+        <a href="#cta" class="btn-ghost">Talk to a counsellor about my results</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDIES / IMPACT OF WRONG CHOICE -->
+<section id="regret">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">The Cost of Wrong Choice · Real Case Studies</span>
+      <h2 class="acc-title">When a branch choice goes <em>quietly wrong</em></h2>
+      <p>The most expensive mistake in Indian engineering admissions isn't choosing the "wrong college". It's choosing the wrong branch for the wrong reason. Six anonymised case studies from our last three counselling cycles — and the lessons families wish they'd learned in advance.</p>
+    </div>
+
+    <div class="regret-stats reveal">
+      <div class="regret-stat">
+        <div class="num">~25%</div>
+        <div class="lbl">Indian engineering dropout / lateral-shift by Year 3</div>
+      </div>
+      <div class="regret-stat">
+        <div class="num">~50%</div>
+        <div class="lbl">Engineering graduates working in unrelated fields by Year 5</div>
+      </div>
+      <div class="regret-stat">
+        <div class="num">~40%</div>
+        <div class="lbl">Students surveyed report "branch regret" by Sem-4</div>
+      </div>
+      <div class="regret-stat">
+        <div class="num">₹16 L+</div>
+        <div class="lbl">Average lifetime cost of one wrong branch decision</div>
+      </div>
+    </div>
+
+    <div class="cases-grid reveal">
+      <article class="case-card">
+        <div class="case-num">Case 01 · Tier-3 CSE for the brand</div>
+        <div class="case-who">JOSAA 2022 · Chennai family</div>
+        <h4>"Everyone said CSE — so we took it at any college that gave it."</h4>
+        <p class="case-body">Aarav had a JEE rank that could fetch CSE at a Tier-3 private college, or ECE at NIT Trichy. Family chose CSE — "no future in core branches," they were told. Two years in, internships were drying up. The college had no real software culture, no recruiter visits from product companies. He's now retraining via online bootcamps at age 23.</p>
+        <div class="case-lesson"><div><strong>Lesson</strong>Brand of college matters more than name of branch. Tier-1 ECE consistently outperforms Tier-3 CSE in placement data — including software roles.</div></div>
+      </article>
+
+      <article class="case-card">
+        <div class="case-num">Case 02 · Mechanical because "father is an engineer"</div>
+        <div class="case-who">JOSAA 2021 · Mumbai family</div>
+        <h4>"She just couldn't connect with thermodynamics and machine design."</h4>
+        <p class="case-body">Riya was strong at math and biology, loved teaching and writing. Family insisted on Mechanical at a top NIT — "engineering is the safer path." By Sem-3, her grades had collapsed; the visualisation-heavy curriculum didn't match her thinking style. She eventually dropped to a BBA + MBA route. Three lost years and significant cost.</p>
+        <div class="case-lesson"><div><strong>Lesson</strong>Aptitude and interest matter more than family preference. Take an objective branch-fit assessment <em>before</em> JOSAA, not after Sem-3.</div></div>
+      </article>
+
+      <article class="case-card">
+        <div class="case-num">Case 03 · ECE forced when CSE was the fit</div>
+        <div class="case-who">JOSAA 2020 · Bangalore family</div>
+        <h4>"We told her 'take ECE as a hardware backup'. She wanted pure CSE."</h4>
+        <p class="case-body">Priya had been coding since 9th grade — built two apps, won a hackathon, knew her direction. Family worried about over-specialising and pushed ECE. She suffered through 4 semesters of analog circuits and electromagnetism that she had no interest in. Eventually moved to software via internships — but lost 18 months catching up on what plain CSE would have taught directly.</p>
+        <div class="case-lesson"><div><strong>Lesson</strong>If the student has a genuine, demonstrated interest, trust the signal. "Backup branches" make sense for the undecided, not for those who already know.</div></div>
+      </article>
+
+      <article class="case-card">
+        <div class="case-num">Case 04 · Chemical for "stability" — without chemistry interest</div>
+        <div class="case-who">JOSAA 2021 · Hyderabad family</div>
+        <h4>"Chemical sounded stable. But he hated 11th-grade chemistry."</h4>
+        <p class="case-body">Karan had scored 92% in PCM with strong math but average chemistry. Family chose Chemical at a Tier-2 NIT because the closing rank fit. Within a year, lab sessions and reaction engineering became a battle. He eventually shifted to MBA via CAT — but only because he was top-quartile at math. A student without that fallback would have been stuck.</p>
+        <div class="case-lesson"><div><strong>Lesson</strong>Branch must match the subject you actually enjoyed in 11th–12th, not just the rank you got. Chemistry-light students rarely thrive in Chemical Engineering.</div></div>
+      </article>
+
+      <article class="case-card">
+        <div class="case-num">Case 05 · AI/DS at Tier-3 college on hype</div>
+        <div class="case-who">JOSAA 2023 · Bengaluru family</div>
+        <h4>"The brochure had 'AI' and a fancy lab photo. The reality was different."</h4>
+        <p class="case-body">Ananya chose "AI &#x26; Data Science" at a private college over a CSE seat at a strong NIT. The curriculum turned out to be plain CSE with two extra ML electives, no GPU access, no faculty research, no real ML internships. Her cousin at IIIT-H was already publishing papers and interning at Sarvam AI. Same year, vastly different trajectories.</p>
+        <div class="case-lesson"><div><strong>Lesson</strong>AI/DS is only as valuable as the college's research culture, GPU labs, faculty depth and recruiter access. Verify curriculum + placements, not just branch name.</div></div>
+      </article>
+
+      <article class="case-card">
+        <div class="case-num">Case 06 · Civil dismissed without checking modern reality</div>
+        <div class="case-who">JOSAA 2022 · Coimbatore family</div>
+        <h4>"We thought Civil meant 'no jobs'. We were wrong — by a decade."</h4>
+        <p class="case-body">Vikram had a strong interest in metros and smart cities but the family treated Civil as a "no scope" branch (a perception from 2014–18). They forced him into IT at a private college. He ended up unhappy in software and is now considering a Civil MS abroad — adding years and cost. Meanwhile NIT Civil graduates from his year are L&#x26;T metro project leaders.</p>
+        <div class="case-lesson"><div><strong>Lesson</strong>Verify perceptions with current placement data, not WhatsApp forwards. India's ₹100-lakh-crore infra pipeline is rewriting "no scope" stories for Civil.</div></div>
+      </article>
+    </div>
+
+    <div class="imp-box reveal">
+      <div class="imp-grid">
+        <div>
+          <span class="eyebrow" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:#fff">Why Expert Guidance Matters</span>
+          <h3>Four years is too long to learn <em>by accident</em></h3>
+          <p>Every one of the cases above could have been avoided with a 45-minute counselling session before JOSAA. We don't sell coaching or coaching dreams — we run an evidence-based aptitude + rank + interest mapping process that produces a written branch plan. Of 1,400+ families counselled, 96% report their child's branch choice felt "obvious" once we'd done the analysis together.</p>
+        </div>
+        <div class="imp-side">
+          <h4>What a counselling session changes</h4>
+          <div class="item"><span class="n">01</span><div>Objective branch-fit based on assessment + rank, not perception or peer pressure</div></div>
+          <div class="item"><span class="n">02</span><div>3 ranked branch options with reasons, not generic advice</div></div>
+          <div class="item"><span class="n">03</span><div>4-year plan: internships, projects, GATE / IES strategy, MS pathway</div></div>
+          <div class="item"><span class="n">04</span><div>Honest tier-vs-branch trade-off advice for your specific JOSAA / TNEA / DASA rank</div></div>
+        </div>
+      </div>
+      <div class="imp-actions">
+        <a href="#cta" class="btn-primary">Book a counsellor session <span class="arr">→</span></a>
+        <a href="#student-info" class="btn-ghost">Or take the branch-fit assessment first</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="container">
+    <div class="cta-wrap reveal">
+      <div class="cta-grid">
+        <div>
+          <span class="eyebrow" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);color:#fff">Next Step · 1-on-1 Counselling</span>
+          <h2>Right college. Right branch. <em>Right future.</em></h2>
+          <p>A 45-minute counselling session covers your child's profile, JEE / JOSAA / TNEA rank scenarios, three branch options with reasons, and a 4-year plan including internships, GATE / IES strategy and higher-studies pathway.</p>
+          <div class="cta-actions">
+            <a href="tel:+918015722706" class="btn-primary">Call India · +91 80157 22706 <span class="arr">→</span></a>
+            <a href="tel:+971505168081" class="btn-ghost">UAE · +971 50 516 8081</a>
+          </div>
+        </div>
+        <div class="cta-meta">
+          <div class="row"><span class="k">Session Length</span><span class="v">45 mins · 1-on-1</span></div>
+          <div class="row"><span class="k">Format</span><span class="v">In-person · Zoom · WhatsApp</span></div>
+          <div class="row"><span class="k">Outcome</span><span class="v">Written branch plan + rank ladder</span></div>
+          <div class="row"><span class="k">Languages</span><span class="v">English · தமிழ் · हिंदी</span></div>
+          <div class="row"><span class="k">Hours (IST)</span><span class="v">Mon–Fri 9:00–22:00</span></div>
+          <div class="row"><span class="k">Weekends</span><span class="v">Sat &#x26; Sun 9:00–16:00</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="name">Edu<span class="ak">Aakashaa</span></div>
+        <p>Evidence-based education counselling for engineering, medical and study-abroad aspirants. Coimbatore, Tamil Nadu · Dubai, UAE.</p>
+        <p style="font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.16em;color:rgba(255,255,255,.5)">Learn · Grow · Succeed</p>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Branch Guides</div>
+        <a href="./electronics_engineering_guide.html">Electronics</a>
+        <a href="./electrical_engineering_guide.html">Electrical</a>
+        <a href="./mechanical_engineering_guide.html">Mechanical</a>
+        <a href="./computer_science_engineering_guide.html">Computer Science</a>
+        <a href="./civil_engineering_guide.html">Civil</a>
+        <a href="./chemical_engineering_guide.html">Chemical</a>
+        <a href="./ai_data_science_engineering_guide.html">AI &#x26; Data Science</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Contact</div>
+        <p>India · +91 80157 22706</p>
+        <p>UAE · +971 50 516 8081</p>
+        <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
+        <a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a>
+      </div>
+      <div class="foot-col">
+        <div class="foot-h">Office Hours</div>
+        <p>Mon–Fri · 9:00 – 22:00 IST</p>
+        <p>Sat &#x26; Sun · 9:00 – 16:00 IST</p>
+        <p style="margin-top:14px">Coimbatore, Tamil Nadu</p>
+        <p>Dubai, UAE</p>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 EduAakashaa · All rights reserved</span>
+      <span>Built with care · For students &#x26; families</span>
+    </div>
+  </div>
+</footer>
+{% endraw %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/engineering_insights.js') }}"></script>
+{% endblock %}

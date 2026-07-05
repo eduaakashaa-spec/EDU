@@ -1,87 +1,1254 @@
 {% extends "base.html" %}
-{% block title %}Expert Portal DASA | EduAakashaA{% endblock %}
+{% block title %}Expert Portal — DASA | EduAakashaA{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/expert_portal_dasa.css') }}">
 {% endblock %}
+
 {% block content %}
+<div class="ported ported-expert_portal_dasa">
+{% raw %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="EduAakashaa&#x27;s DASA &#x26; CIWG Multi-Factor Choice Filling Matrix — beyond NIRF. Score 324 programs across 47 institutes on 12 weighted factors: location, closing rank, branch fit, reputation, placement, zone, CTC, NRI facility, campus, NIRF trend, peoples choice and more.">
+<title>DASA Choice Filling Matrix · Beyond NIRF · EduAakashaa</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&#x26;family=Plus+Jakarta+Sans:wght@300..800&#x26;family=JetBrains+Mono:wght@400..600&#x26;display=swap" rel="stylesheet">
+
+
+
+
+
+<!-- ═══════════ ANNOUNCEMENT BANNER ═══════════ -->
+<div class="announcement-banner" id="announcementBanner" role="region" aria-label="Important announcement">
+  <div class="announcement-inner">
+    <span class="ann-pulse" aria-hidden="true"></span>
+    <span class="ann-text"><b>DASA 2026 Round 1 results out</b> — book a free counselling call</span>
+    <a class="ann-cta" href="https://wa.me/971505168081?text=Hi%20EduAakashaa%2C%20I%27d%20like%20a%20free%20counselling%20call%20after%20DASA%20Round%201%20results" target="_blank" rel="noopener">Book now →</a>
+    <button class="announcement-close" id="announcementClose" aria-label="Dismiss announcement" title="Dismiss">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+</div>
+
+<!-- ═══════════ NAV ═══════════ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand" aria-label="EduAakashaa home">
+      <img src="data:image/png;base64,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" alt="EduAakashaa logo">
+      <div class="brand-lockup">
+        <div class="brand-name">Edu<b>Aakashaa</b></div>
+        <div class="brand-tag">Choice Matrix · Beyond NIRF</div>
+      </div>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#race">NIRF Race</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#tool">Matrix Tool</a>
+      <a href="#guide">Guide</a>
+      <a href="#nri-checklist">NRI Checklist</a>
+      <a href="#docs">Documentation</a>
+      <a href="dasa_predictor_student.html">Predictor</a>
+      <a href="#contact" class="nav-cta">Talk to Expert →</a>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════ MODE RIBBON ═══════════ -->
+<div class="mode-ribbon">
+  <div class="container mode-ribbon-inner">
+    <span class="mode-ribbon-tag" id="modeTag">EXPERT PORTAL</span>
+    <span id="modeText">Full controls. Adjust factor weights, lock the configuration, and generate the recommended choice list as PDF or CSV.</span>
+    <div class="mode-toggle" role="tablist" aria-label="Portal mode">
+      <button class="active" data-mode="expert" aria-label="Expert mode">Expert</button>
+      <button data-mode="student" aria-label="Student mode">Student</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ RUNNING IMAGES MARQUEE ═══════════ -->
+<div class="image-marquee" id="imageMarquee" role="region" aria-label="EduAakashaa highlights">
+  <div class="image-marquee-head">
+    <h4>From our <em>recent counselling sessions</em> &#x26; success stories</h4>
+    <span class="imh-tag">Updated weekly</span>
+  </div>
+  <div class="image-marquee-track" id="imageMarqueeTrack">
+    <!-- Filled at runtime from MARQUEE_IMAGES; track contents are duplicated for seamless loop -->
+  </div>
+</div>
+
+<!-- ═══════════ HERO ═══════════ -->
 <section class="hero">
-  <div class="hero__glow"></div>
-  <div class="hero__content">
-    <span class="badge">PREMIUM MEMBERSHIP</span>
-    <h1>Expert Portal <span>DASA</span></h1>
-    <p>Premium guidance for DASA/CIWG: strategy, choice filling support, and counsellor-led review.</p>
-    <div class="final-cta__btns" style="margin-top:26px;">
-      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor &rarr;</a>
-      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="reveal">
+        <span class="eyebrow">DASA &#x26; CIWG · 2026 Choice Matrix</span>
+        <h1>Build a choice list that <span class="highlight">looks past NIRF</span> — score every college on what <em>actually matters</em> to your family.</h1>
+        <p class="lede">Six scientific factors, normalised to a 0–1 scale and combined with a transparent composite formula. 324 programs across 47 NITs, IIITs, SPAs, IIESTs and GFTIs. Slide the weights, watch the order recompute live, lock the recipe, and export the recommended choice list as PDF or CSV.</p>
+        <div class="hero-cta">
+          <a href="https://www.eduaakashaa.in/josaa-assessment" target="_blank" rel="noopener" class="btn-primary">Branch selection assessment <span class="arrow">→</span></a>
+          <a href="https://www.eduaakashaa.in/nirf-ranking" target="_blank" rel="noopener" class="btn-ghost">NIRF Ranking</a>
+        </div>
+        <div class="hero-meta">DASA-CIWG · 215 programs · DASA Non-CIWG · 109 programs · Source: NIRF Engineering 2026 + DASA 2025 official cutoffs</div>
+      </div>
+      <aside class="hero-card reveal" aria-label="Methodology preview">
+        <div class="hero-card-label">The 6-factor scientific model</div>
+        <div class="hero-card-title">Six factors. Normalised. Weighted. Bias-corrected.</div>
+        <ul>
+          <li>People Choice (PC) <b>30%</b></li>
+          <li>NIRF Rank (NR) <b>20%</b></li>
+          <li>Placement &#x26; CTC (PL) <b>20%</b></li>
+          <li>Branch Demand (BD) <b>15%</b></li>
+          <li>Location / Exposure (LS) <b>10%</b></li>
+          <li>Institute Legacy (IL) <b>5%</b></li>
+          <li style="border-top: 1px dashed var(--hairline); padding-top: 10px; margin-top: 10px;"><span style="color: var(--orange); font-family: &#x27;JetBrains Mono&#x27;, monospace;">α</span> bias correction <b>0.15</b></li>
+          <li style="font-size: 11.5px; color: var(--muted); border: 0;">composite = Σ(s<sub>i</sub>×w<sub>i</sub>) ÷ Σw<sub>i</sub><br>adjusted = base + α(PC − NR)</li>
+        </ul>
+      </aside>
     </div>
   </div>
 </section>
 
-<div class="main-content">
-  {% if current_user.is_authenticated %}
-    {% if current_user.is_premium %}
-    <section class="section">
-      <div class="section__header">
-        <span class="eyebrow">PREMIUM ACCESS</span>
-        <h2 class="section__title">Welcome, {{ current_user.name }}!</h2>
-      </div>
-      <div class="info-cards info-cards--3">
-        <div class="info-card"><div class="info-card__icon">📌</div><div class="info-card__title">Choice Filling Strategy</div><div class="info-card__text">Round-by-round plan based on your rank &amp; priorities.</div></div>
-        <div class="info-card"><div class="info-card__icon">📞</div><div class="info-card__title">Counsellor Review</div><div class="info-card__text">Share your shortlist and get expert feedback.</div></div>
-        <div class="info-card"><div class="info-card__icon">📄</div><div class="info-card__title">Resources</div><div class="info-card__text">Playbooks, deadlines, checklists, and document guides.</div></div>
-      </div>
-      <div class="final-cta">
-        <h2>Run the DASA Predictor</h2>
-        <p>Use the predictor to build your shortlist, then book a review.</p>
-        <div class="final-cta__btns">
-          <a href="{{ url_for('main.dasa_guide') }}" class="btn-main">Open DASA Predictor</a>
-          <a href="{{ url_for('main.contact') }}" class="btn-out">Book a Review</a>
-        </div>
-      </div>
-    </section>
-    {% else %}
-    <section class="section">
-      <div class="section__header">
-        <span class="eyebrow">PREMIUM REQUIRED</span>
-        <h2 class="section__title">Upgrade to access the Expert Portal</h2>
-      </div>
-      <p class="content-text">You're signed in, but the DASA Expert Portal is available only to <strong>Premium</strong> subscribers.</p>
-      <div class="final-cta">
-        <h2>Request Premium Access</h2>
-        <p>We’ll activate your portal after verification.</p>
-        <div class="final-cta__btns">
-          <a href="{{ url_for('main.contact') }}" class="btn-main">Request Upgrade</a>
-          <a href="{{ url_for('auth.dashboard') }}" class="btn-out">My Dashboard</a>
-        </div>
-      </div>
-    </section>
-    {% endif %}
-  {% else %}
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">MEMBERS ONLY</span>
-      <h2 class="section__title">Please sign in to continue</h2>
+<!-- Stats strip -->
+<div class="container">
+  <div class="stats-strip reveal">
+    <div class="stat-cell">
+      <div class="stat-num">6<span>+α</span></div>
+      <div class="stat-label">weighted factors</div>
     </div>
-    <p class="content-text">Sign in to access the DASA Expert Portal. Premium members get advanced guidance and resources.</p>
-    <div class="final-cta">
-      <h2>Sign in</h2>
-      <p>Use your EduAakashaA account to proceed.</p>
-      <div class="final-cta__btns">
-        <a href="{{ url_for('auth.login', next=request.path) }}" class="btn-main">Login</a>
-        <a href="{{ url_for('auth.register') }}" class="btn-out">Create Account</a>
-      </div>
+    <div class="stat-cell">
+      <div class="stat-num">47</div>
+      <div class="stat-label">DASA institutes</div>
     </div>
-  </section>
-  {% endif %}
-
-  <div class="final-cta">
-    <h2>DASA choice-filling is high-stakes. Talk to a mentor.</h2>
-    <p>Same rank, very different colleges — a mentor turns the seat matrix and cutoffs into the right call for your child.</p>
-    <div class="final-cta__btns">
-      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor →</a>
-      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
+    <div class="stat-cell">
+      <div class="stat-num">324</div>
+      <div class="stat-label">programs scored</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num">5</div>
+      <div class="stat-label">expert presets</div>
     </div>
   </div>
 </div>
+
+<!-- ═══════════ NIRF POSITIONING RACE ═══════════ -->
+<section id="race" style="background: var(--cream-2); padding-top: 80px;">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">NIRF Race · How your CRL maps to NIRF positions</span>
+      <h2>Where would your child land on the <em>NIRF 1–300</em> ranking, course by course?</h2>
+      <p>Enter the CRL and watch the markers slide. Each track shows the best NIRF position reachable with your CRL for that course group — the lower the NIRF, the better the destination. Toggle course groups to see how branch flexibility expands or constrains the realistic top end. The objective: surface the best-college-best-course outcome the family is leaving on the table by being too narrow about branch.</p>
+    </div>
+
+    <!-- CRL input + summary -->
+    <div class="race-controls reveal">
+      <div class="race-input-row">
+        <div class="race-input-block">
+          <label for="raceRank">Student's CRL <small>(JEE Main, all India)</small></label>
+          <input type="number" id="raceRank" min="1" max="2000000" placeholder="e.g. 75000" value="">
+        </div>
+        <div class="race-input-block">
+          <label for="raceCategory">DASA route</label>
+          <select id="raceCategory">
+            <option value="CIWG">CIWG (Children of Indian workers in Gulf)</option>
+            <option value="Non-CIWG">Non-CIWG (NRI quota)</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+        <div class="race-input-block race-input-block-actions">
+          <button class="race-btn race-btn-pri" id="raceSyncBtn">Sync from Matrix CRL</button>
+          <button class="race-btn race-btn-sec" id="racePdfBtn">Add to PDF report</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Highlights -->
+    <div class="race-highlights reveal" id="raceHighlights"></div>
+
+    <!-- Per-course-group race tracks -->
+    <div class="race-tracks reveal" id="raceTracks"></div>
+
+    <!-- Course group toggles + impact summary -->
+    <div class="race-impact reveal" id="raceImpact"></div>
+  </div>
+</section>
+
+<!-- ═══════════ METHODOLOGY ═══════════ -->
+<section id="methodology">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Methodology · 6-factor scientific model</span>
+      <h2>NIRF rank alone <em>does not</em> predict whether a college will fit your child.</h2>
+      <p>Real choice-filling optimises for branch, placement, location, peer quality, closing-rank trends — not just a single ranking column. EduAakashaa's matrix uses a six-factor composite model: each input is normalised to 0–1, weighted, and combined into one score. A small bias-correction layer (<span style="font-family:&#x27;JetBrains Mono&#x27;,monospace; color: var(--orange)">α</span>) rebalances for "hidden gems" the rankings undervalue.</p>
+    </div>
+
+    <div class="factors-grid reveal" id="factorMethodologySection">
+      <article class="factor-card">
+        <div class="factor-num">F·01</div>
+        <div class="factor-icon"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zm13 10v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"></path></svg></div>
+        <h4>People Choice (PC)</h4>
+        <p><code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-size:11.5px">PC = 1 − (closing ÷ maxClosing)</code> with trend correction <code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-size:11.5px">×(1 + Δ)</code>. Lower closing rank means more demand. Captures real student behaviour.</p>
+        <span class="factor-weight">Default 30%</span>
+      </article>
+      <article class="factor-card">
+        <div class="factor-num">F·02</div>
+        <div class="factor-icon"><svg viewBox="0 0 24 24"><path d="M5 17l4-4 4 4 6-6M14 7h6v6"></path></svg></div>
+        <h4>NIRF Rank (NR)</h4>
+        <p><code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-size:11.5px">NR = 1 − (nirfRank ÷ 300)</code>. NIRF Engineering 2026 ranking, normalised so #1 = 1.00 and #300 = 0.00. Unranked institutions get a 0.30 floor.</p>
+        <span class="factor-weight">Default 20%</span>
+      </article>
+      <article class="factor-card">
+        <div class="factor-num">F·03</div>
+        <div class="factor-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18M9 17V9m4 8V5m4 12v-6"></path></svg></div>
+        <h4>Placement &#x26; CTC (PL)</h4>
+        <p><code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-size:11.5px">PL = avgCTC ÷ 25 LPA</code>. Outcome-based — average placement CTC normalised to ₹25 L = 1.0. Programs below the family's minimum CTC get a −0.30 penalty.</p>
+        <span class="factor-weight">Default 20%</span>
+      </article>
+      <article class="factor-card">
+        <div class="factor-num">F·04</div>
+        <div class="factor-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"></path></svg></div>
+        <h4>Branch Demand (BD)</h4>
+        <p><code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-size:11.5px">BD = branchPref ÷ 5</code>. Captures CSE > ECE > Mech > Civil hierarchy. Counsellor edits per-branch chips (1–5) so each family's target branch carries the right weight.</p>
+        <span class="factor-weight">Default 15%</span>
+      </article>
+      <article class="factor-card">
+        <div class="factor-num">F·05</div>
+        <div class="factor-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"></circle><path d="M12 21s-7-7-7-12a7 7 0 0114 0c0 5-7 12-7 12z"></path></svg></div>
+        <h4>Location / Exposure (LS)</h4>
+        <p><code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-size:11.5px">LS = metroTier(city)</code>. Tier-1 metros (Delhi, Mumbai, Bengaluru…) = 1.00 · Tier-2 = 0.70 · Tier-3 = 0.45 · remote = 0.25. Drives internship &#x26; exposure access.</p>
+        <span class="factor-weight">Default 10%</span>
+      </article>
+      <article class="factor-card">
+        <div class="factor-num">F·06</div>
+        <div class="factor-icon"><svg viewBox="0 0 24 24"><path d="M3 21V8l9-5 9 5v13M9 21V12h6v9"></path></svg></div>
+        <h4>Institute Legacy (IL)</h4>
+        <p><code style="background:var(--cream);padding:2px 6px;border-radius:4px;font-size:11.5px">IL = foundingHeritage(inst)</code>. Pre-1970 RECs (Trichy, Warangal, Surathkal…) = 1.00 · 2000s NITs = 0.65 · 2009-10 wave NITs = 0.30. Brand age × alumni density.</p>
+        <span class="factor-weight">Default 5%</span>
+      </article>
+    </div>
+
+    <!-- Bias correction explainer -->
+    <div style="margin-top: 36px; background: linear-gradient(135deg, var(--paper) 0%, var(--cream-2) 100%); border: 1.5px solid var(--orange); border-radius: var(--radius); padding: 30px; position: relative; overflow: hidden;" class="reveal">
+      <span class="eyebrow" style="background: var(--paper);">Bias correction layer · The α term</span>
+      <h3 style="margin-top: 14px; font-size: 26px;">Some colleges are <em>consistently chosen</em> over what NIRF predicts.</h3>
+      <p style="max-width: 820px; color: var(--ink); font-size: 15px; line-height: 1.65;">A small additive correction lifts colleges where students vote with their feet — the "hidden gems" effect. Default <code style="background: var(--cream); padding: 3px 8px; border-radius: 4px; font-family: &#x27;JetBrains Mono&#x27;, monospace; font-size: 13px;">α = 0.15</code>. Set to <code style="background: var(--cream); padding: 3px 8px; border-radius: 4px; font-family: &#x27;JetBrains Mono&#x27;, monospace; font-size: 13px;">0</code> to disable; up to <code style="background: var(--cream); padding: 3px 8px; border-radius: 4px; font-family: &#x27;JetBrains Mono&#x27;, monospace; font-size: 13px;">0.30</code> to amplify.</p>
+      <pre style="margin-top: 16px; background: var(--navy-ink); color: #fff; padding: 18px 22px; border-radius: 12px; overflow-x: auto; font-family: &#x27;JetBrains Mono&#x27;, monospace; font-size: 13px; line-height: 1.7;">base     = Σ (s_i × w_i) ÷ Σ w_i        // weighted average, ∈ [0, 1]
+adjusted = base + <span style="color: var(--orange-soft)">α × (PC − NR)</span>           // bias correction
+composite = adjusted × 100               // displayed score</pre>
+      <p style="margin-top: 14px; color: var(--muted); font-size: 13.5px; max-width: 820px;">When PC > NR (a college with strong people-choice but lower NIRF rank), the term is positive — the program is boosted. Examples surfaced by α = 0.15: NIT Surathkal CSE branches, NIT Warangal ECE, NIT Trichy Production. Set α = 0 to fall back to a pure weighted average.</p>
+    </div>
+
+    <p style="margin-top: 28px; max-width: 880px; color: var(--muted); font-size: 14px;" class="reveal">
+      <strong style="color: var(--navy-ink);">The output is a four-bucket choice list —</strong> Safe, Target, Reach and Dream — based on closing-rank fit relative to the student's CRL. Sorted by composite score within each bucket, with a NIRF-only reference column always visible. Full mathematical breakdown in the <a href="#docs" style="color: var(--orange); border-bottom: 1px dotted var(--orange);">documentation section below</a>.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════ MATRIX TOOL ═══════════ -->
+<section id="tool" style="background: var(--cream-2);">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Matrix · live recompute</span>
+      <h2 class="expert-only">Three lists side-by-side. Compare. <em>Tune.</em> Decide.</h2>
+      <h2 class="student-only" style="display:none;">See your top matches — <em>get the full report</em> from a counsellor.</h2>
+      <p class="expert-only">Set the student's CRL, branch preferences, zones and city. The matrix builds three parallel lists — student preference, EduAakashaa default, and your expert-tuned list — so you can compare what each prioritisation produces and lock in the final shortlist.</p>
+      <p class="student-only" style="display:none;">Enter your CRL, target branch and preferred region. The preview shows your top matches based on what you told us. The detailed multi-factor optimisation, bucket strategy and downloadable choice list are part of the EduAakashaa expert review.</p>
+    </div>
+
+    <!-- ═══════════ STUDENT PREVIEW (visible only in student mode) ═══════════ -->
+    <div class="student-preview student-only reveal" id="studentPreview" style="display:none;">
+      <div class="student-preview-head">
+        <span class="eyebrow">Quick preview · top matches for your profile</span>
+        <h3>Tell us about you. We'll show what's in range.</h3>
+      </div>
+      <div class="student-preview-grid">
+        <div>
+          <label for="spRank">Your CRL (JEE Main)</label>
+          <input type="number" id="spRank" placeholder="e.g. 85000" min="1" max="2000000">
+        </div>
+        <div>
+          <label for="spBranch">Target branch</label>
+          <select id="spBranch">
+            <option value="">— any branch —</option>
+            <option value="CSE &#x26; IT">Computer Science / IT</option>
+            <option value="CSE (AI/DS Specialization)">CSE — AI/DS</option>
+            <option value="AI &#x26; Data Science">AI &#x26; Data Science</option>
+            <option value="Electronics &#x26; Communication">ECE</option>
+            <option value="VLSI &#x26; Microelectronics">VLSI / Microelectronics</option>
+            <option value="Electrical">Electrical</option>
+            <option value="Mechanical &#x26; Production">Mechanical</option>
+            <option value="Aerospace">Aerospace</option>
+            <option value="Civil">Civil</option>
+            <option value="Chemical">Chemical</option>
+            <option value="Architecture &#x26; Planning">Architecture / Planning</option>
+          </select>
+        </div>
+        <div>
+          <label for="spZone">Preferred zone</label>
+          <select id="spZone">
+            <option value="">— any —</option>
+            <option value="North">North</option>
+            <option value="South">South</option>
+            <option value="East">East</option>
+            <option value="West">West</option>
+            <option value="Central">Central</option>
+          </select>
+        </div>
+        <div>
+          <label for="spCategory">Category</label>
+          <select id="spCategory">
+            <option value="CIWG">DASA-CIWG</option>
+            <option value="Non-CIWG">DASA Non-CIWG</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-meta" id="spTableMeta" style="margin-bottom: 8px;">Enter your CRL to see top matches</div>
+      <div class="student-preview-fade">
+        <table class="student-preview-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Institute &#x26; branch</th>
+              <th>NIRF</th>
+              <th>Closing CRL</th>
+              <th>Fit</th>
+            </tr>
+          </thead>
+          <tbody id="spTbody">
+            <tr><td colspan="5" style="text-align:center; color: var(--muted); padding: 28px;">— preview will populate once you enter your CRL —</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="student-preview-cta">
+        <div>
+          <h4>Want the full 6-factor analysis + bucket strategy?</h4>
+          <p>Talk to an EduAakashaa counsellor. We'll build your three-list locked report — Safe / Target / Reach / Dream — and email it as PDF + CSV within 48 hours.</p>
+        </div>
+        <div class="cta-buttons">
+          <a class="cta-btn" href="https://wa.me/971505168081?text=Hi%20EduAakashaa%2C%20I%27d%20like%20a%20DASA%20choice%20matrix%20review" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path></svg>
+            WhatsApp our experts
+          </a>
+          <a class="cta-btn ghost" href="#register">Register for review</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ EXPERT MATRIX TOOL (visible only in expert mode) ═══════════ -->
+    <div class="matrix-tool reveal expert-only" id="matrixTool">
+
+      <div class="matrix-toolbar">
+        <div>
+          <div class="toolbar-title">Choice Filling Matrix · DASA &#x26; CIWG 2026</div>
+          <div class="toolbar-sub">Live · <span id="programCount">324</span> programs · <span id="lockStatus">Unlocked — adjust freely</span></div>
+        </div>
+        <div class="toolbar-actions" id="toolbarActions">
+          <button class="sidebar-toggle" id="sidebarToggle" aria-label="Edit the 6 factor weights" title="Open the factor-weights editor to fine-tune how the model scores programs">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <span class="stl-expanded">Hide factors</span>
+            <span class="stl-collapsed">Edit factors</span>
+          </button>
+          <button class="tb-btn" id="resetBtn" aria-label="Reset weights">
+            <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"></path><path d="M3 4v5h5"></path></svg>
+            Reset
+          </button>
+          <button class="tb-btn tb-orange" id="lockBtn" aria-label="Lock factor weights">
+            <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+            <span id="lockBtnLabel">Lock factors</span>
+          </button>
+          <button class="tb-btn" id="csvBtn" aria-label="Download CSV">
+            <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"></path><path d="M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>
+            CSV
+          </button>
+          <div class="tb-pdf-group">
+            <button class="tb-btn" id="pdfBtn" aria-label="Generate PDF report (all lists)">
+              <svg class="tb-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><path d="M14 3v6h6"></path></svg>
+              PDF report
+            </button>
+            <button class="tb-btn tb-btn-caret" id="pdfMenuBtn" aria-label="Open PDF report menu" aria-haspopup="true" aria-expanded="false">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="tb-pdf-menu" id="pdfMenu" role="menu">
+              <button class="tb-pdf-item" data-pdf="all" role="menuitem">
+                <strong>Full report</strong>
+                <small>All 4 lists + comparison + race + summary (default)</small>
+              </button>
+              <div class="tb-pdf-divider"></div>
+              <button class="tb-pdf-item" data-pdf="list1" role="menuitem">
+                <strong>L 01 only · Student preference</strong>
+                <small>Default weights with student inputs applied as filters</small>
+              </button>
+              <button class="tb-pdf-item" data-pdf="list2" role="menuitem">
+                <strong>L 02 only · EduAakashaa default</strong>
+                <small>30/20/20/15/10/5 baseline, no student-specific filters</small>
+              </button>
+              <button class="tb-pdf-item" data-pdf="list3" role="menuitem">
+                <strong>L 03 only · Expert-tuned</strong>
+                <small>Live weights + α + comparison vs L1/L2 movers</small>
+              </button>
+              <button class="tb-pdf-item" data-pdf="list4" role="menuitem">
+                <strong>L 04 only · Strategic 4 rounds</strong>
+                <small>R1–R4 manual picks with allotment flags</small>
+              </button>
+              <div class="tb-pdf-divider"></div>
+              <button class="tb-pdf-item" data-pdf="race" role="menuitem">
+                <strong>NIRF Race only</strong>
+                <small>Course-group reachability tracks + impact summary</small>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="matrix-body">
+        <!-- LEFT: Factors panel -->
+        <aside class="factors-panel" aria-label="Factor controls">
+          <div class="factors-panel-head">
+            <span>Student profile</span>
+          </div>
+
+          <div class="pref-row">
+            <label for="studentRank">Student CRL (JEE Main)</label>
+            <input type="number" id="studentRank" placeholder="e.g. 85000" min="1" max="2000000">
+          </div>
+
+          <div class="pref-row">
+            <label for="categoryPick">DASA category</label>
+            <select id="categoryPick">
+              <option value="all">All (CIWG + Non-CIWG)</option>
+              <option value="CIWG" selected>DASA-CIWG only</option>
+              <option value="Non-CIWG">DASA Non-CIWG only</option>
+            </select>
+          </div>
+
+          <div class="pref-row">
+            <label>Preferred branches (click to toggle)</label>
+            <div class="chip-grid" id="branchChips"></div>
+          </div>
+
+          <div class="pref-row">
+            <label>Preferred geographic zones</label>
+            <div class="chip-grid" id="zoneChips">
+              <span class="chip" data-zone="North">North</span>
+              <span class="chip" data-zone="South">South</span>
+              <span class="chip" data-zone="East">East</span>
+              <span class="chip" data-zone="West">West</span>
+              <span class="chip" data-zone="Central">Central</span>
+            </div>
+          </div>
+
+          <div class="pref-row">
+            <label for="prefCity">Preferred city (optional)</label>
+            <select id="prefCity">
+              <option value="">— any —</option>
+            </select>
+          </div>
+
+          <div class="pref-row">
+            <label for="minCTC">Minimum acceptable CTC (LPA)</label>
+            <input type="number" id="minCTC" placeholder="e.g. 8" min="0" max="50" step="0.5">
+          </div>
+
+          <div class="factors-panel-head" style="margin-top: 24px;">
+            <span>Factor weights</span>
+            <span class="total-weight" id="totalWeight">100%</span>
+          </div>
+
+          <div class="preset-row">
+            <button class="preset-btn" data-preset="default">Default</button>
+            <button class="preset-btn" data-preset="placement">Placement-first</button>
+            <button class="preset-btn" data-preset="reputation">Reputation</button>
+            <button class="preset-btn" data-preset="branch">Branch-first</button>
+            <button class="preset-btn" data-preset="emerging">Emerging gems</button>
+          </div>
+
+          <div id="factorControls"></div>
+        </aside>
+
+        <!-- RIGHT: Table -->
+        <div class="table-panel">
+          <div class="table-controls">
+            <div class="filter-group">
+              <input type="search" id="searchBox" placeholder="Search institute or branch…" style="min-width: 220px;">
+              <select id="instTypeFilter">
+                <option value="all">All inst types</option>
+                <option value="NIT">NITs</option>
+                <option value="IIIT">IIITs</option>
+                <option value="SPA">SPAs</option>
+                <option value="IIEST">IIESTs</option>
+                <option value="Deemed/Private">Deemed/Private</option>
+              </select>
+              <select id="topNFilter">
+                <option value="all">Show all</option>
+                <option value="100" selected>Top 100</option>
+                <option value="50">Top 50</option>
+                <option value="25">Top 25</option>
+                <option value="10">Top 10</option>
+              </select>
+            </div>
+            <div class="table-meta" id="tableMeta">324 programs · sorted by score</div>
+          </div>
+
+          <!-- Expected allotment summary — populated when student CRL is set -->
+          <div class="allotment-summary" id="allotmentSummary" style="display:none;"></div>
+
+          <!-- List explainer — three small cards explaining what each list shows -->
+          <div class="list-explainer">
+            <div class="lx-card lx-1">
+              <div class="lx-tag"><span class="lx-num">1</span> List 1 · Student Preference</div>
+              <p>Default 30/20/20/15/10/5 weights, but with the <b>student's own choices applied as filters</b> — their preferred branches get a boost, their preferred zones are enforced, and their minimum CTC is honoured. This is "what we'd recommend if we listened only to what the student told us."</p>
+            </div>
+            <div class="lx-card lx-2">
+              <div class="lx-tag"><span class="lx-num">2</span> List 2 · EduAakashaa Default</div>
+              <p>Same default weights, but <b>no student-specific filters</b>. This is our standard 6-factor model running on all 324 programs — the unbiased baseline. Useful as a reality check: are the student's preferences actually serving them, or pushing them toward worse options?</p>
+            </div>
+            <div class="lx-card lx-3">
+              <div class="lx-tag"><span class="lx-num">3</span> List 3 · Expert-Tuned</div>
+              <p>The expert's <b>live weights and α</b> applied with the student's preferences. Up/down arrows show how each program moved vs List 2. The "vs L2" column and the comparison panel below tell you exactly what your tuning changed and by how much — this is the list that gets locked and exported.</p>
+            </div>
+          </div>
+
+          <!-- Three-list tabs -->
+          <div class="list-tabs" role="tablist">
+            <button class="list-tab active" data-list="list1" role="tab" aria-selected="true">
+              <span class="lt-tag">L · 01</span>
+              <span class="lt-title">Student preference</span>
+              <span class="lt-sub">Your inputs · default weights</span>
+            </button>
+            <button class="list-tab" data-list="list2" role="tab" aria-selected="false">
+              <span class="lt-tag">L · 02</span>
+              <span class="lt-title">EduAakashaa default</span>
+              <span class="lt-sub">Standard 30/20/20/15/10/5 model</span>
+            </button>
+            <button class="list-tab" data-list="list3" role="tab" aria-selected="false">
+              <span class="lt-tag">L · 03</span>
+              <span class="lt-title">Expert-tuned</span>
+              <span class="lt-sub">Live · vs default arrows</span>
+            </button>
+            <button class="list-tab list-tab-strat" data-list="list4" role="tab" aria-selected="false">
+              <span class="lt-tag">L · 04</span>
+              <span class="lt-title">Strategic builder</span>
+              <span class="lt-sub">4 rounds · manual pick &#x26; rank</span>
+            </button>
+          </div>
+
+          <!-- Comparison summary panel (visible on List 3) -->
+          <div class="compare-panel" id="comparePanel" style="display:none;">
+            <div class="compare-panel-head">
+              <h4>Expert-tuned changes vs. baseline lists</h4>
+              <div style="display:flex; gap:6px;">
+                <button class="compare-toggle active" data-cmp="vs2">vs. List 2 (default)</button>
+                <button class="compare-toggle" data-cmp="vs1">vs. List 1 (preference)</button>
+              </div>
+            </div>
+            <div class="compare-grid">
+              <div class="compare-col">
+                <h5>Top <b>movers up</b> in List 3</h5>
+                <ul class="compare-list" id="compareUp"><li class="compare-list-empty">— no movement to highlight yet —</li></ul>
+              </div>
+              <div class="compare-col">
+                <h5>Top <b>movers down</b> in List 3</h5>
+                <ul class="compare-list" id="compareDown"><li class="compare-list-empty">— no movement to highlight yet —</li></ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- LIST 1 PANE — Student preference -->
+          <div class="list-pane active" id="paneList1" data-print-title="LIST 1 · Student Preference" data-print-desc="Default 6-factor weights with the student&#x27;s branch chips, preferred zones and minimum CTC applied as filters.">
+            <div class="smart-alerts" id="smartAlerts1" style="display:none;"></div>
+            <div class="bucket-summary" id="bucketSummary1">
+              <span class="bucket-chip safe"><b>0</b> Safe</span>
+              <span class="bucket-chip target"><b>0</b> Target</span>
+              <span class="bucket-chip reach"><b>0</b> Reach</span>
+              <span class="bucket-chip dream"><b>0</b> Dream</span>
+            </div>
+            <div class="table-wrap">
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th class="sticky-l col-rank">#</th>
+                    <th class="col-name">Institute · Branch</th>
+                    <th class="col-zone">Zone</th>
+                    <th class="col-nirf">NIRF</th>
+                    <th class="col-cr">Closing</th>
+                    <th class="col-ctc">CTC</th>
+                    <th class="col-tier">Tier</th>
+                    <th class="col-score">Score</th>
+                    <th class="col-fit">Fit</th>
+                    <th class="col-ref">NIRF-only</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyList1"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- LIST 2 PANE — EduAakashaa default -->
+          <div class="list-pane" id="paneList2" data-print-title="LIST 2 · EduAakashaa Default" data-print-desc="Standard 30/20/20/15/10/5 weights with α = 0.15. No student-specific filters applied — this is what our model recommends out of the box.">
+            <div class="smart-alerts" id="smartAlerts2" style="display:none;"></div>
+            <div class="bucket-summary" id="bucketSummary2">
+              <span class="bucket-chip safe"><b>0</b> Safe</span>
+              <span class="bucket-chip target"><b>0</b> Target</span>
+              <span class="bucket-chip reach"><b>0</b> Reach</span>
+              <span class="bucket-chip dream"><b>0</b> Dream</span>
+            </div>
+            <div class="table-wrap">
+              <table class="matrix-table">
+                <thead>
+                  <tr>
+                    <th class="sticky-l col-rank">#</th>
+                    <th class="col-name">Institute · Branch</th>
+                    <th class="col-zone">Zone</th>
+                    <th class="col-nirf">NIRF</th>
+                    <th class="col-cr">Closing</th>
+                    <th class="col-ctc">CTC</th>
+                    <th class="col-tier">Tier</th>
+                    <th class="col-score">Score</th>
+                    <th class="col-fit">Fit</th>
+                    <th class="col-ref">NIRF-only</th>
+                  </tr>
+                </thead>
+                <tbody id="tbodyList2"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- LIST 3 PANE — Expert-tuned with movement arrows -->
+          <div class="list-pane" id="paneList3" data-print-title="LIST 3 · Expert-Tuned (final recommendation)" data-print-desc="Live expert-set weights and α, applied with student preferences. Movement arrows show how each program shifted vs List 2 (EduAakashaa default).">
+            <div class="smart-alerts" id="smartAlerts3" style="display:none;"></div>
+            <div class="bucket-summary" id="bucketSummary3">
+              <span class="bucket-chip safe"><b>0</b> Safe</span>
+              <span class="bucket-chip target"><b>0</b> Target</span>
+              <span class="bucket-chip reach"><b>0</b> Reach</span>
+              <span class="bucket-chip dream"><b>0</b> Dream</span>
+            </div>
+            <div class="table-wrap">
+              <table class="matrix-table" id="matrixTable">
+                <thead>
+                  <tr>
+                    <th class="sticky-l col-rank">#</th>
+                    <th class="sticky-l2 col-move" title="Movement vs List 2 (default)">vs L2</th>
+                    <th class="col-name">Institute · Branch</th>
+                    <th class="col-zone">Zone</th>
+                    <th class="col-nirf">NIRF</th>
+                    <th class="col-cr">Closing</th>
+                    <th class="col-ctc">CTC</th>
+                    <th class="col-tier">Tier</th>
+                    <th class="col-score">Score</th>
+                    <th class="col-fit">Fit</th>
+                    <th class="col-ref">NIRF-only</th>
+                  </tr>
+                </thead>
+                <tbody id="matrixTbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="changelog">
+            <h4>Recent changes — what shifted when you adjusted the weights</h4>
+            <ul class="changelog-list" id="changelog">
+              <li class="changelog-empty">Adjust any weight or preference and the changelog will populate here.</li>
+            </ul>
+          </div>
+
+          <!-- ═══════════ LIST 4 PANE — Strategic Round Builder ═══════════ -->
+          <div class="list-pane" id="paneList4" data-print-title="LIST 4 · Strategic Round Builder" data-print-desc="Four-round manual choice list. Expert-curated, condition-sorted picks per round, with allotment flags.">
+            <div class="strat-instructions">
+              <span class="eyebrow">How this works</span>
+              <ol>
+                <li><b>Set the six conditions</b> at the top — NIRF ceiling, course group, zone &#x26; city tier, minimum CTC, institute type, and quota. The college pool on the right re-sorts instantly.</li>
+                <li><b>Click a branch chip</b> on the right to add it as the next pick in the current round. Use <span class="key">↑</span> / <span class="key">↓</span> on the left to reorder, or drag rows to rearrange. Click <span class="key">×</span> to remove. Click <span class="key">ⓘ</span> for float / freeze / slide guidance on that program.</li>
+                <li><b>Add picks to this round</b>, then press <i>Lock Round</i>. Use the <span class="key">+ Add all visible</span> button to bulk-add the entire filtered pool, or click branch chips one at a time. There is no minimum — lock with however many picks the strategy demands. The next round opens automatically; already-picked programs are greyed in the pool but stay visible. Repeat for all 4 rounds.</li>
+                <li>When all four rounds are locked, press <b>Submit &#x26; Generate Report</b> to produce a unified PDF + CSV containing all 4 rounds plus Lists 1, 2, 3 and the comparison highlights.</li>
+              </ol>
+            </div>
+
+            <!-- Round tabs -->
+            <div class="strat-round-tabs">
+              <button class="strat-round-tab active" data-round="r1">
+                <span class="srt-num">R1</span>
+                <span class="srt-label">Round 1</span>
+                <span class="srt-status" id="srtStatus_r1">0 picks</span>
+              </button>
+              <button class="strat-round-tab" data-round="r2">
+                <span class="srt-num">R2</span>
+                <span class="srt-label">Round 2</span>
+                <span class="srt-status" id="srtStatus_r2">0 picks</span>
+              </button>
+              <button class="strat-round-tab" data-round="r3">
+                <span class="srt-num">R3</span>
+                <span class="srt-label">Round 3</span>
+                <span class="srt-status" id="srtStatus_r3">0 picks</span>
+              </button>
+              <button class="strat-round-tab" data-round="r4">
+                <span class="srt-num">R4</span>
+                <span class="srt-label">Round 4</span>
+                <span class="srt-status" id="srtStatus_r4">0 picks</span>
+              </button>
+              <button class="strat-lock-btn" id="stratLockBtn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                <span id="stratLockBtnLabel">Lock Round 1</span>
+              </button>
+              <button class="strat-submit-btn" id="stratSubmitBtn" disabled>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="M22 4L12 14.01l-3-3"></path></svg>
+                Submit &#x26; Generate Report
+              </button>
+            </div>
+
+            <!-- Six conditions filter bar -->
+            <div class="strat-conditions">
+              <div class="strat-cond-header">
+                <span class="strat-cond-eyebrow">Sort the pool by 6 strategic conditions</span>
+                <div class="strat-cond-mode" title="When hard-constraint mode is on, attempts to add programs that violate any of the six conditions are blocked with a warning. Useful for strict family rules like &#x27;only South India&#x27; or &#x27;must be NIT&#x27;.">
+                  <input type="checkbox" id="condHardMode">
+                  <label for="condHardMode">
+                    <span class="sch-icon">🔒</span>
+                    <span class="sch-label">Hard-constraint mode</span>
+                    <span class="sch-sub">Block adds that violate the conditions</span>
+                  </label>
+                </div>
+              </div>
+              <!-- Hard-rule extras (only relevant when hard mode is on) -->
+              <div class="strat-hard-extras" id="stratHardExtras">
+                <div class="strat-hard-extra">
+                  <input type="checkbox" id="hardExcludeNew">
+                  <label for="hardExcludeNew">Exclude new campuses (founded after 2010)</label>
+                </div>
+                <div class="strat-hard-extra">
+                  <input type="checkbox" id="hardExcludeNoNirf">
+                  <label for="hardExcludeNoNirf">Exclude unranked institutes (no NIRF rank)</label>
+                </div>
+                <div class="strat-hard-extra">
+                  <label for="hardCityList">Allow only these cities/states <small>(comma-separated, blank = any)</small></label>
+                  <input type="text" id="hardCityList" placeholder="e.g. Tamil Nadu, Kerala, Karnataka, Bangalore">
+                </div>
+                <div class="strat-hard-extra">
+                  <label for="hardMaxFee">Max fee threshold <small>(USD/year, 0 = no cap)</small></label>
+                  <input type="number" id="hardMaxFee" min="0" step="500" placeholder="e.g. 7000" value="0">
+                </div>
+              </div>
+              <div class="strat-cond-grid">
+                <div class="strat-cond">
+                  <label>① NIRF rank ceiling <b id="condNirfVal">100</b></label>
+                  <input type="range" id="condNirf" min="1" max="100" value="100" step="1">
+                  <small>1 = only top NIRF · 100 = no ceiling</small>
+                </div>
+                <div class="strat-cond">
+                  <label>② Course program</label>
+                  <select id="condCourse">
+                    <option value="ALL">ALL — any branch</option>
+                    <option value="CSE &#x26; IT">Computer Science / IT</option>
+                    <option value="CSE (AI/DS Specialization)">CSE — AI/DS</option>
+                    <option value="AI &#x26; Data Science">AI &#x26; Data Science</option>
+                    <option value="CSE (Cyber Security)">CSE — Cyber</option>
+                    <option value="Electronics &#x26; Communication">ECE</option>
+                    <option value="VLSI &#x26; Microelectronics">VLSI / Microelectronics</option>
+                    <option value="Electrical">Electrical</option>
+                    <option value="Mechanical &#x26; Production">Mechanical</option>
+                    <option value="Aerospace">Aerospace</option>
+                    <option value="Civil">Civil</option>
+                    <option value="Chemical">Chemical</option>
+                    <option value="Architecture &#x26; Planning">Architecture</option>
+                    <option value="Biotech &#x26; Biomedical">Biotech / Biomedical</option>
+                    <option value="Metallurgy &#x26; Materials">Metallurgy / Materials</option>
+                    <option value="Instrumentation">Instrumentation</option>
+                    <option value="Engineering Physics">Engineering Physics</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Energy">Energy</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+                <div class="strat-cond">
+                  <label>③ Zone (city tier ≤ <b id="condTierVal">3</b>)</label>
+                  <div class="strat-zone-chips" id="condZoneChips">
+                    <button class="z-chip active" data-zone="North">N</button>
+                    <button class="z-chip active" data-zone="South">S</button>
+                    <button class="z-chip active" data-zone="East">E</button>
+                    <button class="z-chip active" data-zone="West">W</button>
+                    <button class="z-chip active" data-zone="Central">C</button>
+                  </div>
+                  <input type="range" id="condTier" min="1" max="3" value="3" step="1">
+                  <small>1 = metros only · 3 = all cities</small>
+                </div>
+                <div class="strat-cond">
+                  <label>④ Minimum CTC <b id="condCtcVal">0</b> LPA</label>
+                  <input type="range" id="condCtc" min="0" max="40" value="0" step="1">
+                  <small>0 = no floor · 40 = top-tier placements only</small>
+                </div>
+                <div class="strat-cond">
+                  <label>⑤ Institute type</label>
+                  <div class="strat-inst-chips" id="condInstChips">
+                    <button class="i-chip active" data-inst="NIT">NIT</button>
+                    <button class="i-chip active" data-inst="IIIT">IIIT</button>
+                    <button class="i-chip active" data-inst="SPA">SPA</button>
+                    <button class="i-chip active" data-inst="IIEST">IIEST</button>
+                    <button class="i-chip active" data-inst="Deemed/Private">Deemed</button>
+                  </div>
+                </div>
+                <div class="strat-cond">
+                  <label>⑥ Quota</label>
+                  <select id="condQuota">
+                    <option value="Both">Both — CIWG &#x26; Non-CIWG</option>
+                    <option value="CIWG">CIWG only</option>
+                    <option value="Non-CIWG">Non-CIWG only</option>
+                  </select>
+                </div>
+              </div>
+              <button class="strat-cond-reset" id="stratCondReset">Reset all conditions</button>
+            </div>
+
+            <!-- Two-column builder: left = round's choice list, right = filtered pool -->
+            <div class="strat-builder">
+              <!-- LEFT: round's choice list -->
+              <div class="strat-choices">
+                <div class="strat-choices-head">
+                  <h4>Round <span id="stratActiveRoundLabel">1</span> · choice list <span class="strat-count" id="stratChoiceCount">0 picks</span></h4>
+                  <div class="strat-choices-tools">
+                    <button class="strat-tool-btn" id="stratToolMoveUp" title="Move highlighted pick up" disabled>↑</button>
+                    <button class="strat-tool-btn" id="stratToolMoveDown" title="Move highlighted pick down" disabled>↓</button>
+                    <button class="strat-tool-btn" id="stratToolRemove" title="Remove highlighted pick" disabled>×</button>
+                    <button class="strat-tool-btn" id="stratToolClear" title="Clear all picks">Clear</button>
+                  </div>
+                </div>
+                <div class="strat-choices-body" id="stratChoicesBody">
+                  <div class="strat-choices-empty">
+                    Click a branch chip on the right to add it as Choice #1 in this round.
+                  </div>
+                </div>
+              </div>
+
+              <!-- RIGHT: filtered college pool -->
+              <div class="strat-pool">
+                <div class="strat-pool-head">
+                  <h4>College pool <span class="strat-pool-count" id="stratPoolCount">324 programs</span></h4>
+                  <div class="strat-pool-tools">
+                    <select id="stratPoolStrategy" class="strat-pool-strategy" title="Filter the pool to show only programs matching a fit-bucket given the student&#x27;s CRL">
+                      <option value="all">All buckets</option>
+                      <option value="safe">Safe only</option>
+                      <option value="target">Target only</option>
+                      <option value="reach">Reach only</option>
+                      <option value="dream">Dream only</option>
+                    </select>
+                    <input type="search" id="stratPoolSearch" placeholder="Search institute…" class="strat-pool-search">
+                    <button id="stratPoolSelectAll" class="strat-pool-select-all" title="Add every visible program in the pool to the active round&#x27;s choice list">+ Add all visible</button>
+                  </div>
+                </div>
+                <div class="strat-pool-body" id="stratPoolBody"></div>
+              </div>
+            </div>
+
+            <!-- Round summary (insights, NIRF coverage, allotment alert) -->
+            <div class="strat-summary" id="stratSummary"></div>
+          </div>
+          <!-- ═══════════ END LIST 4 PANE ═══════════ -->
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ DOCUMENTATION ═══════════ -->
+<section id="docs">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Documentation · Scoring methodology</span>
+      <h2>How every program gets its <em>composite score.</em></h2>
+      <p>Six factors. Each normalised to [0, 1]. Weighted, summed, then nudged by a small bias-correction term that surfaces colleges undervalued by NIRF. The full maths in plain language — every formula, every default, every override.</p>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;" class="reveal">
+      <div style="background: var(--paper); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 28px;">
+        <h3 style="font-size: 22px; margin-bottom: 18px;">The composite formula</h3>
+        <pre style="background: var(--cream); padding: 18px; border-radius: 12px; overflow-x: auto; font-family: &#x27;JetBrains Mono&#x27;, monospace; font-size: 13px; line-height: 1.7; color: var(--navy-ink); margin: 0;">         6
+base   = Σ ( s_i × w_i ) ÷ Σw_i      // weighted average
+        i=1
+
+adjusted = base + α × (PC − NR)       // bias correction
+
+composite = adjusted × 100             // displayed score
+
+where:
+  s_i ∈ [0, 1]      // per-factor sub-score
+  w_i ∈ [0, 50]     // weight set by counsellor
+  Σ w_i = 100       // weights normalised to 100%
+  α     ∈ [0, 0.30] // default 0.15
+  PC, NR ∈ [0, 1]   // people-choice &#x26; NIRF sub-scores</pre>
+        <p style="margin-top: 18px; font-size: 14px; color: var(--muted);">Programs with missing data (e.g. unranked institutes) get a sensible floor — never a zero — so they can't be unfairly penalised. Recompute time across all 324 programs is &#x3C; 60 ms.</p>
+      </div>
+
+      <div style="background: var(--paper); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 28px;">
+        <h3 style="font-size: 22px; margin-bottom: 18px;">Sub-score formulas</h3>
+        <div style="font-size: 13.5px; line-height: 1.75;">
+          <p><b style="color: var(--navy-ink);">PC · People Choice —</b> <code style="background: var(--cream); padding: 2px 6px; border-radius: 4px; font-size: 12px;">1 − (closing ÷ maxClosing)</code> with trend correction <code style="background: var(--cream); padding: 2px 6px; border-radius: 4px; font-size: 12px;">×(1 + Δ)</code>. Lower closing rank = higher demand. <code style="background: var(--cream); padding: 2px 6px; border-radius: 4px; font-size: 12px;">Δ</code> is the year-over-year demand shift; clamped to [−0.25, +0.25].</p>
+          <p><b style="color: var(--navy-ink);">NR · NIRF Rank —</b> <code style="background: var(--cream); padding: 2px 6px; border-radius: 4px; font-size: 12px;">1 − (nirfRank ÷ 300)</code>. Capped at 1.0; unranked institutes floored at 0.30.</p>
+          <p><b style="color: var(--navy-ink);">PL · Placement —</b> <code style="background: var(--cream); padding: 2px 6px; border-radius: 4px; font-size: 12px;">avgCTC ÷ 25 LPA</code>; soft −0.30 penalty if below the family's minimum acceptable CTC.</p>
+          <p><b style="color: var(--navy-ink);">BD · Branch Demand —</b> <code style="background: var(--cream); padding: 2px 6px; border-radius: 4px; font-size: 12px;">branchPref ÷ 5</code>. Defaults: CSE/AI/IT = 5, ECE/VLSI = 4, Mech/EEE = 3, Civil/Chem = 2, Mining = 1. Counsellor adjusts via chips.</p>
+          <p><b style="color: var(--navy-ink);">LS · Location/Exposure —</b> Tier-1 metro = 1.00 (Delhi, Mumbai, Bengaluru, Chennai, Kolkata, Hyderabad). Tier-2 = 0.70. Tier-3 = 0.45. Remote = 0.25.</p>
+          <p style="margin-bottom: 0;"><b style="color: var(--navy-ink);">IL · Institute Legacy —</b> Pre-1970 RECs (Trichy, Warangal, Surathkal, Rourkela…) = 1.00 · IIEST Shibpur = 1.00 · DTU Delhi = 0.92 · IIIT Hyderabad = 0.80 · 2009-10 wave NITs = 0.30. Captures alumni-network depth and brand age.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Three-bucket strategy -->
+    <div style="margin-top: 28px; background: var(--paper); border: 1px solid var(--hairline); border-radius: var(--radius); padding: 30px;" class="reveal">
+      <span class="eyebrow">Output strategy · Four buckets</span>
+      <h3 style="margin-top: 14px; font-size: 24px;">Don't generate one list — generate <em>four buckets.</em></h3>
+      <p style="color: var(--muted); margin-bottom: 22px; max-width: 840px;">Each program is tagged Safe / Target / Reach / Dream based on the ratio of the student's CRL to the program's 2025 closing rank. The matrix sorts by composite within each bucket, so families always see the strongest options at every risk level.</p>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: var(--radius-sm); overflow: hidden;">
+        <div style="background: var(--paper); padding: 22px;">
+          <span class="fit-pill safe" style="margin-bottom: 12px; display: inline-block;">SAFE</span>
+          <p style="font-size: 13px; color: var(--muted); margin: 0;"><code style="background: var(--cream); padding: 2px 5px; border-radius: 3px; font-size: 11px;">ratio ≤ 0.55</code><br>Student rank well below closing — very high probability.</p>
+        </div>
+        <div style="background: var(--paper); padding: 22px;">
+          <span class="fit-pill target" style="margin-bottom: 12px; display: inline-block;">TARGET</span>
+          <p style="font-size: 13px; color: var(--muted); margin: 0;"><code style="background: var(--cream); padding: 2px 5px; border-radius: 3px; font-size: 11px;">0.55 &#x3C; ratio ≤ 0.95</code><br>The sweet spot — most likely allotment range.</p>
+        </div>
+        <div style="background: var(--paper); padding: 22px;">
+          <span class="fit-pill reach" style="margin-bottom: 12px; display: inline-block;">REACH</span>
+          <p style="font-size: 13px; color: var(--muted); margin: 0;"><code style="background: var(--cream); padding: 2px 5px; border-radius: 3px; font-size: 11px;">0.95 &#x3C; ratio ≤ 1.20</code><br>Slightly above closing — ambitious but plausible.</p>
+        </div>
+        <div style="background: var(--paper); padding: 22px;">
+          <span class="fit-pill dream" style="margin-bottom: 12px; display: inline-block;">DREAM</span>
+          <p style="font-size: 13px; color: var(--muted); margin: 0;"><code style="background: var(--cream); padding: 2px 5px; border-radius: 3px; font-size: 11px;">ratio > 1.20</code><br>Big stretch. Worth listing for completeness.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Special dream rule -->
+    <div style="background: linear-gradient(135deg, var(--navy) 0%, var(--navy-deep) 100%); color: #fff; border-radius: var(--radius); padding: 36px; margin-top: 28px; position: relative; overflow: hidden;" class="reveal">
+      <div style="position: absolute; right: -120px; top: -120px; width: 320px; height: 320px; border-radius: 50%; background: radial-gradient(circle, rgba(255,107,10,.18) 0%, transparent 65%); pointer-events: none;"></div>
+      <div style="position: relative; z-index: 1;">
+        <span class="eyebrow" style="background: rgba(255,255,255,0.1); color: #fff; border-color: rgba(255,255,255,0.2);">Special rule · Dream tagging</span>
+        <h3 style="color: #fff; margin-top: 18px; font-size: 28px;">When the student's CRL is <em style="color: var(--orange-soft);">below 100,000</em>, every shortlisted program is auto-tagged 100% Dream-eligible.</h3>
+        <p style="color: rgba(255,255,255,0.85); max-width: 720px; margin-top: 14px; margin-bottom: 0;">Below 1 lakh CRL, even premier NITs and IIITs are within reach. The matrix removes the conservative warning for these students and recomputes the fit pill so the choice list shows the full ambition envelope. Try setting <code style="background: rgba(255,255,255,0.1); padding: 3px 8px; border-radius: 4px;">studentRank = 85000</code> in the matrix above — every row turns Dream.</p>
+      </div>
+    </div>
+
+    <!-- Five expert presets -->
+    <div style="margin-top: 28px;" class="reveal">
+      <h3 style="font-size: 24px; margin-bottom: 18px;">Five expert presets — one click sets all six weights</h3>
+      <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: var(--radius); overflow: hidden;">
+        <div style="background: var(--paper); padding: 22px;">
+          <div class="factor-num">P·01</div>
+          <h4 style="margin-bottom: 8px;">Default</h4>
+          <p style="font-size: 13px; color: var(--muted); margin: 0;">PC 30 · NR 20 · PL 20 · BD 15 · LS 10 · IL 5. Balanced starting point. α = 0.15.</p>
+        </div>
+        <div style="background: var(--paper); padding: 22px;">
+          <div class="factor-num">P·02</div>
+          <h4 style="margin-bottom: 8px;">Placement-first</h4>
+          <p style="font-size: 13px; color: var(--muted); margin: 0;">PL 38 · PC 22 · NR 15 · BD 15 · LS 7 · IL 3. For families optimising for first-job CTC.</p>
+        </div>
+        <div style="background: var(--paper); padding: 22px;">
+          <div class="factor-num">P·03</div>
+          <h4 style="margin-bottom: 8px;">Reputation</h4>
+          <p style="font-size: 13px; color: var(--muted); margin: 0;">NR 32 · IL 20 · PC 18 · PL 15 · BD 10 · LS 5. Heritage tier and NIRF rank dominate.</p>
+        </div>
+        <div style="background: var(--paper); padding: 22px;">
+          <div class="factor-num">P·04</div>
+          <h4 style="margin-bottom: 8px;">Branch-first</h4>
+          <p style="font-size: 13px; color: var(--muted); margin: 0;">BD 35 · PC 22 · PL 20 · NR 12 · LS 8 · IL 3. For students locked-in to a specific branch.</p>
+        </div>
+        <div style="background: var(--paper); padding: 22px;">
+          <div class="factor-num">P·05</div>
+          <h4 style="margin-bottom: 8px;">Emerging gems</h4>
+          <p style="font-size: 13px; color: var(--muted); margin: 0;">PC 25 · PL 22 · BD 18 · LS 13 · NR 12 · IL 10. With α at 0.20–0.25 surfaces hidden gems.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reality check note -->
+    <div style="margin-top: 28px; padding: 24px 28px; background: var(--cream-2); border-left: 4px solid var(--orange); border-radius: var(--radius-sm);" class="reveal">
+      <p style="margin: 0; font-size: 14.5px; color: var(--ink); line-height: 1.7;">
+        <b style="color: var(--navy-ink);">Reality check —</b> If you sort only by NIRF, you'll undervalue colleges with strong placements relative to their ranking (Surathkal, Warangal, Trichy production branches), and you'll misplace popular branches (CSE in newer NITs often has lower closing rank than ME in older NITs). If you sort only by closing-rank popularity, you'll ignore institutional growth trajectories. The composite + α model balances perception against performance.
+      </p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════ CHOICE-FILLING GUIDE ═══════════ -->
+<section id="guide">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Guide · Filling your choices</span>
+      <h2>Once allotment opens, every student picks <em>one of three options.</em></h2>
+      <p>DASA, CIWG and JoSAA all use the same float / freeze / lock decision framework after each round of seat allocation. Picking the right one is as important as the choice list itself — here's how each works and when to use it.</p>
+    </div>
+
+    <div class="ff-grid reveal">
+      <div class="ff-card ff-float">
+        <div class="ff-tag">OPTION 01</div>
+        <h3>Float</h3>
+        <p class="ff-lede">"Keep what I got, but try for an upgrade in the next round."</p>
+        <p>You accept the current allotted seat as a backup, but stay in the seat-allocation pool. In the next round, the system will try to upgrade you to a <b>higher-preference choice</b> from your filled list. If it can't, you keep the current seat. Zero risk of losing the current seat — only upside.</p>
+        <div class="ff-when"><b>Use when:</b> the allotment is acceptable but not your top choice, and you genuinely want a shot at an upgrade.</div>
+      </div>
+
+      <div class="ff-card ff-freeze">
+        <div class="ff-tag">OPTION 02</div>
+        <h3>Freeze</h3>
+        <p class="ff-lede">"This is the one. Lock it in."</p>
+        <p>You accept the allotted seat as final. You exit the seat-allocation pool and confirm admission. The system will not consider you for any upgrade in subsequent rounds — even if a higher-preference choice would have come through.</p>
+        <div class="ff-when"><b>Use when:</b> the allotment is your top realistic option, you want certainty, or you're done waiting and want to focus on joining the institute.</div>
+      </div>
+
+      <div class="ff-card ff-slide">
+        <div class="ff-tag">OPTION 03</div>
+        <h3>Slide</h3>
+        <p class="ff-lede">"Stay in this college, but try for a better branch."</p>
+        <p>Available only in some allocation systems (notably JoSAA after Round 1). You accept the institute but stay open to a <b>branch upgrade within the same institute</b>. You won't move to a different college, but you might move from, say, Civil to Mechanical at the same NIT.</p>
+        <div class="ff-when"><b>Use when:</b> you've got into a good college but the branch isn't ideal — and a better branch in the same college is realistically reachable.</div>
+      </div>
+    </div>
+
+    <!-- Two worked examples -->
+    <div class="example-grid reveal">
+      <div class="ex-card">
+        <span class="eyebrow">Example 01 · The upgrade-seeker</span>
+        <h4>Aarav got NIT Trichy ECE. He wanted NIT Trichy CSE.</h4>
+        <p><b>The situation:</b> Aarav's CRL is 24,500. After Round 1 of DASA-CIWG allocation, he is allotted <b>NIT Trichy · Electronics &#x26; Communication Engineering</b> (his choice #4). His top three filled choices were NIT Trichy CSE, NIT Surathkal CSE, and NIT Calicut CSE — none came through in R1.</p>
+        <div class="ex-decision">
+          <div class="ex-decision-bar">DECISION</div>
+          <div><b style="color: var(--green);">Float.</b> ECE at Trichy is excellent — he keeps it as his secured seat. But CSE at the same campus is a clear upgrade he genuinely wants. By choosing Float, he stays in the pool: if CSE @ Trichy frees up in R2, he gets it. If not, he keeps ECE @ Trichy. Zero downside.</div>
+        </div>
+        <div class="ex-warning">
+          <b>What he should NOT do:</b> Freeze ECE just because he's tired of waiting. Float costs him nothing and gives a real upgrade chance.
+        </div>
+      </div>
+
+      <div class="ex-card">
+        <span class="eyebrow">Example 02 · The done-and-dusted</span>
+        <h4>Priya got NIT Surathkal CSE. She is thrilled.</h4>
+        <p><b>The situation:</b> Priya's CRL is 18,200. After Round 1, she's allotted <b>NIT Surathkal · Computer Science &#x26; Engineering</b> — her choice #2. Her #1 was NIT Trichy CSE, which is unlikely to free up given how the cutoffs are trending.</p>
+        <div class="ex-decision">
+          <div class="ex-decision-bar">DECISION</div>
+          <div><b style="color: var(--orange);">Freeze.</b> NIT Surathkal CSE is a top-tier outcome — on par with #1 in placements and reputation. The marginal probability of upgrading to NIT Trichy CSE in R2 is low, and Floating risks anxiety + delayed paperwork. Freezing gets her admission process moving immediately and lets her focus on hostel, fees, and travel from Dubai.</div>
+        </div>
+        <div class="ex-warning">
+          <b>What she should NOT do:</b> Float just because there's a #1 on her list. The bar for Floating is "is the upgrade meaningful AND realistic?" — here it's neither.
+        </div>
+      </div>
+    </div>
+
+    <div class="ff-cta reveal">
+      <div>
+        <h4>Confused about which to pick after your allotment?</h4>
+        <p>Each round of DASA / CIWG has a tight 48–72 hour window to decide. Talk to a counsellor before you click — we'll review your allotment, the trend on your top unfulfilled choices, and recommend Float / Freeze / Slide based on what we've seen across hundreds of past students.</p>
+      </div>
+      <div>
+        <a class="cta-btn" href="https://wa.me/971505168081?text=Hi%20EduAakashaa%2C%20I%20just%20got%20my%20DASA%20allotment%20and%20need%20help%20with%20float%2Ffreeze" target="_blank" rel="noopener">WhatsApp a counsellor</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ NRI DOCUMENTATION CHECKLIST ═══════════ -->
+<section id="nri-checklist" style="background: var(--cream-2);">
+  <div class="container">
+    <div class="sec-head reveal">
+      <span class="eyebrow">NRI Checklist · Documentation</span>
+      <h2>What every NRI / CIWG student needs <em>before</em> the deadline.</h2>
+      <p>DASA and CIWG verification are paperwork-heavy and time-sensitive. Missing one document can cost an allotment. Print this list, gather everything, and have it scanned (PDF, &#x3C;2 MB each) before counselling opens.</p>
+    </div>
+
+    <div class="checklist-grid reveal">
+      <div class="checklist-col">
+        <h4>Identity &#x26; Citizenship</h4>
+        <ul class="check-list">
+          <li><span class="ck-box"></span> Student's valid <b>passport</b> (front, back, all visa pages — minimum 6 months validity beyond admission date)</li>
+          <li><span class="ck-box"></span> <b>Aadhaar card</b> (if Indian citizen residing abroad)</li>
+          <li><span class="ck-box"></span> <b>PAN card</b> of student or sponsor</li>
+          <li><span class="ck-box"></span> <b>OCI / PIO card</b> for Person of Indian Origin students (if applicable)</li>
+          <li><span class="ck-box"></span> <b>Birth certificate</b> (notarised English translation if originally in another language)</li>
+          <li><span class="ck-box"></span> Recent <b>passport-size photographs</b> (10 copies, light background, written name &#x26; date on reverse)</li>
+        </ul>
+
+        <h4>Academic Records</h4>
+        <ul class="check-list">
+          <li><span class="ck-box"></span> <b>Class X marksheet</b> &#x26; passing certificate (CBSE / ICSE / state board / IGCSE / IB / American)</li>
+          <li><span class="ck-box"></span> <b>Class XII marksheet</b> &#x26; passing certificate</li>
+          <li><span class="ck-box"></span> <b>JEE Main scorecard</b> (DASA-CIWG) <em>or</em> <b>SAT scorecard</b> (DASA Non-CIWG / SAT-pathway)</li>
+          <li><span class="ck-box"></span> <b>Equivalence certificate</b> from AIU (Association of Indian Universities) for foreign-board (IB / American / British) Class XII</li>
+          <li><span class="ck-box"></span> Class XII <b>migration certificate</b> (mandatory for admission, can be applied for after allotment)</li>
+          <li><span class="ck-box"></span> School <b>conduct / character certificate</b> from the principal of last attended school</li>
+        </ul>
+      </div>
+
+      <div class="checklist-col">
+        <h4>Sponsor &#x26; NRI Status Proof</h4>
+        <ul class="check-list">
+          <li><span class="ck-box"></span> Sponsor's <b>NRI status proof</b> — valid work visa, residence permit, or PR card (covering at least 1 year prior to application)</li>
+          <li><span class="ck-box"></span> Sponsor's <b>passport copy</b> (all relevant pages)</li>
+          <li><span class="ck-box"></span> <b>Sponsor declaration form</b> (provided by DASA, signed and notarised)</li>
+          <li><span class="ck-box"></span> Sponsor's <b>employment certificate</b> or business licence from the country of residence</li>
+          <li><span class="ck-box"></span> Sponsor's <b>income proof</b> (last 3 months salary slips or last 1 year tax return)</li>
+          <li><span class="ck-box"></span> <b>Bank statements</b> (last 6 months) showing sufficient funds for tuition + living</li>
+          <li><span class="ck-box"></span> <b>Relationship proof</b> between sponsor and student (if sponsor is not a parent — affidavit or notarised letter)</li>
+        </ul>
+
+        <h4>Financial &#x26; Admission</h4>
+        <ul class="check-list">
+          <li><span class="ck-box"></span> <b>Demand draft / wire transfer receipt</b> for first-instalment fees in USD (per institute's published tuition)</li>
+          <li><span class="ck-box"></span> <b>Educational loan sanction letter</b> (if applicable — from Indian or NRE bank)</li>
+          <li><span class="ck-box"></span> Signed <b>anti-ragging affidavit</b> (student) per UGC format</li>
+          <li><span class="ck-box"></span> Signed <b>anti-ragging affidavit</b> (parent/guardian) per UGC format</li>
+          <li><span class="ck-box"></span> <b>Medical fitness certificate</b> from a registered physician (some institutes also require an HIV / Hep B test)</li>
+        </ul>
+
+        <h4>Optional but Recommended</h4>
+        <ul class="check-list">
+          <li><span class="ck-box"></span> Notarised English translations of any non-English documents</li>
+          <li><span class="ck-box"></span> <b>Apostille / attestation</b> from the country of residence's MEA (where required)</li>
+          <li><span class="ck-box"></span> Photocopy set of <b>all of the above</b> (some institutes keep originals on file at admission)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="checklist-tips reveal">
+      <div>
+        <h4>Three things that trip up most NRI families</h4>
+        <ol>
+          <li><b>AIU equivalence takes 2–3 weeks.</b> If your child is on IB or American board, start this <em>before</em> JEE results — the certificate is non-negotiable.</li>
+          <li><b>Sponsor income proof must be current.</b> "Last 3 months" means within 90 days of submission — not last year's payslip.</li>
+          <li><b>Demand drafts to Indian banks from abroad take 5–10 working days.</b> Wire transfers are faster but the receipt format differs by bank — get it confirmed in advance.</li>
+        </ol>
+      </div>
+      <div class="tips-cta">
+        <a class="cta-btn" href="https://wa.me/971505168081?text=Hi%20EduAakashaa%2C%20I%20need%20help%20with%20DASA%20documentation" target="_blank" rel="noopener">Get document review</a>
+        <button class="cta-btn ghost" id="nriPdfBtn">Download PDF checklist</button>
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+<!-- ═══════════ REGISTER ═══════════ -->
+<section id="register" style="background: var(--cream-2);">
+  <div class="container">
+    <div class="register-card reveal">
+      <div>
+        <span class="eyebrow">Register · Free 30-min discovery</span>
+        <h2 style="margin-top: 18px;">Hand the matrix to an <em>EduAakashaa expert.</em></h2>
+        <p style="color: var(--muted);">Share your child's CRL, branch goals and family preferences. We run the full matrix, lock the configuration with our 2026 cycle data, and email you the recommended choice list as PDF + CSV — usually within 48 hours.</p>
+        <p style="font-family: &#x27;JetBrains Mono&#x27;, monospace; font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.18em; margin-top: 18px;">India: +91 80157 22706 · UAE: +971 50 516 8081 · Mon–Fri 9–22 · Sat–Sun 9–16</p>
+      </div>
+      <form id="registerForm" onsubmit="return submitRegister(event)">
+        <div>
+          <label for="rName">Student name</label>
+          <input type="text" id="rName" name="name" required>
+        </div>
+        <div>
+          <label for="rPhone">Phone (WhatsApp)</label>
+          <input type="tel" id="rPhone" name="phone" required>
+        </div>
+        <div class="full">
+          <label for="rEmail">Email</label>
+          <input type="email" id="rEmail" name="email" required>
+        </div>
+        <div>
+          <label for="rRank">CRL (JEE Main)</label>
+          <input type="number" id="rRank" name="rank" placeholder="e.g. 85000">
+        </div>
+        <div>
+          <label for="rBranch">Target branch</label>
+          <select id="rBranch" name="branch">
+            <option>Computer Science / IT</option>
+            <option>AI / Data Science</option>
+            <option>Electronics / VLSI</option>
+            <option>Mechanical / Aerospace</option>
+            <option>Civil / Architecture</option>
+            <option>Other / Open</option>
+          </select>
+        </div>
+        <div class="full">
+          <label for="rNotes">Notes for the counsellor</label>
+          <textarea id="rNotes" name="notes" rows="3" placeholder="Preferred zone / minimum CTC / specific concerns…"></textarea>
+        </div>
+        <div class="full">
+          <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;">Send to expert <span class="arrow">→</span></button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ CONTACT (compact) ═══════════ -->
+<section id="contact" style="padding: 60px 0;">
+  <div class="container">
+    <div class="sec-head reveal" style="text-align: center; margin: 0 auto 30px;">
+      <h2 style="font-size: clamp(28px, 3.5vw, 42px);">Talk to an EduAakashaa <em>expert</em>.</h2>
+      <p style="margin-left: auto; margin-right: auto;">Two offices, one philosophy: evidence over hype. We respond within 24 hours on weekdays and same-day on weekends.</p>
+    </div>
+    <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;" class="reveal">
+      <a class="btn-primary" href="https://wa.me/918015722706?text=Hi%20EduAakashaa%2C%20about%20DASA%20Choice%20Matrix" target="_blank" rel="noopener">WhatsApp India · +91 80157 22706</a>
+      <a class="btn-primary" href="https://wa.me/971505168081?text=Hi%20EduAakashaa%2C%20about%20DASA%20Choice%20Matrix" target="_blank" rel="noopener">WhatsApp UAE · +971 50 516 8081</a>
+      <a class="btn-ghost" href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════ FOOTER ═══════════ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="brand">
+          <img src="data:image/jpeg;base64,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" alt="EduAakashaa logo" style="height: 56px; width: auto;">
+          <div class="brand-lockup">
+            <div class="brand-name">Edu<b>Aakashaa</b></div>
+            <div class="brand-tag">Guiding students · right future</div>
+          </div>
+        </div>
+        <p>Evidence-based engineering admission counselling across India and the UAE. DASA, CIWG, JoSAA, JEE Main, JEE Advanced and SAT-pathway specialists.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Tools &#x26; Guides</h5>
+        <a href="#tool">Choice Matrix</a>
+        <a href="dasa_predictor_student.html">DASA Predictor</a>
+        <a href="#guide">Choice-Filling Guide</a>
+        <a href="#nri-checklist">NRI Checklist</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#docs">Documentation</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <p>India: +91 80157 22706</p>
+        <p>UAE: +971 50 516 8081</p>
+        <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
+        <a href="https://www.eduaakashaa.in" target="_blank" rel="noopener">www.eduaakashaa.in</a>
+      </div>
+      <div class="footer-col">
+        <h5>Locations</h5>
+        <p>Coimbatore, Tamil Nadu, India</p>
+        <p>Dubai, UAE</p>
+        <p style="margin-top: 14px; font-size: 12px;">Mon–Fri 9:00–22:00<br>Sat &#x26; Sun 9:00–16:00</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 EduAakashaa · Evidence over hype</span>
+      <span>DASA 2025 cutoffs · NIRF Engineering 2026</span>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp floating -->
+<a href="https://wa.me/971505168081?text=Hi%20EduAakashaa%2C%20I%27m%20on%20the%20DASA%20Choice%20Matrix%20page" class="whatsapp-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.012 21.785a9.85 9.85 0 01-5.018-1.376l-.359-.214-3.731.978.998-3.633-.234-.373A9.84 9.84 0 012.151 11.99c0-5.448 4.435-9.882 9.886-9.882a9.825 9.825 0 016.99 2.898 9.829 9.829 0 012.892 6.992c-.001 5.448-4.436 9.787-9.907 9.787zm8.413-18.297A11.812 11.812 0 0012.011 0C5.495 0 .19 5.305.187 11.821c0 2.083.544 4.115 1.578 5.91L.087 24l6.404-1.679a11.793 11.793 0 005.521 1.402h.005c6.516 0 11.821-5.305 11.823-11.821a11.752 11.752 0 00-3.41-8.348z"></path></svg>
+</a>
+<div class="whatsapp-tooltip" id="waTooltip">Talk to an EduAakashaa expert</div>
+
+<div class="toast" id="toast"></div>
+{% endraw %}
+</div>
 {% endblock %}
 
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/expert_portal_dasa.js') }}"></script>
+{% endblock %}

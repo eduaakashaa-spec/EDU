@@ -1,286 +1,298 @@
 {% extends "base.html" %}
-{% block title %}DASA 2026 Counselling Schedule & Key Dates | EduAakashaA{% endblock %}
+{% block title %}DASA 2026 Schedule | EduAakashaA{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dasa2026_schedule.css') }}">
 {% endblock %}
 
 {% block content %}
-<!-- Hero — editorial split (copy + summary card) -->
-<section class="hero-editorial">
-  <div class="hero__glow"></div>
-  <div class="container">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <span class="eyebrow">COUNSELLING INVITATION · DASA 2026 UG</span>
-        <h1 style="margin-top:22px;">Your DASA 2026 journey, mapped to <span class="accent">every date that matters</span></h1>
-        <p class="hero-sub">An official EduAakashaa reminder for students &amp; parents appearing in the DASA 2026 seat-allocation process — covering both CIWG (Children of Indian Workers in Gulf) and Non-CIWG admissions. Save these dates, set your reminders, and never miss a deadline. All times are in IST.</p>
-        <div class="hero-ctas">
-          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
-          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
-        </div>
+<div class="ported ported-dasa2026_schedule">
+{% raw %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DASA 2026 Counselling — Invitation &#x26; Key Dates | EduAakashaa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&#x26;family=Plus+Jakarta+Sans:wght@300..800&#x26;family=JetBrains+Mono:wght@400..600&#x26;display=swap" rel="stylesheet">
+
+
+
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top">
+     
+      <span class="bt">
+        <span class="bn">Edu<span>Aakashaa</span></span>
+        <span class="bg">Guiding students towards the right future</span>
+      </span>
+    </a>
+    <nav class="nav-links" id="navlinks">
+     
+      <a class="btn-primary" href="#rsvp" style="padding:11px 20px">Add to Calendar <span class="arr">→</span></a>
+    </nav>
+    <button class="hamb" id="hamb" aria-label="Open menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">Counselling Invitation · DASA 2026 UG</span>
+      <h1>Your DASA 2026 journey, <span class="highlight">mapped to every</span> <em>date that matters</em></h1>
+      <p class="lead">An official EduAakashaa reminder for students &#x26; parents appearing in the DASA 2026 seat-allocation process — covering both <strong>CIWG</strong> (Children of Indian Workers in Gulf) and <strong>Non-CIWG</strong> admissions. Save these dates, set your reminders, and never miss a deadline.</p>
+      <div class="hero-cta">
+        <a class="btn-primary" href="#rsvp">Add all dates to calendar <span class="arr">→</span></a>
+        <a class="btn-ghost" href="#timeline">View full schedule</a>
       </div>
-      <aside class="hero-card">
-        <div class="hero-card-eyebrow">DASA 2026 · Key Dates</div>
-        <div class="hero-card-title">The DASA 2026 calendar at a glance</div>
-        <div class="hero-card-rows">
-          <div class="hero-card-row">
-            <span class="hcr-label">Seat Allotment Rounds</span>
-            <span class="hcr-value">2<span class="accent">+</span>1</span>
-          </div>
-          <div class="hero-card-row">
-            <span class="hcr-label">Registration Opens</span>
-            <span class="hcr-value">28 Jul</span>
-          </div>
-          <div class="hero-card-row">
-            <span class="hcr-label">Final Round Result</span>
-            <span class="hcr-value">12 Aug</span>
-          </div>
-          <div class="hero-card-row">
-            <span class="hcr-label">CIWG Enrolment Fee</span>
-            <span class="hcr-value"><span class="accent">$</span>2300</span>
-          </div>
-        </div>
-      </aside>
+      <div class="stats">
+        <div class="stat"><div class="n">2<span>+1</span></div><div class="l">Seat Allotment Rounds</div></div>
+        <div class="stat"><div class="n">28<span> Jul</span></div><div class="l">Registration Opens</div></div>
+        <div class="stat"><div class="n">12<span> Aug</span></div><div class="l">Final Round Result</div></div>
+        <div class="stat"><div class="n">$<span>2300</span></div><div class="l">CIWG Enrolment Fee</div></div>
+      </div>
+    </div>
+    <aside class="hero-card reveal">
+      <div class="ic-row">
+        <div class="cal"><span class="m">Jul</span><span class="d">28</span></div>
+        <div><h3>DASA 2026 Counselling</h3><div class="meta">Online · NIC Seat Allocation Portal</div></div>
+      </div>
+      <p style="font-size:14px;position:relative">All times in IST. Login with your JEE (Main) 2026 application number &#x26; password at <strong>dasanit.org</strong>.</p>
+      <div class="mini-list">
+        <div class="mi"><b>Registration &#x26; Choice Filling opens</b><span class="dt">28 Jul</span></div>
+        <div class="mi"><b>Mock seat allocation</b><span class="dt">31 Jul</span></div>
+        <div class="mi"><b>Choice locking ends</b><span class="dt">05 Aug</span></div>
+        <div class="mi"><b>Round-I result</b><span class="dt">06 Aug</span></div>
+        <div class="mi"><b>Round-II (final) result</b><span class="dt">12 Aug</span></div>
+        <div class="mi"><b>Physical reporting</b><span class="dt">13–18 Aug</span></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<section class="block" id="timeline">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Key dates · Annexure 3 schedule</span>
+      <h2>The full DASA 2026 <em>counselling calendar</em></h2>
+      <p>Every official milestone from the DASA 2026 Information Brochure, in sequence. Orange markers are the deadlines you must not miss. All times are in <strong>IST</strong>.</p>
+    </div>
+    <div class="tl reveal">
+
+      <div class="tl-item key"><div class="tl-card">
+        <div class="tl-top"><span class="tl-date">Tue, 28 Jul 2026 · 10:00</span><span class="tl-tag">Registration opens</span></div>
+        <h3>Registration, DEF payment, document upload &#x26; choice filling START</h3>
+        <p>Display of vacancies after JoSAA rounds. Registration, payment of DASA Enrolment Fee (DEF) and document uploading begin. Choices can be filled only after successful document verification.</p>
+      </div></div>
+
+      <div class="tl-item"><div class="tl-card">
+        <div class="tl-top"><span class="tl-date">Fri, 31 Jul 2026 · 10:00</span><span class="tl-tag">Mock</span></div>
+        <h3>Display of mock seat allocation</h3>
+        <p>Based on choices filled by candidates as on Thu, 30 Jul 2026, 17:00 hrs. Use this to refine and re-order your choices.</p>
+      </div></div>
+
+      <div class="tl-item key"><div class="tl-card">
+        <div class="tl-top"><span class="tl-date">Mon, 03 Aug 2026 · 10:00</span><span class="tl-tag">Deadline</span></div>
+        <h3>Registration, DEF payment &#x26; document upload END</h3>
+        <p>Last opportunity to complete registration, pay the enrolment fee and upload all required documents (Annexure 5). Late submissions are not accepted.</p>
+      </div></div>
+
+      <div class="tl-item key"><div class="tl-card">
+        <div class="tl-top"><span class="tl-date">Tue, 04 Aug 2026 · 21:00</span><span class="tl-tag">Deadline</span></div>
+        <h3>Respond to verification queries &#x26; pay balance DEF</h3>
+        <p>Last day to respond to the Document Verifying Officer's queries and to pay balance DEF, if applicable. Payment-issue resolution closes 17:00. Unresolved queries lead to cancellation of candidature.</p>
+      </div></div>
+
+      <div class="tl-item key"><div class="tl-card">
+        <div class="tl-top"><span class="tl-date">Wed, 05 Aug 2026 · 14:00</span><span class="tl-tag">Choice locking</span></div>
+        <h3>Choice filling &#x26; locking END (auto-lock)</h3>
+        <p>The system auto-locks your last saved choices at 14:00. Data reconciliation for eligible candidates follows at 17:00. Lock your choices early to be safe.</p>
+      </div></div>
+
+      <div class="tl-item key"><div class="tl-card">
+        <div class="tl-top"><span class="tl-date">Thu, 06 Aug 2026 · 17:00</span><span class="tl-tag">Round-I</span></div>
+        <h3>Round-I seat allotment result</h3>
+        <p>First seat allotment is displayed on the portal. Allotted candidates must report online and exercise their willingness option.</p>
+      </div></div>
+
+      <div class="tl-item"><div class="tl-card">
+        <div class="tl-top"><span class="tl-date">06 Aug 17:00 → 10 Aug 17:00</span><span class="tl-tag">Willingness</span></div>
+        <h3>Exercise willingness (online reporting)</h3>
+        <p>Choose one: FREEZE, SLIDE, FLOAT, SURRENDER, WITHDRAW or EXIT. No response by the deadline is treated as the default option — act on time.</p>
+      </div></div>
+
+      <div class="tl-item key"><div class="tl-card">
+        <div class="tl-top"><span class="tl-date">Wed, 12 Aug 2026 · 17:00</span><span class="tl-tag">Round-II · Final</span></div>
+        <h3>Round-II seat allotment result</h3>
+        <p>The final DASA round. All allotments in Round-II are presumed to be accepted. Prepare for physical reporting at your allotted institute.</p>
+      </div></div>
+
+      <div class="tl-item"><div class="tl-card">
+        <div class="tl-top"><span class="tl-date">Thu, 13 Aug → Tue, 18 Aug 2026</span><span class="tl-tag">Reporting</span></div>
+        <h3>Physical reporting &#x26; balance fee payment</h3>
+        <p>Tentative window for physical reporting at the allotted institute and payment of balance fees. Check your allotted institute's website for exact dates and class commencement.</p>
+      </div></div>
+
     </div>
   </div>
 </section>
 
-<div class="main-content">
-  <!-- At-a-glance schedule card -->
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">JUL 28 · DASA 2026 COUNSELLING</span>
-      <h2 class="section__title">The schedule at a glance</h2>
-      <p class="section__desc">Online · NIC seat-allocation portal. All times in IST. Login with your JEE (Main) 2026 application number &amp; password at dasanit.org.</p>
-    </div>
-
-    <div class="qual-details">
-      <div><strong>Registration &amp; Choice Filling opens</strong></div><div>28 Jul</div>
-      <div><strong>Mock seat allocation</strong></div><div>31 Jul</div>
-      <div><strong>Choice locking ends</strong></div><div>05 Aug</div>
-      <div><strong>Round-I result</strong></div><div>06 Aug</div>
-      <div><strong>Round-II (final) result</strong></div><div>12 Aug</div>
-      <div><strong>Physical reporting</strong></div><div>13–18 Aug</div>
-    </div>
-  </section>
-
-  <!-- Full calendar / timeline -->
-  <section class="section">
-    <div class="chapter-divider">
-      <span class="chapter-divider__num">📅</span>
-      <div>
-        <span class="chapter-divider__label">KEY DATES · ANNEXURE 3 SCHEDULE</span>
-        <span class="chapter-divider__title">The full DASA 2026 counselling calendar</span>
-      </div>
-    </div>
-
-    <p class="content-text">Every official milestone from the DASA 2026 Information Brochure, in sequence. Orange-flagged items are the deadlines you must not miss. All times are in IST.</p>
-
-    <div class="steps">
-      <div class="step">
-        <span class="step__num">1</span>
-        <div>
-          <div class="step__title">Tue, 28 Jul 2026 · 10:00 — Registration opens</div>
-          <div class="step__text"><strong>Registration, DEF payment, document upload &amp; choice filling START.</strong> Display of vacancies after JoSAA rounds. Registration, payment of the DASA Enrolment Fee (DEF) and document uploading begin. Choices can be filled only after successful document verification.</div>
+<section class="block" id="fees" style="padding-top:0">
+  <div class="wrap">
+    <div class="dark reveal">
+      <span class="eyebrow">DASA Enrolment Fee · DEF</span>
+      <h2>What you pay — <em>CIWG vs Non-CIWG</em></h2>
+      <p class="sub">The DEF is remitted once via SWIFT / e-Payment / NEFT / RTGS along with the application. The US$ 300 registration fee is non-refundable. Figures below are from the DASA 2026 brochure.</p>
+      <div class="fee-grid">
+        <div class="fee-card hot">
+          <span class="ftag">Tag · DASA-CIWG</span>
+          <h3>CIWG</h3>
+          <div class="who">NRIs with either/both parents working in a Gulf country — UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia.</div>
+          <div class="fee-row"><span>Registration fee (non-refundable)</span><b>$300</b></div>
+          <div class="fee-row"><span>Tuition fee (1st semester)</span><b>$2000</b></div>
+          <div class="fee-total"><span>Amount to be paid</span><span class="amt"><small>US$</small> 2300</span></div>
+        </div>
+        <div class="fee-card">
+          <span class="ftag">Tag · DASA (Non-SAARC) / NRI</span>
+          <h3>Non-CIWG</h3>
+          <div class="who">Foreign nationals, OCI/PIO (Non-SAARC) and NRI candidates not availing the CIWG benefit.</div>
+          <div class="fee-row"><span>Registration fee (non-refundable)</span><b>$300</b></div>
+          <div class="fee-row"><span>Tuition fee (1st semester)</span><b>$4000</b></div>
+          <div class="fee-total"><span>Amount to be paid</span><span class="amt"><small>US$</small> 4300</span></div>
         </div>
       </div>
-      <div class="step">
-        <span class="step__num">2</span>
-        <div>
-          <div class="step__title">Fri, 31 Jul 2026 · 10:00 — Mock seat allocation</div>
-          <div class="step__text">Display of mock seat allocation based on choices filled by candidates as on Thu, 30 Jul 2026, 17:00 hrs. Use this to refine and re-order your choices.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">3</span>
-        <div>
-          <div class="step__title">Mon, 03 Aug 2026 · 10:00 — Registration deadline</div>
-          <div class="step__text"><strong>Registration, DEF payment &amp; document upload END.</strong> Last opportunity to complete registration, pay the enrolment fee and upload all required documents (Annexure 5). Late submissions are not accepted.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">4</span>
-        <div>
-          <div class="step__title">Tue, 04 Aug 2026 · 21:00 — Respond to verification queries</div>
-          <div class="step__text">Last day to respond to the Document Verifying Officer's queries and to pay balance DEF, if applicable. Payment-issue resolution closes 17:00. Unresolved queries lead to cancellation of candidature.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">5</span>
-        <div>
-          <div class="step__title">Wed, 05 Aug 2026 · 14:00 — Choice locking ends (auto-lock)</div>
-          <div class="step__text">The system auto-locks your last saved choices at 14:00. Data reconciliation for eligible candidates follows at 17:00. Lock your choices early to be safe.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">6</span>
-        <div>
-          <div class="step__title">Thu, 06 Aug 2026 · 17:00 — Round-I seat allotment result</div>
-          <div class="step__text">First seat allotment is displayed on the portal. Allotted candidates must report online and exercise their willingness option.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">7</span>
-        <div>
-          <div class="step__title">06 Aug 17:00 → 10 Aug 17:00 — Exercise willingness (online reporting)</div>
-          <div class="step__text">Choose one: FREEZE, SLIDE, FLOAT, SURRENDER, WITHDRAW or EXIT. No response by the deadline is treated as the default option — act on time.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">8</span>
-        <div>
-          <div class="step__title">Wed, 12 Aug 2026 · 17:00 — Round-II (final) seat allotment result</div>
-          <div class="step__text">The final DASA round. All allotments in Round-II are presumed to be accepted. Prepare for physical reporting at your allotted institute.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">9</span>
-        <div>
-          <div class="step__title">Thu, 13 Aug → Tue, 18 Aug 2026 — Physical reporting &amp; balance fee payment</div>
-          <div class="step__text">Tentative window for physical reporting at the allotted institute and payment of balance fees. Check your allotted institute's website for exact dates and class commencement.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Fees CIWG vs Non-CIWG -->
-  <section class="section">
-    <div class="chapter-divider">
-      <span class="chapter-divider__num">💳</span>
-      <div>
-        <span class="chapter-divider__label">DASA ENROLMENT FEE · DEF</span>
-        <span class="chapter-divider__title">What you pay — CIWG vs Non-CIWG</span>
-      </div>
-    </div>
-
-    <p class="content-text">The DEF is remitted once via SWIFT / e-Payment / NEFT / RTGS along with the application. The US$ 300 registration fee is non-refundable. Figures below are from the DASA 2026 brochure.</p>
-
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>Component</th>
-            <th>CIWG <span style="font-weight:400">(Children of Indian Workers in Gulf)</span></th>
-            <th>Non-CIWG <span style="font-weight:400">(Non-SAARC / NRI)</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Registration fee (non-refundable)</td><td>US$ 300</td><td>US$ 300</td></tr>
-          <tr><td>Tuition fee (1st semester)</td><td>US$ 2000</td><td>US$ 4000</td></tr>
-          <tr><td><strong>Amount to be paid</strong></td><td><strong>US$ 2300</strong></td><td><strong>US$ 4300</strong></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="info-cards">
-      <div class="info-card">
-        <div class="info-card__icon">🪪</div>
-        <div class="info-card__title">CIWG</div>
-        <div class="info-card__text">NRIs with either/both parents working in a Gulf country — UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia.</div>
-      </div>
-      <div class="info-card">
-        <div class="info-card__icon">🌍</div>
-        <div class="info-card__title">Non-CIWG</div>
-        <div class="info-card__text">Foreign nationals, OCI/PIO (Non-SAARC) and NRI candidates not availing the CIWG benefit.</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- How EduAakashaa walks you through it -->
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">SESSION AGENDA · WHAT WE'LL COVER</span>
-      <h2 class="section__title">How EduAakashaa walks you through it</h2>
-      <p class="section__desc">The stages of the DASA seat-allocation process, in the order they happen. Bring your JEE (Main) 2026 credentials and documents.</p>
-    </div>
-
-    <div class="steps">
-      <div class="step">
-        <span class="step__num">1</span>
-        <div>
-          <div class="step__title">Registration &amp; eligibility</div>
-          <div class="step__text">Login with JEE (Main) 2026 number, confirm nationality / CIWG status, and register on the NIC seat-allocation portal.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">2</span>
-        <div>
-          <div class="step__title">Fee payment (DEF)</div>
-          <div class="step__text">Pay the DASA Enrolment Fee — $2300 for CIWG, $4300 for Non-CIWG — via SWIFT / e-Payment / NEFT / RTGS.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">3</span>
-        <div>
-          <div class="step__title">Document upload &amp; verification</div>
-          <div class="step__text">Upload all required documents (Annexure 5) and respond promptly to any verifying-officer queries to avoid cancellation.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">4</span>
-        <div>
-          <div class="step__title">Choice filling &amp; locking</div>
-          <div class="step__text">Strategise institute/branch choices using the mock allotment, then lock before the 05 Aug deadline — or risk auto-lock.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">5</span>
-        <div>
-          <div class="step__title">Rounds &amp; willingness</div>
-          <div class="step__text">Review Round-I &amp; Round-II allotments and choose Freeze / Slide / Float / Surrender / Withdraw / Exit on time.</div>
-        </div>
-      </div>
-      <div class="step">
-        <span class="step__num">6</span>
-        <div>
-          <div class="step__title">Reporting &amp; admission</div>
-          <div class="step__text">Complete physical reporting and balance-fee payment at your allotted institute within the 13–18 Aug window.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ -->
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">QUICK ANSWERS · FOR STUDENTS &amp; PARENTS</span>
-      <h2 class="section__title">Questions we hear most often</h2>
-    </div>
-
-    <div class="faq-list">
-      <details class="faq-item" open>
-        <summary class="faq-item__q">Who qualifies for the CIWG category?</summary>
-        <div class="faq-item__a">NRI candidates whose either or both parents are working — or have worked till any date in 2026 — in a Gulf country (UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia). CIWG seats are 5% of DASA-GEN seats; vacant CIWG seats convert to Non-CIWG at Round-II. Supporting documents are listed in Annexure 5 (including the parent's Gulf passport copy).</div>
-      </details>
-      <details class="faq-item">
-        <summary class="faq-item__q">How many rounds are there, and which is final?</summary>
-        <div class="faq-item__a">DASA 2026 conducts Round-I (result on 06 Aug) and Round-II (result on 12 Aug). Round-II is the final round — all allotments in it are presumed accepted. After Round-I you exercise a willingness option; if you do nothing, the default applies.</div>
-      </details>
-      <details class="faq-item">
-        <summary class="faq-item__q">What if I miss the choice-locking deadline?</summary>
-        <div class="faq-item__a">The system auto-locks your last saved choices at 14:00 on 05 Aug 2026. Unlocked choices that were never saved are not considered. Save frequently and lock early — don't rely on the auto-lock.</div>
-      </details>
-      <details class="faq-item">
-        <summary class="faq-item__q">Is the registration fee refundable?</summary>
-        <div class="faq-item__a">No. The US$ 300 registration fee is non-refundable. Tuition fee refund rules are governed by Annexure 6 of the brochure. The DEF is paid once via SWIFT / e-Payment / NEFT / RTGS.</div>
-      </details>
-      <details class="faq-item">
-        <summary class="faq-item__q">I already secured a seat in JoSAA — can I still join DASA?</summary>
-        <div class="faq-item__a">Yes, as a fresh candidate after paying the DEF, provided you meet DASA eligibility. If a new seat is allotted in DASA, your retained JoSAA seat is automatically cancelled. Note: securing an IIT seat in JoSAA prevents you from appearing for JEE (Advanced) 2027.</div>
-      </details>
-    </div>
-  </section>
-
-  <!-- Final CTA -->
-  <div class="final-cta">
-    <h2>Dates are fixed. Your DASA strategy isn't — talk to a mentor.</h2>
-    <p>Same JEE rank, very different colleges depending on CIWG status, choice order and willingness calls. A mentor turns this schedule into the right decision for your student.</p>
-    <div class="final-cta__btns">
-      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor →</a>
-      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
     </div>
   </div>
+</section>
 
-  <p class="content-text content-text--note">Dates per DASA 2026 Information Brochure · Annexure 3 · IST. Confirm the final calendar on the official portal dasanit.org before acting.</p>
+<section class="block" id="agenda" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Session agenda · What we'll cover</span>
+      <h2>How EduAakashaa <em>walks you through it</em></h2>
+      <p>The stages of the DASA seat-allocation process, in the order they happen. Bring your JEE (Main) 2026 credentials and documents.</p>
+    </div>
+    <div class="grid2 reveal">
+      <div class="gcell">
+        <span class="num">01</span>
+        <div class="gicon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+        <h3>Registration &#x26; eligibility</h3>
+        <p>Login with JEE (Main) 2026 number, confirm nationality / CIWG status, and register on the NIC seat-allocation portal.</p>
+      </div>
+      <div class="gcell">
+        <span class="num">02</span>
+        <div class="gicon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M9 12l2 2 4-4"></path></svg></div>
+        <h3>Fee payment (DEF)</h3>
+        <p>Pay the DASA Enrolment Fee — $2300 for CIWG, $4300 for Non-CIWG — via SWIFT / e-Payment / NEFT / RTGS.</p>
+      </div>
+      <div class="gcell">
+        <span class="num">03</span>
+        <div class="gicon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6"></path></svg></div>
+        <h3>Document upload &#x26; verification</h3>
+        <p>Upload all required documents (Annexure 5) and respond promptly to any verifying-officer queries to avoid cancellation.</p>
+      </div>
+      <div class="gcell">
+        <span class="num">04</span>
+        <div class="gicon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg></div>
+        <h3>Choice filling &#x26; locking</h3>
+        <p>Strategise institute/branch choices using the mock allotment, then lock before the 05 Aug deadline — or risk auto-lock.</p>
+      </div>
+      <div class="gcell">
+        <span class="num">05</span>
+        <div class="gicon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 14l4-4 3 3 5-6"></path></svg></div>
+        <h3>Rounds &#x26; willingness</h3>
+        <p>Review Round-I &#x26; Round-II allotments and choose Freeze / Slide / Float / Surrender / Withdraw / Exit on time.</p>
+      </div>
+      <div class="gcell">
+        <span class="num">06</span>
+        <div class="gicon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg></div>
+        <h3>Reporting &#x26; admission</h3>
+        <p>Complete physical reporting and balance-fee payment at your allotted institute within the 13–18 Aug window.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="faq" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Quick answers · For students &#x26; parents</span>
+      <h2>Questions we hear <em>most often</em></h2>
+    </div>
+    <div class="faq reveal">
+      <div class="faq-item">
+        <div class="faq-q"><div class="qt"><span class="qe">Q·01 · For students</span><h3>Who qualifies for the CIWG category?</h3></div><div class="faq-toggle">+</div></div>
+        <div class="faq-a"><p>NRI candidates whose either or both parents are working — or have worked till any date in 2026 — in a Gulf country (UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia). CIWG seats are 5% of DASA-GEN seats; vacant CIWG seats convert to Non-CIWG at Round-II. Supporting documents are listed in Annexure 5 (including the parent's Gulf passport copy).</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><div class="qt"><span class="qe">Q·02 · For parents</span><h3>How many rounds are there, and which is final?</h3></div><div class="faq-toggle">+</div></div>
+        <div class="faq-a"><p>DASA 2026 conducts Round-I (result on 06 Aug) and Round-II (result on 12 Aug). Round-II is the final round — all allotments in it are presumed accepted. After Round-I you exercise a willingness option; if you do nothing, the default applies.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><div class="qt"><span class="qe">Q·03 · For students</span><h3>What if I miss the choice-locking deadline?</h3></div><div class="faq-toggle">+</div></div>
+        <div class="faq-a"><p>The system auto-locks your last saved choices at 14:00 on 05 Aug 2026. Unlocked choices that were never saved are not considered. Save frequently and lock early — don't rely on the auto-lock.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><div class="qt"><span class="qe">Q·04 · For parents</span><h3>Is the registration fee refundable?</h3></div><div class="faq-toggle">+</div></div>
+        <div class="faq-a"><p>No. The US$ 300 registration fee is non-refundable. Tuition fee refund rules are governed by Annexure 6 of the brochure. The DEF is paid once via SWIFT / e-Payment / NEFT / RTGS.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><div class="qt"><span class="qe">Q·05 · For students</span><h3>I already secured a seat in JoSAA — can I still join DASA?</h3></div><div class="faq-toggle">+</div></div>
+        <div class="faq-a"><p>Yes, as a fresh candidate after paying the DEF, provided you meet DASA eligibility. If a new seat is allotted in DASA, your retained JoSAA seat is automatically cancelled. Note: securing an IIT seat in JoSAA prevents you from appearing for JEE (Advanced) 2027.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="rsvp" style="padding-top:0">
+  <div class="wrap">
+    <div class="ctaband reveal">
+      <span class="eyebrow">Set your reminders</span>
+      <h2 style="margin-top:16px">Add every DASA 2026 date to <em>your calendar</em></h2>
+      <p>Import the EduAakashaa calendar file to get automatic reminders before each deadline — works with Google Calendar, Outlook and Apple Calendar. Questions? Our counsellors are a call away.</p>
+      <div class="row">
+        <a class="btn-primary" href="/static/files/DASA_2026_Counselling_Calendar.ics" download>Download calendar (.ics) <span class="arr">→</span></a>
+        <a class="btn-ghost" href="tel:+918015722706">Call a counsellor</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="bn">Edu<span>Aakashaa</span></div>
+        <p>Evidence-based education counselling for students &#x26; parents. Guiding students towards the right future — across India and the Gulf.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Contact</h4>
+        <a href="tel:+918015722706">India · +91-80157 22706</a>
+        <a href="tel:+971505168081">UAE · +971 50 516 8081</a>
+        <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
+        <a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a>
+      </div>
+      <div class="foot-col">
+        <h4>Office hours &#x26; locations</h4>
+        <p>Mon–Fri · 9:30–18:30</p>
+        <p>Sat · 10:00–17:00 · Sun · by appointment</p>
+        <p>Coimbatore, Tamil Nadu</p>
+        <p>Dubai, UAE</p>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 EduAakashaa · DASA 2026 Counselling Invitation</span>
+      <span>Dates per DASA 2026 Information Brochure · Annexure 3 · IST</span>
+    </div>
+  </div>
+</footer>
+{% endraw %}
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dasa2026_schedule.js') }}"></script>
 {% endblock %}

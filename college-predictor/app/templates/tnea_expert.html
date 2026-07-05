@@ -1,0 +1,2641 @@
+{% extends "base.html" %}
+{% block title %}TNEA Expert | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tnea_expert.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/d3@7/dist/d3.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ported ported-tnea_expert">
+{% raw %}
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TNEA 2026 Admission Guide · College Table · Cutoff Predictor | EduAakashaa</title>
+<meta name="description" content="Complete TNEA 2026 guide based on the latest tneaonline.org announcements — 10-step process, 35-college NIRF/NAAC/placement table, 2025-data cutoff predictor, document checklist, FAQ. Built by EduAakashaa counsellors.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&#x26;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&#x26;family=JetBrains+Mono:wght@400;500;600&#x26;display=swap" rel="stylesheet">
+<!-- SheetJS for Excel report download -->
+
+<!-- Leaflet (district GIS layers) + D3 (analytics color scales) for the Geographic Atlas -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+
+
+
+
+
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand" data-no-scroll="">
+      <img id="navLogoImg" src="" data-img="logo" alt="EduAakashaa">
+      <div>
+        <div class="brand-name">Edu<span>Aakashaa</span></div>
+        <div class="brand-tag">Guiding students towards the right future</div>
+      </div>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#process">Process</a>
+      <a href="#documents">Documents</a>
+      <a href="#colleges">Colleges</a>
+      <a href="#awareness">Awareness</a>
+      <a href="#student-gate">Predictor</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact" class="nav-cta">Book counselling</a>
+    </nav>
+    <div class="mode-switcher" role="tablist" aria-label="Mode">
+      <button class="mode-btn mode-btn-active" id="modeStudentBtn" data-mode="student" role="tab" aria-selected="true">
+        <span class="mode-btn-icon">👨‍🎓</span><span>Student</span>
+      </button>
+      <button class="mode-btn" id="modeExpertBtn" data-mode="expert" role="tab" aria-selected="false">
+        <span class="mode-btn-icon">🔧</span><span>Expert</span>
+      </button>
+    </div>
+    <button class="hamburger" id="hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <span class="hero-banner-eyebrow">Anna University CEG · TNEA 2026 · Expert Guidance</span>
+        <div class="hero-eyebrow-row">
+          <span class="eyebrow">TNEA 2026 · Tamil Nadu</span>
+          <span class="eyebrow">B.E. / B.Tech Admissions</span>
+        </div>
+        <h1><span class="highlight">TNEA 2026</span> <em>Expert Guidance</em><br>for parents &#x26; students.</h1>
+        <p class="hero-sub">Every step, every document, every mistake people make — explained clearly. Registration opens second week of May 2026 on tneaonline.org. No entrance exam; admission is based on your normalised Class 12 PCM score out of 200.</p>
+        <div class="hero-ctas">
+          <a href="#student-gate" class="btn-primary" data-cta="primary">Get your college predictions <span class="arrow">→</span></a>
+          <a href="#documents" class="btn-ghost" data-cta="checklist">Document checklist <span class="arrow">→</span></a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-label">Key dates · 2026 session</div>
+        <h3>At a glance</h3>
+        <ul class="hero-card-list">
+          <li><span class="label">Registration opens</span><span class="value">2nd week · May 2026</span></li>
+          <li><span class="label">Document upload</span><span class="value">Late May – early June</span></li>
+          <li><span class="label">Random number</span><span class="value">June 2026</span></li>
+          <li><span class="label">TFC verification</span><span class="value">June 2026</span></li>
+          <li><span class="label">Rank list</span><span class="value">Late June 2026</span></li>
+          <li><span class="label">Counselling</span><span class="value">July – August 2026</span></li>
+          <li><span class="label">Application fee</span><span class="value">₹500 / ₹250</span></li>
+          <li><span class="label">Conducted by</span><span class="value">DoTE, Tamil Nadu</span></li>
+        </ul>
+      </aside>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-strip reveal">
+      <div class="stat">
+        <div class="stat-num">519<span>+</span></div>
+        <div class="stat-label">Participating colleges</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">1.85L<span>+</span></div>
+        <div class="stat-label">Total engineering seats</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3L<span>+</span></div>
+        <div class="stat-label">Annual applicants</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">04</div>
+        <div class="stat-label">Counselling rounds</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LATEST OFFICIAL ANNOUNCEMENTS -->
+<section class="announce-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Live updates · Sourced from tneaonline.org &#x26; DoTE</span>
+      <h2>Latest TNEA 2026 announcements <em>at a glance</em>.</h2>
+      <p>What the Directorate of Technical Education has confirmed so far. We refresh this section as new notifications go up on the official portal — bookmark the page or check before any deadline.</p>
+    </div>
+
+    <div class="announce-grid reveal">
+      <article class="announce-card primary">
+        <div class="announce-tag">
+          <span class="announce-dot"></span>
+          <span>Latest · April 2026</span>
+        </div>
+        <h3>Registration to open in the second week of May 2026</h3>
+        <p>DoTE has confirmed that TNEA 2026 online registration will commence in the second week of May 2026, immediately following the Tamil Nadu HSC results announced on May 8, 2026. The full counselling schedule will be published on tneaonline.org once registration opens.</p>
+        <a href="https://www.tneaonline.org/" target="_blank" rel="noopener noreferrer" class="announce-link">Open tneaonline.org <span class="arrow">→</span></a>
+      </article>
+
+      <article class="announce-card">
+        <div class="announce-tag">
+          <span class="announce-dot amber"></span>
+          <span>Eligibility · Confirmed</span>
+        </div>
+        <h3>Class 12 marks remain the only criterion</h3>
+        <p>No entrance exam. Admission is purely based on the normalised Class 12 score across Mathematics (100), Physics (50) and Chemistry (50) — total 200 marks. Tamil Nadu nativity proof is mandatory if you have not studied class VIII–XII in TN.</p>
+      </article>
+
+      <article class="announce-card">
+        <div class="announce-tag">
+          <span class="announce-dot"></span>
+          <span>Counselling format · Confirmed</span>
+        </div>
+        <h3>Three counselling streams in 2026</h3>
+        <p>General counselling, Supplementary counselling, and the SCA-to-SC counselling will run in sequence. The complete process is online except for the in-person certificate verification at TNEA Facilitation Centres (TFCs) of your choice.</p>
+      </article>
+
+      <article class="announce-card">
+        <div class="announce-tag">
+          <span class="announce-dot amber"></span>
+          <span>Application fee · Unchanged</span>
+        </div>
+        <h3>₹500 for OC/BC/BCM/MBC · ₹250 for SC/SCA/ST</h3>
+        <p>Online payment via debit / credit card, net banking or UPI. Fee waivers and concessions continue for eligible reserved categories — keep your community certificate and income proof ready before opening the form.</p>
+      </article>
+
+      <article class="announce-card">
+        <div class="announce-tag">
+          <span class="announce-dot red"></span>
+          <span>Important context</span>
+        </div>
+        <h3>15 TN colleges had zero TNEA intake in 2025</h3>
+        <p>According to DoTE-sourced reports, fifteen Tamil Nadu engineering colleges recorded zero student intake in the 2025 TNEA cycle. Anna University was asked to share deficiencies. This is a strong signal — verify any unfamiliar college's NAAC, NBA accreditation and live operating status before listing it as a choice.</p>
+      </article>
+
+      <article class="announce-card">
+        <div class="announce-tag">
+          <span class="announce-dot"></span>
+          <span>2025 reference · For context</span>
+        </div>
+        <h3>About 2.39 lakh ranks issued in TNEA 2025</h3>
+        <p>In the 2025 cycle, around 2,39,299 candidates were ranked based on normalised Class 12 scores. 141 students secured ranks 1–141 by scoring a perfect 200/200. Round 2 allotment closed on August 4, 2025; supplementary deadline was extended to August 14, 2025 by the Higher Education Minister.</p>
+      </article>
+    </div>
+
+    <div class="announce-strip reveal">
+      <div class="announce-strip-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#FF6B0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+      </div>
+      <div>
+        <strong>Always verify on the official portal.</strong> EduAakashaa compiles these updates from tneaonline.org, the Directorate of Technical Education, and verified press reports. Dates and deadlines occasionally shift — open <a href="https://www.tneaonline.org/" target="_blank" rel="noopener noreferrer">tneaonline.org</a> directly before you act on anything time-bound.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY FACTS -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Core facts · Know this first</span>
+      <h2>TNEA is a <em>counselling process</em>, not an exam.</h2>
+      <p>There is no written entrance test. Admission to government, government-aided, Anna University constituent, and surrendered self-financing seats is decided by your normalised Class 12 marks in PCM — reduced to 200.</p>
+    </div>
+    <div class="facts-grid reveal">
+      <article class="fact">
+        <div class="fact-num">01</div>
+        <div class="fact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"></path></svg>
+        </div>
+        <h4>How marks are calculated</h4>
+        <p>Maths scaled to 100, Physics scaled to 50, Chemistry scaled to 50. Total out of 200 becomes your cutoff mark for ranking.</p>
+      </article>
+      <article class="fact">
+        <div class="fact-num">02</div>
+        <div class="fact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5v14"></path></svg>
+        </div>
+        <h4>Tie-breaking rule</h4>
+        <p>Same cutoff? Ties are broken in this order: Maths marks → Physics marks → Chemistry marks → date of birth (older first) → random number.</p>
+      </article>
+      <article class="fact">
+        <div class="fact-num">03</div>
+        <div class="fact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M8 2v4M16 2v4M3 10h18"></path></svg>
+        </div>
+        <h4>Three counselling streams</h4>
+        <p>General counselling for the main rank list, Supplementary counselling for remaining seats, and a separate SCA-to-SC conversion round.</p>
+      </article>
+      <article class="fact">
+        <div class="fact-num">04</div>
+        <div class="fact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 14l4-4 4 4 5-5"></path></svg>
+        </div>
+        <h4>Eligibility threshold</h4>
+        <p>General category needs ≥45% in PCM; reserved categories need ≥40%. Passed 10+2 with PCM compulsory from a recognised board.</p>
+      </article>
+      <article class="fact">
+        <div class="fact-num">05</div>
+        <div class="fact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15 15 0 010 20M12 2a15 15 0 000 20M2 12h20"></path></svg>
+        </div>
+        <h4>Nativity rules</h4>
+        <p>Studied Class 8–12 in Tamil Nadu? No nativity certificate needed. Otherwise, TN natives studying outside need a digitally signed e-certificate.</p>
+      </article>
+      <article class="fact">
+        <div class="fact-num">06</div>
+        <div class="fact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7L9 18l-5-5"></path></svg>
+        </div>
+        <h4>No upper age limit</h4>
+        <p>Unlike some national exams, TNEA has no maximum age limit. Candidates of any age who meet academic and nativity criteria can apply.</p>
+      </article>
+    </div>
+
+    <!-- MARK CALCULATION -->
+    <div class="mark-calc reveal" style="margin-top:40px">
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px">
+        <div>
+          <span class="eyebrow" style="margin-bottom:8px">Formula · How your rank is built</span>
+          <h3 style="margin-top:14px">Class 12 marks → Cutoff out of 200</h3>
+        </div>
+      </div>
+      <div class="calc-grid">
+        <div class="calc-item">
+          <div class="calc-subject">Mathematics</div>
+          <div class="calc-num">100<span>/100</span></div>
+        </div>
+        <div class="calc-item">
+          <div class="calc-subject">Physics</div>
+          <div class="calc-num">50<span>/50</span></div>
+        </div>
+        <div class="calc-item">
+          <div class="calc-subject">Chemistry</div>
+          <div class="calc-num">50<span>/50</span></div>
+        </div>
+        <div class="calc-op">=</div>
+        <div class="calc-item total">
+          <div class="calc-subject">Cutoff (out of)</div>
+          <div class="calc-num">200<span>/200</span></div>
+        </div>
+      </div>
+      <p style="color:var(--muted);font-size:14px;margin-top:22px">Your Class 12 Maths mark is halved to fit 100; Physics and Chemistry are halved to fit 50 each. The sum becomes your TNEA cutoff — the number all colleges publish in their cutoff tables.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">The process · Start to finish</span>
+      <h2>Ten steps from registration to <em>reporting at college</em>.</h2>
+      <p>Hover the orange alert icon on any step to see the most common mistakes students make at that stage — and exactly how to avoid them. These are the slip-ups we see every counselling cycle.</p>
+    </div>
+
+    <div class="process-timeline">
+
+      <!-- STEP 1 -->
+      <article class="step-card reveal">
+        <div class="step-num">01</div>
+        <div class="step-content">
+          <div class="step-label">Step 01 · Registration</div>
+          <h3>Create your account on tneaonline.org</h3>
+          <p>Visit the official TNEA portal and click "New Registration". Enter name, date of birth, email, and mobile number. An OTP confirms the mobile, and a unique Application ID and password are generated. Keep a written copy of both.</p>
+          <div class="step-meta">
+            <span>Window: 2nd week May – early June</span>
+            <span>Time needed: 15 min</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">Common mistakes</div>
+            <h5>Don't rush the basics</h5>
+            <ul>
+              <li>Using a parent's mobile you'll lose access to later</li>
+              <li>Typing name differently from the Class 10 certificate</li>
+              <li>Missing the OTP expiry window, then losing the draft</li>
+              <li>Not noting the Application ID before closing the tab</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STEP 2 -->
+      <article class="step-card reveal">
+        <div class="step-num">02</div>
+        <div class="step-content">
+          <div class="step-label">Step 02 · Application form</div>
+          <h3>Fill personal, academic &#x26; category details</h3>
+          <p>Enter Class 10, 11 (for TN board), and 12 marks exactly as they appear on the marksheet. Select your community, nativity, special category (if any), schooling history from 6th to 12th, and preferred TFC for document verification.</p>
+          <div class="step-meta">
+            <span>Time needed: 45–60 min</span>
+            <span>Keep marksheets open</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">Trip-ups we see</div>
+            <h5>There is no correction window</h5>
+            <ul>
+              <li>Typos in marks or subject codes — no easy fix after freeze</li>
+              <li>Selecting wrong community (BC vs MBC vs BCM) — affects cutoff</li>
+              <li>Skipping the 7.5% government school tick box when eligible</li>
+              <li>Choosing a distant TFC when a nearer one is available</li>
+              <li>Not using the preview page before final submit</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STEP 3 -->
+      <article class="step-card reveal">
+        <div class="step-num">03</div>
+        <div class="step-content">
+          <div class="step-label">Step 03 · Payment</div>
+          <h3>Pay the application fee</h3>
+          <p>The application fee is ₹500 for OC, BC, BCM, MBC &#x26; DNC candidates, and ₹250 for SC, SCA, and ST candidates. Pay online via debit/credit card, net banking, or UPI. Demand Draft (DD) payment is accepted only at the TFC in favour of "The Secretary, TNEA", payable at Chennai.</p>
+          <div class="step-meta">
+            <span>OC/BC: ₹500</span>
+            <span>SC/SCA/ST: ₹250</span>
+            <span>Save the receipt</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">Payment pitfalls</div>
+            <h5>Don't assume payment = submitted</h5>
+            <ul>
+              <li>Paying but not clicking "Submit Application" after</li>
+              <li>Closing the browser before the receipt downloads</li>
+              <li>Paying again after a "pending" status — most resolve in 24h</li>
+              <li>Using a card whose OTP goes to someone else's phone</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STEP 4 -->
+      <article class="step-card reveal">
+        <div class="step-num">04</div>
+        <div class="step-content">
+          <div class="step-label">Step 04 · Document upload</div>
+          <h3>Upload scanned copies &#x26; freeze</h3>
+          <p>Scan every required document clearly — Class 10 and 12 marksheets, TC, community and nativity certificates (if applicable), photo, signature. Upload on the portal, preview each file, tick the declaration, and click "Freeze Upload". Freezing is irreversible.</p>
+          <div class="step-meta">
+            <span>PDF / JPG format</span>
+            <span>Each file size caps apply</span>
+            <span>Keep originals ready</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">Scan mistakes cost ranks</div>
+            <h5>Poor scans → rejected at TFC</h5>
+            <ul>
+              <li>Blurry phone photos instead of proper scans</li>
+              <li>Cutting off stamp/seal at the edge of the certificate</li>
+              <li>Uploading attested photocopies — originals only</li>
+              <li>Skipping the freeze step after upload</li>
+              <li>Forgetting the 11th marksheet (Tamil Nadu board only)</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STEP 5 -->
+      <article class="step-card reveal">
+        <div class="step-num">05</div>
+        <div class="step-content">
+          <div class="step-label">Step 05 · Random number</div>
+          <h3>Receive your 10-digit random number</h3>
+          <p>DoTE assigns every registered candidate a unique 10-digit random number, used for tie-breaking and verification scheduling. The number appears in your portal login and is sent via SMS. This determines your TFC verification slot.</p>
+          <div class="step-meta">
+            <span>Released: June 2026</span>
+            <span>Check SMS + portal</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">Tracking matters</div>
+            <h5>The random number is not your rank</h5>
+            <ul>
+              <li>Assuming a low random number means a good rank — it doesn't</li>
+              <li>Ignoring the e-call letter and missing the TFC slot</li>
+              <li>Not screenshotting the portal page for backup</li>
+              <li>Panicking before the number is released</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STEP 6 -->
+      <article class="step-card reveal">
+        <div class="step-num">06</div>
+        <div class="step-content">
+          <div class="step-label">Step 06 · TFC verification</div>
+          <h3>Physical verification at the TNEA Facilitation Centre</h3>
+          <p>Report to your chosen TFC (around 110 TFCs across the state) with every original certificate. Officials match the uploaded scans against originals. Any mismatch can delay or reject your application. Only verified candidates enter the rank list.</p>
+          <div class="step-meta">
+            <span>Location: 110 TFCs</span>
+            <span>Carry all originals</span>
+            <span>Parents welcome</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">TFC day mistakes</div>
+            <h5>Missing docs = lost day</h5>
+            <ul>
+              <li>Forgetting the Transfer Certificate (very common)</li>
+              <li>Bringing a provisional instead of permanent community certificate</li>
+              <li>Going on the wrong date per your random number slot</li>
+              <li>Not carrying the filled application printout</li>
+              <li>Bringing photocopies only, no originals</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STEP 7 -->
+      <article class="step-card reveal">
+        <div class="step-num">07</div>
+        <div class="step-content">
+          <div class="step-label">Step 07 · Rank list</div>
+          <h3>Rank list publication &#x26; grievance window</h3>
+          <p>After verification, DoTE publishes the TNEA rank list. Check yours, verify that category, 7.5% eligibility, and special reservations are correctly reflected. If something is wrong, the grievance redressal window is your only chance to flag it.</p>
+          <div class="step-meta">
+            <span>Expected: Late June 2026</span>
+            <span>Grievance window: 2–3 days</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">Don't miss the window</div>
+            <h5>Verify every detail</h5>
+            <ul>
+              <li>Not checking if 7.5% Govt School tag is active</li>
+              <li>Ignoring wrong category — it silently changes your cutoff list</li>
+              <li>Missing the grievance window (usually just 48–72 hrs)</li>
+              <li>Not saving a PDF copy of your rank card</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STEP 8 -->
+      <article class="step-card reveal">
+        <div class="step-num">08</div>
+        <div class="step-content">
+          <div class="step-label">Step 08 · Choice filling</div>
+          <h3>List college + branch preferences in order</h3>
+          <p>The single most important step. You can list many college-branch combinations in order of preference. The system tries to allot your highest-ranked available choice. Research cutoffs, placement, location, and fees before locking. Add realistic safety options at the bottom.</p>
+          <div class="step-meta">
+            <span>Window: 3 days per round</span>
+            <span>Use the cutoff predictor</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">The biggest trap</div>
+            <h5>Filling only reach choices</h5>
+            <ul>
+              <li>Listing only CSE in top-5 colleges — allotment fails</li>
+              <li>Ordering by "what sounds good" instead of last year's cutoff</li>
+              <li>Filing by parental pressure, not fit or interest</li>
+              <li>Not locking the choice list before the deadline</li>
+              <li>Confusing college branch with college name in dropdowns</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STEP 9 -->
+      <article class="step-card reveal">
+        <div class="step-num">09</div>
+        <div class="step-content">
+          <div class="step-label">Step 09 · Seat allotment &#x26; confirmation</div>
+          <h3>Respond within 2 days — pick one of four options</h3>
+          <p>After allotment is released, you get two days to respond: Accept &#x26; Join, Accept &#x26; Upward, Reject &#x26; Upward, or Reject &#x26; Quit. The choice you pick controls whether you remain in the counselling pipeline. Download the provisional allotment order.</p>
+          <div class="step-meta">
+            <span>Response window: ~2 days</span>
+            <span>4 options available</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">Decision day errors</div>
+            <h5>Wrong option = lost seat</h5>
+            <ul>
+              <li>Picking "Reject &#x26; Quit" thinking you can re-enter — you can't</li>
+              <li>"Accept &#x26; Upward" without understanding you might lose current seat</li>
+              <li>Missing the 2-day deadline and auto-rejecting everything</li>
+              <li>Not downloading the allotment order before the window closes</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <!-- STEP 10 -->
+      <article class="step-card reveal">
+        <div class="step-num">10</div>
+        <div class="step-content">
+          <div class="step-label">Step 10 · Reporting &#x26; fee payment</div>
+          <h3>Report to the allotted college or TFC</h3>
+          <p>Carry the allotment order and all originals to the allotted college (or nearest TFC, depending on the round). Pay the tuition fees within the deadline. Failure to report on time cancels the seat and ejects you from further rounds.</p>
+          <div class="step-meta">
+            <span>Deadline: Round-specific</span>
+            <span>Carry all originals</span>
+            <span>Keep fee receipt</span>
+          </div>
+        </div>
+        <div class="alert-wrap" tabindex="0" aria-label="Common mistakes for this step">
+          <div class="alert-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+          </div>
+          <div class="alert-pop">
+            <div class="alert-pop-label">Final-mile mistakes</div>
+            <h5>Don't treat this as a formality</h5>
+            <ul>
+              <li>Waiting for the last day and missing the college's cutoff time</li>
+              <li>Paying wrong fee amount (especially fee-waiver candidates)</li>
+              <li>Leaving originals with anyone except authorised staff</li>
+              <li>Not getting stamped acknowledgement of document submission</li>
+              <li>Forgetting to check hostel / bus form deadlines at same visit</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section id="documents" style="background:var(--cream-2)">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Document checklist · Click to tick</span>
+      <h2>Everything you need to upload and <em>carry to the TFC</em>.</h2>
+      <p>Click any card to mark it ready. Mandatory documents apply to every candidate; conditional documents apply only if the tag matches your situation. Keep originals and two sets of photocopies.</p>
+    </div>
+    <div class="docs-grid reveal" id="docsGrid">
+      <div class="doc-card" data-id="1">
+        <div class="doc-header">
+          <span class="doc-cat mandatory">Mandatory</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Class 10 marksheet</h4>
+        <p>Proof of date of birth and qualifying pass. Original required at TFC.</p>
+      </div>
+      <div class="doc-card" data-id="2">
+        <div class="doc-header">
+          <span class="doc-cat mandatory">Mandatory</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Class 12 marksheet</h4>
+        <p>Basis for your cutoff calculation. Board results must be declared.</p>
+      </div>
+      <div class="doc-card" data-id="3">
+        <div class="doc-header">
+          <span class="doc-cat conditional">TN Board only</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Class 11 marksheet</h4>
+        <p>Asked separately for Tamil Nadu State Board students during verification.</p>
+      </div>
+      <div class="doc-card" data-id="4">
+        <div class="doc-header">
+          <span class="doc-cat mandatory">Mandatory</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Transfer Certificate (TC)</h4>
+        <p>Proof of school leaving. Issued by your Class 12 school.</p>
+      </div>
+      <div class="doc-card" data-id="5">
+        <div class="doc-header">
+          <span class="doc-cat mandatory">Mandatory</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Passport-size photograph</h4>
+        <p>Recent colour photo, white background, matching uploaded scan.</p>
+      </div>
+      <div class="doc-card" data-id="6">
+        <div class="doc-header">
+          <span class="doc-cat mandatory">Mandatory</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Signature scan</h4>
+        <p>Sign in black ink on white paper, scan clearly, upload.</p>
+      </div>
+      <div class="doc-card" data-id="7">
+        <div class="doc-header">
+          <span class="doc-cat conditional">If reserved</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Permanent Community Certificate</h4>
+        <p>For SC, SCA, ST, MBC &#x26; DNC, BC, BCM. Must be permanent card or digitally signed e-certificate.</p>
+      </div>
+      <div class="doc-card" data-id="8">
+        <div class="doc-header">
+          <span class="doc-cat conditional">If non-TN school</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Nativity Certificate</h4>
+        <p>For TN natives who did not study Class 8–12 in Tamil Nadu. Electronic / digitally signed only.</p>
+      </div>
+      <div class="doc-card" data-id="9">
+        <div class="doc-header">
+          <span class="doc-cat conditional">If first graduate</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>First Graduate Certificate</h4>
+        <p>Along with First Graduate Joint Declaration. Eligible for tuition fee waiver.</p>
+      </div>
+      <div class="doc-card" data-id="10">
+        <div class="doc-header">
+          <span class="doc-cat conditional">If govt school</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Govt School study details</h4>
+        <p>For 7.5% reservation — proof of continuous study in TN government school from 6th to 12th.</p>
+      </div>
+      <div class="doc-card" data-id="11">
+        <div class="doc-header">
+          <span class="doc-cat conditional">If pre-2026 govt school</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Bona fide certificate</h4>
+        <p>Government school pass-outs from earlier years need a bona fide from the school.</p>
+      </div>
+      <div class="doc-card" data-id="12">
+        <div class="doc-header">
+          <span class="doc-cat conditional">For scholarships</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Family Income Certificate</h4>
+        <p>Required for fee concession, scholarships, and some state schemes.</p>
+      </div>
+      <div class="doc-card" data-id="13">
+        <div class="doc-header">
+          <span class="doc-cat conditional">Special category</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Differently Abled Certificate</h4>
+        <p>For PwD reservation — issued by authorised medical board.</p>
+      </div>
+      <div class="doc-card" data-id="14">
+        <div class="doc-header">
+          <span class="doc-cat conditional">Special category</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Ex-Servicemen Certificate</h4>
+        <p>For wards of ex-servicemen — with service particulars.</p>
+      </div>
+      <div class="doc-card" data-id="15">
+        <div class="doc-header">
+          <span class="doc-cat conditional">Special category</span>
+          <div class="doc-check"></div>
+        </div>
+        <h4>Eminent Sports Certificate</h4>
+        <p>Certificates of representation at state/national level — in-person verification in Chennai.</p>
+      </div>
+    </div>
+    <div class="doc-progress reveal">
+      <span class="doc-progress-label">Checklist progress</span>
+      <span class="doc-progress-num" id="docCount"><span id="docCountN">0</span> / 15 ready</span>
+    </div>
+  </div>
+</section>
+
+<!-- COLLEGE CATEGORIES -->
+<section id="college-types">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">College categories · Know the landscape</span>
+      <h2>Four types of colleges, <em>four very different experiences</em>.</h2>
+      <p>Over 519 engineering colleges participate in TNEA, but they fall into four distinct categories — each with its own fee structure, placement story, and admission cutoffs. Understanding the difference is the first step in a smart choice list.</p>
+    </div>
+
+    <div class="cat-grid reveal">
+      <article class="cat-card">
+        <div class="cat-num">01</div>
+        <div class="cat-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l9-6 9 6v11M9 21V14h6v7"></path></svg>
+        </div>
+        <h3>University Departments &#x26; Constituent Colleges</h3>
+        <p class="cat-desc">Run directly by Anna University — including CEG Guindy, MIT Chromepet, ACT, SAP, and regional campuses at Coimbatore, Madurai, Tirunelveli, and Tiruchirappalli. The highest-cutoff tier; these are the seats top-rankers target.</p>
+        <div class="cat-meta">
+          <div class="cat-meta-item">
+            <div class="label">Cutoff range</div>
+            <div class="val">195 – 200 (Top CSE)</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Fee tier</div>
+            <div class="val">Low (state-subsidised)</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Placements</div>
+            <div class="val">Strong, consistent</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Count</div>
+            <div class="val">Limited — premier tier</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cat-card">
+        <div class="cat-num">02</div>
+        <div class="cat-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M8 20h8M12 18v2"></path></svg>
+        </div>
+        <h3>Government Engineering Colleges</h3>
+        <p class="cat-desc">Fully funded by the Tamil Nadu government. Includes Government College of Technology Coimbatore, Thanthai Periyar GIT Vellore, and others across Dharmapuri, Krishnagiri, Theni, Tiruchendur. Low fees, solid infrastructure, strong alumni.</p>
+        <div class="cat-meta">
+          <div class="cat-meta-item">
+            <div class="label">Cutoff range</div>
+            <div class="val">180 – 198</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Fee tier</div>
+            <div class="val">Very low</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Placements</div>
+            <div class="val">Good, branch-dependent</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Count</div>
+            <div class="val">~10 institutions</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cat-card">
+        <div class="cat-num">03</div>
+        <div class="cat-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 21h20M4 21V9l8-5 8 5v12M9 21v-6h6v6"></path></svg>
+        </div>
+        <h3>Government-Aided Colleges</h3>
+        <p class="cat-desc">Private institutions receiving partial government funding — the classic "value for money" picks. PSG College of Technology, Thiagarajar College of Engineering, Coimbatore Institute of Technology sit here. Moderate fees, excellent legacy placements.</p>
+        <div class="cat-meta">
+          <div class="cat-meta-item">
+            <div class="label">Cutoff range</div>
+            <div class="val">185 – 199</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Fee tier</div>
+            <div class="val">Moderate</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Placements</div>
+            <div class="val">Often top-tier</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Count</div>
+            <div class="val">Small but reputed</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="cat-card">
+        <div class="cat-num">04</div>
+        <div class="cat-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0E3A8A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3zM9 3v18M15 3v18M3 9h18M3 15h18"></path></svg>
+        </div>
+        <h3>Self-Financing Colleges</h3>
+        <p class="cat-desc">Privately managed, AICTE-approved, affiliated to Anna University. The largest category by count — 400+ institutions. Quality varies widely: from Kumaraguru, Kongu, Velammal, St. Joseph's (excellent) down to small lesser-known colleges. Only the surrendered seats in this category come through TNEA.</p>
+        <div class="cat-meta">
+          <div class="cat-meta-item">
+            <div class="label">Cutoff range</div>
+            <div class="val">Broad spectrum</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Fee tier</div>
+            <div class="val">High (varies)</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Placements</div>
+            <div class="val">Highly variable</div>
+          </div>
+          <div class="cat-meta-item">
+            <div class="label">Count</div>
+            <div class="val">400+ colleges</div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- COLLEGE INSIGHTS TABLE -->
+<section id="colleges" class="colleges-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">35 colleges · NIRF, NAAC, placements, cutoffs</span>
+      <h2>Tamil Nadu's top engineering colleges, <em>compared honestly</em>.</h2>
+      <p>The 35 colleges Tamil Nadu engineering aspirants actually shortlist — ranked by NIRF 2025, with NAAC accreditation, founding year, fee bracket, 2025 OC CSE cutoff and 2024 placement data. Source: NIRF official, NAAC database, college NIRF disclosures, verified press reports. Sort, filter, search.</p>
+    </div>
+
+    <div class="colleges-toolbar reveal">
+      <div class="col-search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+        <input id="collegeSearch" type="text" placeholder="Search by college name, city or branch…" aria-label="Search colleges">
+      </div>
+      <div class="col-filters">
+        <button class="col-filter active" data-filter="all">All <span>(35)</span></button>
+        <button class="col-filter" data-filter="tnea">TNEA admission</button>
+        <button class="col-filter" data-filter="govt">Government / aided</button>
+        <button class="col-filter" data-filter="private">Self-financing</button>
+        <button class="col-filter" data-filter="deemed">Deemed / autonomous</button>
+      </div>
+    </div>
+
+    <div class="colleges-table-wrap reveal">
+      <table class="colleges-table" id="collegesTable">
+        <thead>
+          <tr>
+            <th class="col-rank">NIRF '25</th>
+            <th class="col-name">College</th>
+            <th class="col-loc">City</th>
+            <th class="col-naac">NAAC</th>
+            <th class="col-est">Est.</th>
+            <th class="col-type">Type</th>
+            <th class="col-cutoff">CSE OC '25</th>
+            <th class="col-place">Highest pkg '24</th>
+            <th class="col-median">Median '24</th>
+            <th class="col-admit">Admission</th>
+          </tr>
+        </thead>
+        <tbody id="collegesBody"><!-- populated by JS --></tbody>
+      </table>
+    </div>
+
+    <div class="colleges-note reveal">
+      <div class="colleges-note-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF6B0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
+      </div>
+      <div>
+        <strong>How to read this table:</strong> NIRF rank reflects 2025 standings (released August 2025). NAAC grades are most-recent published cycles. CSE OC cutoff is the closing mark for general-category Computer Science Engineering in TNEA 2025 round 1 (or institutional last-round figure where TNEA does not apply). Highest package and median package come from each college's 2024 NIRF placement disclosure. <em>IIT Madras admits via JEE Advanced; NIT Trichy via JEE Main; SSN, VIT, SRM, SASTRA, Amrita have institutional entrance exams</em> — these show in the table for benchmarking but are not TNEA seats.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AWARENESS · COLLEGE NAME CONFUSION + CHOICE-FILLING TIPS -->
+<section id="awareness" class="awareness-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Awareness · Avoid the most expensive mistake</span>
+      <h2>Always use the <em>college code</em>, never the name.</h2>
+      <p>Tamil Nadu has 423 engineering colleges. <strong>Several share nearly identical names</strong> and students lose admission every year by listing the wrong code in their TNEA choice form. Once submitted and allotted, the seat is locked. Below are the most-confused name groups from the official 2025 dataset — verified against tneaonline.org. Always cross-check the 4-digit code before locking your choice list.</p>
+    </div>
+
+    <!-- AI disclaimer -->
+    <div class="awareness-ai-banner reveal">
+      <div class="awareness-ai-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      </div>
+      <div>
+        <strong>This is an AI-generated guidance tool.</strong> Cutoffs, college lists, and predictor results are computed from the official 2025 TNEA portal data, but the recommendations themselves are produced algorithmically. <em>Always validate your final choice list against tneaonline.org and consult a qualified counsellor before filling.</em> EduAakashaa accepts no liability for decisions taken on AI output alone.
+      </div>
+    </div>
+
+    <!-- Similar-name groups -->
+    <div class="awareness-grid reveal">
+      <article class="awareness-card">
+        <div class="awareness-card-head">
+          <span class="awareness-tag">Group A · 9 lookalikes</span>
+          <h3>"Government College of Engineering"</h3>
+        </div>
+        <p>9 different government colleges in TN are <em>literally named the same</em>. Only the location and 4-digit code distinguish them. The placement difference between them is enormous.</p>
+        <div class="awareness-table">
+          <div class="awareness-row"><span class="aw-code">2369</span><span class="aw-name">Government College of Engineering, Chettikkarai</span><span class="aw-loc">Dharmapuri</span></div>
+          <div class="awareness-row"><span class="aw-code">2603</span><span class="aw-name">Government College of Engineering, Bargur</span><span class="aw-loc">Krishnagiri</span></div>
+          <div class="awareness-row"><span class="aw-code">2615</span><span class="aw-name">Government College of Engineering, Karuppur</span><span class="aw-loc">Salem</span></div>
+          <div class="awareness-row"><span class="aw-code">2709</span><span class="aw-name">Government College of Engineering (Formerly IRTT)</span><span class="aw-loc">Erode</span></div>
+          <div class="awareness-row"><span class="aw-code">3464</span><span class="aw-name">Government College of Engineering, Sengipatti</span><span class="aw-loc">Thanjavur</span></div>
+          <div class="awareness-row"><span class="aw-code">3465</span><span class="aw-name">Government College of Engineering, Srirangam</span><span class="aw-loc">Tiruchirappalli</span></div>
+          <div class="awareness-row"><span class="aw-code">4974</span><span class="aw-name">Government College of Engineering, Tirunelveli</span><span class="aw-loc">Tirunelveli</span></div>
+          <div class="awareness-row"><span class="aw-code">5009</span><span class="aw-name">Government College of Engineering, Bodinayakkanur</span><span class="aw-loc">Theni</span></div>
+          <div class="awareness-row"><span class="aw-code">5901</span><span class="aw-name">Alagappa Chettiar Govt College of Engg &#x26; Tech</span><span class="aw-loc">Sivagangai</span></div>
+        </div>
+      </article>
+
+      <article class="awareness-card">
+        <div class="awareness-card-head">
+          <span class="awareness-tag">Group B · "Sri Krishna" trap</span>
+          <h3>"Sri Krishna" / "Sri Ramakrishna"</h3>
+        </div>
+        <p>The <strong>Sri Krishna College of Engineering &#x26; Technology</strong> in Coimbatore (a strong NIRF Top 100 institution) is regularly confused with at least 6 similarly-named colleges of vastly different quality.</p>
+        <div class="awareness-table">
+          <div class="awareness-row sk-target"><span class="aw-code">2718</span><span class="aw-name"><strong>Sri Krishna College of Engineering &#x26; Technology</strong></span><span class="aw-loc">Coimbatore</span></div>
+          <div class="awareness-row"><span class="aw-code">1335</span><span class="aw-name">Sri Krishna Institute of Technology</span><span class="aw-loc">Kancheepuram</span></div>
+          <div class="awareness-row"><span class="aw-code">1427</span><span class="aw-name">Sri Krishna Engineering College</span><span class="aw-loc">Kancheepuram</span></div>
+          <div class="awareness-row"><span class="aw-code">1438</span><span class="aw-name">Sree Krishna College of Engineering</span><span class="aw-loc">Vellore</span></div>
+          <div class="awareness-row"><span class="aw-code">1526</span><span class="aw-name">Sri Krishna College of Engineering</span><span class="aw-loc">Ranipet</span></div>
+          <div class="awareness-row"><span class="aw-code">2719</span><span class="aw-name">Sri Ramakrishna Engineering College</span><span class="aw-loc">Coimbatore</span></div>
+          <div class="awareness-row"><span class="aw-code">2725</span><span class="aw-name">Sri Ramakrishna Institute of Technology</span><span class="aw-loc">Coimbatore</span></div>
+        </div>
+      </article>
+
+      <article class="awareness-card">
+        <div class="awareness-card-head">
+          <span class="awareness-tag">Group C · "St. Joseph" cluster</span>
+          <h3>"St. Joseph"</h3>
+        </div>
+        <p>5 colleges in TN start with "St. Joseph". The Chengalpet flagship is autonomous and well-placed; others are smaller affiliated institutions. Only the code tells you which is which.</p>
+        <div class="awareness-table">
+          <div class="awareness-row sk-target"><span class="aw-code">1317</span><span class="aw-name"><strong>St. Joseph's College of Engineering (Auto.)</strong></span><span class="aw-loc">Chengalpet</span></div>
+          <div class="awareness-row"><span class="aw-code">1149</span><span class="aw-name">St. Joseph's Institute of Technology (Auto.)</span><span class="aw-loc">Chengalpet</span></div>
+          <div class="awareness-row"><span class="aw-code">1325</span><span class="aw-name">St. Joseph College of Engineering, Trinity Campus</span><span class="aw-loc">Kancheepuram</span></div>
+          <div class="awareness-row"><span class="aw-code">3825</span><span class="aw-name">St. Joseph's College of Engineering and Technology</span><span class="aw-loc">Thanjavur</span></div>
+        </div>
+      </article>
+
+      <article class="awareness-card">
+        <div class="awareness-card-head">
+          <span class="awareness-tag">Group D · "Vel" family</span>
+          <h3>"Vel Tech" / "Velammal" / "Velalar"</h3>
+        </div>
+        <p>Three completely different management groups, similar-sounding names, and at least 6 colleges sharing variants. Verify the trustee group AND the campus location before listing.</p>
+        <div class="awareness-table">
+          <div class="awareness-row"><span class="aw-code">1118</span><span class="aw-name">Vel Tech Multi Tech (Dr Rangarajan / Dr Sakunthala)</span><span class="aw-loc">Thiruvallur</span></div>
+          <div class="awareness-row"><span class="aw-code">1122</span><span class="aw-name">Vel Tech High Tech (Dr Rangarajan / Dr Sakunthala)</span><span class="aw-loc">Thiruvallur</span></div>
+          <div class="awareness-row"><span class="aw-code">1120</span><span class="aw-name">Velammal Engineering College (Auto.)</span><span class="aw-loc">Thiruvallur</span></div>
+          <div class="awareness-row"><span class="aw-code">1237</span><span class="aw-name">Velammal Institute of Technology</span><span class="aw-loc">Thiruvallur</span></div>
+          <div class="awareness-row"><span class="aw-code">5986</span><span class="aw-name">Velammal College of Engineering &#x26; Technology (Auto.)</span><span class="aw-loc">Madurai</span></div>
+          <div class="awareness-row"><span class="aw-code">2723</span><span class="aw-name">Velalar College of Engineering &#x26; Technology (Auto.)</span><span class="aw-loc">Erode</span></div>
+        </div>
+      </article>
+
+      <article class="awareness-card">
+        <div class="awareness-card-head">
+          <span class="awareness-tag">Group E · "Rajalakshmi"</span>
+          <h3>"Rajalakshmi"</h3>
+        </div>
+        <p>Both are autonomous, both are run by the same trust, both sit in Kancheepuram — but they are distinct campuses with different cutoffs and different branches.</p>
+        <div class="awareness-table">
+          <div class="awareness-row sk-target"><span class="aw-code">1211</span><span class="aw-name"><strong>Rajalakshmi Engineering College (Auto.)</strong></span><span class="aw-loc">Kancheepuram</span></div>
+          <div class="awareness-row"><span class="aw-code">1432</span><span class="aw-name">Rajalakshmi Institute of Technology (Auto.)</span><span class="aw-loc">Kancheepuram</span></div>
+        </div>
+      </article>
+
+      <article class="awareness-card">
+        <div class="awareness-card-head">
+          <span class="awareness-tag">Group F · PSG family</span>
+          <h3>"PSG"</h3>
+        </div>
+        <p>Both are run by the PSG &#x26; Sons trust in Coimbatore but they are distinct institutions with different fee tiers, branches, and cutoffs. PSG Tech is the heritage govt-aided campus; PSG iTech is the newer self-financing arm.</p>
+        <div class="awareness-table">
+          <div class="awareness-row sk-target"><span class="aw-code">2006</span><span class="aw-name"><strong>PSG College of Technology (Govt-aided · 1951)</strong></span><span class="aw-loc">Coimbatore</span></div>
+          <div class="awareness-row"><span class="aw-code">2377</span><span class="aw-name">PSG Institute of Technology &#x26; Applied Research (SF)</span><span class="aw-loc">Coimbatore</span></div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Choice-filling rule book -->
+    <div class="awareness-rules reveal">
+      <div class="awareness-rules-head">
+        <span class="awareness-rules-eyebrow">Choice-filling rule book · 8 rules</span>
+        <h3>How to actually fill your TNEA choices without losing a seat</h3>
+      </div>
+      <div class="awareness-rules-grid">
+        <div class="awareness-rule">
+          <div class="awareness-rule-num">01</div>
+          <h4>Always type the 4-digit code first, then verify the name</h4>
+          <p>The portal autofills the college name once you enter the code. If the autofilled name doesn't exactly match what you intended — stop and re-check.</p>
+        </div>
+        <div class="awareness-rule">
+          <div class="awareness-rule-num">02</div>
+          <h4>Sort your choices in true preference order</h4>
+          <p>The system auto-allocates the highest available choice. Choice #5 only matters if choices #1–4 are out of reach. Don't list a "safe" college as #1 thinking you'll get bumped up later — you won't.</p>
+        </div>
+        <div class="awareness-rule">
+          <div class="awareness-rule-num">03</div>
+          <h4>List 30–50 choices, not 10</h4>
+          <p>Round-1 closing cutoffs can be 1–2 marks higher than expected. A short list increases your chance of zero allotment. List ambitious + realistic + safe in 1:2:2 ratio.</p>
+        </div>
+        <div class="awareness-rule">
+          <div class="awareness-rule-num">04</div>
+          <h4>Double-check the branch code</h4>
+          <p>"CS" (Computer Science Engg) and "AM" (CSE — AI &#x26; ML) are different programmes with different cutoffs. So are "AD" (AI &#x26; Data Sci) and "AI". One letter changes everything.</p>
+        </div>
+        <div class="awareness-rule">
+          <div class="awareness-rule-num">05</div>
+          <h4>Verify NAAC and NBA accreditation per branch</h4>
+          <p>A college with overall NAAC A++ may have specific branches that aren't NBA accredited. NBA accreditation matters more for placement than the overall NAAC grade.</p>
+        </div>
+        <div class="awareness-rule">
+          <div class="awareness-rule-num">06</div>
+          <h4>Cross-check the location, not just the name</h4>
+          <p>"Government College of Engineering" appears 9 times. "St. Joseph's" appears 4 times. Match the district AND street address shown on tneaonline.org against your intent.</p>
+        </div>
+        <div class="awareness-rule">
+          <div class="awareness-rule-num">07</div>
+          <h4>Save and review before final submission</h4>
+          <p>The portal lets you save and reopen. Print the saved list, sit with a parent or counsellor, walk through every code once before pressing final-submit. Mistakes after submission cannot be undone.</p>
+        </div>
+        <div class="awareness-rule">
+          <div class="awareness-rule-num">08</div>
+          <h4>Don't blindly trust this AI tool</h4>
+          <p>This dashboard helps you build a shortlist. It cannot replace verification on tneaonline.org or a human counsellor's judgement on factors like hostel quality, daily commute, fee structure, or family budget.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 2025 CUTOFF INTELLIGENCE DASHBOARD -->
+<!-- STUDENT GATE — collects info before predictor unlocks (student mode only) -->
+<section id="student-gate" class="student-gate student-only">
+  <div class="container">
+    <div class="gate-card reveal">
+      <div class="gate-grid">
+        <div class="gate-intro">
+          <span class="gate-intro-eyebrow">⚡ Step 1 of 2 · 30 seconds</span>
+          <h2>Tell us your scores. Get your <em>personalised predictions</em>.</h2>
+          <p>The Cutoff Intelligence Dashboard is loaded with the official TNEA 2025 dataset — 423 colleges, 106 branches, 3,457 college–branch combinations. To see <em>your</em> reachable list, share a few details below. Your data is saved only for our counsellors to follow up.</p>
+          <ul class="gate-intro-checks">
+            <li>Personalised dream / reach / safe college lists</li>
+            <li>Branch-by-branch trade-off analysis</li>
+            <li>NIRF + NAAC flags on every recommendation</li>
+            <li>Priority response from a counsellor within 24 hours</li>
+          </ul>
+        </div>
+        <form class="gate-form" id="gateForm" novalidate>
+          <div class="gate-form-row">
+            <div class="gate-form-cell">
+              <label for="gName">Full name <span>*</span></label>
+              <input type="text" id="gName" required autocomplete="name" placeholder="As on your Class 12 certificate">
+            </div>
+            <div class="gate-form-cell">
+              <label for="gSchool">School / college</label>
+              <input type="text" id="gSchool" autocomplete="organization" placeholder="e.g. ABC Higher Secondary School">
+            </div>
+          </div>
+          <div class="gate-form-row">
+            <div class="gate-form-cell">
+              <label for="gEmail">Email <span>*</span></label>
+              <input type="email" id="gEmail" required autocomplete="email" placeholder="you@example.com">
+            </div>
+            <div class="gate-form-cell">
+              <label for="gPhone">Phone <span>*</span></label>
+              <input type="tel" id="gPhone" required autocomplete="tel" placeholder="+91 ……">
+            </div>
+          </div>
+          <div class="gate-form-row gate-form-row-3">
+            <div class="gate-form-cell">
+              <label for="gMaths">Maths <span>*</span></label>
+              <input type="number" id="gMaths" min="0" max="100" step="0.5" required placeholder="/100">
+            </div>
+            <div class="gate-form-cell">
+              <label for="gPhysics">Physics <span>*</span></label>
+              <input type="number" id="gPhysics" min="0" max="100" step="0.5" required placeholder="/100">
+            </div>
+            <div class="gate-form-cell">
+              <label for="gChem">Chemistry <span>*</span></label>
+              <input type="number" id="gChem" min="0" max="100" step="0.5" required placeholder="/100">
+            </div>
+          </div>
+          <div class="gate-form-row">
+            <div class="gate-form-cell">
+              <label for="gCommunity">Community <span>*</span></label>
+              <select id="gCommunity" required>
+                <option value="">Select community</option>
+                <option value="oc">OC — General</option>
+                <option value="bc">BC</option>
+                <option value="bcm">BCM</option>
+                <option value="mbc">MBC &#x26; DNC</option>
+                <option value="sc">SC</option>
+                <option value="sca">SCA</option>
+                <option value="st">ST</option>
+              </select>
+            </div>
+            <div class="gate-form-cell">
+              <label for="gCity">City / district</label>
+              <input type="text" id="gCity" autocomplete="address-level2" placeholder="e.g. Coimbatore">
+            </div>
+          </div>
+          <div class="gate-form-row">
+            <div class="gate-form-cell">
+              <label for="gParentPhone">Parent phone</label>
+              <input type="tel" id="gParentPhone" placeholder="Optional">
+            </div>
+            <div class="gate-form-cell">
+              <label>Estimated TNEA cutoff</label>
+              <div class="gate-cutoff-pill">
+                <span>/200</span>
+                <span class="gate-cutoff-pill-val" id="gCutoffDisplay">—</span>
+              </div>
+            </div>
+          </div>
+          <div class="gate-form-row">
+            <div class="gate-form-cell gate-form-cell-full">
+              <label for="gNotes">Anything we should know?</label>
+              <textarea id="gNotes" placeholder="e.g. preferred branches, location preferences, family budget concerns. Optional."></textarea>
+            </div>
+          </div>
+          <div class="gate-error" id="gError"></div>
+          <div class="gate-submit-row">
+            <p class="gate-form-note">Your details are stored only in EduAakashaa's private Google Sheet. We never share or sell your data. By submitting, you agree to receive a counsellor follow-up call.</p>
+            <button type="submit" class="gate-submit-btn" id="gSubmit">
+              Unlock my predictions <span class="gate-submit-arrow">→</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="predictor" class="dashboard-section">
+  <div class="container">
+    <!-- Session banners -->
+    <div id="studentSessionBanner" class="session-banner student-only" style="display:none">
+      <div class="session-banner-icon">✅</div>
+      <div class="session-banner-text">
+        <strong>Welcome, <span id="sbName">Student</span>!</strong>
+        Your details are saved. <span class="session-banner-meta">Request ID: <span id="sbReqId">—</span> · Marks locked in</span>
+      </div>
+      <div class="session-banner-actions">
+        <button class="session-banner-link" id="sbLogout" type="button">Sign out / clear</button>
+      </div>
+    </div>
+    <div id="expertActiveBanner" class="session-banner expert-banner expert-only" style="display:none">
+      <div class="session-banner-icon">🔧</div>
+      <div class="session-banner-text">
+        <strong>Editing request <span id="ebReqId">—</span></strong>
+        <span class="session-banner-meta">Student: <span id="ebName">—</span> · <span id="ebEmail">—</span> · Status: <span id="ebStatus">—</span></span>
+      </div>
+      <div class="session-banner-actions">
+        <button class="session-banner-link" id="ebClose" type="button">Close request</button>
+      </div>
+    </div>
+
+    <div class="section-head reveal">
+      <span class="eyebrow">Cutoff Intelligence Dashboard · Built on official TNEA 2025 data</span>
+      <h2>Make a <em>data-backed</em> college and branch decision.</h2>
+      <p>Powered by the official TNEA 2025 cutoff dataset — 423 colleges, 106 branches, 3,457 college-branch combinations across all seven communities. Enter your numbers once. The dashboard recalculates everything: reachable colleges, branch trade-offs, the breaking point between top-college and top-branch strategies, and a downloadable expert report.</p>
+    </div>
+
+    <!-- INPUT BAR -->
+    <div class="dash-input-bar reveal">
+      <div class="dash-input-row">
+        <div class="dash-input-cell">
+          <label for="dMaths">Maths<span>/100</span></label>
+          <input type="number" id="dMaths" min="0" max="100" placeholder="95" value="95">
+        </div>
+        <div class="dash-input-cell">
+          <label for="dPhysics">Physics<span>/100</span></label>
+          <input type="number" id="dPhysics" min="0" max="100" placeholder="92" value="92">
+        </div>
+        <div class="dash-input-cell">
+          <label for="dChem">Chemistry<span>/100</span></label>
+          <input type="number" id="dChem" min="0" max="100" placeholder="90" value="90">
+        </div>
+        <div class="dash-input-cell">
+          <label for="dCommunity">Community</label>
+          <select id="dCommunity">
+            <option value="oc" selected>OC — General</option>
+            <option value="bc">BC</option>
+            <option value="bcm">BCM</option>
+            <option value="mbc">MBC &#x26; DNC</option>
+            <option value="sc">SC</option>
+            <option value="sca">SCA</option>
+            <option value="st">ST</option>
+          </select>
+        </div>
+        <div class="dash-input-cell dash-input-result">
+          <label>Your cutoff <span>/200</span></label>
+          <div class="dash-cutoff-display" id="dCutoff">186.0</div>
+        </div>
+        <button class="dash-input-btn" id="dApply">Update analysis <span class="arrow">→</span></button>
+      </div>
+      <div class="dash-input-note">
+        <strong>Cutoff formula:</strong> Maths + (Physics ÷ 2) + (Chemistry ÷ 2) — official TNEA normalisation. Match-quality flags use a ±2-mark buffer to account for round-2 movement.
+      </div>
+    </div>
+
+    <!-- ADVANCED FILTERS -->
+    <div class="dash-filters-bar reveal" id="dFiltersBar">
+      <div class="dash-filters-head">
+        <button class="dash-filters-toggle" id="dFiltersToggle" aria-expanded="false">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+          <span>Advanced filters</span>
+          <span class="dash-filters-count" id="dFiltersCount"></span>
+          <svg class="dash-filters-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <button class="dash-filters-clear" id="dFiltersClear">Clear all filters</button>
+      </div>
+      <div class="dash-filters-body" id="dFiltersBody" hidden>
+        <div class="dash-filter-cell">
+          <label for="dFilterZone">Zone</label>
+          <select id="dFilterZone">
+            <option value="all">All zones</option>
+            <option value="Z1">Z1 · Chennai metro &#x26; suburbs</option>
+            <option value="Z2">Z2 · Coimbatore &#x26; western belt</option>
+            <option value="Z3">Z3 · Madurai &#x26; southern belt</option>
+            <option value="Z4">Z4 · Trichy &#x26; central belt</option>
+            <option value="Z5">Z5 · Salem · Erode · Namakkal</option>
+            <option value="Z6">Z6 · Kanyakumari &#x26; far south</option>
+          </select>
+        </div>
+        <div class="dash-filter-cell">
+          <label for="dFilterDistrict">District</label>
+          <select id="dFilterDistrict">
+            <option value="all">All districts (39)</option>
+          </select>
+        </div>
+        <div class="dash-filter-cell">
+          <label for="dFilterType">Institute type</label>
+          <select id="dFilterType">
+            <option value="all">All types</option>
+            <option value="University Dept">University Department</option>
+            <option value="University Constituent">University Constituent</option>
+            <option value="Government">Government</option>
+            <option value="Govt-Aided">Govt-Aided</option>
+            <option value="Central Govt">Central Government</option>
+            <option value="Annamalai Univ">Annamalai University</option>
+            <option value="Self-Financing T1">Self-Financing Tier 1</option>
+            <option value="Self-Financing T2">Self-Financing Tier 2</option>
+            <option value="Self-Financing T3">Self-Financing Tier 3</option>
+          </select>
+        </div>
+        <div class="dash-filter-cell">
+          <label for="dFilterTier">College tier preset</label>
+          <select id="dFilterTier">
+            <option value="all">All 423 colleges</option>
+            <option value="premier">Premier — Govt + Aided + Univ depts</option>
+            <option value="top">Top — Premier + SF Tier 1</option>
+            <option value="t1">SF Tier 1 only</option>
+            <option value="t2t3">Mid + wider SF (T2 &#x26; T3)</option>
+          </select>
+        </div>
+        <div class="dash-filter-cell">
+          <label for="dFilterCourseGroup">Course group</label>
+          <select id="dFilterCourseGroup">
+            <option value="all">All course groups</option>
+            <option value="computing">Computing — CS, AI, IT, Cyber, Data Sci</option>
+            <option value="electronics">Electronics — ECE, EEE, E&#x26;I, VLSI</option>
+            <option value="core">Core — Mech, Aero, Auto, Mechatronics</option>
+            <option value="civil">Civil &#x26; Structural — Civil, Arch, Env</option>
+            <option value="biochem">Bio &#x26; Chemical — Biotech, Biomed, Chem, Food</option>
+            <option value="other">Other / Specialised — Textile, Leather, Print</option>
+          </select>
+        </div>
+        <div class="dash-filter-cell">
+          <label for="dFilterBranch">Specific branch</label>
+          <select id="dFilterBranch">
+            <option value="all">All branches (106)</option>
+            <!-- populated dynamically -->
+          </select>
+        </div>
+        <div class="dash-filter-cell">
+          <label for="dFilterNirf">NIRF 2024 rank <span class="dash-filter-help" title="National Institutional Ranking Framework, Engineering category, August 2024 release. Only TN colleges that appear in TNEA state quota are listed.">ⓘ</span></label>
+          <select id="dFilterNirf">
+            <option value="all">All colleges</option>
+            <option value="top50">NIRF Top 50 only</option>
+            <option value="top100">NIRF Top 100 only</option>
+            <option value="top200">NIRF Top 200 only</option>
+            <option value="top300">NIRF Top 300 only</option>
+            <option value="ranked">Any NIRF-ranked</option>
+            <option value="unranked">Not NIRF ranked</option>
+          </select>
+        </div>
+        <div class="dash-filter-cell">
+          <label for="dFilterEaTier">EA Rank tier <span class="dash-filter-help" title="EduAakashaa proprietary college rank (1 = best). Combines cutoff history, NIRF, NAAC, autonomy, placements across all 423 TNEA colleges. Top 30 = elite, Top 600 = wider net.">ⓘ</span></label>
+          <select id="dFilterEaTier">
+            <option value="all">All EA-ranked colleges</option>
+            <option value="top30">EA Top 30 — elite</option>
+            <option value="top50">EA Top 50</option>
+            <option value="top100">EA Top 100</option>
+            <option value="top200">EA Top 200</option>
+            <option value="top300">EA Top 300</option>
+            <option value="top400">EA Top 400</option>
+            <option value="top600">EA Top 600 (all ranked)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- DREAM / REACH / SAFE PICKS -->
+    <div class="dash-block dash-safe-block reveal">
+      <div class="dash-block-head">
+        <span class="dash-block-eyebrow">Block 0A · Dream · Reach · Safe picks</span>
+        <h3>Your top 30 colleges, <em>ranked by EduAakashaa quality</em></h3>
+        <p>Three sets of 10 colleges each — sorted by <strong>EduAakashaa College Rank (EA rank)</strong>, our proprietary quality index combining cutoff history, NIRF, NAAC, autonomy, and placement track record across all 423 TNEA colleges. Each card shows EA rank, NIRF 2024 rank (where applicable), and NAAC grade. Filters above narrow each list.</p>
+      </div>
+
+      <!-- DREAM tier -->
+      <div class="dash-tier-head dash-tier-dream">
+        <span class="dash-tier-pill">🚀 DREAM</span>
+        <div class="dash-tier-text">
+          <h4>Top 10 dream colleges — best on paper, slight stretch</h4>
+          <p>EA-ranked top colleges where your cutoff is <strong>within −5 to +3 marks</strong> of the 2025 closing cutoff. Aim high — even a small under-cutoff has historical recovery in seat conversion.</p>
+        </div>
+      </div>
+      <div class="dash-safe-grid dash-tier-grid" id="dDreamWrap"></div>
+
+      <!-- REACH tier -->
+      <div class="dash-tier-head dash-tier-reach">
+        <span class="dash-tier-pill">🎯 REACH</span>
+        <div class="dash-tier-text">
+          <h4>Top 10 reach colleges — strong fit, comfortable margin</h4>
+          <p>EA-ranked colleges where your cutoff is <strong>+3 to +8 marks</strong> over the closing cutoff. High probability of allotment plus strong placement reputation — these should anchor your top half of the choice list.</p>
+        </div>
+      </div>
+      <div class="dash-safe-grid dash-tier-grid" id="dReachWrap"></div>
+
+      <!-- SAFE tier -->
+      <div class="dash-tier-head dash-tier-safe">
+        <span class="dash-tier-pill">🛡️ SAFE</span>
+        <div class="dash-tier-text">
+          <h4>Top 10 safe colleges — almost-certain allotment</h4>
+          <p>EA-ranked colleges where your cutoff is <strong>+8 marks or more</strong> over the closing cutoff. Very low risk of non-allotment. Use these as the tail end of your choice list to guarantee a seat in a quality college.</p>
+        </div>
+      </div>
+      <div class="dash-safe-grid dash-tier-grid" id="dSafeWrap"></div>
+    </div>
+
+    <!-- PART 1: SMART PREDICTOR — TOP MATCHES -->
+    <div class="dash-block reveal">
+      <div class="dash-block-head">
+        <span class="dash-block-eyebrow">Block 01 · Smart Predictor</span>
+        <h3>Top reachable college-branch combinations <em>for your cutoff</em></h3>
+        <p>Real 2025 closing cutoffs from the official TNEA portal. The tool searches all 3,457 college-branch combinations in your community and ranks the strongest matches — both prestige (highest cutoff among reachable) and headroom (where you have most buffer). Branch filter narrows the result to a specific stream.</p>
+      </div>
+      <div class="dash-predictor-controls">
+        <label>Filter by branch:</label>
+        <select id="dPredBranch">
+          <option value="ALL">All branches</option>
+          <option value="CS">Computer Science (CS)</option>
+          <option value="AM">CSE — AI &#x26; Machine Learning (AM)</option>
+          <option value="AD">AI &#x26; Data Science (AD)</option>
+          <option value="IT">Information Technology (IT)</option>
+          <option value="EC">Electronics &#x26; Comm. (EC)</option>
+          <option value="SC">Cyber Security (SC)</option>
+          <option value="EE">Electrical &#x26; Electronics (EE)</option>
+          <option value="ME">Mechanical (ME)</option>
+          <option value="CE">Civil (CE)</option>
+          <option value="BM">Biomedical (BM)</option>
+        </select>
+        <label style="margin-left:18px">Sort by:</label>
+        <select id="dPredSort">
+          <option value="cutoff_desc">Cutoff — highest first (default)</option>
+          <option value="cutoff_asc">Cutoff — lowest first</option>
+          <option value="headroom_desc">Headroom — most buffer first</option>
+          <option value="headroom_asc">Headroom — tightest fit first</option>
+          <option value="ea_asc">EA Rank — best college first</option>
+          <option value="ea_desc">EA Rank — worst first</option>
+          <option value="nirf_asc">NIRF Rank — best first</option>
+          <option value="naac_asc">NAAC Grade — A++ → C</option>
+          <option value="college_asc">College name — A → Z</option>
+          <option value="branch_asc">Branch — A → Z</option>
+        </select>
+        <span class="dash-pred-count" id="dPredCount">—</span>
+      </div>
+      <div class="dash-predictor-table-wrap">
+        <table class="dash-predictor-table" id="dPredictorTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>College</th>
+              <th>Branch</th>
+              <th class="num">EA</th>
+              <th class="num">NIRF</th>
+              <th class="num">NAAC</th>
+              <th class="num">Cutoff</th>
+              <th class="num">Headroom</th>
+              <th>Type</th>
+              <th>Fit</th>
+            </tr>
+          </thead>
+          <tbody id="dPredictorBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PART 2: COLLEGE × BRANCH MATRIX -->
+    <div class="dash-block reveal">
+      <div class="dash-block-head">
+        <span class="dash-block-eyebrow">Block 02 · College × Branch Matrix</span>
+        <h3>The cutoff matrix, <em>filtered to what's reachable for you</em></h3>
+        <p>Top 30 most-competitive colleges (rows) × the most-asked-for branches (columns). Each cell shows the actual 2025 closing cutoff in your community — green if comfortably reachable, amber if a stretch, gray if out of reach. Hover any cell for context.</p>
+      </div>
+      <div class="dash-matrix-legend">
+        <span><span class="dash-mlegend-swatch dash-fit-strong"></span>Comfortable (cutoff ≤ yours − 3)</span>
+        <span><span class="dash-mlegend-swatch dash-fit-likely"></span>Likely (within ±2 marks)</span>
+        <span><span class="dash-mlegend-swatch dash-fit-stretch"></span>Stretch (cutoff yours + 1 to + 3)</span>
+        <span><span class="dash-mlegend-swatch dash-fit-out"></span>Out of reach (cutoff > yours + 3)</span>
+        <span><span class="dash-mlegend-swatch dash-fit-na"></span>Not offered</span>
+      </div>
+      <div class="dash-matrix-wrap" id="dMatrixWrap"></div>
+    </div>
+
+    <!-- PART 3: BRANCH RACE (coverage %) -->
+    <div class="dash-block reveal">
+      <div class="dash-block-head">
+        <span class="dash-block-eyebrow">Block 03 · Branch Race · Coverage</span>
+        <h3>How many colleges are reachable, <em>per branch</em></h3>
+        <p>For each of the top 14 branches, we count what fraction of colleges that offer it have a 2025 closing cutoff within your reach. The longer the bar, the more options that branch gives you at your score. CSE will typically be the shortest bar; Mechanical and Civil will be the longest.</p>
+      </div>
+      <div class="dash-race" id="dRaceWrap"></div>
+    </div>
+
+    <!-- PART 4: BEST COLLEGE RANK PER BRANCH (rank trade-off) -->
+    <div class="dash-block reveal">
+      <div class="dash-block-head">
+        <span class="dash-block-eyebrow">Block 04 · The Rank Trade-off</span>
+        <h3>The <em>best-ranked college</em> you can secure, branch by branch</h3>
+        <p>This is the chart that ends the CSE-vs-everything debate. We rank all 423 colleges in your community by their highest 2025 closing cutoff (rank #1 = most competitive). Then for each branch we find the <strong>best-ranked college you can actually get into</strong> at your score. The same student who lands a rank #58 college via CSE often gets a rank #7 college via Mechanical — that gap is the real cost of the branch choice. Branches are sorted with the strongest college access first.</p>
+      </div>
+      <div class="dash-rank-legend">
+        <span><span class="dash-rank-tier-1 dash-rank-pill">#1–10</span> Premier</span>
+        <span><span class="dash-rank-tier-2 dash-rank-pill">#11–30</span> Strong</span>
+        <span><span class="dash-rank-tier-3 dash-rank-pill">#31–60</span> Mid</span>
+        <span><span class="dash-rank-tier-4 dash-rank-pill">#61–120</span> Lower</span>
+        <span><span class="dash-rank-tier-5 dash-rank-pill">#121+</span> Wider</span>
+      </div>
+      <div class="dash-rank-rows" id="dRankWrap"></div>
+      <div class="dash-rank-headline" id="dRankHeadline"></div>
+    </div>
+
+    <!-- PART 5: QUADRANT CHART (with tier filter) -->
+    <div class="dash-block reveal">
+      <div class="dash-block-head">
+        <span class="dash-block-eyebrow">Block 05 · Branch Competitiveness Quadrant</span>
+        <h3>Where each branch sits on the <em>competitiveness vs availability map</em></h3>
+        <p>Branches plotted by median 2025 cutoff (X-axis, harder right) and number of colleges that offer them (Y-axis, more options up). The orange marker is your cutoff line. Use the filter to redraw the chart for a specific college tier — the median cutoff for CSE looks very different among Premier colleges versus all 423 colleges.</p>
+      </div>
+      <div class="dash-quadrant-controls">
+        <label>Filter by college tier:</label>
+        <select id="dQuadTier">
+          <option value="all" selected>All colleges (423)</option>
+          <option value="premier">Premier only — Govt + Aided + Univ depts</option>
+          <option value="top">Top tier — Premier + Self-Financing T1</option>
+          <option value="t1">Self-Financing Tier 1 only</option>
+          <option value="t2t3">Mid + wider self-financing (T2 &#x26; T3)</option>
+        </select>
+        <span class="dash-quad-count" id="dQuadCount">—</span>
+      </div>
+      <div class="dash-quadrant-wrap" id="dQuadrantWrap"></div>
+    </div>
+
+    <!-- PART 6: COLLEGE vs BRANCH TRADE-OFF -->
+    <div class="dash-block reveal">
+      <div class="dash-block-head">
+        <span class="dash-block-eyebrow">Block 06 · The Big Trade-Off</span>
+        <h3>CSE/AI at lower-tier colleges, or core branch at top colleges?</h3>
+        <p>The single most-asked question in TNEA counselling. We compute it concretely from the 2025 data: at your exact cutoff, what's the highest-ranked college you can get if you insist on CSE/AI vs the best you can get if you accept Mechanical or Civil. The "breaking point" tells you when this trade-off actually flips against you.</p>
+      </div>
+      <div class="dash-tradeoff-grid" id="dTradeoffWrap"></div>
+      <div class="dash-breaking-point" id="dBreakingWrap"></div>
+    </div>
+
+    <!-- PART 6.5: GEOGRAPHIC ATLAS — TAMIL NADU DISTRICT MAP -->
+    <div class="dash-block reveal">
+      <div class="dash-block-head">
+        <span class="dash-block-eyebrow">Block 06.5 · Geographic Atlas · Leaflet + D3</span>
+        <h3>Find colleges across <em>Tamil Nadu</em>, district by district</h3>
+        <p>All 424 TNEA colleges on a real OpenStreetMap tile layer with accurate Tamil Nadu district boundaries (37 districts, 2011 Census + post-2017 splits). Districts are shaded by college count using a D3 quantile color scale. <strong>Click any district polygon</strong> to zoom in and drill down — each college appears as a coloured pin. <strong>Hover a pin</strong> for an instant detail card showing NIRF rank, NAAC grade, EA rank, institute type, and the top community cutoffs. Pin colours: green = strong fit, amber = likely, orange = stretch, grey = out of reach or no data.</p>
+      </div>
+      <div class="dash-map-grid">
+        <div class="dash-map-canvas-wrap">
+          <div class="dash-map-title-bar">
+            <span class="dash-map-title" id="dMapTitle">Tamil Nadu · 37 Districts · 424 colleges</span>
+            <button class="dash-map-back-btn" id="dMapBack" style="display:none">← Reset view</button>
+          </div>
+          <div id="dMapLeaflet" class="dash-map-leaflet" role="application" aria-label="Tamil Nadu district map"></div>
+          <div class="dash-map-legend">
+            <div class="dash-map-legend-item"><span class="dash-map-legend-dot strong"></span>Strong fit</div>
+            <div class="dash-map-legend-item"><span class="dash-map-legend-dot likely"></span>Likely</div>
+            <div class="dash-map-legend-item"><span class="dash-map-legend-dot stretch"></span>Stretch</div>
+            <div class="dash-map-legend-item"><span class="dash-map-legend-dot none"></span>Out of reach / no data</div>
+            <div class="dash-map-legend-item" style="margin-left:auto"><span style="font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:9.5px;color:var(--muted)">District shading: # of colleges</span></div>
+          </div>
+        </div>
+        <div class="dash-map-panel" id="dMapPanel">
+          <div class="dash-map-panel-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+            <h4>Click any district to begin</h4>
+            <p>The full college list will appear here — NIRF, NAAC, EA rank, institute type, and your community's top cutoffs for the most-asked branches.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART 7: EXPERT REPORT -->
+    <div class="dash-block reveal">
+      <div class="dash-block-head">
+        <span class="dash-block-eyebrow">Block 07 · Expert Report</span>
+        <h3>Download a complete printable analysis</h3>
+        <p>Generate a full PDF report combining all six dashboard blocks plus EduAakashaa's counsellor commentary. The detailed PDF is available from the Report section below — bring it to your counselling session, or share it with a parent who isn't seated next to you.</p>
+      </div>
+      <div class="dash-report-row">
+        <button class="dash-report-btn dash-report-csv" id="dReportCSV">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18M3 15h18M9 3v18M15 3v18"></path></svg>
+          <span>Download CSV (reachable colleges)</span>
+        </button>
+        <a href="#contact" class="dash-report-btn dash-report-counsel">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span>Talk to an EduAakashaa counsellor</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PDF REPORT GENERATOR -->
+<section id="report" class="report-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Personalised report · Print or save as PDF</span>
+      <h2>Take your <em>full analysis</em> with you.</h2>
+      <p>Generate a complete EduAakashaa-branded PDF report combining all your dashboard data — reachable colleges, branch trade-off, rank analysis, breaking-point verdict, choice-filling tips, and your contact details. Open the report, then use your browser's "Save as PDF" or "Print → Save PDF" option to download. The report includes the full 8-rule choice-filling guide and the AI disclaimer.</p>
+    </div>
+
+    <div class="report-actions reveal">
+      <button class="report-action-btn report-action-primary" id="rptOpen">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+        <div>
+          <span class="report-action-title">Generate full PDF report</span>
+          <span class="report-action-sub" id="rptOpenSub">Branded · printable · 8–10 pages · save from your browser</span>
+        </div>
+        <span class="report-action-arrow">→</span>
+      </button>
+      <button class="report-action-btn report-action-excel" id="rptXLSX">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line><line x1="3" y1="9" x2="21" y2="9"></line><line x1="3" y1="15" x2="21" y2="15"></line></svg>
+        <div>
+          <span class="report-action-title">Download Excel (.xlsx)</span>
+          <span class="report-action-sub">5-sheet workbook · top picks · full predictor · branch trade-off · contact</span>
+        </div>
+        <span class="report-action-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- Submit Request to Expert (student mode, after session unlocked) -->
+    <div class="submit-request-card student-only reveal" id="submitRequestCard">
+      <div class="submit-request-card-text">
+        <div class="submit-request-eyebrow">⭐ Step 2 of 2 · Get your report</div>
+        <h3>Submit your request — we'll <em>send your full PDF report</em></h3>
+        <p>Click below to send this dashboard view to an EduAakashaa counsellor. They will review your numbers, build a personalised choice list, generate the full branded PDF report, and email it to you within 24 hours from <strong>info@eduaakashaa.com</strong>. There's nothing more for you to do.</p>
+      </div>
+      <div class="submit-request-actions">
+        <button class="submit-request-btn" id="submitRequestBtn" type="button">
+          Submit my request <span class="arrow">→</span>
+        </button>
+        <div class="submit-request-status" id="submitRequestStatus">Status: not yet submitted</div>
+      </div>
+    </div>
+
+    <div class="report-disclaimer reveal">
+      <div class="report-disclaimer-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      </div>
+      <div>
+        <strong>This is an AI-generated report.</strong> All numbers are computed from the official TNEA 2025 cutoff dataset, but the recommendations, interpretations, and rankings are produced by an algorithm. <em>Always cross-validate with tneaonline.org and a qualified counsellor before locking in your TNEA choices.</em> EduAakashaa accepts no liability for decisions made from this AI output alone.
+      </div>
+    </div>
+
+    <div class="report-social reveal">
+      <span class="report-social-label">Stay connected with EduAakashaa</span>
+      <div class="report-social-grid">
+        <a href="https://wa.me/918015722706" target="_blank" rel="noopener" class="report-social-link wa">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.464 3.488"></path></svg>
+          <div><strong>WhatsApp Channel</strong><span>Daily TNEA updates</span></div>
+        </a>
+        <a href="https://www.eduaakashaa.in" target="_blank" rel="noopener" class="report-social-link web">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          <div><strong>www.eduaakashaa.in</strong><span>Resources &#x26; blogs</span></div>
+        </a>
+        <a href="mailto:info@eduaakashaa.com" class="report-social-link mail">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22 6 12 13 2 6"></polyline></svg>
+          <div><strong>info@eduaakashaa.com</strong><span>Email us anytime</span></div>
+        </a>
+        <a href="https://www.instagram.com/eduaakashaa" target="_blank" rel="noopener" class="report-social-link ig">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          <div><strong>@eduaakashaa</strong><span>Instagram</span></div>
+        </a>
+        <a href="https://www.linkedin.com/company/eduaakashaa" target="_blank" rel="noopener" class="report-social-link li">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"></path></svg>
+          <div><strong>EduAakashaa</strong><span>LinkedIn</span></div>
+        </a>
+        <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="report-social-link yt">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"></path></svg>
+          <div><strong>YouTube</strong><span>Video guides</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERT WORKSPACE — visible only in expert mode -->
+<section id="expert-workspace" class="expert-workspace expert-only">
+  <div class="container">
+    <!-- Step 1: PIN gate (visible until authenticated) -->
+    <div class="expert-pin-card" id="expertPinCard">
+      <div class="gate-intro-eyebrow">🔧 Expert workspace · Authentication required</div>
+      <h2>Enter Expert PIN</h2>
+      <p>This area is for EduAakashaa counsellors only. Enter your 6-digit Expert PIN to access the request manager and PDF report tools.</p>
+      <input type="password" id="expertPin" class="expert-pin-input" maxlength="12" placeholder="••••••" autocomplete="off">
+      <div class="gate-error" id="expertPinError"></div>
+      <button class="gate-submit-btn expert-pin-submit" id="expertPinSubmit" type="button">
+        Authenticate <span class="gate-submit-arrow">→</span>
+      </button>
+    </div>
+
+    <!-- Step 2: Authenticated panel (shown after PIN) -->
+    <div class="expert-panel" id="expertPanel" style="display:none">
+      <div class="expert-panel-head">
+        <div>
+          <h2>Request Manager</h2>
+          <p>All student requests collected through the dashboard. Click any row to load it for editing and PDF generation.</p>
+        </div>
+        <div class="expert-panel-actions">
+          <button class="expert-action-btn" id="expertRefresh" type="button">↻ Refresh</button>
+          <button class="expert-action-btn" id="expertLogout" type="button">Sign out</button>
+        </div>
+      </div>
+
+      <div class="requests-table-wrap">
+        <div class="requests-table-controls">
+          <input type="search" class="requests-search" id="requestsSearch" placeholder="Search by name, email, or request ID…">
+          <select class="requests-filter" id="requestsFilter">
+            <option value="all">All statuses</option>
+            <option value="new">New</option>
+            <option value="submitted">Submitted</option>
+            <option value="in-review">In review</option>
+            <option value="saved">Saved</option>
+            <option value="sent">Sent</option>
+          </select>
+        </div>
+        <table class="requests-table">
+          <thead>
+            <tr>
+              <th>Request ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Cutoff</th>
+              <th>Community</th>
+              <th>Submitted</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="requestsBody">
+            <tr><td colspan="7" class="requests-empty">Click <strong>↻ Refresh</strong> above to load student requests from your Google Sheet.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Active request banner — shown when expert has loaded a request -->
+      <div id="expertLoadedBanner" class="expert-loaded-banner" style="display:none">
+        <div class="expert-loaded-meta">
+          <strong id="elName">—</strong>
+          <small id="elMeta">—</small>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <a href="#predictor" class="expert-action-pill" data-no-scroll="" id="elGoToPredictor">↑ Edit in dashboard ↑</a>
+          <button class="expert-action-pill danger" type="button" id="elClose">Close request</button>
+        </div>
+      </div>
+
+      <!-- Action triplet — Generate PDF / Save to Drive / Send report -->
+      <div class="expert-cta-row" id="expertCtaRow" style="display:none">
+        <button class="expert-cta-action cta-pdf" id="expertGenPdf" type="button">
+          <h4>📄 Generate full PDF report</h4>
+          <p>Opens the branded PDF in a new window. Page 1 has the student's details + EduAakashaa cover image. Use Ctrl/Cmd+P to save locally.</p>
+        </button>
+        <button class="expert-cta-action cta-drive" id="expertSavePdf" type="button">
+          <h4>☁️ Save PDF to Google Drive</h4>
+          <p>Uploads the generated PDF to the EduAakashaa shared Drive folder and stores the link in the request row.</p>
+        </button>
+        <button class="expert-cta-action cta-send" id="expertSendPdf" type="button">
+          <h4>📧 Send report to student</h4>
+          <p>Emails the student from <strong>info@eduaakashaa.com</strong> with the PDF attached. Marks the request as "sent".</p>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS & RECENT NEWS -->
+<section class="news-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">2024–2026 highlights · Verified from official sources</span>
+      <h2>What's actually happening at <em>the top campuses right now</em>.</h2>
+      <p>Recent recognition, placement records, and milestones from the institutions Tamil Nadu engineering aspirants are most likely to shortlist. Sourced from official college press releases, NIRF disclosures, QS &#x26; THE rankings and major news coverage. Use this for context — but not as the sole reason to pick any college.</p>
+    </div>
+
+    <div class="news-grid reveal">
+      <!-- IIT Madras -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">IIT Madras</div>
+            <div class="news-meta">JEE Advanced · Chennai</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>QS World Rankings 2026 — global Top 200 for the first time.</strong> Climbed 47 spots from #227 to #180, the institute's highest-ever global rank.</li>
+          <li><strong>NIRF #1 overall for the seventh consecutive year</strong> in 2025. Held the top engineering rank for the 10th straight cycle.</li>
+          <li><strong>417 patents filed in 2024–25</strong>, exceeding the director's "one patent a day" target. Launched the School of Innovation and Entrepreneurship in August 2025.</li>
+        </ul>
+        <div class="news-tag">Premier institution · Research-led</div>
+      </article>
+
+      <!-- NIT Trichy -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">NIT Tiruchirappalli</div>
+            <div class="news-meta">JEE Main · Tiruchirappalli</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF #9 nationally in 2025</strong> — the only NIT in India's top 10 engineering institutions.</li>
+          <li><strong>Median CTC of ₹15.76 LPA</strong> in 2024 placements. Top recruiters include Genpact, Infosys, Reliance and Adani.</li>
+          <li><strong>NAAC A++ accreditation</strong> retained. Highest package crossed ₹52 LPA in 2024.</li>
+        </ul>
+        <div class="news-tag">Strong engineering core · NAAC A++</div>
+      </article>
+
+      <!-- Anna University -->
+      <article class="news-card highlight">
+        <div class="news-head">
+          <div>
+            <div class="news-college">Anna University (CEG · MIT · ACT)</div>
+            <div class="news-meta">TNEA · Chennai</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF #20 nationally in 2025</strong>, with 500+ affiliated colleges across Tamil Nadu — the most relevant institution for TNEA aspirants.</li>
+          <li><strong>NAAC A++ retained.</strong> CSE at CEG closed at 199.5–200 marks (rank ≤120) in 2025 across CEG and MIT campuses.</li>
+          <li><strong>Top recruiters in 2024:</strong> Bank of America, Barclays, Microsoft, Google, Deloitte, TCS, Infosys, Cognizant, Amazon. CEG placement rate consistently above 95%.</li>
+        </ul>
+        <div class="news-tag">Flagship state institution · TNEA route</div>
+      </article>
+
+      <!-- PSG Tech -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">PSG College of Technology</div>
+            <div class="news-meta">TNEA · Coimbatore</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF #67 in engineering for 2025</strong> with score 50.64. Government-aided autonomous institution since 1951, NAAC A+.</li>
+          <li><strong>2024 placement record:</strong> 1,485 students placed across 460 companies. Highest package ₹56 LPA, average ₹8.81 LPA.</li>
+          <li><strong>Major recruiters:</strong> Google, Microsoft, Adobe, Amazon, Goldman Sachs, Bosch, Mahindra, Ashok Leyland. Strong industry-academia linkage via the PSG Industrial Institute.</li>
+        </ul>
+        <div class="news-tag">Govt-aided · Industry-linked · Affordable</div>
+      </article>
+
+      <!-- SSN -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">SSN College of Engineering</div>
+            <div class="news-meta">SNUCEE / JEE · Kalavakkam</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF #47 in 2025</strong>, NAAC A++. Ranked in the top three colleges affiliated with Anna University historically.</li>
+          <li><strong>2024 placements:</strong> highest package ₹58 LPA, median ₹8.73 LPA, with 633 students receiving offers.</li>
+          <li><strong>Important update for TNEA aspirants:</strong> SSN has shifted to its own SNUCEE-based admission and is no longer accepting TNEA seats. Verify the year's policy on the official site before listing.</li>
+        </ul>
+        <div class="news-tag">Switched to SNUCEE · Strong placements</div>
+      </article>
+
+      <!-- VIT Vellore -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">VIT Vellore</div>
+            <div class="news-meta">VITEEE · Vellore</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF #16 nationally in 2025</strong>, score 65.25 — the highest-ranked private deemed university in Tamil Nadu.</li>
+          <li><strong>NAAC A++ accreditation</strong>, recognised among the top private engineering universities in India.</li>
+          <li><strong>2024 placement highlights:</strong> highest ₹52 LPA, median ₹9 LPA. Recruiters include Amazon, Wipro, Cisco, Intel, Infosys.</li>
+        </ul>
+        <div class="news-tag">Deemed university · VITEEE entrance</div>
+      </article>
+
+      <!-- SRM -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">SRM Institute of Science &#x26; Technology</div>
+            <div class="news-meta">SRMJEEE · Kattankulathur</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF #14 nationally in 2025</strong>, score 65.83 — among the top deemed universities for engineering.</li>
+          <li><strong>NAAC A++ accreditation</strong>, large multidisciplinary campus with strong international student presence.</li>
+          <li><strong>Median CTC ₹6.1 LPA</strong> in 2024. Recruiters span HCL, Deloitte, Sony, Hyundai, IBM and core engineering firms.</li>
+        </ul>
+        <div class="news-tag">Multidisciplinary deemed univ · Wide recruiter base</div>
+      </article>
+
+      <!-- SASTRA -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">SASTRA University</div>
+            <div class="news-meta">Class 12 / JEE · Thanjavur</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF #40 in 2025</strong>, score 58.02. NAAC A++ accreditation, deemed university status.</li>
+          <li><strong>2024 placements:</strong> 1,684 of 1,920 UG four-year graduates placed (~88% rate). Median UG CTC ₹7.6 LPA.</li>
+          <li><strong>Strength of central Tamil Nadu</strong> — affordable cost of living combined with research-oriented curriculum.</li>
+        </ul>
+        <div class="news-tag">Research-oriented deemed univ · Central TN</div>
+      </article>
+
+      <!-- CIT Coimbatore -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">Coimbatore Institute of Technology</div>
+            <div class="news-meta">TNEA · Coimbatore</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF rank-band 101–150 in 2025.</strong> Government-aided since 1956, NAAC A grade, NBA accredited across major branches.</li>
+          <li><strong>2024 placements:</strong> 660 of 751 students placed (~88%). Highest UG package ₹52 LPA, PG record ₹132 LPA. Average ~₹6.8 LPA.</li>
+          <li><strong>Tuition fee around ₹22,000/year</strong> for aided seats — one of Tamil Nadu's strongest value-for-money options for engineering.</li>
+        </ul>
+        <div class="news-tag">Govt-aided · Top value-for-money pick</div>
+      </article>
+
+      <!-- TCE Madurai -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">Thiagarajar College of Engineering</div>
+            <div class="news-meta">TNEA · Madurai</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF rank-band 101–150 in 2025.</strong> Heritage govt-aided autonomous institution since 1957, NAAC A+.</li>
+          <li><strong>2024–25 placements:</strong> 809 students placed; highest ₹29 LPA, average ₹7.1 LPA. CSE branch saw 95% placement.</li>
+          <li><strong>Notable recruiters:</strong> Zoho, TCS, Infosys, TVS Motor, Titan, TAFE, Caterpillar — strong south-TN industry tie-ups.</li>
+        </ul>
+        <div class="news-tag">Heritage govt-aided · South TN anchor</div>
+      </article>
+
+      <!-- Amrita -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">Amrita Vishwa Vidyapeetham</div>
+            <div class="news-meta">AEEE · Coimbatore</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF #23 in 2025</strong>, score 62.46. NAAC A++ deemed university with multiple campuses.</li>
+          <li><strong>Recognised as Institute of Eminence</strong> by the Government of India — one of only a handful in TN with this status.</li>
+          <li><strong>Strong research output</strong> in CS, biotechnology and Ayurvedic sciences. Highest packages have crossed ₹62 LPA in recent cycles.</li>
+        </ul>
+        <div class="news-tag">Institute of Eminence · NAAC A++</div>
+      </article>
+
+      <!-- Kalasalingam / KARE -->
+      <article class="news-card">
+        <div class="news-head">
+          <div>
+            <div class="news-college">Kalasalingam Academy of Research &#x26; Education</div>
+            <div class="news-meta">KEEE / TNEA · Krishnankoil</div>
+          </div>
+        </div>
+        <ul class="news-points">
+          <li><strong>NIRF #33 in 2025</strong>, score 59.03 — a top-50 nationwide deemed university.</li>
+          <li><strong>NAAC A+ accreditation.</strong> Strong research focus and industry-academia partnerships through its centres of excellence.</li>
+          <li><strong>Among Tamil Nadu's most-improved private institutions</strong> in the NIRF rankings over the past five years.</li>
+        </ul>
+        <div class="news-tag">Deemed univ · Steady NIRF improvement</div>
+      </article>
+    </div>
+
+    <div class="news-strip reveal">
+      <div class="news-strip-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF6B0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+      </div>
+      <div>
+        <strong>How to read these highlights:</strong> Rankings, placement figures and accreditations come from each institution's official NIRF disclosure (most recent is 2025), the Ministry of Education's NIRF portal, the QS &#x26; THE world rankings, and verified press reports. <em>Numbers shift each year</em> — for any final commitment, cross-check the college's own current website before locking in your TNEA choice list.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ZONES -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Statewide coverage · Where the colleges sit</span>
+      <h2>Tamil Nadu's engineering ecosystem, <em>by zone</em>.</h2>
+      <p>Anna University affiliates colleges across six administrative zones. Chennai leads in count and prestige, Coimbatore in industry links, while Madurai–Trichy offer lower living costs and emerging tech campuses. Each zone shapes your hostel costs, internship access, and alumni network.</p>
+    </div>
+
+    <!-- Distribution chart -->
+    <div class="zone-chart reveal">
+      <div class="zone-chart-head">
+        <div>
+          <div class="zone-chart-label">College distribution · approximate</div>
+          <h3 class="zone-chart-title">How the 519+ colleges split across six zones</h3>
+        </div>
+        <div class="zone-chart-total">
+          <span class="zone-chart-total-num">519<span>+</span></span>
+          <span class="zone-chart-total-sub">total participating colleges</span>
+        </div>
+      </div>
+      <div class="zone-bars">
+        <div class="zone-bar-row">
+          <div class="zone-bar-label"><span class="zr">Zone I</span>Chennai</div>
+          <div class="zone-bar-track"><div class="zone-bar-fill" style="width:100%" data-w="100"></div></div>
+          <div class="zone-bar-count">120<span>+</span></div>
+        </div>
+        <div class="zone-bar-row">
+          <div class="zone-bar-label"><span class="zr">Zone III</span>Coimbatore</div>
+          <div class="zone-bar-track"><div class="zone-bar-fill" style="width:92%" data-w="92"></div></div>
+          <div class="zone-bar-count">110<span>+</span></div>
+        </div>
+        <div class="zone-bar-row">
+          <div class="zone-bar-label"><span class="zr">Zone II</span>Vellore–Salem</div>
+          <div class="zone-bar-track"><div class="zone-bar-fill" style="width:67%" data-w="67"></div></div>
+          <div class="zone-bar-count">80<span>+</span></div>
+        </div>
+        <div class="zone-bar-row">
+          <div class="zone-bar-label"><span class="zr">Zone IV</span>Trichy–Thanjavur</div>
+          <div class="zone-bar-track"><div class="zone-bar-fill" style="width:63%" data-w="63"></div></div>
+          <div class="zone-bar-count">75<span>+</span></div>
+        </div>
+        <div class="zone-bar-row">
+          <div class="zone-bar-label"><span class="zr">Zone V</span>Madurai</div>
+          <div class="zone-bar-track"><div class="zone-bar-fill" style="width:58%" data-w="58"></div></div>
+          <div class="zone-bar-count">70<span>+</span></div>
+        </div>
+        <div class="zone-bar-row">
+          <div class="zone-bar-label"><span class="zr">Zone VI</span>Tirunelveli</div>
+          <div class="zone-bar-track"><div class="zone-bar-fill" style="width:54%" data-w="54"></div></div>
+          <div class="zone-bar-count">65<span>+</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zone tiles -->
+    <div class="zone-tiles reveal">
+      <article class="zone-tile">
+        <div class="zone-tile-head">
+          <div class="zone-roman">I</div>
+          <div class="zone-compass">NE</div>
+        </div>
+        <h4>Chennai &#x26; Kancheepuram</h4>
+        <p class="zone-tile-sub">The metro powerhouse</p>
+        <div class="zone-stat-row">
+          <span class="zone-stat-k">Colleges</span>
+          <span class="zone-stat-v">120+</span>
+        </div>
+        <div class="zone-districts">Chennai · Kancheepuram · Tiruvallur · Chengalpattu</div>
+        <div class="zone-names">
+          <span class="zone-pill">CEG Guindy</span>
+          <span class="zone-pill">MIT Chromepet</span>
+          <span class="zone-pill">SSN</span>
+          <span class="zone-pill">St. Joseph's</span>
+        </div>
+        <div class="zone-trait"><em>Strength:</em> Highest cutoffs, largest company campus drives, best intern access</div>
+      </article>
+
+      <article class="zone-tile">
+        <div class="zone-tile-head">
+          <div class="zone-roman">II</div>
+          <div class="zone-compass">N</div>
+        </div>
+        <h4>Vellore, Salem, Krishnagiri</h4>
+        <p class="zone-tile-sub">Northern government-college belt</p>
+        <div class="zone-stat-row">
+          <span class="zone-stat-k">Colleges</span>
+          <span class="zone-stat-v">80+</span>
+        </div>
+        <div class="zone-districts">Vellore · Salem · Krishnagiri · Dharmapuri · Namakkal</div>
+        <div class="zone-names">
+          <span class="zone-pill">Thanthai Periyar GIT</span>
+          <span class="zone-pill">Dharmapuri GCE</span>
+          <span class="zone-pill">K.S.R. Group</span>
+        </div>
+        <div class="zone-trait"><em>Strength:</em> Affordable fees, proximity to Bengaluru corridor</div>
+      </article>
+
+      <article class="zone-tile">
+        <div class="zone-tile-head">
+          <div class="zone-roman">III</div>
+          <div class="zone-compass">W</div>
+        </div>
+        <h4>Coimbatore, Tiruppur, Erode</h4>
+        <p class="zone-tile-sub">Industry-linked western belt</p>
+        <div class="zone-stat-row">
+          <span class="zone-stat-k">Colleges</span>
+          <span class="zone-stat-v">110+</span>
+        </div>
+        <div class="zone-districts">Coimbatore · Tiruppur · Erode · Nilgiris</div>
+        <div class="zone-names">
+          <span class="zone-pill">PSG Tech</span>
+          <span class="zone-pill">CIT</span>
+          <span class="zone-pill">Kumaraguru</span>
+          <span class="zone-pill">Kongu</span>
+          <span class="zone-pill">Sri Krishna</span>
+        </div>
+        <div class="zone-trait"><em>Strength:</em> Industry partnerships, textiles &#x26; manufacturing ecosystem, R&#x26;D tie-ups</div>
+      </article>
+
+      <article class="zone-tile">
+        <div class="zone-tile-head">
+          <div class="zone-roman">IV</div>
+          <div class="zone-compass">C</div>
+        </div>
+        <h4>Tiruchirappalli &#x26; Thanjavur</h4>
+        <p class="zone-tile-sub">Central Tamil Nadu</p>
+        <div class="zone-stat-row">
+          <span class="zone-stat-k">Colleges</span>
+          <span class="zone-stat-v">75+</span>
+        </div>
+        <div class="zone-districts">Tiruchirappalli · Thanjavur · Pudukkottai · Ariyalur · Perambalur</div>
+        <div class="zone-names">
+          <span class="zone-pill">AU Trichy (AUT)</span>
+          <span class="zone-pill">SASTRA (self-admission)</span>
+          <span class="zone-pill">Saranathan</span>
+        </div>
+        <div class="zone-trait"><em>Strength:</em> Low cost of living, strong state colleges, NIT Trichy halo effect</div>
+      </article>
+
+      <article class="zone-tile">
+        <div class="zone-tile-head">
+          <div class="zone-roman">V</div>
+          <div class="zone-compass">SC</div>
+        </div>
+        <h4>Madurai, Dindigul, Theni</h4>
+        <p class="zone-tile-sub">South-central TN</p>
+        <div class="zone-stat-row">
+          <span class="zone-stat-k">Colleges</span>
+          <span class="zone-stat-v">70+</span>
+        </div>
+        <div class="zone-districts">Madurai · Dindigul · Theni · Sivagangai · Ramanathapuram</div>
+        <div class="zone-names">
+          <span class="zone-pill">Thiagarajar</span>
+          <span class="zone-pill">Velammal Madurai</span>
+          <span class="zone-pill">AU Madurai</span>
+          <span class="zone-pill">Bodinayakkanur GCE</span>
+        </div>
+        <div class="zone-trait"><em>Strength:</em> Heritage campuses, strong regional industry, southern rail connectivity</div>
+      </article>
+
+      <article class="zone-tile">
+        <div class="zone-tile-head">
+          <div class="zone-roman">VI</div>
+          <div class="zone-compass">S</div>
+        </div>
+        <h4>Tirunelveli, Thoothukudi, Kanyakumari</h4>
+        <p class="zone-tile-sub">Southern coastal belt</p>
+        <div class="zone-stat-row">
+          <span class="zone-stat-k">Colleges</span>
+          <span class="zone-stat-v">65+</span>
+        </div>
+        <div class="zone-districts">Tirunelveli · Thoothukudi · Kanyakumari · Virudhunagar · Tenkasi</div>
+        <div class="zone-names">
+          <span class="zone-pill">AU Tirunelveli</span>
+          <span class="zone-pill">VOC Thoothukudi</span>
+          <span class="zone-pill">Francis Xavier</span>
+        </div>
+        <div class="zone-trait"><em>Strength:</em> Port &#x26; energy industry exposure, lowest overall student costs</div>
+      </article>
+    </div>
+
+    <!-- Why zone matters -->
+    <div class="zone-why reveal">
+      <div class="zone-why-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#FF6B0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+      </div>
+      <div>
+        <h4>Why the zone matters more than you think</h4>
+        <p>Your zone shapes hostel costs, internship access, alumni network density, and sometimes even placement company preference. A college in a less-travelled district can often deliver a better fit and seat than a crowded reach in Chennai. When building your choice list, treat zone as a filter — not an afterthought.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SHARE -->
+<section class="share-section">
+  <div class="container">
+    <div class="share-card reveal">
+      <div class="share-glow"></div>
+      <div class="share-content">
+        <span class="eyebrow" style="background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff;margin-bottom:20px">Spread the word · Help a classmate</span>
+        <h2 style="color:#fff">Know someone prepping for TNEA 2026? <em>Pass this on.</em></h2>
+        <p class="share-sub">Every year students lose seats because a friend, a cousin, or a classmate didn't know about the freeze button, the 7.5% quota, or the difference between "Accept &#x26; Upward" and "Reject &#x26; Upward". Two taps and you might save them a full academic year.</p>
+        <div class="share-buttons">
+          <button class="share-btn share-wa" id="shareWA" aria-label="Share on WhatsApp">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.465 3.488"></path></svg>
+            <span>Share on WhatsApp</span>
+          </button>
+          <button class="share-btn share-email" id="shareEmail" aria-label="Share by Email">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <span>Share via Email</span>
+          </button>
+          <button class="share-btn share-copy" id="shareCopy" aria-label="Copy link">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"></path></svg>
+            <span id="copyText">Copy link</span>
+          </button>
+        </div>
+        <div class="share-meta">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9 12l2 2 4-4"></path></svg>
+          <span>Free guide · No signup needed · Built by EduAakashaa counsellors</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QR CODES SECTION -->
+<section id="qr-codes" class="qr-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Stay connected · Quick access</span>
+      <h2>Two scans, two ways to <em>not lose track</em>.</h2>
+      <p>Save this dashboard for the months ahead — TNEA registration, document upload, rank list, and counselling rounds all unfold across June, July, and August. And join the EduAakashaa TNEA WhatsApp group to get every official tneaonline.org update the moment it drops, plus answers from counsellors when you have a question at 11 pm before a deadline.</p>
+    </div>
+    <div class="qr-grid reveal">
+      <div class="qr-card">
+        <div class="qr-card-eyebrow">📱 Bookmark this page</div>
+        <h3>Scan to save the dashboard</h3>
+        <p class="qr-card-desc">Open this page on your phone — handy during the actual TFC verification day, when you have your printed certificates in front of you and need to cross-check codes and cutoffs.</p>
+        <div class="qr-card-img-wrap">
+          <img src="" data-img="qrweb" alt="QR code to open the EduAakashaa TNEA 2026 dashboard" class="qr-card-img">
+        </div>
+        <div class="qr-card-meta">
+          <span class="qr-card-meta-label">Opens</span>
+          <span class="qr-card-meta-value">eduaakashaa.in/tnea-2026</span>
+        </div>
+      </div>
+      <div class="qr-card qr-card-wa">
+        <div class="qr-card-eyebrow qr-card-eyebrow-wa">💬 EduAakashaa TNEA group</div>
+        <h3>Scan to join the WhatsApp group</h3>
+        <p class="qr-card-desc">Real-time TNEA 2026 updates, deadline reminders, and ad-hoc Q&#x26;A from EduAakashaa counsellors. We keep the noise low — only TNEA-relevant posts, no marketing spam, and no debates.</p>
+        <div class="qr-card-img-wrap">
+          <img src="" data-img="qrwa" alt="QR code to join the EduAakashaa TNEA 2026 WhatsApp group" class="qr-card-img">
+        </div>
+        <div class="qr-card-meta">
+          <span class="qr-card-meta-label">Or message us</span>
+          <a href="https://wa.me/918015722706" class="qr-card-meta-value qr-card-meta-link">+91 80157 22706</a>
+        </div>
+      </div>
+    </div>
+    <div class="qr-tip reveal">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+      <span>Open your phone's camera, point it at either QR, and tap the link that pops up. No QR scanner app needed — works natively on iOS 11+ and Android 8+.</span>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION DARK SECTION -->
+<section id="reservation" class="dark-section">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Reservation framework</span>
+      <h2>Tamil Nadu's <em>69% reservation</em>, explained.</h2>
+      <p>TN's reservation structure is among the most generous in India. Seven community-based categories sit vertically; a 7.5% horizontal quota for government school students cuts across all of them. Understanding your category correctly is how you unlock the full cutoff advantage.</p>
+    </div>
+
+    <div class="reserve-grid reveal">
+      <div class="reserve-chart-card">
+        <h3>Vertical category split (indicative)</h3>
+        <div class="reserve-bars">
+          <div class="reserve-bar">
+            <div class="label">OC</div>
+            <div class="bar"><div class="fill" style="width:45%"></div></div>
+            <div class="pct">~31%</div>
+          </div>
+          <div class="reserve-bar">
+            <div class="label">BC</div>
+            <div class="bar"><div class="fill" style="width:38%"></div></div>
+            <div class="pct">26.5%</div>
+          </div>
+          <div class="reserve-bar">
+            <div class="label">BCM</div>
+            <div class="bar"><div class="fill" style="width:5%"></div></div>
+            <div class="pct">3.5%</div>
+          </div>
+          <div class="reserve-bar">
+            <div class="label">MBC&#x26;DNC</div>
+            <div class="bar"><div class="fill" style="width:29%"></div></div>
+            <div class="pct">20%</div>
+          </div>
+          <div class="reserve-bar">
+            <div class="label">SC</div>
+            <div class="bar"><div class="fill" style="width:22%"></div></div>
+            <div class="pct">15%</div>
+          </div>
+          <div class="reserve-bar">
+            <div class="label">SCA</div>
+            <div class="bar"><div class="fill" style="width:5%"></div></div>
+            <div class="pct">3%</div>
+          </div>
+          <div class="reserve-bar">
+            <div class="label">ST</div>
+            <div class="bar"><div class="fill" style="width:2%"></div></div>
+            <div class="pct">1%</div>
+          </div>
+          <div class="reserve-bar hz" style="margin-top:14px">
+            <div class="label">Govt School</div>
+            <div class="bar"><div class="fill" style="width:11%"></div></div>
+            <div class="pct">7.5%</div>
+          </div>
+        </div>
+        <div class="reserve-note">
+          The 7.5% government school reservation runs <em>horizontally</em> — it applies within each category above, not on top of it. Only Tamil Nadu natives qualify for community-based reservations; other-state candidates are treated under Open Competition.
+        </div>
+      </div>
+
+      <div class="reserve-info">
+        <h3>How reservation translates to cutoffs</h3>
+        <p>In practice, reserved categories see a 5–15 mark relaxation versus OC for the same branch and college. A BC student with 190 often reaches branches that would demand 195+ for OC. This difference matters most at the top — premier colleges where every half-mark moves the rank.</p>
+        <ul class="reserve-list">
+          <li><strong>Community certificate must be permanent card or digitally signed e-certificate</strong> — provisional won't work</li>
+          <li>Fee waivers under the 7.5% scheme cover tuition, hostel, and development fees per G.O. 221</li>
+          <li>Special reservations exist for Differently Abled, Ex-Servicemen's children, and Eminent Sportspersons</li>
+          <li>Other-state candidates: Anna University offers around 50 reserved seats via a non-TNEA process</li>
+          <li>First Graduate candidates receive a separate tuition fee waiver on submission of the joint declaration</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONFIRMATION OPTIONS -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Allotment response · The 4 options</span>
+      <h2>After seat allotment, <em>you have two days</em> to respond.</h2>
+      <p>This is where students lose seats by misunderstanding a button. Each option carries different consequences for the next round. Read carefully before you click.</p>
+    </div>
+    <div class="confirm-grid reveal">
+      <article class="confirm-card">
+        <span class="tag accept">Accept · Stay</span>
+        <h4>Accept &#x26; Join</h4>
+        <p>Take the allotted seat. Exit counselling. Report to the college and pay fees. Safe if this is your target or your best likely option.</p>
+      </article>
+      <article class="confirm-card">
+        <span class="tag accept">Accept · Continue</span>
+        <h4>Accept &#x26; Upward</h4>
+        <p>Hold the current seat as a safety net, but remain in the queue for higher-preference options in the next round. You keep this seat if nothing better comes through.</p>
+      </article>
+      <article class="confirm-card">
+        <span class="tag reject">Reject · Continue</span>
+        <h4>Reject &#x26; Upward</h4>
+        <p>Let go of the current seat, stay in the queue for higher choices. Risky if later rounds don't allot anything better — you walk away with nothing.</p>
+      </article>
+      <article class="confirm-card">
+        <span class="tag reject">Reject · Exit</span>
+        <h4>Reject &#x26; Quit</h4>
+        <p>Exit TNEA entirely. Typically used by students joining outside TN, pursuing JEE/BITS routes, or JoSAA. Cannot re-enter once selected.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section style="background:var(--cream-2)">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">General tips · From our counsellors</span>
+      <h2>Nine lessons from <em>past years of TNEA counselling</em>.</h2>
+      <p>These aren't hype. They're the patterns we see repeat with every batch that walks into EduAakashaa — from Coimbatore and Chennai families alike.</p>
+    </div>
+    <div class="tips-grid reveal">
+      <article class="tip-card">
+        <div class="tip-num">TIP · 01</div>
+        <h4>Apply on day one</h4>
+        <p>Registration fills servers and slows things down. Early applications get better TFC slots, better verification dates, and fewer portal errors.</p>
+      </article>
+      <article class="tip-card">
+        <div class="tip-num">TIP · 02</div>
+        <h4>Match your name everywhere</h4>
+        <p>If your Class 10 says "Aarav S" and Class 12 says "Aarav Sundaram", get an affidavit ready. TFC officials won't accept name mismatches.</p>
+      </article>
+      <article class="tip-card">
+        <div class="tip-num">TIP · 03</div>
+        <h4>Balance your choice list</h4>
+        <p>Aim for three tiers: reach (5% above your predicted cutoff), target (at your cutoff), and safety (5–10 below). Safety fills first, protects everything.</p>
+      </article>
+      <article class="tip-card">
+        <div class="tip-num">TIP · 04</div>
+        <h4>Don't fix on one branch</h4>
+        <p>CSE at tier-1 might be out of reach, but CSE + ECE + IT across tier-2 / 3 can rescue a good outcome. Branch rigidity shrinks your list.</p>
+      </article>
+      <article class="tip-card">
+        <div class="tip-num">TIP · 05</div>
+        <h4>Talk to current students</h4>
+        <p>Before you fill a college, find one second or third-year student from it. Ask about placements, workload, hostel, faculty — not brochures.</p>
+      </article>
+      <article class="tip-card">
+        <div class="tip-num">TIP · 06</div>
+        <h4>Understand the four options</h4>
+        <p>Re-read the Accept &#x26; Upward vs Reject &#x26; Upward difference three times before clicking. Most seat-loss horror stories start here.</p>
+      </article>
+      <article class="tip-card">
+        <div class="tip-num">TIP · 07</div>
+        <h4>Keep a parent in the loop</h4>
+        <p>Two-day windows fly by. Share your portal login with one parent; let them be the second pair of eyes on deadlines and OTPs.</p>
+      </article>
+      <article class="tip-card">
+        <div class="tip-num">TIP · 08</div>
+        <h4>Save everything as PDF</h4>
+        <p>Every screen, every allotment order, every fee receipt — PDF and email yourself. If the portal glitches on day one of college, you have proof.</p>
+      </article>
+      <article class="tip-card">
+        <div class="tip-num">TIP · 09</div>
+        <h4>Plan the supplementary round</h4>
+        <p>Even if you skip the general counselling or miss an allotment, the supplementary round opens real options. It's not a consolation — it's a second chance.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">FAQ · Real questions we get asked</span>
+      <h2>Questions from parents and students, <em>answered plainly</em>.</h2>
+      <p>The same doubts repeat every year. We've collected the most common ones below. If you don't find yours, the contact form at the bottom reaches us directly.</p>
+    </div>
+
+    <div class="faq-list reveal">
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·01 · Basics</div>
+            <h4>Is there a written entrance exam for TNEA 2026?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">No. Admission is based purely on Class 12 PCM marks, normalised to a cutoff out of 200 (Maths 100, Physics 50, Chemistry 50). There is no JEE-style written test. Your board results are your entrance exam.</div>
+      </article>
+
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·02 · Eligibility</div>
+            <h4>I studied in CBSE outside Tamil Nadu. Can I still apply?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">You can apply under the Open Competition (OC) category — but you will not qualify for community-based reservation, which is reserved for Tamil Nadu natives who have studied Class 8–12 within the state. If you're a TN native who studied outside, a digitally signed nativity certificate becomes mandatory.</div>
+      </article>
+
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·03 · Documents</div>
+            <h4>What if my community certificate is not yet ready?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">Apply for the permanent community certificate (from the Revenue Department / Taluk office) before the application deadline. Provisional or acknowledgement slips are not accepted at the TFC. Certificates obtained after the application deadline will not be considered for reservation benefit.</div>
+      </article>
+
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·04 · Process mistakes</div>
+            <h4>I made a typo in my application. Can I fix it?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">There is no dedicated correction window after final submission. Use the preview screen before submit — carefully. Post-submission, your only remedy is the grievance redressal window, usually in late June. You'll need to visit the DoTE office in Chennai with supporting documents. Corrections are considered case-by-case and not guaranteed.</div>
+      </article>
+
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·05 · Cutoffs</div>
+            <h4>What cutoff do I need for CSE at a top college?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">For OC candidates, top CSE branches (CEG, MIT, PSG, TCE) typically demand 195–200 out of 200. BC/MBC candidates see a 5–10 mark relaxation. Ranks below the top 500 practically guarantee premier CSE/IT. Beyond 10,000, expect tier-2 colleges. These are patterns, not promises — cutoffs shift each year based on applicants and seats.</div>
+      </article>
+
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·06 · Choice filling</div>
+            <h4>How many choices should I fill?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">Fill as many as you reasonably would accept if allotted — don't artificially cap your list at 20 or 30. A healthy list usually has 40–80 entries, covering reach, target, and safety tiers. The system allots the first achievable choice in your order; filling more never hurts, but filling options you wouldn't actually attend is how people end up stuck in a bad seat.</div>
+      </article>
+
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·07 · After allotment</div>
+            <h4>What does "Accept &#x26; Upward" actually mean?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">You take the current seat (pay fees, complete reporting at TFC), but stay in the queue for a higher-preference allotment in the next round. If nothing better comes through, you keep this seat. If a better choice is allotted, it replaces the current one automatically. It's the lowest-risk way to stay in the game.</div>
+      </article>
+
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·08 · Fees</div>
+            <h4>How much are college fees once I'm admitted?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">It varies dramatically. Government college tuition can be as low as ₹7,000–₹15,000 per year. Government-aided colleges sit around ₹30,000–₹50,000. Self-financing colleges range from ₹50,000 to well over ₹2 lakh a year. Students admitted under the 7.5% government school scheme receive a full tuition, hostel, and development fee waiver.</div>
+      </article>
+
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·09 · Missed rounds</div>
+            <h4>I missed an allotment round. Is it over?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">Not necessarily. The supplementary counselling round opens for candidates who did not secure a seat in the main rounds, plus those who failed Class 12 and later cleared in supplementary. If you missed because of a document issue, get it fixed and watch the DoTE portal for re-registration notices.</div>
+      </article>
+
+      <article class="faq-item">
+        <div class="faq-q">
+          <div>
+            <div class="faq-cat">Q·10 · TFC visit</div>
+            <h4>Can my parent attend the TFC verification instead of me?</h4>
+          </div>
+          <div class="faq-toggle"></div>
+        </div>
+        <div class="faq-a">The candidate must be present. Parents are strongly encouraged to accompany, but originals must be handed over by the applicant. Bring one parent with a Government ID — useful if queries about nativity or community come up. Arrive at least 30 minutes before your assigned slot.</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RELATED PAGES -->
+<section>
+  <div class="container">
+    <div class="section-head reveal">
+      <span class="eyebrow">Next step · EduAakashaa resources</span>
+      <h2>Related guides and tools to <em>take it further</em>.</h2>
+      <p>TNEA doesn't exist in a vacuum. Most parents we work with also ask about JoSAA, JEE planning, branch choice, and cross-state options. These pages carry the thinking forward.</p>
+    </div>
+
+    <div class="related-grid reveal">
+      <a href="./tnea-predictor.html" class="related-card">
+        <span class="tag">Tool · Predictor</span>
+        <h4>TNEA Rank &#x26; Cutoff Predictor</h4>
+        <p>Enter your Class 12 PCM marks and category. Get estimated cutoff, rank band, and probable colleges based on last three years' data.</p>
+        <span class="link-arrow">Try the predictor</span>
+      </a>
+      <a href="./josaa-guidance.html" class="related-card">
+        <span class="tag">Guide · National</span>
+        <h4>JoSAA 2026 choice-filling</h4>
+        <p>Running JEE Advanced alongside TNEA? Our JoSAA walkthrough covers the national counselling strategy, reach vs safety, and tie-breakers.</p>
+        <span class="link-arrow">Read the guide</span>
+      </a>
+      <a href="./branch-comparison.html" class="related-card">
+        <span class="tag">Analysis · Branches</span>
+        <h4>Branch comparison: CSE vs ECE vs IT</h4>
+        <p>Which branch fits which career? Honest breakdown of placement, curriculum, pivot potential — without the marketing gloss.</p>
+        <span class="link-arrow">Compare branches</span>
+      </a>
+      <a href="./tnea-college-insights.html" class="related-card">
+        <span class="tag">Insight · Colleges</span>
+        <h4>Tamil Nadu college deep-dives</h4>
+        <p>Honest profiles of PSG, CIT, Kumaraguru, SSN, Thiagarajar, Velammal — placements, culture, trade-offs we don't print in brochures.</p>
+        <span class="link-arrow">Browse colleges</span>
+      </a>
+      <a href="./nri-foreign.html" class="related-card">
+        <span class="tag">Guide · Dubai / UAE</span>
+        <h4>NRI &#x26; Gulf admission route</h4>
+        <p>For families in Dubai, Sharjah, Abu Dhabi — the Children of Indian Workers in Gulf Countries (CIWGC) quota at Anna University campuses, explained.</p>
+        <span class="link-arrow">See NRI options</span>
+      </a>
+      <a href="./counselling-booking.html" class="related-card">
+        <span class="tag">Service · 1:1</span>
+        <h4>Book a personal counselling slot</h4>
+        <p>Sit with an EduAakashaa counsellor (Coimbatore, Dubai, or online). We walk through your rank, build the choice list, and flag mistakes before you make them.</p>
+        <span class="link-arrow">Book a session</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section id="contact" style="padding-top:40px">
+  <div class="container">
+    <div class="cta-band reveal">
+      <div>
+        <h2>Not sure where your rank lands? <em>Let's talk it through.</em></h2>
+        <p>Book a free 20-minute call with an EduAakashaa counsellor. We'll look at your expected cutoff, category, and priorities — and sketch a first-pass choice list together. No pitch, just counsel.</p>
+      </div>
+      <div class="btns">
+        <a href="tel:+918015722706" class="btn-primary">Call India office <span class="arrow">→</span></a>
+        <a href="mailto:info@eduaakashaa.com" class="btn-ghost">Email us <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="" data-img="logo" alt="EduAakashaa">
+          <div class="footer-brand-text">
+            <div class="brand-name">Edu<span>Aakashaa</span></div>
+          </div>
+        </div>
+        <p class="footer-tag">Guiding students towards the right future.</p>
+        <p style="font-size:13.5px;line-height:1.6">Coimbatore, Tamil Nadu · Dubai, UAE</p>
+        <p style="font-size:13.5px;line-height:1.6;margin-top:4px">Evidence-based counselling for engineering, medical, and study-abroad aspirants.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Reach us</h5>
+        <ul>
+          <li><a href="tel:+918015722706">+91 80157 22706 (IN)</a></li>
+          <li><a href="tel:+971505168081">+971 50 516 8081 (UAE)</a></li>
+          <li><a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a></li>
+          <li><a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Hours</h5>
+        <ul>
+          <li>Mon – Fri · 9:00 – 22:00</li>
+          <li>Saturday · 9:00 – 16:00</li>
+          <li>Sunday · 9:00 – 16:00</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>On this page</h5>
+        <ul>
+          <li><a href="#process">10-step process</a></li>
+          <li><a href="#documents">Document checklist</a></li>
+          <li><a href="#colleges">College categories</a></li>
+          <li><a href="#reservation">Reservation</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 EduAakashaa · All rights reserved</div>
+      <div>TNEA 2026 Admission Guide · Updated April 2026</div>
+    </div>
+  </div>
+</footer>
+{% endraw %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/tnea_expert.js') }}"></script>
+{% endblock %}

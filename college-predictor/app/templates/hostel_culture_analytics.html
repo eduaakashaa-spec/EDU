@@ -1,0 +1,440 @@
+{% extends "base.html" %}
+{% block title %}Hostel & Culture Analytics | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/hostel_culture_analytics.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ported ported-hostel_culture_analytics">
+{% raw %}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>DASA 2026 Hostel &#x26; Culture Report — EduAakashaa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&#x26;family=Plus+Jakarta+Sans:wght@300..800&#x26;family=JetBrains+Mono:wght@400..600&#x26;display=swap" rel="stylesheet">
+
+
+
+
+
+
+<nav class="cross-nav">
+  <div class="wrap cross-nav-inner">
+    <div class="cross-brand">
+            <div class="name">Edu<b>Aakashaa</b></div>
+    </div>
+    <div class="cross-links">
+     
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="ai-banner reveal">
+      <div class="ic">i</div>
+      <p><b>AI-generated report · Read with judgement</b>This report was assembled by an AI assistant from public sources (Quora, Reddit, Collegedunia, Shiksha reviews, mainstream press, official institute pages). Sentiment patterns are real but individual experiences vary. <b style="display:inline;color:var(--navy-ink);font-family:&#x27;Plus Jakarta Sans&#x27;;font-size:13.5px;letter-spacing:0;text-transform:none">Please discuss with an EduAakashaa counsellor before any admission decision — figures may be approximate, curfews may have changed, and your child's experience will be unique.</b></p>
+    </div>
+    <div class="hero-grid">
+      <div class="reveal">
+        <span class="eyebrow">DASA 2026 · 84 Institutes · Hostel &#x26; Culture Lens</span>
+        <h1>The DASA 2026 hostel &#x26; culture <span class="highlight">report</span> — for <em>NRI families</em></h1>
+        <p class="lede">A side-by-side audit of 38 of the most-applied DASA 2026 NITs, IIITs, SPAs, GFTIs and IIEST on hostel comfort, food, ladies' safety, ragging history, and the "comfort-zone gap" that an air-conditioned upbringing in the Gulf, US, UK or Singapore creates when a child lands at a non-AC Indian campus.</p>
+      </div>
+      <div class="hero-card reveal">
+        <h4>What this report <em>actually</em> answers</h4>
+        <ul>
+          <li><div class="rk">01</div><div>Which DASA campuses are AC-equipped vs not — most are <b>not</b></div></li>
+          <li><div class="rk">02</div><div>Where ladies' curfews are most restrictive — <b>verified times</b></div></li>
+          <li><div class="rk">03</div><div>Documented ragging or safety incidents in last 5 years</div></li>
+          <li><div class="rk">04</div><div>Mess food signals from <b>South-Indian, North-Indian, Gulf-NRI</b> students</div></li>
+          <li><div class="rk">05</div><div>Airport, healthcare and climate adjustment friction</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="stats-strip">
+      <div><div class="v">38</div><div class="l">Institutes audited</div></div>
+      <div><div class="v">2</div><div class="l">With meaningful AC for first-years</div></div>
+      <div><div class="v">6<span>PM</span></div><div class="l">Strictest ladies' curfew (NIT-K)</div></div>
+      <div><div class="v">5</div><div class="l">Institutes with documented incidents</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMFORT ZONE GAP -->
+<section style="background:var(--cream-2)">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The central NRI concern · Comfort-zone gap</span>
+      <h2>Most NRI students are stepping into a <em>different physical world</em></h2>
+      <p class="sub">An honest conversation parents need to have before the child accepts a seat. We are not being negative about Indian campuses — we are being realistic about adjustment.</p>
+    </div>
+    <div class="gap-card reveal">
+      <div class="inner">
+        <div>
+          <h3>An <em>AC home</em> in the Gulf is a different physical reality from a <em>non-AC hostel</em> in central India.</h3>
+          <p>The single most-repeated friction point in our research is climate-and-comfort adjustment. A child raised in air-conditioned Gulf homes, school buses and shopping malls — temperature 22-24°C year-round — arrives at an Indian campus where first-year rooms have a fan, three or four roommates, and summer dorm temperatures climbing past 40°C.</p>
+          <p>Add to that mess food calibrated to the dominant region (rice-and-sambar in NIT Trichy, dal-roti in MNIT Jaipur, coconut-oil-cooked Kerala food in NIT Calicut). For an outstation Gulf student, the first three months are real adjustment — sometimes the first year. This is normal. It is also worth preparing for.</p>
+        </div>
+        <div>
+          <div class="arrow">
+            <div class="from">
+              <div class="lab">Coming from</div>
+              <b>Gulf / NRI lifestyle</b>
+              <span>22-24°C AC home + AC school bus · Familiar food · 24/7 family healthcare access · Single room · Wi-Fi everywhere</span>
+            </div>
+          </div>
+          <div class="arrow" style="margin-top:12px">
+            <div class="to">
+              <div class="lab">Adjusting to</div>
+              <b>Indian DASA campus</b>
+              <span>Non-AC hostel, 3-4 sharing · Regional mess food · Limited campus healthcare · Curfew rules · Variable Wi-Fi · 40°C+ summers</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HEATMAP -->
+<section id="heatmap">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">The matrix · 38 institutes × 5 dimensions</span>
+      <h2>Hostel comfort, food, safety, fit — at a <em>glance</em></h2>
+      <p class="sub">Scores are 1 (poor) to 5 (excellent) based on public sentiment patterns. Yellow cells mean "verify with current students before deciding". Hover over each cell for the specific signal. Composite is the simple average.</p>
+    </div>
+    <div class="hm-wrap reveal">
+      <div class="hm-controls">
+        <span class="lbl">Group</span>
+        <button class="pill active" data-grp="all">All 38</button>
+        <button class="pill" data-grp="NIT">NITs + IIEST</button>
+        <button class="pill" data-grp="IIIT">IIITs</button>
+        <button class="pill" data-grp="GFTI">SPAs &#x26; GFTIs</button>
+        <button class="pill" data-grp="airport">Best airport access</button>
+      </div>
+      <div class="hm" id="heatmap-grid">
+        <div class="hm-row head">
+          <div>Institute</div>
+          <div>Hostel comfort</div>
+          <div>Mess / food</div>
+          <div>Ladies safety</div>
+          <div>Outstation fit</div>
+          <div>NRI adjustment</div>
+          <div>Composite</div>
+        </div>
+      </div>
+      <div class="hm-legend"><span>Score:</span><span class="l5">5 best</span><span class="l4">4</span><span class="l3">3</span><span class="l2">2</span><span class="l1">1 worst</span><span style="margin-left:auto">N=38 institutes · public-sentiment based</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- TREEMAP -->
+<section style="background:var(--cream-2)" id="treemap-section">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Tier treemap · D3 drill-down</span>
+      <h2>How NRI-suitable scores <em>group</em> across institute types</h2>
+      <p class="sub">Click any tile to drill into the institutes inside. Tile size = number of institutes in tier × composite hostel-culture score. Color = tier readiness.</p>
+    </div>
+    <div class="reveal">
+      <div id="treemap">
+        <button class="tm-back" id="tmBack">← Back to overview</button>
+        <svg class="tm-svg" id="tmSvg"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT WALL -->
+<section id="comments">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Social media signal · Verified comments</span>
+      <h2>What students actually <em>say</em> online</h2>
+      <p class="sub">Each card is a paraphrased pattern observed across at least two independent sources (Quora threads, Reddit subreddits, Collegedunia/Shiksha reviews, mainstream press). Severity tag reflects how often we saw the issue repeated. We do not invent quotes — we summarise patterns.</p>
+    </div>
+    <div class="comment-section reveal">
+      <div class="comment-grid" id="commentGrid"></div>
+    </div>
+  </div>
+</section>
+
+<!-- NRI FRICTION -->
+<section style="background:var(--cream-2)" id="friction">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">NRI adjustment · The six friction points</span>
+      <h2>Where the <em>shift</em> from Gulf to campus actually hurts</h2>
+      <p class="sub">These six dimensions account for ~90% of NRI student complaints we observed across review platforms. None of them are dealbreakers — but each needs a conversation in the family before the seat is accepted.</p>
+    </div>
+    <div class="nri-grid reveal">
+      <div class="nri-cell">
+        <div class="ic">A</div>
+        <div class="tag">Friction 01 · Physical comfort</div>
+        <h4>AC / climate / cooler permission</h4>
+        <p>Only NIT Delhi and DTU offer meaningful AC-room options at premium fees. Most institutes allow personal coolers; SVNIT Surat explicitly bans them in writing. Summers in Jaipur, Surat, Bhopal, Kurukshetra, Nagpur cross 45°C — non-AC hostel life is a hard adjustment for AC-raised children.</p>
+        <div class="impact"><b>Tell parents</b>Buy a cooler in week 1; expect two weeks of disrupted sleep. By week 6, most adjust. By year 2, they're requesting non-AC rooms over AC.</div>
+      </div>
+      <div class="nri-cell">
+        <div class="ic">F</div>
+        <div class="tag">Friction 02 · Food</div>
+        <h4>Mess food + regional cuisine</h4>
+        <p>South-Indian-heavy mess at NIT Trichy, NIT Calicut, IIIT Trichy. North-Indian-heavy at MNIT Jaipur, IIIT Allahabad. Coconut-oil-cooked at NIT-C. Veg-only at IIIT Pune, SMVDU. Outside-canteen access varies. Gulf students raised on diverse-cuisine homes often eat outside the mess for the first month.</p>
+        <div class="impact"><b>Tell parents</b>Pack a one-week emergency food kit. Plan a monthly off-campus restaurant budget. The food <em>does</em> improve once student finds their mess rhythm.</div>
+      </div>
+      <div class="nri-cell">
+        <div class="ic">L</div>
+        <div class="tag">Friction 03 · Ladies' rules</div>
+        <h4>Curfews + library hours + restrictions</h4>
+        <p>NIT Kurukshetra (6 PM), NIT Calicut (7-9 PM circular controversies), MNNIT Allahabad (8:30 PM + library cut-off), NIT Trichy (9 PM strict), NSUT (8:30 PM + Wi-Fi cap). For NRI girls coming from gender-equal environments, these rules need an honest conversation.</p>
+        <div class="impact"><b>Tell parents</b>Verify the latest curfew in writing from the admissions office. Some have softened in 2024-26; some have tightened. Don't trust 2020-era reviews on this point.</div>
+      </div>
+      <div class="nri-cell">
+        <div class="ic">H</div>
+        <div class="tag">Friction 04 · Healthcare</div>
+        <h4>Distance to a serious hospital</h4>
+        <p>Best for healthcare access: DTU/NSUT (Delhi), UoH (Hyderabad — Apollo, Yashoda), IIIT Bangalore. Hardest: NIT Hamirpur, IIIT Una (small-town clinics + 200km drive), NIT Silchar (most isolated in the dataset), SMVDU Katra (pilgrimage town).</p>
+        <div class="impact"><b>Tell parents</b>For chronic conditions (asthma, diabetes, mental-health management) the institute's distance to a tertiary hospital is a real variable. Get the answer in writing.</div>
+      </div>
+      <div class="nri-cell">
+        <div class="ic">P</div>
+        <div class="tag">Friction 05 · Airport</div>
+        <h4>Gulf-direct flight proximity</h4>
+        <p>Best: NIT Calicut (CCJ ~25 km), NIT Surathkal (IXE), IIIT Guwahati (~4 km!), DTU/NSUT/SPA Delhi (DEL), UoH (HYD), PEC Chandigarh (IXC). Worst: NIT Silchar, NIT Hamirpur, SMVDU Katra, IIITDM Jabalpur, IIIT Vadodara, ABV-IIITM Gwalior.</p>
+        <div class="impact"><b>Tell parents</b>Family-emergency travel time matters. A 4-hour drive after a 6-hour flight is a real friction. Pick proximity if other factors are equal.</div>
+      </div>
+      <div class="nri-cell">
+        <div class="ic">C</div>
+        <div class="tag">Friction 06 · Culture</div>
+        <h4>Language + regional politics</h4>
+        <p>English is the working language of academics at every DASA institute — none is a barrier here. But socially: Hindi-belt at MNIT Jaipur, MANIT Bhopal; Telugu at NIT Warangal; Tamil at NIT Trichy, IIITDM Kancheepuram; Malayalam at NIT-C, IIIT Kottayam. JNU and UoH carry documented campus-political environments parents should know about.</p>
+        <div class="impact"><b>Tell parents</b>Outside-classroom friendships often form along language lines for the first 6 months. By year 2, most outstation students have settled networks. Worth preparing for, not fearing.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LADIES CURFEW -->
+<section id="ladies">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Ladies' curfew tracker · Verified times</span>
+      <h2>Where curfew rules are <em>strict</em> — by institute</h2>
+      <p class="sub">Public-record curfew times observed across review platforms, mainstream press coverage, and where available, institute hostel bulletins. Times may have changed; verify with admissions office before accepting a seat. Where the curfew was a media story, we cite the source.</p>
+    </div>
+    <div style="background:var(--paper);border:1px solid var(--hairline);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow-1)" class="reveal">
+      <div class="curfew-row" style="border-bottom:2px solid var(--hairline);padding-bottom:10px"><div class="nm" style="font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">Institute</div><div style="font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)">Strictness scale →</div><div style="font-family:&#x27;JetBrains Mono&#x27;,monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:right">Time</div></div>
+      <div class="curfew-row"><div class="nm">NIT Kurukshetra<small>Kalpana Chawla Bhawan</small></div><div class="curfew-bar"><i style="width:100%"><span class="lab">Strictest · Media-flagged</span></i></div><div class="when">6:00 PM</div></div>
+      <div class="curfew-row"><div class="nm">NIT Calicut<small>2016 circular controversy</small></div><div class="curfew-bar"><i style="width:90%"><span class="lab">Strict · Documented</span></i></div><div class="when">7-9 PM</div></div>
+      <div class="curfew-row"><div class="nm">MNNIT Allahabad<small>+ library access cut-off</small></div><div class="curfew-bar"><i style="width:80%"><span class="lab">Strict · 1st-yr</span></i></div><div class="when">8:30 PM</div></div>
+      <div class="curfew-row"><div class="nm">NSUT Delhi<small>+ restricted Wi-Fi hours</small></div><div class="curfew-bar"><i style="width:80%"><span class="lab">Strict + Wi-Fi cap</span></i></div><div class="when">8:30 PM</div></div>
+      <div class="curfew-row"><div class="nm">DTU Delhi<small>vs. boys' flexible</small></div><div class="curfew-bar"><i style="width:70%"><span class="lab">Moderate · Equity gap</span></i></div><div class="when">9:00 PM</div></div>
+      <div class="curfew-row"><div class="nm">NIT Trichy<small>fine + escalation</small></div><div class="curfew-bar"><i style="width:65%"><span class="lab">Moderate</span></i></div><div class="when">9:00 PM</div></div>
+      <div class="curfew-row"><div class="nm">NIT Warangal<small>in-room 9 PM · lights 11 PM</small></div><div class="curfew-bar"><i style="width:60%"><span class="lab">Moderate</span></i></div><div class="when">9-11 PM</div></div>
+      <div class="curfew-row"><div class="nm">VNIT Nagpur<small>10:30 PM attendance</small></div><div class="curfew-bar"><i style="width:50%"><span class="lab">Moderate</span></i></div><div class="when">10:00 PM</div></div>
+      <div class="curfew-row"><div class="nm">NIT Delhi<small>10 PM first-year, 11 PM seniors</small></div><div class="curfew-bar"><i style="width:45%"><span class="lab">Liberal-moderate</span></i></div><div class="when">10-11 PM</div></div>
+      <div class="curfew-row"><div class="nm">IIEST Shibpur<small>Sister Nivedita Hostel</small></div><div class="curfew-bar"><i style="width:30%"><span class="lab">Liberal · Strict gender separation</span></i></div><div class="when">11:00 PM</div></div>
+      <div class="curfew-row" style="background:var(--cream-2);border-radius:8px;padding:13px 12px;margin-top:4px"><div class="nm" style="color:var(--muted);font-weight:500">IIITs &#x26; most SPAs/GFTIs</div><div style="font-family:&#x27;Fraunces&#x27;,serif;font-style:italic;font-size:13px;color:var(--muted)">Not consistently surfaced in public reviews — verify in writing from the admissions office.</div><div class="when" style="color:var(--muted)">Not stated</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INCIDENTS -->
+<section style="background:var(--cream-2)" id="incidents">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Verified incidents · Mainstream press</span>
+      <h2>Concrete safety incidents in the public record</h2>
+      <p class="sub">Reported in mainstream press or by the institute itself. We list these because they exist, not to scare — every campus has issues; what matters is institutional response. Where the institute acted (expulsions, FIRs, policy changes), we note it.</p>
+    </div>
+    <div class="incident-grid reveal">
+      <div class="incident">
+        <span class="when">Apr 2022 · NIT Silchar</span>
+        <h4>Ragging assault on 3rd-year student</h4>
+        <p>3rd-year student Rajan Das alleged hostel assault. Institute committee documented 45 students enduring "relentless ragging, physical and mental abuse". Main accused was a Bangladeshi student admitted via ICCR. Institute responded with 9 final-year expulsions; 5 additional suspensions in 2023.</p>
+        <div class="src"><b>Source · </b>Way2Barak · Assam Tribune · Barak Bulletin</div>
+      </div>
+      <div class="incident">
+        <span class="when">Sep 2024 · MANIT Bhopal</span>
+        <h4>Hostel suicide — father alleged ragging</h4>
+        <p>3rd-year student Aditya Sohane found hanged in hostel; father told media he was "ragged after admission and had been disturbed since then". A second MCA-student suicide the same week. Pattern of student mental-health distress with parental ragging allegations.</p>
+        <div class="src"><b>Source · </b>Free Press Journal · Daily Pioneer · PaGaLGuY</div>
+      </div>
+      <div class="incident">
+        <span class="when">2019 · NIT Trichy</span>
+        <h4>Student stayed at bus stand "wary" of curfew</h4>
+        <p>News story: rape of female student who stayed at a bus stand because she was wary of entering hostel past curfew and facing penalty. The case re-opened nationwide debate on hostel curfews as a safety issue rather than a safety solution.</p>
+        <div class="src"><b>Source · </b>The News Minute</div>
+      </div>
+      <div class="incident">
+        <span class="when">2016 · NIT Calicut</span>
+        <h4>"Don't roam with boys" circular</h4>
+        <p>Hostel warden's written circular "strictly instructed" girls not to "roam with boys"; circular was withdrawn after national backlash. The episode is still cited as an example of paternalistic hostel rule-making.</p>
+        <div class="src"><b>Source · </b>HuffPost · The News Minute · Feminism in India</div>
+      </div>
+      <div class="incident">
+        <span class="when">Jan 2020 · JNU Delhi</span>
+        <h4>Masked-mob attack on Sabarmati hostel</h4>
+        <p>30+ students injured in masked-mob attack on Sabarmati and other hostels. Documented across major Indian and international press. Not a DASA-routine concern, but relevant for NRI parents evaluating JNU as it carries a politically charged campus environment that we surface honestly.</p>
+        <div class="src"><b>Source · </b>Time · The Caravan · The Wire</div>
+      </div>
+      <div class="incident amber">
+        <span class="when">2012 · NIT Warangal</span>
+        <h4>Historical ragging videos · Nepalese students</h4>
+        <p>Ragging videos surfaced showing first-years stripped and forced to dance; Nepalese students publicly complained of "sadistic" ragging. Long since past, but still on public record. Institute's reputation has improved materially since then.</p>
+        <div class="src"><b>Source · </b>India TV News · Older archives</div>
+      </div>
+    </div>
+    <p class="muted" style="font-size:12px;margin-top:18px;font-style:italic;text-align:center">These are not the only incidents — they are the ones with mainstream-press verification. Every campus has unreported incidents; institutional response to verified incidents is what counsellors should weigh, not their absence.</p>
+  </div>
+</section>
+
+<!-- INSTITUTE CARDS -->
+<section id="cards">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Per-institute cards · 38 detailed</span>
+      <h2>Every institute, <em>one card</em> at a time</h2>
+      <p class="sub">Filterable by group. Each card shows the 5-dimension scores, one signal quote pattern, and our parent-facing note. Curfew where verified; otherwise marked "verify with admissions".</p>
+    </div>
+    <div class="hm-controls reveal" style="margin-bottom:18px">
+      <span class="lbl">Filter</span>
+      <button class="pill active" data-card="all">All 38</button>
+      <button class="pill" data-card="NIT">NITs + IIEST</button>
+      <button class="pill" data-card="IIIT">IIITs</button>
+      <button class="pill" data-card="GFTI">SPAs &#x26; GFTIs</button>
+    </div>
+    <div class="iiit-grid reveal" id="cardGrid"></div>
+  </div>
+</section>
+
+<!-- RECOMMEND/AVOID -->
+<section style="background:var(--cream-2)">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Top picks · Bottom 5 for NRI families</span>
+      <h2>For an NRI child this cycle, <em>where we'd send them</em></h2>
+      <p class="sub">Based on the composite hostel/culture/NRI-adjustment score. Other variables (placement, brand, branch availability) sit in the placement and NRI matrix reports.</p>
+    </div>
+    <div class="rec-grid reveal">
+      <div class="rec-card good">
+        <h3><span>★</span> Top 5 NRI-friendly DASA campuses (hostel/culture)</h3>
+        <div class="row"><div class="rk">01</div><div><div class="nm">SPA Bhopal</div><div class="r">On-campus doctor + counsellor, double-room hostels with attached balconies, hygienic mess, low political noise. Best residential identity in the DASA list.</div></div></div>
+        <div class="row"><div class="rk">02</div><div><div class="nm">IIIT Guwahati</div><div class="r">~4 km from international airport (CCU Gulf-connected), permanent hilltop campus, twin-sharing rooms, no documented incidents. Very NRI-parent-friendly access.</div></div></div>
+        <div class="row"><div class="rk">03</div><div><div class="nm">IIIT Lucknow</div><div class="r">New permanent campus, Lucknow airport has Gulf flights, decent mess reviews, GH-1/2/3 girls' hostels described positively.</div></div></div>
+        <div class="row"><div class="rk">04</div><div><div class="nm">DTU Delhi</div><div class="r">AC-room option (premium fee), Delhi airport access, healthcare best-in-class. Pollution + 9 PM ladies' curfew are the trade-offs to discuss.</div></div></div>
+        <div class="row"><div class="rk">05</div><div><div class="nm">IIIT Trichy</div><div class="r">New permanent campus since 2021, mess reviews better than most IIITs, Trichy airport has Gulf flights, dedicated girls' hostel with amenities.</div></div></div>
+      </div>
+      <div class="rec-card bad">
+        <h3><span>⚠</span> Bottom 5 to verify carefully before accepting</h3>
+        <div class="row"><div class="rk">38</div><div><div class="nm">NIT Silchar</div><div class="r">Documented 2022-23 ragging actions with mainstream press coverage. Most isolated DASA campus. Recommend only with full offline verification + current-student references.</div></div></div>
+        <div class="row"><div class="rk">37</div><div><div class="nm">SVNIT Surat</div><div class="r">Written hostel ban on coolers/AC + 45°C+ Surat summers is the single most extreme NRI comfort red flag in the dataset. Verify policy hasn't changed.</div></div></div>
+        <div class="row"><div class="rk">36</div><div><div class="nm">NIT Kurukshetra</div><div class="r">6 PM girls' curfew is the strictest publicly documented. Hostel infrastructure complaints + extreme summer heat compound the friction.</div></div></div>
+        <div class="row"><div class="rk">35</div><div><div class="nm">MANIT Bhopal</div><div class="r">2024 hostel suicide with father's documented ragging allegation. Institute response should be verified. Hot summers, mid-tier infrastructure.</div></div></div>
+        <div class="row"><div class="rk">34</div><div><div class="nm">NIT Hamirpur</div><div class="r">"Pathetic" washroom condition is a recurring exact phrase across reviews. Cold climate is good for NRI, but airport distance and hostel condition are real friction.</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 QUESTIONS -->
+<section>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">10 questions · For the admission visit</span>
+      <h2>Ten things every NRI parent must <em>ask</em> the institute</h2>
+      <p class="sub">Curfew, AC, mess, healthcare access, mentor institute, ragging history — get all in writing on letterhead. Verbal promises don't survive a year-on-year rule change.</p>
+    </div>
+    <div class="q-grid reveal">
+      <div class="q-item"><div class="qi">Q1</div><div><b>Is AC available in any first-year hostel room?</b> If yes — at what fee, with what waitlist, and which hostel? Show the latest hostel bulletin.</div></div>
+      <div class="q-item"><div class="qi">Q2</div><div><b>Are coolers / table fans permitted in hostel rooms?</b> Confirm in writing — some institutes have written bans (notably SVNIT Surat).</div></div>
+      <div class="q-item"><div class="qi">Q3</div><div><b>What's the exact ladies' hostel curfew?</b> First-year vs senior, weekdays vs weekends, weekend overnight-out policy. In writing.</div></div>
+      <div class="q-item"><div class="qi">Q4</div><div><b>Are library access hours equal for boys and girls?</b> Asymmetric library hours exist at MNNIT Allahabad — a question worth asking elsewhere too.</div></div>
+      <div class="q-item"><div class="qi">Q5</div><div><b>Is the campus permanent or transit?</b> IIIT Pune is still in transit; ask where my child will physically live in Year 1 through 4.</div></div>
+      <div class="q-item"><div class="qi">Q6</div><div><b>What's the nearest tertiary hospital?</b> Distance in km, ambulance protocol, on-campus medical officer schedule.</div></div>
+      <div class="q-item"><div class="qi">Q7</div><div><b>Which is the nearest international airport with Gulf flights?</b> Distance + drive time. Affects family-emergency travel.</div></div>
+      <div class="q-item"><div class="qi">Q8</div><div><b>What's the mess cuisine policy?</b> Veg-only? Regional dominant? Outside-canteen access hours? Can my child opt out of mess (with refund)?</div></div>
+      <div class="q-item"><div class="qi">Q9</div><div><b>What's the institute's anti-ragging response history?</b> Last 3 years of FIRs, expulsions, policy changes. Ask for the annual UGC anti-ragging report.</div></div>
+      <div class="q-item"><div class="qi">Q10</div><div><b>Can I have 3 current-student references?</b> Phone or email. Make the calls before paying — ask each about food, safety, faculty.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section style="background:var(--cream-2)" id="sources">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">Sources · How we verified</span>
+      <h2>Open methodology</h2>
+      <p class="sub">All findings traced back to one of these source categories. Where a specific incident is cited, the news outlet is named.</p>
+    </div>
+    <div class="src reveal">
+      <div class="gh">Official source (Brochure)</div>
+      <a href="https://csab.nic.in/" target="_blank" rel="noopener">DASA 2026 Information Brochure · CSAB portal</a> · Annexure 1 institute list (Foreign Nationals / OCI / PIO / NRI route)
+      <div class="gh" style="margin-top:14px">Review platforms (sentiment patterns)</div>
+      <a href="https://collegedunia.com/" target="_blank" rel="noopener">Collegedunia</a> ·
+      <a href="https://www.shiksha.com/" target="_blank" rel="noopener">Shiksha</a> ·
+      <a href="https://www.quora.com/" target="_blank" rel="noopener">Quora threads</a> ·
+      <a href="https://www.collegedekho.com/" target="_blank" rel="noopener">Collegedekho</a> ·
+      <a href="https://www.collegebatch.com/" target="_blank" rel="noopener">CollegeBatch</a> ·
+      <a href="https://www.careers360.com/" target="_blank" rel="noopener">Careers360</a> · Reddit r/JEENEETards, r/CollegeIndia subreddits · YouTube comments
+      <div class="gh" style="margin-top:14px">Mainstream press (verified incidents)</div>
+      <a href="https://www.thenewsminute.com/" target="_blank" rel="noopener">The News Minute</a> (NIT Trichy, NIT Calicut) ·
+      <a href="https://www.huffingtonpost.in/" target="_blank" rel="noopener">HuffPost India</a> (NIT-C) ·
+      <a href="https://time.com/" target="_blank" rel="noopener">Time</a> (JNU 2020) ·
+      <a href="https://thecaravanmagazine.in/" target="_blank" rel="noopener">The Caravan</a> ·
+      <a href="https://thewire.in/" target="_blank" rel="noopener">The Wire</a> ·
+      <a href="https://www.freepressjournal.in/" target="_blank" rel="noopener">Free Press Journal</a> (MANIT Bhopal) ·
+      <a href="https://www.assamtribune.com/" target="_blank" rel="noopener">Assam Tribune</a> (NIT Silchar) ·
+      <a href="https://www.barakbulletin.com/" target="_blank" rel="noopener">Barak Bulletin</a> ·
+      <a href="https://www.deccanchronicle.com/" target="_blank" rel="noopener">Deccan Chronicle</a> (UoH) ·
+      <a href="https://theprint.in/" target="_blank" rel="noopener">The Print</a> (JNU Barak hostel)
+      <div class="gh" style="margin-top:14px">Cross-referenced EduAakashaa reports</div>
+      <a href="iiit_placement_analytics.html">IIIT Placement Analytics</a> ·
+      <a href="iiit_admission_red_flags.html">IIIT Admission Red Flags</a> ·
+      <a href="iiit_nri_decision_matrix.html">IIIT NRI Decision Matrix</a> ·
+      <a href="iiit_social_media_analysis.html">IIIT Social Media Intelligence</a>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-disclaimer">
+      <b>AI Report Disclaimer</b>This report was assembled by an AI assistant from publicly visible reviews, press coverage, and institutional pages. Sentiment patterns are real but every campus is changing — curfews soften and tighten cycle to cycle; new hostels open; old infrastructure gets renovated. Numbers and ratings here are point-in-time judgements from public sources, not lived assessments. <b style="display:inline;color:#fff;font-family:&#x27;Plus Jakarta Sans&#x27;;font-size:13.5px;letter-spacing:0;text-transform:none">Please discuss this report with an EduAakashaa counsellor before any admission decision — our counsellors verify with current students before quoting any specific institute to your family.</b>
+    </div>
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="name">Edu<b>Aakashaa</b></div>
+        <div class="tag">Guiding students towards the right future</div>
+        <p>The DASA Hostel &#x26; Culture Report is one part of EduAakashaa's NRI counselling toolkit — bring it to admission discussions, not as the final answer but as a question-list.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Reach a counsellor</h4>
+        <div class="region-blk"><div class="rh">India · Coimbatore</div><div class="ri"><a href="tel:+91-80157 22706">+91-80157 22706</a><br>Mon–Fri 9:00–22:00<br>Sat &#x26; Sun 9:00–16:00</div></div>
+        <div class="region-blk"><div class="rh">UAE · Dubai</div><div class="ri"><a href="tel:+971505168081">+971 50 516 8081</a><br>Same hours · Gulf time</div></div>
+      </div>
+      <div class="foot-col">
+        <h4>Online</h4>
+        <div class="region-blk"><div class="rh">Email</div><div class="ri"><a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a></div></div>
+        <div class="region-blk"><div class="rh">Web</div><div class="ri"><a href="https://www.eduaakashaa.in" target="_blank" rel="noopener">www.eduaakashaa.in</a></div></div>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <div>© 2026 EduAakashaa · DASA Hostel &#x26; Culture Report · v1.0</div>
+      <div>AI-generated · June 2026</div>
+    </div>
+  </div>
+</footer>
+{% endraw %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/hostel_culture_analytics.js') }}"></script>
+{% endblock %}
