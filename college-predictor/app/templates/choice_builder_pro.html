@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+{% block title %}Choice Builder PRO | EA Team Portal{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/choice_builder_pro.css') }}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="ported ported-choice_builder_pro">
+{% raw %}
+<div id="repHead">
+  <div class="cover-bar">
+    <div class="hlock"><span class="brandmark lg"></span><div><div class="plogo">Edu<span>AakashaA</span></div><div class="cv-sub">Your Right Choice · DASA 2026 Choice-Filling Analysis Report</div></div></div>
+    <div id="repMeta" class="cv-meta"></div>
+  </div>
+</div>
+<div class="printfoot"><span class="brandmark sm"></span> EduAakashaa · www.eduaakashaa.in · info@eduaakashaa.com · 🇮🇳 +91-80157 22706 · 🇦🇪 +971-50 516 8081</div>
+<header class="noprint"><div class="wrap hrow">
+  <div class="hlock"><span class="brandmark sm"></span><div><div class="logo">Edu<span>AakashaA</span></div><div class="tag">DASA 2026 · Choice Builder PRO + Allotment Analyzer</div></div></div>
+  <div style="display:flex;gap:8px">
+    <button class="btn" onclick="exportCsv()">⬇ CSV</button>
+    <button class="btn pri" onclick="window.print()">📄 PDF Report</button>
+    <button class="btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
+  </div>
+</div></header>
+<section class="hero noprint">
+  <div class="hero-inner">
+    <span class="heyebrow">● EduAakashaa · DASA 2026 Counselling</span>
+    <div class="hlock" style="margin-top:10px"><span class="brandmark xl"></span>
+      <h1>Choice Builder <span>PRO</span><br>&amp; Allotment Analyzer</h1></div>
+    <div class="htag">“And let EduAakashaA guide you towards the right future.”</div>
+    <div class="hctas">
+      <button class="btn pri" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'})">Start — enter your rank →</button>
+      <button class="btn" onclick="loadAll()">📥 Load all institutes</button>
+    </div>
+  </div>
+</section>
+<div class="wrap">
+
+<section class="card" id="s1">
+  <div class="sectitle"><div class="snum">1</div><h2>Student Details &amp; Rank-Variation Assumption</h2></div>
+  <div class="grid">
+    <div class="field"><label>Student Name <em>*</em></label><input id="fName" placeholder="Full name" oninput="renderStamp()"></div>
+    <div class="field"><label>JEE (Main) 2026 CRL Rank <em>*</em></label><input id="fRank" type="number" min="1" inputmode="numeric" placeholder="e.g. 123456" oninput="recompute()"></div>
+    <div class="field"><label>DASA Seat Category <em>*</em></label><select id="fCat" onchange="recompute()"><option value="CIWG">CIWG</option><option value="NCIWG">Non-CIWG</option><option value="BOTH" selected>Both CIWG / Non-CIWG</option></select></div>
+    <div class="field"><label>Country</label><select id="fCountry"><option>United Arab Emirates</option><option>Saudi Arabia</option><option>Qatar</option><option>Oman</option><option>Kuwait</option><option>Bahrain</option><option>Iraq</option><option>Iran</option><option>USA</option><option>UK</option><option>Other</option></select></div>
+    <div class="field"><label>Email</label><input id="fEmail" type="email" placeholder="you@example.com"></div>
+    <div class="field"><label>WhatsApp</label><input id="fWa" type="tel" placeholder="+971 5x xxx xxxx"></div>
+    <div class="varbox">
+      <div class="vh"><b>📈 Expected JEE-rank / cutoff variation 2026 vs 2025</b><span class="vv" id="varV">0%</span></div>
+      <input type="range" id="varSlide" min="0" max="30" step="1" value="0" oninput="recompute()" style="width:100%">
+      <small><b>0%</b> = assume 2025 closing ranks hold exactly. Higher % loosens cutoffs by that margin. CIWG seats close at a different (typically easier) rank than Non-CIWG — both shown per choice.</small>
+    </div>
+  </div>
+</section>
+
+<section class="card noprint" id="s2">
+  <div class="sectitle"><div class="snum">2</div><h2>Explore &amp; Add Choices <span class="mono" style="color:var(--orange);font-size:.95rem">(no limit)</span></h2></div>
+  <p class="subt">Tap a branch chip to add it, or "+ Add all" for a whole college. In <b>Both</b> mode each branch shows two chips — <b>C ₹</b> (CIWG) and <b>NC $</b> (Non-CIWG) — so you can list either or both as separate choices, each with its own closing rank. Branch colour = rank-fit.</p>
+  <div class="toprow">
+    <div class="search field"><input id="q" placeholder="🔍 Search institute…" oninput="renderList();renderImpact()"></div>
+    <div class="sortbox"><label>Sort by</label><select id="sortSel" onchange="renderList()">
+      <option value="default">Type (NIT→GFTI)</option><option value="nirfBest">NIRF — best first</option>
+      <option value="nirfLow">NIRF — lowest first</option><option value="az">Name A–Z</option></select></div>
+  </div>
+  <div class="addaswrap" id="addAsWrap" style="display:none">
+    <label style="display:block;font-weight:800;font-size:.7rem;margin-bottom:6px">Both (double-tag) mode — every branch shows two chips: <b>C ₹</b> and <b>NC $</b>. Add either or both independently.</label>
+    <select id="addAsCat" style="max-width:300px" onchange="renderList();renderImpact()"><option value="CIWG">Rank-fit reference: CIWG (C ₹)</option><option value="NCIWG">Rank-fit reference: Non-CIWG (NC $)</option></select>
+    <span style="font-size:.7rem;color:var(--ink2);margin-left:8px">Only sets which seat type the “Rank-fit” filter uses; chips are added per the category on each chip.</span>
+  </div>
+  <div class="fgroup"><span>Type</span><div class="chips" id="fType"></div></div>
+  <div class="fgroup"><span>NIRF Band</span><div class="chips" id="fNirf"></div></div>
+  <div class="fgroup"><span>Zone</span><div class="chips" id="fZone"></div></div>
+  <div class="fgroup"><span>State / UT (updates with zone)</span><div class="chips" id="fState"></div></div>
+  <div class="fgroup"><span>Branch</span><div class="chips" id="fBr"></div></div>
+  <div class="fgroup"><span>Rank-fit (needs CRL rank)</span><div class="chips" id="fFit"></div></div>
+  <div class="fgroup"><span>Exclude program types</span><div class="chips" id="fXcat"></div></div>
+  <div class="fgroup"><span>Exclude specific colleges (hidden from list &amp; analysis)</span>
+    <div class="exclbar"><select id="exclSel" onchange="addExcl()"><option value="">+ Add a college to exclude…</option></select><button class="clearf" onclick="clearExcl()">Clear excludes</button></div>
+    <div class="exclChips" id="exclChips"></div>
+  </div>
+  <div class="legend">
+    <span class="lg safe"><span class="dot safe"></span>Safe (k ≤ 0.95)</span><span class="lg reach"><span class="dot reach"></span>Reach (0.95 &lt; k ≤ 1.05)</span><span class="lg dream"><span class="dot dream"></span>Dream (k &gt; 1.05)</span>
+    <span class="ldisc">🪪 <b>C ₹</b> = CIWG seat (₹62,500 + $300 route) · <b>NC $</b> = Non-CIWG seat ($ route). ✅ Closing CRL uses <b>actual DASA 2025</b> figures where the rank sheet covers that institute+branch+category (shown as "DASA 2025 close"); everything else falls back to an indicative model ("~est"). NIRF figures are verified NIRF 2025 Engineering.</span>
+  </div>
+  <div class="rescount"><span id="cnt"></span> &nbsp;·&nbsp; <button class="clearf" onclick="bulkAdd()">+ Add all filtered</button> &nbsp; <button class="clearf" onclick="clearFilters()">Clear filters</button></div>
+  <div class="clist" id="list"></div>
+</section>
+
+<section class="card" id="s3">
+  <div class="sectitle"><div class="snum">3</div><h2>Preference Tiers &amp; Order</h2>
+    <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+    <button class="btn noprint" onclick="loadAll()" title="Fill all tiers with every institute × branch at the chosen seat category">📥 Load all institutes &amp; branches</button>
+    <button class="btn pri noprint" onclick="autoArrange()">⚙ Auto-arrange</button></div></div>
+  <p class="subt">Each row shows seat category (<b>C ₹</b> = CIWG · <b>NC $</b> = Non-CIWG), NIRF 2025 rank and the DASA 2025 / estimated closing CRL. Use the <b>smart-order</b> bar below: keep <b>Tier view</b>, switch to <b>Custom order</b> (drag rows, tick several and drag them together, or type a position number), or apply an <b>intelligence mode</b> (College/Branch/Economy). Set your <b>branch priority</b> with ◀ ▶ and the modes follow it.</p>
+  <div id="rounds"></div>
+</section>
+
+<section class="card" id="s4">
+  <div class="sectitle"><div class="snum">4</div><h2>Coverage &amp; Gaps — by Zone, NIRF order</h2></div>
+  <p class="subt">Every institute in NIRF order, grouped by zone. Rows in red are <b>not yet in your list</b>. Excluded colleges are shown separately below.</p>
+  <div class="zgrid" id="zoneCards" style="margin-bottom:13px"></div>
+  <div class="tscroll"><table class="tbl" id="covTbl"></table></div>
+  <div id="exclWrap" style="display:none;margin-top:18px">
+    <h3 style="font-size:1.02rem;color:var(--warn);margin-bottom:6px">🚫 Excluded Colleges <span class="mono" id="exclCount" style="font-size:.85rem"></span></h3>
+    <p class="subt" style="margin:0 0 10px 0">Deliberately removed — not treated as coverage gaps and not in any prediction.</p>
+    <div class="tscroll"><table class="tbl" id="exclTbl"></table></div>
+  </div>
+</section>
+
+<section class="card" id="s5">
+  <div class="sectitle"><div class="snum">5</div><h2>Allotment Prediction @ <span id="curVar" class="mono" style="color:var(--orange)">0%</span></h2></div>
+  <p class="subt">DASA fills seats strictly in <b>your choice preference order</b> (top → bottom). It allots the <b>first (highest-preference) choice you clear</b> — i.e. your rank is at or beyond that choice's last-year closing CRL (after the variation assumption). The Top 10 below are listed <b>in your preference order</b>; ⭐ marks the predicted seat. Last-year closing CRL is shown for each.</p>
+  <div id="predictBox"></div>
+  <div class="tscroll"><table class="tbl" id="top10Tbl"></table></div>
+</section>
+
+<section class="card" id="s6">
+  <div class="sectitle"><div class="snum">6</div><h2>Sensitivity — 0% to 30% Variation</h2></div>
+  <p class="subt">How the predicted best allotment and reachable seats shift as cutoffs loosen.</p>
+  <div class="tscroll" style="margin-bottom:14px"><table class="tbl" id="sensTbl"></table></div>
+  <div class="chartbox" style="margin-bottom:14px"><h4>Reachable seats vs variation</h4><canvas id="sensChart"></canvas></div>
+  <div class="field noprint" style="max-width:280px;margin-bottom:10px"><label>Top-10 allotments at variation</label>
+    <select id="vSel" onchange="renderVarTop10()"><option>0</option><option>5</option><option>10</option><option>15</option><option>20</option><option>25</option><option>30</option></select></div>
+  <div class="tscroll"><table class="tbl" id="varTop10"></table></div>
+</section>
+
+<section class="card" id="s7">
+  <div class="sectitle"><div class="snum">7</div><h2>Visual Insights</h2></div>
+  <div class="charts">
+    <div class="chartbox"><h4>Rank-fit of your list</h4><div class="waffle" id="waffle"></div><div id="waffleLeg" style="font-size:.68rem;color:var(--ink2);margin-top:8px"></div></div>
+    <div class="chartbox"><h4>NIRF band distribution</h4><canvas id="nirfChart"></canvas></div>
+    <div class="chartbox"><h4>Choices per tier</h4><canvas id="tierChart"></canvas></div>
+    <div class="chartbox"><h4>Zone coverage</h4><div id="zoneschem"></div></div>
+    <div class="chartbox" style="grid-column:1/-1"><h4>Choice spread — Zone › Type (treemap)</h4><div id="treemap"></div></div>
+  </div>
+</section>
+
+<section class="card" id="s8">
+  <div class="sectitle"><div class="snum">8</div><h2>Counsellor's Read on This List</h2></div>
+  <ul class="insights" id="insights"></ul>
+</section>
+
+<section class="card" id="s9">
+  <div class="sectitle"><div class="snum">9</div><h2>Counsellor Review &amp; Sign-off</h2></div>
+  <div class="grid">
+    <div class="field"><label>Reviewed by</label><input id="revBy" placeholder="Counsellor name" oninput="renderStamp()"></div>
+    <div class="field"><label>Review version</label><input id="revVer" value="v1.0" oninput="renderStamp()"></div>
+    <div class="field"><label>Review date</label><input id="revDate" type="date" oninput="renderStamp()"></div>
+    <label class="field" style="display:flex;align-items:center;gap:9px;background:var(--orange-soft);border-radius:10px;padding:10px 12px;font-weight:600"><input type="checkbox" id="revOk" style="width:18px;height:18px;accent-color:var(--orange)" onchange="renderStamp()"> Mark this choice list as <b>REVIEWED &amp; approved</b></label>
+    <div class="field" style="grid-column:1/-1"><label>Counsellor comments</label><textarea id="revCom" rows="3" placeholder="Strategy notes, risks flagged, recommended edits…"></textarea></div>
+  </div>
+  <div class="stamp" id="stamp"></div>
+</section>
+
+<section class="card" id="s10">
+  <div class="sectitle"><div class="snum">10</div><h2>Filters Applied — Impact on the Choice List</h2></div>
+  <p class="subt">Every active filter in Section 2, measured <b>independently</b> against the full DASA universe of programs (institute × branch). Each line shows how many programs that one filter alone hides. The combined effect of all filters together is shown at the bottom.</p>
+  <div id="impactBox"></div>
+</section>
+
+<section class="card" id="s11">
+  <div class="sectitle"><div class="snum">11</div><h2>Top-Tier Colleges You're Missing</h2></div>
+  <p class="subt">The highest NIRF-ranked DASA institutes (NIRF Top 100) that currently have <b>no</b> program in your choice list — usually because a preferred branch wasn't added, the college was excluded, or it slipped through the filters. Tap <b>+ add all</b> to pull one in.</p>
+  <div id="missTop"></div>
+</section>
+
+<section class="card" id="s12">
+  <div class="sectitle"><div class="snum">12</div><h2>Top NIRF Colleges You're Missing — by Zone</h2></div>
+  <p class="subt">Zone by zone, the best-ranked institutes (by NIRF) not yet in your list. Useful for spotting a strong nearby college you skipped because of a branch or other preference.</p>
+  <div id="missZone"></div>
+</section>
+
+<section class="card noprint" id="s13">
+  <div class="sectitle"><div class="snum">13</div><h2>Export &amp; Print</h2></div>
+  <p class="subt">Download the full analysis as a spreadsheet (sorted Dream → Reach → Safe, then by NIRF rank) or print the on-screen report to PDF.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <button class="btn pri" onclick="exportCsv()">⬇ Download CSV</button>
+    <button class="btn pri" onclick="window.print()">📄 Print / Save as PDF</button>
+  </div>
+</section>
+
+<section class="card" id="s14">
+  <div class="sectitle"><div class="snum">14</div><h2>After Allotment — <em>Freeze</em>, <em>Float</em> or <em>Slide</em>?</h2></div>
+  <p class="subt">Once Round I allots you a seat, DASA asks for your <b>willingness</b>. These three choices decide what happens in the next round. Below the explainer, we map <b>your predicted seat</b> to the exact choices you could still move up to.</p>
+  <div class="wcards">
+    <div class="wcard freeze"><div class="wc-ic">🔒</div><div class="wc-h">FREEZE</div><div class="wc-d">Accept the allotted seat as <b>final</b>. You exit all further rounds — the seat is locked in and can't change. Pick this when your allotted seat is genuinely what you want.</div><div class="wc-t">Result: seat confirmed, no upgrade, no risk.</div></div>
+    <div class="wcard float"><div class="wc-ic">🌊</div><div class="wc-h">FLOAT</div><div class="wc-d">Keep the current seat <b>but stay in the running for any higher-preference choice across all institutes</b>. If one opens in the next round you're upgraded; if not, you keep the current seat.</div><div class="wc-t">Result: current seat safe, may upgrade to a better preference anywhere.</div></div>
+    <div class="wcard slide"><div class="wc-ic">➡️</div><div class="wc-h">SLIDE</div><div class="wc-d">Keep the current seat <b>but stay in the running only for higher preferences within the same institute</b>. Safer than Float — you'll never be moved to a different campus.</div><div class="wc-t">Result: current seat safe, may upgrade to a better branch in the same college.</div></div>
+  </div>
+  <div id="willBox"></div>
+</section>
+
+<section class="card" id="s15sim">
+  <div class="sectitle"><div class="snum">15</div><h2>Live Allotment <em>Simulation</em> — how the system processes your list</h2></div>
+  <span class="eyebrow" style="margin:2px 0 10px">System view · sequential seat allocation</span>
+  <p class="subt">This replays exactly what the DASA engine does: it walks your <b>locked choice list from #1 downwards</b> and, for each choice, checks whether your CRL clears that program's last-year closing rank (adjusted for the variation you pick). It stops at the <b>first choice you clear</b> — that becomes your allotted seat. Choices above it become your <b>Float / Slide</b> upgrade paths.</p>
+  <div class="simbar noprint">
+    <span class="tbl-label">Simulate cut-off movement:</span>
+    <div class="simvars" id="simVarBtns"></div>
+    <button class="btn pri" id="simRunBtn" onclick="runSim()">▶ Run simulation</button>
+  </div>
+  <div id="simBox"></div>
+
+  <div class="flowwrap">
+    <div class="flow-h"><span class="accent-bar"></span>How the allotment engine decides — flow chart</div>
+    <div class="flow">
+      <div class="fnode start">Locked choice list<small>in your preference order (#1 = highest)</small></div>
+      <div class="farrow">▼</div>
+      <div class="fnode">Take the next choice<small>begin at #1, the highest preference</small></div>
+      <div class="farrow">▼</div>
+      <div class="fdec">Is your CRL ≤ this choice's last-year closing rank<br>(after ± variation)?
+        <div class="fbranch"><span class="fno">NO → skip it, go to the next choice ↺</span><span class="fyes">YES ↓</span></div>
+      </div>
+      <div class="farrow">▼</div>
+      <div class="fnode allot">★ SEAT ALLOTTED at this choice<small>scanning stops immediately — you get your highest preference that clears</small></div>
+      <div class="farrow">▼</div>
+      <div class="fdec plain">Round-I result — choose your willingness</div>
+      <div class="farrow">▼</div>
+      <div class="fends">
+        <div class="fend freeze"><b>FREEZE</b><span>Lock this seat. Exit all further rounds — no change, no risk.</span></div>
+        <div class="fend float"><b>FLOAT</b><span>Keep this seat, stay in the running for any higher preference at <b>any</b> institute next round.</span></div>
+        <div class="fend slide"><b>SLIDE</b><span>Keep this seat, stay in the running for a higher preference at the <b>same</b> institute next round.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="wishwrap" id="s16">
+  <div class="wish">
+    <span class="eyebrow-lite">● From all of us at EduAakashaA</span>
+    <h2 class="wish-h">All the very best, <em>students &amp; parents</em>.</h2>
+    <p class="wish-p">Thank you for trusting <b>EduAakashaA</b> with one of the most important decisions of your life. We wish every student a seat in a <b>great college</b> and the <b>branch you truly want</b> — and every parent the joy of seeing your child begin a bright future. Fill your choices with confidence; we're with you at every step.</p>
+    <div class="wish-cta">
+      <a class="btn pri" href="https://www.eduaakashaa.in" target="_blank" rel="noopener">Talk to a counsellor →</a>
+      <span class="wish-contact">🇮🇳 +91-80157 22706 &nbsp;·&nbsp; 🇦🇪 +971-50 516 8081 &nbsp;·&nbsp; info@eduaakashaa.com</span>
+    </div>
+  </div>
+  <div class="elite"><div class="elite-img" role="img" aria-label="EduAakashaA Elite Mentorship — Personalized mentorship, extraordinary results"></div><div class="elite-cap">NRI Premium · <b>Elite Mentorship</b> — handpicked mentors, 1-to-1 guidance, extraordinary results.</div></div>
+</section>
+
+<p class="disc">Closing ranks: where available, the tool uses <b>actual DASA 2025 overall closing CRL</b> (across all three rounds, from the official rank sheet) for that exact institute + branch + CIWG/Non-CIWG. Programs not in the 2025 sheet fall back to an indicative model (NIRF-rank curve × branch demand) and are labelled "~est". 2025 closings are a guide, not a guarantee — 2026 cutoffs will differ. <b>C ₹</b> = CIWG · <b>NC $</b> = Non-CIWG. NIRF figures are official NIRF 2025 Engineering. The official seat matrix &amp; cutoffs on csab.nic.in are final.</p>
+<footer><div class="foot-lock"><span class="brandmark sm"></span> <b>EduAakashaA</b></div>🇮🇳 +91-80157 22706 · 🇦🇪 +971-50 516 8081 · <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a> · <a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a> · Coimbatore, Tamil Nadu · Dubai, UAE</footer>
+</div>
+<div class="bar noprint"><div class="barin">
+  <div>Choices: <b id="pc">0</b> &nbsp;|&nbsp; Predicted @<span id="barVar">0%</span>: <b id="barPred">—</b></div>
+  <div class="barbtns"><button class="btn" onclick="document.getElementById('s3').scrollIntoView()">Tiers</button><button class="btn pri" onclick="document.getElementById('s5').scrollIntoView()">Prediction</button></div>
+</div></div>
+{% endraw %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/choice_builder_pro.js') }}"></script>
+{% endblock %}

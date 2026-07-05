@@ -431,25 +431,9 @@ def ea_admin_portal():
 @main_bp.route('/choice-builder-pro')
 @admin_required
 def choice_builder_pro():
-    return _portal_tool(
-        'Choice Builder PRO',
-        'Guided DASA 2026 preference-list builder — rank colleges and submit for counsellor review.',
-        f'{_LIVE_SITE}/choice-builder-pro',
-        [{'icon': '\U0001F9F1', 'title': 'Smart ordering', 'text': 'Safe / match / reach ordering tuned to rank and quota.'},
-         {'icon': '✅', 'title': 'Validation', 'text': 'Catch gaps, duplicates and risky ordering before submitting.'},
-         {'icon': '\U0001F4DD', 'title': 'Counsellor review', 'text': 'Submissions land in the Counsellor Dashboard.'}])
-
-
-@main_bp.route('/choice-builder-pro-2')
-@admin_required
-def choice_builder_pro_2():
-    return _portal_tool(
-        'Choice Builder PRO 2',
-        'Second-round DASA 2026 choice-builder variant for revised preference lists.',
-        f'{_LIVE_SITE}/choice-builder-pro-2',
-        [{'icon': '\U0001F501', 'title': 'Round 2 lists', 'text': 'Rebuild preferences for later counselling rounds.'},
-         {'icon': '\U0001F9ED', 'title': 'Revised strategy', 'text': 'Adjust ordering after Round 1 allotment results.'},
-         {'icon': '\U0001F4DD', 'title': 'Counsellor review', 'text': 'Submissions land in the Counsellor Dashboard.'}])
+    # The full DASA 2026 Choice Builder PRO + Allotment Analyzer tool, migrated
+    # in-app from the team's build (client-side D3 / Chart.js, no backend).
+    return render_template('choice_builder_pro.html')
 
 
 @main_bp.route('/dasa2026-expert-report')
