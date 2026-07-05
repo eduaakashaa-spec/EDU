@@ -1,0 +1,346 @@
+{% extends "base.html" %}
+{% block title %}Engineering Branch Selection Guide | EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/engineering_branch_selection_guide.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+{% endblock %}
+
+{% block content %}
+<div class="ported ported-engineering_branch_selection_guide">
+{% raw %}
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engineering Branch Selection Guide · EduAakashaa</title>
+<meta name="description" content="An interactive decision dashboard to help students and parents choose the right engineering branch — using subjects, skills, salary reality, AI impact and NRI suitability. From EduAakashaa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+
+
+<!-- NAV -->
+<header class="nav">
+  <div class="nav-in">
+    <a href="#top" class="brand" aria-label="EduAakashaa home">
+      <span>
+        <span class="bn">Edu<b>Aakashaa</b></span>
+        <span class="bt">Guiding students towards the right future</span>
+      </span>
+    </a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#explorer">Branch Explorer</a>
+      <a href="#matrix">Compare</a>
+      <a href="#dashboard">AI & Skills</a>
+      <a href="#assessment">Fitness Quiz</a>
+      <a href="#nri">NRI Guidance</a>
+      <a href="#contact" class="btn-primary btn-sm">Book Guidance <span class="arw">→</span></a>
+    </nav>
+    <button class="hamb" id="hamb" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- HERO -->
+<section class="hero wrap">
+  <div class="hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">Engineering Branch Selection · Decision Dashboard</span>
+      <h1>Choose the right branch. <span class="highlight">Build the right skills.</span> Secure a future <em>that actually fits.</em></h1>
+      <p class="lead">Confused between CSE, AI &amp; DS, ECE, Mechanical, Civil, Electrical, IT, Cyber Security or core engineering? We help students and parents decide using subjects, skill maps, salary reality, AI impact and NRI suitability — not trends and screenshots.</p>
+      <div class="hero-cta">
+        <a href="#assessment" class="btn-primary">Start Branch Fitness Quiz <span class="arw">→</span></a>
+        <a href="#matrix" class="btn-ghost">Compare Branches</a>
+      </div>
+    </div>
+    <div class="hero-card reveal">
+      <h4>Future-demand snapshot · representative</h4>
+      <div class="gauges" id="heroGauges"></div>
+    </div>
+  </div>
+
+  <div class="stats reveal">
+    <div class="stat"><div class="num">12<span>+</span></div><div class="lbl">Branches mapped</div></div>
+    <div class="stat"><div class="num">4</div><div class="lbl">Year skill roadmap</div></div>
+    <div class="stat"><div class="num">13</div><div class="lbl">Comparison factors</div></div>
+    <div class="stat"><div class="num">2</div><div class="lbl">Counselling hubs · IN &amp; UAE</div></div>
+  </div>
+</section>
+
+<!-- WHY IT MATTERS -->
+<section class="wrap" id="why">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Why this matters · For parents &amp; students</span>
+    <h2>A branch chosen well rarely fails. A branch chosen for the <em>wrong reasons</em> can quietly cost four years.</h2>
+    <p class="sub">Many families pick a branch on trend, peer pressure, salary screenshots or last year's cut-off. A sound decision weighs the student, the college and the family — together.</p>
+  </div>
+  <div class="matter">
+    <div class="reveal">
+      <div class="callout warn">
+        <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+        <p><b>Wrong-fit risk.</b> A mismatched branch may not fail a student immediately — but it can create stress, low motivation, weak placements and career confusion after four years. The cost shows up late, when it is hardest to undo.</p>
+      </div>
+    </div>
+    <div class="reveal">
+      <p style="font-weight:600;color:var(--navy-ink);margin-bottom:6px">The real decision weighs three voices at once:</p>
+      <ul>
+        <li>Student interest &amp; aptitude</li>
+        <li>Maths / physics comfort</li>
+        <li>Coding interest</li>
+        <li>Communication skills</li>
+        <li>College placement ecosystem</li>
+        <li>Internship support</li>
+        <li>AI disruption to the role</li>
+        <li>Higher-studies plan</li>
+        <li>Family budget &amp; ROI</li>
+        <li>NRI adjustment factors</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- BRANCH EXPLORER -->
+<section class="wrap" id="explorer">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Branch Explorer · Filter &amp; tap any card</span>
+    <h2>Explore <em>twelve</em> engineering branches</h2>
+    <p class="sub">Filter by what matters to you, then tap a card for subjects, skills, job roles, AI impact and the best-fit student profile. All figures are planning estimates, not guarantees.</p>
+  </div>
+  <div class="filters reveal" id="filters"></div>
+  <div class="branch-grid reveal" id="branchGrid"></div>
+</section>
+
+<!-- COMPARISON MATRIX -->
+<section class="wrap" id="matrix">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Comparison Matrix · Search &amp; sort</span>
+    <h2>Compare branches across <em>thirteen</em> factors</h2>
+    <p class="sub">Ratings are directional — Low → Very High — based on broad market patterns, not a single college. Click any column header to sort; type to filter.</p>
+  </div>
+  <div class="matrix-tools reveal">
+    <input type="text" id="matrixSearch" placeholder="Filter branches… e.g. civil, AI, cyber" aria-label="Filter branches">
+    <span class="mono" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)">● Low &nbsp; ●● Medium &nbsp; ●●● High &nbsp; <span style="color:var(--orange)">●●●● Very High</span></span>
+  </div>
+  <div class="tbl-wrap reveal">
+    <table class="matrix" id="matrixTable">
+      <thead><tr id="matrixHead"></tr></thead>
+      <tbody id="matrixBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- DASHBOARD: AI IMPACT + RADAR + HEATMAP -->
+<section class="wrap" id="dashboard">
+  <div class="sec-head reveal">
+    <span class="eyebrow">AI Impact &amp; Skill Demand · Data view</span>
+    <h2>AI won't erase engineering — it <em>rewrites the skill list</em></h2>
+    <p class="sub">AI changes what each role expects, not whether the role exists. Read these as direction-of-travel signals to plan skills around, then talk to a mentor about your specifics.</p>
+  </div>
+  <div class="dash-grid">
+    <div class="card reveal">
+      <h3>Branch profile comparison</h3>
+      <p class="note">How two branches differ across the abilities they lean on. Toggle branches below.</p>
+      <div class="chart-box"><canvas id="radarChart"></canvas></div>
+      <div class="rm-select" id="radarPicker" style="margin-top:18px;margin-bottom:0"></div>
+    </div>
+    <div class="card reveal">
+      <h3>Skill-demand heatmap</h3>
+      <p class="note">Relative future demand for each skill cluster, by branch (1–9). Darker = stronger pull.</p>
+      <svg id="heatmap" width="100%" viewBox="0 0 460 300" style="max-width:100%"></svg>
+      <div class="heat-legend"><span>Lower</span><span class="bar"></span><span>Higher</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SALARY REALITY -->
+<section class="wrap" id="salary">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Salary Reality · Skills decide the number</span>
+    <h2>Salary is set by the <em>profile</em>, not the branch label</h2>
+    <p class="sub">Two students in the same branch and college can land very different packages. The differentiator is the profile they build: projects, internships, communication and depth.</p>
+  </div>
+  <div class="branch-grid reveal" style="grid-template-columns:repeat(4,1fr)">
+    <article class="bcard" style="cursor:default;min-height:auto">
+      <span class="abbr">Tier 01</span><h3>Degree only</h3>
+      <p>Coursework done, few projects, weak portfolio. Placement is uncertain and pay tracks the floor.</p>
+    </article>
+    <article class="bcard" style="cursor:default;min-height:auto">
+      <span class="abbr">Tier 02</span><h3>Skilled graduate</h3>
+      <p>Solid projects plus an internship. Reliable placements at moderate-to-good packages.</p>
+    </article>
+    <article class="bcard" style="cursor:default;min-height:auto">
+      <span class="abbr">Tier 03</span><h3>High-skill graduate</h3>
+      <p>Strong domain depth, real coding or design work, certifications. Competes for higher offers.</p>
+    </article>
+    <article class="bcard" style="cursor:default;min-height:auto">
+      <span class="abbr">Tier 04</span><h3>Premium profile</h3>
+      <p>Strong college + internships + projects + communication. The top band of offers opens up.</p>
+    </article>
+  </div>
+  <div class="reveal" style="margin-top:24px">
+    <div class="callout">
+      <svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/></svg>
+      <p><b>Read the median, not the headline.</b> Salary figures move every year and the highest package is rarely typical. Before committing, ask each college for branch-wise placement percentage, the <b>median</b> salary, and verified internship data — that is the honest picture.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SKILL ROADMAP GENERATOR -->
+<section class="wrap" id="roadmap">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Skill Roadmap Generator · Pick a branch</span>
+    <h2>Four years, <em>one plan</em> per branch</h2>
+    <p class="sub">College syllabus is the floor, not the finish line. Select a branch to see a year-by-year skill plan that turns a degree into an employable profile.</p>
+  </div>
+  <div class="rm-select reveal" id="rmPicker"></div>
+  <div class="rm-track reveal" id="rmTrack"></div>
+</section>
+
+<!-- FITNESS QUIZ -->
+<section class="wrap" id="assessment">
+  <div class="sec-head reveal" style="margin:0 auto 40px;text-align:center">
+    <span class="eyebrow">Branch Fitness Quiz · 6 quick questions</span>
+    <h2>Which branches <em>fit you?</em></h2>
+    <p class="sub" style="margin:0 auto">Answer six questions for an indicative direction. This is a starting point for a conversation with a mentor — not a verdict.</p>
+  </div>
+  <div class="quiz reveal" id="quiz"></div>
+</section>
+
+<!-- PASSION VS REALITY -->
+<section class="wrap" id="reality">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Passion vs Reality · An honest check</span>
+    <h2>Love the idea? <em>Know the work.</em></h2>
+    <p class="sub">Passion is the right starting point — as long as it survives contact with what the branch actually demands day to day.</p>
+  </div>
+  <div class="pvr-grid reveal" id="pvrGrid"></div>
+</section>
+
+<!-- NRI -->
+<section class="dark" id="nri">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow light">NRI &amp; Gulf families · DASA / CIWG</span>
+      <h2>Branch choice for <em>NRI students</em> isn't just academic</h2>
+      <p class="sub">Don't pick a branch by Indian peer pressure alone. Weigh adjustment, location, the Gulf job market and the higher-studies pathway alongside the subject itself.</p>
+    </div>
+    <div class="nri-grid reveal">
+      <div class="nri-card">
+        <div class="nh">Global flexibility</div>
+        <h4>Software &amp; computing track</h4>
+        <ul><li>CSE</li><li>AI &amp; Data Science</li><li>Information Technology</li><li>Cyber Security</li><li>ECE</li></ul>
+      </div>
+      <div class="nri-card">
+        <div class="nh">Gulf / Middle-East relevance</div>
+        <h4>Build &amp; energy track</h4>
+        <ul><li>Civil &amp; construction management</li><li>Mechanical</li><li>Electrical</li><li>ECE</li><li>Energy &amp; sustainability paths</li></ul>
+      </div>
+      <div class="nri-card">
+        <div class="nh">Higher studies abroad</div>
+        <h4>Research-friendly track</h4>
+        <ul><li>CSE</li><li>AI &amp; Data Science</li><li>ECE</li><li>Mechanical</li><li>Biotechnology</li></ul>
+      </div>
+    </div>
+    <p class="reveal" style="margin-top:30px;color:rgba(255,255,255,.7);font-size:14px;font-family:'JetBrains Mono';letter-spacing:.08em;text-transform:uppercase">Also weigh ·</p>
+    <div class="nri-considerations reveal">
+      <span class="chip">Indian academic system</span><span class="chip">Hostel &amp; food comfort</span><span class="chip">Language / regional fit</span><span class="chip">Distance from airport</span><span class="chip">Parent travel</span><span class="chip">Campus safety</span><span class="chip">Placement location</span><span class="chip">DASA / CIWG strategy</span><span class="chip">Future country preference</span>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="wrap" id="faq">
+  <div class="sec-head reveal">
+    <span class="eyebrow">Questions families ask</span>
+    <h2>Honest answers, <em>no hype</em></h2>
+  </div>
+  <div class="faq-list reveal" id="faqList"></div>
+</section>
+
+<!-- CTA -->
+<section class="wrap" id="contact">
+  <div class="cta reveal">
+    <h2>Still deciding between branches?</h2>
+    <p>Get personalised branch selection and admission guidance for Indian and NRI students — college comparison, DASA / CIWG, JoSAA / TNEA strategy, and a clear career roadmap.</p>
+    <div class="cta-btns">
+      <a href="tel:+918015722706" class="btn-primary" style="background:var(--orange)">Call EduAakashaa <span class="arw">→</span></a>
+      <a href="https://wa.me/918015722706" class="btn-ghost">WhatsApp us</a>
+      <a href="#assessment" class="btn-ghost">Take the fitness quiz</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- BRANCH DETAIL MODAL -->
+<div class="modal-bg" id="modalBg" role="dialog" aria-modal="true" aria-label="Branch detail">
+  <div class="modal">
+    <div class="modal-head">
+      <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+      <div class="ab" id="mAbbr">Branch detail</div>
+      <h3 id="mTitle">Branch</h3>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="brand">
+          <span><span class="bn">Edu<b>Aakashaa</b></span><span class="bt">Coimbatore · Dubai</span></span>
+        </div>
+        <p class="ftag">Right college. Right branch. Right future.</p>
+        <p>Evidence-based engineering admissions counselling for Indian and NRI / Gulf families.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Explore</h5>
+        <a href="#explorer">Engineering branch guide</a>
+        <a href="#matrix">Branch comparison</a>
+        <a href="#nri">NRI admission guidance</a>
+        <a href="#roadmap">Skill roadmaps</a>
+        <a href="#assessment">Fitness quiz</a>
+      </div>
+      <div class="foot-col">
+        <h5>Reach us</h5>
+        <a href="tel:+918015722706">India · +91-80157 22706</a>
+        <a href="tel:+971505168081">UAE · +971 50 516 8081</a>
+        <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
+        <a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a>
+        <p>Coimbatore, Tamil Nadu · Dubai, UAE</p>
+        <p>Mon–Fri 9:00–22:00 · Sat &amp; Sun 9:00–16:00</p>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 EduAakashaa · Guiding students towards the right future</span>
+      <span>www.eduaakashaa.in</span>
+    </div>
+    <p class="disclaim">Ratings, salary tiers, AI-impact and demand indicators on this page are representative estimates for planning and discussion only — not guarantees of placement, salary or admission. Always validate current, official placement reports, median salaries and branch-wise data with each college before deciding. Parts of this page were prepared with AI assistance and reviewed by EduAakashaa.</p>
+  </div>
+</footer>
+
+
+
+{% endraw %}
+
+<div style="background:#071A44;color:#fff;border-radius:20px;padding:48px 32px;text-align:center;margin:48px auto;max-width:1100px;">
+  <h2 style="font-family:'Fraunces',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600;margin-bottom:12px;">Same data, very different outcomes. A mentor turns it into your decision.</h2>
+  <p style="color:rgba(255,255,255,.72);max-width:560px;margin:0 auto 24px;">Get a written, year-long admission plan built around the student &mdash; no upfront fee.</p>
+  <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+    <a href="{{ url_for('main.members_registration') }}" style="background:#FF6B0A;color:#fff;font-weight:700;padding:14px 28px;border-radius:999px;text-decoration:none;">Talk to a Mentor &rarr;</a>
+    <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" style="border:1.5px solid rgba(255,255,255,.5);color:#fff;font-weight:700;padding:13px 26px;border-radius:999px;text-decoration:none;">Chat on WhatsApp</a>
+  </div>
+</div>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/engineering_branch_selection_guide.js') }}" defer></script>
+{% endblock %}

@@ -296,6 +296,15 @@ You can browse everything without an account. Registering (`/register`) gives
 you a dashboard and — on the free tier — up to 3 DASA prediction results;
 premium members get unlimited results and member-only reports.
 
+Premium-only tool pages live under the **Premium Membership** nav dropdown
+(marked with a 🔒 in the menu) and are gated with `@premium_required` —
+anonymous visitors are asked to log in, and logged-in free-tier users see
+`premium_locked.html`. Example: **Engineering Branch Selection Guide**
+(`/engineering-branch-selection-guide`) — an interactive dashboard comparing
+12 engineering branches on subjects, skills, salary reality, AI impact and
+NRI suitability, with a branch-fitness quiz and a year-by-year skill roadmap
+generator.
+
 ---
 
 ## 5. Where the data lives (reference)

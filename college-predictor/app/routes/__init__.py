@@ -526,6 +526,12 @@ def tnea_expert():
                      {'icon': '\U0001F4DE', 'title': 'Allotment support', 'text': 'Round-by-round guidance until you confirm a seat.'}])
 
 
+@main_bp.route('/engineering-branch-selection-guide')
+@premium_required
+def engineering_branch_selection_guide():
+    return render_reference_page('engineering-branch-selection-guide.html', 'engineering_branch_selection_guide.html')
+
+
 # =============================================================
 # Legacy / duplicate slug aliases (eduaakashaa.in URL parity)
 # =============================================================
