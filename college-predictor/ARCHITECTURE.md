@@ -43,6 +43,7 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 | **Premium content pages** | ✅ Done | 8 full live-site ports gated `@premium_required` (Why CSE, Best Location, Engineering Insights, Hostel & Culture, TNEA Expert, JOSAA EA Members, Expert Portal DASA, Branch Selection Guide) — in-page lead forms wired to `POST /api/leads` |
 | **EA Team / Counsellor Portal** | ✅ Done | Admin-only nav dropdown: Choice Builder PRO + Counsellor Dashboard run in-app (dashboard reads the team Google Sheet via its Apps Script JSONP API; app RBAC replaced the legacy per-page passcodes); EA Admin → `/admin` control panel |
 | **EA Admin Control Panel** | ✅ Done | `/admin` — replicates the legacy Apps Script member portal: overview KPIs + activity, member management (tier / validity / password / add / delete with lockout guards), announcements + schedule (surfaced on member dashboards), message-template drafts (`routes/admin_portal.py`, `Announcement` + `ScheduleEvent` models) |
+| **Alumni / Mentor Network** | ✅ Done | Public `/alumni-network` recruitment page + form (resume/photo upload validated by type+magic+size, stored in Postgres); per-registrant referral links (`referred_by` tracking); admin at `/admin/alumni` (list/detail, admin-only resume/photo download, status + notes, referral tree). `AlumniProfile` model, `routes/alumni.py` |
 | **Deploy (Render + Neon)** | ✅ Done | `render.yaml` autoDeploy; Neon Postgres; GH Actions `/ping` keep-alive |
 
 ---

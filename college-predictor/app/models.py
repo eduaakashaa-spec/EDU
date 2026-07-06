@@ -133,3 +133,60 @@ class ScheduleEvent(db.Model):
     ends_at = db.Column(db.DateTime, nullable=True)
     important = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class AlumniProfile(db.Model):
+    """Alumni & current students at top universities who join the EduAakashaa
+    mentor network to share first-hand college experience with parents (paid
+    per meeting). Collected via the public /alumni-network page and matched to
+    parents by admins. Resume + photo are stored in the DB so they survive
+    Render's ephemeral filesystem."""
+    __tablename__ = 'alumni_profiles'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    # identity / contact
+    name = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(200), nullable=False, index=True)
+    phone = db.Column(db.String(40))            # WhatsApp
+    country = db.Column(db.String(80))          # current location
+    city = db.Column(db.String(80))
+
+    # academic — the matching keys
+    university = db.Column(db.String(200), nullable=False)   # college attended
+    program = db.Column(db.String(200))         # course / branch / major
+    degree_level = db.Column(db.String(40))     # UG / PG / PhD / Diploma
+    grad_year = db.Column(db.String(16))        # 2025, "2027 (expected)", …
+    stage = db.Column(db.String(30))            # current-student | alumni | working
+    admission_route = db.Column(db.String(160))  # JEE/JOSAA, DASA/CIWG, SAT, …
+    current_role = db.Column(db.String(200))    # role @ company, if working
+    linkedin = db.Column(db.String(300))
+    languages = db.Column(db.String(200))       # languages they can mentor in
+    bio = db.Column(db.Text)                     # what they can help parents with
+    availability = db.Column(db.String(200))    # preferred times / weekly hours
+
+    # uploads (kept in the DB — Render's disk is wiped on every deploy)
+    resume_data = db.Column(db.LargeBinary)
+    resume_name = db.Column(db.String(255))
+    resume_mime = db.Column(db.String(100))
+    photo_data = db.Column(db.LargeBinary)
+    photo_name = db.Column(db.String(255))
+    photo_mime = db.Column(db.String(100))
+
+    # referral programme
+    referral_code = db.Column(db.String(16), unique=True, index=True)
+    referred_by = db.Column(db.String(16), index=True)   # referrer's code
+
+    # workflow
+    status = db.Column(db.String(20), nullable=False, default='New')  # New | Verified | Active | Rejected
+    admin_notes = db.Column(db.Text)
+    consent = db.Column(db.Boolean, default=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    @property
+    def has_resume(self):
+        return self.resume_data is not None
+
+    @property
+    def has_photo(self):
+        return self.photo_data is not None

@@ -26,6 +26,12 @@ class Config:
         'pool_recycle': 280,     # recycle below Neon's idle timeout
     }
 
+    # Cap request bodies. The only large uploads are alumni resume (≤5 MB) +
+    # photo (≤3 MB); 10 MB leaves headroom for the rest of the multipart form
+    # and stops oversized bodies before they reach a view. A 413 is handled
+    # gracefully (see app/__init__.py).
+    MAX_CONTENT_LENGTH = 10 * 1024 * 1024
+
     # ---------------------------------------------------------------------
     # Membership / invoicing (migrated from the Apps Script CONFIG block).
     # Fill the sensitive values via environment variables / .env — never commit.

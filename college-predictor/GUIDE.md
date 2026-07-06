@@ -90,7 +90,7 @@ npx playwright install chromium      # first time only
 BASE_URL=http://127.0.0.1:5000 npx playwright test tests/smoke.spec.ts --project=chromium
 ```
 
-This opens all 86 pages in a headless browser and fails if any page
+This opens all 87 pages in a headless browser and fails if any page
 errors, returns a bad status, or renders empty.
 
 ---
@@ -181,6 +181,7 @@ applications and inquiries, plus recent-activity feeds.
 | Announcements | `/admin/announcements` | Post notices to member dashboards (pin/hide/delete) |
 | Schedule | `/admin/schedule` | Exams & events shown on member dashboards |
 | Messages | `/admin/messages` | Template library — per-member WhatsApp / email drafts with placeholders filled |
+| Alumni | `/admin/alumni` | Alumni mentor registrations — profiles, resume/photo, status & matching, referral tree (see §3.5) |
 
 ### 3.2b Members — changing a user's plan
 
@@ -349,5 +350,27 @@ submissions, read live from the team Google Sheet), `/choice-builder-pro`
 | Uses the legacy DASA predict API | `dasa_leads` | `/admin/leads` (bottom section) |
 | Sends the Contact form | `contact_inquiries` | `/admin/inquiries` |
 | Registers an account | `users` | `/admin/users` |
+| Joins the alumni mentor network | `alumni_profiles` (incl. resume + photo) | `/admin/alumni` |
 
 All admin pages require an **admin-tier login**; non-admins get a 403.
+
+### 3.5 Alumni / Mentor Network
+
+`/alumni-network` is a **public** recruitment page: alumni and current students
+at top universities register to mentor parents in short paid sessions (the copy
+advertises *up to $100 per meeting* and an *AED 100 referral bonus*). It's linked
+from the **More** nav dropdown — share the URL directly with students you want to
+recruit.
+
+- The form collects contact + academic details (the matching keys: university,
+  program, degree, admission route, stage), languages, availability, a short bio,
+  and a **photo + resume** (validated by type and size — photo ≤3 MB, resume ≤5 MB —
+  and stored in Postgres so they survive Render redeploys).
+- Every registrant gets a **personal referral link** (`/alumni-network?ref=CODE`);
+  anyone who signs up through it is recorded as `referred_by`, so you can track and
+  pay referral bonuses.
+- **Admins** manage everything at `/admin/alumni`: search/filter by university or
+  status, open a profile to see all details, **download the resume / view the
+  photo** (admin-only), set status (New → Verified → Active / Rejected), keep
+  internal notes, and see the person's referral tree. Resume/photo files are served
+  only to logged-in admins.

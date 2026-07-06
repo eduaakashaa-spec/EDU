@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}{{ alum.name }} — Alumni · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow"><a href="{{ url_for('alumni.admin_list') }}" style="color:var(--navy); text-decoration:none;">← Alumni Network</a></div>
+      <h1>{{ alum.name }}</h1>
+    </div>
+    <div>
+      {% if alum.status == 'Active' %}<span class="pill pill-premium">Active</span>
+      {% elif alum.status == 'Verified' %}<span class="pill s-Approved">Verified</span>
+      {% elif alum.status == 'Rejected' %}<span class="pill pill-expired">Rejected</span>
+      {% else %}<span class="pill s-New">New</span>{% endif %}
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>
+  {% endif %}
+  {% endwith %}
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-grid2">
+    <div class="adm-card">
+      <h2>Profile</h2>
+      {% if alum.has_photo %}
+      <img src="{{ url_for('alumni.admin_photo', alum_id=alum.id) }}" alt="Photo of {{ alum.name }}"
+           style="width:120px; height:120px; object-fit:cover; border-radius:12px; border:1px solid var(--hairline); margin-bottom:14px;">
+      {% endif %}
+      <ul class="adm-list">
+        <li><span class="mut">Email</span><span>{{ alum.email }}</span></li>
+        <li><span class="mut">Phone / WhatsApp</span><span>{{ alum.phone or '—' }}</span></li>
+        <li><span class="mut">Location</span><span>{{ alum.city or '' }}{% if alum.city and alum.country %}, {% endif %}{{ alum.country or '—' }}</span></li>
+        <li><span class="mut">Languages</span><span>{{ alum.languages or '—' }}</span></li>
+        <li><span class="mut">Availability</span><span>{{ alum.availability or '—' }}</span></li>
+        <li><span class="mut">LinkedIn</span><span>
+          {% if alum.linkedin and (alum.linkedin.startswith('http://') or alum.linkedin.startswith('https://')) %}<a href="{{ alum.linkedin }}" target="_blank" rel="noopener nofollow" class="ref">open ↗</a>{% elif alum.linkedin %}{{ alum.linkedin }}{% else %}—{% endif %}</span></li>
+        <li><span class="mut">Joined</span><span>{{ alum.created_at.strftime('%d %b %Y · %H:%M') if alum.created_at }}</span></li>
+      </ul>
+    </div>
+
+    <div class="adm-card">
+      <h2>Academic (matching)</h2>
+      <ul class="adm-list">
+        <li><span class="mut">University</span><span>{{ alum.university }}</span></li>
+        <li><span class="mut">Program</span><span>{{ alum.program or '—' }}</span></li>
+        <li><span class="mut">Degree level</span><span>{{ alum.degree_level or '—' }}</span></li>
+        <li><span class="mut">Graduation</span><span>{{ alum.grad_year or '—' }}</span></li>
+        <li><span class="mut">Stage</span><span>{{ alum.stage or '—' }}</span></li>
+        <li><span class="mut">Admission route</span><span>{{ alum.admission_route or '—' }}</span></li>
+        <li><span class="mut">Current role</span><span>{{ alum.current_role or '—' }}</span></li>
+      </ul>
+      <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
+        {% if alum.has_resume %}<a class="btn btn-navy btn-sm" href="{{ url_for('alumni.admin_resume', alum_id=alum.id) }}">⬇ Resume</a>{% endif %}
+        {% if alum.has_photo %}<a class="btn btn-ghost btn-sm" href="{{ url_for('alumni.admin_photo', alum_id=alum.id) }}" target="_blank" rel="noopener">Open photo ↗</a>{% endif %}
+        {% if alum.phone %}<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener"
+              href="https://wa.me/{{ alum.phone | replace('+','') | replace(' ','') | replace('-','') }}">💬 WhatsApp</a>{% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% if alum.bio %}
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>What they can help with</h2>
+    <p style="white-space:pre-wrap; color:var(--ink); font-size:14px;">{{ alum.bio }}</p>
+  </div>
+  {% endif %}
+
+  <div class="adm-grid2">
+    <div class="adm-card">
+      <h2>Review &amp; status</h2>
+      <form method="post" action="{{ url_for('alumni.admin_update', alum_id=alum.id) }}" class="adm-form">
+        <div>
+          <label>Status</label>
+          <select name="status">
+            {% for s in statuses %}<option value="{{ s }}" {{ 'selected' if alum.status == s }}>{{ s }}</option>{% endfor %}
+          </select>
+        </div>
+        <div class="full">
+          <label>Internal notes (never shown to the mentor)</label>
+          <textarea name="admin_notes" rows="3">{{ alum.admin_notes or '' }}</textarea>
+        </div>
+        <div><button class="btn btn-navy" type="submit">Save</button></div>
+      </form>
+    </div>
+
+    <div class="adm-card">
+      <h2>Referrals</h2>
+      <ul class="adm-list">
+        <li><span class="mut">Their invite code</span><span><strong>{{ alum.referral_code or '—' }}</strong></span></li>
+        <li><span class="mut">Invited by</span><span>
+          {% if referrer %}<a class="ref" href="{{ url_for('alumni.admin_detail', alum_id=referrer.id) }}">{{ referrer.name }}</a>
+          {% elif alum.referred_by %}{{ alum.referred_by }} (code){% else %}—{% endif %}</span></li>
+        <li><span class="mut">People they referred</span><span>{{ referrals|length }}</span></li>
+      </ul>
+      {% if referrals %}
+      <ul class="adm-list" style="margin-top:8px;">
+        {% for r in referrals %}
+        <li><a class="ref" href="{{ url_for('alumni.admin_detail', alum_id=r.id) }}">{{ r.name }}</a>
+            <span class="mut">{{ r.status }} · {{ r.created_at.strftime('%d %b') if r.created_at }}</span></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+  </div>
+
+</div></div>
+{% endblock %}

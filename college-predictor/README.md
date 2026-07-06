@@ -439,11 +439,13 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
 - [x] **GST pricing engine** — CGST/SGST/IGST, GST-inclusive, paise-based
 - [x] **Admin membership portal + Excel export** — non-tech staff data view
 - [x] **College data → CSV** — all college datasets extracted from JS into `app/data/files/*.csv`, served via `/api/data/<name>.js`
-- [x] **Playwright tests** — full-site smoke suite (`tests/smoke.spec.ts`, 86 pages, status + JS-error + content checks)
+- [x] **Playwright tests** — full-site smoke suite (`tests/smoke.spec.ts`, 87 pages, status + JS-error + content checks)
 - [x] **SEO & accessibility baseline** — meta/OG tags, sitemap, robots.txt, skip link, focus styles, reduced motion
 - [x] **Production deployment** — Render (Gunicorn) + Neon Postgres, autoDeploy from `main`
 - [x] **Premium Membership pages** — 8 full live-site ports gated `@premium_required` (Why CSE, Best Location, Engineering Insights, Hostel & Culture, TNEA Expert, JOSAA EA Members, Expert Portal DASA, Branch Selection Guide); in-page lead forms post to `/api/leads`
 - [x] **EA Team / Counsellor Portal** — admin-only dropdown: in-app Choice Builder PRO + Counsellor Dashboard (live Google-Sheet triage); RBAC replaced the legacy per-page passwords
+- [x] **EA Admin Control Panel** — `/admin` overview + member tier/validity/password management, announcements, schedule, message templates
+- [x] **Alumni / Mentor Network** — public `/alumni-network` registration (resume + photo upload, referral links) with admin review/matching at `/admin/alumni`
 - [ ] **Membership PDFs** — invoice/receipt generation (WeasyPrint/ReportLab)
 - [ ] **Membership emails** — application/invoice/receipt notifications
 - [ ] **Sheet → Postgres backfill** — one-time import of legacy data

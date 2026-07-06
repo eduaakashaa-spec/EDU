@@ -66,4 +66,22 @@ def create_app():
     from app.routes.admin_portal import admin_portal_bp
     app.register_blueprint(admin_portal_bp)
 
+    from app.routes.alumni import alumni_bp
+    app.register_blueprint(alumni_bp)
+
+    # A body over MAX_CONTENT_LENGTH (an oversized upload) is rejected before
+    # the view runs — answer the alumni form's fetch() with JSON, everyone
+    # else with a short message rather than a stack trace.
+    from flask import jsonify, request
+
+    @app.errorhandler(413)
+    def too_large(_err):
+        limit_mb = app.config['MAX_CONTENT_LENGTH'] // (1024 * 1024)
+        msg = f'Upload too large. Please keep files under {limit_mb} MB total.'
+        wants_json = ('application/json' in request.headers.get('Accept', '')
+                      or request.path.startswith('/alumni'))
+        if wants_json:
+            return jsonify({'ok': False, 'error': msg}), 413
+        return msg, 413
+
     return app

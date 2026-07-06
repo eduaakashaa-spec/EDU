@@ -1,0 +1,313 @@
+{% extends "base.html" %}
+{% block title %}Alumni &amp; Student Mentor Network | EduAakashaA{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Studied at a top university? Join the EduAakashaa mentor network — share your real college experience with parents in short paid sessions (earn up to $100 per meeting) and earn referral bonuses for inviting other students.">
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .earn-band { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin:8px 0 0; }
+  @media (max-width:760px){ .earn-band { grid-template-columns:1fr; } }
+  .earn-card { background:var(--white); border:1px solid var(--border); border-radius:14px; padding:24px 22px; }
+  .earn-card__big { font-size:2rem; font-weight:800; color:var(--gold); line-height:1; }
+  .earn-card__t { font-weight:700; color:var(--dark); margin:10px 0 4px; }
+  .earn-card__p { font-size:.9rem; color:var(--text-dim); }
+
+  .al-form-wrap { max-width:760px; margin:0 auto; }
+  .al-fieldset { border:none; padding:0; margin:0 0 8px; }
+  .al-legend { font-size:.72rem; letter-spacing:1px; text-transform:uppercase; font-weight:700;
+               color:var(--blue); margin:18px 0 10px; }
+  .al-note { margin-top:14px; font-size:.85rem; color:var(--text-dim);
+             background:var(--cream); border:1px dashed var(--border); border-radius:8px; padding:12px 14px; }
+  .al-file { display:block; width:100%; font-size:.9rem; color:var(--text);
+             background:var(--cream); border:1.5px dashed var(--border); border-radius:8px; padding:12px 14px; cursor:pointer; }
+  .al-file::-webkit-file-upload-button, .al-file::file-selector-button {
+             margin-right:12px; border:none; border-radius:6px; padding:7px 14px; cursor:pointer;
+             background:var(--dark); color:#fff; font-weight:700; font-size:.8rem; }
+  .al-consent { display:flex; gap:10px; align-items:flex-start; font-size:.9rem; color:var(--text); margin-top:6px; }
+  .al-consent input { width:auto; margin-top:3px; }
+
+  .al-success { display:none; background:var(--white); border:2px solid var(--green);
+                border-radius:16px; padding:30px 28px; text-align:center; }
+  .al-success h2 { color:var(--dark); font-size:1.5rem; margin-bottom:10px; }
+  .al-refbox { display:flex; gap:8px; margin:18px auto 0; max-width:520px; }
+  .al-refbox input { flex:1; font-size:.9rem; padding:11px 12px; border:1.5px solid var(--border);
+                     border-radius:8px; background:var(--cream); color:var(--dark); }
+  .al-refbox button { white-space:nowrap; }
+  .ref-pill { display:inline-block; background:var(--cream); border:1px solid var(--border);
+              border-radius:999px; padding:6px 14px; font-size:.82rem; color:var(--text-dim); margin-top:14px; }
+</style>
+{% endblock %}
+
+{% block content %}
+  <!-- ======== HERO ======== -->
+  <section class="hero">
+    <div class="hero__glow"></div>
+    <div class="hero__content">
+      <span class="badge">Alumni &amp; Student Mentor Network</span>
+      <h1>You cracked it.<br><span>Now help a family choose right.</span></h1>
+      <p>If you study — or studied — at a top university, parents want to hear from <em>you</em>, not a brochure. Share your real experience in short paid sessions, help families choose the right college, and earn as you do.</p>
+      <div class="final-cta__btns" style="margin-top:24px;">
+        <a href="#join" class="btn-main">Join the network &rarr;</a>
+        <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Ask us anything</a>
+      </div>
+      {% if ref %}<div class="ref-pill">🎁 You were invited by a mentor — you'll both earn a bonus when you complete your first meeting.</div>{% endif %}
+    </div>
+  </section>
+
+  <main class="main-content">
+
+    <!-- ======== EARNINGS ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">What you earn</span>
+        <h2 class="section__title">Get paid to share what you already know.</h2>
+      </div>
+      <div class="earn-band">
+        <div class="earn-card">
+          <div class="earn-card__big">up to $100</div>
+          <div class="earn-card__t">Per meeting</div>
+          <p class="earn-card__p">For each session where you speak with a parent and share your honest college experience.</p>
+        </div>
+        <div class="earn-card">
+          <div class="earn-card__big">AED 100</div>
+          <div class="earn-card__t">Per referral</div>
+          <p class="earn-card__p">Invite other students with your personal link — earn a bonus once they complete their first meeting.</p>
+        </div>
+        <div class="earn-card">
+          <div class="earn-card__big">100% remote</div>
+          <div class="earn-card__t">On your schedule</div>
+          <p class="earn-card__p">Short online calls, whenever suits you. No prep, no scripts — just your real story.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== WHY IT MATTERS ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">Why it matters</span>
+        <h2 class="section__title">Close the gap between advice and reality.</h2>
+        <p class="section__desc">When a parent is deciding between two colleges, nothing beats hearing from a student who actually went there — the teaching, the hostel, the placements, the culture, the things no ranking shows. You become that trusted voice, and EduAakashaa handles the matching, scheduling and payments.</p>
+      </div>
+      <div class="info-cards info-cards--3">
+        <div class="info-card">
+          <div class="info-card__icon">🎓</div>
+          <div class="info-card__title">Your experience is the value</div>
+          <p class="info-card__text">No teaching, no counselling qualifications needed — just your honest first-hand perspective.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card__icon">🤝</div>
+          <div class="info-card__title">We match you</div>
+          <p class="info-card__text">We connect you with parents asking about <em>your</em> college, branch and admission route.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card__icon">💸</div>
+          <div class="info-card__title">You get paid</div>
+          <p class="info-card__text">Per meeting, plus referral bonuses — a simple way to earn from what you already lived.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== HOW IT WORKS ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">How it works · Four steps</span>
+        <h2 class="section__title">From sign-up to first payout.</h2>
+      </div>
+      <div class="steps">
+        <div class="step"><span class="step__num">01</span><div>
+          <div class="step__title">Register below</div>
+          <p class="step__text">Tell us where you studied and upload your photo &amp; resume — it takes a few minutes.</p></div></div>
+        <div class="step"><span class="step__num">02</span><div>
+          <div class="step__title">We verify you</div>
+          <p class="step__text">A quick check of your details, then you're added to our mentor list.</p></div></div>
+        <div class="step"><span class="step__num">03</span><div>
+          <div class="step__title">We match &amp; schedule</div>
+          <p class="step__text">When a parent needs your college's perspective, we set up a short online meeting.</p></div></div>
+        <div class="step"><span class="step__num">04</span><div>
+          <div class="step__title">Meet &amp; earn</div>
+          <p class="step__text">Share your story, get paid per meeting — and earn referral bonuses for friends you invite.</p></div></div>
+      </div>
+    </section>
+
+    <!-- ======== REGISTRATION FORM ======== -->
+    <section class="section" id="join">
+      <div class="section__header">
+        <span class="eyebrow">Join the network</span>
+        <h2 class="section__title">Create your mentor profile</h2>
+        <p class="section__desc">The more detail you share, the better we can match you with the right parents. Your resume and photo are kept private and used only for matching — never shown publicly.</p>
+      </div>
+
+      <div class="al-form-wrap">
+        <!-- success state -->
+        <div class="al-success" id="alSuccess">
+          <h2>🎉 You're on the list<span id="alFirst"></span>!</h2>
+          <p style="color:var(--text-dim);">Our team will review your profile and reach out to schedule your first meeting.</p>
+          <p style="margin-top:16px; color:var(--dark); font-weight:700;">Earn AED 100 for every student you invite</p>
+          <p style="color:var(--text-dim); font-size:.92rem;">Share your personal invite link. When a friend joins and completes their first meeting, you both earn a bonus.</p>
+          <div class="al-refbox">
+            <input type="text" id="alRefLink" readonly>
+            <button type="button" class="btn-main" id="alCopy">Copy link</button>
+          </div>
+          <p style="margin-top:16px;"><a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" style="color:#1f8b4d; font-weight:700;">Questions? Message us on WhatsApp →</a></p>
+        </div>
+
+        <div class="contact-form-card" id="alCard">
+          <div id="alError" style="display:none; padding:12px 16px; border-radius:8px; font-size:.92rem; margin-bottom:16px; background:#fce4e4; color:#a33; border:1px solid #f0bcbc;"></div>
+
+          <form class="contact-form" id="alForm" method="post" action="{{ url_for('alumni.alumni_network') }}" enctype="multipart/form-data">
+            <input type="hidden" name="ref" value="{{ ref }}">
+
+            <div class="al-legend">Who you are</div>
+            <div class="form-group">
+              <label for="al-name">Full name *</label>
+              <input type="text" id="al-name" name="name" required maxlength="150">
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label for="al-email">Email *</label>
+                <input type="email" id="al-email" name="email" required maxlength="200"></div>
+              <div class="form-group"><label for="al-phone">Phone / WhatsApp</label>
+                <input type="tel" id="al-phone" name="phone" maxlength="40"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label for="al-country">Current country</label>
+                <input type="text" id="al-country" name="country" maxlength="80" placeholder="e.g. UAE, India"></div>
+              <div class="form-group"><label for="al-city">City</label>
+                <input type="text" id="al-city" name="city" maxlength="80"></div>
+            </div>
+
+            <div class="al-legend">Where you studied</div>
+            <div class="form-group">
+              <label for="al-uni">University / College *</label>
+              <input type="text" id="al-uni" name="university" required maxlength="200" placeholder="e.g. NIT Trichy, IIT Bombay, University of Toronto">
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label for="al-program">Course / Branch / Major</label>
+                <input type="text" id="al-program" name="program" maxlength="200" placeholder="e.g. Computer Science &amp; Engineering"></div>
+              <div class="form-group"><label for="al-degree">Degree level</label>
+                <select id="al-degree" name="degree_level">
+                  <option value="">Choose…</option>
+                  <option>Undergraduate (UG)</option>
+                  <option>Postgraduate (PG)</option>
+                  <option>PhD / Research</option>
+                  <option>Diploma</option>
+                  <option>Other</option>
+                </select></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label for="al-grad">Graduation year</label>
+                <input type="text" id="al-grad" name="grad_year" maxlength="16" placeholder="e.g. 2024 or 2027 (expected)"></div>
+              <div class="form-group"><label for="al-stage">You are currently a…</label>
+                <select id="al-stage" name="stage">
+                  <option value="">Choose…</option>
+                  <option value="current-student">Current student</option>
+                  <option value="alumni">Alumnus / graduate</option>
+                  <option value="working">Working professional</option>
+                </select></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group"><label for="al-route">How you got admission</label>
+                <input type="text" id="al-route" name="admission_route" maxlength="160" placeholder="e.g. JEE / JOSAA, DASA / CIWG, SAT, direct"></div>
+              <div class="form-group"><label for="al-role">Current role / company (if working)</label>
+                <input type="text" id="al-role" name="current_role" maxlength="200"></div>
+            </div>
+
+            <div class="al-legend">How you can help parents</div>
+            <div class="form-row">
+              <div class="form-group"><label for="al-lang">Languages you can mentor in</label>
+                <input type="text" id="al-lang" name="languages" maxlength="200" placeholder="e.g. English, Hindi, Tamil, Malayalam"></div>
+              <div class="form-group"><label for="al-avail">Availability</label>
+                <input type="text" id="al-avail" name="availability" maxlength="200" placeholder="e.g. Weekday evenings IST"></div>
+            </div>
+            <div class="form-group">
+              <label for="al-linkedin">LinkedIn (optional)</label>
+              <input type="url" id="al-linkedin" name="linkedin" maxlength="300" placeholder="https://linkedin.com/in/…">
+            </div>
+            <div class="form-group">
+              <label for="al-bio">A short note — what can you help parents understand about your college?</label>
+              <textarea id="al-bio" name="bio" rows="4" maxlength="4000" placeholder="Teaching quality, hostel life, placements, campus culture, the admission process — whatever you wish someone had told your family."></textarea>
+            </div>
+
+            <div class="al-legend">Photo &amp; resume</div>
+            <div class="form-group">
+              <label for="al-photo">Your photo * <span style="color:var(--text-dim); font-weight:400;">(JPG / PNG / WebP, max 3 MB)</span></label>
+              <input class="al-file" type="file" id="al-photo" name="photo" accept="image/jpeg,image/png,image/webp" required>
+            </div>
+            <div class="form-group">
+              <label for="al-resume">Your resume * <span style="color:var(--text-dim); font-weight:400;">(PDF / DOC / DOCX, max 5 MB)</span></label>
+              <input class="al-file" type="file" id="al-resume" name="resume" accept=".pdf,.doc,.docx" required>
+            </div>
+
+            <label class="al-consent">
+              <input type="checkbox" name="consent" value="1" required>
+              <span>I agree to be contacted by EduAakashaa and to have my profile shared with matched parents for mentoring sessions.</span>
+            </label>
+
+            <button type="submit" class="btn-main" id="alSubmit" style="margin-top:18px;">Join the mentor network →</button>
+          </form>
+
+          <p class="al-note">
+            Your details, resume and photo are stored securely and used only to match you with parents.
+            We never publish them or share them for anything other than mentoring.
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var form = document.getElementById('alForm');
+  var card = document.getElementById('alCard');
+  var success = document.getElementById('alSuccess');
+  var errBox = document.getElementById('alError');
+  var submitBtn = document.getElementById('alSubmit');
+  if (!form) return;
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    errBox.style.display = 'none';
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    fetch(form.action, { method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(form) })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+      .then(function (res) {
+        if (res.ok && res.data && res.data.ok) {
+          document.getElementById('alFirst').textContent = res.data.name ? (', ' + res.data.name) : '';
+          document.getElementById('alRefLink').value = res.data.share_link || '';
+          card.style.display = 'none';
+          success.style.display = 'block';
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          throw new Error((res.data && res.data.error) || 'Something went wrong. Please try again.');
+        }
+      })
+      .catch(function (err) {
+        errBox.style.display = 'block';
+        errBox.textContent = err.message || 'Sorry, we could not submit your profile. Please try again.';
+        errBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      })
+      .finally(function () {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Join the mentor network →';
+      });
+  });
+
+  var copyBtn = document.getElementById('alCopy');
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function () {
+      var input = document.getElementById('alRefLink');
+      input.select(); input.setSelectionRange(0, 99999);
+      var done = function () { copyBtn.textContent = 'Copied ✓'; setTimeout(function(){ copyBtn.textContent = 'Copy link'; }, 2000); };
+      if (navigator.clipboard) { navigator.clipboard.writeText(input.value).then(done, function(){ document.execCommand('copy'); done(); }); }
+      else { document.execCommand('copy'); done(); }
+    });
+  }
+})();
+</script>
+{% endblock %}
