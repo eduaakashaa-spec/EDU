@@ -26,7 +26,12 @@ class User(UserMixin, db.Model):
             return False
         if self.tier_expires_at is None:
             return True
-        return self.tier_expires_at > datetime.now(timezone.utc)
+        # The column has no timezone, so Postgres hands back naive datetimes;
+        # treat stored values as UTC or the comparison raises TypeError.
+        expires = self.tier_expires_at
+        if expires.tzinfo is None:
+            expires = expires.replace(tzinfo=timezone.utc)
+        return expires > datetime.now(timezone.utc)
 
     @property
     def is_admin(self):
