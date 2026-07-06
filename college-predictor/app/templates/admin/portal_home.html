@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}EA Admin Control Panel · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">EA Admin · Control Panel</div>
+      <h1>Admin Control Panel</h1>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <a class="btn btn-navy" href="{{ url_for('membership.admin_users') }}">Manage members</a>
+      <a class="btn btn-ghost" href="{{ url_for('main.counsellor_dashboard') }}">DASA Review</a>
+    </div>
+  </div>
+
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-kpis">
+    <div class="adm-kpi"><div class="n">{{ stats.users_total }}</div><div class="l">Total members</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.users_premium }}</div><div class="l">Premium</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.premium_expired }}</div><div class="l">Expired premium</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.users_admin }}</div><div class="l">Admins</div></div>
+  </div>
+  <div class="adm-kpis">
+    <div class="adm-kpi"><div class="n">{{ stats.apps_total }}</div><div class="l">Membership applications</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.apps_new }}</div><div class="l">New applications</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.leads_total }}</div><div class="l">Leads captured</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.inquiries_total }}</div><div class="l">Contact inquiries</div></div>
+  </div>
+
+  <div class="adm-grid2">
+    <div class="adm-card">
+      <h2>Newest members</h2>
+      <ul class="adm-list">
+        {% for u in recent_users %}
+        <li>
+          <span>{{ u.name }} · {{ u.email }}</span>
+          <span class="mut"><span class="pill pill-{{ u.tier }}">{{ u.tier }}</span>
+            {{ u.created_at.strftime('%d %b') if u.created_at }}</span>
+        </li>
+        {% else %}<li><span class="mut">No users yet.</span></li>{% endfor %}
+      </ul>
+    </div>
+    <div class="adm-card">
+      <h2>Latest leads</h2>
+      <ul class="adm-list">
+        {% for l in recent_leads %}
+        <li>
+          <span>{{ l.name or '(no name)' }} · {{ l.source }}</span>
+          <span class="mut">{{ l.created_at.strftime('%d %b %H:%M') if l.created_at }}</span>
+        </li>
+        {% else %}<li><span class="mut">No leads yet.</span></li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="adm-grid2">
+    <div class="adm-card">
+      <h2>Latest membership applications</h2>
+      <ul class="adm-list">
+        {% for a in recent_apps %}
+        <li>
+          <span><a class="ref" href="{{ url_for('membership.admin_detail', app_id=a.id) }}">{{ a.reference }}</a>
+                · {{ a.name }}</span>
+          <span class="mut"><span class="pill s-{{ a.status.replace(' ','') }}">{{ a.status }}</span></span>
+        </li>
+        {% else %}<li><span class="mut">No applications yet.</span></li>{% endfor %}
+      </ul>
+    </div>
+    <div class="adm-card">
+      <h2>Upcoming schedule</h2>
+      <ul class="adm-list">
+        {% for e in upcoming %}
+        <li>
+          <span>{{ e.name }}{% if e.important %} <span class="pill pill-imp">important</span>{% endif %}</span>
+          <span class="mut">{{ e.starts_at.strftime('%d %b %Y') }}</span>
+        </li>
+        {% else %}<li><span class="mut">Nothing scheduled. <a href="{{ url_for('admin_portal.schedule') }}">Add events →</a></span></li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>Live announcements</h2>
+    <ul class="adm-list">
+      {% for a in live_announcements %}
+      <li>
+        <span>{% if a.pinned %}📌 {% endif %}{{ a.title }}</span>
+        <span class="mut">{{ a.audience }} · {{ a.created_at.strftime('%d %b') if a.created_at }}</span>
+      </li>
+      {% else %}<li><span class="mut">No live announcements. <a href="{{ url_for('admin_portal.announcements') }}">Post one →</a></span></li>{% endfor %}
+    </ul>
+  </div>
+
+</div></div>
+{% endblock %}

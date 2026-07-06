@@ -90,7 +90,7 @@ npx playwright install chromium      # first time only
 BASE_URL=http://127.0.0.1:5000 npx playwright test tests/smoke.spec.ts --project=chromium
 ```
 
-This opens all 78 public pages in a headless browser and fails if any page
+This opens all 86 pages in a headless browser and fails if any page
 errors, returns a bad status, or renders empty.
 
 ---
@@ -166,15 +166,31 @@ CNAME record Render shows you at your DNS provider. HTTPS is automatic.
 
 ### 3.2 The four admin sections
 
-A shared tab bar links all four sections: **Memberships · Leads & Assessments ·
-Contact Inquiries · Users**.
+A shared tab bar links every section. The home of it all is the
+**EA Admin Control Panel** at `/admin` (the Admin button in the site nav and
+the legacy `/ea-admin-portal` URL both land there) — KPIs for members, leads,
+applications and inquiries, plus recent-activity feeds.
 
 | Page | URL | What's in it |
 |------|-----|--------------|
-| Memberships | `/admin/membership` | All membership applications (the old Google Sheet, replaced) |
+| Overview | `/admin` | Control panel: KPIs, newest members, latest leads/applications, live announcements, upcoming schedule |
+| Members | `/admin/users` | Every account: **change plan (free/premium/admin), set/clear validity, reset password, add or delete members** |
+| Applications | `/admin/membership` | All membership applications (the old Google Sheet, replaced) |
 | Leads & Assessments | `/admin/leads` | Every form/assessment submission from anywhere on the site |
-| Contact Inquiries | `/admin/inquiries` | Messages from the Contact page form |
-| Users | `/admin/users` | Registered site accounts and their tiers |
+| Inquiries | `/admin/inquiries` | Messages from the Contact page form |
+| Announcements | `/admin/announcements` | Post notices to member dashboards (pin/hide/delete) |
+| Schedule | `/admin/schedule` | Exams & events shown on member dashboards |
+| Messages | `/admin/messages` | Template library — per-member WhatsApp / email drafts with placeholders filled |
+
+### 3.2b Members — changing a user's plan
+
+Open **Members**, find the account (search or tier filter), click **Manage ▾**:
+pick the plan (free / premium / admin), set a **Valid until** date (or tick
+*no expiry*), and **Save plan**. The change takes effect on the member's next
+page load. Guards: you cannot remove your own admin access, and admins must be
+demoted before they can be deleted. **Reset password** and **Delete** live in
+the same panel; **+ Add member** at the top creates a login directly (e.g.
+after an offline payment).
 
 ### 3.3 Memberships — full workflow
 
@@ -319,7 +335,7 @@ live-site content, no placeholders):
 DASA 2026 deadline) is public. The **EA Team / Counsellor Portal** dropdown is
 admin-only: `/counsellor-dashboard` (in-app triage of DASA 2026 Choice Builder
 submissions, read live from the team Google Sheet), `/choice-builder-pro`
-(in-app allotment analyzer), `/ea-admin-portal` (→ `/admin/membership`) and
+(in-app allotment analyzer), `/ea-admin-portal` (→ the `/admin` control panel) and
 `/dasa2026-expert-report`.
 
 ---

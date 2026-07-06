@@ -154,7 +154,7 @@
         <a href="{{ url_for('main.members_registration') }}" class="nav__link nav__link--membership">★ Membership</a>
         {% if current_user.is_authenticated %}
         {% if current_user.is_admin %}
-        <a href="{{ url_for('membership.admin_list') }}" class="nav__link nav__link--auth">Admin</a>
+        <a href="{{ url_for('admin_portal.home') }}" class="nav__link nav__link--auth">Admin</a>
         {% endif %}
         <a href="{{ url_for('auth.dashboard') }}" class="nav__link nav__link--auth">Dashboard</a>
         {% else %}

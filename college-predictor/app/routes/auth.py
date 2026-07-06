@@ -79,7 +79,22 @@ def logout():
 @auth_bp.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('auth/dashboard.html')
+    from datetime import datetime, timedelta, timezone
+    from app.models import Announcement, ScheduleEvent
+
+    announcements = (Announcement.query.filter_by(active=True)
+                     .order_by(Announcement.pinned.desc(),
+                               Announcement.created_at.desc())
+                     .limit(5).all())
+    # schedule events are stored as IST wall-clock times
+    ist = timezone(timedelta(hours=5, minutes=30))
+    now = datetime.now(ist).replace(tzinfo=None)
+    events = (ScheduleEvent.query.filter(ScheduleEvent.starts_at >= now)
+              .order_by(ScheduleEvent.important.desc(),
+                        ScheduleEvent.starts_at.asc())
+              .limit(5).all())
+    return render_template('auth/dashboard.html',
+                           announcements=announcements, events=events)
 
 
 @auth_bp.route('/contact', methods=['POST'])

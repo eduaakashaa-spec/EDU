@@ -421,8 +421,8 @@ def counsellor_dashboard():
 @main_bp.route('/ea-admin-portal')
 @admin_required
 def ea_admin_portal():
-    # Our Flask membership admin replaces the legacy Apps Script admin portal.
-    return redirect(url_for('membership.admin_list'))
+    # The in-app EA Admin Control Panel replaces the legacy Apps Script portal.
+    return redirect(url_for('admin_portal.home'))
 
 
 @main_bp.route('/choice-builder-pro')

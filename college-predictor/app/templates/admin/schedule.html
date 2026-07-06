@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}Schedule — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Schedule</div>
+      <h1>Exams &amp; Events</h1>
+    </div>
+  </div>
+
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>Add an exam / event</h2>
+    <p class="sub">Upcoming events appear on member dashboards, important ones first.</p>
+    <form method="post" action="{{ url_for('admin_portal.schedule') }}" class="adm-form">
+      <div>
+        <label for="ev-name">Event name</label>
+        <input id="ev-name" name="name" required maxlength="200" placeholder="e.g. JoSAA Round 2 result">
+      </div>
+      <div>
+        <label for="ev-type">Type</label>
+        <select id="ev-type" name="event_type">
+          {% for t in event_types %}<option value="{{ t }}">{{ t }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="ev-loc">Location</label>
+        <input id="ev-loc" name="location" maxlength="200" placeholder="Online / venue">
+      </div>
+      <div>
+        <label for="ev-start">Start</label>
+        <input id="ev-start" name="starts_at" type="datetime-local" required>
+      </div>
+      <div>
+        <label for="ev-end">End (optional)</label>
+        <input id="ev-end" name="ends_at" type="datetime-local">
+      </div>
+      <div>
+        <label for="ev-imp">Mark important?</label>
+        <select id="ev-imp" name="important"><option value="0">No</option><option value="1">Yes</option></select>
+      </div>
+      <div class="full">
+        <label for="ev-desc">Description</label>
+        <textarea id="ev-desc" name="description" rows="2" placeholder="Anything members should prepare"></textarea>
+      </div>
+      <div><button class="btn btn-navy" type="submit">Add to schedule</button></div>
+    </form>
+  </div>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr>
+        <th>When</th><th>Event</th><th>Type</th><th>Location</th><th>Status</th><th></th>
+      </tr></thead>
+      <tbody>
+        {% for e in rows %}
+        <tr>
+          <td>{{ e.starts_at.strftime('%d %b %Y · %H:%M') }}{% if e.ends_at %} → {{ e.ends_at.strftime('%d %b') }}{% endif %}</td>
+          <td style="white-space:normal; max-width:380px;">
+            <strong>{{ e.name }}</strong>{% if e.important %} <span class="pill pill-imp">important</span>{% endif %}
+            {% if e.description %}<div style="color:var(--muted); font-size:12.5px; white-space:normal;">{{ e.description }}</div>{% endif %}
+          </td>
+          <td><span class="pill s-New">{{ e.event_type }}</span></td>
+          <td>{{ e.location or '—' }}</td>
+          <td>
+            {% if e.starts_at >= now %}<span class="pill pill-premium">upcoming</span>
+            {% else %}<span class="pill pill-free">past</span>{% endif %}
+          </td>
+          <td>
+            <form method="post" action="{{ url_for('admin_portal.schedule_delete', event_id=e.id) }}"
+                  onsubmit="return confirm('Delete this event?');">
+              <button class="btn btn-red btn-sm" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">Nothing scheduled yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div></div>
+{% endblock %}

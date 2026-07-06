@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduAakashaa ÃÂ· Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&amp;family=Plus&#43;Jakarta&#43;Sans:wght@300..800&amp;family=JetBrains&#43;Mono:wght@400..600&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0E3A8A;--navy-deep:#0A2560;--navy-ink:#071A44;--orange:#FF6B0A;--orange-soft:#FF8A3D;
+  --cream:#FBF7EE;--cream-2:#F5EFDF;--paper:#FFFDF7;--ink:#0E1B3D;--muted:#5A6278;
+  --hairline:#E8DFC8;--green:#1F8B5C;--red:#C23A3A;--amber:#E89A1C;
+  --shadow-1:0 1px 2px rgba(14,27,61,.05),0 4px 12px rgba(14,27,61,.04);
+  --shadow-2:0 10px 30px rgba(14,27,61,.10),0 2px 6px rgba(14,27,61,.06);
+  --radius:18px;--radius-sm:10px;--max:1320px;
+}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--cream);color:var(--ink);-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;mix-blend-mode:multiply;
+  background-image:radial-gradient(var(--hairline) 1px,transparent 1px);background-size:3px 3px}
+h1,h2,h3,h4{font-family:'Fraunces',serif;letter-spacing:-.025em;color:var(--navy-ink);margin:0}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono';font-size:12px;text-transform:uppercase;
+  letter-spacing:.2em;color:var(--navy);background:var(--paper);border:1px solid var(--hairline);border-radius:999px;padding:6px 14px}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 3px rgba(255,107,10,.15)}
+.btn{font-family:'Plus Jakarta Sans';font-weight:600;font-size:14px;border:none;cursor:pointer;border-radius:999px;
+  padding:11px 20px;display:inline-flex;align-items:center;gap:7px;transition:.2s}
+.btn-primary{background:var(--navy);color:#fff}.btn-primary:hover{background:var(--orange);transform:translateY(-2px);box-shadow:var(--shadow-2)}
+.btn-ghost{background:transparent;color:var(--navy-ink);border:1.5px solid var(--navy-ink)}.btn-ghost:hover{background:var(--navy-ink);color:#fff}
+.btn-sm{padding:7px 13px;font-size:12.5px}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#a82f2f}
+input,select,textarea{font-family:'Plus Jakarta Sans';font-size:14px;width:100%;padding:11px 13px;background:var(--cream);
+  border:1.5px solid var(--hairline);border-radius:var(--radius-sm);color:var(--ink);outline:none;transition:.2s}
+input:focus,select:focus,textarea:focus{border-color:var(--navy);box-shadow:0 0 0 4px rgba(14,58,138,.08)}
+label{font-family:'JetBrains Mono';font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);display:block;margin:0 0 6px}
+.field{margin-bottom:14px}
+.card{background:var(--paper);border:1px solid var(--hairline);border-radius:var(--radius);box-shadow:var(--shadow-2)}
+.pad{padding:22px}
+.pill{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:999px;display:inline-block}
+.pill-green{background:rgba(31,139,92,.12);color:var(--green)}.pill-red{background:rgba(194,58,58,.12);color:var(--red)}
+.pill-amber{background:rgba(232,154,28,.14);color:#9a6a10}
+.hidden{display:none!important}.muted{color:var(--muted)}
+
+ 
+#login{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:30px}
+#login .box{width:100%;max-width:400px}
+#login .box h2{font-size:30px;margin:14px 0 6px}
+.err{background:rgba(194,58,58,.1);color:var(--red);border:1px solid rgba(194,58,58,.25);border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;margin-bottom:14px}
+.brandlock{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.brandlock img{width:46px;height:46px;border-radius:10px;background:#fff;padding:5px}
+.brandlock .nm{font-family:'Fraunces';font-size:22px;font-weight:700}.brandlock .nm span{color:var(--orange)}
+.brandlock .tg{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+ 
+#app{position:relative;z-index:1;max-width:var(--max);margin:0 auto;padding:24px 30px 70px}
+.head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:22px;flex-wrap:wrap}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:22px}
+.tabs button{font-family:'Plus Jakarta Sans';font-weight:600;font-size:14px;border:1px solid var(--hairline);background:var(--paper);
+  color:var(--navy);padding:10px 18px;border-radius:999px;cursor:pointer;transition:.18s}
+.tabs button.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tab{display:none}.tab.active{display:block;animation:fade .4s}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+ 
+.statstrip{display:grid;grid-template-columns:repeat(4,1fr);margin-bottom:22px;background:var(--paper);border:1px solid var(--hairline);border-radius:var(--radius);overflow:hidden}
+.statstrip div{padding:18px 22px;border-left:1px solid var(--hairline)}
+.statstrip div:first-child{border-left:none}
+.statstrip .n{font-family:'Fraunces';font-size:34px;color:var(--navy-ink)}.statstrip .n span{color:var(--orange)}
+.statstrip .l{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+@media(max-width:720px){.statstrip{grid-template-columns:repeat(2,1fr)}}
+
+ 
+.tablewrap{overflow-x:auto;border:1px solid var(--hairline);border-radius:var(--radius);background:var(--paper)}
+table{width:100%;border-collapse:collapse;min-width:880px}
+th{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:left;
+  padding:14px 16px;border-bottom:1px solid var(--hairline);background:var(--cream-2);white-space:nowrap}
+td{padding:13px 16px;border-bottom:1px solid var(--hairline);font-size:13.5px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+td .nm{font-weight:600}.td-mono{font-family:'JetBrains Mono';font-size:11px;color:var(--muted)}
+.rowacts{display:flex;gap:6px;flex-wrap:wrap}
+
+ 
+.modal{position:fixed;inset:0;z-index:60;background:rgba(7,26,68,.55);display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal .inner{background:var(--paper);border-radius:var(--radius);box-shadow:var(--shadow-2);max-width:480px;width:100%;padding:26px;max-height:90vh;overflow:auto}
+.modal h3{font-size:22px;margin-bottom:4px}
+.modal .x{float:right;cursor:pointer;color:var(--muted);font-size:22px;line-height:1;background:none;border:none}
+
+#toast{position:fixed;bottom:24px;right:24px;z-index:80;display:flex;flex-direction:column;gap:10px}
+.tmsg{background:var(--navy-ink);color:#fff;padding:13px 18px;border-radius:12px;box-shadow:var(--shadow-2);font-size:14px}
+.tmsg.ok{background:var(--green)}.tmsg.bad{background:var(--red)}
+.loader{width:34px;height:34px;border:3px solid var(--hairline);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;margin:40px auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media(max-width:640px){.grid2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+
+<div id="login">
+  <div class="box">
+    <div class="brandlock">
+      <img src="./eduaakashaa_logo.png" alt="EduAakashaa logo" onerror="this.style.display='none'">
+      <div><div class="nm">Edu<span>Aakashaa</span></div><div class="tg">Admin Control Panel</div></div>
+    </div>
+    <span class="eyebrow" style="margin-top:14px">Admin ÃÂ· restricted access</span>
+    <h2>Sign in to admin</h2>
+    <p class="muted" style="margin:0 0 20px">Manage members, access, documents and reports.</p>
+    <div id="loginErr" class="err hidden"></div>
+    <div class="field"><label>Admin password</label><input id="adPass" type="password" placeholder="••••••••"></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="adLogin()"><span id="adBtn">Sign in</span> Ã¢ÂÂ</button>
+  </div>
+</div>
+
+
+<div id="app" class="hidden">
+  <div class="head">
+    <div class="brandlock"><img src="./eduaakashaa_logo.png" alt="logo" onerror="this.style.display='none'">
+      <div><div class="nm">Edu<span>Aakashaa</span></div><div class="tg">Admin Control Panel</div></div></div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button class="btn btn-ghost btn-sm" onclick="loadAll()">Ã¢ÂÂ» Refresh</button>
+      <button class="btn btn-ghost btn-sm" onclick="location.reload()">Log out</button>
+    </div>
+  </div>
+
+  <div class="statstrip" id="stats">
+    <div><div class="n" id="stTotal">—</div><div class="l">Total members</div></div>
+    <div><div class="n" id="stActive">—</div><div class="l">Active</div></div>
+    <div><div class="n" id="stExpired">—</div><div class="l">Expired / inactive</div></div>
+    <div><div class="n" id="stDocs">—</div><div class="l">Documents</div></div>
+  </div>
+
+  <div class="tabs">
+    <button class="active" data-tab="members" onclick="tab('members')">Members</button>
+    <button data-tab="documents" onclick="tab('documents')">Documents</button>
+    <button data-tab="announcements" onclick="tab('announcements')">Announcements</button>
+    <button data-tab="schedule" onclick="tab('schedule')">Schedule</button>
+    <button data-tab="dasa" onclick="tab('dasa')">DASA Review</button>
+    <button data-tab="messages" onclick="tab('messages')">Messages</button>
+  </div>
+
+  
+  <div class="tab active" id="t-members">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+      <input id="search" placeholder="Search by name, email or ID…" style="max-width:340px" oninput="renderMembers()">
+      <button class="btn btn-primary btn-sm" onclick="openAdd()">+ Add member</button>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Member</th><th>Plan</th><th>Validity</th><th>Status</th><th>JEE Rank</th><th>Files</th><th>Actions</th></tr></thead>
+      <tbody id="memBody"><tr><td colspan="7"><div class="loader"></div></td></tr></tbody>
+    </table></div>
+  </div>
+
+  
+  <div class="tab" id="t-documents">
+    <div class="card pad">
+      <span class="eyebrow">All member documents</span>
+      <p class="muted" style="font-size:13px;margin:8px 0 16px">Every file uploaded by members. Files are stored in each member's Drive folder under "EduAakashaa Member Portal".</p>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Date</th><th>Member</th><th>Category</th><th>File</th><th></th></tr></thead>
+        <tbody id="docBody"><tr><td colspan="5" class="muted" style="padding:18px">No documents yet.</td></tr></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  
+  <div class="tab" id="t-announcements">
+    <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:18px" class="annwrap">
+      <div class="card pad">
+        <span class="eyebrow">Post an announcement</span>
+        <div class="field" style="margin-top:14px"><label>Title</label><input id="anTitle"></div>
+        <div class="field"><label>Message</label><textarea id="anBody" rows="4"></textarea></div>
+        <div class="grid2">
+          <div class="field"><label>Audience</label><select id="anAud"><option>All</option><option>Students</option><option>Parents</option></select></div>
+          <div class="field"><label>Pin to top?</label><select id="anPin"><option value="false">No</option><option value="true">Yes</option></select></div>
+        </div>
+        <button class="btn btn-primary" onclick="addAnn()">Publish Ã¢ÂÂ</button>
+      </div>
+      <div class="card pad">
+        <span class="eyebrow">Live announcements</span>
+        <div id="annList" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="tab" id="t-schedule">
+    <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:18px" class="annwrap">
+      <div class="card pad">
+        <span class="eyebrow">Add an exam / event</span>
+        <div class="field" style="margin-top:14px"><label>Event name</label><input id="evName"></div>
+        <div class="field"><label>Description</label><input id="evDesc"></div>
+        <div class="grid2">
+          <div class="field"><label>Type</label><input id="evType" placeholder="Counselling / Deadline / Exam"></div>
+          <div class="field"><label>Location</label><input id="evLoc" placeholder="Online"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Start</label><input id="evStart" type="datetime-local"></div>
+          <div class="field"><label>End</label><input id="evEnd" type="datetime-local"></div>
+        </div>
+        <div class="field"><label>Mark important?</label><select id="evImp"><option value="false">No</option><option value="true">Yes</option></select></div>
+        <button class="btn btn-primary" onclick="addEv()">Add to schedule Ã¢ÂÂ</button>
+      </div>
+      <div class="card pad">
+        <span class="eyebrow">Current schedule</span>
+        <div id="schList" style="margin-top:14px"></div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="tab" id="t-dasa">
+    <div class="card pad" style="margin-bottom:16px">
+      <span class="eyebrow">Reviewing expert</span>
+      <p class="muted" style="font-size:13px;margin:8px 0 14px">Your name & email are included in the email sent to the student.</p>
+      <div class="grid2">
+        <div class="field"><label>Expert name</label><input id="dxName" placeholder="e.g. Dr. Palani"></div>
+        <div class="field"><label>Expert email</label><input id="dxEmail" placeholder="expert@eduaakashaa.com"></div>
+      </div>
+    </div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Member</th><th>Files</th><th>Status</th><th>Updated</th><th>Action</th></tr></thead>
+      <tbody id="dasaBody"><tr><td colspan="5" class="muted" style="padding:18px">No DASA submissions yet.</td></tr></tbody>
+    </table></div>
+  </div>
+
+  
+  <div class="tab" id="t-messages">
+    <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:18px" class="annwrap">
+      <div class="card pad">
+        <span class="eyebrow">Send a template</span>
+        <p class="muted" style="font-size:13px;margin:8px 0 14px">Send to one student from their <b>Manage</b> panel, or to a group here.</p>
+        <div class="field"><label>Template</label><select id="bulkTpl"></select></div>
+        <div class="field"><label>Send to</label>
+          <select id="bulkTarget"><option value="active">Active members only</option><option value="all">All members</option><option value="expired">Expired members</option></select>
+        </div>
+        <button class="btn btn-primary" onclick="sendBulk()">Send to group Ã¢ÂÂ</button>
+        <p class="muted" style="font-size:12px;margin-top:10px">Placeholders {{name}}, {{firstName}}, {{plan}}, {{memberId}}, {{validUntil}} are filled per student.</p>
+      </div>
+      <div class="card pad">
+        <span class="eyebrow">Template library</span>
+        <p class="muted" style="font-size:13px;margin:8px 0 14px">Edit wording anytime in the <b>EmailTemplates</b> sheet tab.</p>
+        <div id="tplList"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal" id="modal"><div class="inner" id="modalInner"></div></div>
+<div id="toast"></div>
+
+<script>
+function call(fn){var a=[].slice.call(arguments,1);return new Promise(function(res,rej){
+  google.script.run.withSuccessHandler(res).withFailureHandler(function(e){rej(e);})[fn].apply(null,a);});}
+function toast(m,t){var d=document.createElement('div');d.className='tmsg '+(t||'');d.textContent=m;
+  document.getElementById('toast').appendChild(d);setTimeout(function(){d.remove();},3800);}
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+
+var TOKEN=null,MEMBERS=[],ANN=[],SCH=[],DOCS=[],DASALIST=[],DASADETAIL=null,DASAMSGS=[],TPLS=[];
+
+function adLogin(){
+  var pw=document.getElementById('adPass').value;var err=document.getElementById('loginErr');err.classList.add('hidden');
+  if(!pw){err.textContent='Enter the admin password.';err.classList.remove('hidden');return;}
+  document.getElementById('adBtn').textContent='Signing in…';
+  call('adminLogin',pw).then(function(r){document.getElementById('adBtn').textContent='Sign in';
+    if(!r.ok){err.textContent=r.error;err.classList.remove('hidden');return;}
+    TOKEN=r.token;document.getElementById('login').classList.add('hidden');document.getElementById('app').classList.remove('hidden');loadAll();
+  }).catch(function(e){document.getElementById('adBtn').textContent='Sign in';err.textContent=String(e.message||e);err.classList.remove('hidden');});
+}
+document.getElementById('adPass').addEventListener('keydown',function(e){if(e.key==='Enter')adLogin();});
+
+function loadAll(){
+  Promise.all([call('adminListMembers',TOKEN),call('getAnnouncements'),call('getSchedule'),call('adminAllDocuments',TOKEN),call('adminDASAList',TOKEN),call('getEmailTemplates')])
+  .then(function(r){MEMBERS=r[0];ANN=r[1];SCH=r[2];DOCS=r[3];DASALIST=r[4]||[];TPLS=r[5]||[];renderMembers();renderAnn();renderSch();renderDocs();renderDASAList();renderTemplates();renderStats();})
+  .catch(function(e){toast(String(e.message||e),'bad');});
+}
+
+ 
+function renderTemplates(){
+  var sel=document.getElementById('bulkTpl');
+  if(sel) sel.innerHTML=TPLS.map(function(t){return '<option value="'+esc(t.key)+'">'+esc(t.label)+'</option>';}).join('');
+  var list=document.getElementById('tplList');
+  if(list) list.innerHTML=TPLS.length?TPLS.map(function(t){
+    return '<div style="border-bottom:1px solid var(--hairline);padding:12px 0"><div style="font-weight:600">'+esc(t.label)+'</div>'+
+      '<div class="td-mono" style="margin:2px 0">'+esc(t.subject)+'</div>'+
+      '<div class="muted" style="font-size:13px;white-space:pre-wrap">'+esc(String(t.body).slice(0,160))+(String(t.body).length>160?'…':'')+'</div></div>';
+  }).join(''):'<p class="muted">No templates. Run seedExtras() to load defaults.</p>';
+}
+function sendBulk(){
+  var key=document.getElementById('bulkTpl').value, target=document.getElementById('bulkTarget').value;
+  if(!key){toast('Pick a template.','bad');return;}
+  var lbl=(TPLS.filter(function(t){return t.key===key;})[0]||{}).label||key;
+  if(!confirm('Send "'+lbl+'" to '+target+' members?'))return;
+  toast('Sending…');
+  call('adminSendTemplateBulk',TOKEN,key,target).then(function(r){toast('Sent to '+r.sent+' of '+r.total+' members.','ok');})
+  .catch(function(e){toast(String(e.message||e),'bad');});
+}
+
+ 
+function dasaOverallPill(s){var x=String(s||'').toLowerCase();
+  if(x==='accepted')return 'pill-green'; if(x==='discrepancy'||x.indexOf('resubmit')>=0)return 'pill-red';
+  if(x==='submitted for review'||x==='under review'||x==='reviewed')return 'pill-amber'; return '';}
+function renderDASAList(){
+  var b=document.getElementById('dasaBody');
+  if(!DASALIST.length){b.innerHTML='<tr><td colspan="5" class="muted" style="padding:18px">No DASA submissions yet.</td></tr>';return;}
+  b.innerHTML=DASALIST.map(function(d){
+    return '<tr><td><div class="nm">'+esc(d.name||'(unknown)')+'</div><div class="td-mono">'+esc(d.email)+'</div></td>'+
+      '<td>'+esc(d.docCount)+'</td>'+
+      '<td><span class="pill '+dasaOverallPill(d.overall)+'">'+esc(d.overall)+'</span></td>'+
+      '<td class="td-mono">'+esc(d.updated||'')+'</td>'+
+      '<td><button class="btn btn-ghost btn-sm" onclick="openDASA(\''+esc(d.email)+'\')">Review</button></td></tr>';
+  }).join('');
+}
+function expertVals(){return {name:document.getElementById('dxName').value,email:document.getElementById('dxEmail').value};}
+function openDASA(email){
+  call('adminDASADetail',TOKEN,email).then(function(r){DASADETAIL=r.detail;DASAMSGS=r.messages||[];renderDASAModal(email);})
+  .catch(function(e){toast(String(e.message||e),'bad');});
+}
+function renderDASAModal(email){
+  var d=DASADETAIL;
+  var items=d.items.map(function(it){
+    var badge=it.itemStatus==='Accepted'?'pill-green':(it.itemStatus==='Discrepancy'?'pill-red':'pill-amber');
+    return '<div style="border:1px solid var(--hairline);border-radius:10px;padding:12px;margin-bottom:10px">'+
+      '<div style="display:flex;justify-content:space-between;gap:10px"><div><b style="font-size:13px">'+esc(it.id)+'. '+esc(it.item)+'</b>'+
+      ' <span class="pill" style="background:var(--cream-2);color:var(--muted)">'+esc(it.applies||'')+'</span></div>'+
+      '<span class="pill '+badge+'">'+esc(it.itemStatus)+'</span></div>'+
+      (it.uploaded
+        ? '<div style="margin-top:8px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">'+
+          '<a class="btn btn-ghost btn-sm" href="'+esc(it.fileUrl)+'" target="_blank">Open file</a>'+
+          '<button class="btn btn-sm" style="background:var(--green);color:#fff" onclick="reviewItem(\''+esc(email)+'\',\''+it.id+'\',\'Accepted\')">Accept</button>'+
+          '<button class="btn btn-sm btn-red" onclick="discrep(\''+esc(email)+'\',\''+it.id+'\')">Discrepancy</button>'+
+          '</div>'+(it.reviewNote?'<div style="color:var(--red);font-size:12px;margin-top:6px">Ã¢ÂÂ  '+esc(it.reviewNote)+'</div>':'')
+        : '<div class="muted" style="font-size:12px;margin-top:6px">Not uploaded yet.</div>')+
+      '</div>';
+  }).join('');
+  var msgRadios=DASAMSGS.map(function(mg,i){
+    return '<label style="display:block;font-family:\'Plus Jakarta Sans\';text-transform:none;letter-spacing:0;color:var(--ink);font-size:13px;margin:4px 0;cursor:pointer">'+
+      '<input type="radio" name="dmsg" value="'+esc(mg.key)+'" style="width:auto;margin-right:8px"'+(i===0?' checked':'')+'> <b>'+esc(mg.label)+'</b> '+
+      '<span class="muted" style="font-size:12px">— '+esc(mg.message.slice(0,70))+'…</span></label>';
+  }).join('');
+  openModal(
+    '<button class="x" onclick="closeModal()">ÃÂ</button>'+
+    '<span class="eyebrow">DASA review</span>'+
+    '<h3 style="margin:12px 0 2px">'+esc(d.items.length? '' : '')+esc(email)+'</h3>'+
+    '<p class="muted td-mono" style="margin:0 0 6px">Status: '+esc(d.overall)+' ÃÂ· '+esc(d.uploadedCount)+'/'+esc(d.total)+' uploaded</p>'+
+    '<div style="max-height:34vh;overflow:auto;margin:12px 0;padding-right:4px">'+items+'</div>'+
+    '<hr style="border:none;border-top:1px solid var(--hairline);margin:8px 0 14px">'+
+    '<div class="field"><label>Final status message (inserted into the student email)</label>'+
+      '<div style="border:1px solid var(--hairline);border-radius:10px;padding:10px;background:var(--cream)">'+(msgRadios||'<span class="muted">Run seedDASA() to load preset messages.</span>')+'</div></div>'+
+    '<div class="field"><label>Overall comments to student</label><textarea id="dCmt" rows="3" placeholder="Specific notes, discrepancies, next steps…"></textarea></div>'+
+    '<div style="display:flex;gap:8px;flex-wrap:wrap">'+
+      '<button class="btn btn-primary btn-sm" onclick="finalizeDASA(\''+esc(email)+'\',\'Reviewed\')">Send: Reviewed</button>'+
+      '<button class="btn btn-sm" style="background:var(--green);color:#fff" onclick="finalizeDASA(\''+esc(email)+'\',\'Accepted\')">Send: Accepted</button>'+
+      '<button class="btn btn-red btn-sm" onclick="finalizeDASA(\''+esc(email)+'\',\'Discrepancy\')">Send: Discrepancy</button>'+
+    '</div>'+
+    '<hr style="border:none;border-top:1px solid var(--hairline);margin:14px 0">'+
+    '<div class="field"><label>Quick message (discrepancy / query)</label><input id="dQuick" placeholder="Short message to the student"></div>'+
+    '<div style="display:flex;gap:8px">'+
+      '<button class="btn btn-ghost btn-sm" onclick="dasaQuickEmail(\''+esc(email)+'\')">Email</button>'+
+      '<button class="btn btn-ghost btn-sm" onclick="dasaWhats(\''+esc(email)+'\')">WhatsApp Ã¢ÂÂ</button>'+
+    '</div>'
+  );
+}
+function reviewItem(email,itemId,status,note){
+  var ex=expertVals();
+  call('adminReviewDASAItem',TOKEN,email,itemId,status,note||'',ex.name,ex.email)
+  .then(function(r){DASADETAIL=r.detail;DASAMSGS=r.messages||DASAMSGS;renderDASAModal(email);toast('Item: '+status,'ok');loadDASAQuiet();})
+  .catch(function(e){toast(String(e.message||e),'bad');});
+}
+function discrep(email,itemId){
+  var note=prompt('Describe the discrepancy for this document:');
+  if(note===null)return;
+  reviewItem(email,itemId,'Discrepancy',note);
+}
+function finalizeDASA(email,status){
+  var key=(document.querySelector('input[name="dmsg"]:checked')||{}).value||'';
+  var cmt=(document.getElementById('dCmt')||{}).value||'';
+  var ex=expertVals();
+  if(!ex.name){toast('Enter your expert name first.','bad');return;}
+  call('adminFinalizeDASA',TOKEN,email,status,key,cmt,ex.name,ex.email)
+  .then(function(r){DASADETAIL=r.detail;toast('Sent to student: '+status,'ok');closeModal();loadDASAQuiet();})
+  .catch(function(e){toast(String(e.message||e),'bad');});
+}
+function dasaQuickEmail(email){var msg=(document.getElementById('dQuick')||{}).value;if(!msg){toast('Type a message.','bad');return;}
+  var ex=expertVals();
+  call('adminDASAEmail',TOKEN,email,'EduAakashaa — DASA document note',msg,ex.name,ex.email).then(function(){toast('Email sent.','ok');}).catch(function(e){toast(String(e.message||e),'bad');});}
+function dasaWhats(email){var msg=(document.getElementById('dQuick')||{}).value||'Regarding your DASA documents';
+  call('adminDASAWhatsApp',TOKEN,email,msg).then(function(r){window.open(r.url,'_blank');}).catch(function(e){toast(String(e.message||e),'bad');});}
+function loadDASAQuiet(){call('adminDASAList',TOKEN).then(function(r){DASALIST=r||[];renderDASAList();}).catch(function(){});}
+function renderStats(){
+  document.getElementById('stTotal').textContent=MEMBERS.length;
+  document.getElementById('stActive').textContent=MEMBERS.filter(function(m){return !m.computedExpired;}).length;
+  document.getElementById('stExpired').textContent=MEMBERS.filter(function(m){return m.computedExpired;}).length;
+  document.getElementById('stDocs').textContent=DOCS.length;
+}
+
+function tab(t){document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('active');});
+  document.getElementById('t-'+t).classList.add('active');
+  document.querySelectorAll('.tabs button').forEach(function(b){b.classList.toggle('active',b.dataset.tab===t);});}
+
+ 
+function renderMembers(){
+  var q=(document.getElementById('search').value||'').toLowerCase();
+  var rows=MEMBERS.filter(function(m){return !q||(m.fullName+' '+m.email+' '+m.memberId).toLowerCase().indexOf(q)>=0;});
+  if(!rows.length){document.getElementById('memBody').innerHTML='<tr><td colspan="7" class="muted" style="padding:18px">No members found.</td></tr>';return;}
+  document.getElementById('memBody').innerHTML=rows.map(function(m){
+    var stat=m.computedExpired?'<span class="pill pill-red">Expired</span>':'<span class="pill pill-green">Active</span>';
+    return '<tr><td><div class="nm">'+esc(m.fullName)+'</div><div class="td-mono">'+esc(m.email)+'</div><div class="td-mono">'+esc(m.memberId)+'</div></td>'+
+      '<td>'+esc(m.plan||'—')+'</td>'+
+      '<td><div class="td-mono">'+esc(m.validUntil||'—')+'</div></td>'+
+      '<td>'+stat+'</td>'+
+      '<td>'+esc(m.jeeRank||'—')+'</td>'+
+      '<td>'+(m.folderUrl?'<a class="td-mono" href="'+esc(m.folderUrl)+'" target="_blank">Drive Ã¢ÂÂ</a>':'<span class="td-mono">—</span>')+'</td>'+
+      '<td><div class="rowacts">'+
+        '<button class="btn btn-ghost btn-sm" onclick="manage(\''+esc(m.email)+'\')">Manage</button>'+
+      '</div></td></tr>';
+  }).join('');
+}
+
+function memberByEmail(e){return MEMBERS.filter(function(m){return m.email===e;})[0];}
+
+ 
+function manage(email){
+  var m=memberByEmail(email);if(!m)return;
+  openModal(
+    '<button class="x" onclick="closeModal()">ÃÂ</button>'+
+    '<span class="eyebrow">Manage member</span>'+
+    '<h3 style="margin:12px 0 2px">'+esc(m.fullName)+'</h3>'+
+    '<p class="muted td-mono" style="margin:0 0 16px">'+esc(m.email)+' ÃÂ· '+esc(m.memberId)+'</p>'+
+
+    '<div class="field"><label>Membership status</label>'+
+      '<div style="display:flex;gap:8px">'+
+        '<button class="btn '+(!m.computedExpired?'btn-primary':'btn-ghost')+' btn-sm" onclick="setStatus(\''+esc(email)+'\',\'Active\')">Set Active</button>'+
+        '<button class="btn '+(m.computedExpired?'btn-red':'btn-ghost')+' btn-sm" onclick="setStatus(\''+esc(email)+'\',\'Expired\')">Set Expired</button>'+
+      '</div></div>'+
+
+    '<div class="field"><label>Valid until</label>'+
+      '<div style="display:flex;gap:8px"><input type="date" id="mValid" value="'+(m.validUntilISO?m.validUntilISO.slice(0,10):'')+'">'+
+      '<button class="btn btn-ghost btn-sm" onclick="setValid(\''+esc(email)+'\')">Save</button></div></div>'+
+
+    '<div class="field"><label>Set / reset password</label>'+
+      '<div style="display:flex;gap:8px"><input id="mPw" placeholder="New password">'+
+      '<button class="btn btn-ghost btn-sm" onclick="setPw(\''+esc(email)+'\')">Set</button></div></div>'+
+
+    '<hr style="border:none;border-top:1px solid var(--hairline);margin:18px 0">'+
+
+    '<div class="field"><label>Email the member</label>'+
+      '<input id="mSubj" placeholder="Subject" style="margin-bottom:8px">'+
+      '<textarea id="mMsg" rows="3" placeholder="Message…"></textarea>'+
+      '<button class="btn btn-primary btn-sm" style="margin-top:8px" onclick="sendMail(\''+esc(email)+'\')">Send email Ã¢ÂÂ</button></div>'+
+
+    '<div class="field"><label>WhatsApp the member</label>'+
+      '<input id="mWa" placeholder="Message…">'+
+      '<button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="sendWa(\''+esc(email)+'\')">Open WhatsApp Ã¢ÂÂ</button></div>'+
+
+    '<hr style="border:none;border-top:1px solid var(--hairline);margin:18px 0">'+
+
+    '<div class="field"><label>JEE Rank report (rank on file: '+esc(m.jeeRank||'none')+')</label>'+
+      '<button class="btn btn-primary btn-sm" onclick="genReport(\''+esc(email)+'\')">Generate report Ã¢ÂÂ Drive & member</button>'+
+      '<p class="muted" style="font-size:12px;margin-top:8px">Saves a PDF to the member\'s Drive folder, lists it in their portal, and emails them.</p></div>'+
+    '<hr style="border:none;border-top:1px solid var(--hairline);margin:18px 0">'+
+    '<div class="field"><label>Send a message template</label>'+
+      '<select id="mTpl">'+TPLS.map(function(t){return '<option value="'+esc(t.key)+'">'+esc(t.label)+'</option>';}).join('')+'</select>'+
+      '<button class="btn btn-primary btn-sm" style="margin-top:8px" onclick="sendTpl(\''+esc(email)+'\')">Send template email</button></div>'+
+
+    '<hr style="border:none;border-top:1px solid var(--hairline);margin:18px 0">'+
+    '<span class="eyebrow">Discussion timeline</span>'+
+    '<div id="mDisc" style="max-height:30vh;overflow:auto;margin:12px 0"><div class="muted">Loading…</div></div>'+
+    '<div class="field"><textarea id="mDiscMsg" rows="2" placeholder="Reply to the student…"></textarea>'+
+      '<button class="btn btn-primary btn-sm" style="margin-top:8px" onclick="postDisc(\''+esc(email)+'\')">Post as expert</button>'+
+      '<p class="muted" style="font-size:12px;margin-top:6px">Posts under the expert name from the DASA Review tab (or "EduAakashaa Expert").</p></div>'+
+
+    (m.folderUrl?'<a class="btn btn-ghost btn-sm" href="'+esc(m.folderUrl)+'" target="_blank">Open Drive folder Ã¢ÂÂ</a>':'')
+  );
+  loadDiscAdmin(email);
+}
+function sendTpl(email){var key=document.getElementById('mTpl').value;if(!key){toast('Pick a template.','bad');return;}
+  call('adminSendTemplate',TOKEN,email,key).then(function(){toast('Template email sent.','ok');}).catch(err);}
+function loadDiscAdmin(email){
+  call('adminGetDiscussions',TOKEN,email).then(function(r){renderDiscAdmin(r.items||[]);}).catch(function(){});
+}
+function renderDiscAdmin(items){
+  var el=document.getElementById('mDisc');if(!el)return;
+  if(!items.length){el.innerHTML='<p class="muted" style="font-size:13px">No messages yet.</p>';return;}
+  el.innerHTML=items.map(function(d){
+    var exp=String(d.role).toLowerCase()==='expert';
+    return '<div style="border-left:3px solid '+(exp?'var(--orange)':'var(--navy)')+';padding:6px 10px;margin-bottom:8px;background:var(--cream);border-radius:6px">'+
+      '<div class="td-mono" style="font-size:10px">'+esc(d.when)+' ÃÂ· '+esc(d.author)+' ('+esc(d.role)+')</div>'+
+      '<div style="font-size:13px;white-space:pre-wrap;margin-top:3px">'+esc(d.message)+'</div></div>';
+  }).join('');
+}
+function postDisc(email){var msg=document.getElementById('mDiscMsg').value;if(!msg.trim()){toast('Type a message.','bad');return;}
+  var ex=expertVals();
+  call('adminAddDiscussion',TOKEN,email,msg,ex.name||'EduAakashaa Expert').then(function(r){document.getElementById('mDiscMsg').value='';renderDiscAdmin(r.items||[]);toast('Posted.','ok');}).catch(err);}
+
+function setStatus(email,s){call('adminSetStatus',TOKEN,email,s).then(function(r){MEMBERS=r.members;renderMembers();renderStats();toast('Status set to '+s+'.','ok');manage(email);}).catch(err);}
+function setValid(email){var v=document.getElementById('mValid').value;if(!v){toast('Pick a date.','bad');return;}
+  call('adminSetValidity',TOKEN,email,v).then(function(r){MEMBERS=r.members;renderMembers();renderStats();toast('Validity updated.','ok');manage(email);}).catch(err);}
+function setPw(email){var p=document.getElementById('mPw').value;if(!p){toast('Enter a password.','bad');return;}
+  call('adminSetPassword',TOKEN,email,p).then(function(){toast('Password set.','ok');}).catch(err);}
+function sendMail(email){var s=document.getElementById('mSubj').value,msg=document.getElementById('mMsg').value;
+  if(!s||!msg){toast('Subject and message required.','bad');return;}
+  call('adminSendEmail',TOKEN,email,s,msg).then(function(){toast('Email sent.','ok');}).catch(err);}
+function sendWa(email){var msg=document.getElementById('mWa').value||'Hello from EduAakashaa';
+  call('adminWhatsAppLink',TOKEN,email,msg).then(function(r){window.open(r.url,'_blank');}).catch(err);}
+function genReport(email){toast('Generating report…');
+  call('adminGenerateReport',TOKEN,email).then(function(r){toast('Report generated & member notified.','ok');window.open(r.url,'_blank');loadAll();}).catch(err);}
+function err(e){toast(String(e.message||e),'bad');}
+
+ 
+function openAdd(){openModal(
+  '<button class="x" onclick="closeModal()">ÃÂ</button><span class="eyebrow">New member</span><h3 style="margin:12px 0 16px">Add a member</h3>'+
+  '<div class="grid2"><div class="field"><label>Full name</label><input id="naName"></div><div class="field"><label>Email</label><input id="naEmail"></div></div>'+
+  '<div class="grid2"><div class="field"><label>Phone (with code)</label><input id="naPhone" placeholder="+91…"></div><div class="field"><label>Password</label><input id="naPass"></div></div>'+
+  '<div class="grid2"><div class="field"><label>Plan</label><input id="naPlan" placeholder="Premium"></div><div class="field"><label>Valid until</label><input id="naValid" type="date"></div></div>'+
+  '<div class="grid2"><div class="field"><label>Grade</label><input id="naGrade"></div><div class="field"><label>Stream</label><input id="naStream"></div></div>'+
+  '<div class="grid2"><div class="field"><label>City</label><input id="naCity"></div><div class="field"><label>JEE Rank</label><input id="naRank" type="number"></div></div>'+
+  '<div class="field"><label>Skill gaps (comma separated)</label><input id="naGaps" placeholder="Physics, Maths"></div>'+
+  '<button class="btn btn-primary" style="width:100%;justify-content:center" onclick="addMember()">Create member Ã¢ÂÂ</button>');}
+function addMember(){
+  var m={fullName:g('naName'),email:g('naEmail'),phone:g('naPhone'),password:g('naPass'),plan:g('naPlan'),
+    validUntil:g('naValid'),grade:g('naGrade'),stream:g('naStream'),city:g('naCity'),jeeRank:g('naRank'),skillGaps:g('naGaps')};
+  if(!m.email){toast('Email is required.','bad');return;}
+  call('adminAddMember',TOKEN,m).then(function(r){MEMBERS=r.members;renderMembers();renderStats();closeModal();toast('Member created.','ok');}).catch(err);
+}
+function g(id){return document.getElementById(id).value;}
+
+ 
+function renderAnn(){document.getElementById('annList').innerHTML=ANN.map(function(a){
+  return '<div style="border-bottom:1px solid var(--hairline);padding:12px 0"><div class="td-mono">'+esc(a.date)+(a.pinned?' ÃÂ· PINNED':'')+'</div>'+
+    '<div style="font-weight:600">'+esc(a.title)+'</div><div class="muted" style="font-size:13px">'+esc(a.body)+'</div></div>';}).join('')||'<p class="muted">None yet.</p>';}
+function addAnn(){var a={title:g('anTitle'),body:g('anBody'),audience:g('anAud'),pinned:g('anPin')==='true'};
+  if(!a.title){toast('Title required.','bad');return;}
+  call('adminAddAnnouncement',TOKEN,a).then(function(r){ANN=r.announcements;renderAnn();document.getElementById('anTitle').value='';document.getElementById('anBody').value='';toast('Published.','ok');}).catch(err);}
+
+ 
+function renderSch(){document.getElementById('schList').innerHTML=SCH.map(function(e){
+  return '<div style="border-bottom:1px solid var(--hairline);padding:12px 0"><div class="td-mono">'+esc(e.type||'Event')+(e.important?' ÃÂ· IMPORTANT':'')+'</div>'+
+    '<div style="font-weight:600">'+esc(e.event)+'</div><div class="muted" style="font-size:13px">'+esc(e.startLabel)+(e.location?' ÃÂ· '+esc(e.location):'')+'</div></div>';}).join('')||'<p class="muted">None yet.</p>';}
+function addEv(){var ev={event:g('evName'),description:g('evDesc'),type:g('evType'),location:g('evLoc'),
+    start:g('evStart'),end:g('evEnd'),important:g('evImp')==='true'};
+  if(!ev.event||!ev.start){toast('Event name and start time required.','bad');return;}
+  call('adminAddEvent',TOKEN,ev).then(function(r){SCH=r.schedule;renderSch();document.getElementById('evName').value='';toast('Event added.','ok');}).catch(err);}
+
+ 
+function renderDocs(){var b=document.getElementById('docBody');
+  if(!DOCS.length){b.innerHTML='<tr><td colspan="5" class="muted" style="padding:18px">No documents yet.</td></tr>';return;}
+  b.innerHTML=DOCS.map(function(d){return '<tr><td class="td-mono">'+esc(d.date)+'</td>'+
+    '<td><div class="nm" style="font-size:13px">'+esc(d.memberId)+'</div><div class="td-mono">'+esc(d.email)+'</div></td>'+
+    '<td>'+esc(d.category)+'</td><td>'+esc(d.name)+'</td>'+
+    '<td><a class="btn btn-ghost btn-sm" href="'+esc(d.url)+'" target="_blank">Open</a></td></tr>';}).join('');}
+
+ 
+function openModal(html){document.getElementById('modalInner').innerHTML=html;document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+</script>
+</body>
+</html>

@@ -434,20 +434,27 @@ def admin_users():
     from app.models import User
 
     q = (request.args.get('q') or '').strip()
+    tier_filter = (request.args.get('tier') or '').strip()
     page = request.args.get('page', 1, type=int)
 
     query = User.query
     if q:
         like = f'%{q}%'
         query = query.filter(db.or_(User.name.ilike(like), User.email.ilike(like)))
+    if tier_filter in ('free', 'premium', 'admin'):
+        query = query.filter(User.tier == tier_filter)
 
     pagination = (query.order_by(User.created_at.desc())
                   .paginate(page=page, per_page=25, error_out=False))
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
     stats = {
         'total': User.query.count(),
         'premium': User.query.filter_by(tier='premium').count(),
         'admin': User.query.filter_by(tier='admin').count(),
+        'expired': User.query.filter(User.tier == 'premium',
+                                     User.tier_expires_at.isnot(None),
+                                     User.tier_expires_at <= now).count(),
     }
     return render_template('admin/users_list.html', admin_tab='users',
                            pagination=pagination, rows=pagination.items,
-                           stats=stats, q=q)
+                           stats=stats, q=q, tier_filter=tier_filter)

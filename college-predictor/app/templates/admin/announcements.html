@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Announcements — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Announcements</div>
+      <h1>Announcements</h1>
+    </div>
+  </div>
+
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>Post an announcement</h2>
+    <p class="sub">Live announcements appear on every member's dashboard.</p>
+    <form method="post" action="{{ url_for('admin_portal.announcements') }}" class="adm-form">
+      <div class="full">
+        <label for="ann-title">Title</label>
+        <input id="ann-title" name="title" required maxlength="200" placeholder="e.g. DASA Round-1 results are out">
+      </div>
+      <div class="full">
+        <label for="ann-body">Message</label>
+        <textarea id="ann-body" name="body" rows="3" required placeholder="What should members know?"></textarea>
+      </div>
+      <div>
+        <label for="ann-aud">Audience</label>
+        <select id="ann-aud" name="audience">
+          {% for a in audiences %}<option value="{{ a }}">{{ a|capitalize }}</option>{% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="ann-pin">Pin to top?</label>
+        <select id="ann-pin" name="pinned"><option value="0">No</option><option value="1">Yes</option></select>
+      </div>
+      <div><button class="btn btn-navy" type="submit">Publish</button></div>
+    </form>
+  </div>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr>
+        <th>Posted</th><th>Title</th><th>Audience</th><th>Status</th><th>Actions</th>
+      </tr></thead>
+      <tbody>
+        {% for a in rows %}
+        <tr>
+          <td>{{ a.created_at.strftime('%d %b %Y') if a.created_at }}</td>
+          <td style="white-space:normal; max-width:420px;">
+            {% if a.pinned %}📌 {% endif %}<strong>{{ a.title }}</strong>
+            <div style="color:var(--muted); font-size:12.5px; white-space:normal;">{{ a.body }}</div>
+          </td>
+          <td><span class="pill s-New">{{ a.audience }}</span></td>
+          <td>
+            {% if a.active %}<span class="pill pill-premium">live</span>
+            {% else %}<span class="pill pill-expired">hidden</span>{% endif %}
+          </td>
+          <td>
+            <form method="post" action="{{ url_for('admin_portal.announcement_toggle', ann_id=a.id) }}" style="display:inline;">
+              <input type="hidden" name="field" value="pinned">
+              <button class="btn btn-ghost btn-sm" type="submit">{{ 'Unpin' if a.pinned else 'Pin' }}</button>
+            </form>
+            <form method="post" action="{{ url_for('admin_portal.announcement_toggle', ann_id=a.id) }}" style="display:inline;">
+              <input type="hidden" name="field" value="active">
+              <button class="btn btn-ghost btn-sm" type="submit">{{ 'Hide' if a.active else 'Show' }}</button>
+            </form>
+            <form method="post" action="{{ url_for('admin_portal.announcement_delete', ann_id=a.id) }}" style="display:inline;"
+                  onsubmit="return confirm('Delete this announcement?');">
+              <button class="btn btn-red btn-sm" type="submit">Delete</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" style="text-align:center; padding:40px; color:var(--muted);">No announcements yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div></div>
+{% endblock %}

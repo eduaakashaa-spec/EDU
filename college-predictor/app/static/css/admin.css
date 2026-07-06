@@ -59,3 +59,52 @@
   .flash-danger{ background:#fce4e4; color:#a33; border:1px solid #f0bcbc; }
   .flash-info{ background:#e4edf9; color:#2c5282; border:1px solid #bcd4f0; }
   @media (max-width:720px){ .adm-kpis{ grid-template-columns:repeat(2,1fr); } }
+
+  /* ----- control panel additions ----- */
+  .btn-red{ background:var(--red); color:#fff; } .btn-red:hover{ background:#a82f2f; }
+  .btn-sm{ padding:6px 12px; font-size:12.5px; }
+  .adm-grid2{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+  @media (max-width:900px){ .adm-grid2{ grid-template-columns:1fr; } }
+  .adm-card{ background:var(--paper); border:1px solid var(--hairline);
+             border-radius:14px; padding:18px 20px; }
+  .adm-card h2{ font-family:'Fraunces',serif; font-size:1.15rem; color:var(--navy-ink);
+                margin:0 0 12px; }
+  .adm-card .sub{ font-size:12.5px; color:var(--muted); margin:-8px 0 12px; }
+  .adm-list{ list-style:none; margin:0; padding:0; }
+  .adm-list li{ display:flex; justify-content:space-between; gap:12px;
+                padding:9px 0; border-bottom:1px dashed var(--hairline); font-size:13.5px; }
+  .adm-list li:last-child{ border-bottom:none; }
+  .adm-list .mut{ color:var(--muted); font-size:12px; white-space:nowrap; }
+  .adm-form{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+             gap:12px; align-items:end; }
+  .adm-form label{ font-family:'JetBrains Mono',monospace; font-size:10px;
+                   text-transform:uppercase; letter-spacing:.14em; color:var(--muted);
+                   display:block; margin-bottom:5px; }
+  .adm-form input, .adm-form select, .adm-form textarea{
+      font-family:'Plus Jakarta Sans'; font-size:14px; width:100%; padding:9px 12px;
+      border:1.5px solid var(--hairline); border-radius:9px; background:var(--cream);
+      color:var(--ink); outline:none; }
+  .adm-form input:focus, .adm-form select:focus, .adm-form textarea:focus{
+      border-color:var(--navy); box-shadow:0 0 0 4px rgba(14,58,138,.08); }
+  .adm-form .full{ grid-column:1 / -1; }
+  details.adm-manage{ border-top:1px dashed var(--hairline); }
+  details.adm-manage summary{ cursor:pointer; font-family:'JetBrains Mono',monospace;
+      font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--navy);
+      padding:6px 0; list-style:none; }
+  details.adm-manage summary::-webkit-details-marker{ display:none; }
+  details.adm-manage[open] summary{ color:var(--orange); }
+  .adm-manage-body{ display:flex; flex-wrap:wrap; gap:14px; padding:10px 0 14px; }
+  .adm-manage-body form{ display:flex; gap:8px; align-items:end; flex-wrap:wrap;
+      background:var(--cream); border:1px solid var(--hairline); border-radius:10px;
+      padding:10px 12px; }
+  .adm-manage-body form input, .adm-manage-body form select{
+      font-family:'Plus Jakarta Sans'; font-size:13px; padding:7px 10px;
+      border:1.5px solid var(--hairline); border-radius:8px; background:var(--paper); }
+  .pill-free{ background:rgba(90,98,120,.12); color:var(--muted); }
+  .pill-premium{ background:rgba(31,139,92,.14); color:var(--green); }
+  .pill-admin{ background:rgba(14,58,138,.12); color:var(--navy); }
+  .pill-expired{ background:rgba(194,58,58,.12); color:var(--red); }
+  .pill-imp{ background:rgba(255,107,10,.14); color:#b34c07; }
+  .msg-body{ white-space:pre-wrap; font-size:12.5px; color:var(--muted);
+             background:var(--cream); border:1px solid var(--hairline);
+             border-radius:10px; padding:12px 14px; }

@@ -94,6 +94,38 @@
       </div>
     </div>
 
+    {% if announcements %}
+    <div class="dash-info">
+      <h2>📣 Announcements</h2>
+      <table>
+        {% for a in announcements %}
+        <tr>
+          <td>{{ a.created_at.strftime('%d %b') if a.created_at }}</td>
+          <td><strong>{% if a.pinned %}📌 {% endif %}{{ a.title }}</strong>
+              {% if a.audience != 'all' %}<span style="font-size:.72rem; background:#f0ebe3; color:#8a7b65; border-radius:10px; padding:2px 8px; margin-left:6px;">for {{ a.audience }}</span>{% endif %}<br>
+              <span style="color:#666; font-size:.88rem;">{{ a.body }}</span></td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% endif %}
+
+    {% if events %}
+    <div class="dash-info">
+      <h2>🗓 Upcoming exams &amp; events</h2>
+      <table>
+        {% for e in events %}
+        <tr>
+          <td>{{ e.starts_at.strftime('%d %b %Y') }}</td>
+          <td><strong>{{ e.name }}</strong>{% if e.important %} ⭐{% endif %}
+              {% if e.location %}<span style="color:#666;"> · {{ e.location }}</span>{% endif %}
+              {% if e.description %}<br><span style="color:#666; font-size:.88rem;">{{ e.description }}</span>{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+    {% endif %}
+
     <div class="dash-info">
       <h2>Account Details</h2>
       <table>

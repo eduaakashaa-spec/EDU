@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Messages — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Messages</div>
+      <h1>Message Templates</h1>
+    </div>
+  </div>
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>Template &amp; audience</h2>
+    <p class="sub">Placeholders like the member's first name, plan and validity are filled per
+      student. WhatsApp / Email open a ready-to-send draft — review, then hit send.</p>
+    <form method="get" action="{{ url_for('admin_portal.messages') }}" class="adm-form">
+      <div>
+        <label for="msg-tpl">Template</label>
+        <select id="msg-tpl" name="template">
+          {% for key, t in templates.items() %}
+          <option value="{{ key }}" {{ 'selected' if key == tpl_key }}>{{ t.label }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="msg-group">Send to</label>
+        <select id="msg-group" name="group">
+          <option value="premium" {{ 'selected' if group == 'premium' }}>Premium members</option>
+          <option value="expired" {{ 'selected' if group == 'expired' }}>Expired premium</option>
+          <option value="free"    {{ 'selected' if group == 'free' }}>Free users</option>
+          <option value="all"     {{ 'selected' if group == 'all' }}>Everyone</option>
+        </select>
+      </div>
+      <div><button class="btn btn-navy" type="submit">Preview drafts</button></div>
+    </form>
+  </div>
+
+  {% if prepared %}
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>Preview — {{ templates[tpl_key].label }}</h2>
+    <div class="msg-body">{{ prepared[0].body }}</div>
+  </div>
+  {% endif %}
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr>
+        <th>Member</th><th>Plan</th><th>Valid until</th><th>Send</th>
+      </tr></thead>
+      <tbody>
+        {% for p in prepared %}
+        {% set u = p.user %}
+        <tr>
+          <td>{{ u.name }}<div style="color:var(--muted); font-size:12px;">{{ u.email }}</div></td>
+          <td><span class="pill pill-{{ u.tier }}">{{ u.tier }}</span></td>
+          <td>{{ u.tier_expires_at.strftime('%d %b %Y') if u.tier_expires_at else '—' }}</td>
+          <td>
+            <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener"
+               href="mailto:{{ u.email }}?subject={{ p.subject|urlencode }}&body={{ p.body|urlencode }}">✉ Email draft</a>
+            <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener"
+               href="https://wa.me/?text={{ p.body|urlencode }}">💬 WhatsApp</a>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="4" style="text-align:center; padding:40px; color:var(--muted);">No members in this group.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div></div>
+{% endblock %}

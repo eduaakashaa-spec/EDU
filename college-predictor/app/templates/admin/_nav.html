@@ -8,8 +8,13 @@
   .adm-nav a.on{ background:var(--navy); border-color:var(--navy); color:#fff; }
 </style>
 <nav class="adm-nav" aria-label="Admin sections">
-  <a href="{{ url_for('membership.admin_list') }}" class="{{ 'on' if admin_tab == 'memberships' }}">Memberships</a>
+  <a href="{{ url_for('admin_portal.home') }}" class="{{ 'on' if admin_tab == 'overview' }}">Overview</a>
+  <a href="{{ url_for('membership.admin_users') }}" class="{{ 'on' if admin_tab == 'users' }}">Members</a>
+  <a href="{{ url_for('membership.admin_list') }}" class="{{ 'on' if admin_tab == 'memberships' }}">Applications</a>
   <a href="{{ url_for('membership.admin_leads') }}" class="{{ 'on' if admin_tab == 'leads' }}">Leads &amp; Assessments</a>
-  <a href="{{ url_for('membership.admin_inquiries') }}" class="{{ 'on' if admin_tab == 'inquiries' }}">Contact Inquiries</a>
-  <a href="{{ url_for('membership.admin_users') }}" class="{{ 'on' if admin_tab == 'users' }}">Users</a>
+  <a href="{{ url_for('membership.admin_inquiries') }}" class="{{ 'on' if admin_tab == 'inquiries' }}">Inquiries</a>
+  <a href="{{ url_for('admin_portal.announcements') }}" class="{{ 'on' if admin_tab == 'announcements' }}">Announcements</a>
+  <a href="{{ url_for('admin_portal.schedule') }}" class="{{ 'on' if admin_tab == 'schedule' }}">Schedule</a>
+  <a href="{{ url_for('admin_portal.messages') }}" class="{{ 'on' if admin_tab == 'messages' }}">Messages</a>
+  <a href="{{ url_for('main.counsellor_dashboard') }}">DASA Review ↗</a>
 </nav>

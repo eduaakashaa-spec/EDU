@@ -63,4 +63,7 @@ def create_app():
     from app.routes.membership import membership_bp
     app.register_blueprint(membership_bp)
 
+    from app.routes.admin_portal import admin_portal_bp
+    app.register_blueprint(admin_portal_bp)
+
     return app

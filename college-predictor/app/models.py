@@ -103,3 +103,33 @@ class ContactInquiry(db.Model):
     interested = db.Column(db.String(50))
     message = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class Announcement(db.Model):
+    """Admin-posted notices shown on member dashboards (ports the
+    Announcements tab of the legacy Apps Script member portal)."""
+    __tablename__ = 'announcements'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(200), nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    audience = db.Column(db.String(20), nullable=False, default='all')  # all | students | parents
+    pinned = db.Column(db.Boolean, nullable=False, default=False)
+    active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class ScheduleEvent(db.Model):
+    """Exams / counselling events managed by admins and shown to members
+    (ports the Schedule tab of the legacy Apps Script member portal)."""
+    __tablename__ = 'schedule_events'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text)
+    event_type = db.Column(db.String(40), default='Exam')  # Exam | Counselling | Deadline | Webinar | Other
+    location = db.Column(db.String(200))
+    starts_at = db.Column(db.DateTime, nullable=False)
+    ends_at = db.Column(db.DateTime, nullable=True)
+    important = db.Column(db.Boolean, nullable=False, default=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
