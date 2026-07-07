@@ -106,7 +106,7 @@
       <ul class="adm-list" style="margin-top:8px;">
         {% for r in referrals %}
         <li><a class="ref" href="{{ url_for('alumni.admin_detail', alum_id=r.id) }}">{{ r.name }}</a>
-            <span class="mut">{{ r.status }} · {{ r.created_at.strftime('%d %b') if r.created_at }}</span></li>
+            <span class="mut">{{ r.status }} · {{ r.created_at.strftime('%d %b') if r.created_at }}{% if r.id in bonus_ids %} · bonus paid ✓{% endif %}</span></li>
         {% endfor %}
       </ul>
       {% endif %}

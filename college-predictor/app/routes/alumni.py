@@ -36,6 +36,33 @@ STAGES = ('current-student', 'alumni', 'working')
 STATUSES = ('New', 'Verified', 'Active', 'Rejected')
 MEETING_KINDS = ('meeting', 'referral', 'bonus', 'adjustment')
 MEETING_STATUSES = ('Scheduled', 'Completed', 'No-show', 'Cancelled')
+REFERRAL_BONUS_AED = 100   # credited to the referrer on a referred mentor's first completed meeting
+
+
+def _maybe_credit_referral(referred):
+    """When a referred mentor completes their FIRST meeting, credit the referrer
+    with a one-time AED referral bonus. Safe to call after any session log —
+    it self-guards on 'first completed meeting' and is idempotent per referral."""
+    code = referred.referred_by
+    if not code:
+        return
+    first_done = referred.meetings.filter_by(kind='meeting', status='Completed').count()
+    if first_done < 1:
+        return
+    referrer = AlumniProfile.query.filter_by(referral_code=code).first()
+    if not referrer or referrer.id == referred.id:
+        return
+    already = MentorMeeting.query.filter_by(
+        alumni_id=referrer.id, kind='referral',
+        referred_alumni_id=referred.id).first()
+    if already:
+        return
+    db.session.add(MentorMeeting(
+        alumni_id=referrer.id, kind='referral', status='Completed',
+        payout_amount=REFERRAL_BONUS_AED, referred_alumni_id=referred.id,
+        topic=f'Referral bonus — {referred.name} completed their first meeting',
+        meeting_date=datetime.now(timezone.utc).replace(tzinfo=None)))
+    db.session.commit()
 
 
 def _parse_dt(value):
@@ -300,6 +327,12 @@ def _earnings(profile):
             'completed': len(completed)}
 
 
+def _referral_bonus_ids(alumni_id):
+    """Set of referred-mentor ids this mentor has already earned a bonus for."""
+    rows = MentorMeeting.query.filter_by(alumni_id=alumni_id, kind='referral').all()
+    return {m.referred_alumni_id for m in rows if m.referred_alumni_id}
+
+
 @alumni_bp.route('/mentor')
 @mentor_required
 def mentor_dashboard():
@@ -311,6 +344,7 @@ def mentor_dashboard():
     meetings = profile.meetings.order_by(MentorMeeting.created_at.desc()).all()
     referrals = (AlumniProfile.query.filter_by(referred_by=profile.referral_code)
                  .order_by(AlumniProfile.created_at.desc()).all())
+    bonus_ids = _referral_bonus_ids(profile.id)
     messages = profile.messages.order_by(MentorMessage.created_at.asc()).all()
     announcements = (Announcement.query.filter_by(active=True)
                      .order_by(Announcement.pinned.desc(), Announcement.created_at.desc())
@@ -318,7 +352,7 @@ def mentor_dashboard():
     share_link = url_for('alumni.alumni_network', ref=profile.referral_code, _external=True)
     return render_template('mentor/dashboard.html', profile=profile,
                            meetings=meetings, earnings=_earnings(profile),
-                           referrals=referrals, messages=messages,
+                           referrals=referrals, bonus_ids=bonus_ids, messages=messages,
                            announcements=announcements, share_link=share_link)
 
 
@@ -400,6 +434,7 @@ def admin_detail(alum_id):
     messages = alum.messages.order_by(MentorMessage.created_at.asc()).all()
     return render_template('admin/alumni_detail.html', admin_tab='alumni',
                            alum=alum, referrer=referrer, referrals=referrals,
+                           bonus_ids=_referral_bonus_ids(alum.id),
                            meetings=meetings, messages=messages,
                            earnings=_earnings(alum), statuses=STATUSES,
                            meeting_kinds=MEETING_KINDS, meeting_statuses=MEETING_STATUSES)
@@ -438,6 +473,8 @@ def admin_add_meeting(alum_id):
         meeting_date=_parse_dt(request.form.get('meeting_date')),
         notes=(request.form.get('notes') or '').strip()[:2000]))
     db.session.commit()
+    # if this completes the mentor's first meeting, credit their referrer's bonus
+    _maybe_credit_referral(alum)
     flash('Session logged.', 'success')
     return redirect(url_for('alumni.admin_detail', alum_id=alum.id) + '#meetings')
 

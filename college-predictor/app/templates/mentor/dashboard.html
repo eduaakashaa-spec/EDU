@@ -151,10 +151,11 @@
     {% if referrals %}
     <div style="overflow:auto;">
       <table class="mp-tbl">
-        <thead><tr><th>Joined</th><th>Name</th><th>University</th><th>Status</th></tr></thead>
+        <thead><tr><th>Joined</th><th>Name</th><th>University</th><th>Status</th><th>Bonus</th></tr></thead>
         <tbody>
           {% for r in referrals %}
-          <tr><td>{{ r.created_at.strftime('%d %b %Y') if r.created_at }}</td><td>{{ r.name }}</td><td>{{ r.university }}</td><td>{{ r.status }}</td></tr>
+          <tr><td>{{ r.created_at.strftime('%d %b %Y') if r.created_at }}</td><td>{{ r.name }}</td><td>{{ r.university }}</td><td>{{ r.status }}</td>
+            <td>{% if r.id in bonus_ids %}<span class="mp-pill mp-pill--ok">AED 100 ✓</span>{% else %}<span class="mp-pill mp-pill--no">pending</span>{% endif %}</td></tr>
           {% endfor %}
         </tbody>
       </table>

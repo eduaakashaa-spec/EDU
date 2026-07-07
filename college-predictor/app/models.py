@@ -211,6 +211,9 @@ class MentorMeeting(db.Model):
     alumni_id = db.Column(db.Integer, db.ForeignKey('alumni_profiles.id'),
                           nullable=False, index=True)
     kind = db.Column(db.String(20), nullable=False, default='meeting')  # meeting | referral | bonus | adjustment
+    # for auto-credited referral bonuses: which referred mentor triggered this
+    # (a plain id, not an FK — used to credit the bonus exactly once per referral)
+    referred_alumni_id = db.Column(db.Integer, nullable=True, index=True)
     parent_name = db.Column(db.String(150))     # who they met
     topic = db.Column(db.String(200))           # college / topic discussed
     meeting_date = db.Column(db.DateTime)

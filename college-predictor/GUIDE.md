@@ -369,7 +369,11 @@ size — photo ≤3 MB, resume ≤5 MB — stored in Postgres so they survive Re
 redeploys), and a **password**. Submitting creates a login on the new **`mentor`
 tier** (one account per email) and logs them straight into their portal. Every
 registrant gets a **personal referral link** (`/alumni-network?ref=CODE`);
-sign-ups through it are recorded as `referred_by` for bonus tracking.
+sign-ups through it are recorded as `referred_by`. **Referral bonuses are
+automatic** — the moment a referred mentor completes their first meeting, the
+referrer is credited a one-time **AED 100** on their earnings ledger (shown as a
+"referral" session line and an "AED 100 ✓" tag beside that referral). Credited
+exactly once per referred mentor.
 
 **Mentor portal — `/mentor`** (mentor-tier login; the header shows "Mentor
 Portal" for them). Mentors see: their review status, **earnings** (total /
