@@ -41,7 +41,10 @@
   {% set val = (form.get(q.key) if form else '') or '' %}
   <div class="form-group">
     <label for="s-{{ q.key }}">{{ q.label }}{% if q.required %} *{% endif %}</label>
-    {% if q.type == 'choice' %}
+    {% if q.datalist %}
+      <input type="text" id="s-{{ q.key }}" name="{{ q.key }}" value="{{ val }}" list="dl-{{ q.datalist }}"
+             maxlength="200" autocomplete="off" {% if q.required %}required{% endif %} {% if q.ph %}placeholder="{{ q.ph }}"{% endif %}>
+    {% elif q.type == 'choice' %}
       <select id="s-{{ q.key }}" name="{{ q.key }}">
         <option value="">Choose…</option>
         {% for opt in q.options %}<option {{ 'selected' if val == opt }}>{{ opt }}</option>{% endfor %}
@@ -94,7 +97,7 @@
       <div class="section__header">
         <span class="eyebrow">Detailed · No login needed</span>
         <h2 class="section__title">Rate your college</h2>
-        <p class="section__desc">Be honest — the good and the bad. Only your name and college are required.</p>
+        <p class="section__desc">Be honest — the good and the bad. Fields marked * are required; skip the rest if you like.</p>
       </div>
 
       {% with messages = get_flashed_messages(with_categories=true) %}
@@ -105,6 +108,8 @@
 
       <div class="contact-form-card">
         <form class="contact-form" method="post" action="{{ url_for('survey.college_survey') }}">
+          <datalist id="dl-colleges">{% for c in college_options %}<option value="{{ c }}">{% endfor %}</datalist>
+          <datalist id="dl-branches">{% for b in branch_options %}<option value="{{ b }}">{% endfor %}</datalist>
 
           {% for sec in sections %}
           <div class="svy-legend">{{ sec.title }}</div>

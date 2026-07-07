@@ -106,6 +106,45 @@ def get_college_dataset(name):
     return _college_datasets.get(name)
 
 
+# Curated branch / course list for the survey + mentor-form dropdowns. Rendered
+# as a <datalist>, so a value typed outside this list is still accepted.
+BRANCH_OPTIONS = [
+    'Computer Science & Engineering', 'Information Technology',
+    'Artificial Intelligence & Data Science', 'AI & Machine Learning',
+    'Computer Science & Business Systems', 'Cyber Security',
+    'Electronics & Communication Engineering', 'Electrical & Electronics Engineering',
+    'Electrical Engineering', 'Electronics & Instrumentation',
+    'Instrumentation & Control Engineering', 'Mechanical Engineering', 'Mechatronics',
+    'Robotics & Automation', 'Civil Engineering', 'Chemical Engineering',
+    'Aeronautical Engineering', 'Aerospace Engineering', 'Automobile Engineering',
+    'Biotechnology', 'Biomedical Engineering', 'Industrial / Production Engineering',
+    'Metallurgical Engineering', 'Marine Engineering', 'Mining Engineering',
+    'Agricultural Engineering', 'Food Technology', 'Textile Technology',
+    'Architecture', 'Planning', 'Pharmacy',
+    'Business Administration (MBA / BBA)', 'Computer Applications (MCA / BCA)',
+    'Basic Sciences (B.Sc / M.Sc)', 'Commerce', 'Arts / Humanities', 'Other',
+]
+
+
+def get_branch_names():
+    """Curated branch/course list for the survey + mentor-form dropdowns."""
+    return BRANCH_OPTIONS
+
+
+def get_college_names():
+    """Sorted, de-duplicated India college/institute names for the dropdowns,
+    drawn from the datasets already loaded at startup. Foreign / unlisted
+    colleges are still fine — the field is a datalist, not a closed select."""
+    names = set()
+    engg = (_college_datasets or {}).get('engg-colleges-india', {}).get('EA_ENGG_COLLEGES', [])
+    names.update(c['n'].strip() for c in engg if c.get('n'))
+    tnea = ((_college_datasets or {}).get('tnea-expert-guidance', {})
+            .get('EA_TNEA_DATA', {}).get('colleges', []))
+    names.update(c['n'].strip() for c in tnea if c.get('n'))
+    names.update(i.strip() for i in (_institutes or []) if i)
+    return sorted(names, key=str.lower)
+
+
 def _get_type(name):
     if re.search(r'Indian Institute of Technology', name, re.I) and not re.search(r'Information', name, re.I):
         return 'IIT'

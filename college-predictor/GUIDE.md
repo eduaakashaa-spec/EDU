@@ -418,8 +418,9 @@ nav dropdown; share the URL with anyone who's been to a college worth reviewing.
 admission, academics, placements & careers, infrastructure, hostel & food,
 amenities, campus life & safety, administration & support, location &
 surroundings, and a final verdict*. Most are one-tap ratings (Excellent → Poor);
-the rest are quick MCQs and a few short/long text boxes. Only **name and college
-are required** — respondents can skip anything. A checkbox lets them opt in to
+the rest are quick MCQs and a few short/long text boxes. **Name, email, phone,
+college and entrance exam/rank are required** (college & branch are typeable
+dropdowns); everything else is optional. A checkbox lets them opt in to
 the **paid mentor network**, and the thank-you page points them there — so the
 free survey doubles as a mentor-recruitment funnel.
 

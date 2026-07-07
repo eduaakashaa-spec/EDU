@@ -25,6 +25,7 @@ from flask_login import current_user, login_user
 from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import secure_filename
 
+from app.data.loader import get_branch_names
 from app.decorators import admin_required, mentor_required
 from app.extensions import db, bcrypt
 from app.models import (Announcement, AlumniProfile, MentorMeeting,
@@ -190,7 +191,8 @@ def alumni_network():
     ref = (request.args.get('ref') or '').strip()[:16]
 
     if request.method == 'GET':
-        return render_template('alumni_network.html', ref=ref, stages=STAGES)
+        return render_template('alumni_network.html', ref=ref, stages=STAGES,
+                               branch_options=get_branch_names())
 
     # ---- POST: handle registration (multipart form) ----
     def fail(msg, code=400):

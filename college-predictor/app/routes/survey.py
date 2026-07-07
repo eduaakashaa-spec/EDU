@@ -25,6 +25,7 @@ import time
 from flask import (Blueprint, abort, flash, redirect, render_template, request,
                    url_for)
 
+from app.data.loader import get_branch_names, get_college_names
 from app.decorators import admin_required
 from app.extensions import db
 from app.models import CollegeSurvey
@@ -37,29 +38,33 @@ RATING_CHOICES = ['Excellent', 'Good', 'Average', 'Poor']
 # question builders -> plain dicts (keeps SECTIONS readable) ------------------ #
 def _rate(key, label):                      return {'key': key, 'type': 'rating', 'label': label}
 def _choice(key, label, options):           return {'key': key, 'type': 'choice', 'label': label, 'options': options}
-def _short(key, label, ph=''):              return {'key': key, 'type': 'short', 'label': label, 'ph': ph}
-def _long(key, label, ph=''):               return {'key': key, 'type': 'long', 'label': label, 'ph': ph}
+def _short(key, label, ph='', required=False):   return {'key': key, 'type': 'short', 'label': label, 'ph': ph, 'required': required}
+def _long(key, label, ph='', required=False):    return {'key': key, 'type': 'long', 'label': label, 'ph': ph, 'required': required}
 def _scale(key, label):                     return {'key': key, 'type': 'scale', 'label': label}   # 0–10
 def _check(key, label):                     return {'key': key, 'type': 'check', 'label': label}
 def _text(key, label, ph='', required=False, col=True):
     return {'key': key, 'type': 'short', 'label': label, 'ph': ph, 'required': required, 'col': col}
+def _datalist(key, label, source, ph='', required=False, col=True):
+    # a text input backed by a <datalist> (dropdown suggestions + free text)
+    return {'key': key, 'type': 'short', 'label': label, 'ph': ph,
+            'required': required, 'col': col, 'datalist': source}
 
 
 # The survey. Each section: a title, an optional note, and a list of questions.
 SECTIONS = [
-    {'title': 'About you & admission', 'note': 'Only your name and college are required — everything else is optional.', 'questions': [
+    {'title': 'About you & admission', 'note': 'Fields marked * are required.', 'questions': [
         _text('name', 'Your name', 'Full name', required=True),
-        _text('email', 'Email (optional)', 'you@example.com'),
-        _text('phone', 'Phone / WhatsApp (optional)'),
-        _text('institute', 'College / Institute', 'e.g. NIT Trichy', required=True),
+        _text('email', 'Email', 'you@example.com', required=True),
+        _text('phone', 'Phone / WhatsApp', '+91…', required=True),
+        _datalist('institute', 'College / Institute', 'colleges', 'Start typing your college…', required=True),
         _short('campus_city', 'Campus city / location', 'e.g. Tiruchirappalli, TN'),
-        _text('branch', 'Branch / Course', 'e.g. Computer Science'),
+        _datalist('branch', 'Course / Branch / Major', 'branches', 'Start typing your branch…'),
         _choice('degree_level', 'Degree level', ['B.Tech / B.E.', 'M.Tech / M.E.', 'B.Sc / M.Sc', 'MBA / Management', 'Diploma', 'PhD / Research', 'Other']),
         _text('batch', 'Batch / Graduation year', 'e.g. 2024'),
         _choice('status', 'Your status', ['Current student', 'Recent graduate (0–2 yrs)', 'Alumnus — working', 'Alumnus — higher studies']),
         _choice('year_of_study', 'Current / final year', ['1st year', '2nd year', '3rd year', '4th year', '5th year', 'Graduated']),
         _choice('admission_route', 'How you got admission', ['JEE / JOSAA', 'DASA / CIWG', 'State counselling (TNEA etc.)', 'Management / NRI quota', 'SAT / Direct', 'Lateral entry', 'Other']),
-        _short('entrance_exam', 'Entrance exam & rank / percentile (optional)', 'e.g. JEE Main 98.2%ile'),
+        _short('entrance_exam', 'Entrance exam & rank / percentile', 'e.g. JEE Main 98.2%ile', required=True),
         _short('home_state', 'Your home state / country', 'e.g. Kerala'),
         _choice('category', 'Category (optional)', ['General', 'OBC', 'SC', 'ST', 'EWS', 'NRI / Foreign', 'Prefer not to say']),
     ]},
@@ -77,8 +82,9 @@ SECTIONS = [
         _rate('exams', 'Exams & evaluation fairness'),
         _choice('teaching_style', 'Teaching leans towards', ['Mostly theory', 'Balanced', 'Mostly practical']),
         _choice('grading', 'Grading is', ['Lenient', 'Fair', 'Strict']),
-        _choice('attendance', 'Attendance policy', ['Relaxed', 'Moderate', 'Very strict']),
-        _choice('workload', 'Academic workload', ['Light', 'Moderate', 'Heavy']),
+        _short('attendance', 'Attendance policy', 'e.g. 75% mandatory, strictly enforced'),
+        _short('exams_per_sem', 'How many exams per semester?', 'e.g. 2 mid-terms + 1 end-sem'),
+        _short('workload_notes', 'Assignments, labs & overall workload', 'e.g. weekly assignments, heavy lab load'),
     ]},
 
     {'title': 'Placements & careers', 'questions': [
@@ -189,6 +195,7 @@ SECTIONS = [
 # derived lookups
 ALL_QUESTIONS = [q for sec in SECTIONS for q in sec['questions']]
 QUESTION_BY_KEY = {q['key']: q for q in ALL_QUESTIONS}
+REQUIRED_QUESTIONS = [q for q in ALL_QUESTIONS if q.get('required')]
 COLUMN_KEYS = {'name', 'email', 'phone', 'institute', 'branch', 'batch',
                'overall_rating', 'recommend_score', 'wants_to_mentor'}
 
@@ -245,12 +252,18 @@ def _clean(q, raw):
 # --------------------------------------------------------------------------- #
 # Public
 # --------------------------------------------------------------------------- #
+def _render_form(form, done, code=200):
+    return render_template('college_survey.html', sections=SECTIONS,
+                           choices=RATING_CHOICES, form=form, done=done,
+                           college_options=get_college_names(),
+                           branch_options=get_branch_names()), code
+
+
 @survey_bp.route('/college-survey', methods=['GET', 'POST'])
 def college_survey():
     if request.method == 'GET':
-        return render_template('college_survey.html', sections=SECTIONS,
-                               choices=RATING_CHOICES, form=None,
-                               done=request.args.get('done') == '1')
+        html, _ = _render_form(None, request.args.get('done') == '1')
+        return html
 
     f = request.form
     name = (f.get('name') or '').strip()
@@ -258,11 +271,15 @@ def college_survey():
 
     def reshow(msg, code):
         flash(msg, 'error')
-        return render_template('college_survey.html', sections=SECTIONS,
-                               choices=RATING_CHOICES, form=f, done=False), code
+        return _render_form(f, False, code)
 
-    if not name or not institute:
-        return reshow('Please add at least your name and your college.', 400)
+    # every question flagged required must be non-empty
+    missing = [q['label'] for q in REQUIRED_QUESTIONS if not (f.get(q['key']) or '').strip()]
+    if missing:
+        return reshow('Please fill in the required field(s): ' + ', '.join(missing) + '.', 400)
+    email = (f.get('email') or '').strip()
+    if '@' not in email or '.' not in email.split('@')[-1]:
+        return reshow('Please enter a valid email address.', 400)
     if not _rate_ok(_client_ip()):
         return reshow('Too many submissions from your network. Please try again later.', 429)
 

@@ -161,6 +161,7 @@
 
           <form class="contact-form" id="alForm" method="post" action="{{ url_for('alumni.alumni_network') }}" enctype="multipart/form-data">
             <input type="hidden" name="ref" value="{{ ref }}">
+            <datalist id="dl-branches">{% for b in branch_options %}<option value="{{ b }}">{% endfor %}</datalist>
 
             <div class="al-legend">Who you are</div>
             <div class="form-group">
@@ -191,7 +192,7 @@
             </div>
             <div class="form-row">
               <div class="form-group"><label for="al-program">Course / Branch / Major</label>
-                <input type="text" id="al-program" name="program" maxlength="200" placeholder="e.g. Computer Science &amp; Engineering"></div>
+                <input type="text" id="al-program" name="program" maxlength="200" list="dl-branches" autocomplete="off" placeholder="Start typing your branch…"></div>
               <div class="form-group"><label for="al-degree">Degree level</label>
                 <select id="al-degree" name="degree_level">
                   <option value="">Choose…</option>
