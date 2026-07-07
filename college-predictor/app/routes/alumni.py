@@ -3,14 +3,14 @@
 Public:
     GET/POST /alumni-network — landing page + registration form. Passed-out
     and current students at top universities register to mentor parents (paid
-    per meeting). Collects academic details, a photo and a resume, plus a
-    referral code so mentors can invite others.
+    per meeting). Collects academic details, a small photo and a shared resume
+    link, plus a referral code so mentors can invite others.
 
 Admin (admin tier):
     GET  /admin/alumni                 — searchable / filterable list
     GET  /admin/alumni/<id>            — full profile + matching info
     POST /admin/alumni/<id>/update     — status + internal notes
-    GET  /admin/alumni/<id>/resume     — download the resume
+    GET  /admin/alumni/<id>/resume     — download a legacy uploaded resume
     GET  /admin/alumni/<id>/photo      — view the photo
 """
 import io
@@ -36,12 +36,12 @@ STAGES = ('current-student', 'alumni', 'working')
 STATUSES = ('New', 'Verified', 'Active', 'Rejected')
 MEETING_KINDS = ('meeting', 'referral', 'bonus', 'adjustment')
 MEETING_STATUSES = ('Scheduled', 'Completed', 'No-show', 'Cancelled')
-REFERRAL_BONUS_AED = 100   # credited to the referrer on a referred mentor's first completed meeting
+REFERRAL_BONUS_INR = 2000   # ₹ credited to the referrer on a referred mentor's first completed meeting
 
 
 def _maybe_credit_referral(referred):
     """When a referred mentor completes their FIRST meeting, credit the referrer
-    with a one-time AED referral bonus. Safe to call after any session log —
+    with a one-time ₹ referral bonus. Safe to call after any session log —
     it self-guards on 'first completed meeting' and is idempotent per referral."""
     code = referred.referred_by
     if not code:
@@ -59,7 +59,7 @@ def _maybe_credit_referral(referred):
         return
     db.session.add(MentorMeeting(
         alumni_id=referrer.id, kind='referral', status='Completed',
-        payout_amount=REFERRAL_BONUS_AED, referred_alumni_id=referred.id,
+        payout_amount=REFERRAL_BONUS_INR, referred_alumni_id=referred.id,
         topic=f'Referral bonus — {referred.name} completed their first meeting',
         meeting_date=datetime.now(timezone.utc).replace(tzinfo=None)))
     db.session.commit()
@@ -74,24 +74,19 @@ def _parse_dt(value):
     except ValueError:
         return None
 
-# Upload rules. Files are validated by extension AND magic bytes, size-capped,
-# and only ever served back with a fixed disposition + nosniff (see below), so
-# a mislabelled or hostile file can't execute in our origin.
-RESUME_EXT = {'pdf', 'doc', 'docx'}
+# Upload rules. The photo is validated by extension AND magic bytes, capped
+# small, and only ever served back with a fixed disposition + nosniff (see
+# below), so a mislabelled or hostile file can't execute in our origin. Resumes
+# are no longer uploaded — mentors paste a shareable link instead (keeps the
+# multi-MB files out of Postgres); see _safe_http_url.
 PHOTO_EXT = {'jpg', 'jpeg', 'png', 'webp'}
-RESUME_MAX = 5 * 1024 * 1024   # 5 MB
-PHOTO_MAX = 3 * 1024 * 1024    # 3 MB
+PHOTO_MAX = 250 * 1024    # ~200 KB target, 250 KB hard cap
 
 # leading magic bytes per allowed type (photos are strictly validated so an
 # HTML/SVG payload can't masquerade as an image)
 PHOTO_MAGIC = {
     b'\xff\xd8\xff': 'image/jpeg',
     b'\x89PNG\r\n\x1a\n': 'image/png',
-}
-RESUME_MAGIC = {
-    b'%PDF': 'application/pdf',
-    b'PK\x03\x04': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',  # docx (zip)
-    b'\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1': 'application/msword',  # legacy .doc (OLE)
 }
 
 
@@ -114,7 +109,7 @@ def _validate_photo(storage):
         return None, None, 'Photo must be a JPG, PNG or WebP image.'
     data, too_big = _read_capped(storage, PHOTO_MAX)
     if too_big:
-        return None, None, 'Photo is larger than 3 MB. Please upload a smaller image.'
+        return None, None, 'Photo is larger than 250 KB. Please compress it to about 200 KB and try again.'
     if not data:
         return None, None, 'The photo file was empty.'
     if data[:12].startswith(b'RIFF') and data[8:12] == b'WEBP':
@@ -123,27 +118,6 @@ def _validate_photo(storage):
         if data.startswith(magic):
             return data, mime, None
     return None, None, 'That photo does not look like a valid image file.'
-
-
-def _validate_resume(storage):
-    if storage is None or not storage.filename:
-        return None, None, None
-    if _ext(storage.filename) not in RESUME_EXT:
-        return None, None, 'Resume must be a PDF, DOC or DOCX file.'
-    data, too_big = _read_capped(storage, RESUME_MAX)
-    if too_big:
-        return None, None, 'Resume is larger than 5 MB. Please upload a smaller file.'
-    if not data:
-        return None, None, 'The resume file was empty.'
-    for magic, mime in RESUME_MAGIC.items():
-        if data.startswith(magic):
-            return data, mime, None
-    # DOC/DOCX magic can vary; fall back to trusting the (allowlisted) extension.
-    ext = _ext(storage.filename)
-    if ext in ('doc', 'docx'):
-        return data, ('application/msword' if ext == 'doc'
-                      else 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'), None
-    return None, None, 'That resume does not look like a valid PDF/DOC/DOCX.'
 
 
 def _unique_referral_code():
@@ -253,14 +227,16 @@ def alumni_network():
     photo_data, photo_mime, err = _validate_photo(request.files.get('photo'))
     if err:
         return fail(err)
-    resume_data, resume_mime, err = _validate_resume(request.files.get('resume'))
-    if err:
-        return fail(err)
+
+    # Resume is now a shared link (Drive/Dropbox/etc.), not an upload.
+    resume_url = _safe_http_url(f.get('resume_url'), max_len=500)
+    if not resume_url:
+        return fail('Please paste a shareable link to your resume (an http/https URL, '
+                    'e.g. a Google Drive link set to “Anyone with the link”).')
 
     stage = f.get('stage') if f.get('stage') in STAGES else None
     referred_by = _resolve_referrer(f.get('ref') or ref)
     photo_file = request.files.get('photo')
-    resume_file = request.files.get('resume')
 
     # Create the mentor's login account and link the profile to it.
     mentor_user = User(name=name[:120], email=email[:200], tier='mentor',
@@ -287,8 +263,7 @@ def alumni_network():
         availability=(f.get('availability') or '').strip()[:200],
         photo_data=photo_data, photo_mime=photo_mime,
         photo_name=(secure_filename(photo_file.filename)[:255] if photo_data and photo_file else None),
-        resume_data=resume_data, resume_mime=resume_mime,
-        resume_name=(secure_filename(resume_file.filename)[:255] if resume_data and resume_file else None),
+        resume_url=resume_url,
         referral_code=_unique_referral_code(),
         referred_by=(referred_by if referred_by else None),
         consent=True, status='New',
@@ -465,7 +440,7 @@ def admin_add_meeting(alum_id):
         payout = int(request.form.get('payout_amount') or 0)
     except (TypeError, ValueError):
         payout = 0
-    payout = max(0, min(payout, 1_000_000))   # whole AED, sane bound
+    payout = max(0, min(payout, 1_000_000))   # whole INR (₹), sane bound
     db.session.add(MentorMeeting(
         alumni_id=alum.id, kind=kind, status=status, payout_amount=payout,
         parent_name=(request.form.get('parent_name') or '').strip()[:150],

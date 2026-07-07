@@ -81,15 +81,15 @@
   <!-- EARNINGS -->
   <div class="mp-cards">
     <div class="mp-card mp-card--hi">
-      <div class="big"><span class="cur">AED</span>{{ earnings.total }}</div>
+      <div class="big"><span class="cur">₹</span>{{ earnings.total }}</div>
       <div class="lbl">Total earned</div>
     </div>
     <div class="mp-card">
-      <div class="big"><span class="cur">AED</span>{{ earnings.pending }}</div>
+      <div class="big"><span class="cur">₹</span>{{ earnings.pending }}</div>
       <div class="lbl">Pending payout</div>
     </div>
     <div class="mp-card">
-      <div class="big"><span class="cur">AED</span>{{ earnings.paid }}</div>
+      <div class="big"><span class="cur">₹</span>{{ earnings.paid }}</div>
       <div class="lbl">Paid out</div>
     </div>
     <div class="mp-card">
@@ -113,7 +113,7 @@
   <!-- SESSIONS / PAYOUTS -->
   <div class="mp-panel" id="sessions">
     <h2>Your sessions &amp; payouts</h2>
-    <p class="hint">Every meeting and bonus we log for you appears here, with what you'll be paid (in AED).</p>
+    <p class="hint">Every meeting and bonus we log for you appears here, with what you'll be paid (in ₹).</p>
     <div style="overflow:auto;">
       <table class="mp-tbl">
         <thead><tr><th>Date</th><th>Type</th><th>With / topic</th><th>Status</th><th>Payout</th><th>Paid?</th></tr></thead>
@@ -128,7 +128,7 @@
               {% elif m.status == 'Scheduled' %}<span class="mp-pill mp-pill--wait">Scheduled</span>
               {% else %}<span class="mp-pill mp-pill--no">{{ m.status }}</span>{% endif %}
             </td>
-            <td>AED {{ m.payout_amount }}</td>
+            <td>₹{{ m.payout_amount }}</td>
             <td>{% if m.paid %}<span class="mp-pill mp-pill--ok">Paid</span>{% elif m.status == 'Completed' %}<span class="mp-pill mp-pill--wait">Due</span>{% else %}—{% endif %}</td>
           </tr>
           {% else %}
@@ -141,7 +141,7 @@
 
   <!-- REFERRALS -->
   <div class="mp-panel" id="referrals">
-    <h2>Invite &amp; earn — AED 100 per referral</h2>
+    <h2>Invite &amp; earn — ₹2000 per referral</h2>
     <p class="hint">Share your personal link. When a student joins through it and completes their first meeting, you earn a bonus.</p>
     <div class="mp-refbox">
       <input type="text" id="mpRef" value="{{ share_link }}" readonly>
@@ -155,7 +155,7 @@
         <tbody>
           {% for r in referrals %}
           <tr><td>{{ r.created_at.strftime('%d %b %Y') if r.created_at }}</td><td>{{ r.name }}</td><td>{{ r.university }}</td><td>{{ r.status }}</td>
-            <td>{% if r.id in bonus_ids %}<span class="mp-pill mp-pill--ok">AED 100 ✓</span>{% else %}<span class="mp-pill mp-pill--no">pending</span>{% endif %}</td></tr>
+            <td>{% if r.id in bonus_ids %}<span class="mp-pill mp-pill--ok">₹2000 ✓</span>{% else %}<span class="mp-pill mp-pill--no">pending</span>{% endif %}</td></tr>
           {% endfor %}
         </tbody>
       </table>

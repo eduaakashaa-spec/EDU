@@ -60,7 +60,8 @@
         <li><span class="mut">Current role</span><span>{{ alum.current_role or '—' }}</span></li>
       </ul>
       <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-        {% if alum.has_resume %}<a class="btn btn-navy btn-sm" href="{{ url_for('alumni.admin_resume', alum_id=alum.id) }}">⬇ Resume</a>{% endif %}
+        {% if alum.resume_url %}<a class="btn btn-navy btn-sm" href="{{ alum.resume_url }}" target="_blank" rel="noopener nofollow">📄 Resume link ↗</a>
+        {% elif alum.has_resume %}<a class="btn btn-navy btn-sm" href="{{ url_for('alumni.admin_resume', alum_id=alum.id) }}">⬇ Resume</a>{% endif %}
         {% if alum.has_photo %}<a class="btn btn-ghost btn-sm" href="{{ url_for('alumni.admin_photo', alum_id=alum.id) }}" target="_blank" rel="noopener">Open photo ↗</a>{% endif %}
         {% if alum.phone %}<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener"
               href="https://wa.me/{{ alum.phone | replace('+','') | replace(' ','') | replace('-','') }}">💬 WhatsApp</a>{% endif %}
@@ -119,14 +120,14 @@
   <!-- EARNINGS + SESSIONS -->
   <div class="adm-kpis" id="meetings" style="grid-template-columns:repeat(4,1fr);">
     <div class="adm-kpi"><div class="n">{{ earnings.calls }}</div><div class="l">Calls attended</div></div>
-    <div class="adm-kpi"><div class="n">AED {{ earnings.total }}</div><div class="l">Total earned</div></div>
-    <div class="adm-kpi"><div class="n">AED {{ earnings.pending }}</div><div class="l">Pending payout</div></div>
-    <div class="adm-kpi"><div class="n">AED {{ earnings.paid }}</div><div class="l">Paid out</div></div>
+    <div class="adm-kpi"><div class="n">₹{{ earnings.total }}</div><div class="l">Total earned</div></div>
+    <div class="adm-kpi"><div class="n">₹{{ earnings.pending }}</div><div class="l">Pending payout</div></div>
+    <div class="adm-kpi"><div class="n">₹{{ earnings.paid }}</div><div class="l">Paid out</div></div>
   </div>
 
   <div class="adm-card" style="margin-bottom:18px;">
     <h2>Log a session / bonus</h2>
-    <p class="sub">Record a completed meeting (or a referral bonus) and the AED payout the mentor earns.</p>
+    <p class="sub">Record a completed meeting (or a referral bonus) and the ₹ payout the mentor earns.</p>
     <form method="post" action="{{ url_for('alumni.admin_add_meeting', alum_id=alum.id) }}" class="adm-form">
       <div>
         <label>Type</label>
@@ -135,7 +136,7 @@
       <div><label>Date</label><input type="datetime-local" name="meeting_date"></div>
       <div><label>Parent / with</label><input name="parent_name" maxlength="150"></div>
       <div><label>Topic</label><input name="topic" maxlength="200" placeholder="College / branch discussed"></div>
-      <div><label>Payout (AED)</label><input type="number" name="payout_amount" min="0" max="1000000" value="100"></div>
+      <div><label>Payout (₹)</label><input type="number" name="payout_amount" min="0" max="1000000" value="2000"></div>
       <div>
         <label>Status</label>
         <select name="status">{% for s in meeting_statuses %}<option value="{{ s }}" {{ 'selected' if s == 'Completed' }}>{{ s }}</option>{% endfor %}</select>
@@ -155,7 +156,7 @@
           <td>{{ m.kind|capitalize }}</td>
           <td style="white-space:normal; max-width:240px;">{{ m.parent_name or '—' }}{% if m.topic %} · {{ m.topic }}{% endif %}</td>
           <td>{% if m.status == 'Completed' %}<span class="pill pill-premium">{{ m.status }}</span>{% else %}<span class="pill s-New">{{ m.status }}</span>{% endif %}</td>
-          <td>AED {{ m.payout_amount }}</td>
+          <td>₹{{ m.payout_amount }}</td>
           <td>
             <form method="post" action="{{ url_for('alumni.admin_meeting_paid', meeting_id=m.id) }}" style="display:inline;">
               <button class="btn btn-ghost btn-sm" type="submit">{{ 'Paid ✓' if m.paid else 'Mark paid' }}</button>

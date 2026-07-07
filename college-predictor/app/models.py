@@ -174,10 +174,15 @@ class AlumniProfile(db.Model):
     bio = db.Column(db.Text)                     # what they can help parents with
     availability = db.Column(db.String(200))    # preferred times / weekly hours
 
-    # uploads (kept in the DB — Render's disk is wiped on every deploy)
-    resume_data = db.Column(db.LargeBinary)
+    # resume — stored as an external link (Google Drive / Dropbox / etc.) to
+    # keep multi-MB files out of Postgres. The legacy resume_data columns are
+    # retained (nullable) so any pre-link uploads still download.
+    resume_url = db.Column(db.String(500))
+    resume_data = db.Column(db.LargeBinary)     # legacy — new rows use resume_url
     resume_name = db.Column(db.String(255))
     resume_mime = db.Column(db.String(100))
+    # photo is kept in the DB but capped small (~200 KB); Render's disk is wiped
+    # on every deploy so we can't rely on the filesystem for it.
     photo_data = db.Column(db.LargeBinary)
     photo_name = db.Column(db.String(255))
     photo_mime = db.Column(db.String(100))
@@ -194,7 +199,7 @@ class AlumniProfile(db.Model):
 
     @property
     def has_resume(self):
-        return self.resume_data is not None
+        return bool(self.resume_url) or self.resume_data is not None
 
     @property
     def has_photo(self):
@@ -203,7 +208,7 @@ class AlumniProfile(db.Model):
 
 class MentorMeeting(db.Model):
     """A logged session (or referral bonus) for a mentor — the source of the
-    mentor's 'calls attended' count and their AED payout ledger. Admins create
+    mentor's 'calls attended' count and their INR payout ledger. Admins create
     these when a mentor completes a meeting with a parent."""
     __tablename__ = 'mentor_meetings'
 
@@ -218,7 +223,7 @@ class MentorMeeting(db.Model):
     topic = db.Column(db.String(200))           # college / topic discussed
     meeting_date = db.Column(db.DateTime)
     status = db.Column(db.String(20), nullable=False, default='Completed')  # Scheduled | Completed | No-show | Cancelled
-    payout_amount = db.Column(db.Integer, nullable=False, default=0)  # whole AED
+    payout_amount = db.Column(db.Integer, nullable=False, default=0)  # whole INR (₹)
     paid = db.Column(db.Boolean, nullable=False, default=False)
     paid_at = db.Column(db.DateTime, nullable=True)
     notes = db.Column(db.Text)
