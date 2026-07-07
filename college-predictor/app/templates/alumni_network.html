@@ -14,6 +14,12 @@
   .earn-card__t { font-weight:700; color:var(--dark); margin:10px 0 4px; }
   .earn-card__p { font-size:.9rem; color:var(--text-dim); }
 
+  .trust-chips { display:flex; flex-wrap:wrap; gap:9px; margin-top:22px; }
+  .trust-chips span { display:inline-flex; align-items:center; gap:6px; background:var(--white);
+    border:1px solid var(--border); border-radius:999px; padding:7px 14px;
+    font-size:.83rem; font-weight:600; color:var(--dark); }
+  @media (max-width:520px){ .trust-chips span { font-size:.78rem; padding:6px 11px; } }
+
   .al-form-wrap { max-width:760px; margin:0 auto; }
   .al-fieldset { border:none; padding:0; margin:0 0 8px; }
   .al-legend { font-size:.72rem; letter-spacing:1px; text-transform:uppercase; font-weight:700;
@@ -47,10 +53,17 @@
     <div class="hero__content">
       <span class="badge">Alumni &amp; Student Mentor Network</span>
       <h1>You cracked it.<br><span>Now help a family choose right.</span></h1>
-      <p>If you study — or studied — at a top university, parents want to hear from <em>you</em>, not a brochure. Share your real experience in short paid sessions, help families choose the right college, and earn as you do — <strong>₹1000 a meeting</strong>.</p>
+      <p>If you study — or studied — at a top university, parents want the real story from <em>you</em>, not a brochure. Hop on a quick paid session, keep it 100, and get paid for it — <strong>₹1000 a meeting</strong>. <strong>No spam, no pressure</strong> — you show up only when it actually suits you.</p>
       <div class="final-cta__btns" style="margin-top:24px;">
         <a href="#join" class="btn-main">Join the network &rarr;</a>
         <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Ask us anything</a>
+      </div>
+      <div class="trust-chips">
+        <span>🚫 Zero spam</span>
+        <span>⚡ Purely on-demand</span>
+        <span>🗓️ On your schedule</span>
+        <span>✌️ Opt out anytime</span>
+        <span>🔒 Details stay private</span>
       </div>
       {% if ref %}<div class="ref-pill">🎁 You were invited by a mentor — you'll both earn a bonus when you complete your first meeting.</div>{% endif %}
     </div>
@@ -106,6 +119,37 @@
           <div class="info-card__icon">💸</div>
           <div class="info-card__title">You get paid</div>
           <p class="info-card__text">Per meeting, plus referral bonuses — a simple way to earn from what you already lived.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== ON YOUR TERMS ======== -->
+    <section class="section">
+      <div class="section__header">
+        <span class="eyebrow">No catch</span>
+        <h2 class="section__title">No spam. No pressure. Your call, always.</h2>
+        <p class="section__desc">This isn't a hustle that blows up your phone. You're in control the whole way — help out when it fits your life, skip it when it doesn't. Simple as that.</p>
+      </div>
+      <div class="info-cards info-cards--4">
+        <div class="info-card">
+          <div class="info-card__icon">⚡</div>
+          <div class="info-card__title">Purely on-demand</div>
+          <p class="info-card__text">We only reach out when a parent actually wants your college's take. No busywork, no daily grind.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card__icon">🗓️</div>
+          <div class="info-card__title">Your schedule wins</div>
+          <p class="info-card__text">Pick your slots, say no anytime. Between classes, exams and life — you decide what's doable.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card__icon">🚫</div>
+          <div class="info-card__title">Zero spam, promise</div>
+          <p class="info-card__text">No random calls, no mass texts, no selling your info. One clear ping when there's a real session.</p>
+        </div>
+        <div class="info-card">
+          <div class="info-card__icon">✌️</div>
+          <div class="info-card__title">Opt out, no drama</div>
+          <p class="info-card__text">Need a break or want out? Just tell us — you're done. No lock-in, no guilt-trips.</p>
         </div>
       </div>
     </section>

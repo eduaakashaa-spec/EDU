@@ -253,6 +253,9 @@ img { max-width: 100%; display: block; }
 
 /* Membership = primary conversion CTA in the header */
 .header__auth { gap: 8px; }
+
+/* Auth links duplicated inside the nav menu — only surface them on mobile */
+.nav__mobile-auth { display: none; }
 .nav__link--membership {
   background: #E07016;
   color: #fff !important;
@@ -1300,6 +1303,25 @@ img { max-width: 100%; display: block; }
 
   /* Collapse the grouped nav behind the hamburger */
   .header__hamburger { display: flex; }
+
+  /* Tidy the mobile top bar: smaller logo, tighter gaps, and move the
+     Membership/Login CTAs into the menu so the header can't overflow. */
+  .header__inner { gap: 12px; padding: 6px 14px; }
+  .header__logo img { width: 74px; }
+  .header__auth { display: none; }
+
+  .nav__mobile-auth {
+    display: flex;
+    gap: 10px;
+    padding: 14px 24px 8px;
+    margin-top: 6px;
+    border-top: 1px solid var(--border);
+  }
+  .nav__mobile-auth .nav__link {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+  }
 
   .header__nav {
     display: none;

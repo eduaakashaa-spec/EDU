@@ -150,6 +150,19 @@
 
           <li class="nav__item"><a href="{{ url_for('main.about') }}" class="nav__link">About</a></li>
           <li class="nav__item"><a href="{{ url_for('main.contact_alias') }}" class="nav__link">Contact</a></li>
+
+          <!-- Auth/CTA links, shown inside the menu on mobile only (the top-bar
+               .header__auth is hidden ≤1024px to stop the header overflowing) -->
+          <li class="nav__item nav__mobile-auth">
+            <a href="{{ url_for('main.members_registration') }}" class="nav__link nav__link--membership">★ Membership</a>
+            {% if current_user.is_authenticated %}
+              {% if current_user.is_admin %}<a href="{{ url_for('admin_portal.home') }}" class="nav__link nav__link--auth">Admin</a>{% endif %}
+              {% if current_user.is_mentor %}<a href="{{ url_for('alumni.mentor_dashboard') }}" class="nav__link nav__link--auth">Mentor Portal</a>
+              {% else %}<a href="{{ url_for('auth.dashboard') }}" class="nav__link nav__link--auth">Dashboard</a>{% endif %}
+            {% else %}
+              <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth nav__link--ghost">Login</a>
+            {% endif %}
+          </li>
         </ul>
       </nav>
       <div class="header__auth">
