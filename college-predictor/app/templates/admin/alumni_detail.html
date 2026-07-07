@@ -127,7 +127,7 @@
 
   <div class="adm-card" style="margin-bottom:18px;">
     <h2>Log a session / bonus</h2>
-    <p class="sub">Record a completed meeting (or a referral bonus) and the ₹ payout the mentor earns.</p>
+    <p class="sub">Record a session and the ₹ payout the mentor earns. Standard rates: <strong>meeting ₹1000</strong> · <strong>video Q&amp;A ₹500</strong> · <strong>referral ₹1000</strong> (referral bonuses auto-credit on the referred mentor's first meeting).</p>
     <form method="post" action="{{ url_for('alumni.admin_add_meeting', alum_id=alum.id) }}" class="adm-form">
       <div>
         <label>Type</label>
@@ -136,7 +136,7 @@
       <div><label>Date</label><input type="datetime-local" name="meeting_date"></div>
       <div><label>Parent / with</label><input name="parent_name" maxlength="150"></div>
       <div><label>Topic</label><input name="topic" maxlength="200" placeholder="College / branch discussed"></div>
-      <div><label>Payout (₹)</label><input type="number" name="payout_amount" min="0" max="1000000" value="2000"></div>
+      <div><label>Payout (₹)</label><input type="number" name="payout_amount" min="0" max="1000000" value="1000"></div>
       <div>
         <label>Status</label>
         <select name="status">{% for s in meeting_statuses %}<option value="{{ s }}" {{ 'selected' if s == 'Completed' }}>{{ s }}</option>{% endfor %}</select>

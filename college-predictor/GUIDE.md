@@ -349,7 +349,7 @@ choosing one (both under the **More** nav dropdown):
   an honest read of your college (academics, placements, hostel, safety,
   location and more). No login needed; it helps parents choose well.
 - **★ Alumni Mentor Network** (`/alumni-network`) — register to mentor parents in
-  short **paid** sessions (up to ₹2000/meeting) and earn ₹2000 referral bonuses.
+  short **paid** sessions (₹1000/meeting, ₹500/video Q&A) and earn ₹1000 referral bonuses.
 
 ---
 
@@ -371,7 +371,7 @@ All admin pages require an **admin-tier login**; non-admins get a 403.
 
 `/alumni-network` is a **public** recruitment page: alumni and current students
 at top universities register to mentor parents in short paid sessions (the copy
-advertises *up to ₹2000 per meeting* and a *₹2000 referral bonus*). It's
+advertises *₹1000 per meeting, ₹500 per video Q&A, and a ₹1000 referral bonus*). It's
 linked from the **More** nav dropdown — share the URL directly with students you
 want to recruit.
 
@@ -386,8 +386,8 @@ DB), plus a **password**. Submitting creates a login on the new **`mentor` tier*
 registrant gets a **personal referral link** (`/alumni-network?ref=CODE`);
 sign-ups through it are recorded as `referred_by`. **Referral bonuses are
 automatic** — the moment a referred mentor completes their first meeting, the
-referrer is credited a one-time **₹2000** on their earnings ledger (shown as a
-"referral" session line and a "₹2000 ✓" tag beside that referral). Credited
+referrer is credited a one-time **₹1000** on their earnings ledger (shown as a
+"referral" session line and a "₹1000 ✓" tag beside that referral). Credited
 exactly once per referred mentor.
 
 **Mentor portal — `/mentor`** (mentor-tier login; the header shows "Mentor
@@ -402,8 +402,9 @@ scoped to their own account.
 or status, open a profile to see all details, **open the resume link / view the
 photo** (admin-only), set status (New → Verified → Active / Rejected), keep
 internal notes, and see the referral tree. On each profile you can **log a
-session or referral bonus** (with the ₹ payout and Completed/Scheduled/etc.
-status), **mark payouts as paid**, and **reply to the mentor's messages** — all
+session** — kind **meeting** (₹1000), **video** Q&A (₹500), **referral**,
+**bonus** or **adjustment** — with the ₹ payout and Completed/Scheduled/etc.
+status, **mark payouts as paid**, and **reply to the mentor's messages** — all
 of which flow through to that mentor's portal. "Calls attended" counts completed
 `meeting`-type sessions; total earnings sum every completed session's payout.
 
@@ -425,8 +426,10 @@ the **paid mentor network**, and the thank-you page points them there — so the
 free survey doubles as a mentor-recruitment funnel.
 
 **Admins read responses at `/admin/surveys`** (Surveys tab): KPI cards
-(responses, colleges covered, "open to mentoring" leads), search by
-name/college/branch/email, and a per-response detail page that lays out every
+(responses, colleges covered, "open to mentoring" leads), and the responses are
+**grouped by college** (each college is a collapsible section showing its
+responses, most-reviewed colleges first). Search by name/college/branch/email,
+and a per-response detail page that lays out every
 answer grouped by section (colour-coded rating pills, the written notes, and the
 respondent's contact details if they opted in to mentoring). The whole question
 set lives in `routes/survey.py` (one `SECTIONS` list) — **to add or reorder

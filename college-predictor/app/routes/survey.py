@@ -325,7 +325,6 @@ def college_survey():
 @admin_required
 def admin_list():
     q = (request.args.get('q') or '').strip()
-    page = request.args.get('page', 1, type=int)
 
     query = CollegeSurvey.query
     if q:
@@ -334,16 +333,21 @@ def admin_list():
                                     CollegeSurvey.institute.ilike(like),
                                     CollegeSurvey.branch.ilike(like),
                                     CollegeSurvey.email.ilike(like)))
-    pagination = (query.order_by(CollegeSurvey.created_at.desc())
-                  .paginate(page=page, per_page=25, error_out=False))
+    rows = query.order_by(CollegeSurvey.created_at.desc()).all()
+
+    # group responses by college; colleges ordered by most responses, then name
+    by_college = {}
+    for r in rows:
+        by_college.setdefault(r.institute or '—', []).append(r)
+    grouped = sorted(by_college.items(), key=lambda kv: (-len(kv[1]), kv[0].lower()))
+
     stats = {
         'total': CollegeSurvey.query.count(),
         'colleges': db.session.query(CollegeSurvey.institute).distinct().count(),
         'mentor_leads': CollegeSurvey.query.filter_by(wants_to_mentor=True).count(),
     }
     return render_template('admin/surveys_list.html', admin_tab='surveys',
-                           pagination=pagination, rows=pagination.items,
-                           stats=stats, q=q)
+                           grouped=grouped, shown=len(rows), stats=stats, q=q)
 
 
 @survey_bp.route('/admin/surveys/<int:survey_id>')

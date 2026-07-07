@@ -3,6 +3,19 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .svg-college { border:1px solid var(--hairline); border-radius:12px; margin-bottom:12px; background:var(--paper); overflow:hidden; }
+  .svg-college > summary { list-style:none; cursor:pointer; padding:14px 18px; display:flex; align-items:center;
+                           justify-content:space-between; gap:12px; font-weight:700; color:var(--ink); }
+  .svg-college > summary::-webkit-details-marker { display:none; }
+  .svg-college > summary:hover { background:var(--cream); }
+  .svg-college__name { display:flex; align-items:center; gap:10px; }
+  .svg-college__name .caret { transition:transform .15s; color:var(--muted); font-size:12px; }
+  .svg-college[open] > summary .caret { transform:rotate(90deg); }
+  .svg-college__meta { display:flex; gap:8px; align-items:center; flex-wrap:wrap; font-weight:400; }
+  .svg-count { background:var(--navy); color:#fff; border-radius:999px; padding:3px 11px; font-size:12px; font-weight:700; }
+  .svg-college .adm-table-wrap { margin:0; border-top:1px solid var(--hairline); }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -29,50 +42,52 @@
     <a class="btn btn-ghost" href="{{ url_for('survey.admin_list') }}">Reset</a>
   </form>
 
-  <div class="adm-table-wrap">
-    <table class="adm-table">
-      <thead><tr>
-        <th>Date</th><th>Respondent</th><th>College</th><th>Branch</th><th>Batch</th><th>Overall</th><th>Rec.</th><th>Mentor?</th><th></th>
-      </tr></thead>
-      <tbody>
-        {% for s in rows %}
-        <tr>
-          <td>{{ s.created_at.strftime('%d %b %Y') if s.created_at }}</td>
-          <td>{{ s.name }}{% if s.email %}<div style="color:var(--muted); font-size:12px;">{{ s.email }}</div>{% endif %}</td>
-          <td style="white-space:normal; max-width:220px;">{{ s.institute }}</td>
-          <td style="white-space:normal; max-width:160px;">{{ s.branch or '—' }}</td>
-          <td>{{ s.batch or '—' }}</td>
-          <td>
-            {% if s.overall_rating == 'Excellent' %}<span class="pill pill-premium">{{ s.overall_rating }}</span>
-            {% elif s.overall_rating == 'Good' %}<span class="pill s-Approved">{{ s.overall_rating }}</span>
-            {% elif s.overall_rating == 'Poor' %}<span class="pill pill-expired">{{ s.overall_rating }}</span>
-            {% elif s.overall_rating %}<span class="pill s-New">{{ s.overall_rating }}</span>{% else %}—{% endif %}
-          </td>
-          <td>{{ s.recommend_score if s.recommend_score is not none else '—' }}</td>
-          <td>{% if s.wants_to_mentor %}<span class="pill pill-premium">Yes</span>{% else %}—{% endif %}</td>
-          <td><a class="ref" href="{{ url_for('survey.admin_detail', survey_id=s.id) }}">View →</a></td>
-        </tr>
-        {% else %}
-        <tr><td colspan="9" style="text-align:center; padding:40px; color:var(--muted);">
-          No survey responses yet. Share the <a href="{{ url_for('survey.college_survey') }}">college survey page</a> to start collecting.
-        </td></tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+  {% if q %}<p style="color:var(--muted); font-size:13px; margin:-6px 0 14px;">{{ shown }} response(s) across {{ grouped|length }} college(s) matching “{{ q }}”.</p>{% endif %}
 
-  {% if pagination.pages > 1 %}
-  <div class="adm-pager">
-    {% if pagination.has_prev %}<a href="{{ url_for('survey.admin_list', page=pagination.prev_num, q=q) }}">‹ Prev</a>{% endif %}
-    {% for p in pagination.iter_pages() %}
-      {% if p %}
-        {% if p == pagination.page %}<span class="cur">{{ p }}</span>
-        {% else %}<a href="{{ url_for('survey.admin_list', page=p, q=q) }}">{{ p }}</a>{% endif %}
-      {% else %}<span>…</span>{% endif %}
-    {% endfor %}
-    {% if pagination.has_next %}<a href="{{ url_for('survey.admin_list', page=pagination.next_num, q=q) }}">Next ›</a>{% endif %}
-  </div>
-  {% endif %}
+  {% for college, items in grouped %}
+  <details class="svg-college" {% if grouped|length <= 8 %}open{% endif %}>
+    <summary>
+      <span class="svg-college__name"><span class="caret">▶</span>{{ college }}</span>
+      <span class="svg-college__meta">
+        {% set ml = items | selectattr('wants_to_mentor') | list | length %}
+        {% if ml %}<span class="pill pill-premium">{{ ml }} open to mentoring</span>{% endif %}
+        <span class="svg-count">{{ items|length }} response{{ '' if items|length == 1 else 's' }}</span>
+      </span>
+    </summary>
+    <div class="adm-table-wrap">
+      <table class="adm-table">
+        <thead><tr>
+          <th>Date</th><th>Respondent</th><th>Branch</th><th>Batch</th><th>Overall</th><th>Rec.</th><th>Mentor?</th><th></th>
+        </tr></thead>
+        <tbody>
+          {% for s in items %}
+          <tr>
+            <td>{{ s.created_at.strftime('%d %b %Y') if s.created_at }}</td>
+            <td>{{ s.name }}{% if s.email %}<div style="color:var(--muted); font-size:12px;">{{ s.email }}</div>{% endif %}</td>
+            <td style="white-space:normal; max-width:160px;">{{ s.branch or '—' }}</td>
+            <td>{{ s.batch or '—' }}</td>
+            <td>
+              {% if s.overall_rating == 'Excellent' %}<span class="pill pill-premium">{{ s.overall_rating }}</span>
+              {% elif s.overall_rating == 'Good' %}<span class="pill s-Approved">{{ s.overall_rating }}</span>
+              {% elif s.overall_rating == 'Poor' %}<span class="pill pill-expired">{{ s.overall_rating }}</span>
+              {% elif s.overall_rating %}<span class="pill s-New">{{ s.overall_rating }}</span>{% else %}—{% endif %}
+            </td>
+            <td>{{ s.recommend_score if s.recommend_score is not none else '—' }}</td>
+            <td>{% if s.wants_to_mentor %}<span class="pill pill-premium">Yes</span>{% else %}—{% endif %}</td>
+            <td><a class="ref" href="{{ url_for('survey.admin_detail', survey_id=s.id) }}">View →</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
+  {% else %}
+  <div class="adm-table-wrap"><table class="adm-table"><tbody>
+    <tr><td style="text-align:center; padding:40px; color:var(--muted);">
+      {% if q %}No responses match “{{ q }}”.{% else %}No survey responses yet. Share the <a href="{{ url_for('survey.college_survey') }}">college survey page</a> to start collecting.{% endif %}
+    </td></tr>
+  </tbody></table></div>
+  {% endfor %}
 
 </div></div>
 {% endblock %}

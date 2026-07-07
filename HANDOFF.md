@@ -123,7 +123,10 @@ see §6.
     **deliberately exhaustive** "rate your college" survey — 10 sections / ~96
     questions (academics, placements, infra, hostel/food, amenities, campus life &
     safety, admin, location, verdict), mostly one-tap ratings + MCQs + short/long
-    text. Only name + college required. Doubles as a **mentor-recruitment funnel**
+    text. Required: name, email, phone, college, entrance-exam/rank; **college &
+    branch are typeable `<datalist>` dropdowns** (colleges from
+    `loader.get_college_names()`, branches from `get_branch_names()`; branch
+    dropdown also on the mentor form). Doubles as a **mentor-recruitment funnel**
     (opt-in checkbox + thank-you CTA → `/alumni-network`).
   - **Definition-driven:** the whole question set is one `SECTIONS` list in
     `survey.py` — it renders the form, validates the POST (drops unknown keys /
@@ -132,14 +135,15 @@ see §6.
     only name/email/phone/institute/branch/batch/overall_rating/recommend_score/
     wants_to_mentor are first-class columns (for search/sort). **Add/reorder
     questions = edit `SECTIONS`, no DB migration.** Per-IP rate limit (20/hr).
-  - **Admin `/admin/surveys`** (new **Surveys** tab): list + search + KPIs, and a
+  - **Admin `/admin/surveys`** (new **Surveys** tab): responses **grouped by
+    college** (collapsible, most-reviewed first) + search + KPIs, and a
     per-response detail page grouping every answer by section (rating pills +
     written notes + "open to mentoring" contact).
 - **Alumni / Mentor Network** (`routes/alumni.py`, `templates/alumni_network.html`,
   `templates/mentor/dashboard.html`, `templates/admin/alumni_*.html`):
   - Public `/alumni-network` (linked from the **More** nav dropdown): recruits
     alumni/students at top unis to mentor parents in paid sessions. Copy is in
-    **₹** ("up to ₹2000 per meeting", "₹2000 per referral"). Collects academic
+    **₹** ("₹1000 per meeting", "₹500 per video Q&A", "₹1000 per referral"). Collects academic
     details + a **photo** (validated by extension **and magic bytes**, capped
     ~200 KB, stored in Postgres) + a **resume link** (pasted Drive/Dropbox/URL,
     http(s)-validated — only the URL is stored, no more `LargeBinary`) + a
@@ -154,10 +158,11 @@ see §6.
     `/dashboard` redirects mentors here.
   - **Admin `/admin/alumni`** (admin tab): list/search, profile detail, admin-only
     resume-link + photo view (`send_file`, attachment + `nosniff`), status
-    workflow, **log sessions/bonuses with ₹ payout + mark paid**, reply to
-    messages, referral tree.
+    workflow, **log sessions with ₹ payout + mark paid** (kinds: meeting ₹1000 /
+    video Q&A ₹500 / referral / bonus / adjustment), reply to messages, referral
+    tree.
   - **Auto referral bonus:** when a referred mentor completes their **first**
-    meeting, the referrer is credited a one-time **₹2000** (a `kind='referral'`
+    meeting, the referrer is credited a one-time **₹1000** (a `kind='referral'`
     `MentorMeeting`, idempotent via `MentorMeeting.referred_alumni_id`; counts
     toward earnings, not "calls attended"). Logic: `_maybe_credit_referral()` in
     `alumni.py`, called after `admin_add_meeting`. Constant `REFERRAL_BONUS_INR`.

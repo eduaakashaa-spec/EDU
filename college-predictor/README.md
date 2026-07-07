@@ -445,6 +445,26 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
   as a mentor-recruitment funnel. Admin list + per-response detail at
   `/admin/surveys` (new **Surveys** admin tab). Added to `tests/all_pages.json`.
 
+### Phase 18 — Mentor rate card, survey dropdowns & grouping, admin nav (2026)
+- **Mentor payout structure reworked:** **₹1000 per meeting**, new **₹500 per
+  recorded video Q&A** (new `video` meeting kind), and the **referral bonus is
+  now ₹1000** (was ₹2000). Rates shown on the public page, mentor portal and the
+  admin "log a session" form; `MEETING_PAYOUT_INR` / `VIDEO_PAYOUT_INR` /
+  `REFERRAL_BONUS_INR` constants in `routes/alumni.py`.
+- **Survey dropdowns:** College/Institute and Course/Branch/Major are typeable
+  `<datalist>` dropdowns (colleges from the loaded datasets via
+  `loader.get_college_names()`, branches from `loader.get_branch_names()`); the
+  same branch dropdown is on the mentor signup form. Email, phone and entrance
+  exam/rank are now required survey fields; attendance is a free textbox and
+  workload became "exams per semester" + a workload note.
+- **Admin surveys grouped by college:** `/admin/surveys` now groups responses
+  into collapsible per-college sections (most-reviewed first) instead of a flat
+  list.
+- **Admin nav restructured:** the flat 11-item tab bar is now grouped dropdowns —
+  Overview · **People** (Members, Applications) · **Inbox** (Leads, Inquiries) ·
+  **Broadcast** (Announcements, Schedule, Messages) · **Network** (Alumni,
+  Surveys) · DASA Review (`templates/admin/_nav.html`, CSS hover + focus-within).
+
 ## Future Roadmap
 
 - [x] **Server-side prediction** — Pandas-based prediction engine via Flask API endpoints
@@ -466,7 +486,7 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
 - [x] **Premium Membership pages** — 8 full live-site ports gated `@premium_required` (Why CSE, Best Location, Engineering Insights, Hostel & Culture, TNEA Expert, JOSAA EA Members, Expert Portal DASA, Branch Selection Guide); in-page lead forms post to `/api/leads`
 - [x] **EA Team / Counsellor Portal** — admin-only dropdown: in-app Choice Builder PRO + Counsellor Dashboard (live Google-Sheet triage); RBAC replaced the legacy per-page passwords
 - [x] **EA Admin Control Panel** — `/admin` overview + member tier/validity/password management, announcements, schedule, message templates
-- [x] **Alumni / Mentor Network** — public `/alumni-network` signup creates a `mentor`-tier account (photo upload + pasted **resume link**, referral links); **mentor portal `/mentor`** with **₹ earnings/calls/payouts** (₹2000 referral bonus), sessions, referrals, and mentor↔admin messaging; admin review/matching + payout logging at `/admin/alumni`
+- [x] **Alumni / Mentor Network** — public `/alumni-network` signup creates a `mentor`-tier account (photo upload + pasted **resume link**, referral links); **mentor portal `/mentor`** with **₹ earnings/calls/payouts** (rates: ₹1000/meeting, ₹500/video Q&A, ₹1000/referral bonus), sessions, referrals, and mentor↔admin messaging; admin review/matching + payout logging at `/admin/alumni`
 - [x] **College Experience Survey** — free, public `/college-survey` (10 sections, ~96 questions) for students/alumni to rate their college; definition-driven (one `SECTIONS` list in `routes/survey.py`, answers in `CollegeSurvey.responses_json`); admin review at `/admin/surveys`; soft funnel into the mentor network
 - [ ] **Membership PDFs** — invoice/receipt generation (WeasyPrint/ReportLab)
 - [ ] **Membership emails** — application/invoice/receipt notifications

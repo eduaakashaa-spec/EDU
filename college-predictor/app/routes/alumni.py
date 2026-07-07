@@ -35,9 +35,13 @@ alumni_bp = Blueprint('alumni', __name__)
 
 STAGES = ('current-student', 'alumni', 'working')
 STATUSES = ('New', 'Verified', 'Active', 'Rejected')
-MEETING_KINDS = ('meeting', 'referral', 'bonus', 'adjustment')
+MEETING_KINDS = ('meeting', 'video', 'referral', 'bonus', 'adjustment')
 MEETING_STATUSES = ('Scheduled', 'Completed', 'No-show', 'Cancelled')
-REFERRAL_BONUS_INR = 2000   # ₹ credited to the referrer on a referred mentor's first completed meeting
+# standard payouts (₹): a live meeting is 1000, a recorded video Q&A is 500,
+# and a referral bonus is 1000 (credited on the referred mentor's first meeting)
+MEETING_PAYOUT_INR = 1000
+VIDEO_PAYOUT_INR = 500
+REFERRAL_BONUS_INR = 1000
 
 
 def _maybe_credit_referral(referred):

@@ -113,7 +113,7 @@
   <!-- SESSIONS / PAYOUTS -->
   <div class="mp-panel" id="sessions">
     <h2>Your sessions &amp; payouts</h2>
-    <p class="hint">Every meeting and bonus we log for you appears here, with what you'll be paid (in ₹).</p>
+    <p class="hint">Every meeting and bonus we log for you appears here, with what you'll be paid (in ₹). Rates: <strong>₹1000</strong> per meeting · <strong>₹500</strong> per video Q&amp;A · <strong>₹1000</strong> per referral.</p>
     <div style="overflow:auto;">
       <table class="mp-tbl">
         <thead><tr><th>Date</th><th>Type</th><th>With / topic</th><th>Status</th><th>Payout</th><th>Paid?</th></tr></thead>
@@ -141,7 +141,7 @@
 
   <!-- REFERRALS -->
   <div class="mp-panel" id="referrals">
-    <h2>Invite &amp; earn — ₹2000 per referral</h2>
+    <h2>Invite &amp; earn — ₹1000 per referral</h2>
     <p class="hint">Share your personal link. When a student joins through it and completes their first meeting, you earn a bonus.</p>
     <div class="mp-refbox">
       <input type="text" id="mpRef" value="{{ share_link }}" readonly>
@@ -155,7 +155,7 @@
         <tbody>
           {% for r in referrals %}
           <tr><td>{{ r.created_at.strftime('%d %b %Y') if r.created_at }}</td><td>{{ r.name }}</td><td>{{ r.university }}</td><td>{{ r.status }}</td>
-            <td>{% if r.id in bonus_ids %}<span class="mp-pill mp-pill--ok">₹2000 ✓</span>{% else %}<span class="mp-pill mp-pill--no">pending</span>{% endif %}</td></tr>
+            <td>{% if r.id in bonus_ids %}<span class="mp-pill mp-pill--ok">₹1000 ✓</span>{% else %}<span class="mp-pill mp-pill--no">pending</span>{% endif %}</td></tr>
           {% endfor %}
         </tbody>
       </table>
