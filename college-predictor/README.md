@@ -56,7 +56,7 @@ college-predictor/
 └── app/
     ├── __init__.py                 # App factory — create_app(), 3 blueprints
     ├── extensions.py               # db, login_manager, bcrypt instances
-    ├── models.py                   # 5 SQLAlchemy models
+    ├── models.py                   # core SQLAlchemy models (User, leads, alumni/mentor, survey…)
     │
     ├── routes/
     │   ├── main.py                 # main_bp — 19 page routes
@@ -424,6 +424,27 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
   Run: `BASE_URL=http://127.0.0.1:5000 npx playwright test tests/smoke.spec.ts --project=chromium`
   (from the repo root). Verified green locally **and against the live Render deploy**.
 
+### Phase 17 — Mentor network → ₹, resume links, College Survey (2026)
+- **Mentor network currency switched to ₹ (rupees).** All AED copy/labels across
+  the alumni page, mentor portal and admin became `₹`; every ₹100 figure is now
+  **₹2000** (per-meeting, per-referral, referral bonus, admin payout default).
+  `payout_amount` stays an integer — no data migration.
+- **Resumes are now a pasted share link, not a DB upload.** `AlumniProfile` gained
+  a `resume_url` column (http(s)-validated; blocks `javascript:`/`data:`); the
+  multi-MB `LargeBinary` upload was dropped to keep Neon's free tier lean. **Photos
+  stay in the DB** but the cap fell 3 MB → ~200 KB (the form asks mentors to
+  compress). Prod migrated additively (`ADD COLUMN IF NOT EXISTS`).
+- **New: College Experience Survey** (`routes/survey.py`, `templates/college_survey.html`,
+  `templates/admin/surveys_list.html` + `survey_detail.html`). Free, public,
+  deliberately exhaustive `/college-survey` — 10 sections / ~96 questions, mostly
+  one-tap ratings. The entire question set is a single `SECTIONS` list that drives
+  the form, POST validation and admin display; answers land in one
+  `CollegeSurvey.responses_json` blob (a few first-class columns for search/sort),
+  so the survey grows with no schema migration. Per-IP rate-limited; server-side
+  validation drops unknown keys / invalid choices / out-of-range scores. Doubles
+  as a mentor-recruitment funnel. Admin list + per-response detail at
+  `/admin/surveys` (new **Surveys** admin tab). Added to `tests/all_pages.json`.
+
 ## Future Roadmap
 
 - [x] **Server-side prediction** — Pandas-based prediction engine via Flask API endpoints
@@ -445,7 +466,8 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
 - [x] **Premium Membership pages** — 8 full live-site ports gated `@premium_required` (Why CSE, Best Location, Engineering Insights, Hostel & Culture, TNEA Expert, JOSAA EA Members, Expert Portal DASA, Branch Selection Guide); in-page lead forms post to `/api/leads`
 - [x] **EA Team / Counsellor Portal** — admin-only dropdown: in-app Choice Builder PRO + Counsellor Dashboard (live Google-Sheet triage); RBAC replaced the legacy per-page passwords
 - [x] **EA Admin Control Panel** — `/admin` overview + member tier/validity/password management, announcements, schedule, message templates
-- [x] **Alumni / Mentor Network** — public `/alumni-network` signup creates a `mentor`-tier account (resume + photo upload, referral links); **mentor portal `/mentor`** with AED earnings/calls/payouts, sessions, referrals, and mentor↔admin messaging; admin review/matching + payout logging at `/admin/alumni`
+- [x] **Alumni / Mentor Network** — public `/alumni-network` signup creates a `mentor`-tier account (photo upload + pasted **resume link**, referral links); **mentor portal `/mentor`** with **₹ earnings/calls/payouts** (₹2000 referral bonus), sessions, referrals, and mentor↔admin messaging; admin review/matching + payout logging at `/admin/alumni`
+- [x] **College Experience Survey** — free, public `/college-survey` (10 sections, ~96 questions) for students/alumni to rate their college; definition-driven (one `SECTIONS` list in `routes/survey.py`, answers in `CollegeSurvey.responses_json`); admin review at `/admin/surveys`; soft funnel into the mentor network
 - [ ] **Membership PDFs** — invoice/receipt generation (WeasyPrint/ReportLab)
 - [ ] **Membership emails** — application/invoice/receipt notifications
 - [ ] **Sheet → Postgres backfill** — one-time import of legacy data

@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}{{ s.name }} — Survey · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .svd-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px 18px; }
+  .svd-item { display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px dashed var(--hairline); font-size:13px; }
+  .svd-item .k { color:var(--muted); }
+  .svd-item .v { font-weight:600; color:var(--ink); text-align:right; }
+  .svd-long { margin:0 0 12px; }
+  .svd-long .k { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
+  .svd-long .v { white-space:pre-wrap; color:var(--ink); font-size:14px; }
+</style>
+{% endblock %}
+
+{% macro pill(v) %}
+  {% if v == 'Excellent' %}<span class="pill pill-premium">{{ v }}</span>
+  {% elif v == 'Good' %}<span class="pill s-Approved">{{ v }}</span>
+  {% elif v == 'Poor' %}<span class="pill pill-expired">{{ v }}</span>
+  {% else %}<span class="pill s-New">{{ v }}</span>{% endif %}
+{% endmacro %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow"><a href="{{ url_for('survey.admin_list') }}" style="color:var(--navy); text-decoration:none;">← College Surveys</a></div>
+      <h1>{{ s.name }} <span style="font-weight:400; color:var(--muted); font-size:.65em;">· {{ s.institute }}</span></h1>
+    </div>
+    <div>{% if s.wants_to_mentor %}<span class="pill pill-premium">Open to mentoring</span>{% endif %}</div>
+  </div>
+
+  {% include "admin/_nav.html" %}
+
+  <!-- headline verdict -->
+  <div class="adm-kpis" style="grid-template-columns:repeat(4,1fr);">
+    <div class="adm-kpi"><div class="n">{{ s.overall_rating or '—' }}</div><div class="l">Overall rating</div></div>
+    <div class="adm-kpi"><div class="n">{{ s.recommend_score if s.recommend_score is not none else '—' }}{% if s.recommend_score is not none %}<span style="font-size:14px;">/10</span>{% endif %}</div><div class="l">Would recommend</div></div>
+    <div class="adm-kpi"><div class="n">{{ s.email or '—' }}</div><div class="l">Email</div></div>
+    <div class="adm-kpi"><div class="n">{{ s.phone or '—' }}</div><div class="l">Phone</div></div>
+  </div>
+
+  {% set r = s.responses %}
+  {% for sec in sections %}
+    {# collect answered questions in this section (skip name/institute — shown in header) #}
+    {% set ns = namespace(rows=[], longs=[]) %}
+    {% for q in sec.questions %}
+      {% if q.key in ('name', 'institute') %}
+      {% elif q.key in column_keys %}
+        {% set cv = s|attr(q.key) %}
+        {% if cv is not none and cv != '' %}{% set _ = ns.rows.append((q, cv)) %}{% endif %}
+      {% elif r.get(q.key) is not none and r.get(q.key) != '' %}
+        {% if q.type == 'long' %}{% set _ = ns.longs.append((q, r.get(q.key))) %}
+        {% else %}{% set _ = ns.rows.append((q, r.get(q.key))) %}{% endif %}
+      {% endif %}
+    {% endfor %}
+
+    {% if ns.rows or ns.longs %}
+    <div class="adm-card" style="margin-bottom:16px;">
+      <h2>{{ sec.title }}</h2>
+      {% if ns.rows %}
+      <div class="svd-grid">
+        {% for q, v in ns.rows %}
+        <div class="svd-item"><span class="k">{{ q.label }}</span>
+          <span class="v">{% if q.type == 'rating' %}{{ pill(v) }}{% else %}{{ v }}{% endif %}</span></div>
+        {% endfor %}
+      </div>
+      {% endif %}
+      {% for q, v in ns.longs %}
+      <div class="svd-long" style="margin-top:12px;"><div class="k">{{ q.label }}</div><div class="v">{{ v }}</div></div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endfor %}
+
+  <p style="color:var(--muted); font-size:12px;">Submitted {{ s.created_at.strftime('%d %b %Y · %H:%M') if s.created_at }}</p>
+
+</div></div>
+{% endblock %}

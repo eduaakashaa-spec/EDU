@@ -43,7 +43,8 @@ college-predictor/
     __init__.py             # create_app(): registers blueprints, 413 handler, context processor
     decorators.py           # admin_required, premium_required, mentor_required
     models.py               # User, DasaLead, Prediction, Payment, PageLead, ContactInquiry,
-                            #   Announcement, ScheduleEvent, AlumniProfile, MentorMeeting, MentorMessage
+                            #   Announcement, ScheduleEvent, AlumniProfile, MentorMeeting, MentorMessage,
+                            #   CollegeSurvey
     models_membership.py     # MembershipApplication, MembershipInvoice, DocSequence
     routes/
       __init__.py (main_bp) # all public content pages + premium pages (render_reference_page/_premium)
@@ -52,6 +53,7 @@ college-predictor/
       membership.py         # /admin/membership + /admin/leads + /admin/inquiries + /admin/users (admin_required)
       admin_portal.py       # /admin control panel (overview, users, announcements, schedule, messages)
       alumni.py             # Alumni/Mentor network: public /alumni-network, /mentor portal, /admin/alumni
+      survey.py             # College Experience Survey: public /college-survey, /admin/surveys (SECTIONS-driven)
     templates/  static/(css|js|files)
   tests/  -> ../tests/smoke.spec.ts + all_pages.json   (Playwright, 87 pages)
 ```
@@ -115,31 +117,50 @@ see §6.
 
 ## 5. What was built recently (newest first)
 
+- **College Experience Survey** (`routes/survey.py`, `templates/college_survey.html`,
+  `templates/admin/surveys_list.html` + `survey_detail.html`):
+  - Free, public `/college-survey` (linked from the **More** nav dropdown): a
+    **deliberately exhaustive** "rate your college" survey — 10 sections / ~96
+    questions (academics, placements, infra, hostel/food, amenities, campus life &
+    safety, admin, location, verdict), mostly one-tap ratings + MCQs + short/long
+    text. Only name + college required. Doubles as a **mentor-recruitment funnel**
+    (opt-in checkbox + thank-you CTA → `/alumni-network`).
+  - **Definition-driven:** the whole question set is one `SECTIONS` list in
+    `survey.py` — it renders the form, validates the POST (drops unknown keys /
+    invalid choices / out-of-range scores) and drives the admin display. Answers
+    live in a single `CollegeSurvey.responses_json` blob keyed by question id;
+    only name/email/phone/institute/branch/batch/overall_rating/recommend_score/
+    wants_to_mentor are first-class columns (for search/sort). **Add/reorder
+    questions = edit `SECTIONS`, no DB migration.** Per-IP rate limit (20/hr).
+  - **Admin `/admin/surveys`** (new **Surveys** tab): list + search + KPIs, and a
+    per-response detail page grouping every answer by section (rating pills +
+    written notes + "open to mentoring" contact).
 - **Alumni / Mentor Network** (`routes/alumni.py`, `templates/alumni_network.html`,
   `templates/mentor/dashboard.html`, `templates/admin/alumni_*.html`):
   - Public `/alumni-network` (linked from the **More** nav dropdown): recruits
     alumni/students at top unis to mentor parents in paid sessions. Copy is in
-    **AED** ("up to AED 100 per meeting", "AED 100 per referral"). Collects
-    academic details + **photo + resume** (validated by extension **and magic
-    bytes**, size-capped 3MB/5MB, stored as `LargeBinary` in Postgres because
-    Render's disk is ephemeral) + a **password**.
+    **₹** ("up to ₹2000 per meeting", "₹2000 per referral"). Collects academic
+    details + a **photo** (validated by extension **and magic bytes**, capped
+    ~200 KB, stored in Postgres) + a **resume link** (pasted Drive/Dropbox/URL,
+    http(s)-validated — only the URL is stored, no more `LargeBinary`) + a
+    **password**.
   - Registration **creates a `mentor`-tier login** (one per email, race-safe) and
     auto-logs them in. Per-registrant **referral link** `?ref=CODE` recorded as
     `referred_by` (validated against real codes; `javascript:`/non-http URLs
     stripped; per-IP rate limit 10/hr + 10-min email dedup on the endpoint).
-  - **Mentor portal `/mentor`** (`mentor_required`): AED earnings (total/pending/
+  - **Mentor portal `/mentor`** (`mentor_required`): ₹ earnings (total/pending/
     paid) + calls attended, sessions table, referral link + who joined, two-way
     **messages with admins**, editable profile. Header shows "Mentor Portal";
     `/dashboard` redirects mentors here.
   - **Admin `/admin/alumni`** (admin tab): list/search, profile detail, admin-only
-    resume download + photo view (`send_file`, attachment + `nosniff`), status
-    workflow, **log sessions/bonuses with AED payout + mark paid**, reply to
+    resume-link + photo view (`send_file`, attachment + `nosniff`), status
+    workflow, **log sessions/bonuses with ₹ payout + mark paid**, reply to
     messages, referral tree.
   - **Auto referral bonus:** when a referred mentor completes their **first**
-    meeting, the referrer is credited a one-time **AED 100** (a `kind='referral'`
+    meeting, the referrer is credited a one-time **₹2000** (a `kind='referral'`
     `MentorMeeting`, idempotent via `MentorMeeting.referred_alumni_id`; counts
     toward earnings, not "calls attended"). Logic: `_maybe_credit_referral()` in
-    `alumni.py`, called after `admin_add_meeting`.
+    `alumni.py`, called after `admin_add_meeting`. Constant `REFERRAL_BONUS_INR`.
 - **EA Admin Control Panel** (`routes/admin_portal.py`): `/admin` overview (KPIs +
   activity), member management at `/admin/users` (change tier free/premium/admin,
   set/clear validity, reset password, add/delete with lockout guards),
@@ -162,7 +183,7 @@ see §6.
 
 Data lands in Postgres and shows in admin: memberships→`/admin/membership`,
 form/assessment leads→`/admin/leads`, contact→`/admin/inquiries`,
-accounts→`/admin/users`, mentors→`/admin/alumni`.
+accounts→`/admin/users`, mentors→`/admin/alumni`, college surveys→`/admin/surveys`.
 
 ---
 
@@ -211,15 +232,16 @@ accounts→`/admin/users`, mentors→`/admin/alumni`.
 
 - **Change the weak passwords** on prod: `asfaque2004@gmail.com` (currently `123`)
   and set/rotate the admin password.
-- **Payouts are recorded, not settled** — admins log AED payouts + mark them paid,
+- **Payouts are recorded, not settled** — admins log ₹ payouts + mark them paid,
   but money moves offline. A "payouts due" report/export could help.
 - **Referral bonus** auto-credits earnings (done) but there's no payment
   integration — still manual settlement.
 - **Stream Selection** (`/stream-selection`) is still the old placeholder — the
   psychometric assessment page was intentionally deferred; the user has the file
   to hand over when ready (migrate via the `.ported` pipeline).
-- **Uploads at scale:** resumes/photos are in Postgres (fine for low volume; Neon
-  free tier is ~0.5 GB). Move to object storage (S3/Cloudinary) if it grows.
+- **Uploads at scale:** resumes are now **external links** (no DB bytes); mentor
+  **photos** stay in Postgres but capped ~200 KB (fine for low volume; Neon free
+  tier is ~0.5 GB). Move photos to object storage (S3/Cloudinary) if it grows.
 - **Self-host CDN libs** (D3/Chart.js/Leaflet/jsPDF are from CDNs), and consider
   Flask-WTF CSRF + Flask-Limiter for production-grade hardening.
 - **Razorpay / member payments** and membership invoice/receipt PDFs + emails are

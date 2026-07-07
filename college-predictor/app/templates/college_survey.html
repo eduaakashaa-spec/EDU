@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}Rate Your College — Detailed Survey | EduAakashaA{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Studied at any college? Take our free, in-depth survey and give parents an honest, first-hand read of your college — academics, placements, hostel, food, safety, location and more.">
+{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .svy-wrap { max-width:820px; margin:0 auto; }
+  .svy-legend { font-size:.74rem; letter-spacing:1px; text-transform:uppercase; font-weight:800;
+                color:var(--blue); margin:26px 0 4px; padding-top:14px; border-top:2px solid var(--border); }
+  .svy-legend:first-of-type { border-top:none; padding-top:0; margin-top:6px; }
+  .svy-hint { font-size:.85rem; color:var(--text-dim); margin:2px 0 14px; }
+
+  .svy-fields { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-bottom:8px; }
+  .svy-fields .form-group { margin:0; }
+
+  .svy-grid { display:flex; flex-direction:column; gap:6px; margin:6px 0 14px; }
+  .svy-row { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;
+             padding:9px 12px; border:1px solid var(--border); border-radius:10px; background:var(--white); }
+  .svy-aspect { font-weight:600; color:var(--dark); font-size:.9rem; flex:1; min-width:170px; }
+  .svy-opts { display:flex; gap:5px; flex-wrap:wrap; }
+  .svy-opts label { cursor:pointer; }
+  .svy-opts input { position:absolute; opacity:0; width:0; height:0; }
+  .svy-opts span { display:inline-block; padding:5px 11px; border:1.5px solid var(--border); border-radius:999px;
+                   font-size:.78rem; color:var(--text-dim); background:var(--cream); transition:.12s; user-select:none; }
+  .svy-opts input:checked + span { background:var(--blue); border-color:var(--blue); color:#fff; font-weight:700; }
+  .svy-opts label:hover span { border-color:var(--blue); }
+
+  .svy-mentor { display:flex; gap:10px; align-items:flex-start; font-size:.9rem; color:var(--text);
+                margin-top:20px; background:var(--cream); border:1px dashed var(--border); border-radius:10px; padding:14px 16px; }
+  .svy-mentor input { width:auto; margin-top:3px; }
+
+  .svy-success { background:var(--white); border:2px solid var(--green); border-radius:16px; padding:34px 28px; text-align:center; }
+  .svy-success h2 { color:var(--dark); font-size:1.6rem; margin-bottom:10px; }
+</style>
+{% endblock %}
+
+{% macro field(q, form) %}
+  {% set val = (form.get(q.key) if form else '') or '' %}
+  <div class="form-group">
+    <label for="s-{{ q.key }}">{{ q.label }}{% if q.required %} *{% endif %}</label>
+    {% if q.type == 'choice' %}
+      <select id="s-{{ q.key }}" name="{{ q.key }}">
+        <option value="">Choose…</option>
+        {% for opt in q.options %}<option {{ 'selected' if val == opt }}>{{ opt }}</option>{% endfor %}
+      </select>
+    {% elif q.type == 'scale' %}
+      <select id="s-{{ q.key }}" name="{{ q.key }}">
+        <option value="">Choose…</option>
+        {% for n in range(0, 11) %}<option {{ 'selected' if val == n|string }}>{{ n }}</option>{% endfor %}
+      </select>
+    {% else %}
+      {% set itype = 'email' if q.key == 'email' else ('tel' if q.key == 'phone' else 'text') %}
+      <input type="{{ itype }}" id="s-{{ q.key }}" name="{{ q.key }}" value="{{ val }}"
+             maxlength="500" {% if q.required %}required{% endif %} {% if q.ph %}placeholder="{{ q.ph }}"{% endif %}>
+    {% endif %}
+  </div>
+{% endmacro %}
+
+{% block content %}
+<span id="top"></span>
+
+<!-- ======== HERO ======== -->
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">College Experience Survey · Free</span>
+    <h1>Been there? <span>Tell it like it is.</span></h1>
+    <p>Parents choose colleges half-blind. You've actually lived it. This survey is <strong>detailed on purpose</strong> — the more you share, the more it helps a family choose right. Skip anything you like; even a partial response is gold.</p>
+    {% if not done %}<div class="final-cta__btns" style="margin-top:24px;"><a href="#survey" class="btn-main">Start the survey &rarr;</a></div>{% endif %}
+  </div>
+</section>
+
+<main class="main-content">
+  <div class="svy-wrap">
+
+  {% if done %}
+    <!-- ======== THANK YOU ======== -->
+    <div class="svy-success">
+      <h2>🙌 Thank you!</h2>
+      <p style="color:var(--text-dim);">Your honest, detailed take is recorded. This genuinely helps a parent make a better decision for their child.</p>
+      <div style="margin-top:22px; padding-top:20px; border-top:1px dashed var(--border);">
+        <p style="color:var(--dark); font-weight:700; margin-bottom:6px;">Want to earn from what you know?</p>
+        <p style="color:var(--text-dim); font-size:.92rem; margin-bottom:16px;">Join our mentor network and get paid up to ₹2000 per meeting to guide parents one-on-one.</p>
+        <a href="{{ url_for('alumni.alumni_network') }}" class="btn-main">Explore the mentor network →</a>
+      </div>
+    </div>
+
+  {% else %}
+    <!-- ======== SURVEY FORM ======== -->
+    <section class="section" id="survey" style="padding-top:10px;">
+      <div class="section__header">
+        <span class="eyebrow">Detailed · No login needed</span>
+        <h2 class="section__title">Rate your college</h2>
+        <p class="section__desc">Be honest — the good and the bad. Only your name and college are required.</p>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}<div style="margin-bottom:16px;">{% for cat, msg in messages %}
+          <div style="padding:12px 16px; border-radius:8px; font-size:.92rem; background:#fce4e4; color:#a33; border:1px solid #f0bcbc;">{{ msg }}</div>
+        {% endfor %}</div>{% endif %}
+      {% endwith %}
+
+      <div class="contact-form-card">
+        <form class="contact-form" method="post" action="{{ url_for('survey.college_survey') }}">
+
+          {% for sec in sections %}
+          <div class="svy-legend">{{ sec.title }}</div>
+          {% if sec.note %}<p class="svy-hint">{{ sec.note }}</p>{% endif %}
+
+          {# text / choice / scale inputs #}
+          {% set inputs = sec.questions | rejectattr('type', 'equalto', 'rating') | rejectattr('type', 'equalto', 'long') | list %}
+          {% if inputs %}<div class="svy-fields">{% for q in inputs %}{{ field(q, form) }}{% endfor %}</div>{% endif %}
+
+          {# rating grid #}
+          {% set ratings = sec.questions | selectattr('type', 'equalto', 'rating') | list %}
+          {% if ratings %}
+          <div class="svy-grid">
+            {% for q in ratings %}
+            <div class="svy-row">
+              <span class="svy-aspect">{{ q.label }}</span>
+              <div class="svy-opts">
+                {% for c in choices %}
+                <label><input type="radio" name="{{ q.key }}" value="{{ c }}" {{ 'checked' if form and form.get(q.key) == c }}><span>{{ c }}</span></label>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          {# long text #}
+          {% for q in sec.questions if q.type == 'long' %}
+          <div class="form-group">
+            <label for="s-{{ q.key }}">{{ q.label }}</label>
+            <textarea id="s-{{ q.key }}" name="{{ q.key }}" rows="3" maxlength="4000" {% if q.ph %}placeholder="{{ q.ph }}"{% endif %}>{{ (form.get(q.key) if form else '') or '' }}</textarea>
+          </div>
+          {% endfor %}
+          {% endfor %}
+
+          <label class="svy-mentor">
+            <input type="checkbox" name="wants_to_mentor" value="1" {{ 'checked' if form and form.get('wants_to_mentor') }}>
+            <span>I'd be open to <strong>mentoring parents in paid sessions</strong> (up to ₹2000 per meeting). Contact me about the mentor network.</span>
+          </label>
+
+          <button type="submit" class="btn-main" style="margin-top:18px;">Submit survey →</button>
+        </form>
+      </div>
+    </section>
+  {% endif %}
+
+  </div>
+</main>
+{% endblock %}

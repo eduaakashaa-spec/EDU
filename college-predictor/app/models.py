@@ -1,4 +1,5 @@
 """Database models."""
+import json
 from datetime import datetime, timezone
 from flask_login import UserMixin
 from app.extensions import db
@@ -253,3 +254,42 @@ class MentorMessage(db.Model):
     alumni = db.relationship('AlumniProfile',
                              backref=db.backref('messages', lazy='dynamic',
                                                 cascade='all, delete-orphan'))
+
+
+class CollegeSurvey(db.Model):
+    """A free, public, VERY detailed 'rate your college' survey filled in by
+    students / alumni. No payment involved — it collects an exhaustive honest
+    read of a college (dozens of ratings + MCQs + written notes) that the
+    EduAakashaa team uses to advise parents, and doubles as a soft funnel into
+    the paid mentor network.
+
+    Only a few high-value fields are first-class columns (for admin search and
+    sorting); every other answer is stored in a single ``responses_json`` blob
+    keyed by question id. The question set lives in routes/survey.py, so the
+    survey can grow without a schema migration."""
+    __tablename__ = 'college_surveys'
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    # first-class fields (used by the admin list / search / sort)
+    name = db.Column(db.String(150), nullable=False)
+    email = db.Column(db.String(200), index=True)
+    phone = db.Column(db.String(40))
+    institute = db.Column(db.String(200), nullable=False, index=True)
+    branch = db.Column(db.String(200))
+    batch = db.Column(db.String(16))                 # graduating batch / year
+    overall_rating = db.Column(db.String(20))        # Excellent / Good / Average / Poor
+    recommend_score = db.Column(db.Integer)          # 0–10 (would you recommend?)
+    wants_to_mentor = db.Column(db.Boolean, default=False)
+
+    # every other answer, keyed by question id (see routes/survey.py SECTIONS)
+    responses_json = db.Column(db.Text)
+
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    @property
+    def responses(self):
+        try:
+            return json.loads(self.responses_json) if self.responses_json else {}
+        except (ValueError, TypeError):
+            return {}

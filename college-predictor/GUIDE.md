@@ -181,7 +181,8 @@ applications and inquiries, plus recent-activity feeds.
 | Announcements | `/admin/announcements` | Post notices to member dashboards (pin/hide/delete) |
 | Schedule | `/admin/schedule` | Exams & events shown on member dashboards |
 | Messages | `/admin/messages` | Template library — per-member WhatsApp / email drafts with placeholders filled |
-| Alumni | `/admin/alumni` | Alumni mentor registrations — profiles, resume/photo, status & matching, referral tree (see §3.5) |
+| Alumni | `/admin/alumni` | Alumni mentor registrations — profiles, resume link/photo, status & matching, referral tree (see §3.5) |
+| Surveys | `/admin/surveys` | College Experience Survey responses — full per-college breakdown + "open to mentoring" leads (see §3.8) |
 
 ### 3.2b Members — changing a user's plan
 
@@ -339,6 +340,17 @@ submissions, read live from the team Google Sheet), `/choice-builder-pro`
 (in-app allotment analyzer), `/ea-admin-portal` (→ the `/admin` control panel) and
 `/dasa2026-expert-report`.
 
+### 4.5 Give back — for students & alumni
+
+Two things on the site are for people who've *been* to college, not those
+choosing one (both under the **More** nav dropdown):
+
+- **★ Rate Your College** (`/college-survey`) — a free, detailed survey to share
+  an honest read of your college (academics, placements, hostel, safety,
+  location and more). No login needed; it helps parents choose well.
+- **★ Alumni Mentor Network** (`/alumni-network`) — register to mentor parents in
+  short **paid** sessions (up to ₹2000/meeting) and earn ₹2000 referral bonuses.
+
 ---
 
 ## 5. Where the data lives (reference)
@@ -350,7 +362,8 @@ submissions, read live from the team Google Sheet), `/choice-builder-pro`
 | Uses the legacy DASA predict API | `dasa_leads` | `/admin/leads` (bottom section) |
 | Sends the Contact form | `contact_inquiries` | `/admin/inquiries` |
 | Registers an account | `users` | `/admin/users` |
-| Joins the alumni mentor network | `alumni_profiles` (incl. resume + photo) | `/admin/alumni` |
+| Joins the alumni mentor network | `alumni_profiles` (photo in DB, resume as a link) | `/admin/alumni` |
+| Fills the College Experience Survey | `college_surveys` (answers in `responses_json`) | `/admin/surveys` |
 
 All admin pages require an **admin-tier login**; non-admins get a 403.
 
@@ -358,36 +371,63 @@ All admin pages require an **admin-tier login**; non-admins get a 403.
 
 `/alumni-network` is a **public** recruitment page: alumni and current students
 at top universities register to mentor parents in short paid sessions (the copy
-advertises *up to AED 100 per meeting* and an *AED 100 referral bonus*). It's
+advertises *up to ₹2000 per meeting* and a *₹2000 referral bonus*). It's
 linked from the **More** nav dropdown — share the URL directly with students you
 want to recruit.
 
 **Registration → mentor account.** The form collects contact + academic details
 (the matching keys: university, program, degree, admission route, stage),
-languages, availability, a short bio, a **photo + resume** (validated by type and
-size — photo ≤3 MB, resume ≤5 MB — stored in Postgres so they survive Render
-redeploys), and a **password**. Submitting creates a login on the new **`mentor`
-tier** (one account per email) and logs them straight into their portal. Every
+languages, availability, a short bio, a **photo** (validated by type + magic
+bytes, capped ~200 KB, stored in Postgres so it survives Render redeploys) and a
+**resume link** (a shared Google Drive / Dropbox / URL the mentor pastes — set to
+"Anyone with the link"; only the URL is stored, keeping multi-MB files out of the
+DB), plus a **password**. Submitting creates a login on the new **`mentor` tier**
+(one account per email) and logs them straight into their portal. Every
 registrant gets a **personal referral link** (`/alumni-network?ref=CODE`);
 sign-ups through it are recorded as `referred_by`. **Referral bonuses are
 automatic** — the moment a referred mentor completes their first meeting, the
-referrer is credited a one-time **AED 100** on their earnings ledger (shown as a
-"referral" session line and an "AED 100 ✓" tag beside that referral). Credited
+referrer is credited a one-time **₹2000** on their earnings ledger (shown as a
+"referral" session line and a "₹2000 ✓" tag beside that referral). Credited
 exactly once per referred mentor.
 
 **Mentor portal — `/mentor`** (mentor-tier login; the header shows "Mentor
 Portal" for them). Mentors see: their review status, **earnings** (total /
-pending / paid, all in AED) and **calls attended**, a table of their logged
+pending / paid, all in ₹) and **calls attended**, a table of their logged
 sessions + payouts, their **referral link + who joined through it**, a **message
 thread with the team**, and an editable profile (contact / languages /
 availability / bio; academic fields are locked). Everything a mentor sees is
 scoped to their own account.
 
 **Admins manage it at `/admin/alumni`** (admin tab): search/filter by university
-or status, open a profile to see all details, **download the resume / view the
+or status, open a profile to see all details, **open the resume link / view the
 photo** (admin-only), set status (New → Verified → Active / Rejected), keep
 internal notes, and see the referral tree. On each profile you can **log a
-session or referral bonus** (with the AED payout and Completed/Scheduled/etc.
+session or referral bonus** (with the ₹ payout and Completed/Scheduled/etc.
 status), **mark payouts as paid**, and **reply to the mentor's messages** — all
 of which flow through to that mentor's portal. "Calls attended" counts completed
 `meeting`-type sessions; total earnings sum every completed session's payout.
+
+### 3.8 College Experience Survey
+
+`/college-survey` is a **free, public** survey (no payment to anyone) where a
+student or alumnus of **any** college gives an honest, first-hand read of it —
+the raw material the team uses to advise parents. It's linked from the **More**
+nav dropdown; share the URL with anyone who's been to a college worth reviewing.
+
+**It's deliberately detailed** — 10 sections (~96 questions): *about you &
+admission, academics, placements & careers, infrastructure, hostel & food,
+amenities, campus life & safety, administration & support, location &
+surroundings, and a final verdict*. Most are one-tap ratings (Excellent → Poor);
+the rest are quick MCQs and a few short/long text boxes. Only **name and college
+are required** — respondents can skip anything. A checkbox lets them opt in to
+the **paid mentor network**, and the thank-you page points them there — so the
+free survey doubles as a mentor-recruitment funnel.
+
+**Admins read responses at `/admin/surveys`** (Surveys tab): KPI cards
+(responses, colleges covered, "open to mentoring" leads), search by
+name/college/branch/email, and a per-response detail page that lays out every
+answer grouped by section (colour-coded rating pills, the written notes, and the
+respondent's contact details if they opted in to mentoring). The whole question
+set lives in `routes/survey.py` (one `SECTIONS` list) — **to add or reorder
+questions, edit that list; no database migration is needed** (answers live in a
+single `responses_json` column).

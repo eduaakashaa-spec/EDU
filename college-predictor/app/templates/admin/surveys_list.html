@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}College Surveys — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · College Surveys</div>
+      <h1>College Experience Surveys</h1>
+    </div>
+  </div>
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-kpis">
+    <div class="adm-kpi"><div class="n">{{ stats.total }}</div><div class="l">Responses</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.colleges }}</div><div class="l">Colleges covered</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.mentor_leads }}</div><div class="l">Open to mentoring</div></div>
+  </div>
+
+  <form class="adm-bar" method="get" action="{{ url_for('survey.admin_list') }}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search name, college, branch, email…" style="flex:1; min-width:200px;">
+    <button class="btn btn-navy" type="submit">Search</button>
+    <a class="btn btn-ghost" href="{{ url_for('survey.admin_list') }}">Reset</a>
+  </form>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr>
+        <th>Date</th><th>Respondent</th><th>College</th><th>Branch</th><th>Batch</th><th>Overall</th><th>Rec.</th><th>Mentor?</th><th></th>
+      </tr></thead>
+      <tbody>
+        {% for s in rows %}
+        <tr>
+          <td>{{ s.created_at.strftime('%d %b %Y') if s.created_at }}</td>
+          <td>{{ s.name }}{% if s.email %}<div style="color:var(--muted); font-size:12px;">{{ s.email }}</div>{% endif %}</td>
+          <td style="white-space:normal; max-width:220px;">{{ s.institute }}</td>
+          <td style="white-space:normal; max-width:160px;">{{ s.branch or '—' }}</td>
+          <td>{{ s.batch or '—' }}</td>
+          <td>
+            {% if s.overall_rating == 'Excellent' %}<span class="pill pill-premium">{{ s.overall_rating }}</span>
+            {% elif s.overall_rating == 'Good' %}<span class="pill s-Approved">{{ s.overall_rating }}</span>
+            {% elif s.overall_rating == 'Poor' %}<span class="pill pill-expired">{{ s.overall_rating }}</span>
+            {% elif s.overall_rating %}<span class="pill s-New">{{ s.overall_rating }}</span>{% else %}—{% endif %}
+          </td>
+          <td>{{ s.recommend_score if s.recommend_score is not none else '—' }}</td>
+          <td>{% if s.wants_to_mentor %}<span class="pill pill-premium">Yes</span>{% else %}—{% endif %}</td>
+          <td><a class="ref" href="{{ url_for('survey.admin_detail', survey_id=s.id) }}">View →</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="9" style="text-align:center; padding:40px; color:var(--muted);">
+          No survey responses yet. Share the <a href="{{ url_for('survey.college_survey') }}">college survey page</a> to start collecting.
+        </td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if pagination.pages > 1 %}
+  <div class="adm-pager">
+    {% if pagination.has_prev %}<a href="{{ url_for('survey.admin_list', page=pagination.prev_num, q=q) }}">‹ Prev</a>{% endif %}
+    {% for p in pagination.iter_pages() %}
+      {% if p %}
+        {% if p == pagination.page %}<span class="cur">{{ p }}</span>
+        {% else %}<a href="{{ url_for('survey.admin_list', page=p, q=q) }}">{{ p }}</a>{% endif %}
+      {% else %}<span>…</span>{% endif %}
+    {% endfor %}
+    {% if pagination.has_next %}<a href="{{ url_for('survey.admin_list', page=pagination.next_num, q=q) }}">Next ›</a>{% endif %}
+  </div>
+  {% endif %}
+
+</div></div>
+{% endblock %}
