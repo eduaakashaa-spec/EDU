@@ -29,6 +29,19 @@ def admin_required(f):
     return wrapped
 
 
+def mentor_required(f):
+    """Allow only logged-in mentor-tier users (the alumni mentor portal)."""
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        if not current_user.is_authenticated:
+            flash('Please log in to your mentor account.', 'info')
+            return redirect(url_for('auth.login', next=request.path))
+        if not current_user.is_mentor:
+            abort(403)
+        return f(*args, **kwargs)
+    return wrapped
+
+
 def premium_required(f):
     """Allow only Premium (or admin) members.
 

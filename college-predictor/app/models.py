@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(256), nullable=False)
-    tier = db.Column(db.String(20), nullable=False, default='free')  # free | premium | admin
+    tier = db.Column(db.String(20), nullable=False, default='free')  # free | premium | admin | mentor
     tier_expires_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
@@ -36,6 +36,10 @@ class User(UserMixin, db.Model):
     @property
     def is_admin(self):
         return self.tier == 'admin'
+
+    @property
+    def is_mentor(self):
+        return self.tier == 'mentor'
 
 
 class DasaLead(db.Model):
@@ -145,6 +149,11 @@ class AlumniProfile(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
+    # the mentor's login account (tier='mentor'); nullable so a profile can
+    # exist without an account (e.g. admin-imported) and vice versa
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True, index=True)
+    user = db.relationship('User', backref=db.backref('alumni_profile', uselist=False))
+
     # identity / contact
     name = db.Column(db.String(150), nullable=False)
     email = db.Column(db.String(200), nullable=False, index=True)
@@ -190,3 +199,49 @@ class AlumniProfile(db.Model):
     @property
     def has_photo(self):
         return self.photo_data is not None
+
+
+class MentorMeeting(db.Model):
+    """A logged session (or referral bonus) for a mentor — the source of the
+    mentor's 'calls attended' count and their AED payout ledger. Admins create
+    these when a mentor completes a meeting with a parent."""
+    __tablename__ = 'mentor_meetings'
+
+    id = db.Column(db.Integer, primary_key=True)
+    alumni_id = db.Column(db.Integer, db.ForeignKey('alumni_profiles.id'),
+                          nullable=False, index=True)
+    kind = db.Column(db.String(20), nullable=False, default='meeting')  # meeting | referral | bonus | adjustment
+    parent_name = db.Column(db.String(150))     # who they met
+    topic = db.Column(db.String(200))           # college / topic discussed
+    meeting_date = db.Column(db.DateTime)
+    status = db.Column(db.String(20), nullable=False, default='Completed')  # Scheduled | Completed | No-show | Cancelled
+    payout_amount = db.Column(db.Integer, nullable=False, default=0)  # whole AED
+    paid = db.Column(db.Boolean, nullable=False, default=False)
+    paid_at = db.Column(db.DateTime, nullable=True)
+    notes = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    alumni = db.relationship('AlumniProfile',
+                             backref=db.backref('meetings', lazy='dynamic',
+                                                cascade='all, delete-orphan'))
+
+    @property
+    def counts_as_call(self):
+        return self.kind == 'meeting' and self.status == 'Completed'
+
+
+class MentorMessage(db.Model):
+    """A message in the mentor ↔ admin thread. Mentors send from their portal;
+    admins read/reply from the alumni detail page."""
+    __tablename__ = 'mentor_messages'
+
+    id = db.Column(db.Integer, primary_key=True)
+    alumni_id = db.Column(db.Integer, db.ForeignKey('alumni_profiles.id'),
+                          nullable=False, index=True)
+    sender = db.Column(db.String(10), nullable=False)   # 'mentor' | 'admin'
+    body = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    alumni = db.relationship('AlumniProfile',
+                             backref=db.backref('messages', lazy='dynamic',
+                                                cascade='all, delete-orphan'))

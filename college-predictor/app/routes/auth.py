@@ -82,6 +82,10 @@ def dashboard():
     from datetime import datetime, timedelta, timezone
     from app.models import Announcement, ScheduleEvent
 
+    # mentors have their own portal
+    if current_user.is_mentor:
+        return redirect(url_for('alumni.mentor_dashboard'))
+
     announcements = (Announcement.query.filter_by(active=True)
                      .order_by(Announcement.pinned.desc(),
                                Announcement.created_at.desc())

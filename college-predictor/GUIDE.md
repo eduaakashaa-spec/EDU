@@ -186,7 +186,7 @@ applications and inquiries, plus recent-activity feeds.
 ### 3.2b Members — changing a user's plan
 
 Open **Members**, find the account (search or tier filter), click **Manage ▾**:
-pick the plan (free / premium / admin), set a **Valid until** date (or tick
+pick the plan (free / premium / admin / mentor), set a **Valid until** date (or tick
 *no expiry*), and **Save plan**. The change takes effect on the member's next
 page load. Guards: you cannot remove your own admin access, and admins must be
 demoted before they can be deleted. **Reset password** and **Delete** live in
@@ -358,19 +358,32 @@ All admin pages require an **admin-tier login**; non-admins get a 403.
 
 `/alumni-network` is a **public** recruitment page: alumni and current students
 at top universities register to mentor parents in short paid sessions (the copy
-advertises *up to $100 per meeting* and an *AED 100 referral bonus*). It's linked
-from the **More** nav dropdown — share the URL directly with students you want to
-recruit.
+advertises *up to AED 100 per meeting* and an *AED 100 referral bonus*). It's
+linked from the **More** nav dropdown — share the URL directly with students you
+want to recruit.
 
-- The form collects contact + academic details (the matching keys: university,
-  program, degree, admission route, stage), languages, availability, a short bio,
-  and a **photo + resume** (validated by type and size — photo ≤3 MB, resume ≤5 MB —
-  and stored in Postgres so they survive Render redeploys).
-- Every registrant gets a **personal referral link** (`/alumni-network?ref=CODE`);
-  anyone who signs up through it is recorded as `referred_by`, so you can track and
-  pay referral bonuses.
-- **Admins** manage everything at `/admin/alumni`: search/filter by university or
-  status, open a profile to see all details, **download the resume / view the
-  photo** (admin-only), set status (New → Verified → Active / Rejected), keep
-  internal notes, and see the person's referral tree. Resume/photo files are served
-  only to logged-in admins.
+**Registration → mentor account.** The form collects contact + academic details
+(the matching keys: university, program, degree, admission route, stage),
+languages, availability, a short bio, a **photo + resume** (validated by type and
+size — photo ≤3 MB, resume ≤5 MB — stored in Postgres so they survive Render
+redeploys), and a **password**. Submitting creates a login on the new **`mentor`
+tier** (one account per email) and logs them straight into their portal. Every
+registrant gets a **personal referral link** (`/alumni-network?ref=CODE`);
+sign-ups through it are recorded as `referred_by` for bonus tracking.
+
+**Mentor portal — `/mentor`** (mentor-tier login; the header shows "Mentor
+Portal" for them). Mentors see: their review status, **earnings** (total /
+pending / paid, all in AED) and **calls attended**, a table of their logged
+sessions + payouts, their **referral link + who joined through it**, a **message
+thread with the team**, and an editable profile (contact / languages /
+availability / bio; academic fields are locked). Everything a mentor sees is
+scoped to their own account.
+
+**Admins manage it at `/admin/alumni`** (admin tab): search/filter by university
+or status, open a profile to see all details, **download the resume / view the
+photo** (admin-only), set status (New → Verified → Active / Rejected), keep
+internal notes, and see the referral tree. On each profile you can **log a
+session or referral bonus** (with the AED payout and Completed/Scheduled/etc.
+status), **mark payouts as paid**, and **reply to the mentor's messages** — all
+of which flow through to that mentor's portal. "Calls attended" counts completed
+`meeting`-type sessions; total earnings sum every completed session's payout.

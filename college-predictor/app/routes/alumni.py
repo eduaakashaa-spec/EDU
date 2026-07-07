@@ -21,16 +21,31 @@ from datetime import datetime, timedelta, timezone
 
 from flask import (Blueprint, abort, flash, jsonify, redirect, render_template,
                    request, send_file, url_for)
+from flask_login import current_user, login_user
+from sqlalchemy.exc import IntegrityError
 from werkzeug.utils import secure_filename
 
-from app.decorators import admin_required
-from app.extensions import db
-from app.models import AlumniProfile
+from app.decorators import admin_required, mentor_required
+from app.extensions import db, bcrypt
+from app.models import (Announcement, AlumniProfile, MentorMeeting,
+                        MentorMessage, User)
 
 alumni_bp = Blueprint('alumni', __name__)
 
 STAGES = ('current-student', 'alumni', 'working')
 STATUSES = ('New', 'Verified', 'Active', 'Rejected')
+MEETING_KINDS = ('meeting', 'referral', 'bonus', 'adjustment')
+MEETING_STATUSES = ('Scheduled', 'Completed', 'No-show', 'Cancelled')
+
+
+def _parse_dt(value):
+    value = (value or '').strip()
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(value)
+    except ValueError:
+        return None
 
 # Upload rules. Files are validated by extension AND magic bytes, size-capped,
 # and only ever served back with a fixed disposition + nosniff (see below), so
@@ -187,13 +202,20 @@ def alumni_network():
     name = (f.get('name') or '').strip()
     email = (f.get('email') or '').strip().lower()
     university = (f.get('university') or '').strip()
+    password = f.get('password') or ''
 
     if not name or not email or not university:
         return fail('Name, email and university are required.')
     if '@' not in email or '.' not in email.split('@')[-1]:
         return fail('Please enter a valid email address.')
+    if len(password) < 6:
+        return fail('Please choose a password of at least 6 characters for your mentor account.')
     if not f.get('consent'):
         return fail('Please agree to be contacted so we can match you with parents.')
+
+    # A mentor login is created for each registrant — one account per email.
+    if User.query.filter_by(email=email).first():
+        return fail('An account with this email already exists. Please log in instead.')
 
     # de-dup accidental / scripted re-submits of the same email
     recent_cutoff = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(minutes=10)
@@ -213,7 +235,14 @@ def alumni_network():
     photo_file = request.files.get('photo')
     resume_file = request.files.get('resume')
 
+    # Create the mentor's login account and link the profile to it.
+    mentor_user = User(name=name[:120], email=email[:200], tier='mentor',
+                       password_hash=bcrypt.generate_password_hash(password).decode())
+    db.session.add(mentor_user)
+    db.session.flush()   # assign mentor_user.id before linking
+
     profile = AlumniProfile(
+        user_id=mentor_user.id,
         name=name[:150], email=email[:200],
         phone=(f.get('phone') or '').strip()[:40],
         country=(f.get('country') or '').strip()[:80],
@@ -238,12 +267,92 @@ def alumni_network():
         consent=True, status='New',
     )
     db.session.add(profile)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except IntegrityError:
+        # e.g. two submissions racing on the unique email / referral code
+        db.session.rollback()
+        return fail('An account with this email already exists. Please log in instead.')
+
+    # log them straight into their new mentor portal
+    login_user(mentor_user)
 
     share_link = url_for('alumni.alumni_network', ref=profile.referral_code, _external=True)
     return jsonify({'ok': True, 'name': profile.name.split(' ')[0],
                     'referral_code': profile.referral_code,
-                    'share_link': share_link})
+                    'share_link': share_link,
+                    'dashboard_url': url_for('alumni.mentor_dashboard')})
+
+
+# --------------------------------------------------------------------------- #
+# Mentor portal (mentor tier)
+# --------------------------------------------------------------------------- #
+def _my_profile():
+    return AlumniProfile.query.filter_by(user_id=current_user.id).first()
+
+
+def _earnings(profile):
+    completed = [m for m in profile.meetings if m.status == 'Completed']
+    calls = sum(1 for m in completed if m.kind == 'meeting')
+    total = sum(m.payout_amount for m in completed)
+    paid = sum(m.payout_amount for m in completed if m.paid)
+    return {'calls': calls, 'total': total, 'paid': paid, 'pending': total - paid,
+            'completed': len(completed)}
+
+
+@alumni_bp.route('/mentor')
+@mentor_required
+def mentor_dashboard():
+    profile = _my_profile()
+    if profile is None:
+        flash('Finish setting up your mentor profile to continue.', 'info')
+        return redirect(url_for('alumni.alumni_network'))
+
+    meetings = profile.meetings.order_by(MentorMeeting.created_at.desc()).all()
+    referrals = (AlumniProfile.query.filter_by(referred_by=profile.referral_code)
+                 .order_by(AlumniProfile.created_at.desc()).all())
+    messages = profile.messages.order_by(MentorMessage.created_at.asc()).all()
+    announcements = (Announcement.query.filter_by(active=True)
+                     .order_by(Announcement.pinned.desc(), Announcement.created_at.desc())
+                     .limit(5).all())
+    share_link = url_for('alumni.alumni_network', ref=profile.referral_code, _external=True)
+    return render_template('mentor/dashboard.html', profile=profile,
+                           meetings=meetings, earnings=_earnings(profile),
+                           referrals=referrals, messages=messages,
+                           announcements=announcements, share_link=share_link)
+
+
+@alumni_bp.route('/mentor/message', methods=['POST'])
+@mentor_required
+def mentor_message():
+    profile = _my_profile()
+    if profile is None:
+        abort(404)
+    body = (request.form.get('body') or '').strip()[:4000]
+    if body:
+        db.session.add(MentorMessage(alumni_id=profile.id, sender='mentor', body=body))
+        db.session.commit()
+        flash('Message sent to the EduAakashaa team.', 'success')
+    return redirect(url_for('alumni.mentor_dashboard') + '#messages')
+
+
+@alumni_bp.route('/mentor/profile', methods=['POST'])
+@mentor_required
+def mentor_profile_update():
+    """Let mentors keep the fields most useful for matching current."""
+    profile = _my_profile()
+    if profile is None:
+        abort(404)
+    profile.phone = (request.form.get('phone') or '').strip()[:40]
+    profile.country = (request.form.get('country') or '').strip()[:80]
+    profile.city = (request.form.get('city') or '').strip()[:80]
+    profile.languages = (request.form.get('languages') or '').strip()[:200]
+    profile.availability = (request.form.get('availability') or '').strip()[:200]
+    profile.linkedin = _safe_http_url(request.form.get('linkedin'))
+    profile.bio = (request.form.get('bio') or '').strip()[:4000]
+    db.session.commit()
+    flash('Profile updated.', 'success')
+    return redirect(url_for('alumni.mentor_dashboard') + '#profile')
 
 
 # --------------------------------------------------------------------------- #
@@ -287,9 +396,13 @@ def admin_detail(alum_id):
                 if alum.referred_by else None)
     referrals = (AlumniProfile.query.filter_by(referred_by=alum.referral_code)
                  .order_by(AlumniProfile.created_at.desc()).all())
+    meetings = alum.meetings.order_by(MentorMeeting.created_at.desc()).all()
+    messages = alum.messages.order_by(MentorMessage.created_at.asc()).all()
     return render_template('admin/alumni_detail.html', admin_tab='alumni',
                            alum=alum, referrer=referrer, referrals=referrals,
-                           statuses=STATUSES)
+                           meetings=meetings, messages=messages,
+                           earnings=_earnings(alum), statuses=STATUSES,
+                           meeting_kinds=MEETING_KINDS, meeting_statuses=MEETING_STATUSES)
 
 
 @alumni_bp.route('/admin/alumni/<int:alum_id>/update', methods=['POST'])
@@ -303,6 +416,64 @@ def admin_update(alum_id):
     db.session.commit()
     flash(f'{alum.name} updated ({alum.status}).', 'success')
     return redirect(url_for('alumni.admin_detail', alum_id=alum.id))
+
+
+@alumni_bp.route('/admin/alumni/<int:alum_id>/meeting', methods=['POST'])
+@admin_required
+def admin_add_meeting(alum_id):
+    alum = db.session.get(AlumniProfile, alum_id) or abort(404)
+    kind = request.form.get('kind')
+    kind = kind if kind in MEETING_KINDS else 'meeting'
+    status = request.form.get('status')
+    status = status if status in MEETING_STATUSES else 'Completed'
+    try:
+        payout = int(request.form.get('payout_amount') or 0)
+    except (TypeError, ValueError):
+        payout = 0
+    payout = max(0, min(payout, 1_000_000))   # whole AED, sane bound
+    db.session.add(MentorMeeting(
+        alumni_id=alum.id, kind=kind, status=status, payout_amount=payout,
+        parent_name=(request.form.get('parent_name') or '').strip()[:150],
+        topic=(request.form.get('topic') or '').strip()[:200],
+        meeting_date=_parse_dt(request.form.get('meeting_date')),
+        notes=(request.form.get('notes') or '').strip()[:2000]))
+    db.session.commit()
+    flash('Session logged.', 'success')
+    return redirect(url_for('alumni.admin_detail', alum_id=alum.id) + '#meetings')
+
+
+@alumni_bp.route('/admin/meeting/<int:meeting_id>/paid', methods=['POST'])
+@admin_required
+def admin_meeting_paid(meeting_id):
+    m = db.session.get(MentorMeeting, meeting_id) or abort(404)
+    m.paid = not m.paid
+    m.paid_at = datetime.now(timezone.utc).replace(tzinfo=None) if m.paid else None
+    db.session.commit()
+    flash('Payout status updated.', 'success')
+    return redirect(url_for('alumni.admin_detail', alum_id=m.alumni_id) + '#meetings')
+
+
+@alumni_bp.route('/admin/meeting/<int:meeting_id>/delete', methods=['POST'])
+@admin_required
+def admin_meeting_delete(meeting_id):
+    m = db.session.get(MentorMeeting, meeting_id) or abort(404)
+    aid = m.alumni_id
+    db.session.delete(m)
+    db.session.commit()
+    flash('Session removed.', 'success')
+    return redirect(url_for('alumni.admin_detail', alum_id=aid) + '#meetings')
+
+
+@alumni_bp.route('/admin/alumni/<int:alum_id>/reply', methods=['POST'])
+@admin_required
+def admin_reply(alum_id):
+    alum = db.session.get(AlumniProfile, alum_id) or abort(404)
+    body = (request.form.get('body') or '').strip()[:4000]
+    if body:
+        db.session.add(MentorMessage(alumni_id=alum.id, sender='admin', body=body))
+        db.session.commit()
+        flash('Reply sent to the mentor.', 'success')
+    return redirect(url_for('alumni.admin_detail', alum_id=alum.id) + '#messages')
 
 
 def _send_blob(data, mime, download_name, as_attachment):

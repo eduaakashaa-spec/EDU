@@ -23,7 +23,7 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 | Extensions (DB, auth) | ✅ Done | `extensions.py` — Flask-SQLAlchemy, Flask-Login, Flask-Bcrypt |
 | Database models | ✅ Done | `models.py` — User, DasaLead, Prediction, Payment, ContactInquiry |
 | Auth system | ✅ Done | `routes/auth.py` — login, register, logout, dashboard, contact form |
-| RBAC tier system | ✅ Done | Free (3 results) / Premium (unlimited) / Admin — enforced in API |
+| RBAC tier system | ✅ Done | Free (3 results) / Premium (unlimited) / Admin / Mentor (alumni portal) — enforced via decorators |
 | DASA predict API | ✅ Done | Real 324-record dataset, Pandas filtering, NIRF-sorted, lead logging, RBAC-gated |
 | Admin CLI | ✅ Done | `manage.py` — init_db, create_admin commands |
 | PostgreSQL | ✅ Done | Migrated from SQLite; `DATABASE_URL` env-var driven via `.env` + python-dotenv |
@@ -43,7 +43,7 @@ A Flask-based college admission helper portal for Indian engineering aspirants. 
 | **Premium content pages** | ✅ Done | 8 full live-site ports gated `@premium_required` (Why CSE, Best Location, Engineering Insights, Hostel & Culture, TNEA Expert, JOSAA EA Members, Expert Portal DASA, Branch Selection Guide) — in-page lead forms wired to `POST /api/leads` |
 | **EA Team / Counsellor Portal** | ✅ Done | Admin-only nav dropdown: Choice Builder PRO + Counsellor Dashboard run in-app (dashboard reads the team Google Sheet via its Apps Script JSONP API; app RBAC replaced the legacy per-page passcodes); EA Admin → `/admin` control panel |
 | **EA Admin Control Panel** | ✅ Done | `/admin` — replicates the legacy Apps Script member portal: overview KPIs + activity, member management (tier / validity / password / add / delete with lockout guards), announcements + schedule (surfaced on member dashboards), message-template drafts (`routes/admin_portal.py`, `Announcement` + `ScheduleEvent` models) |
-| **Alumni / Mentor Network** | ✅ Done | Public `/alumni-network` recruitment page + form (resume/photo upload validated by type+magic+size, stored in Postgres); per-registrant referral links (`referred_by` tracking); admin at `/admin/alumni` (list/detail, admin-only resume/photo download, status + notes, referral tree). `AlumniProfile` model, `routes/alumni.py` |
+| **Alumni / Mentor Network** | ✅ Done | Public `/alumni-network` signup creates a **`mentor`-tier login** + `AlumniProfile` (resume/photo validated by type+magic+size, stored in Postgres; per-IP rate limit + email dedup; referral links). **Mentor portal `/mentor`**: AED earnings/calls/payouts, sessions table, referral tracking, mentor↔admin messages, editable profile — all scoped to the mentor. Admin `/admin/alumni`: resume/photo download, status, log sessions + AED payouts (mark paid), reply to messages, referral tree. Models: `AlumniProfile`, `MentorMeeting`, `MentorMessage`; `routes/alumni.py` |
 | **Deploy (Render + Neon)** | ✅ Done | `render.yaml` autoDeploy; Neon Postgres; GH Actions `/ping` keep-alive |
 
 ---
