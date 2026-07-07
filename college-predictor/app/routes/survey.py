@@ -124,7 +124,7 @@ SECTIONS = [
         _choice('food_type', 'Mess food', ['Veg only', 'Veg & non-veg', 'N/A']),
         _choice('hostel_rules', 'Hostel rules', ['Relaxed', 'Moderate', 'Very strict']),
         _short('curfew', 'Hostel curfew timing (if any)', 'e.g. 10 PM'),
-        _short('hostel_fees', 'Approx annual hostel + mess fees', 'e.g. ₹1.2 L'),
+        _short('hostel_fees', 'Approx hostel + mess fees (₹ per year)', 'e.g. ₹1,20,000 per year'),
     ]},
 
     {'title': 'Amenities', 'questions': [
@@ -161,7 +161,7 @@ SECTIONS = [
         _rate('grievance', 'Grievance handling'),
         _rate('financial_aid', 'Scholarship / financial-aid support'),
         _rate('counseling', 'Mental-health / counselling support'),
-        _short('annual_fees', 'Approx annual tuition fees', 'e.g. ₹1.5 L'),
+        _short('annual_fees', 'Approx tuition fees (₹ per year)', 'e.g. ₹1,50,000 per year'),
         _choice('scholarship', 'Did you get a scholarship?', ['Yes', 'No', 'N/A']),
     ]},
 

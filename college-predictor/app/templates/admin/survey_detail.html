@@ -4,13 +4,15 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 <style>
-  .svd-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px 18px; }
-  .svd-item { display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px dashed var(--hairline); font-size:13px; }
-  .svd-item .k { color:var(--muted); }
-  .svd-item .v { font-weight:600; color:var(--ink); text-align:right; }
+  .svd-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:8px 18px; }
+  .svd-item { display:flex; justify-content:space-between; gap:12px; padding:6px 0; border-bottom:1px dashed var(--hairline); font-size:13px; min-width:0; }
+  .svd-item .k { color:var(--muted); flex-shrink:0; }
+  .svd-item .v { font-weight:600; color:var(--ink); text-align:right; min-width:0; overflow-wrap:anywhere; word-break:break-word; }
   .svd-long { margin:0 0 12px; }
   .svd-long .k { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
   .svd-long .v { white-space:pre-wrap; color:var(--ink); font-size:14px; }
+  /* contact KPI cards hold long emails — shrink + wrap instead of overflowing */
+  .svd-kpi-contact .n { font-size:13px; font-weight:600; line-height:1.35; overflow-wrap:anywhere; word-break:break-word; }
 </style>
 {% endblock %}
 
@@ -38,8 +40,8 @@
   <div class="adm-kpis" style="grid-template-columns:repeat(4,1fr);">
     <div class="adm-kpi"><div class="n">{{ s.overall_rating or '—' }}</div><div class="l">Overall rating</div></div>
     <div class="adm-kpi"><div class="n">{{ s.recommend_score if s.recommend_score is not none else '—' }}{% if s.recommend_score is not none %}<span style="font-size:14px;">/10</span>{% endif %}</div><div class="l">Would recommend</div></div>
-    <div class="adm-kpi"><div class="n">{{ s.email or '—' }}</div><div class="l">Email</div></div>
-    <div class="adm-kpi"><div class="n">{{ s.phone or '—' }}</div><div class="l">Phone</div></div>
+    <div class="adm-kpi svd-kpi-contact"><div class="n">{{ s.email or '—' }}</div><div class="l">Email</div></div>
+    <div class="adm-kpi svd-kpi-contact"><div class="n">{{ s.phone or '—' }}</div><div class="l">Phone</div></div>
   </div>
 
   {% set r = s.responses %}
