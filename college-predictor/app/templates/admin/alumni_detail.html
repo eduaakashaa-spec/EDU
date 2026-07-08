@@ -87,7 +87,7 @@
           </select>
         </div>
         <div class="full">
-          <label>Internal notes (never shown to the mentor)</label>
+          <label>Internal notes (never shown to the guide)</label>
           <textarea name="admin_notes" rows="3">{{ alum.admin_notes or '' }}</textarea>
         </div>
         <div><button class="btn btn-navy" type="submit">Save</button></div>
@@ -112,7 +112,7 @@
       </ul>
       {% endif %}
       <ul class="adm-list" style="margin-top:8px;">
-        <li><span class="mut">Mentor login</span><span>{% if alum.user_id %}✓ linked ({{ alum.email }}){% else %}— none{% endif %}</span></li>
+        <li><span class="mut">Guide login</span><span>{% if alum.user_id %}✓ linked ({{ alum.email }}){% else %}— none{% endif %}</span></li>
       </ul>
     </div>
   </div>
@@ -127,7 +127,7 @@
 
   <div class="adm-card" style="margin-bottom:18px;">
     <h2>Log a session / bonus</h2>
-    <p class="sub">Record a session and the ₹ payout the mentor earns. Standard rates: <strong>meeting ₹1000</strong> · <strong>video Q&amp;A ₹500</strong> · <strong>referral ₹1000</strong> (referral bonuses auto-credit on the referred mentor's first meeting).</p>
+    <p class="sub">Record a session and the ₹ payout the guide earns. Standard rates: <strong>₹500–1000 per session</strong> (a call or a video answering questions) · <strong>referral ₹1000</strong> (auto-credits on the referred guide's first session).</p>
     <form method="post" action="{{ url_for('alumni.admin_add_meeting', alum_id=alum.id) }}" class="adm-form">
       <div>
         <label>Type</label>
@@ -193,7 +193,7 @@
     <p style="color:var(--muted); font-size:.9rem; margin-bottom:12px;">No messages yet.</p>
     {% endif %}
     <form method="post" action="{{ url_for('alumni.admin_reply', alum_id=alum.id) }}" class="adm-form">
-      <div class="full"><textarea name="body" rows="2" required maxlength="4000" placeholder="Reply to the mentor…"></textarea></div>
+      <div class="full"><textarea name="body" rows="2" required maxlength="4000" placeholder="Reply to the guide…"></textarea></div>
       <div><button class="btn btn-navy" type="submit">Send reply</button></div>
     </form>
   </div>

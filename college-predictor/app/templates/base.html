@@ -107,7 +107,7 @@
               <li><a href="{{ url_for('main.per_assessment') }}">PER Assessment</a></li>
               <li><a href="{{ url_for('main.videos_library') }}">Videos Library</a></li>
               <li><a href="{{ url_for('main.exam_schedule') }}">Exam Schedule</a></li>
-              <li class="nav__dropdown-divider"><a href="{{ url_for('alumni.alumni_network') }}">★ Alumni Mentor Network</a></li>
+              <li class="nav__dropdown-divider"><a href="{{ url_for('alumni.alumni_network') }}">★ Become a College Guide</a></li>
               <li><a href="{{ url_for('survey.college_survey') }}">★ Rate Your College (Survey)</a></li>
               <li><a href="{{ url_for('main.internship') }}">Internship</a></li>
               <li><a href="{{ url_for('main.training') }}">Training</a></li>
@@ -157,7 +157,7 @@
             <a href="{{ url_for('main.members_registration') }}" class="nav__link nav__link--membership">★ Membership</a>
             {% if current_user.is_authenticated %}
               {% if current_user.is_admin %}<a href="{{ url_for('admin_portal.home') }}" class="nav__link nav__link--auth">Admin</a>{% endif %}
-              {% if current_user.is_mentor %}<a href="{{ url_for('alumni.mentor_dashboard') }}" class="nav__link nav__link--auth">Mentor Portal</a>
+              {% if current_user.is_mentor %}<a href="{{ url_for('alumni.mentor_dashboard') }}" class="nav__link nav__link--auth">Guide Portal</a>
               {% else %}<a href="{{ url_for('auth.dashboard') }}" class="nav__link nav__link--auth">Dashboard</a>{% endif %}
             {% else %}
               <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth nav__link--ghost">Login</a>
@@ -172,7 +172,7 @@
         <a href="{{ url_for('admin_portal.home') }}" class="nav__link nav__link--auth">Admin</a>
         {% endif %}
         {% if current_user.is_mentor %}
-        <a href="{{ url_for('alumni.mentor_dashboard') }}" class="nav__link nav__link--auth">Mentor Portal</a>
+        <a href="{{ url_for('alumni.mentor_dashboard') }}" class="nav__link nav__link--auth">Guide Portal</a>
         {% else %}
         <a href="{{ url_for('auth.dashboard') }}" class="nav__link nav__link--auth">Dashboard</a>
         {% endif %}

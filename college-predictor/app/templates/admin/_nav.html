@@ -49,7 +49,7 @@
   <div class="adm-navgrp {{ 'on' if admin_tab in ['alumni', 'surveys'] }}">
     <button type="button" class="adm-navtop" aria-haspopup="true">Network ▾</button>
     <div class="adm-navmenu">
-      <a href="{{ url_for('alumni.admin_list') }}" class="{{ 'cur' if admin_tab == 'alumni' }}">Alumni / Mentors</a>
+      <a href="{{ url_for('alumni.admin_list') }}" class="{{ 'cur' if admin_tab == 'alumni' }}">College Guides</a>
       <a href="{{ url_for('survey.admin_list') }}" class="{{ 'cur' if admin_tab == 'surveys' }}">College Surveys</a>
     </div>
   </div>

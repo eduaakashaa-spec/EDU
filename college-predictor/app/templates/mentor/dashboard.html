@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Mentor Portal — EduAakashaA{% endblock %}
+{% block title %}College Guide Portal — EduAakashaA{% endblock %}
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
@@ -65,7 +65,7 @@
 
   <div class="mp-head">
     <h1>Hi, {{ profile.name.split(' ')[0] }} 👋</h1>
-    {% if profile.status == 'Active' %}<span class="mp-badge mp-badge--active">Active mentor</span>
+    {% if profile.status == 'Active' %}<span class="mp-badge mp-badge--active">Active guide</span>
     {% elif profile.status == 'Verified' %}<span class="mp-badge mp-badge--active">Verified</span>
     {% elif profile.status == 'Rejected' %}<span class="mp-badge mp-badge--rej">Not approved</span>
     {% else %}<span class="mp-badge mp-badge--pending">Pending review</span>{% endif %}
@@ -113,7 +113,7 @@
   <!-- SESSIONS / PAYOUTS -->
   <div class="mp-panel" id="sessions">
     <h2>Your sessions &amp; payouts</h2>
-    <p class="hint">Every meeting and bonus we log for you appears here, with what you'll be paid (in ₹). Rates: <strong>₹1000</strong> per meeting · <strong>₹500</strong> per video Q&amp;A · <strong>₹1000</strong> per referral.</p>
+    <p class="hint">Every session and bonus we log for you appears here, with what you'll be paid (in ₹). Rates: <strong>₹500–1000</strong> per session · <strong>₹1000</strong> per referral.</p>
     <div style="overflow:auto;">
       <table class="mp-tbl">
         <thead><tr><th>Date</th><th>Type</th><th>With / topic</th><th>Status</th><th>Payout</th><th>Paid?</th></tr></thead>

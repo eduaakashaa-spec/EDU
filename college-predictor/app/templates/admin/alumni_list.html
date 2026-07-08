@@ -10,15 +10,15 @@
 
   <div class="adm-top">
     <div>
-      <div class="adm-eyebrow">Admin · Alumni Network</div>
-      <h1>Alumni &amp; Student Mentors</h1>
+      <div class="adm-eyebrow">Admin · College Guides</div>
+      <h1>College Guides</h1>
     </div>
   </div>
 
   {% include "admin/_nav.html" %}
 
   <div class="adm-kpis">
-    <div class="adm-kpi"><div class="n">{{ stats.total }}</div><div class="l">Total mentors</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.total }}</div><div class="l">Total guides</div></div>
     <div class="adm-kpi"><div class="n">{{ stats.active }}</div><div class="l">Active</div></div>
     <div class="adm-kpi"><div class="n">{{ stats.new }}</div><div class="l">New / unreviewed</div></div>
     <div class="adm-kpi"><div class="n">{{ stats.referred }}</div><div class="l">Joined via referral</div></div>
@@ -37,7 +37,7 @@
   <div class="adm-table-wrap">
     <table class="adm-table">
       <thead><tr>
-        <th>Joined</th><th>Mentor</th><th>University</th><th>Program</th><th>Stage</th><th>Status</th><th>Files</th><th></th>
+        <th>Joined</th><th>Guide</th><th>University</th><th>Program</th><th>Stage</th><th>Status</th><th>Files</th><th></th>
       </tr></thead>
       <tbody>
         {% for a in rows %}
@@ -58,7 +58,7 @@
         </tr>
         {% else %}
         <tr><td colspan="8" style="text-align:center; padding:40px; color:var(--muted);">
-          No mentors yet. Share the <a href="{{ url_for('alumni.alumni_network') }}">alumni network page</a> to start collecting registrations.
+          No College Guides yet. Share the <a href="{{ url_for('alumni.alumni_network') }}">College Guides page</a> to start collecting registrations.
         </td></tr>
         {% endfor %}
       </tbody>

@@ -216,7 +216,7 @@ def alumni_network():
     if '@' not in email or '.' not in email.split('@')[-1]:
         return fail('Please enter a valid email address.')
     if len(password) < 6:
-        return fail('Please choose a password of at least 6 characters for your mentor account.')
+        return fail('Please choose a password of at least 6 characters for your College Guide account.')
     if not f.get('consent'):
         return fail('Please agree to be contacted so we can match you with parents.')
 
@@ -319,7 +319,7 @@ def _referral_bonus_ids(alumni_id):
 def mentor_dashboard():
     profile = _my_profile()
     if profile is None:
-        flash('Finish setting up your mentor profile to continue.', 'info')
+        flash('Finish setting up your College Guide profile to continue.', 'info')
         return redirect(url_for('alumni.alumni_network'))
 
     meetings = profile.meetings.order_by(MentorMeeting.created_at.desc()).all()
@@ -490,7 +490,7 @@ def admin_reply(alum_id):
     if body:
         db.session.add(MentorMessage(alumni_id=alum.id, sender='admin', body=body))
         db.session.commit()
-        flash('Reply sent to the mentor.', 'success')
+        flash('Reply sent to the guide.', 'success')
     return redirect(url_for('alumni.admin_detail', alum_id=alum.id) + '#messages')
 
 

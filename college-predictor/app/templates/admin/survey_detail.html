@@ -4,14 +4,19 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 <style>
-  .svd-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:8px 18px; }
-  .svd-item { display:flex; justify-content:space-between; gap:12px; padding:6px 0; border-bottom:1px dashed var(--hairline); font-size:13px; min-width:0; }
-  .svd-item .k { color:var(--muted); flex-shrink:0; }
-  .svd-item .v { font-weight:600; color:var(--ink); text-align:right; min-width:0; overflow-wrap:anywhere; word-break:break-word; }
+  .svd-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px 18px; }
+  .svd-item { display:flex; justify-content:space-between; gap:10px; padding:6px 0; border-bottom:1px dashed var(--hairline); font-size:13px; }
+  .svd-item .k { color:var(--muted); }
+  .svd-item .v { font-weight:600; color:var(--ink); text-align:right; }
   .svd-long { margin:0 0 12px; }
   .svd-long .k { font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); }
   .svd-long .v { white-space:pre-wrap; color:var(--ink); font-size:14px; }
-  /* contact KPI cards hold long emails — shrink + wrap instead of overflowing */
+  /* Scoped to the "About you & admission" card only: its values are free text
+     (e.g. a long email) that must wrap inside its cell instead of overflowing
+     into the next column. Rating sections are untouched. */
+  .svd-grid--about .svd-item { min-width:0; }
+  .svd-grid--about .svd-item .v { min-width:0; overflow-wrap:anywhere; word-break:break-word; }
+  /* the two contact KPI cards can hold a long email — shrink + wrap them only */
   .svd-kpi-contact .n { font-size:13px; font-weight:600; line-height:1.35; overflow-wrap:anywhere; word-break:break-word; }
 </style>
 {% endblock %}
@@ -31,7 +36,7 @@
       <div class="adm-eyebrow"><a href="{{ url_for('survey.admin_list') }}" style="color:var(--navy); text-decoration:none;">← College Surveys</a></div>
       <h1>{{ s.name }} <span style="font-weight:400; color:var(--muted); font-size:.65em;">· {{ s.institute }}</span></h1>
     </div>
-    <div>{% if s.wants_to_mentor %}<span class="pill pill-premium">Open to mentoring</span>{% endif %}</div>
+    <div>{% if s.wants_to_mentor %}<span class="pill pill-premium">Wants to be a guide</span>{% endif %}</div>
   </div>
 
   {% include "admin/_nav.html" %}
@@ -63,7 +68,7 @@
     <div class="adm-card" style="margin-bottom:16px;">
       <h2>{{ sec.title }}</h2>
       {% if ns.rows %}
-      <div class="svd-grid">
+      <div class="svd-grid{% if sec.title == 'About you & admission' %} svd-grid--about{% endif %}">
         {% for q, v in ns.rows %}
         <div class="svd-item"><span class="k">{{ q.label }}</span>
           <span class="v">{% if q.type == 'rating' %}{{ pill(v) }}{% else %}{{ v }}{% endif %}</span></div>

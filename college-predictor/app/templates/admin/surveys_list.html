@@ -33,7 +33,7 @@
   <div class="adm-kpis">
     <div class="adm-kpi"><div class="n">{{ stats.total }}</div><div class="l">Responses</div></div>
     <div class="adm-kpi"><div class="n">{{ stats.colleges }}</div><div class="l">Colleges covered</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.mentor_leads }}</div><div class="l">Open to mentoring</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.mentor_leads }}</div><div class="l">Want to be guides</div></div>
   </div>
 
   <form class="adm-bar" method="get" action="{{ url_for('survey.admin_list') }}">
@@ -50,7 +50,7 @@
       <span class="svg-college__name"><span class="caret">▶</span>{{ college }}</span>
       <span class="svg-college__meta">
         {% set ml = items | selectattr('wants_to_mentor') | list | length %}
-        {% if ml %}<span class="pill pill-premium">{{ ml }} open to mentoring</span>{% endif %}
+        {% if ml %}<span class="pill pill-premium">{{ ml }} want to guide</span>{% endif %}
         <span class="svg-count">{{ items|length }} response{{ '' if items|length == 1 else 's' }}</span>
       </span>
     </summary>
