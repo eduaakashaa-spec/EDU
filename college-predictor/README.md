@@ -465,6 +465,30 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
   **Broadcast** (Announcements, Schedule, Messages) · **Network** (Alumni,
   Surveys) · DASA Review (`templates/admin/_nav.html`, CSS hover + focus-within).
 
+### Phase 19 — College Guides rebrand, page cull, admin dashboard & email templates (2026)
+- **"Mentor network" rebranded to "College Guides"** across all user-facing copy
+  (public page, portal, survey funnel, admin labels). Internal identifiers
+  (`tier='mentor'`, `/mentor` routes, models) are unchanged. Payout framing
+  simplified: a guide just **answers a parent's questions for ₹500–1000** (the
+  meeting-vs-video split was dropped from the copy; the DB kinds stay for
+  tracking). "Per session" wording removed on request.
+- **Removed four unused pages** — Internship, Training, NRI Arabic (Foundation &
+  Grammar): routes, templates, nav links, the home-page card, and their
+  `tests/all_pages.json` entries.
+- **Enhanced `/admin` overview** — grouped KPI bands (members, membership & ₹
+  revenue, leads/inquiries/surveys, College-Guide activity & ₹ payouts, weekly
+  growth) + **4 Chart.js charts** (8-week activity line, members-by-type
+  doughnut, applications-by-status bar, top-lead-sources bar) + expanded
+  recent-activity feeds. Stats computed in `admin_portal.home`.
+- **New: Admin Email Templates** (`/admin/templates`, Broadcast group) — pick a
+  template (welcome ·3 variants, thank-you for a guide session, thank-you for a
+  survey, payment credited, guide matched, renewal, application received), fill
+  placeholders, and open a ready draft **from `eduaakashaa@gmail.com`** via Gmail
+  compose (`authuser=…`) or mailto, with a branded HTML preview + copy-formatted
+  email. `EMAIL_TEMPLATES` in `routes/admin_portal.py`; client-side composer.
+- Survey admin detail: long emails wrap in the "About you & admission" card;
+  survey fee questions state "(₹ per year)".
+
 ## Future Roadmap
 
 - [x] **Server-side prediction** — Pandas-based prediction engine via Flask API endpoints
@@ -486,8 +510,9 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
 - [x] **Premium Membership pages** — 8 full live-site ports gated `@premium_required` (Why CSE, Best Location, Engineering Insights, Hostel & Culture, TNEA Expert, JOSAA EA Members, Expert Portal DASA, Branch Selection Guide); in-page lead forms post to `/api/leads`
 - [x] **EA Team / Counsellor Portal** — admin-only dropdown: in-app Choice Builder PRO + Counsellor Dashboard (live Google-Sheet triage); RBAC replaced the legacy per-page passwords
 - [x] **EA Admin Control Panel** — `/admin` overview + member tier/validity/password management, announcements, schedule, message templates
-- [x] **Alumni / Mentor Network** — public `/alumni-network` signup creates a `mentor`-tier account (photo upload + pasted **resume link**, referral links); **mentor portal `/mentor`** with **₹ earnings/calls/payouts** (rates: ₹1000/meeting, ₹500/video Q&A, ₹1000/referral bonus), sessions, referrals, and mentor↔admin messaging; admin review/matching + payout logging at `/admin/alumni`
-- [x] **College Experience Survey** — free, public `/college-survey` (10 sections, ~96 questions) for students/alumni to rate their college; definition-driven (one `SECTIONS` list in `routes/survey.py`, answers in `CollegeSurvey.responses_json`); admin review at `/admin/surveys`; soft funnel into the mentor network
+- [x] **College Guides** (peer network, internal tier `mentor`) — public `/alumni-network` signup (photo upload + pasted **resume link**, referral links); **guide portal `/mentor`** where a guide answers parents' questions for **₹500–1000** (referral bonus ₹1000), with sessions, referrals, and guide↔admin messaging; admin review/matching + ₹ payout logging at `/admin/alumni`
+- [x] **College Experience Survey** — free, public `/college-survey` (10 sections, ~96 questions) for students/alumni to rate their college; definition-driven (one `SECTIONS` list in `routes/survey.py`, answers in `CollegeSurvey.responses_json`); admin review grouped by college at `/admin/surveys`; soft funnel into College Guides
+- [x] **Admin email templates** — `/admin/templates`: pick a template, fill placeholders, open a ready draft from `eduaakashaa@gmail.com` (Gmail compose / mailto) with a branded HTML preview; nothing auto-sent
 - [ ] **Membership PDFs** — invoice/receipt generation (WeasyPrint/ReportLab)
 - [ ] **Membership emails** — application/invoice/receipt notifications
 - [ ] **Sheet → Postgres backfill** — one-time import of legacy data

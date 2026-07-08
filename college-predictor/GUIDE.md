@@ -173,7 +173,7 @@ applications and inquiries, plus recent-activity feeds.
 
 | Page | URL | What's in it |
 |------|-----|--------------|
-| Overview | `/admin` | Control panel: KPIs, newest members, latest leads/applications, live announcements, upcoming schedule |
+| Overview | `/admin` | Full dashboard: grouped KPI bands (members, revenue, leads, guides, weekly growth), **4 charts**, and recent-activity feeds |
 | Members | `/admin/users` | Every account: **change plan (free/premium/admin), set/clear validity, reset password, add or delete members** |
 | Applications | `/admin/membership` | All membership applications (the old Google Sheet, replaced) |
 | Leads & Assessments | `/admin/leads` | Every form/assessment submission from anywhere on the site |
@@ -181,8 +181,9 @@ applications and inquiries, plus recent-activity feeds.
 | Announcements | `/admin/announcements` | Post notices to member dashboards (pin/hide/delete) |
 | Schedule | `/admin/schedule` | Exams & events shown on member dashboards |
 | Messages | `/admin/messages` | Template library — per-member WhatsApp / email drafts with placeholders filled |
-| Alumni | `/admin/alumni` | Alumni mentor registrations — profiles, resume link/photo, status & matching, referral tree (see §3.5) |
-| Surveys | `/admin/surveys` | College Experience Survey responses — full per-college breakdown + "open to mentoring" leads (see §3.8) |
+| Email Templates | `/admin/templates` | Pick a ready email (welcome, thank-you, payment credited…), fill placeholders, open a draft from `eduaakashaa@gmail.com` (see §3.9) |
+| College Guides | `/admin/alumni` | College Guide registrations — profiles, resume link/photo, status & matching, ₹ payouts, referral tree (see §3.5) |
+| Surveys | `/admin/surveys` | College Experience Survey responses — grouped by college + "want to be a guide" leads (see §3.8) |
 
 ### 3.2b Members — changing a user's plan
 
@@ -348,8 +349,8 @@ choosing one (both under the **More** nav dropdown):
 - **★ Rate Your College** (`/college-survey`) — a free, detailed survey to share
   an honest read of your college (academics, placements, hostel, safety,
   location and more). No login needed; it helps parents choose well.
-- **★ Alumni Mentor Network** (`/alumni-network`) — register to mentor parents in
-  short **paid** sessions (₹1000/meeting, ₹500/video Q&A) and earn ₹1000 referral bonuses.
+- **★ Become a College Guide** (`/alumni-network`) — answer parents' questions
+  about your college for **₹500–1000**, plus ₹1000 referral bonuses. No lock-in, no spam.
 
 ---
 
@@ -362,18 +363,19 @@ choosing one (both under the **More** nav dropdown):
 | Uses the legacy DASA predict API | `dasa_leads` | `/admin/leads` (bottom section) |
 | Sends the Contact form | `contact_inquiries` | `/admin/inquiries` |
 | Registers an account | `users` | `/admin/users` |
-| Joins the alumni mentor network | `alumni_profiles` (photo in DB, resume as a link) | `/admin/alumni` |
+| Registers as a College Guide | `alumni_profiles` (photo in DB, resume as a link) | `/admin/alumni` |
 | Fills the College Experience Survey | `college_surveys` (answers in `responses_json`) | `/admin/surveys` |
 
 All admin pages require an **admin-tier login**; non-admins get a 403.
 
-### 3.5 Alumni / Mentor Network
+### 3.5 College Guides (peer network)
 
-`/alumni-network` is a **public** recruitment page: alumni and current students
-at top universities register to mentor parents in short paid sessions (the copy
-advertises *₹1000 per meeting, ₹500 per video Q&A, and a ₹1000 referral bonus*). It's
-linked from the **More** nav dropdown — share the URL directly with students you
-want to recruit.
+`/alumni-network` is a **public** recruitment page for **College Guides**: alumni
+and current students at top colleges register to answer parents' questions about
+their college for pay (the copy advertises *get paid ₹500–1000, plus a ₹1000
+referral bonus*). It's linked from the **More** nav dropdown ("★ Become a College
+Guide") — share the URL directly with students you want to recruit. (The internal
+user tier is still called `mentor` in the code.)
 
 **Registration → mentor account.** The form collects contact + academic details
 (the matching keys: university, program, degree, admission route, stage),
@@ -390,22 +392,22 @@ referrer is credited a one-time **₹1000** on their earnings ledger (shown as a
 "referral" session line and a "₹1000 ✓" tag beside that referral). Credited
 exactly once per referred mentor.
 
-**Mentor portal — `/mentor`** (mentor-tier login; the header shows "Mentor
-Portal" for them). Mentors see: their review status, **earnings** (total /
-pending / paid, all in ₹) and **calls attended**, a table of their logged
-sessions + payouts, their **referral link + who joined through it**, a **message
-thread with the team**, and an editable profile (contact / languages /
-availability / bio; academic fields are locked). Everything a mentor sees is
-scoped to their own account.
+**Guide portal — `/mentor`** (mentor-tier login; the header shows "Guide
+Portal"). Guides see: their review status, **earnings** (total / pending / paid,
+all in ₹) and calls attended, a table of their logged sessions + payouts, their
+**referral link + who joined through it**, a **message thread with the team**,
+and an editable profile (contact / languages / availability / bio; academic
+fields are locked). Everything a guide sees is scoped to their own account.
 
 **Admins manage it at `/admin/alumni`** (admin tab): search/filter by university
 or status, open a profile to see all details, **open the resume link / view the
 photo** (admin-only), set status (New → Verified → Active / Rejected), keep
 internal notes, and see the referral tree. On each profile you can **log a
-session** — kind **meeting** (₹1000), **video** Q&A (₹500), **referral**,
-**bonus** or **adjustment** — with the ₹ payout and Completed/Scheduled/etc.
-status, **mark payouts as paid**, and **reply to the mentor's messages** — all
-of which flow through to that mentor's portal. "Calls attended" counts completed
+session** (a guide answering a parent's questions earns **₹500–1000**; the kind
+dropdown keeps meeting/video/referral/bonus/adjustment for internal tracking)
+with the ₹ payout and Completed/Scheduled/etc. status, **mark payouts as paid**,
+and **reply to the guide's messages** — all of which flow through to that guide's
+portal. "Calls attended" counts completed
 `meeting`-type sessions; total earnings sum every completed session's payout.
 
 ### 3.8 College Experience Survey
@@ -421,9 +423,9 @@ amenities, campus life & safety, administration & support, location &
 surroundings, and a final verdict*. Most are one-tap ratings (Excellent → Poor);
 the rest are quick MCQs and a few short/long text boxes. **Name, email, phone,
 college and entrance exam/rank are required** (college & branch are typeable
-dropdowns); everything else is optional. A checkbox lets them opt in to
-the **paid mentor network**, and the thank-you page points them there — so the
-free survey doubles as a mentor-recruitment funnel.
+dropdowns); everything else is optional. A checkbox lets them opt in to become a
+**College Guide**, and the thank-you page points them there — so the free survey
+doubles as a College-Guide recruitment funnel.
 
 **Admins read responses at `/admin/surveys`** (Surveys tab): KPI cards
 (responses, colleges covered, "open to mentoring" leads), and the responses are
@@ -435,3 +437,30 @@ respondent's contact details if they opted in to mentoring). The whole question
 set lives in `routes/survey.py` (one `SECTIONS` list) — **to add or reorder
 questions, edit that list; no database migration is needed** (answers live in a
 single `responses_json` column).
+
+### 3.9 Email Templates
+
+`/admin/templates` (the **Email Templates** tab, under the Broadcast group) is a
+one-click way to send a polished, on-brand email without writing it from scratch.
+Nothing is sent automatically — you pick a template, fill in the blanks, and it
+opens a **ready draft from `eduaakashaa@gmail.com`** that you review and send.
+
+**How to use it:**
+1. Click a template card. Some (like **Welcome**) have variants — e.g. *new
+   user*, *premium member who just paid*, *new College Guide* — pick one.
+2. Enter the **recipient's email** and any placeholders (first name, amount,
+   college, plan, reference…). The subject line and a **branded HTML preview**
+   update live as you type.
+3. Choose how to send:
+   - **Open in Gmail** — opens Gmail's compose window already addressed and
+     filled, from the `eduaakashaa@gmail.com` account (make sure you're signed in
+     to it). Review and hit send.
+   - **Open in mail app** — same, via your device's default mail client (`mailto`).
+   - **Copy formatted email** — copies the designed HTML so you can paste it into
+     Gmail with formatting intact; **Copy plain text** copies the text version.
+
+**Templates included:** Welcome (new user / premium / College Guide), Thank-you
+for a College Guide session, Thank-you for filling the survey, Payment credited
+to a College Guide, "a parent wants to talk to you" (guide matched), premium
+renewal reminder, and membership-application received. To add or edit a template,
+edit the `EMAIL_TEMPLATES` list in `routes/admin_portal.py`.

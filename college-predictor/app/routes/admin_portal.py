@@ -536,3 +536,183 @@ def messages():
     return render_template('admin/messages.html', admin_tab='messages',
                            templates=MESSAGE_TEMPLATES, tpl_key=tpl_key,
                            group=group, prepared=prepared)
+
+
+# --------------------------------------------------------------------------- #
+# Email templates — pick a template, fill placeholders, open a ready draft
+# (Gmail compose / mailto) from eduaakashaa@gmail.com. Nothing is auto-sent.
+# --------------------------------------------------------------------------- #
+SENDER_EMAIL = 'eduaakashaa@gmail.com'
+WHATSAPP_NUMBER = '+91 80157 22706'
+SITE = 'https://eduaakashaa.onrender.com'
+
+
+def _f(key, label, default=''):
+    return {'key': key, 'label': label, 'default': default}
+
+
+# Each template has one or more "versions" (a version selector shows when >1).
+# subject / text / html carry {placeholders} filled from that version's fields.
+# The `html` is the email body only — it's wrapped in a branded shell client-side.
+EMAIL_TEMPLATES = [
+    {'key': 'welcome', 'icon': '👋', 'label': 'Welcome message',
+     'desc': 'Welcome a new user, a premium member who just paid, or a new College Guide.',
+     'versions': [
+        {'key': 'user', 'label': 'New user', 'fields': [_f('name', 'First name', 'there')],
+         'subject': 'Welcome to EduAakashaa 🎓',
+         'text': ("Hi {name},\n\nWelcome to EduAakashaa! You now have free access to our "
+                  "college predictors (JOSAA, TNEA, DASA), NIRF rankings and career-planning "
+                  "tools.\n\nWhenever you're deciding on a college, we're here to help you "
+                  "choose right.\n\nStart exploring: " + SITE + "\nQuestions? WhatsApp us at "
+                  + WHATSAPP_NUMBER + ".\n\n— Team EduAakashaa"),
+         'html': ("<p>Hi {name},</p><p>Welcome to <strong>EduAakashaa</strong>! You now have "
+                  "free access to our college predictors (JOSAA, TNEA, DASA), NIRF rankings "
+                  "and career-planning tools.</p><p>Whenever you're deciding on a college, "
+                  "we're here to help you choose right.</p>"
+                  "<p><a href=\"" + SITE + "\">Start exploring →</a></p>"
+                  "<p>Questions? WhatsApp us at <strong>" + WHATSAPP_NUMBER + "</strong>.</p>")},
+        {'key': 'premium', 'label': 'Premium — just paid',
+         'fields': [_f('name', 'First name', 'there'), _f('plan', 'Plan', 'Premium')],
+         'subject': 'Your EduAakashaa Premium is active, {name}! 🎉',
+         'text': ("Hi {name},\n\nThank you for your payment — your {plan} membership is now "
+                  "active! You've unlocked every premium tool: expert predictors, member "
+                  "reports and 1-on-1 counsellor support.\n\nCounselling season moves fast — "
+                  "let's build your perfect choice list together. Head to your dashboard to "
+                  "get started.\n\n— Team EduAakashaa"),
+         'html': ("<p>Hi {name},</p><p>Thank you for your payment — your <strong>{plan}</strong> "
+                  "membership is now active! 🎉 You've unlocked every premium tool: expert "
+                  "predictors, member reports and 1-on-1 counsellor support.</p>"
+                  "<p>Counselling season moves fast — let's build your perfect choice list "
+                  "together.</p><p><a href=\"" + SITE + "/dashboard\">Go to your dashboard →</a></p>")},
+        {'key': 'guide', 'label': 'New College Guide',
+         'fields': [_f('name', 'First name', 'there'), _f('college', 'College', 'your college')],
+         'subject': "You're a College Guide now, {name}! 🙌",
+         'text': ("Hi {name},\n\nWelcome aboard as an EduAakashaa College Guide! Whenever a "
+                  "parent has questions about {college}, we'll reach out — hop on a quick call "
+                  "or drop a short video, and get paid ₹500–1000 for it. No lock-in, no spam, "
+                  "fully on your schedule.\n\nMeanwhile, share your invite link to earn ₹1000 "
+                  "referral bonuses. We'll be in touch when a parent wants your take.\n\n— Team EduAakashaa"),
+         'html': ("<p>Hi {name},</p><p>Welcome aboard as an <strong>EduAakashaa College Guide</strong>! "
+                  "Whenever a parent has questions about <strong>{college}</strong>, we'll reach "
+                  "out — hop on a quick call or drop a short video, and <strong>get paid ₹500–1000</strong> "
+                  "for it. No lock-in, no spam, fully on your schedule.</p>"
+                  "<p>Meanwhile, share your invite link to earn ₹1000 referral bonuses. We'll be "
+                  "in touch when a parent wants your take.</p>")},
+     ]},
+
+    {'key': 'ty_session', 'icon': '🙏', 'label': 'Thank you — Guide session',
+     'desc': 'Thank a College Guide after they answer a parent’s questions.',
+     'versions': [
+        {'key': 'default', 'label': '', 'fields': [
+            _f('name', 'First name', 'there'), _f('college', 'College', 'your college'),
+            _f('amount', 'Payout ₹', '1000')],
+         'subject': 'Thanks for guiding a parent, {name} 🙏',
+         'text': ("Hi {name},\n\nThank you for taking the time to answer a parent's questions "
+                  "about {college} — your honest, first-hand take genuinely helps a family "
+                  "choose right.\n\nYour payout of ₹{amount} is being processed and will "
+                  "reflect in your College Guide dashboard. We'll reach out again when another "
+                  "parent needs your perspective.\n\n— Team EduAakashaa"),
+         'html': ("<p>Hi {name},</p><p>Thank you for taking the time to answer a parent's "
+                  "questions about <strong>{college}</strong> — your honest, first-hand take "
+                  "genuinely helps a family choose right.</p><p>Your payout of "
+                  "<strong>₹{amount}</strong> is being processed and will reflect in your "
+                  "College Guide dashboard. We'll reach out again when another parent needs "
+                  "your perspective.</p>")},
+     ]},
+
+    {'key': 'ty_survey', 'icon': '📝', 'label': 'Thank you — Survey',
+     'desc': 'Thank someone for filling the college experience survey (and nudge them to guide).',
+     'versions': [
+        {'key': 'default', 'label': '', 'fields': [
+            _f('name', 'First name', 'there'), _f('college', 'College', 'your college')],
+         'subject': 'Thanks for the honest review, {name}! 🙌',
+         'text': ("Hi {name},\n\nThank you for filling out the EduAakashaa college survey about "
+                  "{college}. Your real, no-filter feedback helps NRI parents make better "
+                  "decisions for their kids.\n\nWant to earn from what you know? Become a "
+                  "College Guide and get paid ₹500–1000 to answer parents' questions: "
+                  + SITE + "/alumni-network\n\n— Team EduAakashaa"),
+         'html': ("<p>Hi {name},</p><p>Thank you for filling out the EduAakashaa college survey "
+                  "about <strong>{college}</strong>. Your real, no-filter feedback helps NRI "
+                  "parents make better decisions for their kids.</p><p>Want to earn from what "
+                  "you know? Become a College Guide and get paid <strong>₹500–1000</strong> to "
+                  "answer parents' questions.</p>"
+                  "<p><a href=\"" + SITE + "/alumni-network\">Become a College Guide →</a></p>")},
+     ]},
+
+    {'key': 'payment', 'icon': '💸', 'label': 'Payment credited — Guide',
+     'desc': 'Tell a College Guide their payout has been credited.',
+     'versions': [
+        {'key': 'default', 'label': '', 'fields': [
+            _f('name', 'First name', 'there'), _f('amount', 'Amount ₹', '1000')],
+         'subject': '₹{amount} credited to you, {name} 💸',
+         'text': ("Hi {name},\n\nGood news — your payout of ₹{amount} has been credited. Thank "
+                  "you for being an EduAakashaa College Guide and helping parents with your "
+                  "real college experience.\n\nKeep an eye on your dashboard for your next "
+                  "session. Questions about a payout? Just reply here.\n\n— Team EduAakashaa"),
+         'html': ("<p>Hi {name},</p><p>Good news — your payout of <strong>₹{amount}</strong> "
+                  "has been credited. 💸 Thank you for being an EduAakashaa College Guide and "
+                  "helping parents with your real college experience.</p><p>Keep an eye on your "
+                  "dashboard for your next session. Questions about a payout? Just reply here.</p>")},
+     ]},
+
+    {'key': 'guide_match', 'icon': '🎯', 'label': 'Guide — matched with a parent',
+     'desc': 'Ask a College Guide if they’re free to talk to a matched parent.',
+     'versions': [
+        {'key': 'default', 'label': '', 'fields': [
+            _f('name', 'First name', 'there'), _f('parent', 'Parent / who', 'A parent'),
+            _f('college', 'College', 'your college')],
+         'subject': 'A parent wants to talk to you, {name} 🎓',
+         'text': ("Hi {name},\n\n{parent} is looking at {college} and would love to hear from "
+                  "someone who's actually been there — you! It's a short, paid session "
+                  "(₹500–1000): a quick call or a short video answering their questions.\n\n"
+                  "Are you free in the next few days? Reply and we'll set it up. Totally your "
+                  "call — no pressure.\n\n— Team EduAakashaa"),
+         'html': ("<p>Hi {name},</p><p><strong>{parent}</strong> is looking at "
+                  "<strong>{college}</strong> and would love to hear from someone who's actually "
+                  "been there — you! It's a short, paid session (<strong>₹500–1000</strong>): a "
+                  "quick call or a short video answering their questions.</p><p>Are you free in "
+                  "the next few days? Reply and we'll set it up. Totally your call — no pressure.</p>")},
+     ]},
+
+    {'key': 'renewal', 'icon': '🔔', 'label': 'Premium renewal reminder',
+     'desc': 'Remind a premium member their membership is expiring.',
+     'versions': [
+        {'key': 'default', 'label': '', 'fields': [
+            _f('name', 'First name', 'there'), _f('plan', 'Plan', 'Premium'),
+            _f('validity', 'Valid until', '31 Mar 2026')],
+         'subject': 'Your EduAakashaa membership is expiring soon, {name}',
+         'text': ("Hi {name},\n\nA quick heads-up — your {plan} membership is valid until "
+                  "{validity}. Renew in time to keep uninterrupted access to the premium "
+                  "predictors, expert reports and counsellor support during counselling "
+                  "season.\n\nRenew: " + SITE + "/members-registration\n\n— Team EduAakashaa"),
+         'html': ("<p>Hi {name},</p><p>A quick heads-up — your <strong>{plan}</strong> membership "
+                  "is valid until <strong>{validity}</strong>. Renew in time to keep "
+                  "uninterrupted access to the premium predictors, expert reports and "
+                  "counsellor support during counselling season.</p>"
+                  "<p><a href=\"" + SITE + "/members-registration\">Renew now →</a></p>")},
+     ]},
+
+    {'key': 'application', 'icon': '📥', 'label': 'Membership application received',
+     'desc': 'Acknowledge a new membership application with its reference number.',
+     'versions': [
+        {'key': 'default', 'label': '', 'fields': [
+            _f('name', 'First name', 'there'), _f('reference', 'Reference', 'EA-PREM-0001')],
+         'subject': "We've got your application, {name} (ref {reference})",
+         'text': ("Hi {name},\n\nThanks for applying for EduAakashaa membership — your reference "
+                  "number is {reference}. Our team will review it and reach out within 2 working "
+                  "days to confirm your plan and next steps.\n\nQuestions in the meantime? "
+                  "WhatsApp us at " + WHATSAPP_NUMBER + ".\n\n— Team EduAakashaa"),
+         'html': ("<p>Hi {name},</p><p>Thanks for applying for EduAakashaa membership — your "
+                  "reference number is <strong>{reference}</strong>. Our team will review it and "
+                  "reach out within 2 working days to confirm your plan and next steps.</p>"
+                  "<p>Questions in the meantime? WhatsApp us at <strong>" + WHATSAPP_NUMBER
+                  + "</strong>.</p>")},
+     ]},
+]
+
+
+@admin_portal_bp.route('/admin/templates')
+@admin_required
+def templates():
+    return render_template('admin/templates.html', admin_tab='templates',
+                           email_templates=EMAIL_TEMPLATES, sender=SENDER_EMAIL)

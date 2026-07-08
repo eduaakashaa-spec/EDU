@@ -37,12 +37,13 @@
     </div>
   </div>
 
-  <div class="adm-navgrp {{ 'on' if admin_tab in ['announcements', 'schedule', 'messages'] }}">
+  <div class="adm-navgrp {{ 'on' if admin_tab in ['announcements', 'schedule', 'messages', 'templates'] }}">
     <button type="button" class="adm-navtop" aria-haspopup="true">Broadcast ▾</button>
     <div class="adm-navmenu">
       <a href="{{ url_for('admin_portal.announcements') }}" class="{{ 'cur' if admin_tab == 'announcements' }}">Announcements</a>
       <a href="{{ url_for('admin_portal.schedule') }}" class="{{ 'cur' if admin_tab == 'schedule' }}">Schedule</a>
       <a href="{{ url_for('admin_portal.messages') }}" class="{{ 'cur' if admin_tab == 'messages' }}">Messages</a>
+      <a href="{{ url_for('admin_portal.templates') }}" class="{{ 'cur' if admin_tab == 'templates' }}">Email Templates</a>
     </div>
   </div>
 

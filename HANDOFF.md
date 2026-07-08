@@ -51,7 +51,8 @@ college-predictor/
       api.py                # JSON endpoints incl. POST /api/leads (generic lead capture)
       auth.py               # login/register/logout/dashboard/contact
       membership.py         # /admin/membership + /admin/leads + /admin/inquiries + /admin/users (admin_required)
-      admin_portal.py       # /admin control panel (overview, users, announcements, schedule, messages)
+      admin_portal.py       # /admin control panel (overview w/ KPIs+charts, users, announcements,
+                            #   schedule, messages, /admin/templates email templates)
       alumni.py             # Alumni/Mentor network: public /alumni-network, /mentor portal, /admin/alumni
       survey.py             # College Experience Survey: public /college-survey, /admin/surveys (SECTIONS-driven)
     templates/  static/(css|js|files)
@@ -117,6 +118,25 @@ see §6.
 
 ## 5. What was built recently (newest first)
 
+- **Admin Email Templates** (`routes/admin_portal.py` `EMAIL_TEMPLATES` + `templates()`,
+  `templates/admin/templates.html`): new **Email Templates** tab (Broadcast group,
+  `/admin/templates`). Admin picks a template (welcome ·3 variants / thank-you for a
+  guide session / thank-you for a survey / payment credited / guide matched / renewal /
+  application received), fills placeholders, and opens a ready draft **from
+  `eduaakashaa@gmail.com`** via a Gmail compose link (`authuser=…`) or mailto, with a
+  live branded HTML preview + "copy formatted email". Nothing is auto-sent; the composer
+  is client-side JS driven by the `EMAIL_TEMPLATES` JSON.
+- **Enhanced `/admin` overview** (`admin_portal.home`, `templates/admin/portal_home.html`):
+  grouped KPI bands (members / membership & ₹ revenue / leads-inquiries-surveys /
+  College-Guide activity & ₹ payouts / weekly growth) + **4 Chart.js charts** (8-week
+  activity line, members-by-type doughnut, apps-by-status bar, top-lead-sources bar) +
+  expanded recent-activity feeds (incl. newest guides & surveys). Revenue from
+  `MembershipInvoice.amount_paid`, payouts from completed `MentorMeeting`s. Chart.js via CDN.
+- **"Mentor network" → "College Guides" rebrand** (user-facing copy only; `tier='mentor'`,
+  `/mentor` routes and models unchanged). Payout copy simplified to **"answer questions,
+  ₹500–1000"** (no meeting/video split, no "per session"); referral bonus ₹1000.
+- **Removed 4 unused pages** — Internship, Training, NRI Arabic (Foundation & Grammar):
+  routes in `routes/__init__.py`, templates, nav links, home card, `tests/all_pages.json`.
 - **College Experience Survey** (`routes/survey.py`, `templates/college_survey.html`,
   `templates/admin/surveys_list.html` + `survey_detail.html`):
   - Free, public `/college-survey` (linked from the **More** nav dropdown): a
