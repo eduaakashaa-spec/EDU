@@ -3,6 +3,20 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  .ov-label{ font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase;
+             letter-spacing:.14em; color:var(--navy); margin:22px 0 8px; font-weight:700; }
+  .ov-label:first-of-type{ margin-top:6px; }
+  .ov-kpi-accent .n{ color:#1f8b4d; }
+  .pill-mentor{ background:rgba(255,107,10,.14); color:#c2410c; }
+  .ov-charts{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; margin-bottom:18px; }
+  .ov-chart{ background:var(--paper); border:1px solid var(--hairline); border-radius:14px; padding:18px 20px; }
+  .ov-chart h2{ font-family:'Fraunces',serif; font-size:1.05rem; color:var(--navy-ink); margin-bottom:12px; }
+  .ov-chart .cwrap{ position:relative; height:240px; }
+  .ov-chart--wide{ grid-column:1/-1; }
+  .ov-chart--wide .cwrap{ height:300px; }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -19,22 +33,72 @@
     </div>
   </div>
 
-
   {% include "admin/_nav.html" %}
 
+  <!-- ============ KPI BANDS ============ -->
+  <div class="ov-label">Members</div>
   <div class="adm-kpis">
     <div class="adm-kpi"><div class="n">{{ stats.users_total }}</div><div class="l">Total members</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.users_premium }}</div><div class="l">Premium</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.premium_expired }}</div><div class="l">Expired premium</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.users_admin }}</div><div class="l">Admins</div></div>
-  </div>
-  <div class="adm-kpis">
-    <div class="adm-kpi"><div class="n">{{ stats.apps_total }}</div><div class="l">Membership applications</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.apps_new }}</div><div class="l">New applications</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.leads_total }}</div><div class="l">Leads captured</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.inquiries_total }}</div><div class="l">Contact inquiries</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.premium_active }}</div><div class="l">Premium · active</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.premium_expired }}</div><div class="l">Premium · expired</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.users_guides }}</div><div class="l">College Guides</div></div>
   </div>
 
+  <div class="ov-label">Membership &amp; revenue</div>
+  <div class="adm-kpis">
+    <div class="adm-kpi"><div class="n">{{ stats.apps_total }}</div><div class="l">Applications</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.apps_new }}</div><div class="l">New / unreviewed</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.apps_paid }}</div><div class="l">Paid</div></div>
+    <div class="adm-kpi ov-kpi-accent"><div class="n">₹{{ "{:,}".format(stats.revenue_inr) }}</div><div class="l">Revenue collected</div></div>
+  </div>
+
+  <div class="ov-label">Leads, inquiries &amp; surveys</div>
+  <div class="adm-kpis">
+    <div class="adm-kpi"><div class="n">{{ stats.leads_total }}</div><div class="l">Leads captured</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.inquiries_total }}</div><div class="l">Contact inquiries</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.surveys_total }}</div><div class="l">Survey responses</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.survey_colleges }}</div><div class="l">Colleges reviewed</div></div>
+  </div>
+
+  <div class="ov-label">College Guides · activity &amp; payouts</div>
+  <div class="adm-kpis">
+    <div class="adm-kpi"><div class="n">{{ stats.guides_active }}</div><div class="l">Active guides</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.sessions_done }}</div><div class="l">Sessions done</div></div>
+    <div class="adm-kpi ov-kpi-accent"><div class="n">₹{{ "{:,}".format(stats.payout_paid) }}</div><div class="l">Payouts paid</div></div>
+    <div class="adm-kpi"><div class="n">₹{{ "{:,}".format(stats.payout_pending) }}</div><div class="l">Payouts pending</div></div>
+  </div>
+
+  <div class="ov-label">This week</div>
+  <div class="adm-kpis">
+    <div class="adm-kpi"><div class="n">{{ stats.users_new_7d }}</div><div class="l">New members (7d)</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.leads_new_7d }}</div><div class="l">New leads (7d)</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.apps_new_7d }}</div><div class="l">New applications (7d)</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.survey_want_guide }}</div><div class="l">Want to be guides</div></div>
+  </div>
+
+  <!-- ============ CHARTS ============ -->
+  <div class="ov-label">Trends &amp; breakdowns</div>
+  <div class="ov-charts">
+    <div class="ov-chart ov-chart--wide">
+      <h2>Activity — last 8 weeks</h2>
+      <div class="cwrap"><canvas id="chActivity"></canvas></div>
+    </div>
+    <div class="ov-chart">
+      <h2>Members by type</h2>
+      <div class="cwrap"><canvas id="chTiers"></canvas></div>
+    </div>
+    <div class="ov-chart">
+      <h2>Applications by status</h2>
+      <div class="cwrap"><canvas id="chApps"></canvas></div>
+    </div>
+    <div class="ov-chart">
+      <h2>Top lead sources</h2>
+      <div class="cwrap"><canvas id="chSources"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ============ RECENT ACTIVITY ============ -->
+  <div class="ov-label">Recent activity</div>
   <div class="adm-grid2">
     <div class="adm-card">
       <h2>Newest members</h2>
@@ -42,10 +106,10 @@
         {% for u in recent_users %}
         <li>
           <span>{{ u.name }} · {{ u.email }}</span>
-          <span class="mut"><span class="pill pill-{{ u.tier }}">{{ u.tier }}</span>
+          <span class="mut"><span class="pill pill-{{ u.tier }}">{{ 'guide' if u.tier == 'mentor' else u.tier }}</span>
             {{ u.created_at.strftime('%d %b') if u.created_at }}</span>
         </li>
-        {% else %}<li><span class="mut">No users yet.</span></li>{% endfor %}
+        {% else %}<li><span class="mut">No members yet.</span></li>{% endfor %}
       </ul>
     </div>
     <div class="adm-card">
@@ -67,11 +131,35 @@
       <ul class="adm-list">
         {% for a in recent_apps %}
         <li>
-          <span><a class="ref" href="{{ url_for('membership.admin_detail', app_id=a.id) }}">{{ a.reference }}</a>
-                · {{ a.name }}</span>
+          <span><a class="ref" href="{{ url_for('membership.admin_detail', app_id=a.id) }}">{{ a.reference }}</a> · {{ a.name }}</span>
           <span class="mut"><span class="pill s-{{ a.status.replace(' ','') }}">{{ a.status }}</span></span>
         </li>
         {% else %}<li><span class="mut">No applications yet.</span></li>{% endfor %}
+      </ul>
+    </div>
+    <div class="adm-card">
+      <h2>Newest College Guides</h2>
+      <ul class="adm-list">
+        {% for g in recent_guides %}
+        <li>
+          <span><a class="ref" href="{{ url_for('alumni.admin_detail', alum_id=g.id) }}">{{ g.name }}</a> · {{ g.university }}</span>
+          <span class="mut">{{ g.status }} · {{ g.created_at.strftime('%d %b') if g.created_at }}</span>
+        </li>
+        {% else %}<li><span class="mut">No guides yet.</span></li>{% endfor %}
+      </ul>
+    </div>
+  </div>
+
+  <div class="adm-grid2">
+    <div class="adm-card">
+      <h2>Latest survey responses</h2>
+      <ul class="adm-list">
+        {% for s in recent_surveys %}
+        <li>
+          <span><a class="ref" href="{{ url_for('survey.admin_detail', survey_id=s.id) }}">{{ s.name }}</a> · {{ s.institute }}</span>
+          <span class="mut">{% if s.overall_rating %}{{ s.overall_rating }} · {% endif %}{{ s.created_at.strftime('%d %b') if s.created_at }}</span>
+        </li>
+        {% else %}<li><span class="mut">No survey responses yet.</span></li>{% endfor %}
       </ul>
     </div>
     <div class="adm-card">
@@ -100,4 +188,53 @@
   </div>
 
 </div></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  if (typeof Chart === 'undefined') return;
+  var C = {{ charts | tojson }};
+  var NAVY = '#0E3A8A', ORANGE = '#FF6B0A', GREEN = '#1f8b4d', GOLD = '#E89A1C',
+      MUTED = '#8b93a7', INK = '#0E1B3D';
+  Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+  Chart.defaults.color = MUTED;
+  var gridC = 'rgba(14,27,61,.06)';
+
+  new Chart(document.getElementById('chActivity'), {
+    type: 'line',
+    data: { labels: C.weeks.labels, datasets: [
+      { label: 'New members', data: C.weeks.users, borderColor: NAVY, backgroundColor: NAVY, tension: .35, fill: false },
+      { label: 'Leads', data: C.weeks.leads, borderColor: ORANGE, backgroundColor: ORANGE, tension: .35, fill: false },
+      { label: 'Surveys', data: C.weeks.surveys, borderColor: GREEN, backgroundColor: GREEN, tension: .35, fill: false } ] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true } } },
+      scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: gridC } }, x: { grid: { display: false } } } }
+  });
+
+  new Chart(document.getElementById('chTiers'), {
+    type: 'doughnut',
+    data: { labels: C.tiers.labels, datasets: [{ data: C.tiers.values,
+      backgroundColor: [MUTED, GREEN, NAVY, ORANGE], borderWidth: 2, borderColor: '#fff' }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '58%',
+      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true } } } }
+  });
+
+  new Chart(document.getElementById('chApps'), {
+    type: 'bar',
+    data: { labels: C.apps.labels, datasets: [{ data: C.apps.values, backgroundColor: NAVY, borderRadius: 5 }] },
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: gridC } }, x: { grid: { display: false } } } }
+  });
+
+  new Chart(document.getElementById('chSources'), {
+    type: 'bar',
+    data: { labels: C.sources.labels, datasets: [{ data: C.sources.values, backgroundColor: ORANGE, borderRadius: 5 }] },
+    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: gridC } }, y: { grid: { display: false } } } }
+  });
+})();
+</script>
 {% endblock %}

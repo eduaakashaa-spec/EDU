@@ -23,9 +23,11 @@ from flask_login import current_user
 
 from app.decorators import admin_required
 from app.extensions import db, bcrypt
-from app.models import (Announcement, ContactInquiry, DasaLead, PageLead,
+from app.models import (AlumniProfile, Announcement, CollegeSurvey,
+                        ContactInquiry, DasaLead, MentorMeeting, PageLead,
                         Payment, Prediction, ScheduleEvent, User)
-from app.models_membership import MembershipApplication
+from app.models_membership import (APP_STATUSES, MembershipApplication,
+                                   MembershipInvoice)
 
 admin_portal_bp = Blueprint('admin_portal', __name__)
 
@@ -71,46 +73,154 @@ def _parse_expiry(value):
 # --------------------------------------------------------------------------- #
 # Overview — the control panel home
 # --------------------------------------------------------------------------- #
+def _sum(col, *filters):
+    """Return coalesced SUM(col) over the given filters as a plain int."""
+    q = db.session.query(db.func.coalesce(db.func.sum(col), 0))
+    for f in filters:
+        q = q.filter(f)
+    return int(q.scalar() or 0)
+
+
 @admin_portal_bp.route('/admin')
 @admin_required
 def home():
     now = _utcnow_naive()
+    d7 = now - timedelta(days=7)
+    d30 = now - timedelta(days=30)
 
+    # --- Members ---
     users_total = User.query.count()
+    users_free = User.query.filter_by(tier='free').count()
     users_premium = User.query.filter_by(tier='premium').count()
     users_admin = User.query.filter_by(tier='admin').count()
-    premium_expired = (User.query.filter(User.tier == 'premium',
-                                         User.tier_expires_at.isnot(None),
-                                         User.tier_expires_at <= now).count())
+    users_guides = User.query.filter_by(tier='mentor').count()
+    premium_active = User.query.filter(
+        User.tier == 'premium',
+        db.or_(User.tier_expires_at.is_(None), User.tier_expires_at > now)).count()
+    premium_expired = User.query.filter(
+        User.tier == 'premium', User.tier_expires_at.isnot(None),
+        User.tier_expires_at <= now).count()
+    users_new_7d = User.query.filter(User.created_at >= d7).count()
+    users_new_30d = User.query.filter(User.created_at >= d30).count()
 
+    # --- Membership pipeline & revenue (amounts stored in paise) ---
     apps_total = MembershipApplication.query.count()
-    apps_new = MembershipApplication.query.filter_by(status='New').count()
-    leads_total = PageLead.query.count() + DasaLead.query.count()
+    apps_by_status = {s: MembershipApplication.query.filter_by(status=s).count()
+                      for s in APP_STATUSES}
+    apps_new_7d = MembershipApplication.query.filter(
+        MembershipApplication.created_at >= d7).count()
+    revenue_inr = _sum(MembershipInvoice.amount_paid) // 100
+    pending_inr = _sum(MembershipInvoice.balance_due) // 100
+
+    # --- Leads & inquiries ---
+    page_leads = PageLead.query.count()
+    dasa_leads = DasaLead.query.count()
+    leads_total = page_leads + dasa_leads
     inquiries_total = ContactInquiry.query.count()
+    leads_new_7d = (PageLead.query.filter(PageLead.created_at >= d7).count()
+                    + DasaLead.query.filter(DasaLead.timestamp >= d7).count())
 
-    recent_users = User.query.order_by(User.created_at.desc()).limit(5).all()
-    recent_leads = PageLead.query.order_by(PageLead.created_at.desc()).limit(5).all()
+    # --- College Guides (alumni network) ---
+    guides_total = AlumniProfile.query.count()
+    guides_active = AlumniProfile.query.filter_by(status='Active').count()
+    guides_new = AlumniProfile.query.filter_by(status='New').count()
+    guides_referred = AlumniProfile.query.filter(
+        AlumniProfile.referred_by.isnot(None)).count()
+    sessions_done = MentorMeeting.query.filter(
+        MentorMeeting.kind.in_(('meeting', 'video')),
+        MentorMeeting.status == 'Completed').count()
+    payout_total = _sum(MentorMeeting.payout_amount, MentorMeeting.status == 'Completed')
+    payout_paid = _sum(MentorMeeting.payout_amount, MentorMeeting.status == 'Completed',
+                       MentorMeeting.paid.is_(True))
+    payout_pending = payout_total - payout_paid
+
+    # --- Surveys ---
+    surveys_total = CollegeSurvey.query.count()
+    survey_colleges = db.session.query(CollegeSurvey.institute).distinct().count()
+    survey_want_guide = CollegeSurvey.query.filter_by(wants_to_mentor=True).count()
+    avg_rec = db.session.query(db.func.avg(CollegeSurvey.recommend_score)).scalar()
+    survey_avg_rec = round(float(avg_rec), 1) if avg_rec is not None else None
+
+    # --- Chart 1: activity over the last 8 weeks (users / leads / surveys) ---
+    weeks = 8
+    start = now - timedelta(weeks=weeks)
+
+    def bucket(rows):
+        counts = [0] * weeks
+        for (dt,) in rows:
+            if dt is None:
+                continue
+            wk = int((dt - start).days // 7)
+            if 0 <= wk < weeks:
+                counts[wk] += 1
+        return counts
+
+    users_series = bucket(User.query.with_entities(User.created_at)
+                          .filter(User.created_at >= start).all())
+    leads_series = [a + b for a, b in zip(
+        bucket(PageLead.query.with_entities(PageLead.created_at)
+               .filter(PageLead.created_at >= start).all()),
+        bucket(DasaLead.query.with_entities(DasaLead.timestamp)
+               .filter(DasaLead.timestamp >= start).all()))]
+    surveys_series = bucket(CollegeSurvey.query.with_entities(CollegeSurvey.created_at)
+                            .filter(CollegeSurvey.created_at >= start).all())
+    week_labels = [(start + timedelta(weeks=i)).strftime('%d %b') for i in range(weeks)]
+
+    # --- Chart 3: leads by source (top 8) ---
+    src_rows = (db.session.query(PageLead.source, db.func.count(PageLead.id))
+                .group_by(PageLead.source)
+                .order_by(db.func.count(PageLead.id).desc()).limit(8).all())
+
+    charts = {
+        'weeks': {'labels': week_labels, 'users': users_series,
+                  'leads': leads_series, 'surveys': surveys_series},
+        'tiers': {'labels': ['Free', 'Premium', 'Admin', 'College Guide'],
+                  'values': [users_free, users_premium, users_admin, users_guides]},
+        'apps': {'labels': list(APP_STATUSES),
+                 'values': [apps_by_status[s] for s in APP_STATUSES]},
+        'sources': {'labels': [s or '(none)' for s, _ in src_rows],
+                    'values': [c for _, c in src_rows]},
+    }
+
+    # --- recent activity ---
+    recent_users = User.query.order_by(User.created_at.desc()).limit(6).all()
+    recent_leads = PageLead.query.order_by(PageLead.created_at.desc()).limit(6).all()
     recent_apps = (MembershipApplication.query
-                   .order_by(MembershipApplication.created_at.desc()).limit(5).all())
-
+                   .order_by(MembershipApplication.created_at.desc()).limit(6).all())
+    recent_surveys = CollegeSurvey.query.order_by(CollegeSurvey.created_at.desc()).limit(6).all()
+    recent_guides = AlumniProfile.query.order_by(AlumniProfile.created_at.desc()).limit(6).all()
     upcoming = (ScheduleEvent.query.filter(ScheduleEvent.starts_at >= _now_ist_naive())
-                .order_by(ScheduleEvent.starts_at.asc()).limit(5).all())
+                .order_by(ScheduleEvent.starts_at.asc()).limit(6).all())
     live_announcements = (Announcement.query.filter_by(active=True)
                           .order_by(Announcement.pinned.desc(),
                                     Announcement.created_at.desc())
                           .limit(5).all())
 
+    stats = {
+        'users_total': users_total, 'users_free': users_free,
+        'users_premium': users_premium, 'users_admin': users_admin,
+        'users_guides': users_guides, 'premium_active': premium_active,
+        'premium_expired': premium_expired, 'users_new_7d': users_new_7d,
+        'users_new_30d': users_new_30d,
+        'apps_total': apps_total, 'apps_new': apps_by_status['New'],
+        'apps_paid': apps_by_status['Paid'], 'apps_new_7d': apps_new_7d,
+        'revenue_inr': revenue_inr, 'pending_inr': pending_inr,
+        'page_leads': page_leads, 'dasa_leads': dasa_leads,
+        'leads_total': leads_total, 'inquiries_total': inquiries_total,
+        'leads_new_7d': leads_new_7d,
+        'guides_total': guides_total, 'guides_active': guides_active,
+        'guides_new': guides_new, 'guides_referred': guides_referred,
+        'sessions_done': sessions_done, 'payout_total': payout_total,
+        'payout_paid': payout_paid, 'payout_pending': payout_pending,
+        'surveys_total': surveys_total, 'survey_colleges': survey_colleges,
+        'survey_want_guide': survey_want_guide, 'survey_avg_rec': survey_avg_rec,
+    }
+
     return render_template('admin/portal_home.html', admin_tab='overview',
-                           stats={'users_total': users_total,
-                                  'users_premium': users_premium,
-                                  'users_admin': users_admin,
-                                  'premium_expired': premium_expired,
-                                  'apps_total': apps_total,
-                                  'apps_new': apps_new,
-                                  'leads_total': leads_total,
-                                  'inquiries_total': inquiries_total},
+                           stats=stats, charts=charts,
                            recent_users=recent_users, recent_leads=recent_leads,
-                           recent_apps=recent_apps, upcoming=upcoming,
+                           recent_apps=recent_apps, recent_surveys=recent_surveys,
+                           recent_guides=recent_guides, upcoming=upcoming,
                            live_announcements=live_announcements)
 
 
