@@ -72,7 +72,7 @@
   </div>
   <p class="mp-sub">
     {% if profile.status in ['Active','Verified'] %}
-      You're all set. We'll match you with parents asking about <strong>{{ profile.university }}</strong> and schedule sessions here.
+      You're all set. We'll match you with parents asking about <strong>{{ profile.university }}</strong> and connect you here.
     {% else %}
       Thanks for joining! Our team is reviewing your profile — we'll be in touch soon. Meanwhile, share your invite link below to start earning referral bonuses.
     {% endif %}
@@ -112,8 +112,8 @@
 
   <!-- SESSIONS / PAYOUTS -->
   <div class="mp-panel" id="sessions">
-    <h2>Your sessions &amp; payouts</h2>
-    <p class="hint">Every session and bonus we log for you appears here, with what you'll be paid (in ₹). Rates: <strong>₹500–1000</strong> per session · <strong>₹1000</strong> per referral.</p>
+    <h2>Your earnings &amp; payouts</h2>
+    <p class="hint">Everything we log for you shows up here, with what you'll be paid (in ₹). Rates: <strong>₹500–1000</strong> for answering a parent's questions · <strong>₹1000</strong> per referral.</p>
     <div style="overflow:auto;">
       <table class="mp-tbl">
         <thead><tr><th>Date</th><th>Type</th><th>With / topic</th><th>Status</th><th>Payout</th><th>Paid?</th></tr></thead>
@@ -132,7 +132,7 @@
             <td>{% if m.paid %}<span class="mp-pill mp-pill--ok">Paid</span>{% elif m.status == 'Completed' %}<span class="mp-pill mp-pill--wait">Due</span>{% else %}—{% endif %}</td>
           </tr>
           {% else %}
-          <tr><td colspan="6" style="text-align:center; padding:26px; color:var(--text-dim);">No sessions yet. Once you attend your first meeting, it'll show here with your payout.</td></tr>
+          <tr><td colspan="6" style="text-align:center; padding:26px; color:var(--text-dim);">Nothing here yet. Once you answer your first questions, it'll show up with your payout.</td></tr>
           {% endfor %}
         </tbody>
       </table>
@@ -166,7 +166,7 @@
   <!-- MESSAGES -->
   <div class="mp-panel" id="messages">
     <h2>Messages with the team</h2>
-    <p class="hint">Questions about a session, your payout, or your availability? Message us here.</p>
+    <p class="hint">Questions about your payout or your availability? Message us here.</p>
     {% if messages %}
     <div class="mp-thread">
       {% for msg in messages %}
