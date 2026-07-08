@@ -141,11 +141,6 @@ def professional_exam():
     return render_reference_page('professional-exam.html', 'professional_exam.html')
 
 
-@main_bp.route('/internship-programs')
-def internship():
-    return render_reference_page('internship-programs.html', 'internship.html')
-
-
 @main_bp.route('/contact')
 def contact():
     return render_reference_page('contact-us.html', 'contact.html')
@@ -295,24 +290,9 @@ def videos_library():
     return render_reference_page('videos-library.html', 'videos_library.html')
 
 
-@main_bp.route('/training')
-def training():
-    return render_reference_page('training.html', 'training.html')
-
-
 @main_bp.route('/nri-admission')
 def nri_admission():
     return render_reference_page('nri-admission.html', 'nri_admission.html')
-
-
-@main_bp.route('/nriarabic-foundation')
-def nriarabic_foundation():
-    return render_reference_page('nriarabic-foundation.html', 'nriarabic_foundation.html')
-
-
-@main_bp.route('/nriarabicgr')
-def nriarabicgr():
-    return render_reference_page('nriarabicgr.html', 'nriarabicgr.html')
 
 
 # =============================================================
