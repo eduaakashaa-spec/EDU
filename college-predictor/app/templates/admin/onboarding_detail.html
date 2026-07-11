@@ -44,8 +44,9 @@
     to use the rubric &amp; dossier template from <code>ONBOARDING_ASSESSMENT.md</code>.
     Confidential items (S50/P34) are included here for you — the rubric keeps them out of any
     family-facing copy.</p>
-    <div class="tpl-actions" style="display:flex; gap:10px; margin-bottom:12px;">
+    <div class="tpl-actions" style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
       <button type="button" class="btn btn-navy" id="obCopy">📋 Copy for AI</button>
+      <a class="btn btn-ghost" href="{{ url_for('onboarding.admin_download', sub_id=sub.id) }}">⬇ Download .md (with rubric)</a>
     </div>
     <div class="ob-ai"><textarea id="obBundle" readonly>{{ ai_bundle }}</textarea></div>
   </div>

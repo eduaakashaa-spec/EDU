@@ -13,15 +13,18 @@ Answers are stored keyed by item id (S1…/P1…) so the AI rubric in
 ONBOARDING_ASSESSMENT.md runs verbatim on a stored pair.
 """
 import json
+import os
+import re
 import threading
 import time
 
-from flask import (Blueprint, abort, flash, redirect, render_template, request,
-                   url_for)
+from flask import (Blueprint, Response, abort, current_app, flash, redirect,
+                   render_template, request, url_for)
 
 from app.decorators import admin_required
 from app.extensions import db
 from app.models import OnboardingResponse
+from app.services.mailer import send_async
 from app.services.onboarding_assessment import (ROLES, intro_for, items_for,
                                                 modules_for)
 
@@ -121,7 +124,51 @@ def _save(role):
         responses_json=json.dumps(responses, ensure_ascii=False) if responses else None)
     db.session.add(sub)
     db.session.commit()
+
+    _send_confirmation(sub)  # best-effort; no-op if SMTP isn't configured
     return redirect(url_for('onboarding.assessment', role=role, done=1) + '#top')
+
+
+# --------------------------------------------------------------------------- #
+# confirmation email (fired on submit; needs SMTP configured — see mailer.py)
+# --------------------------------------------------------------------------- #
+def _brand_shell(body_html):
+    from app.services.email_templates import LOGO_URL, WHATSAPP_NUMBER, PHONE_UAE
+    return (
+        '<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;'
+        'border:1px solid #e8dfc8;border-radius:12px;overflow:hidden">'
+        '<div style="background:#0E3A8A;padding:18px 24px;text-align:center">'
+        '<img src="%s" alt="EduAakashaa" height="34" style="height:34px">' % LOGO_URL
+        + '</div><div style="padding:24px;color:#0E1B3D;font-size:15px;line-height:1.6">'
+        + body_html +
+        '</div><div style="padding:16px 24px;background:#FBF7EE;color:#5A6278;font-size:12px;'
+        'border-top:1px solid #e8dfc8">EduAakashaa · Guidance for NRI &amp; Indian engineering '
+        'aspirants · WhatsApp ' + WHATSAPP_NUMBER + ' · ' + PHONE_UAE + '</div></div>')
+
+
+def _send_confirmation(sub):
+    first = (sub.respondent_name or sub.student_name or 'there').split(' ')[0]
+    if sub.role == 'student':
+        subject = "We've got your answers, %s — thank you!" % first
+        text = ("Hi %s,\n\nThanks for completing your EduAakashaa onboarding assessment. "
+                "Your counsellor now has your answers and will use them to prepare for your "
+                "first 1-on-1 — so the session is about you, not generic advice.\n\n"
+                "If your parent hasn't filled their short version yet, please share the link "
+                "with them.\n\n— Team EduAakashaa") % first
+        extra = ("<p>If your parent hasn't filled their short version yet, please share the "
+                 "link with them.</p>")
+    else:
+        subject = "Thank you — your parent questionnaire is in"
+        text = ("Dear %s,\n\nThank you for completing the parent questionnaire for %s. "
+                "Your counsellor will combine your answers with the student's to make the first "
+                "session genuinely useful.\n\nWe'll be in touch shortly to schedule your "
+                "1-on-1.\n\n— Team EduAakashaa") % (first, sub.student_name or 'your child')
+        extra = ("<p>We'll be in touch shortly to schedule your 1-on-1.</p>")
+    html = _brand_shell(
+        "<p>Hi %s,</p><p>Thanks for completing your EduAakashaa onboarding assessment. "
+        "Your counsellor now has your answers and will use them to prepare for your first "
+        "1-on-1.</p>%s" % (first, extra))
+    send_async(sub.email, subject, text, html)
 
 
 def _read_answer(it, f):
@@ -264,25 +311,55 @@ def admin_list():
                            families=families, stats=stats, q=q)
 
 
+def _student_parent(sub):
+    """Return (student, parent) records for sub's family (the newest opposite half)."""
+    other = 'parent' if sub.role == 'student' else 'student'
+    pair = (OnboardingResponse.query
+            .filter_by(family_key=sub.family_key, role=other)
+            .order_by(OnboardingResponse.created_at.desc()).first()
+            if sub.family_key else None)
+    return (sub if sub.role == 'student' else pair,
+            sub if sub.role == 'parent' else pair)
+
+
 @onboarding_bp.route('/admin/onboarding/<int:sub_id>')
 @admin_required
 def admin_detail(sub_id):
     sub = db.session.get(OnboardingResponse, sub_id) or abort(404)
-    # find the paired other-half (same family, opposite role, newest)
-    other_role = 'parent' if sub.role == 'student' else 'student'
-    pair = None
-    if sub.family_key:
-        pair = (OnboardingResponse.query
-                .filter_by(family_key=sub.family_key, role=other_role)
-                .order_by(OnboardingResponse.created_at.desc()).first())
-
-    student = sub if sub.role == 'student' else pair
-    parent = sub if sub.role == 'parent' else pair
-
-    ai_bundle = _ai_bundle(student, parent)
+    student, parent = _student_parent(sub)
     return render_template('admin/onboarding_detail.html', admin_tab='onboarding',
                            sub=sub, student=student, parent=parent,
-                           modules_for=modules_for, ai_bundle=ai_bundle)
+                           modules_for=modules_for, ai_bundle=_ai_bundle(student, parent))
+
+
+def _rubric_text():
+    """The AI Analysis Rubric + Insight Dossier template (Deliverables 2 & 3),
+    read from the design doc so the downloaded file is self-contained for the AI."""
+    path = os.path.join(current_app.root_path, os.pardir, 'ONBOARDING_ASSESSMENT.md')
+    try:
+        md = open(path, encoding='utf-8').read()
+    except OSError:
+        return ''
+    i = md.find('# DELIVERABLE 2')
+    return md[i:].strip() if i >= 0 else ''
+
+
+@onboarding_bp.route('/admin/onboarding/<int:sub_id>/download')
+@admin_required
+def admin_download(sub_id):
+    sub = db.session.get(OnboardingResponse, sub_id) or abort(404)
+    student, parent = _student_parent(sub)
+    rubric = _rubric_text()
+    parts = [_ai_bundle(student, parent)]
+    if rubric:
+        parts += ['\n\n' + '=' * 70,
+                  'RUBRIC & DOSSIER TEMPLATE (apply these to the answers above)',
+                  '=' * 70 + '\n', rubric]
+    body = '\n'.join(parts)
+    slug = re.sub(r'[^A-Za-z0-9]+', '_', (sub.student_name or 'family')).strip('_') or 'family'
+    return Response(body, mimetype='text/markdown',
+                    headers={'Content-Disposition':
+                             'attachment; filename=onboarding_%s.md' % slug})
 
 
 def _ai_bundle(student, parent):
