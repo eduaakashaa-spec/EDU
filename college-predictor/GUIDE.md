@@ -182,6 +182,7 @@ applications and inquiries, plus recent-activity feeds.
 | Schedule | `/admin/schedule` | Exams & events shown on member dashboards |
 | Messages | `/admin/messages` | Template library — per-member WhatsApp / email drafts with placeholders filled |
 | Email Templates | `/admin/templates` | Pick a ready email (welcome, thank-you, payment credited…), fill placeholders, open a draft from `eduaakashaa@gmail.com` (see §3.9) |
+| Onboarding Assessments | `/admin/onboarding` | See completed member onboarding assessments (student + parent), paired by family, with a one-click **Copy for AI** to generate the Insight Dossier. Families fill it at `/onboarding-assessment` |
 | College Guides | `/admin/alumni` | College Guide registrations — profiles, resume link/photo, status & matching, ₹ payouts, referral tree (see §3.5) |
 | Surveys | `/admin/surveys` | College Experience Survey responses — grouped by college + "want to be a guide" leads (see §3.8) |
 
@@ -446,12 +447,18 @@ Nothing is sent automatically — you pick a template, fill in the blanks, and i
 opens a **ready draft from `eduaakashaa@gmail.com`** that you review and send.
 
 **How to use it:**
-1. Click a template card. Some (like **Welcome**) have variants — e.g. *new
-   user*, *premium member who just paid*, *new College Guide* — pick one.
-2. Enter the **recipient's email** and any placeholders (first name, amount,
-   college, plan, reference…). The subject line and a **branded HTML preview**
-   update live as you type.
-3. Choose how to send:
+1. Pick a template card — they're grouped into **Members & Onboarding**,
+   **Admissions & Payments**, **College Guides** and **Engagement & Season**.
+   Some (like **Welcome** or **Deadline alert**) have variants — e.g. *new user*,
+   *premium member who just paid*, *new College Guide*, or *JoSAA / TNEA / other*.
+2. In the **To** field, start typing a name or email — it's a **searchable
+   dropdown of everyone we know** (members, College Guides, leads, survey and
+   contact-form emails). Picking a person fills their email and auto-fills the
+   *first name* (and *college*, for guides). You can also just type any address.
+3. Fill the remaining placeholders (amount, plan, dates, reference…). The subject
+   line and a **logo-branded HTML preview** (exactly what the recipient sees —
+   header logo + tagline, orange accent, contact footer) update live as you type.
+4. Choose how to send:
    - **Open in Gmail** — opens Gmail's compose window already addressed and
      filled, from the `eduaakashaa@gmail.com` account (make sure you're signed in
      to it). Review and hit send.
@@ -459,8 +466,12 @@ opens a **ready draft from `eduaakashaa@gmail.com`** that you review and send.
    - **Copy formatted email** — copies the designed HTML so you can paste it into
      Gmail with formatting intact; **Copy plain text** copies the text version.
 
-**Templates included:** Welcome (new user / premium / College Guide), Thank-you
-for a College Guide session, Thank-you for filling the survey, Payment credited
-to a College Guide, "a parent wants to talk to you" (guide matched), premium
-renewal reminder, and membership-application received. To add or edit a template,
-edit the `EMAIL_TEMPLATES` list in `routes/admin_portal.py`.
+**Templates included (19):** Welcome (new user / premium / College Guide) ·
+Onboarding-assessment invite (student / parent) · Session confirmed · Session
+recap & next steps · Report delivered · Documents (missing / all received) ·
+Premium renewal reminder · Application received · Application approved ·
+Payment reminder · Payment received (full / partial) · Guide matched ·
+Thank-you for a guide session · Guide payout credited · Thank-you for the
+survey · Counselling deadline alert (JoSAA / TNEA / other) · Win-back ·
+Feedback request · Inquiry response. To add or edit one, edit `EMAIL_TEMPLATES`
+in `app/services/email_templates.py`.

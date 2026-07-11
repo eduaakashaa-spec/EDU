@@ -293,3 +293,30 @@ class CollegeSurvey(db.Model):
             return json.loads(self.responses_json) if self.responses_json else {}
         except (ValueError, TypeError):
             return {}
+
+
+class OnboardingResponse(db.Model):
+    """One completed membership onboarding assessment — either the student's or a
+    parent's half. The two halves of a family are paired on `family_key` (a
+    normalised student name + contact) so the consultant sees them together and
+    can run the AI rubric on the pair. Answers keyed by item id (S1…/P1…) live in
+    responses_json — see services/onboarding_assessment.py."""
+    __tablename__ = 'onboarding_responses'
+
+    id = db.Column(db.Integer, primary_key=True)
+    role = db.Column(db.String(10), nullable=False, index=True)   # 'student' | 'parent'
+    # pairing key: lowercased student name + last 10 phone digits (or email)
+    family_key = db.Column(db.String(240), index=True)
+    student_name = db.Column(db.String(150))       # the student's name (both roles enter it)
+    respondent_name = db.Column(db.String(150))    # who filled this half
+    email = db.Column(db.String(200), index=True)
+    phone = db.Column(db.String(40))
+    responses_json = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    @property
+    def responses(self):
+        try:
+            return json.loads(self.responses_json) if self.responses_json else {}
+        except (ValueError, TypeError):
+            return {}

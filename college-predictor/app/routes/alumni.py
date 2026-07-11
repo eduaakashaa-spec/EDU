@@ -30,6 +30,7 @@ from app.decorators import admin_required, mentor_required
 from app.extensions import db, bcrypt
 from app.models import (Announcement, AlumniProfile, MentorMeeting,
                         MentorMessage, User)
+from app.services.queries import count_if
 
 alumni_bp = Blueprint('alumni', __name__)
 
@@ -392,12 +393,12 @@ def admin_list():
 
     pagination = (query.order_by(AlumniProfile.created_at.desc())
                   .paginate(page=page, per_page=25, error_out=False))
-    stats = {
-        'total': AlumniProfile.query.count(),
-        'active': AlumniProfile.query.filter_by(status='Active').count(),
-        'new': AlumniProfile.query.filter_by(status='New').count(),
-        'referred': AlumniProfile.query.filter(AlumniProfile.referred_by.isnot(None)).count(),
-    }
+    total, active, new, referred = db.session.query(
+        db.func.count(AlumniProfile.id),
+        count_if(AlumniProfile.status == 'Active'),
+        count_if(AlumniProfile.status == 'New'),
+        count_if(AlumniProfile.referred_by.isnot(None))).one()
+    stats = {'total': total, 'active': active, 'new': new, 'referred': referred}
     return render_template('admin/alumni_list.html', admin_tab='alumni',
                            pagination=pagination, rows=pagination.items,
                            stats=stats, q=q, status=status, statuses=STATUSES)

@@ -1,0 +1,425 @@
+{% extends "base.html" %}
+{% set is_student = role == 'student' %}
+{% block title %}{{ 'Student' if is_student else 'Parent' }} Onboarding Assessment · EduAakashaa{% endblock %}
+
+{% block head %}
+<style>
+  :root{ --navy:#0E3A8A; --navy-ink:#071A44; --orange:#FF6B0A; --cream:#FBF7EE;
+         --paper:#FFFDF7; --ink:#0E1B3D; --muted:#5A6278; --hairline:#E8DFC8; }
+  .oa{ background:var(--cream); min-height:100vh; font-family:'Plus Jakarta Sans',sans-serif; color:var(--ink); }
+  .oa-wrap{ max-width:600px; margin:0 auto; padding:20px 18px 120px; }
+
+  .oa-progress{ position:sticky; top:0; z-index:20; background:var(--cream); padding:10px 0 12px; }
+  .oa-bar{ height:7px; background:#eae1cb; border-radius:99px; overflow:hidden; }
+  .oa-bar > i{ display:block; height:100%; width:0; background:linear-gradient(90deg,var(--navy),var(--orange)); transition:width .25s; }
+  .oa-count{ font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--muted); margin-top:6px; letter-spacing:.06em; }
+
+  .oa-eyebrow{ font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.18em; font-size:10.5px; color:var(--navy); }
+  .oa-modtag{ display:inline-block; font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase;
+              letter-spacing:.12em; color:var(--orange); margin-bottom:10px; }
+  .oa-q{ font-family:'Fraunces',serif; font-size:1.35rem; line-height:1.4; color:var(--navy-ink); margin:4px 0 4px; }
+  .oa-modintro{ font-size:13.5px; color:var(--muted); line-height:1.55; margin:0 0 18px;
+                border-left:3px solid var(--hairline); padding-left:12px; }
+  .oa-opt-note{ font-size:12px; color:var(--muted); margin:-2px 0 14px; }
+
+  .oa-step{ display:none; animation:oaIn .2s ease; }
+  .oa-step.on{ display:block; }
+  @keyframes oaIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:none; } }
+
+  /* option lists */
+  .oa-opts{ display:flex; flex-direction:column; gap:9px; margin-top:6px; }
+  .oa-opt{ display:flex; align-items:center; gap:11px; padding:13px 15px; border:1.5px solid var(--hairline);
+           border-radius:12px; background:var(--paper); cursor:pointer; font-size:15px; transition:.12s; }
+  .oa-opt:hover{ border-color:var(--navy); }
+  .oa-opt input{ accent-color:var(--navy); width:18px; height:18px; flex:none; }
+  .oa-opt.sel{ border-color:var(--navy); background:rgba(14,58,138,.06); }
+
+  /* likert */
+  .oa-likert{ display:grid; grid-template-columns:repeat(5,1fr); gap:8px; margin-top:8px; }
+  .oa-likert label{ display:flex; flex-direction:column; align-items:center; gap:8px; padding:12px 4px;
+                    border:1.5px solid var(--hairline); border-radius:12px; background:var(--paper); cursor:pointer; }
+  .oa-likert label.sel{ border-color:var(--navy); background:rgba(14,58,138,.07); }
+  .oa-likert .dot{ font-family:'Fraunces',serif; font-size:1.1rem; color:var(--navy-ink); }
+  .oa-likert input{ position:absolute; opacity:0; }
+  .oa-anchors{ display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-top:7px; }
+
+  /* rows (choice_multi / likert_multi) */
+  .oa-row{ padding:12px 0; border-bottom:1px dashed var(--hairline); }
+  .oa-row:last-child{ border-bottom:none; }
+  .oa-row .rl{ font-size:14px; margin-bottom:9px; line-height:1.4; }
+  .oa-chips{ display:flex; flex-wrap:wrap; gap:7px; }
+  .oa-chip{ font-size:13px; padding:7px 13px; border:1.5px solid var(--hairline); border-radius:99px;
+            background:var(--paper); cursor:pointer; }
+  .oa-chip.sel{ background:var(--navy); border-color:var(--navy); color:#fff; }
+  .oa-chip input{ position:absolute; opacity:0; }
+
+  /* mostleast */
+  .oa-ml-head{ display:grid; grid-template-columns:1fr 62px 62px; gap:6px; font-size:11px; color:var(--muted);
+               font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.08em; margin-bottom:4px; }
+  .oa-ml-row{ display:grid; grid-template-columns:1fr 62px 62px; gap:6px; align-items:center; padding:10px 0;
+              border-bottom:1px dashed var(--hairline); font-size:14px; }
+  .oa-ml-row .c{ text-align:center; }
+  .oa-ml-row input{ width:20px; height:20px; accent-color:var(--navy); }
+
+  /* rank */
+  .oa-rank-row{ display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px dashed var(--hairline); font-size:14px; }
+  .oa-rank-row select{ width:64px; padding:8px; border:1.5px solid var(--hairline); border-radius:9px;
+                       background:var(--paper); font-family:inherit; font-size:14px; }
+  .oa-rank-row .lbl{ flex:1; }
+
+  /* text + num */
+  .oa-text, .oa-num input, .oa-pair select{ width:100%; padding:12px 14px; border:1.5px solid var(--hairline);
+            border-radius:11px; background:var(--paper); color:var(--ink); font-family:inherit; font-size:15px; }
+  textarea.oa-text{ min-height:96px; resize:vertical; }
+  .oa-num{ display:flex; flex-direction:column; gap:10px; }
+  .oa-num .nf{ display:flex; align-items:center; gap:12px; }
+  .oa-num .nf span{ width:110px; font-size:14px; color:var(--muted); }
+  .oa-pair{ display:flex; flex-direction:column; gap:14px; }
+  .oa-pair .pl{ font-size:13px; color:var(--muted); margin-bottom:6px; display:block; }
+  .oa-why{ margin-top:14px; }
+  .oa-why .pl{ font-size:13px; color:var(--muted); margin-bottom:6px; display:block; }
+  .oa-other{ margin-top:10px; }
+
+  /* identity step */
+  .oa-id .fld{ margin-bottom:14px; }
+  .oa-id label{ display:block; font-size:13px; color:var(--muted); margin-bottom:6px; }
+  .oa-id .req{ color:var(--orange); }
+
+  /* nav */
+  .oa-nav{ position:fixed; left:0; right:0; bottom:0; background:var(--paper); border-top:1px solid var(--hairline);
+           padding:12px 18px; display:flex; gap:10px; justify-content:space-between; align-items:center; z-index:30; }
+  .oa-nav .inner{ max-width:600px; margin:0 auto; width:100%; display:flex; gap:10px; }
+  .oa-btn{ flex:1; font-family:inherit; font-weight:700; font-size:15px; border:none; border-radius:12px;
+           padding:14px; cursor:pointer; }
+  .oa-btn.primary{ background:var(--navy); color:#fff; } .oa-btn.primary:hover{ background:var(--orange); }
+  .oa-btn.ghost{ flex:0 0 96px; background:transparent; color:var(--navy-ink); border:1.5px solid var(--navy-ink); }
+  .oa-btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .oa-flash{ background:#fce4e4; color:#a33; border:1px solid #f0bcbc; border-radius:10px; padding:11px 14px;
+             font-size:14px; margin-bottom:14px; }
+
+  /* done */
+  .oa-done{ text-align:center; padding:60px 20px; }
+  .oa-done .ic{ font-size:52px; }
+  .oa-done h1{ font-family:'Fraunces',serif; color:var(--navy-ink); font-size:1.9rem; margin:14px 0 8px; }
+  .oa-done p{ color:var(--muted); font-size:15px; line-height:1.6; max-width:440px; margin:0 auto 22px; }
+  .oa-done a{ display:inline-block; text-decoration:none; font-weight:700; background:var(--navy); color:#fff;
+              padding:12px 22px; border-radius:99px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<a id="top"></a>
+<div class="oa">
+{% if request.args.get('done') %}
+  <div class="oa-wrap"><div class="oa-done">
+    <div class="ic">✅</div>
+    <h1>Thank you — that's submitted.</h1>
+    <p>Your counsellor now has your answers and will use them to prepare for your first
+    1-on-1. {% if is_student %}Ask your parent to fill their short version too, if they
+    haven't yet.{% else %}If the student hasn't filled their version yet, please share the
+    link with them.{% endif %}</p>
+    <a href="{{ url_for('onboarding.landing') }}">Back to start</a>
+  </div></div>
+{% else %}
+  <div class="oa-wrap">
+    <div class="oa-progress">
+      <div class="oa-bar"><i id="oaFill"></i></div>
+      <div class="oa-count"><span id="oaNow">1</span> / <span id="oaTotal"></span></div>
+    </div>
+
+    {% with msgs = get_flashed_messages(with_categories=true) %}
+      {% for cat, m in msgs %}<div class="oa-flash">{{ m }}</div>{% endfor %}
+    {% endwith %}
+
+    <form method="post" id="oaForm" novalidate>
+      {# ---- step 0: identity ---- #}
+      <div class="oa-step on oa-id" data-step>
+        <div class="oa-eyebrow">EduAakashaa · {{ 'Student' if is_student else 'Parent' }} assessment</div>
+        <div class="oa-q">First, who's filling this in?</div>
+        <p class="oa-modintro">{{ intro }}</p>
+        <div class="fld">
+          <label>Student's full name <span class="req">*</span></label>
+          <input class="oa-text" name="student_name" required
+                 value="{{ (form.student_name if form) or '' }}"
+                 placeholder="The student's name">
+        </div>
+        <div class="fld">
+          <label>{{ 'Your name (the student)' if is_student else "Your name (parent / guardian)" }}</label>
+          <input class="oa-text" name="respondent_name"
+                 value="{{ (form.respondent_name if form) or '' }}" placeholder="Full name">
+        </div>
+        <div class="fld">
+          <label>Email <span class="req">*</span></label>
+          <input class="oa-text" type="email" name="email" required
+                 value="{{ (form.email if form) or '' }}" placeholder="you@example.com">
+        </div>
+        <div class="fld">
+          <label>Phone / WhatsApp {% if not is_student %}<span style="color:var(--muted)">(same number the student uses helps us pair your answers)</span>{% endif %}</label>
+          <input class="oa-text" name="phone" value="{{ (form.phone if form) or '' }}" placeholder="+91…">
+        </div>
+      </div>
+
+      {# ---- one step per item ---- #}
+      {% for mod in modules %}
+        {% for it in mod['items'] %}
+        <div class="oa-step" data-step data-optional="{{ '1' if it.get('optional') else '' }}"
+             data-type="{{ it.type }}" data-id="{{ it.id }}">
+          {% if loop.first %}<div class="oa-modtag">Section · {{ mod.title }}</div>{% endif %}
+          <div class="oa-q">{{ it.text }}</div>
+          {% if loop.first and mod.intro %}<p class="oa-modintro">{{ mod.intro }}</p>{% endif %}
+          {% if it.get('optional') %}<p class="oa-opt-note">Optional — you can skip this one. It stays with your counsellor.</p>{% endif %}
+
+          {%- set base = it.id -%}
+          {% if it.type == 'likert' %}
+            {% set anchors = ['Never heard of it','','','','Could explain it'] if it.get('scale')=='familiarity' else ['Strongly disagree','','','','Strongly agree'] %}
+            <div class="oa-likert">
+              {% for n in range(1,6) %}
+              <label data-val="{{ n }}"><input type="radio" name="{{ base }}" value="{{ n }}"><span class="dot">{{ n }}</span></label>
+              {% endfor %}
+            </div>
+            <div class="oa-anchors"><span>{{ anchors[0] }}</span><span>{{ anchors[4] }}</span></div>
+
+          {% elif it.type == 'choice' %}
+            <div class="oa-opts">
+              {% for o in it.options %}
+              <label class="oa-opt"><input type="radio" name="{{ base }}" value="{{ o }}"><span>{{ o }}</span></label>
+              {% endfor %}
+            </div>
+            {% if it.get('other') %}
+            <div class="oa-other" data-other><input class="oa-text" name="{{ base }}__other" placeholder="Name it…"></div>
+            {% endif %}
+
+          {% elif it.type == 'open' %}
+            <textarea class="oa-text" name="{{ base }}" placeholder="Type here…"></textarea>
+
+          {% elif it.type == 'num' %}
+            <div class="oa-num">
+              {% for fld in it.fields %}
+              <div class="nf"><span>{{ fld }}</span><input type="number" min="0" max="100" name="{{ base }}__{{ fld|oa_slug }}" placeholder="—"></div>
+              {% endfor %}
+            </div>
+
+          {% elif it.type == 'choice_multi' %}
+            {% for row in it.rows %}
+            <div class="oa-row" data-row><div class="rl">{{ row }}</div>
+              <div class="oa-chips">
+                {% for o in it.options %}
+                <label class="oa-chip"><input type="radio" name="{{ base }}__{{ row|oa_slug }}" value="{{ o }}">{{ o }}</label>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+
+          {% elif it.type == 'likert_multi' %}
+            {% for row in it.rows %}
+            <div class="oa-row" data-row><div class="rl">{{ row }}</div>
+              <div class="oa-chips">
+                {% for n in range(1,6) %}
+                <label class="oa-chip"><input type="radio" name="{{ base }}__{{ row|oa_slug }}" value="{{ n }}">{{ n }}</label>
+                {% endfor %}
+              </div>
+            </div>
+            {% endfor %}
+
+          {% elif it.type == 'mostleast' %}
+            <div class="oa-ml-head"><span>Activity</span><span class="c">Most</span><span class="c">Least</span></div>
+            {% for o in it.options %}
+            <div class="oa-ml-row"><span>{{ o }}</span>
+              <span class="c"><input type="radio" name="{{ base }}__most" value="{{ o }}"></span>
+              <span class="c"><input type="radio" name="{{ base }}__least" value="{{ o }}"></span>
+            </div>
+            {% endfor %}
+
+          {% elif it.type == 'pick' %}
+            <p class="oa-opt-note">Pick {{ it.pick }}.</p>
+            <div class="oa-opts" data-pick="{{ it.pick }}">
+              {% for o in it.options %}
+              <label class="oa-opt"><input type="checkbox" name="{{ base }}__{{ o|oa_slug }}" value="1"><span>{{ o }}</span></label>
+              {% endfor %}
+            </div>
+
+          {% elif it.type == 'rank' %}
+            <p class="oa-opt-note">Give each a rank — 1 is your top.</p>
+            {% for o in it.options %}
+            <div class="oa-rank-row">
+              <select name="{{ base }}__{{ o|oa_slug }}">
+                <option value="">–</option>
+                {% for n in range(1, it.options|length + 1) %}<option value="{{ n }}">{{ n }}</option>{% endfor %}
+              </select>
+              <span class="lbl">{{ o }}</span>
+            </div>
+            {% endfor %}
+            {% if it.get('other') %}
+            <div class="oa-other"><input class="oa-text" name="{{ base }}__other" placeholder="If you ranked 'Something else', name it…"></div>
+            {% endif %}
+
+          {% elif it.type == 'choice_pair' %}
+            <div class="oa-pair">
+              {% for grp in it.groups %}
+              <div><span class="pl">{{ grp.label }}</span>
+                <select name="{{ base }}__{{ grp.key }}">
+                  <option value="">Choose…</option>
+                  {% for o in grp.options %}<option value="{{ o }}">{{ o }}</option>{% endfor %}
+                </select>
+              </div>
+              {% endfor %}
+            </div>
+
+          {% elif it.type == 'sjt' %}
+            {% if it.options %}
+            <div class="oa-opts">
+              {% for o in it.options %}
+              <label class="oa-opt"><input type="radio" name="{{ base }}__choice" value="{{ o }}"><span>{{ o }}</span></label>
+              {% endfor %}
+            </div>
+            {% endif %}
+            <div class="oa-why"><span class="pl">Why? (a line or two)</span>
+              <textarea class="oa-text" name="{{ base }}__why" placeholder="Because…"></textarea></div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      {% endfor %}
+
+      {# ---- final review step ---- #}
+      <div class="oa-step" data-step data-final>
+        <div class="oa-modtag">Almost done</div>
+        <div class="oa-q">That's everything — ready to submit?</div>
+        <p class="oa-modintro">Your counsellor will read this before your first session. You can't
+        edit after submitting, so take a second if you want to go back.</p>
+      </div>
+    </form>
+  </div>
+
+  <div class="oa-nav">
+    <div class="inner">
+      <button type="button" class="oa-btn ghost" id="oaBack" disabled>Back</button>
+      <button type="button" class="oa-btn primary" id="oaNext">Next</button>
+    </div>
+  </div>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if not request.args.get('done') %}
+<script>
+(function () {
+  var steps = Array.prototype.slice.call(document.querySelectorAll('[data-step]'));
+  var i = 0, form = document.getElementById('oaForm');
+  var fill = document.getElementById('oaFill'), now = document.getElementById('oaNow');
+  var back = document.getElementById('oaBack'), next = document.getElementById('oaNext');
+  document.getElementById('oaTotal').textContent = steps.length;
+
+  function show(n) {
+    steps[i].classList.remove('on');
+    i = Math.max(0, Math.min(steps.length - 1, n));
+    steps[i].classList.add('on');
+    fill.style.width = ((i + 1) / steps.length * 100) + '%';
+    now.textContent = i + 1;
+    back.disabled = i === 0;
+    next.textContent = steps[i].hasAttribute('data-final') ? 'Submit' : 'Next';
+    window.scrollTo(0, 0);
+    var f = steps[i].querySelector('input,textarea,select'); // focus first field
+  }
+
+  // required = step 0 (identity) and any non-optional item step (except final)
+  function answered(step) {
+    if (step.hasAttribute('data-final')) return true;
+    if (step.classList.contains('oa-id')) {
+      var nm = form.student_name.value.trim(), em = form.email.value.trim();
+      return nm && em.indexOf('@') > 0;
+    }
+    if (step.getAttribute('data-optional') === '1') return true;
+    var type = step.getAttribute('data-type');
+    if (type === 'open') return step.querySelector('textarea').value.trim().length > 0;
+    if (type === 'sjt') {
+      var opts = step.querySelectorAll('input[type=radio]');
+      var picked = !opts.length || step.querySelector('input[type=radio]:checked');
+      var why = step.querySelector('textarea').value.trim().length > 0;
+      return picked && why;
+    }
+    if (type === 'num') {
+      return Array.prototype.some.call(step.querySelectorAll('input'), function (x) { return x.value.trim(); });
+    }
+    if (type === 'choice_multi' || type === 'likert_multi') {
+      return Array.prototype.every.call(step.querySelectorAll('[data-row]'), function (r) {
+        return r.querySelector('input:checked'); });
+    }
+    if (type === 'mostleast') {
+      return step.querySelector('input[name$="__most"]:checked') &&
+             step.querySelector('input[name$="__least"]:checked');
+    }
+    if (type === 'pick') {
+      var need = +step.querySelector('[data-pick]').getAttribute('data-pick');
+      return step.querySelectorAll('input:checked').length === need;
+    }
+    if (type === 'rank') {
+      return Array.prototype.some.call(step.querySelectorAll('select'), function (s) { return s.value; });
+    }
+    if (type === 'choice_pair') {
+      return Array.prototype.every.call(step.querySelectorAll('select'), function (s) { return s.value; });
+    }
+    // choice + likert
+    return !!step.querySelector('input:checked');
+  }
+
+  next.addEventListener('click', function () {
+    if (!answered(steps[i])) {
+      steps[i].classList.add('shake');
+      alert('Please answer this one before continuing' +
+            (steps[i].getAttribute('data-optional') === '1' ? '' : '.'));
+      return;
+    }
+    if (steps[i].hasAttribute('data-final')) { form.submit(); return; }
+    show(i + 1);
+  });
+  back.addEventListener('click', function () { show(i - 1); });
+
+  // visual selection + pick-limit + conditional "other"
+  form.addEventListener('change', function (e) {
+    var t = e.target;
+    // radio/checkbox visual state
+    var opt = t.closest('.oa-opt'); if (opt) {
+      if (t.type === 'radio') {
+        opt.parentNode.querySelectorAll('.oa-opt').forEach(function (o) { o.classList.remove('sel'); });
+      }
+      opt.classList.toggle('sel', t.checked);
+    }
+    var lk = t.closest('.oa-likert'); if (lk) {
+      lk.querySelectorAll('label').forEach(function (l) { l.classList.remove('sel'); });
+      if (t.checked) t.closest('label').classList.add('sel');
+    }
+    var chipWrap = t.closest('.oa-chips'); if (chipWrap && t.type === 'radio') {
+      chipWrap.querySelectorAll('.oa-chip').forEach(function (c) { c.classList.remove('sel'); });
+      t.closest('.oa-chip').classList.add('sel');
+    }
+    // pick-N limit: uncheck oldest when over
+    var pickWrap = t.closest('[data-pick]');
+    if (pickWrap && t.type === 'checkbox') {
+      var need = +pickWrap.getAttribute('data-pick');
+      var checked = pickWrap.querySelectorAll('input:checked');
+      if (checked.length > need) { checked[0].checked = false; checked[0].closest('.oa-opt').classList.remove('sel'); }
+    }
+    // mostleast: don't allow same option as most AND least
+    if (t.name && (t.name.indexOf('__most') > 0 || t.name.indexOf('__least') > 0)) {
+      var row = t.closest('.oa-ml-row');
+      var other = t.name.indexOf('__most') > 0 ? '__least' : '__most';
+      var twin = row.querySelector('input[name$="' + other + '"]');
+      if (twin && twin.checked) twin.checked = false;
+    }
+  });
+  // reveal "other" text only when a 'Something else' option is chosen
+  form.addEventListener('change', function () {
+    steps.forEach(function (s) {
+      var box = s.querySelector('[data-other]'); if (!box) return;
+      var chosen = s.querySelector('input[type=radio]:checked');
+      box.style.display = (chosen && /something else/i.test(chosen.value)) ? 'block' : 'none';
+    });
+  });
+
+  show(0);
+})();
+</script>
+{% endif %}
+{% endblock %}

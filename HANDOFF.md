@@ -118,14 +118,42 @@ see §6.
 
 ## 5. What was built recently (newest first)
 
-- **Admin Email Templates** (`routes/admin_portal.py` `EMAIL_TEMPLATES` + `templates()`,
-  `templates/admin/templates.html`): new **Email Templates** tab (Broadcast group,
-  `/admin/templates`). Admin picks a template (welcome ·3 variants / thank-you for a
-  guide session / thank-you for a survey / payment credited / guide matched / renewal /
-  application received), fills placeholders, and opens a ready draft **from
-  `eduaakashaa@gmail.com`** via a Gmail compose link (`authuser=…`) or mailto, with a
-  live branded HTML preview + "copy formatted email". Nothing is auto-sent; the composer
-  is client-side JS driven by the `EMAIL_TEMPLATES` JSON.
+- **Onboarding assessment — LIVE in-app** (design in `ONBOARDING_ASSESSMENT.md`; built out across
+  `app/services/onboarding_assessment.py`, `app/routes/onboarding.py`, `OnboardingResponse` model,
+  templates `onboarding_landing.html` / `onboarding_assessment.html` / `admin/onboarding_*.html`):
+  the two-part instrument (student 60 items + parent 34 items — RIASEC / Big Five / SDT /
+  self-efficacy / work values / light aptitude, dyadic ALIGN pairs) is now a real mobile form.
+  `/onboarding-assessment` → pick student or parent → a **one-question-per-screen stepper**
+  (progress bar, per-type widgets: likert, most/least forced-choice, rank, pick-2, choice-pair,
+  num, SJT, open). Answers save to `onboarding_responses` keyed by item id (S1…/P1…). The two
+  halves of a family pair on `family_key` (normalised student name + phone/email). Admin
+  **People → Onboarding Assessments** (`/admin/onboarding`) lists families with student/parent
+  status; the detail page renders both halves by module+tag and has a **Copy for AI** button that
+  bundles the answers with a pointer to the Deliverable-2 rubric + Deliverable-3 dossier template.
+  Confidential items (S50/P34) are shown counsellor-only and flagged. The questions live in ONE
+  data module (`onboarding_assessment.py`) that drives the form, validation and admin display —
+  edit that list to change questions; no migration (new table auto-creates on boot). The
+  `assessment_invite` email template (student + parent) sends the link out.
+- **Admin made faster** (`app/services/queries.py` `count_if`/`sum_if` + all admin routes):
+  every KPI block now runs as ONE conditional-aggregate SELECT instead of N separate
+  COUNTs — `/admin` overview went from **47 → 23 queries** per load; users/membership/
+  alumni lists 7 → 4, surveys 5 → 3. On remote Neon Postgres, round trips dominate, so
+  this is roughly a 2× server-time cut. Chart.js also moved out of `<head>` (no longer
+  render-blocking). When adding new admin stats, extend the aggregate query — don't add
+  another `.count()`.
+- **Admin Email Templates v2** (`app/services/email_templates.py` registry;
+  `templates/admin/templates.html` composer; `admin_portal.templates()` +
+  `_recipient_directory()`): cards now grouped by category (Members & Onboarding /
+  Admissions & Payments / College Guides / Engagement & Season) with 19 scenarios —
+  added assessment invite (student/parent), session confirmed, session recap, report
+  delivered, documents (missing/received), application approved, payment reminder,
+  payment received (full/partial), deadline alerts (JoSAA/TNEA/other), win-back,
+  feedback request, inquiry response. The **To** field is a searchable dropdown of every
+  known contact (members, College Guides, leads, inquiries — deduped, capped, admin-only)
+  and autofills the name/college placeholders. Emails render in a branded shell with the
+  EduAakashaa logo (absolute prod URL so Gmail can load it), tagline, contact footer
+  (India WhatsApp + UAE phone). Nothing is auto-sent. To add a template, edit
+  `EMAIL_TEMPLATES` in `app/services/email_templates.py`.
 - **Enhanced `/admin` overview** (`admin_portal.home`, `templates/admin/portal_home.html`):
   grouped KPI bands (members / membership & ₹ revenue / leads-inquiries-surveys /
   College-Guide activity & ₹ payouts / weekly growth) + **4 Chart.js charts** (8-week

@@ -3,7 +3,6 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   .ov-label{ font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase;
              letter-spacing:.14em; color:var(--navy); margin:22px 0 8px; font-weight:700; }
@@ -191,6 +190,8 @@
 {% endblock %}
 
 {% block scripts %}
+{# Loaded here (not in <head>) so the CDN fetch never blocks first paint. #}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script>
 (function () {
   if (typeof Chart === 'undefined') return;
