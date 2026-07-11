@@ -24,6 +24,11 @@ def _read_csv_dicts(filename):
         return list(csv.DictReader(f))
 
 
+def _read_json(filename):
+    with open(os.path.join(DATA_DIR, filename), encoding='utf-8') as f:
+        return json.load(f)
+
+
 def _num(value, as_int=False):
     """'' -> None; otherwise int/float."""
     if value is None or value == '':
@@ -93,11 +98,20 @@ def _load_college_datasets():
         'nirf_score': _num(r['nirf_score']), 'city': r['city'], 'state': r['state'],
     } for r in _read_csv_dicts('dasa_seat_matrix.csv')]
 
+    # Datasets moved out of hard-coded page JS into files (served as globals).
+    # TNEA cutoffs == the TNEA 2025 master; NIRF keeps the full 300-set; CBP
+    # carries the real DASA CIWG ranks (incl. Manipal) from the CIWG xlsx.
+    ciwg = _read_json('ciwg_choice_builder.json')
+
     _college_datasets = {
         'engg-colleges-india': {'EA_ENGG_COLLEGES': engg},
         'tnea-colleges': {'EA_TN_COLLEGES': tn_top},
         'tnea-expert-guidance': {'EA_TNEA_BENCHMARK': benchmark, 'EA_TNEA_DATA': tnea_data},
         'dasa-seat-matrix': {'EA_DASA_SEAT_MATRIX': seat_matrix},
+        'tnea-cutoffs-full': {'EA_TNEA_FULL': _read_json('tnea_cutoffs_full.json')},
+        'tnea2026-cutoffs': {'EA_TNEA2026': _read_json('tnea2026_cutoffs.json')},
+        'nirf-full': {'EA_NIRF300': _read_json('nirf_full.json')},
+        'ciwg-choice-builder': {'EA_CIWG': ciwg},
     }
 
 

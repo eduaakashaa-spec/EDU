@@ -408,5 +408,6 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('api.college_data_js', name='nirf-full') }}"></script>
 <script src="{{ url_for('static', filename='js/josaa_ea_members.js') }}"></script>
 {% endblock %}

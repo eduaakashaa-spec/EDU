@@ -483,5 +483,6 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('api.college_data_js', name='tnea2026-cutoffs') }}" defer></script>
 <script src="{{ url_for('static', filename='js/tnea2026.js') }}" defer></script>
 {% endblock %}

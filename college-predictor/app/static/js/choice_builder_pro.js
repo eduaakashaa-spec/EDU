@@ -240,6 +240,7 @@ const REALCLOSE={
 "University of Hyderabad":{C:{CS:664049}},
 "VNIT Nagpur":{C:{AR:6816,CS:147009,EC:270474,EE:403960,ME:333505,CH:574810,CE:667613},N:{CS:280185,EC:485153,EE:1074763}}
 };
+if(window.EA_CIWG){(window.EA_CIWG.addColleges||[]).forEach(function(c){D.push(c);});Object.assign(REALCLOSE,window.EA_CIWG.realclose||{});}
 function realClose(name,brCode,cat){const r=REALCLOSE[name];if(!r)return null;const o=cat==="CIWG"?r.C:r.N;return (o&&o[brCode]!=null)?o[brCode]:null;}
 function closeReal(name,brCode,cat){return realClose(name,brCode,cat)!=null;}
 function estClose(name,brCode,cat){const rc=realClose(name,brCode,cat);if(rc!=null)return rc;return Math.round(28080*Math.pow(nirfProxy(name),0.47)*(BR_MULT[brCode]||1)*(CAT_MULT[cat]||1));}
