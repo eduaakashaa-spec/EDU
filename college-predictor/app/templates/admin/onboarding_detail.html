@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}{{ sub.student_name }} · Onboarding · EduAakashaa Admin{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .ob-cols{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:900px){ .ob-cols{ grid-template-columns:1fr; } }
+  .ob-side h2{ font-family:'Fraunces',serif; font-size:1.1rem; color:var(--navy-ink); margin:0 0 4px; }
+  .ob-side .meta{ font-size:12.5px; color:var(--muted); margin-bottom:12px; }
+  .ob-side .missing{ color:var(--muted); font-style:italic; padding:14px; background:var(--cream);
+                     border:1px dashed var(--hairline); border-radius:10px; }
+  .ob-mod{ font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.12em;
+           color:var(--orange); margin:16px 0 8px; }
+  .ob-item{ padding:9px 0; border-bottom:1px dashed var(--hairline); }
+  .ob-item .qid{ font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--navy); }
+  .ob-item .tag{ font-family:'JetBrains Mono',monospace; font-size:9.5px; color:var(--muted); }
+  .ob-item .q{ font-size:12.5px; color:var(--muted); margin:2px 0 3px; }
+  .ob-item .a{ font-size:14px; color:var(--ink); }
+  .ob-item .a.empty{ color:var(--muted); font-style:italic; }
+  .ob-conf{ background:rgba(255,107,10,.08); border:1px solid rgba(255,107,10,.3); border-radius:8px; padding:8px 10px; }
+  .ob-conf .warn{ font-size:10px; color:#b34c07; font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.1em; }
+  .ob-ai{ margin-top:6px; }
+  .ob-ai textarea{ width:100%; min-height:150px; font-family:'JetBrains Mono',monospace; font-size:11.5px;
+                   border:1.5px solid var(--hairline); border-radius:12px; padding:14px; background:var(--cream); color:var(--ink); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">EA Admin · Onboarding</div>
+      <h1>{{ sub.student_name }}</h1>
+    </div>
+    <a class="btn btn-ghost" href="{{ url_for('onboarding.admin_list') }}">← All assessments</a>
+  </div>
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>Generate the Insight Dossier</h2>
+    <p class="sub">Copy the block below and paste it into your AI. It already includes the instruction
+    to use the rubric &amp; dossier template from <code>ONBOARDING_ASSESSMENT.md</code>.
+    Confidential items (S50/P34) are included here for you — the rubric keeps them out of any
+    family-facing copy.</p>
+    <div class="tpl-actions" style="display:flex; gap:10px; margin-bottom:12px;">
+      <button type="button" class="btn btn-navy" id="obCopy">📋 Copy for AI</button>
+    </div>
+    <div class="ob-ai"><textarea id="obBundle" readonly>{{ ai_bundle }}</textarea></div>
+  </div>
+
+  <div class="ob-cols">
+    {% for role, rec in [('student', student), ('parent', parent)] %}
+    <div class="ob-side">
+      <h2>{{ 'Student' if role == 'student' else 'Parent' }}</h2>
+      {% if rec %}
+        <div class="meta">Filled by {{ rec.respondent_name or '—' }} · {{ rec.email }}
+          {%- if rec.phone %} · {{ rec.phone }}{% endif %} ·
+          {{ rec.created_at.strftime('%d %b %Y, %H:%M') if rec.created_at else '' }}</div>
+        {% set resp = rec.responses %}
+        {% for mod in modules_for(role) %}
+          <div class="ob-mod">{{ mod.title }}</div>
+          {% for it in mod['items'] %}
+            {% set ans = resp.get(it.id) %}
+            <div class="ob-item {{ 'ob-conf' if it.get('confidential') }}">
+              {% if it.get('confidential') %}<div class="warn">🔒 Confidential — counsellor only</div>{% endif %}
+              <span class="qid">{{ it.id }}</span> <span class="tag">{{ it.tag }}</span>
+              <div class="q">{{ it.text }}</div>
+              {% if ans in (None, '', {}, []) %}
+                <div class="a empty">— not answered</div>
+              {% elif ans is mapping %}
+                <div class="a">{% for k, v in ans.items() %}{% if v not in (None, '') %}<div><strong>{{ k }}:</strong> {{ v }}</div>{% endif %}{% endfor %}</div>
+              {% elif ans is iterable and ans is not string %}
+                <div class="a">{% for v in ans %}{{ loop.index }}. {{ v }}{% if not loop.last %} · {% endif %}{% endfor %}</div>
+              {% else %}
+                <div class="a">{{ ans }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endfor %}
+      {% else %}
+        <div class="missing">{{ 'Student' if role == 'student' else 'Parent' }} half not submitted yet.</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div></div>
+
+<div class="tpl-toast" id="obToast" style="position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+     opacity:0; background:var(--navy-ink); color:#fff; padding:10px 18px; border-radius:999px; font-size:13px;
+     transition:.2s; z-index:1000; pointer-events:none;">Copied</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var btn = document.getElementById('obCopy'), ta = document.getElementById('obBundle');
+  var toast = document.getElementById('obToast'), t;
+  function flash(m){ toast.textContent = m; toast.style.opacity = 1; toast.style.transform = 'translateX(-50%) translateY(0)';
+    clearTimeout(t); t = setTimeout(function(){ toast.style.opacity = 0; toast.style.transform = 'translateX(-50%) translateY(20px)'; }, 1800); }
+  btn.addEventListener('click', function () {
+    ta.select();
+    navigator.clipboard.writeText(ta.value).then(function(){ flash('Copied — paste into your AI'); },
+      function(){ document.execCommand('copy'); flash('Copied'); });
+  });
+})();
+</script>
+{% endblock %}

@@ -29,6 +29,7 @@ from app.decorators import admin_required
 from app.models_membership import (MembershipApplication, MembershipInvoice,
                                    DocSequence, TIERS, APP_STATUSES)
 from app.services.pricing import compute_totals, rupees, to_paise
+from app.services.queries import count_if
 
 membership_bp = Blueprint('membership', __name__)
 
@@ -137,13 +138,13 @@ def admin_list():
     query = query.order_by(MembershipApplication.created_at.desc())
     pagination = query.paginate(page=page, per_page=25, error_out=False)
 
-    # KPI summary cards
-    stats = {
-        'total': MembershipApplication.query.count(),
-        'new': MembershipApplication.query.filter_by(status='New').count(),
-        'invoiced': MembershipApplication.query.filter_by(status='Invoiced').count(),
-        'paid': MembershipApplication.query.filter_by(status='Paid').count(),
-    }
+    # KPI summary cards — one aggregate SELECT instead of four COUNTs
+    total, new, invoiced, paid = db.session.query(
+        db.func.count(MembershipApplication.id),
+        count_if(MembershipApplication.status == 'New'),
+        count_if(MembershipApplication.status == 'Invoiced'),
+        count_if(MembershipApplication.status == 'Paid')).one()
+    stats = {'total': total, 'new': new, 'invoiced': invoiced, 'paid': paid}
 
     return render_template('admin/membership_list.html',
                            pagination=pagination, rows=pagination.items,
@@ -373,12 +374,14 @@ def admin_leads():
     pagination = (query.order_by(PageLead.created_at.desc())
                   .paginate(page=page, per_page=25, error_out=False))
 
-    sources = [s[0] for s in db.session.query(PageLead.source)
-               .distinct().order_by(PageLead.source)]
+    # One GROUP BY yields both the source list and the grand total.
+    src_counts = (db.session.query(PageLead.source, db.func.count(PageLead.id))
+                  .group_by(PageLead.source).order_by(PageLead.source).all())
+    sources = [s for s, _ in src_counts]
     stats = {
-        'total': PageLead.query.count(),
+        'total': sum(c for _, c in src_counts),
         'sources': len(sources),
-        'dasa_leads': DasaLead.query.count(),
+        'dasa_leads': db.session.query(db.func.count(DasaLead.id)).scalar(),
     }
     dasa_rows = (DasaLead.query.order_by(DasaLead.timestamp.desc()).limit(25).all()
                  if not q and not source else [])
@@ -447,14 +450,15 @@ def admin_users():
     pagination = (query.order_by(User.created_at.desc())
                   .paginate(page=page, per_page=25, error_out=False))
     now = datetime.now(timezone.utc).replace(tzinfo=None)
-    stats = {
-        'total': User.query.count(),
-        'premium': User.query.filter_by(tier='premium').count(),
-        'admin': User.query.filter_by(tier='admin').count(),
-        'expired': User.query.filter(User.tier == 'premium',
-                                     User.tier_expires_at.isnot(None),
-                                     User.tier_expires_at <= now).count(),
-    }
+    total, premium, admin, expired = db.session.query(
+        db.func.count(User.id),
+        count_if(User.tier == 'premium'),
+        count_if(User.tier == 'admin'),
+        count_if(db.and_(User.tier == 'premium',
+                         User.tier_expires_at.isnot(None),
+                         User.tier_expires_at <= now))).one()
+    stats = {'total': total, 'premium': premium, 'admin': admin,
+             'expired': expired}
     return render_template('admin/users_list.html', admin_tab='users',
                            pagination=pagination, rows=pagination.items,
                            stats=stats, q=q, tier_filter=tier_filter)

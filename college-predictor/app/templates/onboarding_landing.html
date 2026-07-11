@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}Membership Onboarding Assessment · EduAakashaa{% endblock %}
+{% block meta_description %}<meta name="description" content="A short, private profiling assessment that helps your EduAakashaa counsellor prepare for your first 1-on-1.">{% endblock %}
+
+{% block head %}
+<style>
+  .oal{ background:#FBF7EE; min-height:80vh; padding:44px 20px; font-family:'Plus Jakarta Sans',sans-serif; color:#0E1B3D; }
+  .oal-wrap{ max-width:760px; margin:0 auto; }
+  .oal-eyebrow{ font-family:'JetBrains Mono',monospace; text-transform:uppercase; letter-spacing:.2em; font-size:11px; color:#0E3A8A; }
+  .oal h1{ font-family:'Fraunces',serif; font-size:2.1rem; color:#071A44; margin:.35em 0 .3em; letter-spacing:-.02em; }
+  .oal .lead{ font-size:1.02rem; line-height:1.65; color:#3f4763; max-width:640px; }
+  .oal-cards{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; }
+  @media (max-width:620px){ .oal-cards{ grid-template-columns:1fr; } }
+  .oal-card{ display:block; text-decoration:none; background:#FFFDF7; border:1.5px solid #E8DFC8; border-radius:16px;
+             padding:24px 22px; transition:.15s; }
+  .oal-card:hover{ border-color:#0E3A8A; transform:translateY(-2px); box-shadow:0 12px 30px rgba(14,58,138,.10); }
+  .oal-card .ic{ font-size:30px; }
+  .oal-card h2{ font-family:'Fraunces',serif; font-size:1.3rem; color:#071A44; margin:12px 0 6px; }
+  .oal-card p{ font-size:14px; color:#5A6278; line-height:1.55; margin:0 0 12px; }
+  .oal-card .go{ font-weight:700; color:#FF6B0A; font-size:14px; }
+  .oal-note{ margin-top:26px; font-size:13px; color:#5A6278; background:#fff; border:1px solid #E8DFC8;
+             border-radius:12px; padding:14px 16px; line-height:1.6; }
+  .oal-note strong{ color:#0E1B3D; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="oal"><div class="oal-wrap">
+  <div class="oal-eyebrow">EduAakashaa · Membership</div>
+  <h1>Your onboarding assessment</h1>
+  <p class="lead">Before your first 1-on-1, this short, private assessment helps your counsellor
+  understand the whole picture — where the student stands, what genuinely interests them, and
+  what the family hopes for. There are no right answers. It's answered on the phone in one sitting.</p>
+
+  <div class="oal-cards">
+    <a class="oal-card" href="{{ url_for('onboarding.assessment', role='student') }}">
+      <div class="ic">🎓</div>
+      <h2>I'm the student</h2>
+      <p>About 20 minutes — your marks and confidence, interests, how you work, and where you hope
+      this goes. Honest answers only.</p>
+      <span class="go">Start the student assessment →</span>
+    </a>
+    <a class="oal-card" href="{{ url_for('onboarding.assessment', role='parent') }}">
+      <div class="ic">👪</div>
+      <h2>I'm the parent</h2>
+      <p>About 12 minutes — your read on your child, your hopes, an honest self-check on the
+      admissions landscape, and your budget.</p>
+      <span class="go">Start the parent assessment →</span>
+    </a>
+  </div>
+
+  <div class="oal-note">
+    <strong>Please fill it independently.</strong> Student and parent answer separately, without
+    comparing — the differences between your answers are exactly what makes the first session useful.
+    Everything stays between your family and your counsellor.
+  </div>
+</div></div>
+{% endblock %}

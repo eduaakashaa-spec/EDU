@@ -29,6 +29,7 @@ from app.data.loader import get_branch_names, get_college_names
 from app.decorators import admin_required
 from app.extensions import db
 from app.models import CollegeSurvey
+from app.services.queries import count_if
 
 survey_bp = Blueprint('survey', __name__)
 
@@ -341,11 +342,11 @@ def admin_list():
         by_college.setdefault(r.institute or '—', []).append(r)
     grouped = sorted(by_college.items(), key=lambda kv: (-len(kv[1]), kv[0].lower()))
 
-    stats = {
-        'total': CollegeSurvey.query.count(),
-        'colleges': db.session.query(CollegeSurvey.institute).distinct().count(),
-        'mentor_leads': CollegeSurvey.query.filter_by(wants_to_mentor=True).count(),
-    }
+    total, colleges, mentor_leads = db.session.query(
+        db.func.count(CollegeSurvey.id),
+        db.func.count(db.distinct(CollegeSurvey.institute)),
+        count_if(CollegeSurvey.wants_to_mentor.is_(True))).one()
+    stats = {'total': total, 'colleges': colleges, 'mentor_leads': mentor_leads}
     return render_template('admin/surveys_list.html', admin_tab='surveys',
                            grouped=grouped, shown=len(rows), stats=stats, q=q)
 

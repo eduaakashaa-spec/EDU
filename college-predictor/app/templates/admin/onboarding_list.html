@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Onboarding Assessments · EduAakashaa Admin{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .ob-fam .who{ display:flex; gap:8px; align-items:center; }
+  .ob-dot{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.06em; text-transform:uppercase;
+           padding:3px 9px; border-radius:999px; }
+  .ob-have{ background:rgba(31,139,92,.14); color:var(--green); }
+  .ob-miss{ background:rgba(90,98,120,.10); color:var(--muted); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">EA Admin · Onboarding</div>
+      <h1>Onboarding Assessments</h1>
+    </div>
+  </div>
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-kpis">
+    <div class="adm-kpi"><div class="n">{{ stats.families }}</div><div class="l">Families</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.complete }}</div><div class="l">Both halves in</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.students }}</div><div class="l">Student forms</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.parents }}</div><div class="l">Parent forms</div></div>
+  </div>
+
+  <form class="adm-bar" method="get">
+    <input name="q" value="{{ q }}" placeholder="Search student / parent / email…" style="flex:1; min-width:220px;">
+    <button class="btn btn-navy" type="submit">Search</button>
+    {% if q %}<a class="btn btn-ghost" href="{{ url_for('onboarding.admin_list') }}">Clear</a>{% endif %}
+  </form>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr>
+        <th>Student</th><th>Student form</th><th>Parent form</th><th>Latest</th><th></th>
+      </tr></thead>
+      <tbody>
+      {% for fam in families %}
+        {% set open_id = (fam.student or fam.parent).id %}
+        <tr>
+          <td class="ob-fam"><strong>{{ fam.name }}</strong></td>
+          <td>
+            {% if fam.student %}<span class="ob-dot ob-have">✓ done</span>{% else %}<span class="ob-dot ob-miss">— waiting</span>{% endif %}
+          </td>
+          <td>
+            {% if fam.parent %}<span class="ob-dot ob-have">✓ done</span>{% else %}<span class="ob-dot ob-miss">— waiting</span>{% endif %}
+          </td>
+          <td class="mut">{{ fam.last.strftime('%d %b %Y, %H:%M') if fam.last else '—' }}</td>
+          <td><a class="ref" href="{{ url_for('onboarding.admin_detail', sub_id=open_id) }}">Open →</a></td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" style="padding:26px; text-align:center; color:var(--muted);">
+          No assessments yet. Share <code>/onboarding-assessment</code> with a member family.
+        </td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div></div>
+{% endblock %}
