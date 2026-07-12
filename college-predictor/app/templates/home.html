@@ -1,5 +1,33 @@
 ﻿{% extends "base.html" %}
+{% import "_ea_icons.html" as icons %}
 {% block title %}Homepage | EduAakashaA{% endblock %}
+
+{% block head %}
+<style>
+  /* On-brand custom icons (replace emoji): navy line-art in a soft cream square */
+  .ea-ic{ width:22px; height:22px; display:block; }
+  .info-card__icon, .service-card__icon{
+    width:46px; height:46px; display:inline-flex; align-items:center; justify-content:center;
+    background:#F5EFDF; border:1px solid #E8DFC8; border-radius:12px; color:#0E3A8A;
+    font-size:0 !important; transition:.18s; }
+  .info-card:hover .info-card__icon, .service-card:hover .service-card__icon{
+    background:#0E3A8A; color:#fff; border-color:#0E3A8A; }
+  .step__title{ display:flex; align-items:center; gap:9px; }
+  .step__title .ea-ic{ width:20px; height:20px; color:#FF6B0A; flex:none; }
+
+  /* Testimonial monogram avatars (no stock faces) */
+  .tmono{ width:46px; height:46px; border-radius:50%; display:inline-flex; align-items:center;
+    justify-content:center; font-family:'Fraunces',serif; font-weight:600; font-size:1.15rem;
+    color:#fff; }
+
+  /* Hero illustration — geometric cube/constellation motif from the logo */
+  .hero-grid{ position:relative; }
+  .hero-art{ position:absolute; right:-8px; bottom:-40px; width:210px; height:210px;
+    opacity:.9; pointer-events:none; z-index:0; }
+  .hero-card{ position:relative; z-index:1; }
+  @media(max-width:920px){ .hero-art{ display:none; } }
+</style>
+{% endblock %}
 
 {% block content %}
   <!-- ======== HERO ======== -->
@@ -7,6 +35,22 @@
     <div class="hero__glow"></div>
     <div class="container">
       <div class="hero-grid">
+        <svg class="hero-art" viewBox="0 0 220 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <g stroke="#0E3A8A" stroke-width="2" stroke-linejoin="round" opacity="0.9">
+    <path d="M110 26 170 60v68l-60 34-60-34V60z" fill="#0E3A8A" fill-opacity="0.04"/>
+    <path d="M110 26v68M110 94l60-34M110 94l-60-34M110 94v68"/>
+    <path d="M50 128 110 94l60 34" opacity="0.55"/>
+  </g>
+  <g fill="#FF6B0A">
+    <circle cx="110" cy="94" r="5.5"/><circle cx="170" cy="60" r="3.5"/>
+    <circle cx="50" cy="60" r="3.5"/><circle cx="170" cy="128" r="3.5"/>
+    <circle cx="50" cy="128" r="3.5"/><circle cx="110" cy="162" r="3.5"/>
+  </g>
+  <g stroke="#FF6B0A" stroke-width="1.4" opacity="0.5">
+    <path d="M110 94 24 40M110 94l86-54M110 94l92 40"/>
+  </g>
+  <g fill="#0E3A8A"><circle cx="24" cy="40" r="2.5"/><circle cx="196" cy="40" r="2.5"/><circle cx="202" cy="134" r="2.5"/></g>
+</svg>
         <div class="hero-copy">
           <span class="eyebrow">2025 &ndash; 26 Edition</span>
           <h1 style="margin-top:22px;">Illuminating Your <span class="accent">Academic Future</span></h1>
@@ -53,32 +97,32 @@
       </div>
       <div class="info-cards">
         <a href="{{ url_for('main.nri_guide') }}" class="info-card" style="text-decoration:none;">
-          <div class="info-card__icon">&#x1F30D;</div>
+          <div class="info-card__icon">{{ icons.ic('globe') }}</div>
           <div class="info-card__title">NRI Admission Guide</div>
           <p class="info-card__text">Complete 10-chapter walkthrough of the DASA &amp; CIWG admission process for NRI families in the Gulf and beyond.</p>
         </a>
         <a href="{{ url_for('main.josaa') }}" class="info-card" style="text-decoration:none;">
-          <div class="info-card__icon">&#x1F4CA;</div>
+          <div class="info-card__icon">{{ icons.ic('chart') }}</div>
           <div class="info-card__title">JOSAA Predictor</div>
           <p class="info-card__text">AI-powered college prediction with matrix analysis, NIRF rankings, and 7 years of historical cut-off data.</p>
         </a>
         <a href="{{ url_for('main.dasa_guide') }}" class="info-card" style="text-decoration:none;">
-          <div class="info-card__icon">&#x1F3AF;</div>
+          <div class="info-card__icon">{{ icons.ic('target') }}</div>
           <div class="info-card__title">DASA Predictor</div>
           <p class="info-card__text">Enter your JEE rank and get a personalised shortlist of safe, moderate, and reach options across 300+ programs.</p>
         </a>
         <a href="{{ url_for('main.tnea2026') }}" class="info-card" style="text-decoration:none;">
-          <div class="info-card__icon">&#x1F3EB;</div>
+          <div class="info-card__icon">{{ icons.ic('building') }}</div>
           <div class="info-card__title">TNEA 2026</div>
           <p class="info-card__text">Tamil Nadu Engineering Admissions &mdash; seat matrix, category analysis, and cut-off trends for all colleges.</p>
         </a>
         <a href="{{ url_for('main.nirf_ranking') }}" class="info-card" style="text-decoration:none;">
-          <div class="info-card__icon">&#x1F3C6;</div>
+          <div class="info-card__icon">{{ icons.ic('award') }}</div>
           <div class="info-card__title">NIRF Rankings</div>
           <p class="info-card__text">India Rankings 2025 for Engineering &mdash; searchable, filterable, and mapped to admission data for smart decisions.</p>
         </a>
         <a href="{{ url_for('main.professional_exam') }}" class="info-card" style="text-decoration:none;">
-          <div class="info-card__icon">&#x1F4DD;</div>
+          <div class="info-card__icon">{{ icons.ic('file') }}</div>
           <div class="info-card__title">Professional Exams</div>
           <p class="info-card__text">Comprehensive guide to CA, CS, CMA, and other professional certification pathways alongside engineering.</p>
         </a>
@@ -97,17 +141,17 @@
       <p class="content-text">Built on real admission data from JOSAA, DASA, and TNEA &mdash; not guesswork.</p>
       <div class="service-cards">
         <a href="{{ url_for('main.josaa') }}" class="service-card" style="text-decoration:none;">
-          <div class="service-card__icon">&#x1F52E;</div>
+          <div class="service-card__icon">{{ icons.ic('predict') }}</div>
           <div class="service-card__title">JOSAA College Predictor</div>
           <p class="service-card__text">Predict your college chances across NITs, IIITs, and GFTIs based on your JEE Main rank, category, and preferences.</p>
         </a>
         <a href="{{ url_for('main.dasa_guide') }}" class="service-card" style="text-decoration:none;">
-          <div class="service-card__icon">&#x1F30D;</div>
+          <div class="service-card__icon">{{ icons.ic('globe') }}</div>
           <div class="service-card__title">DASA &amp; CIWG Predictor</div>
           <p class="service-card__text">Personalised college shortlist for NRI and Gulf-based students applying through the DASA/CIWG pathway.</p>
         </a>
         <a href="{{ url_for('main.tneamatrix') }}" class="service-card" style="text-decoration:none;">
-          <div class="service-card__icon">&#x1F4CA;</div>
+          <div class="service-card__icon">{{ icons.ic('grid') }}</div>
           <div class="service-card__title">TNEA Seat Matrix</div>
           <p class="service-card__text">Explore seat allocation, cut-off trends, and category-wise analysis for Tamil Nadu engineering colleges.</p>
         </a>
@@ -123,22 +167,22 @@
       </div>
       <div class="info-cards info-cards--4">
         <div class="info-card">
-          <div class="info-card__icon">&#x1F4C8;</div>
+          <div class="info-card__icon">{{ icons.ic('trend') }}</div>
           <div class="info-card__title">Data-First Approach</div>
           <p class="info-card__text">12,000+ data points from official JOSAA, DASA, and TNEA releases. No guesswork, only verified numbers.</p>
         </div>
         <div class="info-card">
-          <div class="info-card__icon">&#x1F6E1;</div>
+          <div class="info-card__icon">{{ icons.ic('shield') }}</div>
           <div class="info-card__title">Official Sources Only</div>
           <p class="info-card__text">Every fact traced back to dasanit.org, josaa.nic.in, or MoE documents. We never fabricate cut-offs.</p>
         </div>
         <div class="info-card">
-          <div class="info-card__icon">&#x1F91D;</div>
+          <div class="info-card__icon">{{ icons.ic('users') }}</div>
           <div class="info-card__title">Expert Counselling</div>
           <p class="info-card__text">One-on-one sessions covering eligibility, choice-filling strategy, round-wise decisions, and reporting guidance.</p>
         </div>
         <div class="info-card">
-          <div class="info-card__icon">&#x1F310;</div>
+          <div class="info-card__icon">{{ icons.ic('compass') }}</div>
           <div class="info-card__title">NRI Specialist</div>
           <p class="info-card__text">India&rsquo;s only platform dedicated to DASA, CIWG, and Gulf NRI admission pathways with end-to-end support.</p>
         </div>
@@ -215,28 +259,28 @@
         <div class="step">
           <span class="step__num">01</span>
           <div>
-            <div class="step__title">&#x1F4CB; Profile Assessment</div>
+            <div class="step__title">{{ icons.ic('clipboard') }}<span>Profile Assessment</span></div>
             <p class="step__text">We evaluate your academic scores, eligibility, and goals to build a personalised admission roadmap.</p>
           </div>
         </div>
         <div class="step">
           <span class="step__num">02</span>
           <div>
-            <div class="step__title">&#x1F50D; College Shortlisting</div>
+            <div class="step__title">{{ icons.ic('search') }}<span>College Shortlisting</span></div>
             <p class="step__text">Data-driven selection using NIRF rankings, cutoff trends, seat matrices, and placement records.</p>
           </div>
         </div>
         <div class="step">
           <span class="step__num">03</span>
           <div>
-            <div class="step__title">&#x1F4DD; Application &amp; Strategy</div>
+            <div class="step__title">{{ icons.ic('edit') }}<span>Application &amp; Strategy</span></div>
             <p class="step__text">Complete application support, document verification, choice filling strategy, and round planning.</p>
           </div>
         </div>
         <div class="step">
           <span class="step__num">04</span>
           <div>
-            <div class="step__title">&#x1F389; Seat Confirmation</div>
+            <div class="step__title">{{ icons.ic('check') }}<span>Seat Confirmation</span></div>
             <p class="step__text">Post-allotment guidance including fee payment, reporting, and hostel &amp; onboarding support.</p>
           </div>
         </div>
@@ -252,20 +296,17 @@
       </div>
       <div class="service-cards">
         <div class="service-card">
-          <div class="service-card__icon" style="background:var(--green-bg);color:var(--green);">&#x2605;</div>
-          <div class="service-card__title">Ramesh S.</div>
+          <div class="tmono" style="background:#1F8B5C">R</div><div class="service-card__title" style="margin-top:10px">Ramesh S.</div>
           <p class="service-card__text" style="font-style:italic;">&ldquo;EduAakashaA made the DASA process so clear and stress-free. My son got into NIT Trichy through CIWG &mdash; we couldn&rsquo;t have done it without their guidance.&rdquo;</p>
           <p class="service-card__text" style="margin-top:8px;font-size:.78rem;color:var(--text-dim);">Parent &mdash; Dubai, UAE</p>
         </div>
         <div class="service-card">
-          <div class="service-card__icon" style="background:var(--blue-bg);color:var(--blue);">&#x2605;</div>
-          <div class="service-card__title">Priya K.</div>
+          <div class="tmono" style="background:#0E3A8A">P</div><div class="service-card__title" style="margin-top:10px">Priya K.</div>
           <p class="service-card__text" style="font-style:italic;">&ldquo;The TNEA cutoff predictions were spot-on. Their choice filling strategy helped me secure CSE at my top-choice college. Highly recommend!&rdquo;</p>
           <p class="service-card__text" style="margin-top:8px;font-size:.78rem;color:var(--text-dim);">Student &mdash; Chennai, India</p>
         </div>
         <div class="service-card">
-          <div class="service-card__icon" style="background:var(--red-bg);color:var(--red);">&#x2605;</div>
-          <div class="service-card__title">Arun V.</div>
+          <div class="tmono" style="background:#FF6B0A">A</div><div class="service-card__title" style="margin-top:10px">Arun V.</div>
           <p class="service-card__text" style="font-style:italic;">&ldquo;As an OCI student in Singapore, the whole NRI admission process felt overwhelming. EduAakashaA walked us through every single step with patience.&rdquo;</p>
           <p class="service-card__text" style="margin-top:8px;font-size:.78rem;color:var(--text-dim);">Student &mdash; Singapore</p>
         </div>
