@@ -424,6 +424,17 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
   Run: `BASE_URL=http://127.0.0.1:5000 npx playwright test tests/smoke.spec.ts --project=chromium`
   (from the repo root). Verified green locally **and against the live Render deploy**.
 
+### Phase 19 — Standalone GST invoices (2026)
+- **Admin invoice generator** (`routes/invoices.py`, **Finance ▾** nav). Free-form line items +
+  discount + additional fee + per-invoice GST rate (CGST+SGST / IGST split by place of supply);
+  totals in paise via `pricing.compute_invoice_totals`. Admin creates → views a **printable**
+  invoice (`invoice_view.html`) → **emails** the customer (inline HTML + tokenised `/invoice/<token>`
+  link, no login) → records payment (mode/ref/status). Seller details are **snapshotted** on each
+  invoice so later edits don't rewrite history; numbering shares the `DocSequence` `EA/NNNN` series.
+- **Editable seller profile** — `Setting` table + `services/company.py`; set the **GSTIN**, PAN and
+  bank details once at `/admin/invoice-settings` and edit any time (falls back to `config.COMPANY`).
+- No server-side PDF dependency (browser Print → Save as PDF). New models: `Invoice`, `Setting`.
+
 ### Phase 18 — Member profile + Document Verification (2026)
 - **New `/profile` page** (`routes/members.py`) replaces the old `/dashboard` (now a redirect);
   header nav "Dashboard" → "My Profile". Shows account info, announcements/events, the member's

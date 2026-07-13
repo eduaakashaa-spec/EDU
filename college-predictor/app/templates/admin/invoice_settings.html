@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Invoice Settings — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Finance</div>
+      <h1>Invoice Settings</h1>
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+
+  {% include "admin/_nav.html" %}
+
+  <p style="color:var(--muted); font-size:14px; margin-bottom:16px;">
+    These seller details appear on every invoice. Set your <strong>GSTIN</strong> and bank details once
+    here — edit them any time; existing invoices keep the details they were issued with.
+  </p>
+
+  <form method="post" action="{{ url_for('invoices.admin_settings') }}">
+    <div class="adm-card" style="margin-bottom:18px;">
+      <h2>Business</h2>
+      <div class="adm-form">
+        <div><label>Brand name</label><input name="brand_name" value="{{ profile.brand_name }}" maxlength="120"></div>
+        <div><label>Legal name</label><input name="legal_name" value="{{ profile.legal_name }}" maxlength="200"></div>
+        <div><label>GSTIN</label><input name="gstin" value="{{ profile.gstin }}" maxlength="20"></div>
+        <div><label>PAN</label><input name="pan" value="{{ profile.pan }}" maxlength="20"></div>
+        <div><label>Default GST rate (%)</label><input name="gst_pct" type="number" min="0" step="0.01" value="{{ '%.2f'|format(profile.gst_rate_f * 100) }}"></div>
+        <div><label>Home state (place of supply)</label><input name="home_state" value="{{ profile.home_state }}" maxlength="120"></div>
+        <div class="full"><label>Address</label><textarea name="address" rows="2" maxlength="1000">{{ profile.address }}</textarea></div>
+        <div><label>Phone</label><input name="phone" value="{{ profile.phone }}" maxlength="60"></div>
+        <div><label>Email</label><input name="email" value="{{ profile.email }}" maxlength="200"></div>
+        <div><label>Website</label><input name="website" value="{{ profile.website }}" maxlength="200"></div>
+        <div><label>Logo URL</label><input name="logo_url" value="{{ profile.logo_url }}" maxlength="400"></div>
+      </div>
+    </div>
+
+    <div class="adm-card" style="margin-bottom:18px;">
+      <h2>Bank details (for payment)</h2>
+      <div class="adm-form">
+        <div><label>Account name</label><input name="bank_ac_name" value="{{ profile.bank_ac_name }}" maxlength="160"></div>
+        <div><label>Bank name</label><input name="bank_name" value="{{ profile.bank_name }}" maxlength="160"></div>
+        <div><label>Account number</label><input name="bank_ac_no" value="{{ profile.bank_ac_no }}" maxlength="60"></div>
+        <div><label>IFSC</label><input name="bank_ifsc" value="{{ profile.bank_ifsc }}" maxlength="30"></div>
+        <div><label>Branch</label><input name="bank_branch" value="{{ profile.bank_branch }}" maxlength="160"></div>
+      </div>
+    </div>
+
+    <div class="adm-card" style="margin-bottom:18px;">
+      <h2>Invoice footer</h2>
+      <div class="adm-form">
+        <div class="full"><label>Terms / note (shown on every invoice)</label><textarea name="invoice_terms" rows="2" maxlength="500">{{ profile.invoice_terms }}</textarea></div>
+      </div>
+    </div>
+
+    <button class="btn btn-navy" type="submit">Save settings</button>
+  </form>
+
+</div></div>
+{% endblock %}

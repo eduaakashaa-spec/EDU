@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% block title %}New Invoice — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .inv-items{ width:100%; border-collapse:collapse; margin:6px 0 4px; }
+  .inv-items th{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em;
+                 text-transform:uppercase; color:var(--muted); text-align:left; padding:6px 8px; }
+  .inv-items td{ padding:4px 6px; }
+  .inv-items input{ width:100%; padding:8px 10px; border:1.5px solid var(--hairline);
+                    border-radius:8px; background:var(--paper); font-size:13px; }
+  .inv-items .c-amt{ text-align:right; font-family:'JetBrains Mono',monospace; font-size:13px;
+                     color:var(--navy-ink); white-space:nowrap; padding-top:14px; }
+  .inv-items .c-x button{ background:none; border:none; color:var(--red); font-size:18px; cursor:pointer; }
+  .inv-totals{ max-width:340px; margin-left:auto; font-size:14px; }
+  .inv-totals .row{ display:flex; justify-content:space-between; padding:5px 0; }
+  .inv-totals .row.grand{ border-top:2px solid var(--navy-ink); margin-top:6px; padding-top:10px;
+                          font-weight:800; font-size:17px; color:var(--navy-ink); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow"><a href="{{ url_for('invoices.admin_list') }}" style="color:var(--navy); text-decoration:none;">← Invoices</a></div>
+      <h1>New invoice</h1>
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+
+  {% include "admin/_nav.html" %}
+
+  <form method="post" action="{{ url_for('invoices.admin_new') }}" id="invForm">
+
+    <div class="adm-card" style="margin-bottom:18px;">
+      <h2>Bill to</h2>
+      <div class="adm-form">
+        <div><label>Customer name *</label><input name="customer_name" required maxlength="160" value="{{ (form.customer_name if form) or '' }}"></div>
+        <div><label>Email</label><input type="email" name="customer_email" maxlength="200" value="{{ (form.customer_email if form) or '' }}"></div>
+        <div><label>Customer GSTIN</label><input name="customer_gstin" maxlength="20" value="{{ (form.customer_gstin if form) or '' }}"></div>
+        <div><label>State (place of supply)</label><input name="customer_state" maxlength="120" placeholder="{{ profile.home_state }}" value="{{ (form.customer_state if form) or '' }}"></div>
+        <div class="full"><label>Billing address</label><textarea name="customer_address" rows="2" maxlength="1000">{{ (form.customer_address if form) or '' }}</textarea></div>
+      </div>
+    </div>
+
+    <div class="adm-card" style="margin-bottom:18px;">
+      <h2>Items</h2>
+      <p class="sub">Rates are pre-tax (GST is added below).</p>
+      <table class="inv-items">
+        <thead><tr><th style="width:52%">Description</th><th style="width:12%">Qty</th><th style="width:18%">Rate (₹)</th><th style="width:14%">Amount</th><th></th></tr></thead>
+        <tbody id="itemRows">
+          <tr class="inv-row">
+            <td><input name="item_desc" maxlength="200" placeholder="e.g. Counselling session"></td>
+            <td><input name="item_qty" type="number" min="1" step="1" value="1" class="qty"></td>
+            <td><input name="item_rate" type="number" min="0" step="0.01" placeholder="0.00" class="rate"></td>
+            <td class="c-amt"><span class="amt">₹0.00</span></td>
+            <td class="c-x"><button type="button" class="rm" title="Remove">×</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-ghost btn-sm" id="addRow">+ Add item</button>
+    </div>
+
+    <div class="adm-grid2" style="margin-bottom:18px;">
+      <div class="adm-card">
+        <h2>Adjustments &amp; tax</h2>
+        <div class="adm-form">
+          <div><label>Discount (₹)</label><input name="discount" type="number" min="0" step="0.01" id="discount" value="{{ (form.discount if form) or '' }}"></div>
+          <div><label>Additional fee (₹)</label><input name="additional_fee" type="number" min="0" step="0.01" id="addfee" value="{{ (form.additional_fee if form) or '' }}"></div>
+          <div><label>Additional fee label</label><input name="additional_fee_label" maxlength="120" placeholder="e.g. Processing fee" value="{{ (form.additional_fee_label if form) or '' }}"></div>
+          <div><label>GST rate (%)</label><input name="gst_pct" type="number" min="0" step="0.01" id="gstpct" value="{{ '%.2f'|format(profile.gst_rate_f * 100) }}"></div>
+        </div>
+      </div>
+      <div class="adm-card">
+        <h2>Summary</h2>
+        <div class="inv-totals">
+          <div class="row"><span>Subtotal</span><span id="tSub">₹0.00</span></div>
+          <div class="row"><span>Discount</span><span id="tDisc">−₹0.00</span></div>
+          <div class="row"><span>Additional fee</span><span id="tFee">₹0.00</span></div>
+          <div class="row"><span>Taxable value</span><span id="tTax">₹0.00</span></div>
+          <div class="row"><span>GST (<span id="tRate">18</span>%)</span><span id="tGst">₹0.00</span></div>
+          <div class="row grand"><span>Total</span><span id="tTotal">₹0.00</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="adm-card" style="margin-bottom:18px;">
+      <h2>Payment</h2>
+      <div class="adm-form">
+        <div><label>Status</label><select name="payment_status">{% for s in ['Unpaid','Partially Paid','Paid'] %}<option value="{{ s }}">{{ s }}</option>{% endfor %}</select></div>
+        <div><label>Mode</label><select name="payment_mode"><option value="">—</option>{% for m in modes %}<option value="{{ m }}">{{ m }}</option>{% endfor %}</select></div>
+        <div><label>Reference no.</label><input name="payment_ref" maxlength="120" placeholder="UTR / txn / cheque no."></div>
+        <div class="full"><label>Notes (shown on invoice)</label><textarea name="notes" rows="2" maxlength="4000"></textarea></div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:10px;">
+      <button class="btn btn-navy" type="submit">Create invoice</button>
+      <a class="btn btn-ghost" href="{{ url_for('invoices.admin_list') }}">Cancel</a>
+    </div>
+  </form>
+
+</div></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function(){
+  var rows = document.getElementById('itemRows');
+  var money = function(p){ return '₹' + (p/100).toLocaleString('en-IN', {minimumFractionDigits:2, maximumFractionDigits:2}); };
+  var paise = function(v){ var n = parseFloat(v); return isNaN(n) ? 0 : Math.round(n*100); };
+
+  function recalc(){
+    var sub = 0;
+    rows.querySelectorAll('.inv-row').forEach(function(r){
+      var qty = parseInt(r.querySelector('.qty').value) || 0;
+      var rate = paise(r.querySelector('.rate').value);
+      var amt = Math.max(qty,0) * rate;
+      r.querySelector('.amt').textContent = money(amt);
+      sub += amt;
+    });
+    var disc = paise(document.getElementById('discount').value);
+    var fee = paise(document.getElementById('addfee').value);
+    var rate = parseFloat(document.getElementById('gstpct').value) || 0;
+    var taxable = Math.max(sub - disc + fee, 0);
+    var gst = Math.round(taxable * rate/100);
+    document.getElementById('tSub').textContent = money(sub);
+    document.getElementById('tDisc').textContent = '−' + money(disc);
+    document.getElementById('tFee').textContent = money(fee);
+    document.getElementById('tTax').textContent = money(taxable);
+    document.getElementById('tRate').textContent = rate;
+    document.getElementById('tGst').textContent = money(gst);
+    document.getElementById('tTotal').textContent = money(taxable + gst);
+  }
+
+  function wire(r){
+    r.querySelector('.rm').addEventListener('click', function(){
+      if (rows.querySelectorAll('.inv-row').length > 1) r.remove(); else r.querySelectorAll('input').forEach(function(i){ i.value = i.classList.contains('qty') ? '1' : ''; });
+      recalc();
+    });
+  }
+
+  document.getElementById('addRow').addEventListener('click', function(){
+    var tpl = rows.querySelector('.inv-row').cloneNode(true);
+    tpl.querySelectorAll('input').forEach(function(i){ i.value = i.classList.contains('qty') ? '1' : ''; });
+    rows.appendChild(tpl); wire(tpl); recalc();
+  });
+
+  rows.querySelectorAll('.inv-row').forEach(wire);
+  document.getElementById('invForm').addEventListener('input', recalc);
+  recalc();
+})();
+</script>
+{% endblock %}

@@ -57,5 +57,14 @@
     </div>
   </div>
 
+  <div class="adm-navgrp {{ 'on' if admin_tab in ['invoices'] }}">
+    <button type="button" class="adm-navtop" aria-haspopup="true">Finance ▾</button>
+    <div class="adm-navmenu">
+      <a href="{{ url_for('invoices.admin_list') }}" class="{{ 'cur' if admin_tab == 'invoices' }}">Invoices</a>
+      <a href="{{ url_for('invoices.admin_new') }}">New invoice</a>
+      <a href="{{ url_for('invoices.admin_settings') }}">Invoice Settings</a>
+    </div>
+  </div>
+
   <a href="{{ url_for('main.counsellor_dashboard') }}" class="adm-navlink">DASA Review ↗</a>
 </nav>

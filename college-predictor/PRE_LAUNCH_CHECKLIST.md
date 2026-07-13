@@ -40,6 +40,7 @@ https://eduaakashaa.onrender.com). Tick each box. Anything that fails blocks the
 - [ ] College Survey (`/college-survey`) → CollegeSurvey (`/admin/surveys`).
 - [ ] Alumni / College Guide signup (`/alumni-network`) → AlumniProfile (`/admin/alumni`); resume upload (PDF/DOC/DOCX → R2) + photo validated; admin can open the resume.
 - [ ] Membership apply (`/membership/apply`) → MembershipApplication (`/admin/membership`) with a reference no.
+- [ ] **Invoices** (`/admin/invoices/new`) → Invoice with line items + GST; set seller GSTIN once at `/admin/invoice-settings`; printable view + email to customer work (email needs SMTP).
 - [ ] **Onboarding assessment** (`/onboarding-assessment/student` & `/parent`) → OnboardingResponse; student+parent **pair** by family in `/admin/onboarding`.
 - [ ] Rate limits still allow normal use (not too aggressive).
 

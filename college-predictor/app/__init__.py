@@ -78,6 +78,9 @@ def create_app():
     from app.routes.members import members_bp
     app.register_blueprint(members_bp)
 
+    from app.routes.invoices import invoices_bp
+    app.register_blueprint(invoices_bp)
+
     # A body over MAX_CONTENT_LENGTH (an oversized upload) is rejected before
     # the view runs — answer the alumni form's fetch() with JSON, everyone
     # else with a short message rather than a stack trace.

@@ -70,6 +70,54 @@ def compute_totals(tier_price=0, addon_amount=0, adhoc_amount=0, discount=0,
     )
 
 
+@dataclass
+class InvoiceTotals:
+    subtotal: int         # paise, sum of line items (before discount/fee/GST)
+    discount: int         # paise
+    additional_fee: int   # paise
+    taxable_value: int    # paise, GST-exclusive base (subtotal - discount + fee)
+    total_gst: int        # paise
+    cgst: int
+    sgst: int
+    igst: int
+    total: int            # paise, taxable + GST (what the customer pays)
+    intra_state: bool
+
+    def as_dict(self):
+        return asdict(self)
+
+
+def compute_invoice_totals(items, discount=0, additional_fee=0, customer_state='',
+                           home_state='Tamil Nadu', gst_rate=0.18):
+    """GST-EXCLUSIVE invoice maths: line items are pre-tax, GST is added on top
+    of (subtotal - discount + additional_fee). All amounts in paise.
+
+    `items` is a list of dicts each with integer `qty` and `rate` (paise)."""
+    subtotal = sum(int(i.get('qty', 1) or 0) * int(i.get('rate', 0) or 0) for i in items)
+    discount = int(discount or 0)
+    additional_fee = int(additional_fee or 0)
+
+    taxable = subtotal - discount + additional_fee
+    if taxable < 0:
+        taxable = 0
+    total_gst = round(taxable * gst_rate)
+
+    intra = bool(customer_state) and bool(home_state) and \
+        customer_state.strip().lower() == home_state.strip().lower()
+    if intra:
+        cgst = total_gst // 2
+        sgst = total_gst - cgst
+        igst = 0
+    else:
+        igst = total_gst
+        cgst = sgst = 0
+
+    return InvoiceTotals(
+        subtotal=subtotal, discount=discount, additional_fee=additional_fee,
+        taxable_value=taxable, total_gst=total_gst, cgst=cgst, sgst=sgst, igst=igst,
+        total=taxable + total_gst, intra_state=intra)
+
+
 # ---- small helpers for display ----------------------------------------------
 def rupees(paise):
     """Format paise as a ₹ string, e.g. 99900 -> '₹999.00'."""

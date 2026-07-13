@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Invoice {{ inv.invoice_no }} — {{ seller.brand_name or 'EduAakashaa' }}{% endblock %}
+
+{% block head %}
+<style>
+  .inv-wrap{ max-width:820px; margin:0 auto; padding:28px 16px 70px; }
+  .inv-paper{ background:#fff; border:1px solid #e6ddc9; border-radius:12px; padding:38px 40px; color:#1c1c2e; }
+  .inv-top{ display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; border-bottom:2px solid #0E3A8A; padding-bottom:18px; }
+  .inv-seller .brand{ font-family:'Fraunces',serif; font-size:1.5rem; font-weight:900; color:#0E3A8A; }
+  .inv-seller .meta{ font-size:12px; color:#555; line-height:1.6; margin-top:4px; max-width:340px; }
+  .inv-doc{ text-align:right; }
+  .inv-doc .t{ font-family:'JetBrains Mono',monospace; letter-spacing:.15em; font-size:12px; color:#FF6B0A; text-transform:uppercase; }
+  .inv-doc .no{ font-family:'Fraunces',serif; font-size:1.35rem; color:#0E3A8A; margin:2px 0; }
+  .inv-doc .d{ font-size:12px; color:#555; }
+  .inv-pill{ display:inline-block; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; padding:3px 10px; border-radius:999px; margin-top:6px; }
+  .inv-pill.paid{ background:rgba(31,139,92,.14); color:#1f8b5c; }
+  .inv-pill.unpaid{ background:rgba(194,58,58,.12); color:#c23a3a; }
+  .inv-pill.partial{ background:rgba(232,154,28,.16); color:#9a6a10; }
+  .inv-parties{ display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; margin:22px 0 8px; }
+  .inv-parties h4{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:#888; margin-bottom:5px; }
+  .inv-parties .b{ font-size:13px; line-height:1.6; color:#1c1c2e; }
+  .inv-parties .b strong{ font-size:14px; }
+  table.inv-tbl{ width:100%; border-collapse:collapse; margin:16px 0; font-size:13px; }
+  .inv-tbl th{ background:#0E3A8A; color:#fff; text-align:left; padding:9px 10px; font-size:11px; letter-spacing:.04em; text-transform:uppercase; }
+  .inv-tbl th.r, .inv-tbl td.r{ text-align:right; }
+  .inv-tbl th.c, .inv-tbl td.c{ text-align:center; }
+  .inv-tbl td{ padding:9px 10px; border-bottom:1px solid #eee; vertical-align:top; }
+  .inv-sum{ max-width:320px; margin-left:auto; font-size:13px; }
+  .inv-sum .row{ display:flex; justify-content:space-between; padding:5px 0; }
+  .inv-sum .row.grand{ border-top:2px solid #0E3A8A; margin-top:6px; padding-top:9px; font-weight:800; font-size:16px; color:#0E3A8A; }
+  .inv-foot{ display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; margin-top:26px; padding-top:16px; border-top:1px solid #eee; font-size:12px; color:#555; }
+  .inv-foot h4{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:#888; margin-bottom:5px; }
+  .inv-note{ font-size:11px; color:#888; text-align:center; margin-top:22px; }
+  /* action bar (admin only) */
+  .inv-actions{ max-width:820px; margin:0 auto 6px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .inv-actbar{ background:var(--white,#fff); border:1px solid #e6ddc9; border-radius:12px; padding:14px 16px; margin:0 auto 16px; max-width:820px; }
+  .inv-actbar form{ display:inline-flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .inv-actbar input, .inv-actbar select{ padding:7px 9px; border:1.5px solid #e6ddc9; border-radius:7px; font-size:12.5px; }
+  @media print {
+    header, footer, .site-header, .site-footer, .adm-nav, .inv-actions, .inv-actbar, .no-print { display:none !important; }
+    .inv-paper{ border:none; border-radius:0; padding:0; }
+    .inv-wrap{ padding:0; }
+    body{ background:#fff !important; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if show_actions %}
+<div class="inv-wrap" style="padding-bottom:0;">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  {% include "admin/_nav.html" %}
+</div>
+<div class="inv-actions">
+  <a class="btn btn-ghost btn-sm" href="{{ url_for('invoices.admin_list') }}">← All invoices</a>
+  <button class="btn btn-navy btn-sm" onclick="window.print()">🖨 Print / Save PDF</button>
+  <a class="btn btn-ghost btn-sm" href="{{ public_url }}" target="_blank" rel="noopener">Customer link ↗</a>
+</div>
+<div class="inv-actbar no-print">
+  <form method="post" action="{{ url_for('invoices.admin_email', inv_id=inv.id) }}" style="margin-right:14px;">
+    <button class="btn btn-navy btn-sm" type="submit">✉ Email to customer</button>
+    <span style="font-size:12px; color:var(--muted);">{{ inv.customer_email or 'no email on file' }}{% if inv.emailed_at %} · last sent {{ inv.emailed_at.strftime('%d %b %H:%M') }}{% endif %}</span>
+  </form>
+  <form method="post" action="{{ url_for('invoices.admin_payment', inv_id=inv.id) }}">
+    <select name="payment_status">{% for s in statuses %}<option value="{{ s }}" {{ 'selected' if inv.payment_status == s }}>{{ s }}</option>{% endfor %}</select>
+    <select name="payment_mode"><option value="">mode —</option>{% for m in modes %}<option value="{{ m }}" {{ 'selected' if inv.payment_mode == m }}>{{ m }}</option>{% endfor %}</select>
+    <input name="payment_ref" placeholder="Ref no." value="{{ inv.payment_ref or '' }}">
+    <button class="btn btn-ghost btn-sm" type="submit">Update payment</button>
+  </form>
+  <form method="post" action="{{ url_for('invoices.admin_delete', inv_id=inv.id) }}" onsubmit="return confirm('Delete invoice {{ inv.invoice_no }}? This cannot be undone.');" style="margin-left:auto;">
+    <button class="btn btn-red btn-sm" type="submit">Delete</button>
+  </form>
+</div>
+{% endif %}
+
+<div class="inv-wrap">
+  <div class="inv-paper">
+    <div class="inv-top">
+      <div class="inv-seller">
+        <div class="brand">{{ seller.brand_name or 'EduAakashaa' }}</div>
+        <div class="meta">
+          {{ seller.legal_name }}<br>
+          {% if seller.address %}{{ seller.address }}<br>{% endif %}
+          {% if seller.gstin %}GSTIN: {{ seller.gstin }}{% if seller.pan %} · PAN: {{ seller.pan }}{% endif %}<br>{% endif %}
+          {% if seller.phone %}{{ seller.phone }}{% endif %}{% if seller.email %} · {{ seller.email }}{% endif %}
+        </div>
+      </div>
+      <div class="inv-doc">
+        <div class="t">Tax Invoice</div>
+        <div class="no">{{ inv.invoice_no }}</div>
+        <div class="d">{{ inv.invoice_date.strftime('%d %b %Y') if inv.invoice_date }}</div>
+        {% if inv.payment_status == 'Paid' %}<div class="inv-pill paid">Paid</div>
+        {% elif inv.payment_status == 'Partially Paid' %}<div class="inv-pill partial">Partially paid</div>
+        {% else %}<div class="inv-pill unpaid">Unpaid</div>{% endif %}
+      </div>
+    </div>
+
+    <div class="inv-parties">
+      <div>
+        <h4>Bill to</h4>
+        <div class="b">
+          <strong>{{ inv.customer_name }}</strong><br>
+          {% if inv.customer_address %}{{ inv.customer_address }}<br>{% endif %}
+          {% if inv.customer_state %}{{ inv.customer_state }}<br>{% endif %}
+          {% if inv.customer_email %}{{ inv.customer_email }}<br>{% endif %}
+          {% if inv.customer_gstin %}GSTIN: {{ inv.customer_gstin }}{% endif %}
+        </div>
+      </div>
+      <div>
+        <h4>Payment</h4>
+        <div class="b">
+          Status: {{ inv.payment_status }}<br>
+          {% if inv.payment_mode %}Mode: {{ inv.payment_mode }}<br>{% endif %}
+          {% if inv.payment_ref %}Ref: {{ inv.payment_ref }}{% endif %}
+        </div>
+      </div>
+    </div>
+
+    <table class="inv-tbl">
+      <thead><tr><th style="width:6%">#</th><th>Description</th><th class="c" style="width:10%">Qty</th><th class="r" style="width:18%">Rate</th><th class="r" style="width:20%">Amount</th></tr></thead>
+      <tbody>
+        {% for it in inv.items %}
+        <tr>
+          <td>{{ loop.index }}</td>
+          <td>{{ it.desc }}</td>
+          <td class="c">{{ it.qty }}</td>
+          <td class="r">₹{{ it.rate|inr }}</td>
+          <td class="r">₹{{ (it.qty * it.rate)|inr }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="inv-sum">
+      <div class="row"><span>Subtotal</span><span>₹{{ inv.subtotal|inr }}</span></div>
+      {% if inv.discount %}<div class="row"><span>Discount</span><span>−₹{{ inv.discount|inr }}</span></div>{% endif %}
+      {% if inv.additional_fee %}<div class="row"><span>{{ inv.additional_fee_label or 'Additional fee' }}</span><span>₹{{ inv.additional_fee|inr }}</span></div>{% endif %}
+      <div class="row"><span>Taxable value</span><span>₹{{ inv.taxable_value|inr }}</span></div>
+      {% if inv.igst %}
+      <div class="row"><span>IGST ({{ (inv.gst_rate * 100)|round(2) }}%)</span><span>₹{{ inv.igst|inr }}</span></div>
+      {% else %}
+      <div class="row"><span>CGST ({{ (inv.gst_rate * 50)|round(2) }}%)</span><span>₹{{ inv.cgst|inr }}</span></div>
+      <div class="row"><span>SGST ({{ (inv.gst_rate * 50)|round(2) }}%)</span><span>₹{{ inv.sgst|inr }}</span></div>
+      {% endif %}
+      <div class="row grand"><span>Total</span><span>₹{{ inv.total|inr }}</span></div>
+    </div>
+
+    <div class="inv-foot">
+      {% if seller.bank_ac_no %}
+      <div>
+        <h4>Bank details</h4>
+        {{ seller.bank_ac_name or seller.legal_name }}<br>
+        {% if seller.bank_name %}{{ seller.bank_name }}{% if seller.bank_branch %}, {{ seller.bank_branch }}{% endif %}<br>{% endif %}
+        A/C: {{ seller.bank_ac_no }}{% if seller.bank_ifsc %} · IFSC: {{ seller.bank_ifsc }}{% endif %}
+      </div>
+      {% endif %}
+      <div style="max-width:340px;">
+        {% if inv.notes %}<h4>Notes</h4>{{ inv.notes }}<br>{% endif %}
+        {% if seller.invoice_terms %}<div style="margin-top:8px; color:#999;">{{ seller.invoice_terms }}</div>{% endif %}
+      </div>
+    </div>
+
+    <div class="inv-note">This is a computer-generated invoice{% if seller.website %} · {{ seller.website }}{% endif %}.</div>
+  </div>
+</div>
+{% endblock %}

@@ -109,6 +109,85 @@ class MembershipInvoice(db.Model):
         return f'<MembershipInvoice {self.invoice_no} {self.payment_status}>'
 
 
+class Invoice(db.Model):
+    """A standalone GST tax invoice with free-form line items — issued by admins
+    to any customer (not tied to a membership application). Money in paise; the
+    tax breakdown + seller details are snapshotted at issue so a later settings
+    change never mutates an already-issued invoice."""
+    __tablename__ = 'invoices'
+
+    id = db.Column(db.Integer, primary_key=True)
+    invoice_no = db.Column(db.String(40), unique=True, index=True)   # shares the 'invoice' sequence
+    invoice_date = db.Column(db.DateTime, default=_utcnow)
+
+    # --- bill-to (customer) ---
+    customer_name = db.Column(db.String(160), nullable=False)
+    customer_email = db.Column(db.String(200), index=True)
+    customer_gstin = db.Column(db.String(20))
+    customer_address = db.Column(db.Text)
+    customer_state = db.Column(db.String(120))       # place of supply → CGST+SGST vs IGST
+
+    # --- line items + adjustments (paise) ---
+    items_json = db.Column(db.Text)                  # JSON list of {desc, qty, rate}
+    discount = db.Column(db.Integer, default=0)
+    additional_fee = db.Column(db.Integer, default=0)
+    additional_fee_label = db.Column(db.String(120))
+    gst_rate = db.Column(db.Float, default=0.18)
+
+    # --- computed tax snapshot (paise) ---
+    subtotal = db.Column(db.Integer, default=0)
+    taxable_value = db.Column(db.Integer, default=0)
+    cgst = db.Column(db.Integer, default=0)
+    sgst = db.Column(db.Integer, default=0)
+    igst = db.Column(db.Integer, default=0)
+    total_gst = db.Column(db.Integer, default=0)
+    total = db.Column(db.Integer, default=0)
+
+    # --- payment ---
+    payment_status = db.Column(db.String(30), default='Unpaid')   # Unpaid | Paid | Partially Paid
+    payment_mode = db.Column(db.String(60))
+    payment_ref = db.Column(db.String(120))
+    amount_paid = db.Column(db.Integer, default=0)
+
+    notes = db.Column(db.Text)
+    seller_json = db.Column(db.Text)                 # snapshot of the company profile at issue
+    public_token = db.Column(db.String(48), unique=True, index=True)   # tokenised customer view link
+    emailed_at = db.Column(db.DateTime, nullable=True)
+
+    created_at = db.Column(db.DateTime, default=_utcnow)
+    updated_at = db.Column(db.DateTime, default=_utcnow, onupdate=_utcnow)
+
+    def __repr__(self):
+        return f'<Invoice {self.invoice_no} {self.payment_status}>'
+
+    @property
+    def items(self):
+        import json
+        try:
+            return json.loads(self.items_json) if self.items_json else []
+        except (ValueError, TypeError):
+            return []
+
+    @property
+    def seller(self):
+        import json
+        try:
+            return json.loads(self.seller_json) if self.seller_json else {}
+        except (ValueError, TypeError):
+            return {}
+
+
+class Setting(db.Model):
+    """Editable app settings (key → value) — currently the seller/company profile
+    used on invoices (legal name, GSTIN, bank details, …). Lets admins set the
+    GST number once and edit it later without a redeploy. Defaults come from
+    config.COMPANY when a key isn't overridden here (see services/company.py)."""
+    __tablename__ = 'settings'
+
+    key = db.Column(db.String(60), primary_key=True)
+    value = db.Column(db.Text)
+
+
 class DocSequence(db.Model):
     """
     Monotonic counters for reference / invoice / receipt numbers.
