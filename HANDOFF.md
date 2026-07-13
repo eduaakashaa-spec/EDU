@@ -118,6 +118,17 @@ see §6.
 
 ## 5. What was built recently (newest first)
 
+- **Homepage redesign v2** (`templates/home.html`, self-contained `hx-*` styles/JS):
+  editorial hero ("The right college isn't luck. It's data.") with staggered word
+  reveal + rotating exam word + drifting constellation canvas; a **live DASA-demo
+  card** that types a rank and cascades real 2025 SAFE/REACH/DREAM rows; college
+  marquee; count-up stats; scroll-drawn journey path (4 steps light up); dark navy
+  "Try the engines" tool showcase with tilt cards; pathway cards; auto-rotating
+  testimonial carousel; magnetic CTA. All vanilla JS, IntersectionObserver reveals
+  with a scroll-sweep fallback (instant jumps can skip IO), honors
+  prefers-reduced-motion. Verified via Playwright in real Chromium
+  (animations settle, zero console errors).
+
 - **Onboarding assessment — LIVE in-app** (design in `ONBOARDING_ASSESSMENT.md`; built out across
   `app/services/onboarding_assessment.py`, `app/routes/onboarding.py`, `OnboardingResponse` model,
   templates `onboarding_landing.html` / `onboarding_assessment.html` / `admin/onboarding_*.html`):
