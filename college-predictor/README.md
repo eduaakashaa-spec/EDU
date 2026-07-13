@@ -424,6 +424,18 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
   Run: `BASE_URL=http://127.0.0.1:5000 npx playwright test tests/smoke.spec.ts --project=chromium`
   (from the repo root). Verified green locally **and against the live Render deploy**.
 
+### Phase 18 — Member profile + Document Verification (2026)
+- **New `/profile` page** (`routes/members.py`) replaces the old `/dashboard` (now a redirect);
+  header nav "Dashboard" → "My Profile". Shows account info, announcements/events, the member's
+  **counselling sessions + notes**, and **document verification**.
+- **Document verification, end-to-end & cyclic.** Admin "Document Verify" tab lists premium
+  members; per member the admin requests documents (curated `DOC_TYPES` or custom) → member is
+  emailed → uploads each file (validated; stored privately in **Cloudflare R2**) → **Submit**
+  notifies the team inbox (`DOC_NOTIFY_EMAIL`, default `eduaakashaa@gmail.com`) → admin
+  approves / rejects-with-comment (emails the member each cycle) → "all verified" email once every
+  doc is approved. Two new models: `DocVerification` (one row per doc, statuses
+  Requested→Submitted→Approved/Rejected) and `MemberMeeting`. Emails need `SMTP_*` set.
+
 ### Phase 17 — Mentor network → ₹, resume uploads (R2), College Survey (2026)
 - **Mentor network currency switched to ₹ (rupees).** All AED copy/labels across
   the alumni page, mentor portal and admin became `₹`; every ₹100 figure is now

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Document Verify — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Document Verify</div>
+      <h1>Document Verification</h1>
+    </div>
+  </div>
+
+  {% include "admin/_nav.html" %}
+
+  <p style="color:var(--muted); font-size:14px; margin-bottom:16px;">
+    Premium members. Open one to request documents, review uploads, and log counselling sessions.
+  </p>
+
+  <form class="adm-bar" method="get" action="{{ url_for('members.admin_doc_list') }}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search name or email…" style="flex:1; min-width:200px;">
+    <button class="btn btn-navy" type="submit">Search</button>
+    <a class="btn btn-ghost" href="{{ url_for('members.admin_doc_list') }}">Reset</a>
+  </form>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr>
+        <th>Member</th><th>Requested</th><th>Awaiting review</th><th>Approved</th><th>Status</th><th></th>
+      </tr></thead>
+      <tbody>
+        {% for u in rows %}
+        {% set c = counts[u.id] %}
+        <tr>
+          <td>{{ u.name }}<div style="color:var(--muted); font-size:12px;">{{ u.email }}</div></td>
+          <td>{{ c.total }}</td>
+          <td>{% if c.Submitted %}<strong>{{ c.Submitted }}</strong>{% else %}0{% endif %}</td>
+          <td>{{ c.Approved }}{% if c.total %} / {{ c.total }}{% endif %}</td>
+          <td>
+            {% if c.total == 0 %}<span class="pill pill-free">None requested</span>
+            {% elif c.Submitted %}<span class="pill pill-imp">Review pending</span>
+            {% elif c.Approved == c.total %}<span class="pill pill-premium">All verified</span>
+            {% else %}<span class="pill s-New">In progress</span>{% endif %}
+          </td>
+          <td><a class="ref" href="{{ url_for('members.admin_doc_detail', user_id=u.id) }}">Open →</a></td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">
+          No premium members yet.
+        </td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if pagination.pages > 1 %}
+  <div class="adm-pager">
+    {% if pagination.has_prev %}<a href="{{ url_for('members.admin_doc_list', page=pagination.prev_num, q=q) }}">‹ Prev</a>{% endif %}
+    {% for p in pagination.iter_pages() %}
+      {% if p %}
+        {% if p == pagination.page %}<span class="cur">{{ p }}</span>
+        {% else %}<a href="{{ url_for('members.admin_doc_list', page=p, q=q) }}">{{ p }}</a>{% endif %}
+      {% else %}<span>…</span>{% endif %}
+    {% endfor %}
+    {% if pagination.has_next %}<a href="{{ url_for('members.admin_doc_list', page=pagination.next_num, q=q) }}">Next ›</a>{% endif %}
+  </div>
+  {% endif %}
+
+</div></div>
+{% endblock %}

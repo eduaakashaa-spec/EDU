@@ -21,10 +21,11 @@
 <nav class="adm-nav" aria-label="Admin sections">
   <a href="{{ url_for('admin_portal.home') }}" class="adm-navlink {{ 'on' if admin_tab == 'overview' }}">Overview</a>
 
-  <div class="adm-navgrp {{ 'on' if admin_tab in ['users', 'memberships', 'onboarding'] }}">
+  <div class="adm-navgrp {{ 'on' if admin_tab in ['users', 'memberships', 'onboarding', 'documents'] }}">
     <button type="button" class="adm-navtop" aria-haspopup="true">People ▾</button>
     <div class="adm-navmenu">
       <a href="{{ url_for('membership.admin_users') }}" class="{{ 'cur' if admin_tab == 'users' }}">Members</a>
+      <a href="{{ url_for('members.admin_doc_list') }}" class="{{ 'cur' if admin_tab == 'documents' }}">Document Verify</a>
       <a href="{{ url_for('membership.admin_list') }}" class="{{ 'cur' if admin_tab == 'memberships' }}">Applications</a>
       <a href="{{ url_for('onboarding.admin_list') }}" class="{{ 'cur' if admin_tab == 'onboarding' }}">Onboarding Assessments</a>
     </div>

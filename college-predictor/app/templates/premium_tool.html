@@ -35,7 +35,7 @@
       <h2>You're in — {{ tool_title }} is rolling out</h2>
       <p>This premium tool is being finalised for your account. We'll notify you the moment it's live.</p>
       <div class="final-cta__btns">
-        <a href="{{ url_for('auth.dashboard') }}" class="btn-main">Go to Dashboard</a>
+        <a href="{{ url_for('members.profile') }}" class="btn-main">Go to My Profile</a>
         <a href="{{ url_for('main.contact') }}" class="btn-out">Talk to a counsellor →</a>
       </div>
     {% else %}

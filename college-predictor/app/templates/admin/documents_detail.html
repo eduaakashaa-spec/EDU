@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}{{ member.name }} — Document Verify · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .doc-chk{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:6px 18px; margin:6px 0 14px; }
+  .doc-chk label{ display:flex; gap:8px; align-items:flex-start; font-size:13px; color:var(--ink);
+                  font-family:inherit; text-transform:none; letter-spacing:0; cursor:pointer; }
+  .doc-chk label.have{ color:var(--muted); }
+  .doc-grp{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em;
+            text-transform:uppercase; color:var(--muted); margin:12px 0 4px; }
+  .doc-review{ display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .doc-review input[type=text]{ padding:6px 9px; border:1.5px solid var(--hairline); border-radius:7px;
+                                font-size:12.5px; min-width:150px; background:var(--paper); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow"><a href="{{ url_for('members.admin_doc_list') }}" style="color:var(--navy); text-decoration:none;">← Document Verify</a></div>
+      <h1>{{ member.name }}</h1>
+    </div>
+    <div>
+      {% if counts.total and counts.Approved == counts.total %}<span class="pill pill-premium">All verified</span>
+      {% elif counts.Submitted %}<span class="pill pill-imp">Review pending</span>
+      {% elif counts.total %}<span class="pill s-New">In progress</span>
+      {% else %}<span class="pill pill-free">Nothing requested</span>{% endif %}
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-card" style="margin-bottom:18px;">
+    <ul class="adm-list">
+      <li><span class="mut">Email</span><span>{{ member.email }}</span></li>
+      <li><span class="mut">Member since</span><span>{{ member.created_at.strftime('%d %b %Y') if member.created_at }}</span></li>
+      <li><span class="mut">Documents</span><span>{{ counts.Approved }} approved · {{ counts.Submitted }} awaiting review · {{ counts.total }} total</span></li>
+    </ul>
+  </div>
+
+  <!-- REQUEST DOCUMENTS -->
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>Request documents</h2>
+    <p class="sub">Tick what {{ member.name.split(' ')[0] }} needs to upload. Already-requested items are greyed out. Requesting emails the member a link to upload.</p>
+    <form method="post" action="{{ url_for('members.admin_request_docs', user_id=member.id) }}">
+      {% for group, names in doc_groups %}
+      <div class="doc-grp">{{ group }}</div>
+      <div class="doc-chk">
+        {% for name in names %}
+        {% set have = name in requested_types %}
+        <label class="{{ 'have' if have }}">
+          <input type="checkbox" name="doc_types" value="{{ name }}" {{ 'disabled' if have }}>
+          {{ name }}{% if have %} ✓{% endif %}
+        </label>
+        {% endfor %}
+      </div>
+      {% endfor %}
+      <div style="margin-top:10px;">
+        <label style="font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); display:block; margin-bottom:4px;">Other documents (comma-separated)</label>
+        <input type="text" name="custom" maxlength="400" placeholder="e.g. Employment Letter, Sponsor Affidavit"
+               style="width:100%; padding:9px 12px; border:1.5px solid var(--hairline); border-radius:8px; background:var(--paper); font-size:13px;">
+      </div>
+      <div style="margin-top:14px;"><button class="btn btn-navy" type="submit">Request selected &amp; email member</button></div>
+    </form>
+  </div>
+
+  <!-- DOCUMENTS + REVIEW -->
+  <div class="adm-table-wrap" style="margin-bottom:18px;">
+    <table class="adm-table">
+      <thead><tr><th>Document</th><th>Status</th><th>File</th><th>Comment</th><th>Review</th></tr></thead>
+      <tbody>
+        {% for d in docs %}
+        <tr>
+          <td>{{ d.doc_type }}<div style="color:var(--muted); font-size:11px;">requested {{ d.requested_at.strftime('%d %b') if d.requested_at }}</div></td>
+          <td>
+            {% if d.status == 'Approved' %}<span class="pill pill-premium">Approved</span>
+            {% elif d.status == 'Submitted' %}<span class="pill pill-imp">Submitted</span>
+            {% elif d.status == 'Rejected' %}<span class="pill pill-expired">Rejected</span>
+            {% else %}<span class="pill s-New">Requested</span>{% endif %}
+          </td>
+          <td>{% if d.has_file %}<a class="ref" href="{{ url_for('members.admin_doc_file', doc_id=d.id) }}" target="_blank" rel="noopener">open ↗</a>{% else %}—{% endif %}</td>
+          <td style="white-space:normal; max-width:200px; font-size:12px; color:var(--muted);">{{ d.admin_comment or '—' }}</td>
+          <td>
+            {% if d.has_file and d.status != 'Approved' %}
+            <form method="post" action="{{ url_for('members.admin_review_doc', doc_id=d.id) }}" class="doc-review">
+              <input type="text" name="comment" placeholder="Comment (required to reject)" value="{{ d.admin_comment or '' }}">
+              <button class="btn btn-navy btn-sm" type="submit" name="decision" value="approve">Approve</button>
+              <button class="btn btn-red btn-sm" type="submit" name="decision" value="reject">Reject</button>
+            </form>
+            {% elif d.status == 'Approved' %}
+            <span class="mut" style="font-size:12px;">verified ✓</span>
+            {% else %}
+            <span class="mut" style="font-size:12px;">awaiting upload</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" style="text-align:center; padding:30px; color:var(--muted);">No documents requested yet — use the form above.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- MEETINGS -->
+  <div class="adm-card" id="meetings" style="margin-bottom:18px;">
+    <h2>Log a counselling session</h2>
+    <p class="sub">The member sees these (title, date, status &amp; notes) on their profile.</p>
+    <form method="post" action="{{ url_for('members.admin_add_meeting', user_id=member.id) }}" class="adm-form">
+      <div><label>Title / topic</label><input name="title" maxlength="200" required placeholder="e.g. Shortlisting call"></div>
+      <div><label>Counsellor</label><input name="counsellor" maxlength="120"></div>
+      <div><label>Date</label><input type="datetime-local" name="meeting_date"></div>
+      <div><label>Status</label><select name="status">{% for s in meeting_statuses %}<option value="{{ s }}" {{ 'selected' if s == 'Completed' }}>{{ s }}</option>{% endfor %}</select></div>
+      <div class="full"><label>Notes (shown to the member)</label><textarea name="notes" rows="3" maxlength="8000"></textarea></div>
+      <div><button class="btn btn-navy" type="submit">Log session</button></div>
+    </form>
+  </div>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr><th>Date</th><th>Title</th><th>Counsellor</th><th>Status</th><th>Notes</th><th></th></tr></thead>
+      <tbody>
+        {% for m in meetings %}
+        <tr>
+          <td>{{ m.meeting_date.strftime('%d %b %Y') if m.meeting_date else m.created_at.strftime('%d %b %Y') }}</td>
+          <td style="white-space:normal; max-width:200px;">{{ m.title or '—' }}</td>
+          <td>{{ m.counsellor or '—' }}</td>
+          <td>{% if m.status == 'Completed' %}<span class="pill pill-premium">{{ m.status }}</span>{% elif m.status == 'Cancelled' %}<span class="pill pill-expired">{{ m.status }}</span>{% else %}<span class="pill s-New">{{ m.status }}</span>{% endif %}</td>
+          <td style="white-space:normal; max-width:280px; font-size:12px; color:var(--muted);">{{ m.notes or '—' }}</td>
+          <td>
+            <form method="post" action="{{ url_for('members.admin_delete_meeting', mid=m.id) }}" onsubmit="return confirm('Remove this session?');" style="display:inline;">
+              <button class="btn btn-red btn-sm" type="submit">✕</button>
+            </form>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center; padding:30px; color:var(--muted);">No sessions logged yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div></div>
+{% endblock %}

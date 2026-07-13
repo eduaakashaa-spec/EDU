@@ -320,3 +320,49 @@ class OnboardingResponse(db.Model):
             return json.loads(self.responses_json) if self.responses_json else {}
         except (ValueError, TypeError):
             return {}
+
+
+class MemberMeeting(db.Model):
+    """A counselling session the admin logs for a premium member. The member
+    sees it read-only on their profile (meeting log + notes) — mirrors the
+    College Guide meeting log, but keyed to a User instead of an AlumniProfile."""
+    __tablename__ = 'member_meetings'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
+    title = db.Column(db.String(200))              # topic / what was discussed
+    counsellor = db.Column(db.String(120))         # who took the session
+    meeting_date = db.Column(db.DateTime)
+    status = db.Column(db.String(20), nullable=False, default='Completed')  # Scheduled | Completed | Cancelled
+    notes = db.Column(db.Text)                      # notes shown to the member
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+
+    user = db.relationship('User', backref=db.backref(
+        'member_meetings', lazy='dynamic', cascade='all, delete-orphan'))
+
+
+class DocVerification(db.Model):
+    """One requested document for a premium member, tracked through its whole
+    request → upload → review cycle. The uploaded file lives privately in R2
+    (services/r2.py); only the object key is stored here."""
+    __tablename__ = 'doc_verifications'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False, index=True)
+    doc_type = db.Column(db.String(120), nullable=False)   # label from DOC_TYPES or a custom one
+    status = db.Column(db.String(20), nullable=False, default='Requested')  # Requested | Submitted | Approved | Rejected
+    # uploaded file (R2)
+    file_key = db.Column(db.String(300))
+    file_name = db.Column(db.String(255))
+    file_mime = db.Column(db.String(100))
+    admin_comment = db.Column(db.Text)             # reason on reject / note on approve
+    requested_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    submitted_at = db.Column(db.DateTime)
+    reviewed_at = db.Column(db.DateTime)
+
+    user = db.relationship('User', backref=db.backref(
+        'doc_verifications', lazy='dynamic', cascade='all, delete-orphan'))
+
+    @property
+    def has_file(self):
+        return bool(self.file_key)

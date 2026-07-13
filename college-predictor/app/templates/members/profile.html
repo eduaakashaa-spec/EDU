@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+{% block title %}My Profile — EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .mp { max-width: 1040px; margin: 0 auto; padding: 40px 20px 70px; }
+  .mp-head { display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:8px; }
+  .mp-head h1 { font-family:'Fraunces',serif; color:var(--dark); font-size:2rem; }
+  .mp-badge { font-size:.72rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; padding:6px 14px; border-radius:999px; }
+  .mp-badge--premium { background:linear-gradient(135deg,#C9A84C,#e8cc72); color:#1A1A2E; }
+  .mp-badge--admin { background:#1A1A2E; color:#C9A84C; }
+  .mp-badge--free { background:#f0ebe3; color:#8a7b65; }
+  .mp-sub { color:var(--text-dim); margin-bottom:26px; }
+  .mp-panel { background:var(--white); border:1px solid var(--border); border-radius:16px; padding:24px; margin-bottom:22px; }
+  .mp-panel h2 { font-family:'Fraunces',serif; color:var(--dark); font-size:1.25rem; margin-bottom:4px; }
+  .mp-panel .hint { color:var(--text-dim); font-size:.9rem; margin-bottom:16px; }
+  table.mp-tbl { width:100%; border-collapse:collapse; font-size:.9rem; }
+  .mp-tbl th { text-align:left; font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:var(--text-dim); padding:8px 10px; border-bottom:1px solid var(--border); }
+  .mp-tbl td { padding:10px; border-bottom:1px solid #f1ead7; vertical-align:top; }
+  .mp-pill { font-size:.66rem; font-weight:800; padding:3px 9px; border-radius:999px; text-transform:uppercase; white-space:nowrap; }
+  .mp-pill--ok { background:rgba(31,139,92,.14); color:var(--green); }
+  .mp-pill--wait { background:rgba(232,154,28,.16); color:#9a6a10; }
+  .mp-pill--rej { background:rgba(194,58,58,.12); color:var(--red); }
+  .mp-pill--req { background:rgba(14,58,138,.10); color:#0E3A8A; }
+  .mp-upload { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .mp-upload input[type=file]{ font-size:12px; max-width:190px; }
+  .mp-note { background:#faf3e0; border-radius:8px; padding:8px 12px; font-size:.82rem; color:#8a6d1a; margin-top:6px; }
+  .mp-banner { background:linear-gradient(135deg,#1A1A2E,#2a2a4e); color:#fff; border-radius:16px; padding:28px 24px; text-align:center; margin-bottom:22px; }
+  .mp-banner h2 { font-family:'Fraunces',serif; color:#C9A84C; font-size:1.4rem; margin-bottom:8px; }
+  .mp-banner p { color:#ccc; font-size:.94rem; margin-bottom:16px; }
+  .mp-cta { display:inline-block; padding:12px 30px; background:#C9A84C; color:#1A1A2E; border-radius:8px; text-decoration:none; font-weight:700; }
+  .mp-acct td { padding:8px 0; border-bottom:1px solid #f1ead7; font-size:.92rem; }
+  .mp-acct td:first-child { color:var(--text-dim); width:150px; }
+  .flash-list{ list-style:none; padding:0; margin:0 0 16px; }
+  .flash-list li{ padding:10px 14px; border-radius:8px; font-size:.9rem; margin-bottom:8px; }
+  .flash-success{ background:#e6f9ed; color:#276738; border:1px solid #b8e6c8; }
+  .flash-danger{ background:#fce4e4; color:#a33; border:1px solid #f0bcbc; }
+  .flash-info{ background:#e4edf9; color:#2c5282; border:1px solid #bcd4f0; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mp">
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+
+  <div class="mp-head">
+    <h1>Hi, {{ current_user.name.split(' ')[0] }} 👋</h1>
+    {% if current_user.is_admin %}<span class="mp-badge mp-badge--admin">Admin</span>
+    {% elif current_user.is_premium %}<span class="mp-badge mp-badge--premium">Premium member</span>
+    {% else %}<span class="mp-badge mp-badge--free">Free plan</span>{% endif %}
+  </div>
+  <p class="mp-sub">Your counselling sessions, notes and document verification live here.</p>
+
+  {% if not current_user.is_premium %}
+  <div class="mp-banner">
+    <h2>Unlock Premium</h2>
+    <p>Get 1-on-1 counsellor sessions, document verification and full predictor analytics.</p>
+    <a class="mp-cta" href="{{ url_for('main.members_registration') }}">Become a member →</a>
+  </div>
+  {% endif %}
+
+  {% if announcements %}
+  <div class="mp-panel">
+    <h2>📣 From the EduAakashaa team</h2>
+    {% for a in announcements %}
+    <div style="padding:8px 0; border-bottom:1px dashed var(--border);">
+      <strong>{% if a.pinned %}📌 {% endif %}{{ a.title }}</strong>
+      <div style="color:var(--text-dim); font-size:.9rem;">{{ a.body }}</div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- DOCUMENT VERIFICATION -->
+  {% if docs %}
+  <div class="mp-panel" id="documents">
+    <h2>Document verification</h2>
+    <p class="hint">Upload each requested document. Once you've added them all, click <strong>Submit for verification</strong> — our team reviews them and you'll be emailed the result.</p>
+    <div style="overflow:auto;">
+      <table class="mp-tbl">
+        <thead><tr><th>Document</th><th>Status</th><th>Your file / upload</th></tr></thead>
+        <tbody>
+          {% for d in docs %}
+          <tr>
+            <td>{{ d.doc_type }}</td>
+            <td>
+              {% if d.status == 'Approved' %}<span class="mp-pill mp-pill--ok">Verified ✓</span>
+              {% elif d.status == 'Submitted' %}<span class="mp-pill mp-pill--wait">Under review</span>
+              {% elif d.status == 'Rejected' %}<span class="mp-pill mp-pill--rej">Re-upload needed</span>
+              {% else %}<span class="mp-pill mp-pill--req">Requested</span>{% endif %}
+            </td>
+            <td>
+              {% if d.status == 'Approved' %}
+                <span style="color:var(--text-dim); font-size:.85rem;">{{ d.file_name }} — verified</span>
+              {% else %}
+                <form method="post" action="{{ url_for('members.upload_document', doc_id=d.id) }}" enctype="multipart/form-data" class="mp-upload">
+                  <input type="file" name="file" accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx" required>
+                  <button type="submit" class="btn-main" style="padding:7px 14px; font-size:.82rem;">{{ 'Replace' if d.has_file else 'Upload' }}</button>
+                </form>
+                {% if d.file_name %}<div style="font-size:.78rem; color:var(--text-dim); margin-top:4px;">Current: {{ d.file_name }}</div>{% endif %}
+                {% if d.status == 'Rejected' and d.admin_comment %}<div class="mp-note">⚠ {{ d.admin_comment }}</div>{% endif %}
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if can_submit %}
+    <form method="post" action="{{ url_for('members.submit_documents') }}" style="margin-top:16px;">
+      <button type="submit" class="btn-main">Submit for verification →</button>
+    </form>
+    {% endif %}
+  </div>
+  {% elif current_user.is_premium %}
+  <div class="mp-panel" id="documents">
+    <h2>Document verification</h2>
+    <p class="hint">No documents requested yet. When our team needs documents from you, they'll appear here and you'll get an email.</p>
+  </div>
+  {% endif %}
+
+  <!-- MEETINGS / NOTES -->
+  <div class="mp-panel" id="meetings">
+    <h2>Your counselling sessions</h2>
+    <p class="hint">Sessions logged by our team, with notes you can refer back to.</p>
+    <div style="overflow:auto;">
+      <table class="mp-tbl">
+        <thead><tr><th>Date</th><th>Session</th><th>Counsellor</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>
+          {% for m in meetings %}
+          <tr>
+            <td>{{ m.meeting_date.strftime('%d %b %Y') if m.meeting_date else m.created_at.strftime('%d %b %Y') }}</td>
+            <td>{{ m.title or '—' }}</td>
+            <td>{{ m.counsellor or '—' }}</td>
+            <td>
+              {% if m.status == 'Completed' %}<span class="mp-pill mp-pill--ok">Completed</span>
+              {% elif m.status == 'Cancelled' %}<span class="mp-pill mp-pill--rej">Cancelled</span>
+              {% else %}<span class="mp-pill mp-pill--wait">Scheduled</span>{% endif %}
+            </td>
+            <td style="white-space:pre-wrap;">{{ m.notes or '—' }}</td>
+          </tr>
+          {% else %}
+          <tr><td colspan="5" style="text-align:center; padding:26px; color:var(--text-dim);">No sessions yet. Once you have a counselling session, it'll show up here with notes.</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  {% if events %}
+  <div class="mp-panel">
+    <h2>🗓 Upcoming exams &amp; events</h2>
+    {% for e in events %}
+    <div style="padding:8px 0; border-bottom:1px dashed var(--border);">
+      <strong>{{ e.starts_at.strftime('%d %b %Y') }} · {{ e.name }}</strong>{% if e.important %} ⭐{% endif %}
+      {% if e.description %}<div style="color:var(--text-dim); font-size:.9rem;">{{ e.description }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ACCOUNT -->
+  <div class="mp-panel">
+    <h2>Account</h2>
+    <table class="mp-acct" style="width:100%;">
+      <tr><td>Name</td><td>{{ current_user.name }}</td></tr>
+      <tr><td>Email</td><td>{{ current_user.email }}</td></tr>
+      <tr><td>Member since</td><td>{{ current_user.created_at.strftime('%d %b %Y') if current_user.created_at }}</td></tr>
+      <tr><td>Plan</td><td>{{ current_user.tier | capitalize }}{% if current_user.is_premium and current_user.tier_expires_at %} · expires {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}</td></tr>
+    </table>
+  </div>
+
+  <p style="text-align:center; margin-top:10px;">
+    <a href="{{ url_for('auth.logout') }}" style="color:#a55; font-size:.9rem;">Sign out</a>
+  </p>
+</div>
+{% endblock %}
