@@ -238,3 +238,22 @@
   .hero-editorial { padding: 50px 0 60px; }
   .stat-cell { border-right: none; padding: 0; flex-basis: 45%; }
 }
+
+/* ---- Custom on-brand icons (site-wide, replaces emoji) ---- */
+.ea-ic{ width:22px; height:22px; display:block; }
+.info-card__icon, .service-card__icon, .opt-icon, .callout__icon,
+.contact-info-icon, .mode-btn-icon, .card__icon, .feature__icon{
+  display:inline-flex; align-items:center; justify-content:center;
+  color:#0E3A8A; font-size:0 !important; line-height:0; }
+.info-card__icon, .service-card__icon{
+  width:46px; height:46px; background:#F5EFDF; border:1px solid #E8DFC8;
+  border-radius:12px; transition:background .18s,color .18s,border-color .18s; }
+.info-card:hover .info-card__icon, .service-card:hover .service-card__icon{
+  background:#0E3A8A; color:#fff; border-color:#0E3A8A; }
+.opt-icon .ea-ic, .callout__icon .ea-ic{ width:20px; height:20px; }
+.step__title{ display:flex; align-items:center; gap:9px; }
+.step__title .ea-ic{ width:20px; height:20px; color:#FF6B0A; flex:none; }
+.toc-card__num .ea-ic{ width:18px; height:18px; vertical-align:-3px; margin-right:6px; color:#FF6B0A; }
+.fee-compare__heading .ea-ic{ width:20px; height:20px; vertical-align:-4px; margin-right:6px; }
+.tmono{ width:46px; height:46px; border-radius:50%; display:inline-flex; align-items:center;
+  justify-content:center; font-family:'Fraunces',serif; font-weight:600; font-size:1.15rem; color:#fff; }

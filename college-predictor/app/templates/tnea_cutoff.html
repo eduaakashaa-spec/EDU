@@ -121,12 +121,12 @@
     <!-- Prediction Legend -->
     <div class="info-cards" style="margin-top:24px;">
       <div class="info-card" style="border-left:4px solid var(--green);">
-        <span class="info-card__icon">✅</span>
+        <span class="info-card__icon">{{ ea_icon('check') }}</span>
         <span class="info-card__label">Safe</span>
         <span class="info-card__value">Your cutoff &gt; college cutoff by 5+ marks</span>
       </div>
       <div class="info-card" style="border-left:4px solid var(--gold);">
-        <span class="info-card__icon">⚡</span>
+        <span class="info-card__icon">{{ ea_icon('bolt') }}</span>
         <span class="info-card__label">Close</span>
         <span class="info-card__value">Within 5 marks of college cutoff</span>
       </div>
@@ -195,7 +195,7 @@
   <!-- Cutoff Formula -->
   <section class="section">
     <div class="callout callout--info">
-      <div class="callout__icon">📝</div>
+      <div class="callout__icon">{{ ea_icon('edit') }}</div>
       <div>
         <span class="callout__label">TNEA CUTOFF FORMULA</span>
         <span class="callout__text">Cutoff Mark = (Maths ÷ 2) + (Physics ÷ 4) + (Chemistry ÷ 4). Maximum: 200 marks.</span>

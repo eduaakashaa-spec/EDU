@@ -4,23 +4,8 @@
 
 {% block head %}
 <style>
-  /* On-brand custom icons (replace emoji): navy line-art in a soft cream square */
-  .ea-ic{ width:22px; height:22px; display:block; }
-  .info-card__icon, .service-card__icon{
-    width:46px; height:46px; display:inline-flex; align-items:center; justify-content:center;
-    background:#F5EFDF; border:1px solid #E8DFC8; border-radius:12px; color:#0E3A8A;
-    font-size:0 !important; transition:.18s; }
-  .info-card:hover .info-card__icon, .service-card:hover .service-card__icon{
-    background:#0E3A8A; color:#fff; border-color:#0E3A8A; }
-  .step__title{ display:flex; align-items:center; gap:9px; }
-  .step__title .ea-ic{ width:20px; height:20px; color:#FF6B0A; flex:none; }
-
-  /* Testimonial monogram avatars (no stock faces) */
-  .tmono{ width:46px; height:46px; border-radius:50%; display:inline-flex; align-items:center;
-    justify-content:center; font-family:'Fraunces',serif; font-weight:600; font-size:1.15rem;
-    color:#fff; }
-
-  /* Hero illustration — geometric cube/constellation motif from the logo */
+  /* Hero illustration — geometric cube/constellation motif from the logo
+     (icon + monogram styles are now site-wide in components.css) */
   .hero-grid{ position:relative; }
   .hero-art{ position:absolute; right:-8px; bottom:-40px; width:210px; height:210px;
     opacity:.9; pointer-events:none; z-index:0; }
@@ -197,14 +182,14 @@
         <p class="section__desc">Choose your journey &mdash; we have dedicated tools and guides for every major admission route in India.</p>
       </div>
       <div class="toc-grid">
-        <a href="{{ url_for('main.nri_guide') }}" class="toc-card"><span class="toc-card__num">&#x1F30D; NRI / DASA / CIWG</span><span class="toc-card__text">Admissions guide for NRI families</span></a>
-        <a href="{{ url_for('main.josaa') }}" class="toc-card"><span class="toc-card__num">&#x1F3E2; JOSAA 2025</span><span class="toc-card__text">NITs, IIITs, GFTIs predictor &amp; analytics</span></a>
-        <a href="{{ url_for('main.tnea2026') }}" class="toc-card"><span class="toc-card__num">&#x1F4D6; TNEA 2026</span><span class="toc-card__text">Tamil Nadu engineering admissions</span></a>
-        <a href="{{ url_for('main.mbamca') }}" class="toc-card"><span class="toc-card__num">&#x1F4BC; MBA / MCA</span><span class="toc-card__text">TANCET, management &amp; computer applications</span></a>
-        <a href="{{ url_for('main.professional_exam') }}" class="toc-card"><span class="toc-card__num">&#x1F4DD; Professional Exams</span><span class="toc-card__text">CA, CS, CMA &amp; certification pathways</span></a>
-        <a href="{{ url_for('main.viteee_nri') }}" class="toc-card"><span class="toc-card__num">&#x1F393; VITEEE for NRI</span><span class="toc-card__text">VIT Engineering Entrance &mdash; NRI category</span></a>
-        <a href="{{ url_for('main.tancet') }}" class="toc-card"><span class="toc-card__num">&#x1F4DA; TANCET</span><span class="toc-card__text">Tamil Nadu Common Entrance Test guide</span></a>
-        <a href="{{ url_for('main.ea_library') }}" class="toc-card"><span class="toc-card__num">&#x1F4DA; EA Library</span><span class="toc-card__text">Resources, articles &amp; study material</span></a>
+        <a href="{{ url_for('main.nri_guide') }}" class="toc-card"><span class="toc-card__num">{{ ea_icon('globe') }} NRI / DASA / CIWG</span><span class="toc-card__text">Admissions guide for NRI families</span></a>
+        <a href="{{ url_for('main.josaa') }}" class="toc-card"><span class="toc-card__num">{{ ea_icon('building') }} JOSAA 2025</span><span class="toc-card__text">NITs, IIITs, GFTIs predictor &amp; analytics</span></a>
+        <a href="{{ url_for('main.tnea2026') }}" class="toc-card"><span class="toc-card__num">{{ ea_icon('book') }} TNEA 2026</span><span class="toc-card__text">Tamil Nadu engineering admissions</span></a>
+        <a href="{{ url_for('main.mbamca') }}" class="toc-card"><span class="toc-card__num">{{ ea_icon('briefcase') }} MBA / MCA</span><span class="toc-card__text">TANCET, management &amp; computer applications</span></a>
+        <a href="{{ url_for('main.professional_exam') }}" class="toc-card"><span class="toc-card__num">{{ ea_icon('edit') }} Professional Exams</span><span class="toc-card__text">CA, CS, CMA &amp; certification pathways</span></a>
+        <a href="{{ url_for('main.viteee_nri') }}" class="toc-card"><span class="toc-card__num">{{ ea_icon('cap') }} VITEEE for NRI</span><span class="toc-card__text">VIT Engineering Entrance &mdash; NRI category</span></a>
+        <a href="{{ url_for('main.tancet') }}" class="toc-card"><span class="toc-card__num">{{ ea_icon('book') }} TANCET</span><span class="toc-card__text">Tamil Nadu Common Entrance Test guide</span></a>
+        <a href="{{ url_for('main.ea_library') }}" class="toc-card"><span class="toc-card__num">{{ ea_icon('book') }} EA Library</span><span class="toc-card__text">Resources, articles &amp; study material</span></a>
       </div>
     </section>
 
@@ -220,7 +205,7 @@
       <p class="content-text">Whether you&rsquo;re an NRI student abroad or an Indian student at home, we tailor our guidance to your unique admission journey.</p>
       <div class="fee-compare">
         <div class="fee-compare__card fee-compare__card--usd">
-          <div class="fee-compare__heading">&#x1F30D; NRI / PIO / OCI Students</div>
+          <div class="fee-compare__heading">{{ ea_icon('globe') }} NRI / PIO / OCI Students</div>
           <span class="fee-compare__sub">Studying abroad, studying in India</span>
           <ul class="check-list">
             <li>DASA &amp; CIWG application support</li>
