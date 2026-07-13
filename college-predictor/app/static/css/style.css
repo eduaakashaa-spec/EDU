@@ -82,6 +82,12 @@
 .global-flash__item--danger  { background: var(--red-bg); color: var(--red); border-color: #f0bcbc; }
 .global-flash__item--info    { background: var(--blue-bg); color: var(--blue); border-color: #bcd4f0; }
 
+html {
+  /* body's overflow-x:hidden alone still lets the root pan sideways on mobile
+     when something overflows — clip at the root too so pages never wiggle. */
+  overflow-x: hidden;
+}
+
 body {
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   background-color: var(--cream);
