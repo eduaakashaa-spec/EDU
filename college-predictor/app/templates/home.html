@@ -28,10 +28,12 @@
 .footer{ margin-top:0; }
 
 /* ---- page-scoped dark chrome for the global sticky header ---- */
-.header{ background:rgba(4,9,28,.72) !important; backdrop-filter:blur(16px) saturate(140%);
-  border-bottom:1px solid rgba(251,247,238,.08) !important; }
-.sticky-bar{ background:transparent !important; border-bottom:1px solid rgba(251,247,238,.06); }
-.header .nav__link{ color:#E8ECFA; }
+.header{ background:linear-gradient(180deg, rgba(4,9,28,.98) 0%, rgba(6,15,42,.94) 100%) !important;
+  backdrop-filter:blur(16px) saturate(140%);
+  border-bottom:1px solid rgba(255,138,61,.14) !important;
+  box-shadow:0 10px 40px rgba(0,0,0,.35); }
+.sticky-bar{ background:transparent !important; border-bottom:1px solid rgba(251,247,238,.05); }
+.header .nav__link{ color:#EDF0FC; }
 .header .nav__link:hover{ color:var(--laser2, #FF8A3D); }
 
 /* ---- film grain over everything ---- */
@@ -48,12 +50,13 @@
 
 /* ---- left progress rail ---- */
 .aw-rail{ position:fixed; left:26px; top:50%; transform:translateY(-50%); z-index:40;
-  display:flex; flex-direction:column; gap:22px; align-items:center; }
-.aw-rail .bar{ width:1.5px; height:110px; background:var(--haird); position:relative; overflow:hidden; }
+  display:flex; flex-direction:column; gap:16px; align-items:center; }
+.aw-rail .bar{ width:1.5px; height:90px; background:var(--haird); position:relative; overflow:hidden; }
 .aw-rail .bar i{ position:absolute; inset:0; background:var(--laser); transform-origin:top; transform:scaleY(0); }
-.aw-rail a{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--dim);
-  text-decoration:none; transition:color .25s; writing-mode:vertical-rl; }
-.aw-rail a.on{ color:var(--laser); }
+.aw-rail a{ font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.08em; color:var(--dim);
+  text-decoration:none; transition:color .25s,transform .25s; }
+.aw-rail a.on{ color:var(--laser); transform:scale(1.25); }
+.aw-rail a:hover{ color:var(--cream); }
 @media (max-width:1180px){ .aw-rail{ display:none; } }
 
 /* ---- shared type ---- */
@@ -119,7 +122,9 @@
 .aw-demo .legend{ display:flex; gap:18px; margin-top:26px; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.14em; color:var(--dim); text-transform:uppercase; }
 .aw-demo .legend i{ display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:7px; }
 .aw-rank{ font-family:'JetBrains Mono',monospace; font-weight:600; font-variant-numeric:tabular-nums;
-  font-size:clamp(54px,7vw,104px); letter-spacing:-.02em; color:var(--cream); line-height:1; }
+  font-size:clamp(54px,7vw,104px); color:var(--cream); line-height:1; }
+/* fixed 8-slot readout (figure-space padded) so 6→5-digit ranks never reflow */
+.aw-rank #awRank{ display:inline-block; white-space:pre; }
 .aw-rank small{ display:block; font-size:11px; letter-spacing:.26em; color:var(--dim); font-weight:400; margin-bottom:14px; text-transform:uppercase; }
 .aw-track{ height:2px; background:var(--haird); margin:26px 0 30px; position:relative; }
 .aw-track i{ position:absolute; inset:0; background:var(--laser); transform-origin:left; transform:scaleX(0); }
@@ -242,12 +247,12 @@
 
   <!-- progress rail -->
   <nav class="aw-rail" aria-label="Page chapters">
-    <a href="#awHero" class="on" data-ch="awHero">01 — Thesis</a>
+    <a href="#awHero" class="on" data-ch="awHero" title="Thesis" aria-label="Chapter 1 — Thesis">01</a>
     <div class="bar"><i id="awRailBar"></i></div>
-    <a href="#awDemo" data-ch="awDemo">02 — Demo</a>
-    <a href="#awLight" data-ch="awLight">03 — Service</a>
-    <a href="#awEng" data-ch="awEng">04 — Engines</a>
-    <a href="#awFin" data-ch="awFin">05 — Begin</a>
+    <a href="#awDemo" data-ch="awDemo" title="The demo" aria-label="Chapter 2 — Demo">02</a>
+    <a href="#awLight" data-ch="awLight" title="What we do" aria-label="Chapter 3 — Services">03</a>
+    <a href="#awEng" data-ch="awEng" title="The engines" aria-label="Chapter 4 — Engines">04</a>
+    <a href="#awFin" data-ch="awFin" title="Begin" aria-label="Chapter 5 — Begin">05</a>
   </nav>
 
   <!-- ═══════ CH·01 THESIS ═══════ -->
@@ -516,7 +521,9 @@ window.addEventListener('DOMContentLoaded', function () {
   var R0 = 550000, R1 = 15000, L0 = Math.log(R0), L1 = Math.log(R1);
   function applyRank(p) {
     var r = Math.round(Math.exp(L0 + (L1 - L0) * p));
-    rankEl.textContent = r.toLocaleString('en-IN');
+    // pad to a constant 8 slots with figure spaces: digits stay anchored,
+    // no reflow/warp when the rank drops from 6 digits to 5
+    rankEl.textContent = r.toLocaleString('en-IN').padStart(8, ' ');
     if (bar) bar.style.transform = 'scaleX(' + p + ')';
     rows.forEach(function (row) {
       var close = +row.getAttribute('data-close');

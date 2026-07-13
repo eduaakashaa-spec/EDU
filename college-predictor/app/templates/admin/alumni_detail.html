@@ -60,8 +60,7 @@
         <li><span class="mut">Current role</span><span>{{ alum.current_role or '—' }}</span></li>
       </ul>
       <div style="margin-top:14px; display:flex; gap:10px; flex-wrap:wrap;">
-        {% if alum.resume_url %}<a class="btn btn-navy btn-sm" href="{{ alum.resume_url }}" target="_blank" rel="noopener nofollow">📄 Resume link ↗</a>
-        {% elif alum.has_resume %}<a class="btn btn-navy btn-sm" href="{{ url_for('alumni.admin_resume', alum_id=alum.id) }}">⬇ Resume</a>{% endif %}
+        {% if alum.has_resume %}<a class="btn btn-navy btn-sm" href="{{ url_for('alumni.admin_resume', alum_id=alum.id) }}" target="_blank" rel="noopener nofollow">📄 Resume ↗</a>{% endif %}
         {% if alum.has_photo %}<a class="btn btn-ghost btn-sm" href="{{ url_for('alumni.admin_photo', alum_id=alum.id) }}" target="_blank" rel="noopener">Open photo ↗</a>{% endif %}
         {% if alum.phone %}<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener"
               href="https://wa.me/{{ alum.phone | replace('+','') | replace(' ','') | replace('-','') }}">💬 WhatsApp</a>{% endif %}

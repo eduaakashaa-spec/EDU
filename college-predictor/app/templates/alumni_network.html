@@ -163,7 +163,7 @@
       <div class="steps">
         <div class="step"><span class="step__num">01</span><div>
           <div class="step__title">Register below</div>
-          <p class="step__text">Tell us where you studied, add your photo &amp; a link to your resume — it takes a few minutes.</p></div></div>
+          <p class="step__text">Tell us where you studied, add your photo &amp; upload your resume — it takes a few minutes.</p></div></div>
         <div class="step"><span class="step__num">02</span><div>
           <div class="step__title">We verify you</div>
           <p class="step__text">A quick check of your details, then you're in as a College Guide.</p></div></div>
@@ -288,9 +288,9 @@
               <input class="al-file" type="file" id="al-photo" name="photo" accept="image/jpeg,image/png,image/webp" required>
             </div>
             <div class="form-group">
-              <label for="al-resume">Resume link * <span style="color:var(--text-dim); font-weight:400;">(Google Drive / Dropbox / any share link)</span></label>
-              <input type="url" id="al-resume" name="resume_url" required maxlength="500" placeholder="https://drive.google.com/…">
-              <p style="margin-top:6px; font-size:.82rem; color:var(--text-dim);">Upload your resume to Google Drive (or similar) and paste the link here. <strong>Set the link's visibility to “Anyone with the link can view”</strong> so our team can open it.</p>
+              <label for="al-resume">Resume * <span style="color:var(--text-dim); font-weight:400;">(PDF, DOC or DOCX — max 5 MB)</span></label>
+              <input class="al-file" type="file" id="al-resume" name="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
+              <p style="margin-top:6px; font-size:.82rem; color:var(--text-dim);">Upload your resume file directly. It's stored privately and only our team can open it.</p>
             </div>
 
             <label class="al-consent">
@@ -302,7 +302,7 @@
           </form>
 
           <p class="al-note">
-            Your details and photo are stored securely and your resume link is used only to match you with parents.
+            Your details, photo and resume are stored securely and used only to match you with parents.
             We never publish them or share them for anything other than matching you with parents.
           </p>
         </div>

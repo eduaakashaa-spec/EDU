@@ -17,6 +17,7 @@ import io
 import secrets
 import threading
 import time
+import uuid
 from datetime import datetime, timedelta, timezone
 
 from flask import (Blueprint, abort, flash, jsonify, redirect, render_template,
@@ -30,6 +31,7 @@ from app.decorators import admin_required, mentor_required
 from app.extensions import db, bcrypt
 from app.models import (Announcement, AlumniProfile, MentorMeeting,
                         MentorMessage, User)
+from app.services import r2
 from app.services.queries import count_if
 
 alumni_bp = Blueprint('alumni', __name__)
@@ -94,6 +96,35 @@ PHOTO_MAGIC = {
     b'\xff\xd8\xff': 'image/jpeg',
     b'\x89PNG\r\n\x1a\n': 'image/png',
 }
+
+# Resumes: uploaded (not linked) and stored privately in R2. Validated by
+# extension + magic bytes + size at the public endpoint (untrusted upload),
+# and only ever served back as a forced attachment, so a mislabelled file
+# can't render in our origin.
+RESUME_EXT = {'pdf', 'doc', 'docx'}
+RESUME_MAX = 5 * 1024 * 1024
+RESUME_MAGIC = {
+    b'%PDF-': 'application/pdf',
+    b'PK\x03\x04': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',  # docx (zip)
+    b'\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1': 'application/msword',                                 # .doc (OLE2)
+}
+
+
+def _validate_resume(storage):
+    """→ (data, mime, error). data/mime are None when there's no file."""
+    if storage is None or not storage.filename:
+        return None, None, None
+    if _ext(storage.filename) not in RESUME_EXT:
+        return None, None, 'Resume must be a PDF, DOC or DOCX file.'
+    data, too_big = _read_capped(storage, RESUME_MAX)
+    if too_big:
+        return None, None, 'Resume is larger than 5 MB. Please upload a smaller file.'
+    if not data:
+        return None, None, 'The resume file was empty.'
+    for magic, mime in RESUME_MAGIC.items():
+        if data.startswith(magic):
+            return data, mime, None
+    return None, None, 'That file does not look like a valid PDF or Word document.'
 
 
 def _ext(filename):
@@ -235,11 +266,24 @@ def alumni_network():
     if err:
         return fail(err)
 
-    # Resume is now a shared link (Drive/Dropbox/etc.), not an upload.
-    resume_url = _safe_http_url(f.get('resume_url'), max_len=500)
-    if not resume_url:
-        return fail('Please paste a shareable link to your resume (an http/https URL, '
-                    'e.g. a Google Drive link set to “Anyone with the link”).')
+    # Resume is uploaded and stored privately in R2. resume_url holds the R2
+    # object key (legacy rows may still hold an external http link — admin_resume
+    # handles both). Upload before creating any rows so a storage failure
+    # doesn't leave a half-registered mentor.
+    resume_data, resume_mime, err = _validate_resume(request.files.get('resume'))
+    if err:
+        return fail(err)
+    if not resume_data:
+        return fail('Please upload your resume (PDF, DOC or DOCX).')
+    if not r2.is_configured():
+        return fail('Resume uploads are temporarily unavailable. Please try again shortly.', 503)
+    resume_file = request.files.get('resume')
+    resume_key = 'resumes/%s-%s' % (
+        uuid.uuid4().hex, secure_filename(resume_file.filename)[:120] or 'resume')
+    try:
+        r2.upload(resume_data, resume_key, resume_mime)
+    except Exception:
+        return fail('We could not store your resume just now. Please try again shortly.', 502)
 
     stage = f.get('stage') if f.get('stage') in STAGES else None
     referred_by = _resolve_referrer(f.get('ref') or ref)
@@ -270,7 +314,9 @@ def alumni_network():
         availability=(f.get('availability') or '').strip()[:200],
         photo_data=photo_data, photo_mime=photo_mime,
         photo_name=(secure_filename(photo_file.filename)[:255] if photo_data and photo_file else None),
-        resume_url=resume_url,
+        resume_url=resume_key,
+        resume_name=secure_filename(resume_file.filename)[:255] or 'resume',
+        resume_mime=resume_mime,
         referral_code=_unique_referral_code(),
         referred_by=(referred_by if referred_by else None),
         consent=True, status='New',
@@ -510,7 +556,14 @@ def _send_blob(data, mime, download_name, as_attachment):
 def admin_resume(alum_id):
     alum = db.session.get(AlumniProfile, alum_id) or abort(404)
     name = alum.resume_name or f'resume-{alum.id}'
-    # always an attachment so a PDF/DOC can never render inline in our origin
+    url = alum.resume_url or ''
+    if url.lower().startswith(('http://', 'https://')):
+        return redirect(url)                          # legacy external link (Drive/Dropbox)
+    if url:                                            # R2 object key
+        if not r2.is_configured():
+            abort(503)
+        return redirect(r2.presigned_get(url, download_name=name))
+    # legacy: bytes stored in the DB, streamed as an attachment
     return _send_blob(alum.resume_data, alum.resume_mime, name, as_attachment=True)
 
 

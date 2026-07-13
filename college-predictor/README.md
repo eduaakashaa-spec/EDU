@@ -424,14 +424,19 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
   Run: `BASE_URL=http://127.0.0.1:5000 npx playwright test tests/smoke.spec.ts --project=chromium`
   (from the repo root). Verified green locally **and against the live Render deploy**.
 
-### Phase 17 — Mentor network → ₹, resume links, College Survey (2026)
+### Phase 17 — Mentor network → ₹, resume uploads (R2), College Survey (2026)
 - **Mentor network currency switched to ₹ (rupees).** All AED copy/labels across
   the alumni page, mentor portal and admin became `₹`; every ₹100 figure is now
   **₹2000** (per-meeting, per-referral, referral bonus, admin payout default).
   `payout_amount` stays an integer — no data migration.
-- **Resumes are now a pasted share link, not a DB upload.** `AlumniProfile` gained
-  a `resume_url` column (http(s)-validated; blocks `javascript:`/`data:`); the
-  multi-MB `LargeBinary` upload was dropped to keep Neon's free tier lean. **Photos
+- **Resumes are uploaded files stored privately in Cloudflare R2.** The mentor
+  uploads a PDF/DOC/DOCX (extension+magic-validated, ≤5 MB); it's stored
+  server-side in R2 (private bucket, no CORS/public URL) and the object key is
+  kept in `AlumniProfile.resume_url`. Admins open it via a short-lived presigned
+  link (`services/r2.py`, boto3; env: `R2_ENDPOINT`/`R2_ACCESS_KEY_ID`/
+  `R2_SECRET_ACCESS_KEY`/`R2_BUCKET`). Legacy rows holding a pasted share link or
+  a DB blob still open — `admin_resume` handles all three.
+  _(Superseded the earlier "pasted share link" approach.)_ **Photos
   stay in the DB** but the cap fell 3 MB → ~200 KB (the form asks mentors to
   compress). Prod migrated additively (`ADD COLUMN IF NOT EXISTS`).
 - **New: College Experience Survey** (`routes/survey.py`, `templates/college_survey.html`,
@@ -510,7 +515,7 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
 - [x] **Premium Membership pages** — 8 full live-site ports gated `@premium_required` (Why CSE, Best Location, Engineering Insights, Hostel & Culture, TNEA Expert, JOSAA EA Members, Expert Portal DASA, Branch Selection Guide); in-page lead forms post to `/api/leads`
 - [x] **EA Team / Counsellor Portal** — admin-only dropdown: in-app Choice Builder PRO + Counsellor Dashboard (live Google-Sheet triage); RBAC replaced the legacy per-page passwords
 - [x] **EA Admin Control Panel** — `/admin` overview + member tier/validity/password management, announcements, schedule, message templates
-- [x] **College Guides** (peer network, internal tier `mentor`) — public `/alumni-network` signup (photo upload + pasted **resume link**, referral links); **guide portal `/mentor`** where a guide answers parents' questions for **₹500–1000** (referral bonus ₹1000), with sessions, referrals, and guide↔admin messaging; admin review/matching + ₹ payout logging at `/admin/alumni`
+- [x] **College Guides** (peer network, internal tier `mentor`) — public `/alumni-network` signup (photo upload + **resume upload → private Cloudflare R2**, referral links); **guide portal `/mentor`** where a guide answers parents' questions for **₹500–1000** (referral bonus ₹1000), with sessions, referrals, and guide↔admin messaging; admin review/matching + ₹ payout logging at `/admin/alumni`
 - [x] **College Experience Survey** — free, public `/college-survey` (10 sections, ~96 questions) for students/alumni to rate their college; definition-driven (one `SECTIONS` list in `routes/survey.py`, answers in `CollegeSurvey.responses_json`); admin review grouped by college at `/admin/surveys`; soft funnel into College Guides
 - [x] **Admin email templates** — `/admin/templates`: pick a template, fill placeholders, open a ready draft from `eduaakashaa@gmail.com` (Gmail compose / mailto) with a branded HTML preview; nothing auto-sent
 - [ ] **Membership PDFs** — invoice/receipt generation (WeasyPrint/ReportLab)

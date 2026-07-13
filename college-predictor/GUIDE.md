@@ -183,7 +183,7 @@ applications and inquiries, plus recent-activity feeds.
 | Messages | `/admin/messages` | Template library — per-member WhatsApp / email drafts with placeholders filled |
 | Email Templates | `/admin/templates` | Pick a ready email (welcome, thank-you, payment credited…), fill placeholders, open a draft from `eduaakashaa@gmail.com` (see §3.9) |
 | Onboarding Assessments | `/admin/onboarding` | See completed member onboarding assessments (student + parent), paired by family, with a one-click **Copy for AI** to generate the Insight Dossier. Families fill it at `/onboarding-assessment` |
-| College Guides | `/admin/alumni` | College Guide registrations — profiles, resume link/photo, status & matching, ₹ payouts, referral tree (see §3.5) |
+| College Guides | `/admin/alumni` | College Guide registrations — profiles, resume (R2)/photo, status & matching, ₹ payouts, referral tree (see §3.5) |
 | Surveys | `/admin/surveys` | College Experience Survey responses — grouped by college + "want to be a guide" leads (see §3.8) |
 
 ### 3.2b Members — changing a user's plan
@@ -364,7 +364,7 @@ choosing one (both under the **More** nav dropdown):
 | Uses the legacy DASA predict API | `dasa_leads` | `/admin/leads` (bottom section) |
 | Sends the Contact form | `contact_inquiries` | `/admin/inquiries` |
 | Registers an account | `users` | `/admin/users` |
-| Registers as a College Guide | `alumni_profiles` (photo in DB, resume as a link) | `/admin/alumni` |
+| Registers as a College Guide | `alumni_profiles` (photo in DB, resume file in R2) | `/admin/alumni` |
 | Fills the College Experience Survey | `college_surveys` (answers in `responses_json`) | `/admin/surveys` |
 
 All admin pages require an **admin-tier login**; non-admins get a 403.
@@ -382,9 +382,9 @@ user tier is still called `mentor` in the code.)
 (the matching keys: university, program, degree, admission route, stage),
 languages, availability, a short bio, a **photo** (validated by type + magic
 bytes, capped ~200 KB, stored in Postgres so it survives Render redeploys) and a
-**resume link** (a shared Google Drive / Dropbox / URL the mentor pastes — set to
-"Anyone with the link"; only the URL is stored, keeping multi-MB files out of the
-DB), plus a **password**. Submitting creates a login on the new **`mentor` tier**
+**resume** (a PDF / DOC / DOCX the mentor uploads directly — validated by
+extension + magic bytes, capped 5 MB, stored privately in **Cloudflare R2**; the
+object key is kept on the profile, not the file itself), plus a **password**. Submitting creates a login on the new **`mentor` tier**
 (one account per email) and logs them straight into their portal. Every
 registrant gets a **personal referral link** (`/alumni-network?ref=CODE`);
 sign-ups through it are recorded as `referred_by`. **Referral bonuses are
@@ -401,8 +401,8 @@ and an editable profile (contact / languages / availability / bio; academic
 fields are locked). Everything a guide sees is scoped to their own account.
 
 **Admins manage it at `/admin/alumni`** (admin tab): search/filter by university
-or status, open a profile to see all details, **open the resume link / view the
-photo** (admin-only), set status (New → Verified → Active / Rejected), keep
+or status, open a profile to see all details, **open the resume (via a
+short-lived private R2 link) / view the photo** (admin-only), set status (New → Verified → Active / Rejected), keep
 internal notes, and see the referral tree. On each profile you can **log a
 session** (a guide answering a parent's questions earns **₹500–1000**; the kind
 dropdown keeps meeting/video/referral/bonus/adjustment for internal tracking)

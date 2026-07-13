@@ -38,7 +38,7 @@ https://eduaakashaa.onrender.com). Tick each box. Anything that fails blocks the
 - [ ] Contact form (`/contact-us`) → row in ContactInquiry (`/admin/inquiries`).
 - [ ] Any page lead form → PageLead (`/admin/leads`); DASA lead capture works.
 - [ ] College Survey (`/college-survey`) → CollegeSurvey (`/admin/surveys`).
-- [ ] Alumni / College Guide signup (`/alumni-network`) → AlumniProfile (`/admin/alumni`); resume link + photo validated.
+- [ ] Alumni / College Guide signup (`/alumni-network`) → AlumniProfile (`/admin/alumni`); resume upload (PDF/DOC/DOCX → R2) + photo validated; admin can open the resume.
 - [ ] Membership apply (`/membership/apply`) → MembershipApplication (`/admin/membership`) with a reference no.
 - [ ] **Onboarding assessment** (`/onboarding-assessment/student` & `/parent`) → OnboardingResponse; student+parent **pair** by family in `/admin/onboarding`.
 - [ ] Rate limits still allow normal use (not too aggressive).
@@ -62,6 +62,7 @@ https://eduaakashaa.onrender.com). Tick each box. Anything that fails blocks the
 - [ ] GST/company/bank env vars set for invoices (`GSTIN`, `COMPANY_*`, `BANK_*`).
 - [ ] **SMTP** vars set if auto-emails are wanted: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `SMTP_FROM` (Gmail → App Password).
 - [ ] `MAX_CONTENT_LENGTH` (10 MB) fine for resume+photo uploads.
+- [ ] **R2 resume storage** vars set: `R2_ENDPOINT`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET` (Object Read & Write token scoped to `eduaakashaa`). Without them, guide signup fails at the resume step.
 
 ## 8. Layout, mobile & UX
 - [ ] Sticky top nav stays **above page content** on scroll on the ported pages (dasa-guide, free-report, best-location, career-path, tnea pages) — no overlay.
