@@ -66,11 +66,15 @@ def upload(data, key, content_type):
     return key
 
 
-def presigned_get(key, expires=300, download_name=None):
-    """Short-lived GET URL. Forces attachment download so a resume never
-    renders inline in a browser tab that trusts our session."""
+def presigned_get(key, expires=300, download_name=None, inline=True):
+    """Short-lived GET URL. Served from R2's own domain (not our origin), so
+    inline is safe — PDFs open in the browser tab; DOC/DOCX download anyway
+    since browsers can't render them. Pass inline=False to force a download."""
+    disp = 'inline' if inline else 'attachment'
     params = {'Bucket': _bucket(), 'Key': key}
     if download_name:
-        params['ResponseContentDisposition'] = f'attachment; filename="{download_name}"'
+        params['ResponseContentDisposition'] = f'{disp}; filename="{download_name}"'
+    else:
+        params['ResponseContentDisposition'] = disp
     return _get_client().generate_presigned_url(
         'get_object', Params=params, ExpiresIn=expires)
