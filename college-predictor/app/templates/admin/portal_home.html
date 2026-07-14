@@ -4,185 +4,307 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
 <style>
-  .ov-label{ font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase;
-             letter-spacing:.14em; color:var(--navy); margin:22px 0 8px; font-weight:700; }
-  .ov-label:first-of-type{ margin-top:6px; }
-  .ov-kpi-accent .n{ color:#1f8b4d; }
-  .pill-mentor{ background:rgba(255,107,10,.14); color:#c2410c; }
-  .ov-charts{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; margin-bottom:18px; }
-  .ov-chart{ background:var(--paper); border:1px solid var(--hairline); border-radius:14px; padding:18px 20px; }
-  .ov-chart h2{ font-family:'Fraunces',serif; font-size:1.05rem; color:var(--navy-ink); margin-bottom:12px; }
-  .ov-chart .cwrap{ position:relative; height:240px; }
-  .ov-chart--wide{ grid-column:1/-1; }
-  .ov-chart--wide .cwrap{ height:300px; }
+  /* ── Overview: a bento control panel. Dense by design (this is an ops
+     surface, not a marketing page): tiles vary in weight so the eye lands on
+     revenue and this-week movement first, then drills into the long tail. ── */
+  .ov{ --gap:14px; --r:16px; }
+
+  /* ---------- masthead: the one dark band on a cream site ---------- */
+  .ov-hero{ position:relative; overflow:hidden; border-radius:20px; margin-bottom:var(--gap);
+            background:linear-gradient(135deg,#0E3A8A 0%,#071A44 62%,#040F2B 100%);
+            padding:30px 34px 28px; color:#fff; }
+  .ov-hero::after{ content:''; position:absolute; inset:0; pointer-events:none;
+            background:radial-gradient(circle at 88% -10%,rgba(255,107,10,.30),transparent 46%); }
+  .ov-hero > *{ position:relative; z-index:1; }
+  .ov-hero .eyebrow{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.24em;
+            text-transform:uppercase; color:#FF9350; }
+  .ov-hero h1{ font-family:'Fraunces',serif; font-size:2.1rem; color:#fff; letter-spacing:-.02em;
+            margin:6px 0 0; }
+  .ov-hero .sub{ color:rgba(255,255,255,.66); font-size:13.5px; margin-top:4px; }
+  .ov-heroline{ display:flex; align-items:flex-end; justify-content:space-between; gap:28px;
+            flex-wrap:wrap; margin-top:22px; }
+  .ov-headline .cap{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.16em;
+            text-transform:uppercase; color:rgba(255,255,255,.6); }
+  .ov-headline .big{ font-family:'Fraunces',serif; font-size:3.4rem; line-height:.95; color:#fff;
+            letter-spacing:-.03em; font-variant-numeric:tabular-nums; margin-top:6px; }
+  .ov-headline .big .cur{ font-size:1.4rem; color:#FF9350; vertical-align:super; margin-right:4px; }
+  .ov-headline .foot{ font-size:12.5px; color:rgba(255,255,255,.55); margin-top:8px; }
+  .ov-week{ display:flex; gap:10px; flex-wrap:wrap; }
+  .ov-wk{ background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14);
+          border-radius:12px; padding:12px 16px; min-width:104px; }
+  .ov-wk .n{ font-family:'Fraunces',serif; font-size:1.5rem; color:#fff; font-variant-numeric:tabular-nums; }
+  .ov-wk .l{ font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.12em;
+          text-transform:uppercase; color:rgba(255,255,255,.6); margin-top:3px; }
+  .ov-hero .btn-hero{ background:#FF6B0A; color:#fff; }
+  .ov-hero .btn-hero:hover{ background:#fff; color:var(--navy-ink); }
+
+  /* ---------- bento ---------- */
+  .ov-bento{ display:grid; grid-template-columns:repeat(12,1fr); gap:var(--gap);
+             margin-bottom:var(--gap); }
+  .ov-t{ background:var(--paper); border:1px solid var(--hairline); border-radius:var(--r);
+         padding:18px 20px; position:relative; overflow:hidden;
+         transition:transform .22s cubic-bezier(.2,.7,.3,1), box-shadow .22s, border-color .22s; }
+  /* the accent hairline only exists to reward hover — never carries meaning */
+  .ov-t::before{ content:''; position:absolute; top:0; left:0; right:0; height:2px;
+         background:linear-gradient(90deg,var(--orange),#FFB25A); transform:scaleX(0);
+         transform-origin:0 50%; transition:transform .3s cubic-bezier(.2,.7,.3,1); }
+  .ov-t:hover{ transform:translateY(-3px); box-shadow:0 14px 34px -14px rgba(7,26,68,.28);
+         border-color:#d8cdb0; }
+  .ov-t:hover::before{ transform:scaleX(1); }
+  .ov-t .cap{ font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:.16em;
+         text-transform:uppercase; color:var(--muted); }
+  .ov-t .n{ font-family:'Fraunces',serif; font-size:2.05rem; color:var(--navy-ink); line-height:1.05;
+         margin-top:8px; font-variant-numeric:tabular-nums; letter-spacing:-.02em; }
+  .ov-t .n .cur{ font-size:.95rem; color:var(--orange); vertical-align:super; margin-right:2px; }
+  .ov-t .note{ font-size:12px; color:var(--muted); margin-top:6px; }
+  .ov-t--sm .n{ font-size:1.6rem; }
+  .ov-t h2{ font-family:'Fraunces',serif; font-size:1.02rem; color:var(--navy-ink); margin:0 0 12px; }
+
+  .c4{ grid-column:span 4; } .c3{ grid-column:span 3; } .c8{ grid-column:span 8; }
+  .c6{ grid-column:span 6; } .c5{ grid-column:span 5; } .c7{ grid-column:span 7; }
+  .c12{ grid-column:span 12; }
+
+  /* feature tile — breakdown with proportion bars */
+  .ov-break{ margin-top:16px; display:flex; flex-direction:column; gap:11px; }
+  .ov-br .top{ display:flex; justify-content:space-between; align-items:baseline; font-size:13px; }
+  .ov-br .top b{ font-variant-numeric:tabular-nums; color:var(--navy-ink); }
+  .ov-br .top span{ color:var(--muted); }
+  .ov-br .track{ height:5px; border-radius:99px; background:rgba(14,27,61,.07); margin-top:5px;
+         overflow:hidden; }
+  .ov-br .fill{ height:100%; border-radius:99px; transition:width .6s cubic-bezier(.2,.7,.3,1); }
+
+  .ov-cwrap{ position:relative; height:236px; }
+  .ov-cwrap--tall{ height:290px; }
+
+  /* ---------- feeds ---------- */
+  .ov-feed{ list-style:none; margin:0; padding:0; }
+  .ov-feed li{ display:flex; justify-content:space-between; align-items:center; gap:12px;
+         padding:9px 0; border-bottom:1px dashed var(--hairline); font-size:13.2px; }
+  .ov-feed li:last-child{ border-bottom:none; }
+  .ov-feed .who{ color:var(--ink); min-width:0; overflow:hidden; text-overflow:ellipsis;
+         white-space:nowrap; }
+  .ov-feed .meta{ color:var(--muted); font-size:11.5px; white-space:nowrap;
+         font-variant-numeric:tabular-nums; }
+  .ov-feed a{ color:var(--navy); text-decoration:none; font-weight:600; }
+  .ov-feed a:hover{ text-decoration:underline; }
+  .ov-pin{ display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--orange);
+         margin-right:7px; vertical-align:middle; }
+  .ov-empty{ color:var(--muted); font-size:13px; padding:8px 0; }
+
+  /* ---------- entrance: one pass, staggered, then never again ---------- */
+  .ov-rise{ opacity:0; transform:translateY(10px); animation:ovRise .5s cubic-bezier(.2,.7,.3,1) forwards; }
+  @keyframes ovRise{ to{ opacity:1; transform:none; } }
+
+  @media (max-width:1024px){
+    .c8,.c7,.c6,.c5,.c4{ grid-column:span 12; }
+    .c3{ grid-column:span 6; }
+    .ov-headline .big{ font-size:2.6rem; }
+  }
+  @media (max-width:560px){
+    .c3{ grid-column:span 12; }
+    .ov-hero{ padding:24px 20px; }
+    .ov-hero h1{ font-size:1.6rem; }
+    .ov-headline .big{ font-size:2.2rem; }
+  }
+  /* motion is a reward, not a requirement */
+  @media (prefers-reduced-motion:reduce){
+    .ov-rise{ animation:none; opacity:1; transform:none; }
+    .ov-t, .ov-t::before, .ov-br .fill{ transition:none; }
+    .ov-t:hover{ transform:none; }
+  }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="adm"><div class="adm-wrap">
-
-  <div class="adm-top">
-    <div>
-      <div class="adm-eyebrow">EA Admin · Control Panel</div>
-      <h1>Admin Control Panel</h1>
-    </div>
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-      <a class="btn btn-navy" href="{{ url_for('membership.admin_users') }}">Manage members</a>
-    </div>
-  </div>
+{% set ut = stats.users_total if stats.users_total else 1 %}
+<div class="adm"><div class="adm-wrap ov">
 
   {% include "admin/_nav.html" %}
 
-  <!-- ============ KPI BANDS ============ -->
-  <div class="ov-label">Members</div>
-  <div class="adm-kpis">
-    <div class="adm-kpi"><div class="n">{{ stats.users_total }}</div><div class="l">Total members</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.premium_active }}</div><div class="l">Premium · active</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.premium_expired }}</div><div class="l">Premium · expired</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.users_guides }}</div><div class="l">College Guides</div></div>
-  </div>
+  <!-- ════════ MASTHEAD ════════ -->
+  <section class="ov-hero ov-rise">
+    <div class="eyebrow">EA Admin · Control Panel</div>
+    <h1>Good to see you.</h1>
+    <p class="sub">Everything across members, revenue, leads and guides — as it stands right now.</p>
 
-  <div class="ov-label">Membership &amp; revenue</div>
-  <div class="adm-kpis">
-    <div class="adm-kpi"><div class="n">{{ stats.apps_total }}</div><div class="l">Applications</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.apps_new }}</div><div class="l">New / unreviewed</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.apps_paid }}</div><div class="l">Paid</div></div>
-    <div class="adm-kpi ov-kpi-accent"><div class="n">₹{{ "{:,}".format(stats.revenue_inr) }}</div><div class="l">Revenue collected</div></div>
-  </div>
+    <div class="ov-heroline">
+      <div class="ov-headline">
+        <div class="cap">Revenue collected</div>
+        <div class="big"><span class="cur">₹</span>{{ "{:,}".format(stats.revenue_inr) }}</div>
+        <div class="foot">₹{{ "{:,}".format(stats.pending_inr) }} still outstanding
+          · {{ stats.apps_paid }} of {{ stats.apps_total }} applications paid</div>
+      </div>
 
-  <div class="ov-label">Leads, inquiries &amp; surveys</div>
-  <div class="adm-kpis">
-    <div class="adm-kpi"><div class="n">{{ stats.leads_total }}</div><div class="l">Leads captured</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.inquiries_total }}</div><div class="l">Contact inquiries</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.surveys_total }}</div><div class="l">Survey responses</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.survey_colleges }}</div><div class="l">Colleges reviewed</div></div>
-  </div>
+      <div class="ov-week">
+        <div class="ov-wk"><div class="n">{{ stats.users_new_7d }}</div><div class="l">Members · 7d</div></div>
+        <div class="ov-wk"><div class="n">{{ stats.leads_new_7d }}</div><div class="l">Leads · 7d</div></div>
+        <div class="ov-wk"><div class="n">{{ stats.apps_new_7d }}</div><div class="l">Applications · 7d</div></div>
+        <div class="ov-wk"><div class="n">{{ stats.apps_new }}</div><div class="l">Awaiting review</div></div>
+      </div>
 
-  <div class="ov-label">College Guides · activity &amp; payouts</div>
-  <div class="adm-kpis">
-    <div class="adm-kpi"><div class="n">{{ stats.guides_active }}</div><div class="l">Active guides</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.sessions_done }}</div><div class="l">Sessions done</div></div>
-    <div class="adm-kpi ov-kpi-accent"><div class="n">₹{{ "{:,}".format(stats.payout_paid) }}</div><div class="l">Payouts paid</div></div>
-    <div class="adm-kpi"><div class="n">₹{{ "{:,}".format(stats.payout_pending) }}</div><div class="l">Payouts pending</div></div>
-  </div>
+      <div style="display:flex; gap:10px; flex-wrap:wrap;">
+        <a class="btn btn-hero" href="{{ url_for('membership.admin_users') }}">Manage members</a>
+        <a class="btn" style="background:rgba(255,255,255,.1); color:#fff;"
+           href="{{ url_for('invoices.admin_new') }}">New invoice</a>
+      </div>
+    </div>
+  </section>
 
-  <div class="ov-label">This week</div>
-  <div class="adm-kpis">
-    <div class="adm-kpi"><div class="n">{{ stats.users_new_7d }}</div><div class="l">New members (7d)</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.leads_new_7d }}</div><div class="l">New leads (7d)</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.apps_new_7d }}</div><div class="l">New applications (7d)</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.survey_want_guide }}</div><div class="l">Want to be guides</div></div>
-  </div>
+  <!-- ════════ PULSE ════════ -->
+  <div class="ov-bento">
+    <!-- members: the one tile that earns a breakdown -->
+    <section class="ov-t c4 ov-rise" style="animation-delay:.04s">
+      <div class="cap">Members</div>
+      <div class="n">{{ stats.users_total }}</div>
+      <div class="note">across every tier</div>
+      <div class="ov-break">
+        {% set rows = [
+          ('Premium · active', stats.premium_active, '#1F8B5C'),
+          ('Premium · expired', stats.premium_expired, '#C23A3A'),
+          ('College Guides', stats.users_guides, '#FF6B0A')] %}
+        {% for label, val, colour in rows %}
+        <div class="ov-br">
+          <div class="top"><span>{{ label }}</span><b>{{ val }}</b></div>
+          <div class="track"><div class="fill" style="width:{{ (val / ut * 100) | round(1) }}%;
+               background:{{ colour }};"></div></div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
 
-  <!-- ============ CHARTS ============ -->
-  <div class="ov-label">Trends &amp; breakdowns</div>
-  <div class="ov-charts">
-    <div class="ov-chart ov-chart--wide">
+    <section class="ov-t c8 ov-rise" style="animation-delay:.08s">
       <h2>Activity — last 8 weeks</h2>
-      <div class="cwrap"><canvas id="chActivity"></canvas></div>
-    </div>
-    <div class="ov-chart">
-      <h2>Members by type</h2>
-      <div class="cwrap"><canvas id="chTiers"></canvas></div>
-    </div>
-    <div class="ov-chart">
+      <div class="ov-cwrap ov-cwrap--tall"><canvas id="chActivity"></canvas></div>
+    </section>
+  </div>
+
+  <!-- ════════ REACH ════════ -->
+  <div class="ov-bento">
+    <section class="ov-t ov-t--sm c3 ov-rise" style="animation-delay:.02s">
+      <div class="cap">Leads captured</div><div class="n">{{ stats.leads_total }}</div>
+      <div class="note">{{ stats.leads_new_7d }} this week</div>
+    </section>
+    <section class="ov-t ov-t--sm c3 ov-rise" style="animation-delay:.04s">
+      <div class="cap">Contact inquiries</div><div class="n">{{ stats.inquiries_total }}</div>
+      <div class="note">from the contact form</div>
+    </section>
+    <section class="ov-t ov-t--sm c3 ov-rise" style="animation-delay:.06s">
+      <div class="cap">Survey responses</div><div class="n">{{ stats.surveys_total }}</div>
+      <div class="note">{{ stats.survey_want_guide }} want to guide</div>
+    </section>
+    <section class="ov-t ov-t--sm c3 ov-rise" style="animation-delay:.08s">
+      <div class="cap">Colleges reviewed</div><div class="n">{{ stats.survey_colleges }}</div>
+      <div class="note">distinct institutes</div>
+    </section>
+  </div>
+
+  <!-- ════════ MONEY & MIX ════════ -->
+  <div class="ov-bento">
+    <section class="ov-t c4 ov-rise" style="animation-delay:.02s">
+      <div class="cap">Guide payouts</div>
+      <div class="n"><span class="cur">₹</span>{{ "{:,}".format(stats.payout_paid) }}</div>
+      <div class="note">paid out · ₹{{ "{:,}".format(stats.payout_pending) }} pending</div>
+      <div class="ov-break">
+        <div class="ov-br">
+          <div class="top"><span>Active guides</span><b>{{ stats.guides_active }}</b></div>
+        </div>
+        <div class="ov-br">
+          <div class="top"><span>Sessions delivered</span><b>{{ stats.sessions_done }}</b></div>
+        </div>
+      </div>
+    </section>
+    <section class="ov-t c4 ov-rise" style="animation-delay:.05s">
       <h2>Applications by status</h2>
-      <div class="cwrap"><canvas id="chApps"></canvas></div>
-    </div>
-    <div class="ov-chart">
+      <div class="ov-cwrap"><canvas id="chApps"></canvas></div>
+    </section>
+    <section class="ov-t c4 ov-rise" style="animation-delay:.08s">
+      <h2>Members by type</h2>
+      <div class="ov-cwrap"><canvas id="chTiers"></canvas></div>
+    </section>
+  </div>
+
+  <div class="ov-bento">
+    <section class="ov-t c12 ov-rise">
       <h2>Top lead sources</h2>
-      <div class="cwrap"><canvas id="chSources"></canvas></div>
-    </div>
+      <div class="ov-cwrap"><canvas id="chSources"></canvas></div>
+    </section>
   </div>
 
-  <!-- ============ RECENT ACTIVITY ============ -->
-  <div class="ov-label">Recent activity</div>
-  <div class="adm-grid2">
-    <div class="adm-card">
+  <!-- ════════ RECENT ════════ -->
+  <div class="ov-bento">
+    <section class="ov-t c6 ov-rise" style="animation-delay:.02s">
       <h2>Newest members</h2>
-      <ul class="adm-list">
+      <ul class="ov-feed">
         {% for u in recent_users %}
-        <li>
-          <span>{{ u.name }} · {{ u.email }}</span>
-          <span class="mut"><span class="pill pill-{{ u.tier }}">{{ 'guide' if u.tier == 'mentor' else u.tier }}</span>
-            {{ u.created_at.strftime('%d %b') if u.created_at }}</span>
-        </li>
-        {% else %}<li><span class="mut">No members yet.</span></li>{% endfor %}
+        <li><span class="who">{{ u.name }} · {{ u.email }}</span>
+          <span class="meta"><span class="pill pill-{{ u.tier }}">{{ 'guide' if u.tier == 'mentor' else u.tier }}</span>
+            {{ u.created_at.strftime('%d %b') if u.created_at }}</span></li>
+        {% else %}<li class="ov-empty">No members yet.</li>{% endfor %}
       </ul>
-    </div>
-    <div class="adm-card">
+    </section>
+    <section class="ov-t c6 ov-rise" style="animation-delay:.05s">
       <h2>Latest leads</h2>
-      <ul class="adm-list">
+      <ul class="ov-feed">
         {% for l in recent_leads %}
-        <li>
-          <span>{{ l.name or '(no name)' }} · {{ l.source }}</span>
-          <span class="mut">{{ l.created_at.strftime('%d %b %H:%M') if l.created_at }}</span>
-        </li>
-        {% else %}<li><span class="mut">No leads yet.</span></li>{% endfor %}
+        <li><span class="who">{{ l.name or '(no name)' }} · {{ l.source }}</span>
+          <span class="meta">{{ l.created_at.strftime('%d %b %H:%M') if l.created_at }}</span></li>
+        {% else %}<li class="ov-empty">No leads yet.</li>{% endfor %}
       </ul>
-    </div>
+    </section>
   </div>
 
-  <div class="adm-grid2">
-    <div class="adm-card">
+  <div class="ov-bento">
+    <section class="ov-t c6 ov-rise" style="animation-delay:.02s">
       <h2>Latest membership applications</h2>
-      <ul class="adm-list">
+      <ul class="ov-feed">
         {% for a in recent_apps %}
-        <li>
-          <span><a class="ref" href="{{ url_for('membership.admin_detail', app_id=a.id) }}">{{ a.reference }}</a> · {{ a.name }}</span>
-          <span class="mut"><span class="pill s-{{ a.status.replace(' ','') }}">{{ a.status }}</span></span>
-        </li>
-        {% else %}<li><span class="mut">No applications yet.</span></li>{% endfor %}
+        <li><span class="who"><a href="{{ url_for('membership.admin_detail', app_id=a.id) }}">{{ a.reference }}</a> · {{ a.name }}</span>
+          <span class="meta"><span class="pill s-{{ a.status.replace(' ','') }}">{{ a.status }}</span></span></li>
+        {% else %}<li class="ov-empty">No applications yet.</li>{% endfor %}
       </ul>
-    </div>
-    <div class="adm-card">
+    </section>
+    <section class="ov-t c6 ov-rise" style="animation-delay:.05s">
       <h2>Newest College Guides</h2>
-      <ul class="adm-list">
+      <ul class="ov-feed">
         {% for g in recent_guides %}
-        <li>
-          <span><a class="ref" href="{{ url_for('alumni.admin_detail', alum_id=g.id) }}">{{ g.name }}</a> · {{ g.university }}</span>
-          <span class="mut">{{ g.status }} · {{ g.created_at.strftime('%d %b') if g.created_at }}</span>
-        </li>
-        {% else %}<li><span class="mut">No guides yet.</span></li>{% endfor %}
+        <li><span class="who"><a href="{{ url_for('alumni.admin_detail', alum_id=g.id) }}">{{ g.name }}</a> · {{ g.university }}</span>
+          <span class="meta">{{ g.status }} · {{ g.created_at.strftime('%d %b') if g.created_at }}</span></li>
+        {% else %}<li class="ov-empty">No guides yet.</li>{% endfor %}
       </ul>
-    </div>
+    </section>
   </div>
 
-  <div class="adm-grid2">
-    <div class="adm-card">
+  <div class="ov-bento">
+    <section class="ov-t c6 ov-rise" style="animation-delay:.02s">
       <h2>Latest survey responses</h2>
-      <ul class="adm-list">
+      <ul class="ov-feed">
         {% for s in recent_surveys %}
-        <li>
-          <span><a class="ref" href="{{ url_for('survey.admin_detail', survey_id=s.id) }}">{{ s.name }}</a> · {{ s.institute }}</span>
-          <span class="mut">{% if s.overall_rating %}{{ s.overall_rating }} · {% endif %}{{ s.created_at.strftime('%d %b') if s.created_at }}</span>
-        </li>
-        {% else %}<li><span class="mut">No survey responses yet.</span></li>{% endfor %}
+        <li><span class="who"><a href="{{ url_for('survey.admin_detail', survey_id=s.id) }}">{{ s.name }}</a> · {{ s.institute }}</span>
+          <span class="meta">{% if s.overall_rating %}{{ s.overall_rating }} · {% endif %}{{ s.created_at.strftime('%d %b') if s.created_at }}</span></li>
+        {% else %}<li class="ov-empty">No survey responses yet.</li>{% endfor %}
       </ul>
-    </div>
-    <div class="adm-card">
+    </section>
+    <section class="ov-t c6 ov-rise" style="animation-delay:.05s">
       <h2>Upcoming schedule</h2>
-      <ul class="adm-list">
+      <ul class="ov-feed">
         {% for e in upcoming %}
-        <li>
-          <span>{{ e.name }}{% if e.important %} <span class="pill pill-imp">important</span>{% endif %}</span>
-          <span class="mut">{{ e.starts_at.strftime('%d %b %Y') }}</span>
-        </li>
-        {% else %}<li><span class="mut">Nothing scheduled. <a href="{{ url_for('admin_portal.schedule') }}">Add events →</a></span></li>{% endfor %}
+        <li><span class="who">{{ e.name }}{% if e.important %} <span class="pill pill-imp">important</span>{% endif %}</span>
+          <span class="meta">{{ e.starts_at.strftime('%d %b %Y') }}</span></li>
+        {% else %}<li class="ov-empty">Nothing scheduled. <a href="{{ url_for('admin_portal.schedule') }}">Add events →</a></li>{% endfor %}
       </ul>
-    </div>
+    </section>
   </div>
 
-  <div class="adm-card" style="margin-bottom:18px;">
-    <h2>Live announcements</h2>
-    <ul class="adm-list">
-      {% for a in live_announcements %}
-      <li>
-        <span>{% if a.pinned %}📌 {% endif %}{{ a.title }}</span>
-        <span class="mut">{{ a.audience }} · {{ a.created_at.strftime('%d %b') if a.created_at }}</span>
-      </li>
-      {% else %}<li><span class="mut">No live announcements. <a href="{{ url_for('admin_portal.announcements') }}">Post one →</a></span></li>{% endfor %}
-    </ul>
+  <div class="ov-bento">
+    <section class="ov-t c12 ov-rise">
+      <h2>Live announcements</h2>
+      <ul class="ov-feed">
+        {% for a in live_announcements %}
+        <li><span class="who">{% if a.pinned %}<span class="ov-pin" aria-hidden="true"></span>{% endif %}{{ a.title }}{% if a.pinned %} <span class="mut" style="font-size:11px;">(pinned)</span>{% endif %}</span>
+          <span class="meta">{{ a.audience }} · {{ a.created_at.strftime('%d %b') if a.created_at }}</span></li>
+        {% else %}<li class="ov-empty">No live announcements. <a href="{{ url_for('admin_portal.announcements') }}">Post one →</a></li>{% endfor %}
+      </ul>
+    </section>
   </div>
 
 </div></div>
@@ -195,45 +317,83 @@
 (function () {
   if (typeof Chart === 'undefined') return;
   var C = {{ charts | tojson }};
-  var NAVY = '#0E3A8A', ORANGE = '#FF6B0A', GREEN = '#1f8b4d', GOLD = '#E89A1C',
-      MUTED = '#8b93a7', INK = '#0E1B3D';
+  var NAVY = '#0E3A8A', ORANGE = '#FF6B0A', GREEN = '#1F8B5C', MUTED = '#8b93a7',
+      INK = '#0E1B3D';
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+  Chart.defaults.font.size = 11;
   Chart.defaults.color = MUTED;
-  var gridC = 'rgba(14,27,61,.06)';
+  Chart.defaults.animation = still ? false : { duration: 700, easing: 'easeOutQuart' };
+  // one tooltip identity for every chart on the page
+  Chart.defaults.plugins.tooltip = Object.assign({}, Chart.defaults.plugins.tooltip, {
+    backgroundColor: '#071A44', padding: 11, cornerRadius: 9, displayColors: true,
+    boxPadding: 4, titleFont: { family: "'JetBrains Mono', monospace", size: 10 },
+    bodyFont: { size: 12.5 }
+  });
+  var grid = 'rgba(14,27,61,.055)';
+  var legend = { position: 'bottom',
+    labels: { boxWidth: 8, boxHeight: 8, usePointStyle: true, pointStyle: 'circle', padding: 16,
+              font: { size: 11.5 } } };
+
+  // soft area wash under each line — reads as depth, not decoration
+  function wash(ctx, hex) {
+    var h = ctx.chart.chartArea;
+    if (!h) return 'transparent';
+    var g = ctx.chart.ctx.createLinearGradient(0, h.top, 0, h.bottom);
+    g.addColorStop(0, hex + '2e'); g.addColorStop(1, hex + '00');
+    return g;
+  }
+  function line(label, data, hex) {
+    return { label: label, data: data, borderColor: hex, borderWidth: 2.5,
+      pointBackgroundColor: '#fff', pointBorderColor: hex, pointBorderWidth: 2,
+      pointRadius: 3, pointHoverRadius: 6, pointHitRadius: 18, tension: .38, fill: true,
+      backgroundColor: function (c) { return wash(c, hex); } };
+  }
 
   new Chart(document.getElementById('chActivity'), {
     type: 'line',
     data: { labels: C.weeks.labels, datasets: [
-      { label: 'New members', data: C.weeks.users, borderColor: NAVY, backgroundColor: NAVY, tension: .35, fill: false },
-      { label: 'Leads', data: C.weeks.leads, borderColor: ORANGE, backgroundColor: ORANGE, tension: .35, fill: false },
-      { label: 'Surveys', data: C.weeks.surveys, borderColor: GREEN, backgroundColor: GREEN, tension: .35, fill: false } ] },
+      line('New members', C.weeks.users, NAVY),
+      line('Leads', C.weeks.leads, ORANGE),
+      line('Surveys', C.weeks.surveys, GREEN)] },
     options: { responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true } } },
-      scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: gridC } }, x: { grid: { display: false } } } }
+      interaction: { mode: 'index', intersect: false },
+      plugins: { legend: legend },
+      scales: { y: { beginAtZero: true, ticks: { precision: 0, padding: 8 }, border: { display: false },
+                     grid: { color: grid } },
+                x: { ticks: { padding: 6 }, border: { display: false }, grid: { display: false } } } }
   });
 
   new Chart(document.getElementById('chTiers'), {
     type: 'doughnut',
     data: { labels: C.tiers.labels, datasets: [{ data: C.tiers.values,
-      backgroundColor: [MUTED, GREEN, NAVY, ORANGE], borderWidth: 2, borderColor: '#fff' }] },
-    options: { responsive: true, maintainAspectRatio: false, cutout: '58%',
-      plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, usePointStyle: true } } } }
+      backgroundColor: [MUTED, GREEN, NAVY, ORANGE], borderWidth: 3, borderColor: '#FFFDF7',
+      hoverOffset: 8 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '64%',
+      plugins: { legend: legend } }
   });
 
   new Chart(document.getElementById('chApps'), {
     type: 'bar',
-    data: { labels: C.apps.labels, datasets: [{ data: C.apps.values, backgroundColor: NAVY, borderRadius: 5 }] },
+    data: { labels: C.apps.labels, datasets: [{ data: C.apps.values, backgroundColor: NAVY,
+      hoverBackgroundColor: ORANGE, borderRadius: 6, maxBarThickness: 44 }] },
     options: { responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: gridC } }, x: { grid: { display: false } } } }
+      scales: { y: { beginAtZero: true, ticks: { precision: 0, padding: 8 }, border: { display: false },
+                     grid: { color: grid } },
+                x: { border: { display: false }, grid: { display: false } } } }
   });
 
   new Chart(document.getElementById('chSources'), {
     type: 'bar',
-    data: { labels: C.sources.labels, datasets: [{ data: C.sources.values, backgroundColor: ORANGE, borderRadius: 5 }] },
+    data: { labels: C.sources.labels, datasets: [{ data: C.sources.values, backgroundColor: ORANGE,
+      hoverBackgroundColor: NAVY, borderRadius: 6, maxBarThickness: 26 }] },
     options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
       plugins: { legend: { display: false } },
-      scales: { x: { beginAtZero: true, ticks: { precision: 0 }, grid: { color: gridC } }, y: { grid: { display: false } } } }
+      scales: { x: { beginAtZero: true, ticks: { precision: 0, padding: 8 }, border: { display: false },
+                     grid: { color: grid } },
+                y: { border: { display: false }, grid: { display: false } } } }
   });
 })();
 </script>
