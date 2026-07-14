@@ -75,6 +75,14 @@
 
   .ov-cwrap{ position:relative; height:236px; }
   .ov-cwrap--tall{ height:290px; }
+  /* a blank axis frame reads as broken; say "nothing yet" instead */
+  .ov-nodata{ height:100%; display:flex; flex-direction:column; align-items:center;
+        justify-content:center; gap:8px; text-align:center; color:var(--muted); }
+  .ov-nodata svg{ width:26px; height:26px; stroke:var(--hairline); stroke-width:1.6; fill:none; }
+  .ov-nodata .t{ font-size:13px; color:var(--ink); }
+  .ov-nodata .s{ font-size:11.5px; }
+  .ov-nodata a{ color:var(--navy); font-weight:600; text-decoration:none; }
+  .ov-nodata a:hover{ text-decoration:underline; }
 
   /* ---------- feeds ---------- */
   .ov-feed{ list-style:none; margin:0; padding:0; }
@@ -336,6 +344,22 @@
     labels: { boxWidth: 8, boxHeight: 8, usePointStyle: true, pointStyle: 'circle', padding: 16,
               font: { size: 11.5 } } };
 
+  // A chart with no data draws an empty axis frame, which looks like a bug.
+  // Swap in an explicit "nothing yet" state and skip building the chart.
+  var GLYPH = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/>' +
+              '<path d="M7 15l3.5-3.5 3 3L21 7"/></svg>';
+  function mount(id, values, title, hint, build) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var live = (values || []).some(function (v) { return (v || 0) > 0; });
+    if (!live) {
+      el.parentNode.innerHTML = '<div class="ov-nodata">' + GLYPH +
+        '<div class="t">' + title + '</div><div class="s">' + hint + '</div></div>';
+      return;
+    }
+    build(el);
+  }
+
   // soft area wash under each line — reads as depth, not decoration
   function wash(ctx, hex) {
     var h = ctx.chart.chartArea;
@@ -351,50 +375,68 @@
       backgroundColor: function (c) { return wash(c, hex); } };
   }
 
-  new Chart(document.getElementById('chActivity'), {
-    type: 'line',
-    data: { labels: C.weeks.labels, datasets: [
-      line('New members', C.weeks.users, NAVY),
-      line('Leads', C.weeks.leads, ORANGE),
-      line('Surveys', C.weeks.surveys, GREEN)] },
-    options: { responsive: true, maintainAspectRatio: false,
-      interaction: { mode: 'index', intersect: false },
-      plugins: { legend: legend },
-      scales: { y: { beginAtZero: true, ticks: { precision: 0, padding: 8 }, border: { display: false },
-                     grid: { color: grid } },
-                x: { ticks: { padding: 6 }, border: { display: false }, grid: { display: false } } } }
-  });
+  mount('chActivity',
+    [].concat(C.weeks.users || [], C.weeks.leads || [], C.weeks.surveys || []),
+    'No activity in the last 8 weeks',
+    'New members, leads and surveys will plot here as they come in.',
+    function (el) {
+      new Chart(el, {
+        type: 'line',
+        data: { labels: C.weeks.labels, datasets: [
+          line('New members', C.weeks.users, NAVY),
+          line('Leads', C.weeks.leads, ORANGE),
+          line('Surveys', C.weeks.surveys, GREEN)] },
+        options: { responsive: true, maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: { legend: legend },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0, padding: 8 }, border: { display: false },
+                         grid: { color: grid } },
+                    x: { ticks: { padding: 6 }, border: { display: false }, grid: { display: false } } } }
+      });
+    });
 
-  new Chart(document.getElementById('chTiers'), {
-    type: 'doughnut',
-    data: { labels: C.tiers.labels, datasets: [{ data: C.tiers.values,
-      backgroundColor: [MUTED, GREEN, NAVY, ORANGE], borderWidth: 3, borderColor: '#FFFDF7',
-      hoverOffset: 8 }] },
-    options: { responsive: true, maintainAspectRatio: false, cutout: '64%',
-      plugins: { legend: legend } }
-  });
+  mount('chTiers', C.tiers.values, 'No members yet',
+    'Member accounts will break down by tier here.',
+    function (el) {
+      new Chart(el, {
+        type: 'doughnut',
+        data: { labels: C.tiers.labels, datasets: [{ data: C.tiers.values,
+          backgroundColor: [MUTED, GREEN, NAVY, ORANGE], borderWidth: 3, borderColor: '#FFFDF7',
+          hoverOffset: 8 }] },
+        options: { responsive: true, maintainAspectRatio: false, cutout: '64%',
+          plugins: { legend: legend } }
+      });
+    });
 
-  new Chart(document.getElementById('chApps'), {
-    type: 'bar',
-    data: { labels: C.apps.labels, datasets: [{ data: C.apps.values, backgroundColor: NAVY,
-      hoverBackgroundColor: ORANGE, borderRadius: 6, maxBarThickness: 44 }] },
-    options: { responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true, ticks: { precision: 0, padding: 8 }, border: { display: false },
-                     grid: { color: grid } },
-                x: { border: { display: false }, grid: { display: false } } } }
-  });
+  mount('chApps', C.apps.values, 'No membership applications yet',
+    'Applications will group by status once they start arriving.',
+    function (el) {
+      new Chart(el, {
+        type: 'bar',
+        data: { labels: C.apps.labels, datasets: [{ data: C.apps.values, backgroundColor: NAVY,
+          hoverBackgroundColor: ORANGE, borderRadius: 6, maxBarThickness: 44 }] },
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { precision: 0, padding: 8 }, border: { display: false },
+                         grid: { color: grid } },
+                    x: { border: { display: false }, grid: { display: false } } } }
+      });
+    });
 
-  new Chart(document.getElementById('chSources'), {
-    type: 'bar',
-    data: { labels: C.sources.labels, datasets: [{ data: C.sources.values, backgroundColor: ORANGE,
-      hoverBackgroundColor: NAVY, borderRadius: 6, maxBarThickness: 26 }] },
-    options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
-      plugins: { legend: { display: false } },
-      scales: { x: { beginAtZero: true, ticks: { precision: 0, padding: 8 }, border: { display: false },
-                     grid: { color: grid } },
-                y: { border: { display: false }, grid: { display: false } } } }
-  });
+  mount('chSources', C.sources.values, 'No leads captured yet',
+    'Whichever pages send you leads will rank here.',
+    function (el) {
+      new Chart(el, {
+        type: 'bar',
+        data: { labels: C.sources.labels, datasets: [{ data: C.sources.values, backgroundColor: ORANGE,
+          hoverBackgroundColor: NAVY, borderRadius: 6, maxBarThickness: 26 }] },
+        options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { x: { beginAtZero: true, ticks: { precision: 0, padding: 8 }, border: { display: false },
+                         grid: { color: grid } },
+                    y: { border: { display: false }, grid: { display: false } } } }
+      });
+    });
 })();
 </script>
 {% endblock %}
