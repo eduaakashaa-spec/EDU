@@ -78,6 +78,10 @@ assert captured['url'] == 'https://api.resend.com/emails'
 assert captured['method'] == 'POST'
 assert captured['headers']['authorization'] == 'Bearer re_test123'
 assert captured['headers']['content-type'] == 'application/json'
+# Regression: Resend is behind Cloudflare, which 403s ("error code: 1010") on
+# urllib's default Python-urllib/x.y UA. A real UA must always be sent.
+ua = captured['headers'].get('user-agent', '')
+assert ua == mailer.USER_AGENT and 'python-urllib' not in ua.lower(), ua
 b = captured['body']
 assert b['from'] == 'EduAakashaa <noreply@eduaakashaa.in>', b['from']
 assert b['to'] == ['priya@ex.com'] and b['subject'] == 'Subj'

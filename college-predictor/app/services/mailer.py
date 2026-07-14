@@ -4,7 +4,8 @@ Two transports, picked automatically:
 
   1. Resend HTTP API  (preferred; used whenever RESEND_API_KEY is set)
          RESEND_API_KEY   re_xxxxxxxx
-         MAIL_FROM        noreply@eduaakashaa.in   (domain must be verified in Resend)
+         MAIL_FROM        noreply@eduaakashaa.com  (the domain here MUST be the one
+                                                    verified in Resend, or it 403s)
   2. SMTP              (fallback, for local dev)
          SMTP_HOST, SMTP_PORT (default 587), SMTP_USER, SMTP_PASS, SMTP_FROM
 
@@ -28,7 +29,8 @@ from email.utils import formataddr
 log = logging.getLogger(__name__)
 
 RESEND_ENDPOINT = 'https://api.resend.com/emails'
-DEFAULT_FROM = 'noreply@eduaakashaa.in'
+DEFAULT_FROM = 'noreply@eduaakashaa.com'   # must match the domain verified in Resend
+USER_AGENT = 'EduAakashaa/1.0'
 
 
 def _resend_cfg():
@@ -105,7 +107,11 @@ def _send_resend(cfg, to, subject, text, html, from_name):
     req = urllib.request.Request(
         RESEND_ENDPOINT, data=json.dumps(payload).encode('utf-8'),
         headers={'Authorization': 'Bearer ' + cfg['key'],
-                 'Content-Type': 'application/json'},
+                 'Content-Type': 'application/json',
+                 # Resend sits behind Cloudflare, which 403s urllib's default
+                 # "Python-urllib/x.y" UA as a bot signature (error code 1010).
+                 # Any ordinary UA passes.
+                 'User-Agent': USER_AGENT},
         method='POST')
     try:
         with urllib.request.urlopen(req, timeout=20) as resp:
