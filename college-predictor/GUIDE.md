@@ -337,10 +337,16 @@ live-site content, no placeholders):
 
 `/dasa2026-schedule` (counselling calendar with a downloadable `.ics` of every
 DASA 2026 deadline) is public. The **EA Team / Counsellor Portal** dropdown is
-admin-only: `/counsellor-dashboard` (in-app triage of DASA 2026 Choice Builder
-submissions, read live from the team Google Sheet), `/choice-builder-pro`
-(in-app allotment analyzer), `/ea-admin-portal` (→ the `/admin` control panel) and
-`/dasa2026-expert-report`.
+admin-only: `/choice-builder-pro` (in-app allotment analyzer), `/ea-admin-portal`
+(→ the `/admin` control panel) and `/dasa2026-expert-report`.
+
+`/counsellor-dashboard` was removed in July 2026. It triaged DASA 2026
+submissions out of a team Google Sheet that no page on this site ever wrote to —
+the Sheet was fed by the old Hostinger site, and the dashboard was ported over
+with it. It shipped the Sheet's Apps Script access key in public static JS, so
+its admin gate was cosmetic; rather than proxy a feed nobody produces, the page
+went. Student leads land in the DB via `/api/leads` and are read at
+`/admin/leads`.
 
 ### 4.5 Give back — for students & alumni
 

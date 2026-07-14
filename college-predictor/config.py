@@ -74,14 +74,6 @@ class Config:
         'BANK_BRANCH': os.environ.get('BANK_BRANCH', ''),
     }
 
-    # DASA 2026 counsellor dashboard — the team's Apps Script bound to the
-    # submissions Sheet. Both values are secrets: the key is all that guards
-    # student PII (name/email/WhatsApp/rank) on that endpoint, so they are read
-    # server-side only and proxied (see main.counsellor_data). They must never
-    # be inlined into static JS, which Flask serves to anyone.
-    DASA_SCRIPT_URL = os.environ.get('DASA_SCRIPT_URL', '')
-    DASA_SCRIPT_KEY = os.environ.get('DASA_SCRIPT_KEY', '')
-
     # Where generated invoice/receipt PDFs are stored (private, not link-shared).
     PDF_STORAGE_DIR = os.environ.get(
         'PDF_STORAGE_DIR', os.path.join(basedir, 'instance', 'documents')

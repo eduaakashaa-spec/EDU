@@ -242,9 +242,9 @@ see §6.
   `/expert-portaldasa`, `/engineering-branch-selection-guide`. Their in-page lead
   forms post to `/api/leads`.
 - **Choice Builder PRO** `/choice-builder-pro` (admin) — the team's DASA analyzer
-  tool migrated in-app (D3 + Chart.js). **Counsellor Dashboard**
-  `/counsellor-dashboard` (admin) reads the team Google Sheet live via its Apps
-  Script JSONP API.
+  tool migrated in-app (D3 + Chart.js). (**Counsellor Dashboard**
+  `/counsellor-dashboard` was removed in July 2026 — it read a Google Sheet no
+  page here fed, and leaked the Sheet's Apps Script key in public static JS.)
 - **DASA 2026 Schedule** `/dasa2026-schedule` (public) + a real `.ics` download.
 - Fixes: Neon SSL drops (`pool_pre_ping`+`pool_recycle`), premium-expiry 500,
   duplicate WhatsApp floaters, broken `@import` on the TNEA page, DASA lead

@@ -9,7 +9,9 @@ Legacy tabs → in-app equivalents:
     Schedule       → /admin/schedule      (CRUD; shown on member dashboards)
     Messages       → /admin/messages      (template library; per-member
                      WhatsApp / email drafts with placeholders resolved)
-    DASA Review    → covered by /counsellor-dashboard (in-app tool)
+    DASA Review    → dropped (Jul 2026): /counsellor-dashboard read a Google
+                     Sheet nothing on this site writes to. DASA leads live in
+                     the DB (/admin/leads).
     Documents      → needs member file uploads; on the roadmap
 
 Every route requires the admin tier (same RBAC as the rest of /admin).

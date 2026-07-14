@@ -25,10 +25,3 @@ services:
         value: "0"
       - key: DATABASE_URL
         sync: false
-      # Counsellor dashboard → DASA submissions Sheet. Secrets: the key is the
-      # only thing guarding student PII on that Apps Script endpoint, so it is
-      # set in the dashboard and never committed.
-      - key: DASA_SCRIPT_URL
-        sync: false
-      - key: DASA_SCRIPT_KEY
-        sync: false

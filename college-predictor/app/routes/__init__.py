@@ -1,9 +1,4 @@
-import json
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
-
-from flask import (Blueprint, abort, current_app, jsonify, redirect,
-                   render_template, request, url_for, Response)
+from flask import Blueprint, redirect, render_template, url_for, Response
 
 from app.decorators import admin_required, premium_required
 
@@ -392,82 +387,6 @@ _LIVE_SITE = 'https://www.eduaakashaa.in'
 def _portal_tool(title, desc, live_url, features):
     return render_template('portal_tool.html', tool_title=title,
                            tool_desc=desc, live_url=live_url, features=features)
-
-
-@main_bp.route('/counsellor-dashboard')
-@admin_required
-def counsellor_dashboard():
-    # In-app DASA 2026 counsellor triage tool. Reads submissions from the
-    # team's Google Sheet via its Apps Script API; our admin gate replaces
-    # the page's old passcode overlay.
-    return render_template('counsellor_dashboard.html')
-
-
-# --------------------------------------------------------------------------- #
-# DASA submissions proxy (counsellor dashboard)
-#
-# The Apps Script guards the Sheet with nothing but a shared access key, and
-# that key used to live in counsellor_dashboard.js — a static file Flask serves
-# to anyone, logged in or not. The @admin_required gate on the page above was
-# therefore cosmetic: the key (and every student's name/email/WhatsApp/rank
-# behind it) was one anonymous GET away. These two routes keep the key on the
-# server and re-gate the data on our own admin auth.
-# --------------------------------------------------------------------------- #
-_DASA_TIMEOUT = 15
-_DASA_STATUSES = ('New', 'Contacted', 'In Progress', 'Closed')
-
-
-def _dasa_script():
-    url = current_app.config.get('DASA_SCRIPT_URL')
-    key = current_app.config.get('DASA_SCRIPT_KEY')
-    if not url or not key:
-        # 503 rather than 500: nothing is broken, the deploy just has not been
-        # given DASA_SCRIPT_URL / DASA_SCRIPT_KEY yet.
-        abort(503, 'DASA_SCRIPT_URL / DASA_SCRIPT_KEY are not configured.')
-    return url, key
-
-
-@main_bp.route('/counsellor-dashboard/data')
-@admin_required
-def counsellor_data():
-    """Admin-only read of the DASA submissions Sheet."""
-    url, key = _dasa_script()
-    try:
-        with urlopen(f'{url}?{urlencode({"key": key})}', timeout=_DASA_TIMEOUT) as r:
-            payload = json.loads(r.read().decode('utf-8'))
-    except Exception:
-        current_app.logger.exception('DASA sheet read failed')
-        return jsonify({'error': 'upstream'}), 502
-    if payload.get('error'):
-        # Almost always a stale DASA_SCRIPT_KEY vs the script's ACCESS_KEY.
-        current_app.logger.error('DASA sheet rejected our key: %s', payload['error'])
-        return jsonify({'error': 'unauthorized'}), 502
-    return jsonify(payload)
-
-
-@main_bp.route('/counsellor-dashboard/status', methods=['POST'])
-@admin_required
-def counsellor_status():
-    """Admin-only status write-back for one submission row."""
-    url, key = _dasa_script()
-    body = request.get_json(silent=True) or {}
-    row, status = body.get('row'), body.get('status')
-    # The Sheet writes whatever it is handed, so pin both fields here: the row
-    # must be a real row number (1 is the header) and the status one we render.
-    if not isinstance(row, int) or isinstance(row, bool) or row < 2:
-        abort(400)
-    if status not in _DASA_STATUSES:
-        abort(400)
-    data = json.dumps({'action': 'updateStatus', 'key': key,
-                       'row': row, 'status': status}).encode('utf-8')
-    try:
-        req = Request(url, data=data, headers={'Content-Type': 'text/plain'})
-        with urlopen(req, timeout=_DASA_TIMEOUT) as r:
-            r.read()
-    except Exception:
-        current_app.logger.exception('DASA status write failed')
-        return jsonify({'error': 'upstream'}), 502
-    return jsonify({'ok': True})
 
 
 @main_bp.route('/ea-admin-portal')
