@@ -7,11 +7,14 @@ of email. Configure in prod via env:
 
 For Gmail (eduaakashaa@gmail.com) use an App Password as SMTP_PASS.
 """
+import logging
 import os
 import smtplib
 import threading
 from email.message import EmailMessage
 from email.utils import formataddr
+
+log = logging.getLogger(__name__)
 
 
 def _cfg():
@@ -50,12 +53,24 @@ def _send(to, subject, text, html, from_name='EduAakashaa'):
 
 
 def send_async(to, subject, text, html=None, from_name='EduAakashaa'):
-    """Best-effort background send — never blocks or raises into the request."""
-    if not is_configured() or not to:
+    """Best-effort background send — never blocks or raises into the request.
+
+    Failures must not break the request, but they MUST be visible: everything is
+    logged (recipient + subject only, never credentials) so a misconfigured SMTP
+    shows up in the platform logs instead of silently dropping mail."""
+    if not to:
+        log.warning('Email skipped: no recipient (subject=%r)', subject)
         return
+    if not is_configured():
+        log.warning('Email skipped: SMTP is not configured (SMTP_HOST/USER/PASS) '
+                    '— would have sent %r to %s', subject, to)
+        return
+
     def worker():
         try:
             _send(to, subject, text, html, from_name)
+            log.info('Email sent to %s (subject=%r)', to, subject)
         except Exception:
-            pass  # best-effort; a failed confirmation email must not break anything
+            # keep best-effort semantics, but leave a full traceback behind
+            log.exception('Email FAILED to %s (subject=%r)', to, subject)
     threading.Thread(target=worker, daemon=True).start()
