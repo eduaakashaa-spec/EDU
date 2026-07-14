@@ -52,7 +52,18 @@ def _smtp_cfg():
 
 
 def transport():
-    """Which transport will actually be used: 'resend' | 'smtp' | None."""
+    """Which transport will actually be used: 'resend' | 'smtp' | None.
+
+    MAIL_TRANSPORT forces one ('resend' or 'smtp'); leave it unset for auto —
+    Resend when it's configured, else SMTP. Both configs can coexist: Resend is
+    the free path that works on Render today, SMTP becomes usable if the host
+    ever allows outbound SMTP (e.g. a paid Render instance) — then just set
+    MAIL_TRANSPORT=smtp, no key deletion and no redeploy of code."""
+    forced = (os.environ.get('MAIL_TRANSPORT') or '').strip().lower()
+    if forced == 'resend':
+        return 'resend' if _resend_cfg() else None
+    if forced == 'smtp':
+        return 'smtp' if _smtp_cfg() else None
     if _resend_cfg():
         return 'resend'
     if _smtp_cfg():
@@ -70,6 +81,9 @@ def config_status():
     resend, smtp = _resend_cfg(), _smtp_cfg()
     return {
         'transport': transport() or '(none)',
+        'forced': os.environ.get('MAIL_TRANSPORT') or 'auto',
+        'resend_ready': bool(resend),
+        'smtp_ready': bool(smtp),
         'configured': is_configured(),
         # Resend
         'resend_key_set': bool(resend),
@@ -122,12 +136,11 @@ def _send_smtp(cfg, to, subject, text, html, from_name):
 def _send(to, subject, text, html, from_name='EduAakashaa'):
     if not to:
         return False
-    resend = _resend_cfg()
-    if resend:
-        return _send_resend(resend, to, subject, text, html, from_name)
-    smtp = _smtp_cfg()
-    if smtp:
-        return _send_smtp(smtp, to, subject, text, html, from_name)
+    chosen = transport()          # honours MAIL_TRANSPORT, so both configs can coexist
+    if chosen == 'resend':
+        return _send_resend(_resend_cfg(), to, subject, text, html, from_name)
+    if chosen == 'smtp':
+        return _send_smtp(_smtp_cfg(), to, subject, text, html, from_name)
     return False
 
 

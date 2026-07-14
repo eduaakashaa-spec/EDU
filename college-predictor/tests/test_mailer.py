@@ -9,7 +9,8 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-for k in ('RESEND_API_KEY', 'MAIL_FROM', 'SMTP_HOST', 'SMTP_USER', 'SMTP_PASS', 'SMTP_FROM'):
+for k in ('RESEND_API_KEY', 'MAIL_FROM', 'SMTP_HOST', 'SMTP_USER', 'SMTP_PASS',
+          'SMTP_FROM', 'MAIL_TRANSPORT'):
     os.environ.pop(k, None)
 
 from app.services import mailer
@@ -23,6 +24,25 @@ assert mailer.transport() == 'smtp', 'SMTP alone should select smtp'
 os.environ['RESEND_API_KEY'] = 're_test123'
 assert mailer.transport() == 'resend', 'Resend must win over SMTP when both are set'
 assert mailer.is_configured()
+
+# --- MAIL_TRANSPORT override (both configs coexist) -------------------------
+# both are configured at this point (resend + smtp)
+os.environ['MAIL_TRANSPORT'] = 'smtp'
+assert mailer.transport() == 'smtp', 'MAIL_TRANSPORT=smtp must override auto-pick'
+os.environ['MAIL_TRANSPORT'] = 'resend'
+assert mailer.transport() == 'resend'
+os.environ['MAIL_TRANSPORT'] = 'auto'          # anything unrecognised = auto
+assert mailer.transport() == 'resend'
+os.environ.pop('MAIL_TRANSPORT')
+assert mailer.transport() == 'resend'
+
+# forcing a transport that isn't configured reports None rather than silently
+# falling back to the other one (so the Email Test page tells the truth)
+os.environ['MAIL_TRANSPORT'] = 'smtp'
+saved = {k: os.environ.pop(k) for k in ('SMTP_HOST', 'SMTP_USER', 'SMTP_PASS')}
+assert mailer.transport() is None and not mailer.is_configured()
+os.environ.update(saved)
+os.environ.pop('MAIL_TRANSPORT')
 
 # --- config_status never leaks the key/password -----------------------------
 st = mailer.config_status()

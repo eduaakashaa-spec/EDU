@@ -37,12 +37,21 @@
       <ul class="adm-list">
         <li><span class="mut">Transport in use</span><span><strong>{{ status.transport }}</strong>
           {% if status.transport == 'smtp' %}<br><span style="color:var(--red); font-size:12px;">
-            SMTP does not work on Render (outbound SMTP is blocked) — set RESEND_API_KEY.</span>{% endif %}</span></li>
+            SMTP is blocked on Render's free tier — set RESEND_API_KEY, or upgrade the instance.</span>{% endif %}</span></li>
+        <li><span class="mut">MAIL_TRANSPORT</span><span>{{ status.forced }}
+          <span style="color:var(--muted); font-size:12px;">(auto = Resend if configured, else SMTP)</span></span></li>
+      </ul>
+
+      <p class="sub" style="margin-top:14px;">Resend — free, works on Render (HTTPS)</p>
+      <ul class="adm-list">
+        <li><span class="mut">Status</span><span>{{ 'ready ✓' if status.resend_ready else 'not configured' }}</span></li>
         <li><span class="mut">RESEND_API_KEY</span><span>{{ 'set ✓' if status.resend_key_set else 'NOT SET ✗' }}</span></li>
         <li><span class="mut">MAIL_FROM</span><span>{{ status.mail_from }}</span></li>
       </ul>
-      <p class="sub" style="margin-top:14px;">SMTP fallback (local dev only)</p>
+
+      <p class="sub" style="margin-top:14px;">SMTP — local dev, or a paid Render instance</p>
       <ul class="adm-list">
+        <li><span class="mut">Status</span><span>{{ 'ready ✓' if status.smtp_ready else 'not configured' }}</span></li>
         <li><span class="mut">SMTP_HOST</span><span>{{ status.host }}</span></li>
         <li><span class="mut">SMTP_USER</span><span>{{ status.user }}</span></li>
         <li><span class="mut">SMTP_PASS</span><span>{{ 'set ✓' if status.password_set else 'NOT SET ✗' }}</span></li>
