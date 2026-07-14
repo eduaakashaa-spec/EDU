@@ -6,6 +6,8 @@
   .inv-wrap{ max-width:820px; margin:0 auto; padding:28px 16px 70px; }
   .inv-paper{ background:#fff; border:1px solid #e6ddc9; border-radius:12px; padding:38px 40px; color:#1c1c2e; }
   .inv-top{ display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; border-bottom:2px solid #0E3A8A; padding-bottom:18px; }
+  .inv-brandline{ display:flex; align-items:center; gap:11px; }
+  .inv-logo{ width:42px; height:42px; object-fit:contain; display:block; flex-shrink:0; }
   .inv-seller .brand{ font-family:'Fraunces',serif; font-size:1.5rem; font-weight:900; color:#0E3A8A; }
   .inv-seller .meta{ font-size:12px; color:#555; line-height:1.6; margin-top:4px; max-width:340px; }
   .inv-doc{ text-align:right; }
@@ -36,11 +38,26 @@
   .inv-actbar{ background:var(--white,#fff); border:1px solid #e6ddc9; border-radius:12px; padding:14px 16px; margin:0 auto 16px; max-width:820px; }
   .inv-actbar form{ display:inline-flex; gap:6px; align-items:center; flex-wrap:wrap; }
   .inv-actbar input, .inv-actbar select{ padding:7px 9px; border:1.5px solid #e6ddc9; border-radius:7px; font-size:12.5px; }
+  /* ---------- print / save-as-PDF ----------
+     Print exactly one thing: the invoice. Everything else on the page is
+     chrome — site header, sticky bar, nav, footer, the floating chat button,
+     the admin action bar. Hiding by tag/class meant every new bit of chrome
+     leaked into the PDF, so invert it: hide the whole document, then re-show
+     only the invoice subtree. Nothing new can sneak in. */
+  @page { margin: 14mm; }
   @media print {
-    header, footer, .site-header, .site-footer, .adm-nav, .inv-actions, .inv-actbar, .no-print { display:none !important; }
-    .inv-paper{ border:none; border-radius:0; padding:0; }
-    .inv-wrap{ padding:0; }
+    body * { visibility:hidden !important; }
+    .inv-paper, .inv-paper * { visibility:visible !important; }
+    /* hidden chrome still occupies space, so the invoice is lifted to the page
+       top — nothing above it may create a containing block or the gap returns */
+    #main-content, .inv-wrap{ position:static !important; }
+    .inv-paper{ position:absolute; top:0; left:0; width:100%;
+                border:none; border-radius:0; padding:0; box-shadow:none; }
     body{ background:#fff !important; }
+    /* keep the navy table head and status chips — browsers drop backgrounds by default */
+    .inv-paper{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .inv-tbl thead tr{ break-inside:avoid; }
+    .inv-tbl tr, .inv-sum .row, .inv-foot{ break-inside:avoid; }
   }
 </style>
 {% endblock %}
@@ -80,8 +97,14 @@
   <div class="inv-paper">
     <div class="inv-top">
       <div class="inv-seller">
-        <div class="brand">{{ seller.brand_name or 'EduAakashaa' }}</div>
-        <div class="meta">
+        {# the snapshot's logo_url wins so reissued invoices keep their original
+           branding; otherwise fall back to the logo shipped with the site #}
+        <div class="inv-brandline">
+          <img class="inv-logo" src="{{ seller.logo_url or url_for('static', filename='images/logo.png') }}"
+               alt="{{ seller.brand_name or 'EduAakashaa' }} logo">
+          <div class="brand">{{ seller.brand_name or 'EduAakashaa' }}</div>
+        </div>
+        <div class="meta" style="margin-top:8px;">
           {{ seller.legal_name }}<br>
           {% if seller.address %}{{ seller.address }}<br>{% endif %}
           {% if seller.gstin %}GSTIN: {{ seller.gstin }}{% if seller.pan %} · PAN: {{ seller.pan }}{% endif %}<br>{% endif %}
