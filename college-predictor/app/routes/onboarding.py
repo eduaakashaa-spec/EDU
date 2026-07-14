@@ -20,13 +20,14 @@ import time
 
 from flask import (Blueprint, Response, abort, current_app, flash, redirect,
                    render_template, request, url_for)
+from flask_login import current_user, login_required
 
 from app.decorators import admin_required
 from app.extensions import db
 from app.models import OnboardingResponse
 from app.services.mailer import send_async
-from app.services.onboarding_assessment import (ROLES, intro_for, items_for,
-                                                modules_for)
+from app.services.onboarding_assessment import (ANSWER_KEY, ROLES, intro_for,
+                                                items_for, modules_for)
 
 onboarding_bp = Blueprint('onboarding', __name__)
 
@@ -55,8 +56,12 @@ def _rate_ok(ip):
 
 
 def _family_key(student_name, phone, email):
-    """Pair a student and parent submission. Phone is the most reliable shared
-    handle in an NRI family; fall back to email, then just the name."""
+    """Pair a student and parent submission. Both halves are filled from the same
+    logged-in family account, so the account id IS the link — no name/phone
+    guessing. The old name+contact key stays as the fallback for the handful of
+    rows written before the login gate (and for any future public route)."""
+    if current_user.is_authenticated:
+        return 'user:%d' % current_user.id
     name = ''.join((student_name or '').lower().split())
     digits = ''.join(c for c in (phone or '') if c.isdigit())[-10:]
     tail = digits or (email or '').strip().lower()
@@ -72,7 +77,10 @@ def landing():
 
 
 @onboarding_bp.route('/onboarding-assessment/<role>', methods=['GET', 'POST'])
+@login_required
 def assessment(role):
+    """Login-gated on purpose: the student's and the parent's halves are paired on
+    the account they both sign in with, so one family = one account."""
     if role not in ROLES:
         abort(404)
 
@@ -88,7 +96,7 @@ def _save(role):
     f = request.form
     student_name = (f.get('student_name') or '').strip()
     respondent_name = (f.get('respondent_name') or '').strip()
-    email = (f.get('email') or '').strip()
+    email = current_user.email          # the account is the family; don't re-ask
     phone = (f.get('phone') or '').strip()
 
     def reshow(msg):
@@ -99,17 +107,19 @@ def _save(role):
 
     if not student_name:
         return reshow("Please enter the student's name.")
-    if '@' not in email or '.' not in email.split('@')[-1]:
-        return reshow('Please enter a valid email address.')
     if not _rate_ok(_client_ip()):
         flash('Too many submissions from your network. Please try again later.', 'error')
         return render_template('onboarding_assessment.html', role=role,
                                modules=modules_for(role), intro=intro_for(role),
                                total=len(items_for(role)), form=f), 429
 
-    # collect every item's answer, keyed by item id, straight from the form
+    # Collect every item's answer, keyed by item id, straight from the form.
+    # Items run in bank order, so a `when` gate always sees the answer it depends
+    # on; anything the student couldn't have been shown is dropped, not stored.
     responses = {}
     for it in items_for(role):
+        if not _when_met(it, responses):
+            continue
         val = _read_answer(it, f)
         if val not in (None, '', {}, []):
             responses[it['id']] = val
@@ -251,6 +261,12 @@ def _read_answer(it, f):
     return None
 
 
+def _when_met(it, answers):
+    """True when a conditional item's gate is satisfied by the given answers.
+    `when` is {earlier_item_id: required_answer} — see _mcq in the question bank."""
+    return all(answers.get(k) == v for k, v in (it.get('when') or {}).items())
+
+
 def _slug(label):
     """Stable, form-safe suffix for a row/option label."""
     return ''.join(c if c.isalnum() else '_' for c in label)[:60]
@@ -369,8 +385,14 @@ def _ai_bundle(student, parent):
         resp = sub.responses
         for it in items_for(role):
             ans = resp.get(it['id'])
-            lines.append('%s [%s] %s -> %s' % (
-                it['id'], it['tag'], it['text'], _flat(ans)))
+            if it.get('when') and not _when_met(it, resp):
+                continue          # e.g. the class-12 quiz for a class-11 student
+            line = '%s [%s] %s -> %s' % (it['id'], it['tag'], it['text'], _flat(ans))
+            key = ANSWER_KEY.get(it['id'])
+            if key:               # scored item: the AI can't mark it without the key
+                line += '   [correct: %s | %s]' % (
+                    key, 'RIGHT' if ans == key else 'wrong' if ans else 'not answered')
+            lines.append(line)
         return '\n'.join(lines)
 
     header = ("Run the EduAakashaa onboarding analysis. Use the AI Analysis Rubric "

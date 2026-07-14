@@ -55,6 +55,17 @@ def _rank(id, text, tag, options, other=False):
             'options': options, 'other': other}
 
 
+def _mcq(id, text, tag, options, when=None):
+    """A knowledge question with one correct answer. `when` gates the item on an
+    earlier answer ({item_id: value}) — the form hides it and skips it in the
+    step count when the condition isn't met."""
+    it = {'id': id, 'type': 'choice', 'text': text, 'tag': tag,
+          'options': options, 'optional': False, 'other': False}
+    if when:
+        it['when'] = when
+    return it
+
+
 # ===========================================================================
 # STUDENT INSTRUMENT
 # ===========================================================================
@@ -67,6 +78,8 @@ STUDENT_MODULES = [
     {'key': 'A', 'title': 'Where you stand academically',
      'intro': "Quick reality check — marks and confidence are different things, and we ask about both.",
      'items': [
+        _choice('S61', "Which class are you in right now?", 'ACAD-CLASS',
+                ['Class 11', 'Class 12']),
         {'id': 'S1', 'type': 'num', 'tag': 'ACAD-MARKS',
          'text': "In your most recent major exam (school/term test), roughly what did you score? Estimates are fine.",
          'fields': ['Physics %', 'Chemistry %', 'Maths %']},
@@ -83,6 +96,55 @@ STUDENT_MODULES = [
                 ['Board exams', 'Entrance exams (JEE/state)', 'Both about equal', 'Honestly, neither']),
         _choice('S8', "In recent JEE Main / entrance mocks, your typical score band:", 'ACAD-ENTR',
                 ['90+ percentile', '80–90', '70–80', '50–70', 'Below 50', "Haven't taken proper mocks yet"]),
+     ]},
+    {'key': 'A2', 'title': 'Nine questions from your NCERT syllabus',
+     'intro': ("Three each from Physics, Chemistry and Maths — straight from your NCERT "
+               "textbook, at board level. No negative marking, no timer, and your counsellor "
+               "sees this as a diagnostic, never a verdict. Please don't look anything up: a "
+               "wrong answer here is more useful to us than a googled right one."),
+     'items': [
+        # ---- Class 11 ----
+        _mcq('N11P1', "A ball is thrown at 20 m/s at 30° above the horizontal. Taking g = 10 m/s², its total time of flight is:",
+             'NCERT-PHY', ['1 s', '2 s', '2.5 s', '4 s'], when={'S61': 'Class 11'}),
+        _mcq('N11P2', "A 5 kg block rests on a rough floor (μ = 0.2) and is pushed by a horizontal 20 N force. Taking g = 10 m/s², its acceleration is:",
+             'NCERT-PHY', ['0', '2 m/s²', '4 m/s²', '6 m/s²'], when={'S61': 'Class 11'}),
+        _mcq('N11P3', "Escape velocity at Earth's surface is about 11.2 km/s. For a planet of the same density but twice Earth's radius, escape velocity would be about:",
+             'NCERT-PHY', ['5.6 km/s', '11.2 km/s', '22.4 km/s', '44.8 km/s'], when={'S61': 'Class 11'}),
+        _mcq('N11C1', "How many moles of oxygen atoms are present in 88 g of CO₂? (C = 12, O = 16)",
+             'NCERT-CHE', ['2', '3', '4', '6'], when={'S61': 'Class 11'}),
+        _mcq('N11C2', "Which of these has the largest atomic radius?",
+             'NCERT-CHE', ['Na', 'Mg', 'Al', 'Si'], when={'S61': 'Class 11'}),
+        _mcq('N11C3', "The hybridisation of the central atom in BF₃ is:",
+             'NCERT-CHE', ['sp', 'sp²', 'sp³', 'sp³d'], when={'S61': 'Class 11'}),
+        _mcq('N11M1', "The sum of the first 20 terms of the AP 3, 7, 11, … is:",
+             'NCERT-MAT', ['800', '820', '840', '860'], when={'S61': 'Class 11'}),
+        _mcq('N11M2', "How many 3-digit numbers can be formed from the digits 1–9 if no digit is repeated?",
+             'NCERT-MAT', ['84', '504', '648', '729'], when={'S61': 'Class 11'}),
+        _mcq('N11M3', "The value of lim(x→0) sin(3x)/x is:",
+             'NCERT-MAT', ['0', '1/3', '1', '3'], when={'S61': 'Class 11'}),
+        # ---- Class 12 ----
+        _mcq('N12P1', "Three 6 Ω resistors are connected in parallel. The equivalent resistance is:",
+             'NCERT-PHY', ['2 Ω', '3 Ω', '9 Ω', '18 Ω'], when={'S61': 'Class 12'}),
+        _mcq('N12P2', "A converging lens of focal length 20 cm forms an image of an object placed 30 cm in front of it. The image distance is:",
+             'NCERT-PHY', ['12 cm', '20 cm', '60 cm', '−60 cm'], when={'S61': 'Class 12'}),
+        _mcq('N12P3', "A parallel-plate capacitor has capacitance C. The plate separation is halved and a dielectric of constant 2 fills the gap. The new capacitance is:",
+             'NCERT-PHY', ['C', '2C', '4C', '8C'], when={'S61': 'Class 12'}),
+        _mcq('N12C1', "Which 0.1 m aqueous solution has the highest boiling point?",
+             'NCERT-CHE', ['Glucose', 'Urea', 'NaCl', 'CaCl₂'], when={'S61': 'Class 12'}),
+        _mcq('N12C2', "The oxidation state of cobalt in [Co(NH₃)₆]Cl₃ is:",
+             'NCERT-CHE', ['+1', '+2', '+3', '+6'], when={'S61': 'Class 12'}),
+        _mcq('N12C3', "For a first-order reaction, the half-life is:",
+             'NCERT-CHE', ['Directly proportional to the initial concentration',
+                           'Inversely proportional to the initial concentration',
+                           'Independent of the initial concentration',
+                           'Proportional to the square of the initial concentration'],
+             when={'S61': 'Class 12'}),
+        _mcq('N12M1', "If A is a 3×3 matrix with |A| = 2, then |2A| is:",
+             'NCERT-MAT', ['4', '8', '16', '32'], when={'S61': 'Class 12'}),
+        _mcq('N12M2', "The value of ∫₀^(π/2) cos x dx is:",
+             'NCERT-MAT', ['0', '1', '−1', 'π/2'], when={'S61': 'Class 12'}),
+        _mcq('N12M3', "The function f(x) = x³ − 3x has a local maximum at:",
+             'NCERT-MAT', ['x = −1', 'x = 0', 'x = 1', 'x = 3'], when={'S61': 'Class 12'}),
      ]},
     {'key': 'B', 'title': 'What actually interests you',
      'intro': "Forget marks for a minute. These are about what you'd enjoy — pick honestly, not strategically.",
@@ -232,8 +294,19 @@ STUDENT_MODULES = [
      ]},
 ]
 
-# aptitude answer key (used only in admin display, never shown in the form)
-APT_KEY = {'S57': 'Dish', 'S58': '2 h', 'S59': '65', 'S60': '12'}
+# answer key for every scored item — aptitude samplers + the NCERT diagnostic.
+# Counsellor-side only: it reaches the admin view and the AI bundle, never the form.
+ANSWER_KEY = {
+    'S57': 'Dish', 'S58': '2 h', 'S59': '65', 'S60': '12',
+    # class 11
+    'N11P1': '2 s', 'N11P2': '2 m/s²', 'N11P3': '22.4 km/s',
+    'N11C1': '4', 'N11C2': 'Na', 'N11C3': 'sp²',
+    'N11M1': '820', 'N11M2': '504', 'N11M3': '3',
+    # class 12
+    'N12P1': '2 Ω', 'N12P2': '60 cm', 'N12P3': '4C',
+    'N12C1': 'CaCl₂', 'N12C2': '+3', 'N12C3': 'Independent of the initial concentration',
+    'N12M1': '16', 'N12M2': '1', 'N12M3': 'x = −1',
+}
 
 
 # ===========================================================================
@@ -339,11 +412,10 @@ PARENT_MODULES = [
         _rank('P27', "Rank what you need most from us (top = highest).", 'PARENT-EXPECT-RANK',
               ['Building the right college list', 'Branch guidance for my child',
                'Forms, deadlines and counselling-round execution',
-               'Helping my child and me get on the same page',
-               'Budget and loan planning', 'Entrance-exam strategy']),
+               'Helping my child and me get on the same page']),
         _choice('P28', "Your preferred involvement:", 'PARENT-EXPECT-INVOLVE',
                 ['Involve me in every step', 'Key decisions only',
-                 'Work mainly with my child, keep me posted', 'Guide us, but we decide everything ourselves']),
+                 'Guide us, but we decide everything ourselves']),
      ]},
     {'key': '7', 'title': 'The home front',
      'intro': "The household reality. Honest answers help us help you; nothing is judged.",

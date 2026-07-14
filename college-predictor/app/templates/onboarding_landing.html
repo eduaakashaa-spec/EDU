@@ -32,6 +32,11 @@
   understand the whole picture — where the student stands, what genuinely interests them, and
   what the family hopes for. There are no right answers. It's answered on the phone in one sitting.</p>
 
+  <p class="lead"><strong>The student and the parent both sign in with the same EduAakashaa
+  account</strong> — that's what pairs your two halves together. Fill them separately, without
+  comparing answers.{% if not current_user.is_authenticated %}
+  <a href="{{ url_for('auth.login', next=request.path) }}">Sign in to start</a>.{% endif %}</p>
+
   <div class="oal-cards">
     <a class="oal-card" href="{{ url_for('onboarding.assessment', role='student') }}">
       <div class="ic">🎓</div>

@@ -7,7 +7,13 @@ an AI together with the **AI Analysis Rubric** (Deliverable 2), which produces t
 (Deliverable 3) — an identical structure for every family, so consultants can compare clients at a glance.
 
 **Delivery notes (in-app form).**
-- Single sitting: student ≈ 20–25 min (60 items), parent ≈ 10–15 min (34 items).
+- Single sitting: student ≈ 28–33 min (70 items shown), parent ≈ 10–15 min (34 items).
+- **One account per family.** Both halves are filled behind a login and paired on the account id —
+  the student and the parent sign in with the *same* EduAakashaa account. Nothing is matched on
+  names or phone numbers any more.
+- **Class-gated items.** S61 asks the student's class; the nine NCERT questions then shown are the
+  ones for that class (N11* for class 11, N12* for class 12). The other nine are never displayed and
+  never stored — treat them as absent, not as blanks.
 - One question per screen on mobile; module intros are one line each; no uploads, no manual scoring.
 - Items marked **(optional)** may be skipped; everything else is required.
 - Ask the family to fill it independently: *"There are no right answers. Please don't compare answers —
@@ -22,9 +28,11 @@ to both sides; the AI computes the gap.
 
 | Tag | Dimension | Meaning |
 |---|---|---|
+| `ACAD-CLASS` | Academic reality | Class 11 or 12 — gates which NCERT question set is served |
 | `ACAD-MARKS` / `ACAD-TREND` / `ACAD-ENTR` | Academic reality | Reported marks · direction of movement · entrance-mock standing |
 | `ACAD-GAP` | Academic reality | Board-exam vs entrance-exam confidence gap |
 | `SELFEFF-PHY / -CHE / -MAT` | Academic self-efficacy | Subject-wise belief in own capability (kept separate from marks) |
+| `NCERT-PHY / -CHE / -MAT` | Demonstrated knowledge | Board-level NCERT questions actually answered — the objective counterweight to `SELFEFF-*` and self-reported marks |
 | `CAL-*` | Calibration | "How sure are you?" follow-ups; scales the certainty of nearby self-ratings |
 | `RIASEC-R / -I / -A / -S / -E / -C` | Interests (Holland) | Realistic · Investigative · Artistic · Social · Enterprising · Conventional |
 | `RIASEC-ALL` / `RIASEC-OPEN` | Interests | Full ranking item · open-text interest evidence |
@@ -59,17 +67,18 @@ to both sides; the AI computes the gap.
 
 # DELIVERABLE 1 — QUESTION BANK
 
-## STUDENT INSTRUMENT (S1–S60)
+## STUDENT INSTRUMENT (S1–S61 + NCERT set N11*/N12*)
 
 > *Intro shown in app:* "This helps your counsellor understand the real you — not just your marks.
 > There are no right answers, and nothing here is shared without your OK. Answer for yourself, not for
 > who you think you should be."
 
-### Module A · Where you stand academically (S1–S8)
+### Module A · Where you stand academically (S61, S1–S8)
 *One line intro: "Quick reality check — marks and confidence are different things, and we ask about both."*
 
 | # | Item | Type | Tag | Rev | Pair |
 |---|---|---|---|---|---|
+| S61 | Which class are you in right now? **Class 11 · Class 12** (asked first — gates Module A2) | FC | `ACAD-CLASS` | — | — |
 | S1 | In your most recent major exam (school/term test), roughly what did you score? — **Physics %** · **Chemistry %** · **Maths %** (three quick entries; estimates are fine) | NUM ×3 | `ACAD-MARKS` | — | P1 |
 | S2 | Over the last year, each subject has been… **Physics / Chemistry / Maths:** Improving · Steady · Slipping | FC ×3 | `ACAD-TREND` | — | — |
 | S3 | "If I meet a completely new type of **Physics** problem, I can usually crack it if I put in the effort." | L5 | `SELFEFF-PHY` | — | P4 |
@@ -78,6 +87,44 @@ to both sides; the AI computes the gap.
 | S6 | How sure are you about the three ratings you just gave? — Very sure · Fairly sure · Honestly, guessing | FC | `CAL-SELFEFF` | — | — |
 | S7 | Right now, which feels more under control? — Board exams · Entrance exams (JEE/state) · Both about equal · Honestly, neither | FC | `ACAD-GAP` | — | — |
 | S8 | In recent JEE Main / entrance mocks, your typical score band: 90+ percentile · 80–90 · 70–80 · 50–70 · Below 50 · Haven't taken proper mocks yet | FC | `ACAD-ENTR` | — | — |
+
+### Module A2 · Nine questions from your NCERT syllabus (N11* / N12*)
+*Intro: "Three each from Physics, Chemistry and Maths — straight from your NCERT textbook, at board
+level. No negative marking, no timer, and your counsellor sees this as a diagnostic, never a verdict.
+Please don't look anything up: a wrong answer here is more useful to us than a googled right one."*
+
+Nine of the eighteen below are shown, chosen by **S61**. All are single-correct MCQs pitched at NCERT
+board level (not JEE Advanced) — the point is to measure what the student can actually do, instead of
+trusting the self-ratings in S3–S5. Correct answers are held server-side and never rendered in the form;
+they are injected into the AI bundle at export time.
+
+**Class 11 (shown when S61 = Class 11)**
+
+| # | Item | NCERT chapter | Tag | Answer |
+|---|---|---|---|---|
+| N11P1 | A ball is thrown at 20 m/s at 30° above the horizontal. Taking g = 10 m/s², its total time of flight is: 1 s · **2 s** · 2.5 s · 4 s | Motion in a Plane | `NCERT-PHY` | 2 s |
+| N11P2 | A 5 kg block rests on a rough floor (μ = 0.2) and is pushed by a horizontal 20 N force. Taking g = 10 m/s², its acceleration is: 0 · **2 m/s²** · 4 m/s² · 6 m/s² | Laws of Motion | `NCERT-PHY` | 2 m/s² |
+| N11P3 | Escape velocity at Earth's surface is about 11.2 km/s. For a planet of the same density but twice Earth's radius, escape velocity would be about: 5.6 · 11.2 · **22.4** · 44.8 km/s | Gravitation | `NCERT-PHY` | 22.4 km/s |
+| N11C1 | How many moles of oxygen atoms are present in 88 g of CO₂? (C = 12, O = 16): 2 · 3 · **4** · 6 | Some Basic Concepts of Chemistry | `NCERT-CHE` | 4 |
+| N11C2 | Which of these has the largest atomic radius? **Na** · Mg · Al · Si | Classification of Elements & Periodicity | `NCERT-CHE` | Na |
+| N11C3 | The hybridisation of the central atom in BF₃ is: sp · **sp²** · sp³ · sp³d | Chemical Bonding & Molecular Structure | `NCERT-CHE` | sp² |
+| N11M1 | The sum of the first 20 terms of the AP 3, 7, 11, … is: 800 · **820** · 840 · 860 | Sequences & Series | `NCERT-MAT` | 820 |
+| N11M2 | How many 3-digit numbers can be formed from the digits 1–9 if no digit is repeated? 84 · **504** · 648 · 729 | Permutations & Combinations | `NCERT-MAT` | 504 |
+| N11M3 | The value of lim(x→0) sin(3x)/x is: 0 · 1/3 · 1 · **3** | Limits & Derivatives | `NCERT-MAT` | 3 |
+
+**Class 12 (shown when S61 = Class 12)**
+
+| # | Item | NCERT chapter | Tag | Answer |
+|---|---|---|---|---|
+| N12P1 | Three 6 Ω resistors are connected in parallel. The equivalent resistance is: **2 Ω** · 3 Ω · 9 Ω · 18 Ω | Current Electricity | `NCERT-PHY` | 2 Ω |
+| N12P2 | A converging lens of focal length 20 cm forms an image of an object placed 30 cm in front of it. The image distance is: 12 cm · 20 cm · **60 cm** · −60 cm | Ray Optics | `NCERT-PHY` | 60 cm |
+| N12P3 | A parallel-plate capacitor has capacitance C. The plate separation is halved and a dielectric of constant 2 fills the gap. The new capacitance is: C · 2C · **4C** · 8C | Electrostatic Potential & Capacitance | `NCERT-PHY` | 4C |
+| N12C1 | Which 0.1 m aqueous solution has the highest boiling point? Glucose · Urea · NaCl · **CaCl₂** | Solutions (colligative properties) | `NCERT-CHE` | CaCl₂ |
+| N12C2 | The oxidation state of cobalt in [Co(NH₃)₆]Cl₃ is: +1 · +2 · **+3** · +6 | Coordination Compounds | `NCERT-CHE` | +3 |
+| N12C3 | For a first-order reaction, the half-life is: directly proportional to the initial concentration · inversely proportional to it · **independent of it** · proportional to its square | Chemical Kinetics | `NCERT-CHE` | Independent of the initial concentration |
+| N12M1 | If A is a 3×3 matrix with \|A\| = 2, then \|2A\| is: 4 · 8 · **16** · 32 | Determinants | `NCERT-MAT` | 16 |
+| N12M2 | The value of ∫₀^(π/2) cos x dx is: 0 · **1** · −1 · π/2 | Integrals | `NCERT-MAT` | 1 |
+| N12M3 | The function f(x) = x³ − 3x has a local maximum at: **x = −1** · x = 0 · x = 1 · x = 3 | Application of Derivatives | `NCERT-MAT` | x = −1 |
 
 ### Module B · What actually interests you (S9–S14)
 *Intro: "Forget marks for a minute. These are about what you'd enjoy — pick honestly, not strategically."*
@@ -246,7 +293,7 @@ Each of S9–S12 shows three activities; pick the one you'd **most** enjoy and t
 | # | Item | Type | Tag | Rev | Pair |
 |---|---|---|---|---|---|
 | P26 | Twelve months from now, what would make you say this membership was **completely worth it**? (2–3 lines) | OPEN | `PARENT-EXPECT` | — | — |
-| P27 | Rank what you need most from us (1 = highest): Building the right college list · Branch guidance for my child · Forms, deadlines and counselling-round execution · Helping my child and me get on the same page · Budget and loan planning · Entrance-exam strategy | RANK | `PARENT-EXPECT-RANK` | — | — |
+| P27 | Rank what you need most from us (1 = highest): Building the right college list · Branch guidance for my child · Forms, deadlines and counselling-round execution · Helping my child and me get on the same page | RANK | `PARENT-EXPECT-RANK` | — | — |
 | P28 | Your preferred involvement: Involve me in every step · Key decisions only · Work mainly with my child, keep me posted · Guide us, but we decide everything ourselves | FC | `PARENT-EXPECT-INVOLVE` | — | — |
 
 ### Module 7 · The home front (P29–P34)
@@ -272,8 +319,12 @@ responses (item numbers + answers). The block is self-contained.*
 
 ```text
 YOU ARE the analysis engine for EduAakashaa (evidence-based college counselling, India).
-You receive one family's completed onboarding assessment: STUDENT items S1–S60 and PARENT
-items P1–P34. Produce ONE Insight Dossier in EXACTLY the template given at the end.
+You receive one family's completed onboarding assessment: STUDENT items S1–S61 plus a nine-
+question NCERT set (N11* for a class-11 student, N12* for a class-12 student — only one set is
+ever present, per S61), and PARENT items P1–P34. Each scored item arrives with its correct
+answer and whether the student got it RIGHT or wrong appended in square brackets; use that
+marking, never re-derive it yourself. Produce ONE Insight Dossier in EXACTLY the template at
+the end.
 
 NON-NEGOTIABLE RULES
 1. Never invent data. If an item is blank, write "Not answered". Do not guess missing marks,
@@ -325,6 +376,31 @@ C. Academic standing (S1–S8)
    "development zone"; else "steady middle". Add trend (S2) as an arrow ↑→↓.
    Note the board-vs-entrance gap (S7) and mock band (S8). If S8 = "no proper mocks yet"
    AND JEE ambitions appear anywhere, raise a red flag.
+
+C2. NCERT diagnostic (N11*/N12*, gated by S61)
+   Only one class's set is present. Score 1 point per item marked RIGHT; unanswered = 0 but
+   say so. Report per subject out of 3 — Physics (…P1–P3), Chemistry (…C1–C3), Maths (…M1–M3)
+   — and a total out of 9. Bands per subject: 3/3 "secure" · 2/3 "workable" · ≤1/3 "gap".
+   These are NINE board-level questions, not an exam. Never call a band a verdict, never
+   convert it to a percentage or a predicted rank, and never let it override S1 marks: it is
+   one signal to triangulate with, and say that in the dossier.
+
+C3. Calibration: claimed vs demonstrated (the point of C2)
+   For each subject compare the self-efficacy rating (S3 Physics / S4 Chemistry / S5 Maths)
+   against that subject's NCERT band, and name the gap:
+   - SE ≥4 and band "gap"          → OVER-CLAIMING. The most action-worthy finding in the
+     dossier: the student believes a subject is handled and the evidence disagrees. Phrase it
+     for a 17-year-old to read without shame ("rates Maths a 4 but the three NCERT questions
+     didn't land — worth an early diagnostic, not a worry").
+   - SE ≤2 and band "secure"       → UNDER-CLAIMING / hidden strength. Say so plainly; this
+     student is likely talking themselves out of a branch they can do.
+   - SE and band agree             → CALIBRATED. One line, no drama; this is good news and it
+     makes every other self-report in the instrument more trustworthy — say that.
+   Weight the whole comparison down if S6 = "Honestly, guessing" (the student told you the
+   ratings were noise) and mention that you did.
+   If S1 marks and the NCERT band disagree sharply (e.g. 85% reported, 0/3 demonstrated),
+   flag "self-reported marks unverified" for the counsellor — state the discrepancy, do NOT
+   accuse the student of inflating anything.
 
 D. Motivation type (S25–S29 + parent P5/P33)
    From S25 ranks give points rank1=5 … rank6=0.
@@ -420,11 +496,16 @@ Data confidence: {High/Medium/Low} — {one-line reason if not High}
 - One sentence: who this student is, in plain words.
 
 ## 2. Academic standing
-| Subject | Marks | Trend | Self-efficacy | Read |
-|---|---|---|---|---|
-| Physics | {…} | {↑→↓} | {…}/5 | {solid / hidden strength / over-confident / development zone / steady} |
-| Chemistry | … | … | … | … |
-| Maths | … | … | … | … |
+*Class {11/12} (S61) — NCERT set {N11*/N12*}*
+
+| Subject | Marks | Trend | Self-efficacy | NCERT | Calibration | Read |
+|---|---|---|---|---|---|---|
+| Physics | {…} | {↑→↓} | {…}/5 | {n}/3 {secure/workable/gap} | {calibrated / over-claiming / under-claiming} | {solid / hidden strength / over-confident / development zone / steady} |
+| Chemistry | … | … | … | … | … | … |
+| Maths | … | … | … | … | … | … |
+- NCERT diagnostic total: {n}/9 — nine board-level questions, a signal to triangulate, not a verdict
+- Calibration headline: {the single most action-worthy claimed-vs-demonstrated gap, or "well calibrated
+  across all three — treat this student's self-reports as reliable"}
 - Board vs entrance: {S7 + S8 summary}
 - Aptitude sampler: {n}/4 ({domains wrong}) — directional signal only
 - Red flags: {none / list}
