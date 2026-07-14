@@ -4,8 +4,23 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-key-change-in-production')
-    DEBUG = os.environ.get('FLASK_DEBUG', '1') == '1'
+    # Default OFF: a debug-enabled production process exposes the Werkzeug
+    # console. Local dev opts in explicitly via FLASK_DEBUG=1 in .env.
+    DEBUG = os.environ.get('FLASK_DEBUG', '0') == '1'
+
+    # Fail closed: with a known fallback key anyone can forge a session cookie
+    # (i.e. log in as any admin), so only dev gets a throwaway default. In
+    # production this stays None and create_app refuses to start.
+    SECRET_KEY = os.environ.get('SECRET_KEY') or (
+        'dev-key-change-in-production' if DEBUG else None
+    )
+
+    # Session cookie hardening. SameSite=Lax is today's browser default, but
+    # pinning it here means we don't inherit a weaker default; Secure is off in
+    # dev because local runs are plain http.
+    SESSION_COOKIE_HTTPONLY = True
+    SESSION_COOKIE_SAMESITE = 'Lax'
+    SESSION_COOKIE_SECURE = not DEBUG
 
     # Neon (and most managed Postgres) hand out URLs starting with `postgres://`,
     # but SQLAlchemy 2.x requires the `postgresql://` scheme.
@@ -58,6 +73,14 @@ class Config:
         'BANK_NAME': os.environ.get('BANK_NAME', ''),
         'BANK_BRANCH': os.environ.get('BANK_BRANCH', ''),
     }
+
+    # DASA 2026 counsellor dashboard — the team's Apps Script bound to the
+    # submissions Sheet. Both values are secrets: the key is all that guards
+    # student PII (name/email/WhatsApp/rank) on that endpoint, so they are read
+    # server-side only and proxied (see main.counsellor_data). They must never
+    # be inlined into static JS, which Flask serves to anyone.
+    DASA_SCRIPT_URL = os.environ.get('DASA_SCRIPT_URL', '')
+    DASA_SCRIPT_KEY = os.environ.get('DASA_SCRIPT_KEY', '')
 
     # Where generated invoice/receipt PDFs are stored (private, not link-shared).
     PDF_STORAGE_DIR = os.environ.get(

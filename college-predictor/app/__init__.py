@@ -5,6 +5,15 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_object('config.Config')
 
+    # config.Config leaves this None outside debug rather than falling back to a
+    # committed default, so a missing SECRET_KEY stops the deploy instead of
+    # silently shipping forgeable session cookies.
+    if not app.config['SECRET_KEY']:
+        raise RuntimeError(
+            'SECRET_KEY is not set. Set it in the environment (Render sets it '
+            'automatically via render.yaml), or use FLASK_DEBUG=1 for local dev.'
+        )
+
     # Ensure instance folder exists (for SQLite DB)
     import os
     os.makedirs(app.instance_path, exist_ok=True)

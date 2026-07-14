@@ -13,10 +13,12 @@
  Reads the SAME Google Sheet as the Choice Builder and lets counsellors
  triage submissions. Status changes write back to the Sheet.
 
- ⚠️ SECURITY: this is a lightweight passcode gate, NOT real authentication.
-    The page shows student PII (email, WhatsApp). Keep the URL + key INTERNAL.
-    Do not post the link publicly. For stronger control, host behind a
-    login on your own server.
+ ⚠️ SECURITY: the page shows student PII (email, WhatsApp) and is gated by our
+    own @admin_required login. The Apps Script's ACCESS_KEY is NOT a second
+    login — it is a shared secret, so it lives only in the server env
+    (DASA_SCRIPT_KEY) and the browser never sees it. Never paste the real key
+    or the /exec URL into this template or into static/js/*: both are served
+    publicly, which is exactly how the old key leaked.
 
  ───────── STEP 1: replace your Apps Script with this MERGED Code.gs ─────────
  (keeps form submission working, adds doGet read + status write)
@@ -24,7 +26,9 @@
 
 var SHEET_ID   = '1OJpnTOHFAFbxR4IFiVf6CYEb8RT74aP-Zaxq-KeGjfU';
 var SHEET_NAME = 'DASA2026';
-var ACCESS_KEY = '111023';   // ← set your own; paste the SAME value into KEY below
+var ACCESS_KEY = 'PUT-YOUR-KEY-HERE';  // ← keep secret. Set the SAME value as
+                                       //   DASA_SCRIPT_KEY in the server env
+                                       //   (Render → Environment), never here.
 
 function getSheet_(){
   var ss = SpreadsheetApp.openById(SHEET_ID);

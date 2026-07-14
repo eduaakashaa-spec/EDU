@@ -1,6 +1,9 @@
 /* ════════ CONFIG ════════ */
-const API = "https://script.google.com/macros/s/AKfycbxINW6fF-5EmWiB-7Gav2D1IdU6vqYAtQ-tRx3gNVlZ7gXs2JRMrooTg4qE4r_S_CxR/exec";
-let KEY = "111023"; // Apps Script ACCESS_KEY (page itself is admin-gated by the app)
+/* This file is public — Flask serves /static to anyone. So it holds no Apps
+   Script URL and no access key: both live in the server's env and are used by
+   the admin-only proxy routes below (see routes/__init__.py). */
+const DATA_URL = "/counsellor-dashboard/data";
+const STATUS_URL = "/counsellor-dashboard/status";
 
 /* rank-fit model — MUST match the Choice Builder */
 const CLOSE_BASE={T10:60000,B25:95000,B50:140000,B100:210000,NR:340000};
@@ -139,25 +142,28 @@ function setStatus(row,status){
   const r=DATA.find(x=>x._row===row);if(r)r.Status=status;
   const sel=document.querySelector(`#d${row}`)?.closest('.sub')?.querySelector('.statSel');if(sel)sel.dataset.s=status;
   stats();
-  if(live&&KEY){
-    fetch(API,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({action:"updateStatus",key:KEY,row,status})}).catch(()=>{});
+  if(live){
+    fetch(STATUS_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({row,status})}).catch(()=>{});
   }
 }
 
-/* ════════ live load (JSONP) ════════ */
+/* ════════ live load ════════ */
+/* Same-origin now that the Sheet is read through our proxy, so this is a plain
+   fetch — the old JSONP callback/timeout dance only existed to reach Apps
+   Script cross-origin. */
 function loadLive(){
-  if(!KEY){return;}
-  const cb="__dasaCB"+Date.now();
-  const s=document.createElement("script");
-  let done=false;
-  window[cb]=function(res){done=true;delete window[cb];s.remove();
-    if(res&&res.error){banner("⚠️ Access key rejected by the server. Check it matches ACCESS_KEY in your Apps Script.",true);return;}
-    if(res&&res.rows){DATA=res.rows;live=true;banner("✅ Live data from Google Sheet — "+DATA.length+" submissions.",false);openRows.clear();render();}
-  };
-  s.src=API+"?key="+encodeURIComponent(KEY)+"&callback="+cb;
-  s.onerror=function(){if(done)return;delete window[cb];s.remove();banner("⚠️ Couldn't reach the Sheet (preview sandbox blocks this, or the script isn't deployed for 'Anyone'). Showing demo data — live data will load when this page is hosted on your domain.",true);};
-  document.body.appendChild(s);
-  setTimeout(()=>{if(!done){try{delete window[cb];s.remove();}catch(e){}if(!live)banner("⚠️ No response from the Sheet — showing demo data. Live data loads when hosted on your domain with a deployed script.",true);}},6000);
+  fetch(DATA_URL,{headers:{"Accept":"application/json"}})
+    .then(r=>r.json().catch(()=>({})).then(res=>({ok:r.ok,status:r.status,res})))
+    .then(({ok,status,res})=>{
+      if(!ok){
+        if(status===503){banner("⚠️ Live data isn't configured on the server (DASA_SCRIPT_URL / DASA_SCRIPT_KEY). Showing demo data.",true);}
+        else if(res&&res.error==="unauthorized"){banner("⚠️ The Sheet rejected the server's access key — check DASA_SCRIPT_KEY matches ACCESS_KEY in the Apps Script. Showing demo data.",true);}
+        else{banner("⚠️ Couldn't reach the Sheet — showing demo data.",true);}
+        return;
+      }
+      if(res&&res.rows){DATA=res.rows;live=true;banner("✅ Live data from Google Sheet — "+DATA.length+" submissions.",false);openRows.clear();render();}
+    })
+    .catch(()=>{banner("⚠️ Couldn't reach the server — showing demo data.",true);});
 }
 function banner(msg,warn){const b=document.getElementById("banner");b.textContent=msg;b.classList.add("show");b.style.background=warn?"var(--amber-soft)":"var(--good-soft)";b.style.borderColor=warn?"var(--amber)":"var(--good)";}
 
@@ -170,16 +176,9 @@ function exportCsv(){
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="dasa2026-submissions.csv";a.click();
 }
 
-/* ════════ theme + gate ════════ */
+/* ════════ theme ════════ */
 function applyTheme(){document.documentElement.dataset.theme=dark?"dark":"light";document.getElementById("themeBtn").textContent=dark?"☀️":"🌙";}
 function toggleTheme(){dark=!dark;applyTheme();}
-function unlock(){
-  const k=document.getElementById("gkey").value.trim();
-  if(!k){document.getElementById("gerr").textContent="Please enter the access key.";return;}
-  KEY=k;document.getElementById("gate").classList.add("hide");
-  DATA=DEMO.slice();render();
-  loadLive();
-}
 
 /* ════════ init ════════ */
 applyTheme();
