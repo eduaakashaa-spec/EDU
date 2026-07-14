@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}Email Test — Admin · EduAakashaa{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Broadcast</div>
+      <h1>Email Test</h1>
+    </div>
+    <div>
+      {% if status.configured %}<span class="pill pill-premium">SMTP configured</span>
+      {% else %}<span class="pill pill-expired">SMTP not configured</span>{% endif %}
+    </div>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}" style="white-space:pre-wrap;">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+
+  {% include "admin/_nav.html" %}
+
+  <p style="color:var(--muted); font-size:14px; margin-bottom:16px;">
+    Sends a real email right now and shows the exact error if it fails. Use this whenever
+    automated emails (member logins, document verification, invoices) aren't arriving.
+  </p>
+
+  <div class="adm-grid2">
+    <div class="adm-card">
+      <h2>What the app sees</h2>
+      <p class="sub">Read from the environment. The password is never shown.</p>
+      <ul class="adm-list">
+        <li><span class="mut">SMTP_HOST</span><span>{{ status.host }}</span></li>
+        <li><span class="mut">SMTP_PORT</span><span>{{ status.port }}</span></li>
+        <li><span class="mut">SMTP_USER</span><span>{{ status.user }}</span></li>
+        <li><span class="mut">SMTP_FROM</span><span>{{ status['from'] }}</span></li>
+        <li><span class="mut">SMTP_PASS</span><span>{{ 'set ✓' if status.password_set else 'NOT SET ✗' }}</span></li>
+      </ul>
+    </div>
+
+    <div class="adm-card">
+      <h2>Send a test</h2>
+      <p class="sub">Goes out synchronously so you see the result immediately.</p>
+      <form method="post" action="{{ url_for('admin_portal.email_test') }}" class="adm-form">
+        <div class="full">
+          <label>Send to</label>
+          <input name="to" type="email" value="{{ current_user.email }}" required maxlength="200">
+        </div>
+        <div><button class="btn btn-navy" type="submit">Send test email</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="adm-card" style="margin-top:18px;">
+    <h2>Reading the result</h2>
+    <ul class="adm-list">
+      <li><span class="mut">Email arrives</span><span>All automated emails will work. Done.</span></li>
+      <li><span class="mut">SMTPAuthenticationError<br>“Username and Password not accepted”</span>
+          <span>SMTP_PASS must be a Google <strong>App Password</strong> (16 chars), not your account
+                password. Google Account → Security → 2-Step Verification → App passwords.</span></li>
+      <li><span class="mut">Timeout / Connection refused</span>
+          <span>Outbound SMTP is blocked by the host (common on free tiers). Fix by switching to an
+                HTTP email API (Resend / SendGrid / Brevo) instead of SMTP.</span></li>
+      <li><span class="mut">SMTP not configured</span>
+          <span>The <code>SMTP_*</code> environment variables aren't reaching the app — check the
+                Environment tab and redeploy.</span></li>
+    </ul>
+  </div>
+
+</div></div>
+{% endblock %}

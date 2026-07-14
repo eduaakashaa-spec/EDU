@@ -34,6 +34,25 @@ def is_configured():
     return _cfg() is not None
 
 
+def config_status():
+    """What the app can see of the SMTP config — for the admin diagnostics page.
+    Never returns the password itself, only whether one is set."""
+    return {
+        'host': os.environ.get('SMTP_HOST') or '(not set)',
+        'port': os.environ.get('SMTP_PORT', '587 (default)'),
+        'user': os.environ.get('SMTP_USER') or '(not set)',
+        'from': os.environ.get('SMTP_FROM') or os.environ.get('SMTP_USER') or '(not set)',
+        'password_set': bool(os.environ.get('SMTP_PASS')),
+        'configured': is_configured(),
+    }
+
+
+def send_now(to, subject, text, html=None, from_name='EduAakashaa'):
+    """Synchronous send that RAISES on failure — used by the admin email test so
+    the real SMTP error reaches the screen instead of being swallowed."""
+    return _send(to, subject, text, html, from_name)
+
+
 def _send(to, subject, text, html, from_name='EduAakashaa'):
     c = _cfg()
     if not c or not to:

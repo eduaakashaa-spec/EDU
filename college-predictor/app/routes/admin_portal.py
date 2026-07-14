@@ -15,18 +15,17 @@ Legacy tabs → in-app equivalents:
 Every route requires the admin tier (same RBAC as the rest of /admin).
 """
 from datetime import datetime, timedelta, timezone
-from urllib.parse import urlparse
 
 from flask import (Blueprint, flash, redirect, render_template, request,
                    url_for)
 from flask_login import current_user
 
-from app.decorators import admin_required
+from app.decorators import admin_required, safe_next
 from app.extensions import db, bcrypt
 from app.models import (AlumniProfile, Announcement, CollegeSurvey,
                         ContactInquiry, DasaLead, MentorMeeting, PageLead,
                         Payment, Prediction, ScheduleEvent, User)
-from app.services.email_templates import SITE, WHATSAPP_NUMBER
+from app.services import mailer
 from app.services.mailer import is_configured as mail_configured
 from app.services.mailer import send_async
 from app.models_membership import (APP_STATUSES, MembershipApplication,
@@ -239,13 +238,33 @@ def home():
 # Members — mutating actions (list lives at membership.admin_users)
 # --------------------------------------------------------------------------- #
 def _users_url():
-    # Only follow 'next' when it is a bare same-app path — anything with a
-    # scheme/host (or a scheme-relative '//host') would be an open redirect.
-    nxt = request.form.get('next') or ''
-    parsed = urlparse(nxt)
-    if nxt.startswith('/') and not nxt.startswith('//') and not parsed.scheme and not parsed.netloc:
-        return nxt
-    return url_for('membership.admin_users')
+    return safe_next(request.form.get('next')) or url_for('membership.admin_users')
+
+
+@admin_portal_bp.route('/admin/email-test', methods=['GET', 'POST'])
+@admin_required
+def email_test():
+    """Self-service SMTP diagnostics: sends synchronously and shows the real
+    error on screen, so email can be debugged without a shell."""
+    if request.method == 'POST':
+        to = (request.form.get('to') or '').strip() or current_user.email
+        if not mailer.is_configured():
+            flash('SMTP is not configured — the app cannot see SMTP_HOST / SMTP_USER / '
+                  'SMTP_PASS. Check the Environment tab on your host.', 'danger')
+            return redirect(url_for('admin_portal.email_test'))
+        try:
+            mailer.send_now(
+                to, 'EduAakashaa SMTP test ✅',
+                'If you can read this, your SMTP settings work and automated '
+                'emails (member logins, document verification, invoices) will send.')
+            flash(f'Test email sent to {to}. If it does not arrive within a minute, '
+                  f'check the spam folder.', 'success')
+        except Exception as exc:                      # surface the real reason
+            flash(f'SEND FAILED — {type(exc).__name__}: {exc}', 'danger')
+        return redirect(url_for('admin_portal.email_test'))
+
+    return render_template('admin/email_test.html', admin_tab='templates',
+                           status=mailer.config_status())
 
 
 def _email_new_member(user, password):
