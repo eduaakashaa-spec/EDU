@@ -487,7 +487,7 @@ async function generatePDF(){
   doc.setTextColor(...ORANGE);
   doc.setFontSize(10);
   doc.setFont('helvetica','bold');
-  doc.text('+91 80157 22706  ·  +971 50 516 8081', 22, y+33);
+  doc.text('+91 80157 22706', 22, y+33);
 
   // --- FOOTER ---
   const totalPages = doc.internal.getNumberOfPages();
@@ -501,7 +501,7 @@ async function generatePDF(){
     doc.setFontSize(7.5);
     doc.setTextColor(...MUTED);
     doc.text('EduAakashaa  ·  www.eduaakashaa.in  ·  info@eduaakashaa.com', 15, pageH-9);
-    doc.text('Coimbatore, Tamil Nadu  ·  Dubai, UAE', 15, pageH-5);
+    doc.text('Coimbatore, Tamil Nadu', 15, pageH-5);
     doc.setTextColor(...NAVY);
     doc.setFont('helvetica','bold');
     doc.text('Page '+p+' of '+totalPages, pageW-15, pageH-7, {align:'right'});

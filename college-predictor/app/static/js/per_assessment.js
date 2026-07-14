@@ -802,8 +802,8 @@ function renderReport(sub) {
           </div>
           <div class="report-why-card">
             <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-            <h5>India + UAE presence</h5>
-            <p>Coimbatore HQ &amp; Dubai office means we understand both Indian boards / JEE / NEET and UAE / international applications.</p>
+            <h5>Indian + international expertise</h5>
+            <p>We understand both Indian boards / JEE / NEET and the UAE / international applications our Gulf-based students bring us.</p>
           </div>
           <div class="report-why-card">
             <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div>
@@ -858,7 +858,7 @@ function renderReport(sub) {
           <div style="text-align:right;">
             <div style="font-family:'JetBrains Mono';font-size:11px;text-transform:uppercase;letter-spacing:0.2em;color:var(--muted);">Get in touch</div>
             <div style="font-size:14px;color:var(--navy-ink);margin-top:4px;">info@eduaakashaa.com</div>
-            <div style="font-size:13px;color:var(--muted);">+91-80157 22706 · +971 50 516 8081</div>
+            <div style="font-size:13px;color:var(--muted);">+91-80157 22706</div>
           </div>
         </div>
       </div>

@@ -32,7 +32,7 @@ from app.services.mailer import is_configured as mail_configured
 from app.services.mailer import send_async
 from app.models_membership import (APP_STATUSES, MembershipApplication,
                                    MembershipInvoice)
-from app.services.email_templates import (EMAIL_TEMPLATES, LOGO_URL, PHONE_UAE,
+from app.services.email_templates import (EMAIL_TEMPLATES, LOGO_URL,
                                           SENDER_EMAIL, SITE, WHATSAPP_NUMBER)
 from app.services.queries import count_if as _n, sum_if as _sum_if
 
@@ -705,5 +705,5 @@ def templates():
                            email_templates=EMAIL_TEMPLATES, categories=categories,
                            recipients=_recipient_directory(), sender=SENDER_EMAIL,
                            logo_url=LOGO_URL, site=SITE,
-                           whatsapp=WHATSAPP_NUMBER, phone_uae=PHONE_UAE,
+                           whatsapp=WHATSAPP_NUMBER,
                            mail_from=mail_from, can_send=st['configured'])

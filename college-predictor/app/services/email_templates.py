@@ -15,7 +15,8 @@ import re
 
 SENDER_EMAIL = 'eduaakashaa@gmail.com'
 WHATSAPP_NUMBER = '+91 80157 22706'
-PHONE_UAE = '+971 50 516 8081'
+# EduAakashaa is registered and operates in India only — no UAE/Dubai
+# establishment or contact number anywhere in customer-facing copy.
 SITE = 'https://eduaakashaa.onrender.com'
 LOGO_URL = SITE + '/static/images/logo.png'
 
@@ -49,11 +50,11 @@ def branded_shell(body_html):
         '<div style="height:4px;background:linear-gradient(90deg,#FF6B0A,#FFB25A)"></div>'
         f'<div style="padding:28px;color:#0E1B3D;font-size:15px;line-height:1.65">{body_html}'
         '<p style="margin:26px 0 0">Warm regards,<br><strong>Team EduAakashaa</strong><br>'
-        '<span style="color:#5A6278;font-size:13px">Coimbatore, India &middot; Dubai, UAE</span></p></div>'
+        '<span style="color:#5A6278;font-size:13px">Coimbatore, India</span></p></div>'
         '<div style="padding:18px 28px;background:#FBF7EE;border-top:1px solid #E8DFC8;'
         'color:#5A6278;font-size:12px;line-height:1.7">'
         '<strong style="color:#0E1B3D">EduAakashaa</strong> &middot; Evidence-based college guidance<br>'
-        f'WhatsApp (India): {WHATSAPP_NUMBER} &middot; UAE: {PHONE_UAE}<br>'
+        f'WhatsApp: {WHATSAPP_NUMBER}<br>'
         f'<a href="{SITE}" style="color:#0E3A8A">{SITE.replace("https://", "")}</a>'
         f' &middot; Sent from {SENDER_EMAIL}</div></div></div>')
 
@@ -587,16 +588,15 @@ EMAIL_TEMPLATES = [
          'subject': 'Re: your question about {topic}',
          'text': ("Hi {name},\n\nThanks for reaching out to EduAakashaa about {topic} — happy "
                   "to help.\n\nThe quickest way forward is a short call so we understand your "
-                  "situation properly. WhatsApp us at " + WHATSAPP_NUMBER + " (India) or "
-                  + PHONE_UAE + " (UAE) with a good time, or simply reply to this email with "
+                  "situation properly. WhatsApp us at " + WHATSAPP_NUMBER + " with a good "
+                  "time, or simply reply to this email with "
                   "your questions.\n\nMeanwhile, our free predictors and guides are at "
                   + SITE + ".\n\n— Team EduAakashaa"),
          'html': ("<p>Hi {name},</p><p>Thanks for reaching out to EduAakashaa about "
                   "<strong>{topic}</strong> — happy to help.</p><p>The quickest way forward is "
                   "a short call so we understand your situation properly. WhatsApp us at "
-                  "<strong>" + WHATSAPP_NUMBER + "</strong> (India) or <strong>" + PHONE_UAE
-                  + "</strong> (UAE) with a good time, or simply reply to this email with your "
-                  "questions.</p>"
+                  "<strong>" + WHATSAPP_NUMBER + "</strong> with a good time, or simply reply "
+                  "to this email with your questions.</p>"
                   + _btn(SITE, 'Explore the free tools'))},
      ]},
 ]

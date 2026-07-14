@@ -337,7 +337,7 @@
 .ported .confirm-icon svg { width: 36px; height: 36px; stroke: var(--green); fill: none; stroke-width: 2.5; }
 .ported footer { background: linear-gradient(135deg, var(--navy-ink) 0%, var(--navy-deep) 100%); color: #fff; padding: 70px 0 30px; position: relative; overflow: hidden; }
 .ported footer::before { content: ""; position: absolute; right: -200px; top: -200px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(255,107,10,.12) 0%, transparent 65%); }
-.ported .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px; position: relative; z-index: 1; }
+.ported .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; position: relative; z-index: 1; }
 .ported .footer-brand .brand-name { color: #fff; }
 .ported .footer-brand p { color: rgba(255,255,255,0.7); margin-top: 16px; max-width: 300px; }
 .ported .footer-col h5 { font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--orange); margin-bottom: 18px; font-weight: 600; }

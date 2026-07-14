@@ -143,7 +143,6 @@
   var LOGO = {{ logo_url | tojson }};
   var SITE = {{ site | tojson }};
   var WA_IN = {{ whatsapp | tojson }};
-  var PH_UAE = {{ phone_uae | tojson }};
   var byKey = {}; TEMPLATES.forEach(function (t) { byKey[t.key] = t; });
   var KIND_LABEL = { member: 'Member', guide: 'Guide', lead: 'Lead', inquiry: 'Inquiry' };
 
@@ -199,14 +198,14 @@
         '<div style="padding:28px;color:#0E1B3D;font-size:15px;line-height:1.65">' + body +
           '<p style="margin:26px 0 0">Warm regards,<br>' +
              '<strong>Team EduAakashaa</strong><br>' +
-             '<span style="color:#5A6278;font-size:13px">Coimbatore, India &middot; Dubai, UAE</span></p>' +
+             '<span style="color:#5A6278;font-size:13px">Coimbatore, India</span></p>' +
         '</div>' +
 
         // footer
         '<div style="padding:18px 28px;background:#FBF7EE;border-top:1px solid #E8DFC8;' +
                     'color:#5A6278;font-size:12px;line-height:1.7">' +
           '<strong style="color:#0E1B3D">EduAakashaa</strong> &middot; Evidence-based college guidance<br>' +
-          'WhatsApp (India): ' + esc(WA_IN) + ' &middot; UAE: ' + esc(PH_UAE) + '<br>' +
+          'WhatsApp: ' + esc(WA_IN) + '<br>' +
           '<a href="' + SITE + '" style="color:#0E3A8A">' + SITE.replace('https://', '') + '</a>' +
           ' &middot; Sent from ' + esc(SENDER) +
         '</div>' +

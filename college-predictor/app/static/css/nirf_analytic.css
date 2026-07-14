@@ -319,7 +319,7 @@
   width:450px;height:450px;border-radius:50%;
   background:radial-gradient(circle,rgba(255,107,10,.10) 0%,transparent 65%);
 }
-.ported .footer-grid {display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:40px;position:relative;z-index:2}
+.ported .footer-grid {display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px;position:relative;z-index:2}
 .ported .footer-brand .brand-name {color:#fff;font-size:24px}
 .ported .footer-brand p {color:rgba(255,255,255,.6);margin-top:18px;font-size:15px;line-height:1.6;max-width:300px}
 .ported .footer-col h5 {font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.2em;color:var(--orange);margin-bottom:18px;font-weight:500}

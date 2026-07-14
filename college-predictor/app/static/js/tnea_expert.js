@@ -1109,7 +1109,7 @@ Colleges in your community (${COMM_LABEL[DASH.community]}) ranked 1 to ${totalRa
 *This report was generated from official TNEA 2025 cutoff data. 2026 cutoffs may shift by 1-2 marks. Cross-verify against tneaonline.org before final choice filling.*
 
 `;
-  md += `**EduAakashaa** · Coimbatore · Dubai · www.eduaakashaa.in · +91 80157 22706
+  md += `**EduAakashaa** · Coimbatore · www.eduaakashaa.in · +91 80157 22706
 `;
 
   return md;
@@ -3144,7 +3144,6 @@ function generatePDFReport(opts){
     <div class="rpt-footer-block">
       <strong>Reach Us</strong>
       <a href="tel:+918015722706">+91 80157 22706 (India)</a>
-      <a href="tel:+971505168081">+971 50 516 8081 (UAE)</a>
       <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
       <a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a>
     </div>
@@ -3153,7 +3152,7 @@ function generatePDFReport(opts){
       <span>Mon – Fri · 9:00 – 22:00</span>
       <span>Saturday · 9:00 – 16:00</span>
       <span>Sunday · 9:00 – 16:00</span>
-      <span>Coimbatore, TN · Dubai, UAE</span>
+      <span>Coimbatore, TN</span>
     </div>
     <div class="rpt-footer-block">
       <strong>Stay Connected</strong>
@@ -3217,12 +3216,11 @@ function generateExcelReport(){
     [''],
     ['─── EduAakashaa Contact ───'],
     ['India',     '+91 80157 22706'],
-    ['UAE',       '+971 50 516 8081'],
     ['Email',     'info@eduaakashaa.com'],
     ['Website',   'www.eduaakashaa.in'],
     ['WhatsApp',  'https://wa.me/918015722706'],
     ['Hours',     'Mon–Fri 9:00–22:00 · Sat & Sun 9:00–16:00'],
-    ['Locations', 'Coimbatore, Tamil Nadu · Dubai, UAE'],
+    ['Locations', 'Coimbatore, Tamil Nadu'],
     [''],
     ['📞 Book a free 30-minute counselling call — we will review this report with you.'],
   ];

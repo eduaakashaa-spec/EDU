@@ -133,7 +133,7 @@ def _save(role):
 # confirmation email (fired on submit; needs SMTP configured — see mailer.py)
 # --------------------------------------------------------------------------- #
 def _brand_shell(body_html):
-    from app.services.email_templates import LOGO_URL, WHATSAPP_NUMBER, PHONE_UAE
+    from app.services.email_templates import LOGO_URL, WHATSAPP_NUMBER
     return (
         '<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;'
         'border:1px solid #e8dfc8;border-radius:12px;overflow:hidden">'
@@ -143,7 +143,7 @@ def _brand_shell(body_html):
         + body_html +
         '</div><div style="padding:16px 24px;background:#FBF7EE;color:#5A6278;font-size:12px;'
         'border-top:1px solid #e8dfc8">EduAakashaa · Guidance for NRI &amp; Indian engineering '
-        'aspirants · WhatsApp ' + WHATSAPP_NUMBER + ' · ' + PHONE_UAE + '</div></div>')
+        'aspirants · WhatsApp ' + WHATSAPP_NUMBER + '</div></div>')
 
 
 def _send_confirmation(sub):

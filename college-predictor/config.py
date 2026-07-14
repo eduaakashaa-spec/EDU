@@ -63,7 +63,6 @@ class Config:
         'GSTIN': os.environ.get('GSTIN', ''),
         'ADDRESS': os.environ.get('COMPANY_ADDRESS', 'Palani, Tamil Nadu 624615, India'),
         'PHONE_IN': os.environ.get('PHONE_IN', '+91 80157 22706'),
-        'PHONE_UAE': os.environ.get('PHONE_UAE', '+971 50 516 8081'),
         'EMAIL': os.environ.get('ADMIN_EMAIL', 'info@eduaakashaa.com'),
         'WEBSITE': 'www.eduaakashaa.in',
         'LOGO_URL': os.environ.get('LOGO_URL', ''),

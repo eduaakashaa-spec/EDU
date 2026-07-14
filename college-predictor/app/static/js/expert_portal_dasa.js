@@ -2488,10 +2488,6 @@ function printNRIChecklist() {
           <div class="nri-pf-channel-value">+91 80157 22706</div>
         </div>
         <div class="nri-pf-channel">
-          <div class="nri-pf-channel-label">WhatsApp UAE</div>
-          <div class="nri-pf-channel-value">+971 50 516 8081</div>
-        </div>
-        <div class="nri-pf-channel">
           <div class="nri-pf-channel-label">Email</div>
           <div class="nri-pf-channel-value">info@eduaakashaa.com</div>
         </div>
@@ -2511,8 +2507,8 @@ function printNRIChecklist() {
       <div class="nri-pf-brand">
         <img src="${EDUAAKASHAA_LOGO}" alt="EduAakashaa">
         <div>
-          <b>EduAakashaa</b> &middot; Coimbatore, Tamil Nadu &middot; Dubai, UAE<br>
-          <span>Mon&ndash;Fri 9:00&ndash;22:00 &middot; Sat &amp; Sun 9:00&ndash;16:00 (IST/GST)</span>
+          <b>EduAakashaa</b> &middot; Coimbatore, Tamil Nadu<br>
+          <span>Mon&ndash;Fri 9:00&ndash;22:00 &middot; Sat &amp; Sun 9:00&ndash;16:00 (IST)</span>
         </div>
       </div>
       <div class="nri-pf-disc">
@@ -2677,9 +2673,9 @@ function printPDF(scope) {
       </div>
     </div>
     <div class="pf-contact">
-      <div><b>India:</b> +91 80157 22706 &nbsp;&middot;&nbsp; <b>UAE:</b> +971 50 516 8081</div>
+      <div><b>India:</b> +91 80157 22706</div>
       <div><b>Email:</b> info@eduaakashaa.com &nbsp;&middot;&nbsp; <b>Web:</b> www.eduaakashaa.in</div>
-      <div style="margin-top:3px;">Coimbatore, Tamil Nadu &nbsp;&middot;&nbsp; Dubai, UAE &nbsp;&middot;&nbsp; Mon&ndash;Fri 9:00&ndash;22:00 &middot; Sat &amp; Sun 9:00&ndash;16:00</div>
+      <div style="margin-top:3px;">Coimbatore, Tamil Nadu &nbsp;&middot;&nbsp; Mon&ndash;Fri 9:00&ndash;22:00 &middot; Sat &amp; Sun 9:00&ndash;16:00</div>
     </div>
   `;
 
@@ -2806,7 +2802,7 @@ function submitRegister(e) {
   const data = Object.fromEntries(new FormData(e.target).entries());
   // Build WhatsApp deep-link as the primary send method (no backend)
   const msg = `Hello EduAakashaa team,%0A%0AI'd like a DASA Choice Matrix review.%0A%0AStudent: ${encodeURIComponent(data.name||'')}%0APhone: ${encodeURIComponent(data.phone||'')}%0AEmail: ${encodeURIComponent(data.email||'')}%0ACRL: ${encodeURIComponent(data.rank||'')}%0ABranch: ${encodeURIComponent(data.branch||'')}%0ANotes: ${encodeURIComponent(data.notes||'')}`;
-  window.open('https://wa.me/971505168081?text=' + msg, '_blank');
+  window.open('https://wa.me/918015722706?text=' + msg, '_blank');
   showToast('Opening WhatsApp — send the message to register', 'success', 3000);
   return false;
 }

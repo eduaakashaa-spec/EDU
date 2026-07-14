@@ -541,7 +541,7 @@ html+=`<div class="page">
 <div class="info-item"><strong>Total:</strong> ${document.getElementById('cnt-total').textContent} matches</div>
 </div>
 
-<div class="footer"><div>India: +91 8015722706 &middot; UAE: +971 50 516 8081</div><div><a href="https://eduaakashaa.in">www.eduaakashaa.in</a> &middot; info@eduaakashaa.com</div></div>
+<div class="footer"><div>India: +91 8015722706</div><div><a href="https://eduaakashaa.in">www.eduaakashaa.in</a> &middot; info@eduaakashaa.com</div></div>
 </div>`;
 
 // PAGE 2: Top 30 Recommendations
@@ -557,7 +557,7 @@ html+=`<tr><td style="font-weight:700;color:#FF6B0A">${i+1}</td><td style="font-
 });
 html+=`</tbody></table>
 <div class="tip"><strong>Important:</strong> Always type the 4-digit college code first on the TNEA portal. Confirm the autofilled name matches. 9 colleges are named "Government College of Engineering" across TN - verify the district.</div>
-<div class="footer"><div>India: +91 8015722706 &middot; UAE: +971 50 516 8081</div><div><a href="https://eduaakashaa.in">www.eduaakashaa.in</a> &middot; info@eduaakashaa.com</div></div>
+<div class="footer"><div>India: +91 8015722706</div><div><a href="https://eduaakashaa.in">www.eduaakashaa.in</a> &middot; info@eduaakashaa.com</div></div>
 </div>`;
 
 // PAGE 3: Do's, Don'ts, Strategy
@@ -595,7 +595,7 @@ html+=`<div class="page pagebreak">
 <div class="dont">Don't blindly trust any AI tool - always verify with official data and a counsellor</div>
 <div class="dont">Don't submit without reviewing with a parent or mentor - fresh eyes catch mistakes</div>
 
-<div class="footer"><div>India: +91 8015722706 &middot; UAE: +971 50 516 8081</div><div><a href="https://eduaakashaa.in">www.eduaakashaa.in</a> &middot; info@eduaakashaa.com</div></div>
+<div class="footer"><div>India: +91 8015722706</div><div><a href="https://eduaakashaa.in">www.eduaakashaa.in</a> &middot; info@eduaakashaa.com</div></div>
 </div>`;
 
 // PAGE 4: Checklist + Expert Guidance CTA
@@ -628,18 +628,18 @@ html+=`<div class="page pagebreak">
 <p>For complete TNEA 2026 choice filling support with a dedicated counsellor, register with EduAakashaA.</p>
 <div class="price" style="position:relative;z-index:1">Rs. 5,000 <span style="font-size:14px;opacity:.6;text-decoration:line-through">Rs. 8,000</span></div>
 <p style="position:relative;z-index:1"><strong>What you get:</strong> Personalised 6-page report + 30-min counsellor session + Choice list review (code-by-code) + Allotment day support + Round 2/3 guidance</p>
-<p style="margin-top:10px;position:relative;z-index:1"><strong>Contact:</strong> +91 8015722706 (India) | +971 50 516 8081 (UAE)</p>
+<p style="margin-top:10px;position:relative;z-index:1"><strong>Contact:</strong> +91 8015722706 (India)</p>
 <p style="position:relative;z-index:1"><strong>Register:</strong> www.eduaakashaa.in | info@eduaakashaa.com</p>
 <p style="position:relative;z-index:1"><strong>WhatsApp:</strong> https://whatsapp.com/channel/0029VbBxOWUKwqSYpWBgge1x</p>
 </div>
 
 <div style="text-align:center;margin-top:20px;padding:16px;background:#FBF7EE;border-radius:14px;border:1.5px solid #E8DFC8">
-<div style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#FF6B0A;margin-bottom:4px">EduAakashaA &middot; Coimbatore &middot; Dubai</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#FF6B0A;margin-bottom:4px">EduAakashaA &middot; Coimbatore</div>
 <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:#071A44">Guiding students towards the right future</div>
 <div style="font-size:11px;color:#5A6278;margin-top:4px">Mon-Fri 9:00-22:00 | Sat &amp; Sun 9:00-16:00</div>
 </div>
 
-<div class="footer"><div>India: +91 8015722706 &middot; UAE: +971 50 516 8081</div><div><a href="https://eduaakashaa.in">www.eduaakashaa.in</a> &middot; info@eduaakashaa.com</div></div>
+<div class="footer"><div>India: +91 8015722706</div><div><a href="https://eduaakashaa.in">www.eduaakashaa.in</a> &middot; info@eduaakashaa.com</div></div>
 </div>`;
 
 html+=`</body></html>`;
