@@ -18,8 +18,8 @@ Every route requires the admin tier (same RBAC as the rest of /admin).
 """
 from datetime import datetime, timedelta, timezone
 
-from flask import (Blueprint, flash, redirect, render_template, request,
-                   url_for)
+from flask import (Blueprint, flash, jsonify, redirect, render_template,
+                   request, url_for)
 from flask_login import current_user
 
 from app.decorators import admin_required, safe_next
@@ -241,6 +241,37 @@ def home():
 # --------------------------------------------------------------------------- #
 def _users_url():
     return safe_next(request.form.get('next')) or url_for('membership.admin_users')
+
+
+@admin_portal_bp.route('/admin/templates/send', methods=['POST'])
+@admin_required
+def templates_send():
+    """Send a composed template straight from the portal.
+
+    The composer already renders the final subject/text/html client-side (fills
+    the {placeholders} and wraps the body in the branded shell), so it posts that
+    finished email here rather than duplicating the templating server-side.
+    Sends synchronously so the admin gets a real success/failure, not a maybe."""
+    data = request.get_json(silent=True) or {}
+    to = (data.get('to') or '').strip()[:200]
+    subject = (data.get('subject') or '').strip()[:300]
+    text = (data.get('text') or '')[:100_000]
+    html = (data.get('html') or '')[:400_000]
+
+    if '@' not in to or '.' not in to.rsplit('@', 1)[-1]:
+        return jsonify({'ok': False, 'error': 'Enter a valid recipient email address.'}), 400
+    if not subject:
+        return jsonify({'ok': False, 'error': 'This email has no subject.'}), 400
+    if not (text or html):
+        return jsonify({'ok': False, 'error': 'This email has no body.'}), 400
+    if not mailer.is_configured():
+        return jsonify({'ok': False, 'error': 'No email transport configured — set '
+                                              'RESEND_API_KEY (see Broadcast → Email Test).'}), 503
+    try:
+        mailer.send_now(to, subject, text or ' ', html or None)
+    except Exception as exc:
+        return jsonify({'ok': False, 'error': f'{type(exc).__name__}: {exc}'}), 502
+    return jsonify({'ok': True, 'to': to, 'via': mailer.transport()})
 
 
 @admin_portal_bp.route('/admin/email-test', methods=['GET', 'POST'])
@@ -666,8 +697,13 @@ def templates():
     for t in EMAIL_TEMPLATES:
         if t['category'] not in categories:
             categories.append(t['category'])
+    # what "Send now" will actually send as, so the page can't promise a sender
+    # that isn't configured
+    st = mailer.config_status()
+    mail_from = st['mail_from'] if st['transport'] == 'resend' else st['from']
     return render_template('admin/templates.html', admin_tab='templates',
                            email_templates=EMAIL_TEMPLATES, categories=categories,
                            recipients=_recipient_directory(), sender=SENDER_EMAIL,
                            logo_url=LOGO_URL, site=SITE,
-                           whatsapp=WHATSAPP_NUMBER, phone_uae=PHONE_UAE)
+                           whatsapp=WHATSAPP_NUMBER, phone_uae=PHONE_UAE,
+                           mail_from=mail_from, can_send=st['configured'])

@@ -108,11 +108,21 @@
       <button type="button" class="mini" id="btnCopySubject">copy</button></div>
 
     <div class="tpl-actions">
-      <button type="button" class="btn btn-navy" id="btnGmail">✉️ Open in Gmail</button>
+      <button type="button" class="btn btn-navy" id="btnSend">📤 Send now</button>
+      <button type="button" class="btn btn-ghost" id="btnGmail">✉️ Open in Gmail</button>
       <button type="button" class="btn btn-ghost" id="btnMailto">Open in mail app</button>
       <button type="button" class="btn btn-ghost" id="btnCopyHtml">Copy formatted email</button>
       <button type="button" class="btn btn-ghost" id="btnCopyText">Copy plain text</button>
     </div>
+    <p class="sub" id="cSendHint" style="margin-top:-4px;">
+      {% if can_send %}
+      <strong>Send now</strong> delivers this exact email (formatting and all) from
+      <strong>{{ mail_from }}</strong> — no Gmail step. The other buttons still open a draft instead.
+      {% else %}
+      <span style="color:var(--red);"><strong>Send now</strong> is unavailable — no email transport is
+      configured. See <a href="{{ url_for('admin_portal.email_test') }}">Email Test</a>.</span>
+      {% endif %}
+    </p>
 
     <div class="tpl-preview-wrap">
       <div class="cap">Preview — exactly what the recipient sees</div>
@@ -374,14 +384,38 @@
   });
 
   var toastEl = document.getElementById('tplToast'), toastT;
-  function toast(msg) {
+  function toast(msg, ms) {
     toastEl.textContent = msg; toastEl.classList.add('show');
-    clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove('show'); }, 2200);
+    clearTimeout(toastT); toastT = setTimeout(function () { toastEl.classList.remove('show'); }, ms || 2200);
   }
   function needTo() {
     if (!recipient()) { toast('Enter a recipient email first'); document.getElementById('tf___to').focus(); return false; }
     return true;
   }
+
+  // Send straight from the portal. Posts the already-rendered email (subject +
+  // plain text + branded html) and reports the real result — this actually
+  // delivers, so it asks first.
+  var btnSend = document.getElementById('btnSend');
+  btnSend.addEventListener('click', function () {
+    if (!needTo()) return;
+    if (!confirm('Send this email now?\n\nTo: ' + recipient() + '\nSubject: ' + subject())) return;
+    var label = btnSend.textContent;
+    btnSend.disabled = true; btnSend.textContent = 'Sending…';
+    fetch('{{ url_for("admin_portal.templates_send") }}', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ to: recipient(), subject: subject(),
+                             text: textBody(), html: htmlBody() })
+    })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d.ok) toast('✅ Sent to ' + res.d.to);
+        else toast('❌ ' + (res.d.error || 'Send failed'), 7000);
+      })
+      .catch(function () { toast('❌ Send failed — network error', 7000); })
+      .finally(function () { btnSend.disabled = false; btnSend.textContent = label; });
+  });
 
   document.getElementById('btnGmail').addEventListener('click', function () {
     if (!needTo()) return;
