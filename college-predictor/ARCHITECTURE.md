@@ -707,9 +707,11 @@ class Config:
 - **Render env:** `SECRET_KEY` auto-generated, `FLASK_DEBUG=0`, `DATABASE_URL` dashboard-set,
   `R2_ENDPOINT`/`R2_ACCESS_KEY_ID`/`R2_SECRET_ACCESS_KEY`/`R2_BUCKET` for private resume +
   document storage (Cloudflare R2, Object Read & Write token scoped to the `eduaakashaa` bucket);
-  **`RESEND_API_KEY` + `MAIL_FROM`** for all automated email — Render's free tier **blocks outbound
-  SMTP** (`Network is unreachable` to smtp.gmail.com:587), so production sends via the Resend HTTP
-  API over 443; `services/mailer.py` falls back to `SMTP_*` only for local dev. Diagnose at
+  **`RESEND_API_KEY` + `MAIL_FROM=noreply@eduaakashaa.com`** for all automated email — Render's free
+  tier **blocks outbound SMTP** (`Network is unreachable` to smtp.gmail.com:587), so production sends
+  via the Resend HTTP API over 443 (sending domain `eduaakashaa.com`, verified via DNS in the
+  Microsoft 365 admin center). `MAIL_TRANSPORT` forces a transport (`smtp` once the instance is
+  upgraded); unset = auto. `SMTP_*` stays configured as the dormant fallback. Diagnose at
   `/admin/email-test`. `DOC_NOTIFY_EMAIL` (default `eduaakashaa@gmail.com`) = where "documents
   submitted" notifications go.
 - **Keep-alive:** Render free spins down after ~15 min idle. `/ping` (lightweight, no DB) +
