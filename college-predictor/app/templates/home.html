@@ -27,6 +27,25 @@
 #main-content, .main-content{ background:var(--void, #04091C); }
 .footer{ margin-top:0; }
 
+/* Flash bar (login/logout/form) → dark-glass toast on this dark page, so it
+   matches the hero instead of a light box + cream strip. Scoped to the homepage;
+   other (cream) pages keep the default flash styling. Vars below are literal
+   because .global-flash sits outside the .hx scope. */
+.global-flash{ position:fixed; top:134px; right:20px; left:auto; width:min(360px,calc(100vw - 40px));
+  max-width:none; margin:0; padding:0; z-index:60; pointer-events:none; }
+.global-flash__item{ background:rgba(10,18,42,.72); border:1px solid rgba(251,247,238,.16);
+  border-left:3px solid #FF6B0A; color:#EDF0FC; border-radius:12px; padding:13px 18px;
+  font-weight:600; font-size:.9rem; backdrop-filter:blur(14px) saturate(140%);
+  box-shadow:0 16px 40px rgba(0,0,0,.4); pointer-events:auto;
+  animation:hxFlash .45s cubic-bezier(.2,.7,.2,1) both, hxFlashOut .5s ease 4.6s forwards; }
+.global-flash__item--success{ border-left-color:#3ECF8E; }
+.global-flash__item--danger{ border-left-color:#FF5A5A; }
+.global-flash__item--info{ border-left-color:#0E3A8A; }
+@keyframes hxFlash{ from{ opacity:0; transform:translateX(24px); } to{ opacity:1; transform:none; } }
+@keyframes hxFlashOut{ to{ opacity:0; transform:translateX(24px); visibility:hidden; } }
+@media (max-width:640px){ .global-flash{ top:128px; right:12px; } }
+@media (prefers-reduced-motion:reduce){ .global-flash__item{ animation:none; } }
+
 /* ---- page-scoped dark chrome for the global sticky header ---- */
 .header{ background:linear-gradient(180deg, rgba(4,9,28,.98) 0%, rgba(6,15,42,.94) 100%) !important;
   backdrop-filter:blur(16px) saturate(140%);
