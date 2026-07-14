@@ -26,6 +26,9 @@ from app.extensions import db, bcrypt
 from app.models import (AlumniProfile, Announcement, CollegeSurvey,
                         ContactInquiry, DasaLead, MentorMeeting, PageLead,
                         Payment, Prediction, ScheduleEvent, User)
+from app.services.email_templates import SITE, WHATSAPP_NUMBER
+from app.services.mailer import is_configured as mail_configured
+from app.services.mailer import send_async
 from app.models_membership import (APP_STATUSES, MembershipApplication,
                                    MembershipInvoice)
 from app.services.email_templates import (EMAIL_TEMPLATES, LOGO_URL, PHONE_UAE,
@@ -245,6 +248,41 @@ def _users_url():
     return url_for('membership.admin_users')
 
 
+def _email_new_member(user, password):
+    """Send a new member their login details. Best-effort (no-op without SMTP);
+    the admin-set password is emailed in plaintext so the member can sign in —
+    the account has no self-service flow otherwise."""
+    first = user.name.split(' ')[0] if user.name else 'there'
+    login_url = SITE + url_for('auth.login')
+    validity = ('No expiry' if user.tier_expires_at is None
+                else user.tier_expires_at.strftime('%d %b %Y'))
+    send_async(
+        user.email,
+        'Your EduAakashaa account is ready 🎓',
+        (f"Hi {first},\n\nAn EduAakashaa account has been created for you. Here are your "
+         f"login details:\n\n"
+         f"  Login page : {login_url}\n"
+         f"  Email      : {user.email}\n"
+         f"  Password   : {password}\n"
+         f"  Plan       : {user.tier.capitalize()}\n"
+         f"  Valid until: {validity}\n\n"
+         f"Please keep this email safe. For any help, WhatsApp us at {WHATSAPP_NUMBER}.\n\n"
+         f"— Team EduAakashaa"),
+        (f"<p>Hi {first},</p><p>An <strong>EduAakashaa</strong> account has been created for "
+         f"you. Here are your login details:</p>"
+         "<table style='border-collapse:collapse;font-size:14px'>"
+         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Login page</td><td><a href='{login_url}'>{login_url}</a></td></tr>"
+         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Email</td><td><strong>{user.email}</strong></td></tr>"
+         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Password</td><td><strong>{password}</strong></td></tr>"
+         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Plan</td><td>{user.tier.capitalize()}</td></tr>"
+         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Valid until</td><td>{validity}</td></tr>"
+         "</table>"
+         f"<p style='margin:22px 0'><a href='{login_url}' style='background:#0E3A8A;color:#fff;"
+         "text-decoration:none;padding:12px 26px;border-radius:8px;font-weight:700'>Log in →</a></p>"
+         f"<p style='color:#666;font-size:13px'>Please keep this email safe. Need help? "
+         f"WhatsApp us at {WHATSAPP_NUMBER}.</p><p>— Team EduAakashaa</p>"))
+
+
 @admin_portal_bp.route('/admin/users/add', methods=['POST'])
 @admin_required
 def user_add():
@@ -253,6 +291,7 @@ def user_add():
     tier = request.form.get('tier') or 'free'
     password = request.form.get('password') or ''
     expires = _parse_expiry(request.form.get('tier_expires_at'))
+    notify = request.form.get('notify') == '1'   # "Email login details" checkbox (checked by default)
 
     if not name or not email:
         flash('Name and email are required.', 'danger')
@@ -271,7 +310,13 @@ def user_add():
                 password_hash=bcrypt.generate_password_hash(password).decode())
     db.session.add(user)
     db.session.commit()
-    flash(f'Member {name} ({email}) created on the {tier} tier.', 'success')
+
+    msg = f'Member {name} ({email}) created on the {tier} tier.'
+    if notify:
+        _email_new_member(user, password)
+        msg += (' Login details emailed.' if mail_configured()
+                else ' (Email not sent — SMTP is not configured.)')
+    flash(msg, 'success')
     return redirect(_users_url())
 
 

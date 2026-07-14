@@ -41,6 +41,10 @@
       </div>
       <div><label>Valid until (optional)</label><input name="tier_expires_at" type="date"></div>
       <div><label>Password (min 6)</label><input name="password" type="text" required minlength="6" autocomplete="off"></div>
+      <div style="display:flex; align-items:center; gap:8px; align-self:end; padding-bottom:9px;">
+        <input type="checkbox" name="notify" value="1" id="uNotify" checked>
+        <label for="uNotify" style="margin:0; text-transform:none; letter-spacing:0; font-size:13px; color:var(--ink);">Email login details</label>
+      </div>
       <div><button class="btn btn-navy" type="submit">Create member</button></div>
     </form>
   </div>
