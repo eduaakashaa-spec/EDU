@@ -304,6 +304,13 @@ def email_test():
                            status=mailer.config_status())
 
 
+def _kv(label, value_html, last=False):
+    """One row of the little key/value card used in transactional emails."""
+    edge = '' if last else 'border-bottom:1px solid #EFE7D4;'
+    return (f"<tr><td style='padding:9px 14px;{edge}color:#5A6278;white-space:nowrap'>{label}</td>"
+            f"<td style='padding:9px 14px;{edge}color:#0E1B3D'>{value_html}</td></tr>")
+
+
 def _email_new_member(user, password):
     """Send a new member their login details. Best-effort (no-op without SMTP);
     the admin-set password is emailed in plaintext so the member can sign in —
@@ -324,19 +331,24 @@ def _email_new_member(user, password):
          f"  Valid until: {validity}\n\n"
          f"Please keep this email safe. For any help, WhatsApp us at {WHATSAPP_NUMBER}.\n\n"
          f"— Team EduAakashaa"),
-        (f"<p>Hi {first},</p><p>An <strong>EduAakashaa</strong> account has been created for "
-         f"you. Here are your login details:</p>"
-         "<table style='border-collapse:collapse;font-size:14px'>"
-         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Login page</td><td><a href='{login_url}'>{login_url}</a></td></tr>"
-         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Email</td><td><strong>{user.email}</strong></td></tr>"
-         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Password</td><td><strong>{password}</strong></td></tr>"
-         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Plan</td><td>{user.tier.capitalize()}</td></tr>"
-         f"<tr><td style='padding:4px 12px 4px 0;color:#666'>Valid until</td><td>{validity}</td></tr>"
-         "</table>"
-         f"<p style='margin:22px 0'><a href='{login_url}' style='background:#0E3A8A;color:#fff;"
-         "text-decoration:none;padding:12px 26px;border-radius:8px;font-weight:700'>Log in →</a></p>"
-         f"<p style='color:#666;font-size:13px'>Please keep this email safe. Need help? "
-         f"WhatsApp us at {WHATSAPP_NUMBER}.</p><p>— Team EduAakashaa</p>"))
+        branded_shell(
+            f"<p style='margin:0 0 6px'>Hi {escape(first)},</p>"
+            "<p style='margin:0 0 18px'>An <strong>EduAakashaa</strong> account has been "
+            "created for you. Here are your login details:</p>"
+            "<table role='presentation' cellpadding='0' cellspacing='0' "
+            "style='border-collapse:collapse;width:100%;font-size:13.5px;"
+            "background:#FBF7EE;border:1px solid #E8DFC8;border-radius:10px'>"
+            + _kv('Email', f'<strong>{escape(user.email)}</strong>')
+            + _kv('Password', f"<strong style='font-family:monospace;font-size:14px'>"
+                              f"{escape(password)}</strong>")
+            + _kv('Plan', escape(user.tier.capitalize()))
+            + _kv('Valid until', escape(validity), last=True)
+            + "</table>"
+            f"<p style='margin:24px 0 8px'><a href='{login_url}' style='background:#FF6B0A;"
+            "color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:999px;"
+            "font-weight:700;font-size:14px;display:inline-block'>Log in →</a></p>"
+            "<p style='margin:14px 0 0;font-size:12.5px;color:#5A6278'>Please keep this email "
+            f"safe. Need help? WhatsApp us at {WHATSAPP_NUMBER}.</p>"))
 
 
 @admin_portal_bp.route('/admin/users/add', methods=['POST'])

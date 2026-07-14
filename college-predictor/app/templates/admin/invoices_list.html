@@ -29,8 +29,18 @@
     <div class="adm-kpi"><div class="n">₹{{ stats.due|inr }}</div><div class="l">Outstanding</div></div>
   </div>
 
+  <p style="color:var(--muted); font-size:13.5px; margin:-6px 0 14px;">
+    Every invoice the business has issued — standalone invoices and membership-application
+    invoices, in one list. They share a single <code>EA/NNNN</code> number series.
+  </p>
+
   <form class="adm-bar" method="get" action="{{ url_for('invoices.admin_list') }}">
     <input type="text" name="q" value="{{ q }}" placeholder="Search invoice no, name or email…" style="flex:1; min-width:200px;">
+    <select name="source">
+      <option value="">All sources</option>
+      <option value="Invoice" {{ 'selected' if source == 'Invoice' }}>Standalone</option>
+      <option value="Membership" {{ 'selected' if source == 'Membership' }}>Membership</option>
+    </select>
     <select name="status">
       <option value="">All statuses</option>
       {% for s in statuses %}<option value="{{ s }}" {{ 'selected' if status == s }}>{{ s }}</option>{% endfor %}
@@ -41,39 +51,42 @@
 
   <div class="adm-table-wrap">
     <table class="adm-table">
-      <thead><tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Total</th><th>Status</th><th></th></tr></thead>
+      <thead><tr><th>Invoice</th><th>Date</th><th>Customer</th><th>Source</th><th>Total</th><th>Status</th><th></th></tr></thead>
       <tbody>
-        {% for inv in rows %}
+        {% for r in rows %}
         <tr>
-          <td><strong>{{ inv.invoice_no }}</strong></td>
-          <td>{{ inv.invoice_date.strftime('%d %b %Y') if inv.invoice_date }}</td>
-          <td>{{ inv.customer_name }}<div style="color:var(--muted); font-size:12px;">{{ inv.customer_email or '—' }}</div></td>
-          <td>₹{{ inv.total|inr }}</td>
+          <td><strong>{{ r.no or '—' }}</strong></td>
+          <td>{{ r.date.strftime('%d %b %Y') if r.date }}</td>
+          <td>{{ r.customer }}<div style="color:var(--muted); font-size:12px;">{{ r.email or '—' }}</div></td>
           <td>
-            {% if inv.payment_status == 'Paid' %}<span class="pill pill-premium">Paid</span>
-            {% elif inv.payment_status == 'Partially Paid' %}<span class="pill s-Approved">Partial</span>
+            {% if r.source == 'Membership' %}<span class="pill s-New">Membership</span>
+            {% else %}<span class="pill pill-admin">Standalone</span>{% endif %}
+          </td>
+          <td>₹{{ r.total|inr }}</td>
+          <td>
+            {% if r.status == 'Paid' %}<span class="pill pill-premium">Paid</span>
+            {% elif r.status == 'Partially Paid' %}<span class="pill s-Approved">Partial</span>
             {% else %}<span class="pill pill-expired">Unpaid</span>{% endif %}
           </td>
-          <td><a class="ref" href="{{ url_for('invoices.admin_detail', inv_id=inv.id) }}">Open →</a></td>
+          <td><a class="ref" href="{{ r.url }}">Open →</a></td>
         </tr>
         {% else %}
-        <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">
-          No invoices yet. <a href="{{ url_for('invoices.admin_new') }}">Create the first one →</a>
+        <tr><td colspan="7" style="text-align:center; padding:40px; color:var(--muted);">
+          {% if q or status or source %}No invoices match that filter.
+            <a href="{{ url_for('invoices.admin_list') }}">Clear →</a>
+          {% else %}No invoices yet. <a href="{{ url_for('invoices.admin_new') }}">Create the first one →</a>{% endif %}
         </td></tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 
-  {% if pagination.pages > 1 %}
+  {% if pager.pages > 1 %}
   <div class="adm-pager">
-    {% if pagination.has_prev %}<a href="{{ url_for('invoices.admin_list', page=pagination.prev_num, q=q, status=status) }}">‹ Prev</a>{% endif %}
-    {% for p in pagination.iter_pages() %}
-      {% if p %}{% if p == pagination.page %}<span class="cur">{{ p }}</span>
-        {% else %}<a href="{{ url_for('invoices.admin_list', page=p, q=q, status=status) }}">{{ p }}</a>{% endif %}
-      {% else %}<span>…</span>{% endif %}
-    {% endfor %}
-    {% if pagination.has_next %}<a href="{{ url_for('invoices.admin_list', page=pagination.next_num, q=q, status=status) }}">Next ›</a>{% endif %}
+    {% if pager.has_prev %}<a href="{{ url_for('invoices.admin_list', page=pager.prev_num, q=q, status=status, source=source) }}">‹ Prev</a>{% endif %}
+    <span class="cur">{{ pager.page }}</span>
+    <span style="color:var(--muted);">of {{ pager.pages }} · {{ pager.total }} invoices</span>
+    {% if pager.has_next %}<a href="{{ url_for('invoices.admin_list', page=pager.next_num, q=q, status=status, source=source) }}">Next ›</a>{% endif %}
   </div>
   {% endif %}
 

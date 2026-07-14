@@ -133,17 +133,10 @@ def _save(role):
 # confirmation email (fired on submit; needs SMTP configured — see mailer.py)
 # --------------------------------------------------------------------------- #
 def _brand_shell(body_html):
-    from app.services.email_templates import LOGO_URL, WHATSAPP_NUMBER
-    return (
-        '<div style="font-family:Arial,Helvetica,sans-serif;max-width:560px;margin:0 auto;'
-        'border:1px solid #e8dfc8;border-radius:12px;overflow:hidden">'
-        '<div style="background:#0E3A8A;padding:18px 24px;text-align:center">'
-        '<img src="%s" alt="EduAakashaa" height="34" style="height:34px">' % LOGO_URL
-        + '</div><div style="padding:24px;color:#0E1B3D;font-size:15px;line-height:1.6">'
-        + body_html +
-        '</div><div style="padding:16px 24px;background:#FBF7EE;color:#5A6278;font-size:12px;'
-        'border-top:1px solid #e8dfc8">EduAakashaa · Guidance for NRI &amp; Indian engineering '
-        'aspirants · WhatsApp ' + WHATSAPP_NUMBER + '</div></div>')
+    """Kept as a thin alias so this module's callers don't change — every email
+    now renders through the single shared shell (see email_templates)."""
+    from app.services.email_templates import branded_shell
+    return branded_shell(body_html)
 
 
 def _send_confirmation(sub):

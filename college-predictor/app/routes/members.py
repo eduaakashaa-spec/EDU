@@ -30,7 +30,9 @@ from app.decorators import admin_required
 from app.extensions import db
 from app.models import DocVerification, MemberMeeting, User
 from app.services import r2
-from app.services.email_templates import SITE
+from markupsafe import escape
+
+from app.services.email_templates import SITE, branded_shell
 from app.services.mailer import send_async
 
 members_bp = Blueprint('members', __name__)
@@ -125,19 +127,40 @@ def _admin_doc_url(user_id):
     return SITE + url_for('members.admin_doc_detail', user_id=user_id)
 
 
+def _first(user):
+    return (user.name or '').strip().split(' ')[0] or 'there'
+
+
+def _cta(url, label):
+    """The one button style every transactional email uses."""
+    return (f"<p style='margin:24px 0 8px'><a href='{url}' style='background:#FF6B0A;"
+            "color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:999px;"
+            f"font-weight:700;font-size:14px;display:inline-block'>{label}</a></p>")
+
+
 def _email_docs_requested(user, doc_labels):
-    items = ''.join(f'<li>{d}</li>' for d in doc_labels)
+    items = ''.join(
+        f"<tr><td style='padding:9px 14px;border-bottom:1px solid #EFE7D4;color:#0E1B3D'>"
+        f"<span style='display:inline-block;width:5px;height:5px;border-radius:50%;"
+        f"background:#FF6B0A;margin-right:9px;vertical-align:middle'></span>"
+        f"{escape(d)}</td></tr>" for d in doc_labels)
     items_txt = '\n'.join(f'  • {d}' for d in doc_labels)
     send_async(
         user.email,
         'Action needed: upload your documents for verification',
-        (f"Hi {user.name.split(' ')[0]},\n\nOur team needs the following document(s) "
+        (f"Hi {_first(user)},\n\nOur team needs the following document(s) "
          f"to continue your admissions process:\n\n{items_txt}\n\n"
          f"Please log in and upload them here: {_profile_url()}\n\n— Team EduAakashaa"),
-        (f"<p>Hi {user.name.split(' ')[0]},</p><p>Our team needs the following "
-         f"document(s) to continue your admissions process:</p><ul>{items}</ul>"
-         f"<p><a href='{_profile_url()}'>Log in and upload your documents →</a></p>"
-         "<p>— Team EduAakashaa</p>"))
+        branded_shell(
+            f"<p style='margin:0 0 6px'>Hi {escape(_first(user))},</p>"
+            "<p style='margin:0 0 18px'>Our team needs the following document(s) to continue "
+            "your admissions process:</p>"
+            "<table role='presentation' cellpadding='0' cellspacing='0' "
+            "style='border-collapse:collapse;width:100%;font-size:13.5px;background:#FBF7EE;"
+            f"border:1px solid #E8DFC8;border-radius:10px'>{items}</table>"
+            + _cta(_profile_url(), 'Upload your documents →')
+            + "<p style='margin:14px 0 0;font-size:12.5px;color:#5A6278'>Log in with your "
+              "EduAakashaa account, then upload each file against its name.</p>"))
 
 
 def _email_docs_submitted(user, docs):
@@ -151,35 +174,45 @@ def _email_docs_submitted(user, docs):
 
 def _email_doc_reviewed(user, doc):
     approved = doc.status == 'Approved'
-    head = ('A document was approved ✅' if approved
-            else 'A document needs to be re-uploaded')
     note = (f"\n\nReviewer comment: {doc.admin_comment}" if doc.admin_comment else '')
     body = ("has been approved" if approved
             else "could not be verified and needs to be uploaded again")
+    chip = ('background:rgba(31,139,92,.14);color:#1F8B5C' if approved
+            else 'background:rgba(194,58,58,.10);color:#C23A3A')
     send_async(
         user.email,
         f'{doc.doc_type}: {"approved" if approved else "needs resubmission"}',
-        (f"Hi {user.name.split(' ')[0]},\n\nYour '{doc.doc_type}' {body}.{note}\n\n"
+        (f"Hi {_first(user)},\n\nYour '{doc.doc_type}' {body}.{note}\n\n"
          f"View status / re-upload: {_profile_url()}\n\n— Team EduAakashaa"),
-        (f"<p>Hi {user.name.split(' ')[0]},</p><p><strong>{head}</strong></p>"
-         f"<p>Your <strong>{doc.doc_type}</strong> {body}.</p>"
-         + (f"<p style='background:#faf3e0;padding:10px 14px;border-radius:8px'>"
-            f"<strong>Reviewer comment:</strong> {doc.admin_comment}</p>" if doc.admin_comment else '')
-         + f"<p><a href='{_profile_url()}'>View status / re-upload →</a></p>"
-         "<p>— Team EduAakashaa</p>"))
+        branded_shell(
+            f"<p style='margin:0 0 6px'>Hi {escape(_first(user))},</p>"
+            "<p style='margin:0 0 16px'>"
+            f"<span style='display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;"
+            f"border-radius:99px;{chip}'>{'Approved' if approved else 'Needs re-upload'}</span></p>"
+            f"<p style='margin:0 0 16px'>Your <strong>{escape(doc.doc_type)}</strong> {body}.</p>"
+            + (f"<p style='margin:0;background:#FBF7EE;border:1px solid #E8DFC8;border-left:3px "
+               f"solid #FF6B0A;padding:12px 14px;border-radius:8px;font-size:13.5px'>"
+               f"<strong>Reviewer comment</strong><br>{escape(doc.admin_comment)}</p>"
+               if doc.admin_comment else '')
+            + _cta(_profile_url(),
+                   'View status →' if approved else 'Re-upload the document →')))
 
 
 def _email_all_verified(user):
     send_async(
         user.email,
-        'All your documents are verified 🎉',
-        (f"Hi {user.name.split(' ')[0]},\n\nGreat news — every document we requested has "
+        'All your documents are verified',
+        (f"Hi {_first(user)},\n\nGreat news — every document we requested has "
          f"been verified. You're all set for the next step. Our team will be in touch.\n\n"
          f"— Team EduAakashaa"),
-        (f"<p>Hi {user.name.split(' ')[0]},</p><p>Great news — <strong>every document we "
-         "requested has been verified.</strong> You're all set for the next step; our team "
-         f"will be in touch.</p><p><a href='{_profile_url()}'>Open your profile →</a></p>"
-         "<p>— Team EduAakashaa</p>"))
+        branded_shell(
+            f"<p style='margin:0 0 6px'>Hi {escape(_first(user))},</p>"
+            "<p style='margin:0 0 16px'><span style='display:inline-block;font-size:11px;"
+            "font-weight:700;padding:3px 10px;border-radius:99px;"
+            "background:rgba(31,139,92,.14);color:#1F8B5C'>All verified</span></p>"
+            "<p style='margin:0'>Great news — <strong>every document we requested has been "
+            "verified.</strong> You're all set for the next step; our team will be in touch.</p>"
+            + _cta(_profile_url(), 'Open your profile →')))
 
 
 # --------------------------------------------------------------------------- #
