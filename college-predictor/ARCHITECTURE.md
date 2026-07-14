@@ -707,8 +707,11 @@ class Config:
 - **Render env:** `SECRET_KEY` auto-generated, `FLASK_DEBUG=0`, `DATABASE_URL` dashboard-set,
   `R2_ENDPOINT`/`R2_ACCESS_KEY_ID`/`R2_SECRET_ACCESS_KEY`/`R2_BUCKET` for private resume +
   document storage (Cloudflare R2, Object Read & Write token scoped to the `eduaakashaa` bucket);
-  `SMTP_*` for the document-verification emails; `DOC_NOTIFY_EMAIL` (default `eduaakashaa@gmail.com`)
-  = where "documents submitted" notifications go.
+  **`RESEND_API_KEY` + `MAIL_FROM`** for all automated email — Render's free tier **blocks outbound
+  SMTP** (`Network is unreachable` to smtp.gmail.com:587), so production sends via the Resend HTTP
+  API over 443; `services/mailer.py` falls back to `SMTP_*` only for local dev. Diagnose at
+  `/admin/email-test`. `DOC_NOTIFY_EMAIL` (default `eduaakashaa@gmail.com`) = where "documents
+  submitted" notifications go.
 - **Keep-alive:** Render free spins down after ~15 min idle. `/ping` (lightweight, no DB) +
   `.github/workflows/keepalive.yml` (GH Actions cron every 10 min) keeps it warm. One free
   service 24/7 ≈ 720–744 hrs/month, under Render's 750-hr free quota.

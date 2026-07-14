@@ -251,8 +251,9 @@ def email_test():
     if request.method == 'POST':
         to = (request.form.get('to') or '').strip() or current_user.email
         if not mailer.is_configured():
-            flash('SMTP is not configured — the app cannot see SMTP_HOST / SMTP_USER / '
-                  'SMTP_PASS. Check the Environment tab on your host.', 'danger')
+            flash('No email transport configured — set RESEND_API_KEY (production), or '
+                  'SMTP_HOST / SMTP_USER / SMTP_PASS (local dev). Check the Environment '
+                  'tab on your host.', 'danger')
             return redirect(url_for('admin_portal.email_test'))
         try:
             mailer.send_now(
