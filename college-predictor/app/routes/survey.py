@@ -29,6 +29,8 @@ from app.data.loader import get_branch_names, get_college_names
 from app.decorators import admin_required
 from app.extensions import db
 from app.models import CollegeSurvey
+from app.services.email_templates import SITE, render_email
+from app.services.mailer import notify_admin, send_async
 from app.services.queries import count_if
 
 survey_bp = Blueprint('survey', __name__)
@@ -260,6 +262,32 @@ def _render_form(form, done, code=200):
                            branch_options=get_branch_names()), code
 
 
+def _email_survey_thanks(survey):
+    """Thank the respondent (and nudge them to become a Guide) — the
+    'Thank you — Survey' template, sent automatically on submit."""
+    if not survey.email:
+        return
+    first = (survey.name or '').strip().split(' ')[0] or 'there'
+    subject, text, html = render_email(
+        'ty_survey', {'name': first, 'college': survey.institute or 'your college'})
+    send_async(survey.email, subject, text, html)
+
+
+def _notify_admin_survey(survey):
+    """Tell the team a survey came in, with the headline answers."""
+    link = SITE + url_for('survey.admin_list')
+    notify_admin(
+        f'New college survey — {survey.institute or "unknown college"}',
+        (f'{survey.name} ({survey.email or "no email"}) reviewed '
+         f'{survey.institute or "—"}.\n\n'
+         f'  Branch    : {survey.branch or "—"}\n'
+         f'  Batch     : {survey.batch or "—"}\n'
+         f'  Overall   : {survey.overall_rating or "—"}\n'
+         f'  Recommend : {survey.recommend_score if survey.recommend_score is not None else "—"}/10\n'
+         f'  Wants to guide: {"yes" if survey.wants_to_mentor else "no"}\n\n'
+         f'Read the full response: {link}'))
+
+
 @survey_bp.route('/college-survey', methods=['GET', 'POST'])
 def college_survey():
     if request.method == 'GET':
@@ -316,6 +344,8 @@ def college_survey():
     survey.responses_json = json.dumps(responses) if responses else None
     db.session.add(survey)
     db.session.commit()
+    _email_survey_thanks(survey)
+    _notify_admin_survey(survey)
     return redirect(url_for('survey.college_survey', done=1) + '#top')
 
 

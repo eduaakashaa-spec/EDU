@@ -10,6 +10,9 @@ Nothing is auto-sent: the admin opens a ready draft (Gmail compose / mailto)
 or copies the formatted email and pastes it into Gmail.
 """
 
+import html
+import re
+
 SENDER_EMAIL = 'eduaakashaa@gmail.com'
 WHATSAPP_NUMBER = '+91 80157 22706'
 PHONE_UAE = '+971 50 516 8081'
@@ -19,6 +22,63 @@ LOGO_URL = SITE + '/static/images/logo.png'
 
 def _f(key, label, default=''):
     return {'key': key, 'label': label, 'default': default}
+
+
+# --------------------------------------------------------------------------- #
+# Server-side rendering — lets routes auto-send these same templates instead of
+# duplicating the copy. The admin composer still renders client-side for live
+# preview; `branded_shell` below is the twin of wrapHtml() in
+# templates/admin/templates.html — change both together.
+# --------------------------------------------------------------------------- #
+def branded_shell(body_html):
+    """Wrap an email body in the standard chrome (logo header, accent bar,
+    signature, footer). Inline styles only — email clients strip <style>."""
+    return (
+        '<div style="background:#F1EADB;padding:26px 12px;font-family:Arial,Helvetica,sans-serif">'
+        '<div style="max-width:560px;margin:0 auto;background:#ffffff;border:1px solid #E8DFC8;'
+        'border-radius:16px;overflow:hidden">'
+        '<div style="background:#0E3A8A;padding:20px 28px">'
+        '<table role="presentation" cellpadding="0" cellspacing="0" style="border-collapse:collapse"><tr>'
+        f'<td style="vertical-align:middle;padding-right:12px"><img src="{LOGO_URL}" width="40" '
+        'height="40" alt="EduAakashaa" style="display:block;background:#ffffff;border-radius:10px;padding:3px"></td>'
+        '<td style="vertical-align:middle">'
+        '<div style="font-size:19px;font-weight:700;line-height:1.2">'
+        '<span style="color:#ffffff">Edu</span><span style="color:#FF9350">Aakashaa</span></div>'
+        '<div style="color:#B9C6E8;font-size:11px;letter-spacing:.04em">Choose right. '
+        'Engineering admissions, guided honestly.</div></td></tr></table></div>'
+        '<div style="height:4px;background:linear-gradient(90deg,#FF6B0A,#FFB25A)"></div>'
+        f'<div style="padding:28px;color:#0E1B3D;font-size:15px;line-height:1.65">{body_html}'
+        '<p style="margin:26px 0 0">Warm regards,<br><strong>Team EduAakashaa</strong><br>'
+        '<span style="color:#5A6278;font-size:13px">Coimbatore, India &middot; Dubai, UAE</span></p></div>'
+        '<div style="padding:18px 28px;background:#FBF7EE;border-top:1px solid #E8DFC8;'
+        'color:#5A6278;font-size:12px;line-height:1.7">'
+        '<strong style="color:#0E1B3D">EduAakashaa</strong> &middot; Evidence-based college guidance<br>'
+        f'WhatsApp (India): {WHATSAPP_NUMBER} &middot; UAE: {PHONE_UAE}<br>'
+        f'<a href="{SITE}" style="color:#0E3A8A">{SITE.replace("https://", "")}</a>'
+        f' &middot; Sent from {SENDER_EMAIL}</div></div></div>')
+
+
+def _fill(text, values, escape=False):
+    """Replace {placeholders}; an unknown/blank value leaves the token as-is
+    (same rule the composer uses, so previews and auto-sends agree)."""
+    def sub(m):
+        val = values.get(m.group(1))
+        if val in (None, ''):
+            return m.group(0)
+        return html.escape(str(val)) if escape else str(val)
+    return re.sub(r'\{(\w+)\}', sub, text)
+
+
+def render_email(key, values, version='default'):
+    """→ (subject, text, html) for a registry template, ready to hand to the
+    mailer. Raises KeyError if the template key is unknown."""
+    tpl = next((t for t in EMAIL_TEMPLATES if t['key'] == key), None)
+    if tpl is None:
+        raise KeyError(f'unknown email template: {key}')
+    ver = next((v for v in tpl['versions'] if v['key'] == version), tpl['versions'][0])
+    return (_fill(ver['subject'], values),
+            _fill(ver['text'], values),
+            branded_shell(_fill(ver['html'], values, escape=True)))
 
 
 def _btn(url, label):

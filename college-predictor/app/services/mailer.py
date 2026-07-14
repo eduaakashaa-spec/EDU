@@ -28,6 +28,9 @@ from email.utils import formataddr
 
 log = logging.getLogger(__name__)
 
+# Where "someone submitted something" notifications go (the team inbox).
+ADMIN_NOTIFY_EMAIL = os.environ.get('ADMIN_NOTIFY_EMAIL', 'eduaakashaa@gmail.com')
+
 RESEND_ENDPOINT = 'https://api.resend.com/emails'
 DEFAULT_FROM = 'noreply@eduaakashaa.com'   # must match the domain verified in Resend
 USER_AGENT = 'EduAakashaa/1.0'
@@ -154,6 +157,12 @@ def send_now(to, subject, text, html=None, from_name='EduAakashaa'):
     """Synchronous send that RAISES on failure — used by the admin email test so
     the real error reaches the screen instead of being swallowed."""
     return _send(to, subject, text, html, from_name)
+
+
+def notify_admin(subject, text, html=None):
+    """Fire-and-forget heads-up to the team inbox (ADMIN_NOTIFY_EMAIL).
+    Best-effort: a failed notification must never break a public form."""
+    send_async(ADMIN_NOTIFY_EMAIL, subject, text, html)
 
 
 def send_async(to, subject, text, html=None, from_name='EduAakashaa'):

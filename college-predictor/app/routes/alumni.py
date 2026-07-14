@@ -32,6 +32,8 @@ from app.extensions import db, bcrypt
 from app.models import (Announcement, AlumniProfile, MentorMeeting,
                         MentorMessage, User)
 from app.services import r2
+from app.services.email_templates import SITE, render_email
+from app.services.mailer import notify_admin, send_async
 from app.services.queries import count_if
 
 alumni_bp = Blueprint('alumni', __name__)
@@ -71,6 +73,31 @@ def _maybe_credit_referral(referred):
         topic=f'Referral bonus — {referred.name} completed their first meeting',
         meeting_date=datetime.now(timezone.utc).replace(tzinfo=None)))
     db.session.commit()
+
+
+def _email_payout_credited(meeting):
+    """Tell a guide their payout landed — the 'Payout credited — Guide'
+    template, sent automatically when an admin marks a session paid."""
+    guide = meeting.alumni
+    if not guide or not guide.email:
+        return
+    first = (guide.name or '').strip().split(' ')[0] or 'there'
+    subject, text, html = render_email(
+        'payment', {'name': first, 'amount': meeting.payout_amount})
+    send_async(guide.email, subject, text, html)
+
+
+def _notify_admin_new_guide(profile):
+    """Tell the team a College Guide registered."""
+    notify_admin(
+        f'New College Guide — {profile.name}',
+        (f'{profile.name} ({profile.email}) registered as a College Guide.\n\n'
+         f'  University : {profile.university}\n'
+         f'  Program    : {profile.program or "—"}\n'
+         f'  Stage      : {profile.stage or "—"}\n'
+         f'  Location   : {profile.city or ""} {profile.country or ""}\n'
+         f'  Referred by: {profile.referred_by or "—"}\n\n'
+         f'Review the profile: {SITE}{url_for("alumni.admin_detail", alum_id=profile.id)}'))
 
 
 def _parse_dt(value):
@@ -332,6 +359,8 @@ def alumni_network():
     # log them straight into their new mentor portal
     login_user(mentor_user)
 
+    _notify_admin_new_guide(profile)
+
     share_link = url_for('alumni.alumni_network', ref=profile.referral_code, _external=True)
     return jsonify({'ok': True, 'name': profile.name.split(' ')[0],
                     'referral_code': profile.referral_code,
@@ -514,7 +543,11 @@ def admin_meeting_paid(meeting_id):
     m.paid = not m.paid
     m.paid_at = datetime.now(timezone.utc).replace(tzinfo=None) if m.paid else None
     db.session.commit()
-    flash('Payout status updated.', 'success')
+    if m.paid:                      # only on credit, not when un-marking a mistake
+        _email_payout_credited(m)
+        flash(f'Payout marked paid — {m.alumni.name.split(" ")[0]} emailed.', 'success')
+    else:
+        flash('Payout status updated.', 'success')
     return redirect(url_for('alumni.admin_detail', alum_id=m.alumni_id) + '#meetings')
 
 
