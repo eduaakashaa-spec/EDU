@@ -21,6 +21,7 @@ import logging
 import os
 import smtplib
 import threading
+import time
 import urllib.error
 import urllib.request
 from email.message import EmailMessage
@@ -157,6 +158,37 @@ def send_now(to, subject, text, html=None, from_name='EduAakashaa'):
     """Synchronous send that RAISES on failure — used by the admin email test so
     the real error reaches the screen instead of being swallowed."""
     return _send(to, subject, text, html, from_name)
+
+
+def send_bulk(recipients, subject, text, html=None, from_name='EduAakashaa'):
+    """Send one email to many people from a SINGLE background thread.
+
+    Deliberately sequential and paced: Resend allows ~2 requests/second, and a
+    thread-per-recipient would both blow past that and swamp the box. One bad
+    address is logged and skipped rather than killing the whole run."""
+    todo = [r for r in dict.fromkeys(recipients) if r]      # de-dup, keep order
+    if not todo:
+        log.warning('Bulk email skipped: no recipients (subject=%r)', subject)
+        return 0
+    if not is_configured():
+        log.warning('Bulk email skipped: no transport configured — would have sent '
+                    '%r to %d people', subject, len(todo))
+        return 0
+
+    def worker():
+        ok = failed = 0
+        for to in todo:
+            try:
+                _send(to, subject, text, html, from_name)
+                ok += 1
+            except Exception:
+                failed += 1
+                log.exception('Bulk email FAILED to %s (subject=%r)', to, subject)
+            time.sleep(0.6)        # stay under the provider's rate limit
+        log.info('Bulk email finished: %d sent, %d failed (subject=%r)', ok, failed, subject)
+
+    threading.Thread(target=worker, daemon=True).start()
+    return len(todo)
 
 
 def notify_admin(subject, text, html=None):

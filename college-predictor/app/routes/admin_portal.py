@@ -27,13 +27,16 @@ from app.extensions import db, bcrypt
 from app.models import (AlumniProfile, Announcement, CollegeSurvey,
                         ContactInquiry, DasaLead, MentorMeeting, PageLead,
                         Payment, Prediction, ScheduleEvent, User)
+from markupsafe import escape
+
 from app.services import mailer
 from app.services.mailer import is_configured as mail_configured
-from app.services.mailer import send_async
+from app.services.mailer import send_async, send_bulk
 from app.models_membership import (APP_STATUSES, MembershipApplication,
                                    MembershipInvoice)
-from app.services.email_templates import (EMAIL_TEMPLATES, LOGO_URL,
-                                          SENDER_EMAIL, SITE, WHATSAPP_NUMBER)
+from app.services.email_templates import (ANNOUNCEMENT_TEMPLATES, EMAIL_TEMPLATES,
+                                          LOGO_URL, SENDER_EMAIL, SITE,
+                                          WHATSAPP_NUMBER, branded_shell)
 from app.services.queries import count_if as _n, sum_if as _sum_if
 
 admin_portal_bp = Blueprint('admin_portal', __name__)
@@ -453,6 +456,18 @@ def user_delete(user_id):
 # --------------------------------------------------------------------------- #
 # Announcements
 # --------------------------------------------------------------------------- #
+def _announcement_recipients(scope):
+    """Emails for an announcement blast. 'premium' = currently-valid premium
+    members only; 'all' = every member account except College Guides (they have
+    their own portal and their own comms)."""
+    now = _utcnow_naive()
+    q = User.query.filter(User.tier != 'mentor')
+    if scope == 'premium':
+        q = q.filter(User.tier == 'premium',
+                     db.or_(User.tier_expires_at.is_(None), User.tier_expires_at > now))
+    return [e for (e,) in q.with_entities(User.email).all() if e]
+
+
 @admin_portal_bp.route('/admin/announcements', methods=['GET', 'POST'])
 @admin_required
 def announcements():
@@ -461,6 +476,7 @@ def announcements():
         body = (request.form.get('body') or '').strip()
         audience = request.form.get('audience') or 'all'
         pinned = request.form.get('pinned') == '1'
+        email_scope = request.form.get('email_scope') or 'none'   # none | all | premium
         if not title or not body:
             flash('Title and message are required.', 'danger')
         else:
@@ -469,14 +485,32 @@ def announcements():
             db.session.add(Announcement(title=title, body=body,
                                         audience=audience, pinned=pinned))
             db.session.commit()
-            flash('Announcement published.', 'success')
+
+            msg = 'Announcement published.'
+            if email_scope in ('all', 'premium'):
+                html = branded_shell(
+                    f'<h2 style="margin:0 0 12px;color:#0E3A8A;font-size:20px">{escape(title)}</h2>'
+                    f'<p style="white-space:pre-wrap">{escape(body)}</p>')
+                n = send_bulk(_announcement_recipients(email_scope), title, body, html)
+                if n:
+                    msg += (f' Emailing {n} '
+                            f'{"premium member" if email_scope == "premium" else "member"}'
+                            f'{"s" if n != 1 else ""} in the background.')
+                else:
+                    msg += (' No email sent — no matching recipients, or no transport '
+                            'configured (see Broadcast → Email Test).')
+            flash(msg, 'success')
         return redirect(url_for('admin_portal.announcements'))
 
     rows = (Announcement.query
             .order_by(Announcement.pinned.desc(), Announcement.created_at.desc())
             .all())
     return render_template('admin/announcements.html', admin_tab='announcements',
-                           rows=rows, audiences=AUDIENCES)
+                           rows=rows, audiences=AUDIENCES,
+                           templates=ANNOUNCEMENT_TEMPLATES,
+                           count_all=len(_announcement_recipients('all')),
+                           count_premium=len(_announcement_recipients('premium')),
+                           can_send=mail_configured())
 
 
 @admin_portal_bp.route('/admin/announcements/<int:ann_id>/toggle', methods=['POST'])

@@ -26,6 +26,42 @@ def _f(key, label, default=''):
 
 
 # --------------------------------------------------------------------------- #
+# Announcement starters (admin → Broadcast → Announcements).
+# Simpler than the email registry on purpose: an announcement is just a title +
+# message, and the admin edits it inline right after picking, so these only need
+# to prefill the form — no {placeholders} or versions to resolve.
+# --------------------------------------------------------------------------- #
+ANNOUNCEMENT_TEMPLATES = [
+    {'key': 'results', 'icon': '📢', 'label': 'Results / list out',
+     'title': 'DASA Round-1 results are out',
+     'body': ('Round-1 seat allotment results have been published. Log in to the official '
+              'portal to check your allotment, then accept or float before the deadline. '
+              'Message us if you want help reading your result.')},
+    {'key': 'deadline', 'icon': '⏰', 'label': 'Deadline reminder',
+     'title': 'Choice locking closes this Friday',
+     'body': ('A reminder that choice locking closes this Friday at 5 PM. Choices not locked '
+              'are auto-locked as they stand — please review your order before then.')},
+    {'key': 'schedule', 'icon': '🗓️', 'label': 'Schedule change',
+     'title': 'Counselling schedule updated',
+     'body': ('The counselling schedule has been revised. The updated dates are on your '
+              'dashboard under upcoming events. No action is needed from you right now.')},
+    {'key': 'webinar', 'icon': '🎥', 'label': 'Webinar / live session',
+     'title': 'Live session this Sunday, 6 PM',
+     'body': ('We are running a live Q&A this Sunday at 6 PM covering choice filling and '
+              'branch selection. Bring your questions — the joining link will be shared here '
+              'a day before.')},
+    {'key': 'docs', 'icon': '📄', 'label': 'Documents reminder',
+     'title': 'Keep your documents ready',
+     'body': ('Please keep your marksheets, ID proof and category certificates scanned and '
+              'ready. Having them on hand saves time when the verification window opens.')},
+    {'key': 'maintenance', 'icon': '🛠️', 'label': 'Maintenance notice',
+     'title': 'Brief maintenance on Saturday night',
+     'body': ('The site will be briefly unavailable on Saturday between 11 PM and midnight '
+              'while we ship an update. Nothing you have saved will be affected.')},
+]
+
+
+# --------------------------------------------------------------------------- #
 # Server-side rendering — lets routes auto-send these same templates instead of
 # duplicating the copy. The admin composer still renders client-side for live
 # preview; `branded_shell` below is the twin of wrapHtml() in

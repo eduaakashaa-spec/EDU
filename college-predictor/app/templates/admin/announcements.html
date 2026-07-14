@@ -3,6 +3,19 @@
 
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .ann-tpl-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:0 0 16px; }
+  .ann-tpl-cap{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em;
+                text-transform:uppercase; color:var(--muted); margin-right:2px; }
+  .ann-tpl{ font-size:12.5px; padding:6px 12px; border-radius:999px; cursor:pointer;
+            border:1.5px solid var(--hairline); background:var(--paper); color:var(--ink);
+            transition:all .15s; }
+  .ann-tpl:hover{ border-color:var(--navy); color:var(--navy); }
+  .ann-tpl.on{ background:var(--navy); border-color:var(--navy); color:#fff; }
+  .ann-tpl--clear{ color:var(--muted); }
+  .ann-warn{ background:#fff6e5; border:1px solid #f0d9a8; color:#8a6d1a; border-radius:8px;
+             padding:10px 14px; font-size:13px; }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -20,8 +33,18 @@
 
   <div class="adm-card" style="margin-bottom:18px;">
     <h2>Post an announcement</h2>
-    <p class="sub">Live announcements appear on every member's dashboard.</p>
-    <form method="post" action="{{ url_for('admin_portal.announcements') }}" class="adm-form">
+    <p class="sub">Live announcements appear on every member's dashboard. Optionally email it out too.</p>
+
+    <div class="ann-tpl-row">
+      <span class="ann-tpl-cap">Start from a template</span>
+      {% for t in templates %}
+      <button type="button" class="ann-tpl" data-title="{{ t.title }}" data-body="{{ t.body }}">
+        {{ t.icon }} {{ t.label }}</button>
+      {% endfor %}
+      <button type="button" class="ann-tpl ann-tpl--clear" id="annClear">✕ Clear</button>
+    </div>
+
+    <form method="post" action="{{ url_for('admin_portal.announcements') }}" class="adm-form" id="annForm">
       <div class="full">
         <label for="ann-title">Title</label>
         <input id="ann-title" name="title" required maxlength="200" placeholder="e.g. DASA Round-1 results are out">
@@ -40,7 +63,22 @@
         <label for="ann-pin">Pin to top?</label>
         <select id="ann-pin" name="pinned"><option value="0">No</option><option value="1">Yes</option></select>
       </div>
-      <div><button class="btn btn-navy" type="submit">Publish</button></div>
+      <div>
+        <label for="ann-email">Also email it?</label>
+        <select id="ann-email" name="email_scope" {{ 'disabled' if not can_send }}>
+          <option value="none">No — dashboard only</option>
+          <option value="premium">Premium members ({{ count_premium }})</option>
+          <option value="all">All members ({{ count_all }})</option>
+        </select>
+      </div>
+      <div class="full" id="annWarn" style="display:none;">
+        <div class="ann-warn">📧 <strong id="annWarnText"></strong> Emails send in the background and cannot be unsent.</div>
+      </div>
+      {% if not can_send %}
+      <div class="full"><p class="sub" style="color:var(--red); margin:0;">Emailing is unavailable — no transport configured. See
+        <a href="{{ url_for('admin_portal.email_test') }}">Email Test</a>.</p></div>
+      {% endif %}
+      <div><button class="btn btn-navy" type="submit" id="annSubmit">Publish</button></div>
     </form>
   </div>
 
@@ -85,4 +123,56 @@
   </div>
 
 </div></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var title = document.getElementById('ann-title');
+  var body  = document.getElementById('ann-body');
+  var email = document.getElementById('ann-email');
+  var warn  = document.getElementById('annWarn');
+  var warnT = document.getElementById('annWarnText');
+  var form  = document.getElementById('annForm');
+  if (!form) return;
+
+  // ---- templates: prefill the form, then the admin edits it inline ----
+  var tpls = Array.prototype.slice.call(document.querySelectorAll('.ann-tpl[data-title]'));
+  tpls.forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (title.value.trim() || body.value.trim()) {
+        if (!confirm('Replace what you have written with this template?')) return;
+      }
+      title.value = b.dataset.title;
+      body.value = b.dataset.body;
+      tpls.forEach(function (o) { o.classList.remove('on'); });
+      b.classList.add('on');
+      body.focus();
+    });
+  });
+  document.getElementById('annClear').addEventListener('click', function () {
+    title.value = ''; body.value = '';
+    tpls.forEach(function (o) { o.classList.remove('on'); });
+    title.focus();
+  });
+
+  // ---- show who this will reach, before it goes ----
+  function label() { return email.options[email.selectedIndex].text; }
+  function refresh() {
+    if (!email || email.value === 'none') { warn.style.display = 'none'; return; }
+    warn.style.display = '';
+    warnT.textContent = 'This will email ' + label().replace(/^\w/, function (c) { return c.toLowerCase(); }) + '.';
+  }
+  if (email) { email.addEventListener('change', refresh); refresh(); }
+
+  // ---- confirm before a blast (no undo) ----
+  form.addEventListener('submit', function (e) {
+    if (!email || email.value === 'none') return;
+    if (!confirm('Publish and email this announcement to ' + label() + '?\n\n' +
+                 title.value + '\n\nThis cannot be unsent.')) {
+      e.preventDefault();
+    }
+  });
+})();
+</script>
 {% endblock %}
