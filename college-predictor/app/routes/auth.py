@@ -1,6 +1,7 @@
 """Auth Blueprint — Login · Register · Logout · Contact form handler."""
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required, current_user
+from app.decorators import safe_next
 from app.extensions import db, bcrypt
 from app.models import User, ContactInquiry
 
@@ -19,7 +20,7 @@ def login():
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password_hash, password):
             login_user(user, remember=request.form.get('remember'))
-            next_page = request.args.get('next')
+            next_page = safe_next(request.args.get('next'))
             flash('Logged in successfully.', 'success')
             return redirect(next_page or url_for('main.home'))
 

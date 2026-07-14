@@ -1,4 +1,4 @@
-"""Access-control decorators used across blueprints.
+"""Access-control decorators (plus `safe_next`) used across blueprints.
 
 Two tiers gate the member-facing and staff-facing areas migrated from the
 legacy Hostinger site, which used a separate password on every page. Here that
@@ -11,9 +11,31 @@ is replaced by our own RBAC:
 can open premium pages too.
 """
 from functools import wraps
+from urllib.parse import urlparse
 
 from flask import abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user
+
+
+def safe_next(target):
+    """Return `target` if it is a bare same-app path, else None.
+
+    The decorators below hand `?next=` to the login page, so whatever comes
+    back is attacker-controllable. Anything carrying a scheme/host (or a
+    scheme-relative '//host') is an open redirect: it bounces a user who just
+    logged in on our real domain off to a look-alike, which is a credential
+    phishing primitive. Callers fall back to their own default on None.
+    """
+    target = (target or '').strip()
+    # Chrome and Safari treat a backslash in a URL as a path separator, so
+    # '/\evil.com' leaves the site despite starting with a single '/'. Judge
+    # the normalised form, but hand back the original.
+    probe = target.replace('\\', '/')
+    parsed = urlparse(probe)
+    if (probe.startswith('/') and not probe.startswith('//')
+            and not parsed.scheme and not parsed.netloc):
+        return target
+    return None
 
 
 def admin_required(f):
