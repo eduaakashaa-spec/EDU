@@ -38,7 +38,7 @@ from app.services.queries import count_if
 
 alumni_bp = Blueprint('alumni', __name__)
 
-STAGES = ('current-student', 'alumni', 'working')
+STAGES = ('current-student', 'alumni', 'working', 'faculty')
 STATUSES = ('New', 'Verified', 'Active', 'Rejected')
 MEETING_KINDS = ('meeting', 'video', 'referral', 'bonus', 'adjustment')
 MEETING_STATUSES = ('Scheduled', 'Completed', 'No-show', 'Cancelled')
@@ -257,7 +257,28 @@ def alumni_network():
         return render_template('alumni_network.html', ref=ref, stages=STAGES,
                                branch_options=get_branch_names())
 
-    # ---- POST: handle registration (multipart form) ----
+    return _register_guide(ref)
+
+
+@alumni_bp.route('/faculty-network')
+def faculty_network():
+    """Faculty Network — professors & teaching faculty sign up to host paid
+    sessions (trending-topic talks, college walkthroughs, 1:1 parent calls).
+    Same backend as College Guides: the form POSTs to /alumni-network with a
+    fixed stage='faculty', so faculty become tier='mentor' users and reuse the
+    guide portal + admin + payout machinery. This is just the faculty-facing
+    front door."""
+    ref = (request.args.get('ref') or '').strip()[:16]
+    return render_template('faculty_network.html', ref=ref,
+                           branch_options=get_branch_names())
+
+
+def _register_guide(ref):
+    """Shared registration handler for both /alumni-network (College Guides) and
+    /faculty-network (Faculty). Creates a tier='mentor' user + AlumniProfile and
+    logs them into the guide portal. `stage` (incl. 'faculty') is validated
+    against STAGES, so the same pipeline serves both front doors."""
+    # ---- handle registration (multipart form) ----
     def fail(msg, code=400):
         return jsonify({'ok': False, 'error': msg}), code
 
