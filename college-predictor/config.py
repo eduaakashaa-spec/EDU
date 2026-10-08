@@ -1,4 +1,5 @@
 import os
+import re
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -24,12 +25,11 @@ class Config:
 
     # Neon (and most managed Postgres) hand out URLs starting with `postgres://`,
     # but SQLAlchemy 2.x requires the `postgresql://` scheme.
-    _db_url = os.environ.get('DATABASE_URL')
-    if _db_url and _db_url.startswith('postgres://'):
-        _db_url = _db_url.replace('postgres://', 'postgresql://', 1)
-    # `postgresql+psycopg://` selects the psycopg v3 driver, but we ship psycopg2-binary.
-    if _db_url and _db_url.startswith('postgresql+psycopg://'):
-        _db_url = _db_url.replace('postgresql+psycopg://', 'postgresql://', 1)
+    # Also tolerate a `+driver` suffix (e.g. `postgresql+psycopg://` selects psycopg v3,
+    # which we don't ship — we use psycopg2-binary) and stray quotes/whitespace.
+    _db_url = (os.environ.get('DATABASE_URL') or '').strip().strip('"\'') or None
+    if _db_url:
+        _db_url = re.sub(r'^postgres(ql)?(\+\w+)?://', 'postgresql://', _db_url)
 
     SQLALCHEMY_DATABASE_URI = _db_url or (
         'sqlite:///' + os.path.join(basedir, 'instance', 'eduaakashaa.db')
