@@ -27,6 +27,9 @@ class Config:
     _db_url = os.environ.get('DATABASE_URL')
     if _db_url and _db_url.startswith('postgres://'):
         _db_url = _db_url.replace('postgres://', 'postgresql://', 1)
+    # `postgresql+psycopg://` selects the psycopg v3 driver, but we ship psycopg2-binary.
+    if _db_url and _db_url.startswith('postgresql+psycopg://'):
+        _db_url = _db_url.replace('postgresql+psycopg://', 'postgresql://', 1)
 
     SQLALCHEMY_DATABASE_URI = _db_url or (
         'sqlite:///' + os.path.join(basedir, 'instance', 'eduaakashaa.db')
