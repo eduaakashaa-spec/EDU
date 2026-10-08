@@ -46,15 +46,7 @@
 @media (max-width:640px){ .global-flash{ top:128px; right:12px; } }
 @media (prefers-reduced-motion:reduce){ .global-flash__item{ animation:none; } }
 
-/* ---- page-scoped dark chrome for the global sticky header ---- */
-.header{ background:linear-gradient(180deg, rgba(4,9,28,.98) 0%, rgba(6,15,42,.94) 100%) !important;
-  backdrop-filter:blur(16px) saturate(140%);
-  border-bottom:1px solid rgba(255,138,61,.14) !important;
-  box-shadow:0 10px 40px rgba(0,0,0,.35); }
-.sticky-bar{ background:transparent !important; border-bottom:1px solid rgba(251,247,238,.05); }
-.header .nav__link{ color:#EDF0FC; }
-.header .nav__link:hover{ color:var(--laser2, #FF8A3D); }
-
+/* ---- header stays on the site's light theme (dark chrome hid the menu text, hamburger and Login) ---- */
 /* ---- film grain over everything ---- */
 .aw-grain{ position:fixed; inset:-40px; z-index:3; pointer-events:none; opacity:.055; mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E"); }
