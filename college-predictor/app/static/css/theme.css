@@ -1,0 +1,88 @@
+/* ===========================
+   Theme toggle + dark mode
+   Dark mode is currently scoped to the landing page (body.is-home); the
+   toggle is hidden elsewhere. The choice is saved in localStorage
+   ('eduaakashaa-theme') and applied pre-paint from base.html.
+   =========================== */
+.theme-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  margin-left: 8px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--navy-ink);
+  cursor: pointer;
+  transition: background .2s, border-color .2s, color .2s, transform .2s;
+}
+.theme-toggle:hover { border-color: var(--gold); color: var(--gold); transform: rotate(15deg); }
+.theme-toggle:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.theme-toggle__sun { display: none; }
+body.is-home .theme-toggle { display: inline-flex; }
+@media (max-width: 1024px) { body.is-home .theme-toggle { margin-left: auto; } }
+
+html[data-theme="dark"] .theme-toggle__moon { display: none; }
+html[data-theme="dark"] .theme-toggle__sun { display: block; }
+
+/* ---- dark palette (landing page) ---- */
+html[data-theme="dark"] body.is-home {
+  --cream: #0A1228;
+  --cream-2: #0F1A38;
+  --paper: #111C3E;
+  --white: #0C1634;
+  --border: #24305A;
+  --text: #EEE9DA;
+  --text-dim: #A9B2CC;
+  --navy: #7FA8FF;
+  --navy-ink: #F5EFDF;
+  --dark: #050B1E;
+  --blue-bg: #14224A;
+  --shadow-1: 0 1px 2px rgba(0,0,0,.4), 0 4px 12px rgba(0,0,0,.3);
+  --shadow-2: 0 10px 30px rgba(0,0,0,.5), 0 2px 6px rgba(0,0,0,.4);
+  background: #0A1228;
+  color: var(--text);
+  color-scheme: dark;
+}
+html[data-theme="dark"] body.is-home #main-content,
+html[data-theme="dark"] body.is-home .main-content { background: #0A1228; }
+
+/* header / footer chrome */
+html[data-theme="dark"] body.is-home .sticky-bar__title .blue,
+html[data-theme="dark"] body.is-home .footer__brand .blue { color: #7FA8FF; }
+html[data-theme="dark"] body.is-home .nav__link { color: #FF9A55; }
+html[data-theme="dark"] body.is-home .nav__link--active { color: #FFB27D; }
+html[data-theme="dark"] body.is-home .nav__link--ghost { color: #F5EFDF !important; }
+html[data-theme="dark"] body.is-home .header__hamburger span { background: #F5EFDF; }
+html[data-theme="dark"] body.is-home .nav__dropdown a:hover { background: #0F1A38; }
+html[data-theme="dark"] body.is-home .header__logo img { background: #F5EFDF; border-radius: 10px; }
+
+/* homepage variables (.aw is defined inline in home.html with light values) */
+html[data-theme="dark"] .aw {
+  --void: #0A1228; --void2: #0F1A38; --navy: #7FA8FF; --cream: #F5EFDF; --cream2: #0F1A38;
+  --laser: #FF7A28; --laser2: #FF8A3D; --mist: #B4BCD4; --dim: #8791B0;
+  --haird: #24305A; --hairl: #24305A; --inkl: #F5EFDF; --mutl: #A9B2CC;
+  --green: #3ECF8E; --amber: #FFC24B; --paper: #111C3E;
+}
+html[data-theme="dark"] .aw .bt-solid { color: #160A02; }
+html[data-theme="dark"] .aw .bt-solid:hover { background: #F5EFDF; color: #0A1228; }
+html[data-theme="dark"] .aw .bt-ghost { border-color: rgba(245,239,223,.35); }
+html[data-theme="dark"] .aw .bt-ghost:hover { background: rgba(245,239,223,.08); }
+html[data-theme="dark"] .aw-grain { mix-blend-mode: screen; opacity: .03; }
+html[data-theme="dark"] .aw-hero .halo {
+  background: radial-gradient(circle, rgba(127,168,255,.16) 0%, rgba(127,168,255,.05) 45%, transparent 70%);
+}
+html[data-theme="dark"] .global-flash__item {
+  background: rgba(17,28,62,.92); border-color: #24305A; color: #F5EFDF;
+  box-shadow: 0 16px 40px rgba(0,0,0,.5);
+}
+html[data-theme="dark"] .global-flash__item--info { border-left-color: #7FA8FF; }
+
+/* smooth swap */
+body.is-home, body.is-home .header, body.is-home .sticky-bar, body.is-home .footer,
+body.is-home .aw, body.is-home .aw-light, body.is-home .aw-marq {
+  transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+}
