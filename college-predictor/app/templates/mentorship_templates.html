@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% block title %}Mentorship Email & WhatsApp Templates | EduAakashaA{% endblock %}
+{% block head %}
+<style>
+.mt{ --navy:#0E3A8A; --ink:#0E1B3D; --deep:#071A44; --orange:#FF6B0A; --line:#E8DFC8; --paper:#FFFDF7; --mute:#5A6278;
+  background:#FBF7EE; color:var(--ink); font-family:'Plus Jakarta Sans',sans-serif; padding-bottom:70px; }
+.mt *{ box-sizing:border-box; }
+.mt-hero{ background:linear-gradient(135deg,#071A44,#0E3A8A); color:#fff; padding:54px 0 46px; }
+.mt .wrap{ max-width:1180px; margin:0 auto; padding:0 24px; }
+.mt-hero h1{ font-family:'Fraunces',serif; font-size:clamp(30px,4.4vw,52px); margin:10px 0; color:#fff; letter-spacing:-.02em; }
+.mt-hero p{ color:rgba(255,255,255,.82); max-width:760px; }
+.mt-pill{ display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3); padding:5px 12px; border-radius:99px; }
+.mt-grid{ display:grid; grid-template-columns:260px 1fr; gap:34px; margin-top:34px; align-items:start; }
+.mt-toc{ position:sticky; top:130px; background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:16px; max-height:calc(100vh - 160px); overflow:auto; }
+.mt-toc h4{ margin:0 0 8px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.16em; color:var(--mute); text-transform:uppercase; }
+.mt-toc a{ display:block; padding:6px 8px; border-radius:8px; font-size:13.5px; color:var(--ink); text-decoration:none; }
+.mt-toc a:hover{ background:#F5EFDF; color:var(--orange); }
+.mt-toc .g{ font-weight:700; margin-top:10px; font-size:12px; color:var(--navy); text-transform:uppercase; letter-spacing:.06em; }
+.mt-group{ margin-bottom:46px; }
+.mt-group > h2{ font-family:'Fraunces',serif; font-size:clamp(24px,2.8vw,34px); margin:0 0 4px; color:var(--deep); }
+.mt-group > p{ color:var(--mute); margin:0 0 18px; }
+.mt-card{ background:var(--paper); border:1px solid var(--line); border-radius:18px; padding:22px; margin-bottom:18px;
+  box-shadow:0 1px 2px rgba(14,27,61,.04),0 6px 18px rgba(14,27,61,.04); scroll-margin-top:140px; }
+.mt-card h3{ margin:0; font-family:'Fraunces',serif; font-size:1.25rem; color:var(--deep); }
+.mt-when{ font-size:13px; color:var(--mute); margin:4px 0 14px; }
+.mt-when b{ color:var(--orange); font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; }
+.mt-tpl{ border:1px solid var(--line); border-radius:12px; margin-top:12px; overflow:hidden; background:#fff; }
+.mt-tpl-h{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 12px; background:#F5EFDF; }
+.mt-tag{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em; text-transform:uppercase; font-weight:700; }
+.mt-tag.email{ color:var(--navy); } .mt-tag.whatsapp{ color:#128C7E; }
+.mt-btn{ cursor:pointer; border:1px solid var(--navy); background:#fff; color:var(--navy); border-radius:99px; padding:5px 14px;
+  font-size:12px; font-weight:700; font-family:inherit; }
+.mt-btn:hover{ background:var(--navy); color:#fff; }
+.mt-btn.ok{ background:#1F8B5C; border-color:#1F8B5C; color:#fff; }
+.mt-subj{ padding:9px 12px; font-size:13.5px; border-bottom:1px dashed var(--line); background:#FFFBF2; }
+.mt-subj b{ color:var(--mute); font-size:11px; letter-spacing:.1em; text-transform:uppercase; margin-right:6px; }
+.mt-body{ margin:0; padding:14px 14px; white-space:pre-wrap; word-wrap:break-word; font-family:'Plus Jakarta Sans',sans-serif; font-size:14px; line-height:1.6; max-height:420px; overflow:auto; }
+.mt-tpl.whatsapp .mt-body{ background:#ECF8E8; }
+.mt-rules{ background:#fff7ea; border:1px solid #f1d6a8; border-left:4px solid var(--orange); border-radius:14px; padding:16px 20px; margin-top:26px; }
+.mt-rules ul{ margin:8px 0 0 18px; padding:0; } .mt-rules li{ margin:5px 0; font-size:14px; }
+@media (max-width:900px){ .mt-grid{ grid-template-columns:1fr; } .mt-toc{ position:static; max-height:none; } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="mt">
+  <header class="mt-hero">
+    <div class="wrap">
+      <span class="mt-pill">EA Team · Counsellor Portal</span>
+      <h1>Mentorship Email &amp; WhatsApp Templates</h1>
+      <p>Ready-to-send templates for the Elite Mentorship programme (Class of 2027): marketing, enquiry handling, onboarding, ongoing communication, reports, mentors and closing. Click <b>Copy</b>, replace every <b>[Square Bracket]</b>, and send.</p>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="mt-rules">
+      <strong>Before you send</strong>
+      <ul>
+        {% for g in guidelines %}<li>{{ g }}</li>{% endfor %}
+      </ul>
+    </div>
+
+    <div class="mt-grid">
+      <nav class="mt-toc" aria-label="Templates">
+        <h4>Jump to</h4>
+        {% for g in groups %}
+          <div class="g">{{ g.title }}</div>
+          {% for it in g['items'] %}<a href="#{{ it.id }}">{{ it.title }}</a>{% endfor %}
+        {% endfor %}
+      </nav>
+
+      <div>
+        {% for g in groups %}
+        <section class="mt-group" id="g-{{ g.id }}">
+          <h2>{{ g.title }}</h2>
+          <p>{{ g.blurb }}</p>
+          {% for it in g['items'] %}
+          <article class="mt-card" id="{{ it.id }}">
+            <h3>{{ it.title }}</h3>
+            <div class="mt-when"><b>When</b> · {{ it.when }}</div>
+            {% for t in it.templates %}
+            <div class="mt-tpl {{ t.channel }}">
+              <div class="mt-tpl-h">
+                <span class="mt-tag {{ t.channel }}">{{ '✉ ' if t.channel == 'email' else '💬 ' }}{{ t.label }}</span>
+                <button type="button" class="mt-btn" data-copy>Copy {{ 'subject + body' if t.subject else 'message' }}</button>
+              </div>
+              {% if t.subject %}<div class="mt-subj"><b>Subject</b><span data-subject>{{ t.subject }}</span></div>{% endif %}
+              <pre class="mt-body" data-body>{{ t.body }}</pre>
+            </div>
+            {% endfor %}
+          </article>
+          {% endfor %}
+        </section>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.querySelectorAll('[data-copy]').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var box = btn.closest('.mt-tpl');
+    var s = box.querySelector('[data-subject]');
+    var text = (s ? 'Subject: ' + s.textContent.trim() + '\n\n' : '') + box.querySelector('[data-body]').textContent;
+    var done = function () { var o = btn.textContent; btn.textContent = 'Copied ✓'; btn.classList.add('ok');
+      setTimeout(function () { btn.textContent = o; btn.classList.remove('ok'); }, 1600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done); }
+    else { var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {} document.body.removeChild(ta); }
+  });
+});
+</script>
+{% endblock %}
