@@ -436,6 +436,12 @@ def dasa_prediction_report():
 
 # The pages below are full ports of the live-site premium content
 # (migrated from the Hostinger embeds; see migration/ notes).
+@main_bp.route('/jee-2027-roadmap')
+@premium_required
+def jee_2027_roadmap():
+    return render_template('jee_2027_roadmap.html')
+
+
 @main_bp.route('/why-cse')
 @premium_required
 def why_cse():

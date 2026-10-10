@@ -1,0 +1,491 @@
+{% extends "base.html" %}
+{% block title %}JEE 2027 Roadmap — From JEE Main to an IIT, NIT or IIIT seat | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Premium member roadmap for JEE 2027: JEE Main, JEE Advanced, JoSAA, DASA and CSAB-Special — dates, fees, seats and the 2025–26 numbers in one infographic map.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/jee_roadmap.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="jr">
+
+<!-- ================= HERO ================= -->
+<header class="jr-hero">
+  <div class="wrap">
+    <div>
+      <span class="jr-badge">★ Premium Member Edition</span>
+      <h1>JEE 2027 <span class="it">Roadmap</span></h1>
+      <p class="lead">From JEE Main to a seat at an IIT, NIT or IIIT. Every step of the 2027 cycle in order &mdash; two JEE Main sessions run by NTA, JEE Advanced for the IITs, and JoSAA counselling for seat allotment &mdash; plus the NRI route through DASA.</p>
+      <div class="jr-legend">
+        <span><i></i> Officially confirmed</span>
+        <span><i class="e"></i> Expected, based on past cycles</span>
+      </div>
+    </div>
+    <aside class="jr-hero-card">
+      <div class="lab">2026 cycle · JEE Main to an IIT seat</div>
+      <div class="big">16,04,854</div>
+      <div class="sub">students registered for JEE Main &mdash; only <b style="color:#FFB27D">18,861</b> got an IIT seat.</div>
+      <div class="row">
+        <div><b>67,323</b><span>JoSAA seats in 2026</span></div>
+        <div><b>138</b><span>institutes in JoSAA</span></div>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<nav class="jr-nav" aria-label="Roadmap sections">
+  <div class="wrap">
+    <a href="#numbers">The numbers</a>
+    <a href="#seats">Seats</a>
+    <a href="#fees">Fees</a>
+    <a href="#process">Process map</a>
+    <a href="#register">Register</a>
+    <a href="#nri">NRI &amp; DASA</a>
+    <a href="#below75">Below 75%</a>
+    <a href="#india-nri">Parents abroad</a>
+    <a href="#gantt">Oct 2026–Aug 2027</a>
+  </div>
+</nav>
+
+<!-- ================= NUMBERS ================= -->
+<section class="sec" id="numbers">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eb">By the numbers · 2025 and 2026</span>
+      <h2>How many students <span class="it">applied</span></h2>
+      <p>The 2026 funnel, from registration to an IIT seat. Roughly 1 in 85 JEE Main registrants ends up in an IIT.</p>
+    </div>
+
+    <div class="jr-funnel">
+      <div class="jr-frow"><div class="nm">Registered for JEE Main<small>Unique candidates</small></div>
+        <div><div class="jr-fbar" style="width:100%">16,04,854</div></div></div>
+      <div class="jr-frow"><div class="nm">Shortlisted for Advanced<small>~top 2.5 lakh Paper 1</small></div>
+        <div><div class="jr-fbar" style="width:42%">2,50,174</div><div class="jr-fpct">15.6% of registrants</div></div></div>
+      <div class="jr-frow"><div class="nm">Registered for Advanced</div>
+        <div><div class="jr-fbar" style="width:36%">1,87,389</div><div class="jr-fpct">74.9% of shortlisted</div></div></div>
+      <div class="jr-frow"><div class="nm">Qualified Advanced</div>
+        <div><div class="jr-fbar o" style="width:20%">56,880</div><div class="jr-fpct">30.4% of registered</div></div></div>
+      <div class="jr-frow"><div class="nm">Got an IIT seat</div>
+        <div><div class="jr-fbar o" style="width:12%">18,861</div><div class="jr-fpct">33.2% of qualified</div></div></div>
+    </div>
+
+    <div class="jr-grid2">
+      <div class="jr-card">
+        <h3>JEE Main</h3><div class="cap">Paper 1 · B.E./B.Tech · NTA</div>
+        <table class="jr-cmp">
+          <thead><tr><th></th><th>2025</th><th>2026</th></tr></thead>
+          <tbody>
+            <tr><td>Session 1 registered</td><td>13,11,544</td><td>13,55,293</td></tr>
+            <tr><td>Session 1 appeared</td><td>12,58,136</td><td>13,04,653</td></tr>
+            <tr><td>Session 2 registered</td><td>10,61,840</td><td>11,10,904</td></tr>
+            <tr><td>Unique candidates</td><td>15,39,848</td><td>16,04,854 <span class="jr-up">▲ 4.2%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="jr-card">
+        <h3>JEE Advanced</h3><div class="cap">Organised by IIT Kanpur (2025), IIT Roorkee (2026)</div>
+        <table class="jr-cmp">
+          <thead><tr><th></th><th>2025</th><th>2026</th></tr></thead>
+          <tbody>
+            <tr><td>Registered</td><td>1,87,223</td><td>1,87,389</td></tr>
+            <tr><td>Appeared in both papers</td><td>1,80,422</td><td>1,79,694</td></tr>
+            <tr><td>Qualified</td><td>54,378</td><td>56,880 <span class="jr-up">▲ 4.6%</span></td></tr>
+            <tr><td>IIT seats allotted</td><td>18,188</td><td>18,861 <span class="jr-up">▲ 3.7%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SEATS ================= -->
+<section class="sec" id="seats">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eb">Institutes and seats through JoSAA</span>
+      <h2>67,323 seats, <span class="it">138 institutes</span></h2>
+      <p>2026 total up from 62,853 in 2025 (+4,470). 128 institutes took part in 2025.</p>
+    </div>
+    <div class="jr-seats">
+      <div class="jr-donut" role="img" aria-label="JoSAA seats 2026: IITs 18,951; NITs 25,162; IIITs 11,518; GFTIs 11,692">
+        <div class="mid"><b>67,323</b><span>JoSAA seats 2026</span></div>
+      </div>
+      <div>
+        <div class="jr-seatlist">
+          <div class="jr-seat"><i style="background:var(--jr-iit)"></i><div><b>IITs + IISc <small>· JEE Advanced rank</small></b><small>23 IITs (18,826) and IISc Bengaluru, which joined JoSAA in 2026</small></div><div class="n">18,951<small>2025: 18,160</small></div></div>
+          <div class="jr-seat"><i style="background:var(--jr-nit)"></i><div><b>NITs <small>· JEE Main rank</small></b><small>31 NITs and IIEST Shibpur</small></div><div class="n">25,162<small>2025: 24,525</small></div></div>
+          <div class="jr-seat"><i style="background:var(--jr-iiit)"></i><div><b>IIITs <small>· JEE Main rank</small></b><small>26 IIITs</small></div><div class="n">11,518<small>2025: 9,940</small></div></div>
+          <div class="jr-seat"><i style="background:var(--jr-gftis)"></i><div><b>GFTIs <small>· JEE Main rank</small></b><small>56 Government Funded Technical Institutes</small></div><div class="n">11,692<small>2025: 10,228</small></div></div>
+        </div>
+        <div class="jr-split" aria-hidden="true">
+          <span style="width:28.15%;background:var(--jr-iit)"></span>
+          <span style="width:71.85%;background:linear-gradient(90deg,var(--jr-nit),var(--jr-gftis))"></span>
+        </div>
+        <p class="jr-note" style="margin-top:12px"><b>18,951</b> seats via JEE Advanced &middot; <b>48,372</b> seats via JEE Main. Seat counts exclude CSAB, DASA and state counselling.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEES ================= -->
+<section class="sec" id="fees">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eb">Fees through JoSAA · 2026 · General / OBC-NCL / EWS</span>
+      <h2>What a seat <span class="it">actually costs</span></h2>
+      <p>Tuition is the same at every institute in a system. The realistic cost is tuition plus hostel and mess.</p>
+    </div>
+    <div class="jr-fees">
+      <div class="jr-fee a">
+        <div class="lab">JEE Advanced</div><h3>IITs</h3>
+        <dl>
+          <div><dt>Per semester</dt><dd>₹1,00,000</dd></div>
+          <div><dt>Tuition, 4 years</dt><dd>₹8,00,000</dd></div>
+          <div><dt>Same at all 23 IITs</dt><dd>Yes</dd></div>
+        </dl>
+        <div class="tot">Realistic 4-year total<b>~₹10 lakh +</b></div>
+      </div>
+      <div class="jr-fee b">
+        <div class="lab">JEE Main</div><h3>NITs</h3>
+        <dl>
+          <div><dt>Per semester</dt><dd>₹62,500</dd></div>
+          <div><dt>Tuition, 4 years</dt><dd>₹5,00,000</dd></div>
+          <div><dt>Hostel + mess</dt><dd>₹30–60k / sem</dd></div>
+        </dl>
+        <div class="tot">4-year total with hostel<b>₹8.5–12 lakh</b></div>
+      </div>
+      <div class="jr-fee c">
+        <div class="lab">JEE Main</div><h3>IIITs</h3>
+        <dl>
+          <div><dt>Tuition, 4 years</dt><dd>₹4–20 lakh</dd></div>
+          <div><dt>Central IIITs (5)</dt><dd>Lower fees</dd></div>
+          <div><dt>PPP-model IIITs (21)</dt><dd>Higher fees</dd></div>
+        </dl>
+        <div class="tot">Hostel + mess<b>₹55k–1.5 lakh / yr</b></div>
+      </div>
+    </div>
+    <div class="jr-chips">
+      <div class="jr-chip"><small>Seat Acceptance Fee · all systems</small><b>₹30,000–35,000</b><small>SC/ST/PwD ₹15,000</small></div>
+      <div class="jr-chip"><small>Partial Admission Fee · NIT+ only</small><b>₹45,000</b><small>SC/ST/PwD ₹20,000</small></div>
+      <div class="jr-chip"><small>JoSAA registration</small><b>No fee</b></div>
+    </div>
+    <p class="jr-note">Both JoSAA fees are adjusted against the first-semester institute fee, not paid on top of it. Reported 2026 SAF figures differ between ₹30,000 and ₹35,000; check the JoSAA 2027 brochure. SC/ST/PwD students and lower-income families get tuition waivers at IITs and NITs. Hostel, mess and one-time charges vary by institute.</p>
+  </div>
+</section>
+
+<!-- ================= PROCESS MAP ================= -->
+<section class="sec" id="process">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eb">The 2027 process map</span>
+      <h2>Six steps, <span class="it">two routes</span></h2>
+      <p>Follow the green dots for officially confirmed dates; orange dots are expected dates based on past cycles.</p>
+    </div>
+
+    <div class="jr-tl">
+      <div class="jr-step">
+        <div><div class="k">Step 01 · NTA</div><h3>Register for JEE Main</h3>
+          <div class="when">Late Oct – late Nov 2026</div>
+          <p>Apply online at jeemain.nta.nic.in once the information bulletin is out. Check eligibility, upload documents, pay the fee and pick exam cities. <a href="#register">See the full registration route ↓</a></p></div>
+        <span class="tag tag--exp">Expected</span>
+      </div>
+      <div class="jr-step ok">
+        <div><div class="k">Step 02 · NTA</div><h3>JEE Main · Session 1</h3>
+          <div class="when">22–24 &amp; 28–30 Jan 2027</div></div>
+        <span class="tag tag--ok">Confirmed</span>
+        <div class="jr-kv"><span><b>Buffer day</b> 31 Jan 2027</span><span><b>Mode</b> Computer-based test</span><span><b>Shifts</b> 9 AM–12 PM · 3–6 PM</span></div>
+      </div>
+      <div class="jr-step">
+        <div><div class="k">Step 03 · NTA</div><h3>Session 1 result</h3><div class="when">Feb 2027</div>
+          <p>NTA publishes the answer key, then your Session 1 percentile.</p></div>
+        <span class="tag tag--exp">Expected</span>
+      </div>
+      <div class="jr-step">
+        <div><div class="k">Step 04 · NTA · Optional</div><h3>JEE Main · Session 2</h3><div class="when">Register Feb · Exam early Apr 2027</div>
+          <p>A second attempt to improve your score. Skipping it does not affect your Session 1 result.</p></div>
+        <span class="tag tag--opt">Optional</span>
+      </div>
+      <div class="jr-step">
+        <div><div class="k">Step 05 · NTA</div><h3>Final NTA score and All India Rank</h3><div class="when">Late Apr 2027</div>
+          <p>The better of your two session percentiles is used to rank you. This rank decides which route opens next.</p></div>
+        <span class="tag tag--exp">Expected</span>
+      </div>
+    </div>
+
+    <div class="jr-fork">
+      <div class="jr-route a">
+        <div class="rl">Route A · IITs</div><h3>Qualify for JEE Advanced</h3>
+        <p style="color:var(--jr-mute);font-size:14px;margin-bottom:16px">Roughly the top 2.5 lakh JEE Main Paper 1 candidates, split by category, become eligible.</p>
+        <ol>
+          <li><b>Late Apr – early May 2027</b><div><strong>Register on jeeadv.ac.in</strong><span>A separate registration and fee, with a short window.</span></div></li>
+          <li><b>Mid-May 2027</b><div><strong>JEE Advanced exam</strong><span>Expected to be organised by IIT Delhi. Paper 1 and Paper 2 on the same day; both are compulsory.</span></div></li>
+          <li><b>Early Jun 2027</b><div><strong>Advanced result and rank</strong><span>Qualified candidates can sit the Architecture Aptitude Test if they want B.Arch at an IIT.</span></div></li>
+        </ol>
+      </div>
+      <div class="jr-route b">
+        <div class="rl">Route B · NITs, IIITs, GFTIs</div><h3>No further exam</h3>
+        <p style="color:var(--jr-mute);font-size:14px;margin-bottom:16px">Your JEE Main rank goes straight into counselling. Students on Route A keep this rank too, so they can apply to both groups.</p>
+        <ol>
+          <li><b>May 2027</b><div><strong>Use the gap well</strong><span>Shortlist colleges and branches against previous years&rsquo; JoSAA closing ranks, and keep category, PwD and home-state documents ready.</span></div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="jr-merge">
+      <div class="ico">⇄</div>
+      <div>
+        <span class="tag tag--exp">Expected · Step 06 · JoSAA</span>
+        <h3 style="margin-top:8px">JoSAA counselling · Jun – Jul 2027</h3>
+        <p>One common process for IITs, NITs, IIITs and GFTIs, usually run over six rounds: register and fill choices → mock allotments → seat allotment rounds → accept, pay fee, verify documents.</p>
+      </div>
+      <div class="jr-pair"><span>Seat by <b>JEE Advanced rank</b> → IITs</span><span>Seat by <b>JEE Main rank</b> → NITs · IIITs · GFTIs</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= REGISTRATION ================= -->
+<section class="sec" id="register">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eb">Step 01 in detail · Registration</span>
+      <h2>How to register for <span class="it">JEE Main 2027</span></h2>
+      <p>Online only, at jeemain.nta.nic.in. NTA is expected to open Session 1 registration in the last week of October 2026, for about 30 days. Session 2 needs a separate registration around early February 2027.</p>
+    </div>
+    <div class="jr-reg">
+      <div class="jr-rg"><div class="d">Before Oct 2026</div><h3>Keep documents ready</h3>
+        <p>Scan these to NTA&rsquo;s size limits before the window opens. Keep Aadhaar handy; name and date of birth should match your Class 10 records.</p>
+        <div class="jr-docs" style="grid-template-columns:1fr">
+          <div class="jr-doc"><b>Photograph</b><em>JPG · 10–200 KB</em><br>White background, name and date printed below</div>
+          <div class="jr-doc"><b>Signature</b><em>JPG · 4–30 KB</em><br>Running hand, black or blue ink</div>
+          <div class="jr-doc"><b>Class 10 certificate</b><em>PDF · 50–300 KB</em><br>For date of birth</div>
+          <div class="jr-doc"><b>Category / PwD certificate</b><em>PDF · 50–300 KB</em><br>Only if claiming reservation</div>
+        </div></div>
+      <div class="jr-rg"><div class="d">Late Oct 2026</div><h3>Create your login</h3><p>Register on jeemain.nta.nic.in with a working email and mobile number. Note down the application number and password.</p></div>
+      <div class="jr-rg"><h3>Fill the application form</h3><p>Personal and academic details, the paper and session you are applying for, and four exam city choices.</p>
+        <div class="jr-paper3"><span>Paper 1 · B.E./B.Tech</span><span>Paper 2A · B.Arch</span><span>Paper 2B · B.Planning</span></div></div>
+      <div class="jr-rg"><h3>Upload documents</h3><p>Photograph, signature, Class 10 certificate and any category or PwD certificate.</p></div>
+      <div class="jr-rg"><div class="d">Late Nov 2026</div><h3>Pay the fee online</h3><p>Debit card, credit card, net banking or UPI. The form is complete only after the payment succeeds.</p></div>
+      <div class="jr-rg"><h3>Download the confirmation page</h3><p>Save and print it. Keep it until admission is complete.</p></div>
+      <div class="jr-rg"><div class="d">Dec 2026</div><h3>Correction window</h3><p>A short window to edit selected fields. Check every detail before it closes.</p></div>
+      <div class="jr-rg"><div class="d">Jan 2027</div><h3>City slip, then admit card</h3><p>NTA releases the exam city intimation slip first, then the admit card a few days before your exam date in the 22–30 Jan window.</p></div>
+    </div>
+    <div class="jr-feegrid">
+      <div class="jr-fg"><b>₹1,000</b><span>General · Male</span></div>
+      <div class="jr-fg"><b>₹900</b><span>Gen-EWS / OBC-NCL · Male</span></div>
+      <div class="jr-fg"><b>₹800</b><span>Gen / EWS / OBC · Female</span></div>
+      <div class="jr-fg"><b>₹500</b><span>SC / ST / PwD / Transgender</span></div>
+    </div>
+    <p class="jr-note">Per paper, per session, for centres in India. Higher fees apply for overseas centres. Bank charges and GST extra.</p>
+  </div>
+</section>
+
+<!-- ================= NRI / DASA ================= -->
+<section class="sec" id="nri">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eb">Route C · NRI, OCI, PIO, foreign nationals</span>
+      <h2>NRI students can use <span class="it">JoSAA and DASA</span></h2>
+      <p>Direct Admission of Students Abroad (DASA) fills supernumerary seats at NITs, IIITs, IIEST, SPAs and other GFTIs, on JEE Main rank. Since 2025, DASA runs together with the CSAB Special Rounds on csab.nic.in, after JoSAA ends. IITs are not part of DASA. <span class="tag tag--ok">Validated against the DASA 2026 brochure</span></p>
+    </div>
+
+    <div class="jr-yes">
+      <div class="jr-yn"><div class="t">Yes · JoSAA</div><h3>NRIs can join JoSAA</h3><p>NRI and OCI/PIO candidates can take part in JoSAA with their JEE Main (and JEE Advanced) rank, like any other candidate.</p></div>
+      <div class="jr-yn"><div class="t">Yes · DASA after JoSAA</div><h3>A JoSAA seat does not block DASA</h3><p>Candidates who secured an NIT+ seat in JoSAA (SAF and PAF paid) can register for DASA as fresh candidates and keep that seat. IIT seat holders can also register.</p></div>
+      <div class="jr-yn warn"><div class="t">Note · CSAB</div><h3>One portal, one registration</h3><p>DASA and CSAB-Special share a single process on csab.nic.in. In 2026 it had two allotment rounds (it had three in 2024 and 2025). If DASA allots a new seat, the earlier JoSAA seat is cancelled.</p></div>
+    </div>
+
+    <div class="jr-hops">
+      <div class="jr-hop"><div class="k">C1 · Jan – Apr 2027</div><b>Take JEE Main</b><span>Mandatory. Overseas exam centres are available.</span></div>
+      <div class="jr-hop"><div class="k">C2 · Jun – Jul 2027 · Optional</div><b>JoSAA counselling</b><span>Secure a regular seat first, if you want a fallback.</span></div>
+      <div class="jr-hop"><div class="k">C3 · Late Jul 2027</div><b>Register on csab.nic.in</b><span>Fresh registration, pay the DASA Enrolment Fee (DEF), pick your category tag.</span></div>
+    </div>
+
+    <div class="jr-two">
+      <div class="jr-lane ciwg">
+        <span class="tag tag--exp">DASA-CIWG</span>
+        <h3 style="margin-top:8px">Children of Indian Workers in Gulf</h3>
+        <ol>
+          <li data-n="1"><div><b>Check CIWG eligibility</b><span>NRI student with one or both parents working in UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar or Saudi Arabia.</span></div></li>
+          <li data-n="2"><div><b>Prepare documents</b><span>Passport, NRI proof, parent&rsquo;s Gulf employment proof, Class 10–12 transcripts and JEE Main scorecard.</span></div></li>
+          <li data-n="3"><div><b>Register and fill choices <em>Late Jul</em></b><span>Choose the DASA-CIWG tag on csab.nic.in, pay the DEF, upload documents and lock choices.</span></div></li>
+          <li data-n="4"><div><b>Seat allotment <em>Aug</em></b><span>One-third of DASA seats are reserved for CIWG. CIWG candidates are also considered for Non-CIWG seats.</span></div></li>
+          <li data-n="5"><div><b>Accept and report <em>Aug</em></b><span>Pay the fee, clear document verification and report to the allotted institute.</span></div></li>
+        </ol>
+      </div>
+      <div class="jr-lane gen">
+        <span class="tag tag--opt">DASA · Non-CIWG</span>
+        <h3 style="margin-top:8px">NRI, OCI, PIO and foreign nationals</h3>
+        <ol>
+          <li data-n="1"><div><b>Check DASA eligibility</b><span>NRIs and OCI/PIO card holders from any country get the DASA (Non-SAARC) tag. Foreign nationals of SAARC countries get the DASA (SAARC) tag.</span></div></li>
+          <li data-n="2"><div><b>Prepare documents</b><span>Passport or OCI/PIO card, NRI proof, Class 10–12 transcripts and JEE Main scorecard.</span></div></li>
+          <li data-n="3"><div><b>Register and fill choices <em>Late Jul</em></b><span>Choose the DASA tag on csab.nic.in, pay the DEF, upload documents and lock choices.</span></div></li>
+          <li data-n="4"><div><b>Seat allotment <em>Aug</em></b><span>Seats are allotted on JEE Main rank, category and choices. SAARC nationals get a 50% tuition fee waiver.</span></div></li>
+          <li data-n="5"><div><b>Accept and report <em>Aug</em></b><span>Pay the fee (charged in USD), clear document verification and report to the allotted institute.</span></div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="jr-rings">
+      <div class="jr-ring"><div class="c" style="--p:75"><b>75%</b></div><span>Or 7.5 CGPA in qualifying exam</span></div>
+      <div class="jr-ring"><div class="c" style="--p:33.3"><b>⅓</b></div><span>DASA seats reserved for CIWG</span></div>
+      <div class="jr-ring"><div class="c" style="--p:100"><b style="font-size:17px">1 Oct ’01</b></div><span>2026 age cut-off: born on or after</span></div>
+    </div>
+
+    <div class="jr-grid2">
+      <div class="jr-card">
+        <h3>DASA seats</h3><div class="cap">Supernumerary · up to 15% of programme intake</div>
+        <div class="jr-bars">
+          <div class="jr-bar"><div class="lb"><span>2025 · Total</span><b>4,562</b></div><div class="tr"><i class="c" style="width:33.3%"></i><i class="n" style="width:66.7%"></i></div></div>
+          <div class="jr-bar"><div class="lb"><span>2026 · Total (≈, one-third CIWG)</span><b>~6,118</b></div><div class="tr"><i class="c" style="width:33.3%"></i><i class="n" style="width:66.7%"></i></div></div>
+        </div>
+        <table class="jr-cmp" style="margin-top:14px">
+          <tbody>
+            <tr><td><span class="tag tag--exp">2025 · DASA-CIWG</span></td><td>1,520</td></tr>
+            <tr><td><span class="tag tag--opt">2025 · DASA Non-CIWG</span></td><td>3,042</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="jr-card">
+        <h3>2026 counselling fee (DEF)</h3><div class="cap">Registration US$300 + first-semester tuition</div>
+        <table class="jr-cmp">
+          <tbody>
+            <tr><td>DASA-CIWG</td><td>US$300 + ₹62,500 <span class="jr-up" style="color:var(--jr-mute)">≈ USD 1,046</span></td></tr>
+            <tr><td>DASA · SAARC</td><td>USD 2,300</td></tr>
+            <tr><td>DASA · Non-SAARC</td><td>USD 4,300</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <p class="jr-note">Rules above are from the DASA 2026 brochure. Seat counts are from the DASA 2025 and 2026 seat matrices as reported in news coverage. The DASA 2027 brochure is not out yet; age cut-off, fees and dates will be confirmed there. See our <a href="{{ url_for('main.dasa_2026') }}">DASA 2027 atlas</a> and <a href="{{ url_for('main.dasa2026_schedule') }}">schedule page</a>.</p>
+  </div>
+</section>
+
+<!-- ================= BELOW 75% ================= -->
+<section class="sec" id="below75">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eb">Alternate map · Below 75% in Class 12</span>
+      <h2>Scored under 75%? <span class="it">You still have routes</span></h2>
+      <p>IITs, NITs, IIITs and GFTIs admitted through JoSAA need 75% in Class 12 (65% for SC/ST/PwD) or a place in the top 20 percentile of your board. The rule applies at admission only. You can still sit JEE Main and JEE Advanced, and your rank is not affected by board marks.</p>
+    </div>
+    <div class="jr-tree">
+      <div class="jr-node start"><b>Take JEE Main 2027 as planned</b><small>Class 12 aggregate (five subjects) below 75%, or below 65% for SC/ST/PwD.</small></div>
+      <div class="jr-arrow">▼</div>
+      <div class="jr-node"><b>Are you in the top 20 percentile of your board?</b><small>Each board publishes its own cut-off mark; JoSAA lists them</small></div>
+      <div class="jr-arrow">▼</div>
+      <div class="jr-branches">
+        <div class="jr-br yes"><span class="yn">YES</span><h3>Eligible for JoSAA</h3><p>Continue on Route A or B in the main map. IIT, NIT, IIIT and GFTI seats are all open to you.</p></div>
+        <div class="jr-br no"><span class="yn">NO</span><h3>Not eligible for JoSAA seats yet</h3><p>You can still register and take part in counselling, but a seat is confirmed only if you meet the rule. Pick one or more options below.</p></div>
+      </div>
+      <div class="jr-arrow">▼</div>
+      <div class="jr-opts">
+        <div class="jr-opt"><div class="k">OPTION 01</div><h3>Improve your board marks</h3><p>Take the board improvement or supplementary exam. In 2026, JoSAA let candidates submit a revised Class 12 marksheet by 15 July to keep an allotted seat. Check the JoSAA 2027 brochure for this year&rsquo;s deadline.</p></div>
+        <div class="jr-opt"><div class="k">OPTION 02</div><h3>Institutes that use JEE Main without the 75% rule</h3><p>Own process, lower board cut-offs. Apply separately on each portal.</p>
+          <ul>
+            <li>IIIT Hyderabad<span>PCM pass</span></li>
+            <li>IIIT Bangalore<span>65%</span></li>
+            <li>IIIT Delhi<span>70%</span></li>
+            <li>Thapar, LNMIIT<span>60%</span></li>
+            <li>Nirma, DA-IICT<span>Own criteria</span></li>
+            <li>SRM (KTR)<span>Top ~1,000 JEE Main ranks</span></li>
+          </ul></div>
+        <div class="jr-opt"><div class="k">OPTION 03</div><h3>State and private counselling</h3><p>These do not use JEE Main for B.E./B.Tech, but their board cut-offs are below 75%.</p>
+          <ul>
+            <li>Anna University<span>TNEA · Class 12 PCM</span></li>
+            <li>RVCE Bengaluru<span>KCET / COMEDK</span></li>
+            <li>VIT<span>VITEEE · 60% PCM</span></li>
+          </ul></div>
+        <div class="jr-opt"><div class="k">OPTION 04</div><h3>Retake in 2028</h3><p>JEE Main can be taken in three consecutive years and JEE Advanced twice. Clear the board improvement first, then attempt again with the 75% rule met.</p></div>
+      </div>
+    </div>
+    <p class="jr-note">Cut-offs listed are from the 2026 admission cycle and change every year. Confirm on each institute&rsquo;s admission page before applying.</p>
+  </div>
+</section>
+
+<!-- ================= NRI STUDIED IN INDIA ================= -->
+<section class="sec" id="india-nri">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eb">Alternate map · NRI, studied in India</span>
+      <h2>Parents abroad, <span class="it">school in India</span></h2>
+      <p>DASA looks at where the student studied, not where the parents work. An Indian national must complete at least two years of education abroad, including Classes 11 and 12, within the last eight years, and pass Class 12 from abroad. This applies to CIWG too.</p>
+    </div>
+    <div class="jr-tree">
+      <div class="jr-node start"><b>Class 11 and 12 in India, parents working outside India</b><small>What is the student&rsquo;s nationality?</small></div>
+      <div class="jr-arrow">▼</div>
+      <div class="jr-yes" style="width:100%">
+        <div class="jr-yn no"><div class="t">Indian passport</div><h3>Not eligible for DASA or CIWG</h3><p>The study-abroad rule is not met, even if a parent works in the Gulf. Apply as a regular Indian candidate.</p></div>
+        <div class="jr-yn warn"><div class="t">OCI or PIO card</div><h3>Check the DASA brochure</h3><p>The 2026 brochure applies the same study-abroad rule to OCI and PIO candidates who choose Indian-national status (OCI/PIO (I)). Confirm your case with the 2027 brochure before planning on DASA.</p></div>
+        <div class="jr-yn"><div class="t">Foreign passport</div><h3>DASA is open</h3><p>Foreign nationals studying in any country, including India, can apply. Follow Route C in this map.</p></div>
+      </div>
+    </div>
+
+    <div class="sec-head" style="margin-top:46px"><h3 style="font-size:1.6rem">Indian passport · your route: same process as any Indian student</h3></div>
+    <div class="jr-reg">
+      <div class="jr-rg"><h3>Register for JEE Main from India</h3><p>Use the Step 01 registration route. Pick exam cities near your school, not where your parents live.</p></div>
+      <div class="jr-rg"><h3>JEE Advanced, if you qualify</h3><p>Route A for IITs. No separate NRI process.</p></div>
+      <div class="jr-rg"><h3>JoSAA, then CSAB-Special</h3><p>Seats are allotted on your rank and category like any Indian candidate.</p></div>
+      <div class="jr-rg"><h3>Home State is where you passed Class 12</h3><p>NIT Home State quota follows the state of your Class 12 board exam, so studying in India gives you a Home State.</p></div>
+      <div class="jr-rg"><h3>State counselling</h3><p>You may be eligible in the state where you studied, for example TNEA in Tamil Nadu. Each state sets its own residence rules.</p></div>
+      <div class="jr-rg"><h3>NRI and NRI-sponsored quotas</h3><p>Many private and deemed universities, and some state systems, keep seats for NRI wards or NRI-sponsored candidates. Rules, fees and eligibility differ by institute.</p></div>
+    </div>
+    <div class="jr-merge" style="margin-top:26px">
+      <div class="ico">🎯</div>
+      <div><span class="tag tag--opt">Planning ahead · Class 9–10 now</span><h3 style="margin-top:8px">Want DASA or CIWG later?</h3>
+        <p>The student would need to move abroad and complete Classes 11 and 12 there, passing the Class 12 exam from abroad. With a parent in an eligible Gulf country, CIWG then opens too.</p></div>
+      <div class="jr-pair"><span>Rules from the DASA 2025 and 2026 brochures</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= GANTT ================= -->
+<section class="sec" id="gantt">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eb">At a glance · Oct 2026 – Aug 2027</span>
+      <h2>Eleven months, <span class="it">four milestones</span></h2>
+    </div>
+    <div class="jr-gantt">
+      <div class="jr-gt">
+        <div class="jr-gh"><div></div>
+          <div class="mm">
+            <div class="m y">Oct ’26</div><div class="m">Nov</div><div class="m">Dec</div><div class="m y">Jan ’27</div><div class="m">Feb</div><div class="m">Mar</div>
+            <div class="m">Apr</div><div class="m">May</div><div class="m">Jun</div><div class="m">Jul</div><div class="m">Aug</div>
+          </div></div>
+        <div class="jr-gr"><div class="lbl">Main registration</div><div class="track"><div class="bar" style="grid-column:1/3;background:#FF6B0A">Late Oct – late Nov</div></div></div>
+        <div class="jr-gr"><div class="lbl">Correction window</div><div class="track"><div class="bar" style="grid-column:3/4;background:#8A5CF5">Dec</div></div></div>
+        <div class="jr-gr"><div class="lbl">JEE Main · Session 1</div><div class="track"><div class="bar" style="grid-column:4/5;background:#1F8B5C">22–31 Jan</div></div></div>
+        <div class="jr-gr"><div class="lbl">JEE Main · Session 2</div><div class="track"><div class="bar" style="grid-column:5/8;background:#0E3A8A">Register Feb · exam early Apr</div></div></div>
+        <div class="jr-gr"><div class="lbl">JEE Advanced</div><div class="track"><div class="bar" style="grid-column:7/10;background:#071A44">Reg → exam mid-May → result</div></div></div>
+        <div class="jr-gr"><div class="lbl">JoSAA counselling</div><div class="track"><div class="bar" style="grid-column:9/11;background:#C2410C">Jun – Jul</div></div></div>
+        <div class="jr-gr"><div class="lbl">DASA + CSAB-Special</div><div class="track"><div class="bar" style="grid-column:10/12;background:#145C3E">Late Jul – Aug</div></div></div>
+      </div>
+    </div>
+    <div class="jr-ms">
+      <div class="jr-m"><small>Oct – Nov 2026</small><b>Register for JEE Main</b></div>
+      <div class="jr-m"><small>Jan – Apr 2027</small><b>Main Session 1 &amp; 2</b></div>
+      <div class="jr-m"><small>May – Jun 2027</small><b>JEE Advanced</b></div>
+      <div class="jr-m"><small>Jun – Aug 2027</small><b>JoSAA, then DASA / CSAB</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="jr-cta">
+  <div class="wrap">
+    <h2>Turn the roadmap into <span class="it" style="color:#FFB27D">your</span> plan.</h2>
+    <p>A mentor maps your rank, category and home state onto this calendar &mdash; and tells you which route, which round and which choice list to build.</p>
+    <div class="btns">
+      <a class="jr-btn p" href="{{ url_for('onboarding.landing') }}">Start the Onboarding Assessment →</a>
+      <a class="jr-btn g" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">Chat with a mentor</a>
+    </div>
+  </div>
+</section>
+
+<section class="jr-src">
+  <div class="wrap">
+    <p><b>Sources &amp; notes.</b> Figures as published by NTA (JEE Main), the organising IITs&rsquo; result releases and JIC reports (JEE Advanced) and the JoSAA seat matrix, via news coverage. Seat counts exclude CSAB, DASA and state counselling. Unique candidates are counted once even if they wrote both sessions. Dates as of 5 Oct 2026 &mdash; verify on nta.ac.in and jeeadv.ac.in; confirm against the official notices before acting. Cut-offs, fees and dates are revised every cycle.</p>
+  </div>
+</section>
+
+</div>
+{% endblock %}
