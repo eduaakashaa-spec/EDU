@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block title %}DASA 2026 — Interactive Pathway Atlas | EduAakashaA{% endblock %}
+{% block title %}DASA 2027 — Pathway Atlas &amp; What We Know So Far | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="DASA / CIWG 2027 pathway atlas built on the latest official brochure (DASA 2026, Version 1.5). The official 2027 schedule is not yet announced — what carries over, fees, eligibility and what to prepare now.">{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 {% endblock %}
@@ -11,8 +12,8 @@
   <div class="container">
     <div class="hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">DASA 2026 &middot; Interactive Pathway Atlas</span>
-        <h1 style="margin-top:22px;">The complete DASA &amp; CIWG <span class="accent">roadmap, built for 2026</span></h1>
+        <span class="eyebrow">DASA 2027 &middot; Interactive Pathway Atlas</span>
+        <h1 style="margin-top:22px;">The complete DASA &amp; CIWG <span class="accent">roadmap, ready for 2027</span></h1>
         <p class="hero-sub">Three quick questions about your passport, schooling, and parent&rsquo;s employment &mdash; and the diagram traces your exact admission pathway. CIWG, General DASA, OCI/PIO, Foreign National, or the JoSAA fallback: it all becomes clear in under a minute.</p>
         <div class="hero-ctas">
           <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
@@ -20,20 +21,24 @@
         </div>
       </div>
       <aside class="hero-card">
-        <div class="hero-card-eyebrow">DASA 2026 &middot; At a Glance</div>
+        <div class="hero-card-eyebrow">Latest official cycle &middot; DASA 2026</div>
         <div class="hero-card-title">Every pathway, one cycle</div>
         <div class="hero-card-rows">
           <div class="hero-card-row">
-            <span class="hcr-label">Institutes</span>
-            <span class="hcr-value">84</span>
+            <span class="hcr-label">Institutes (2026)</span>
+            <span class="hcr-value">87</span>
           </div>
           <div class="hero-card-row">
             <span class="hcr-label">Entrance</span>
-            <span class="hcr-value">JEE Main 2026</span>
+            <span class="hcr-value">JEE Main rank</span>
           </div>
           <div class="hero-card-row">
-            <span class="hcr-label">Coordinator</span>
+            <span class="hcr-label">Coordinator (2026)</span>
             <span class="hcr-value">IIEST Shibpur</span>
+          </div>
+          <div class="hero-card-row">
+            <span class="hcr-label">2027 schedule</span>
+            <span class="hcr-value">Not yet announced</span>
           </div>
         </div>
       </aside>
@@ -43,27 +48,37 @@
 
 <div class="main-content">
 
-  <!-- What changed for 2026 -->
+  <!-- 2027 status notice -->
+  <section class="section">
+    <div class="info-cards info-cards--4" style="grid-template-columns:1fr;">
+      <div class="info-card" style="border-left:4px solid var(--gold);">
+        <h4 class="info-card__title">DASA 2027 status &middot; updated October 2026</h4>
+        <p class="info-card__text"><strong>The official DASA 2027 Information Brochure and counselling schedule have not been published yet.</strong> The latest official document is the <em>DASA 2026</em> Information Brochure (Version 1.5, 27 July 2026, coordinated by IIEST Shibpur), on <a href="https://csab.nic.in" target="_blank" rel="noopener noreferrer">csab.nic.in</a>. Everything below is taken from that brochure. DASA rules, fees and dates are revised every cycle, so treat it as the best indicator for 2027 &mdash; not a guarantee. We will update this page the day the 2027 brochure is released. Do not rely on any site that quotes &ldquo;confirmed&rdquo; 2027 dates.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What the latest brochure says -->
   <section class="section">
     <div class="section__header">
-      <span class="eyebrow">What Changed for 2026</span>
-      <h2 class="section__title">SAT is out. JEE Main decides everything.</h2>
-      <p class="section__desc">JEE Main 2026 is the sole entrance examination &mdash; it applies to every pathway in this atlas: General DASA, CIWG, OCI/PIO, and Foreign National. The SAT-to-JEE shift has been in effect since the 2021&ndash;22 admission cycle.</p>
+      <span class="eyebrow">Latest Official Rules &middot; DASA 2026 Brochure</span>
+      <h2 class="section__title">JEE Main rank decides everything.</h2>
+      <p class="section__desc">In the 2026 cycle, a valid JEE (Main) rank was the sole entrance requirement for every pathway in this atlas: General DASA, CIWG, OCI/PIO, and Foreign National. DASA 2027 is expected to follow the same JEE Main-based model, using your JEE Main 2027 rank &mdash; to be confirmed in the 2027 brochure. SAT scores have not been the basis of DASA admission since the 2021&ndash;22 cycle.</p>
     </div>
 
     <div class="steps">
       <div class="step">
         <span class="step__num">01</span>
         <div>
-          <div class="step__title">SAT no longer accepted</div>
-          <div class="step__text">SAT Subject Tests are no longer accepted under DASA or CIWG.</div>
+          <div class="step__title">SAT is not the basis of admission</div>
+          <div class="step__text">Seat allocation under DASA and CIWG is on JEE Main rank &mdash; SAT / SAT Subject Test scores are not used.</div>
         </div>
       </div>
       <div class="step">
         <span class="step__num">02</span>
         <div>
-          <div class="step__title">JEE Main 2026 is the sole basis</div>
-          <div class="step__text">Your JEE Main 2026 All India Rank is the only basis for seat allocation.</div>
+          <div class="step__title">JEE Main rank is the sole basis</div>
+          <div class="step__text">In 2026 the JEE (Main) rank of Paper 1 / 2A / 2B was the only basis for seat allocation; the 2027 cycle will need your JEE Main 2027 rank.</div>
         </div>
       </div>
       <div class="step">
@@ -84,9 +99,9 @@
 
     <div class="info-cards info-cards--4">
       <div class="info-card">
-        <div class="info-card__label">Participating Institutes</div>
+        <div class="info-card__label">Participating Institutes (2026)</div>
         <div class="info-card__icon">{{ ea_icon('institution') }}&#xFE0F;</div>
-        <div class="info-card__title">84</div>
+        <div class="info-card__title">87</div>
       </div>
       <div class="info-card">
         <div class="info-card__label">CIWG Sub-Quota Share</div>
@@ -96,12 +111,12 @@
       <div class="info-card">
         <div class="info-card__label">Counselling Allotment</div>
         <div class="info-card__icon">&#x1F501;</div>
-        <div class="info-card__title">3 Rounds</div>
+        <div class="info-card__title">2 Rounds</div>
       </div>
       <div class="info-card">
         <div class="info-card__label">Allocation Basis</div>
         <div class="info-card__icon">{{ ea_icon('target') }}</div>
-        <div class="info-card__title">100% JEE Main 2026</div>
+        <div class="info-card__title">100% JEE Main rank</div>
       </div>
     </div>
   </section>
@@ -111,12 +126,12 @@
     <div class="chapter-divider">
       <span class="chapter-divider__num">&ldquo;&#x1F4B0;&rdquo;</span>
       <div>
-        <span class="chapter-divider__label">Official Fee Schedule &middot; DASA 2026</span>
+        <span class="chapter-divider__label">Latest Official Fee Schedule &middot; DASA 2026</span>
         <span class="chapter-divider__title">What you&rsquo;ll actually pay upfront</span>
       </div>
     </div>
 
-    <p class="content-text">Per the official DASA 2026 Information Brochure (Version 1.1, 27 May 2026). The DASA Enrolment Fee (DEF) is paid once during registration and includes a non-refundable US$ 300 registration component plus first-semester tuition. Balance fees are paid later directly to the admitting institute.</p>
+    <p class="content-text"><strong>2027 fees are not yet announced</strong> &mdash; budget on the 2026 figures below until the new brochure is out. Per the official DASA 2026 Information Brochure (Version 1.5, 27 July 2026; fee table unchanged since Version 1.1). The DASA Enrolment Fee (DEF) is paid once during registration and includes a non-refundable US$ 300 registration component plus first-semester tuition. Balance fees are paid later directly to the admitting institute.</p>
 
     <div class="table-wrap">
       <table>
@@ -163,12 +178,12 @@
     <div class="chapter-divider">
       <span class="chapter-divider__num">&ldquo;&#x1F4C5;&rdquo;</span>
       <div>
-        <span class="chapter-divider__label">2026 Cycle &middot; Key Dates</span>
-        <span class="chapter-divider__title">The DASA 2026 schedule</span>
+        <span class="chapter-divider__label">2026 Cycle (completed) &middot; Key Dates</span>
+        <span class="chapter-divider__title">Last cycle&rsquo;s schedule &mdash; a template for 2027</span>
       </div>
     </div>
 
-    <p class="content-text">Lifted directly from Annexure 3 of the official Information Brochure (Version 1.1, 27 May 2026). All times in IST.</p>
+    <p class="content-text"><strong>These are 2026 dates, shown as a reference for how the cycle runs &mdash; they are not 2027 dates.</strong> The 2027 schedule will be published by CSAB/DASA after JEE Main 2027 and JoSAA 2027 timelines are fixed; in 2026 DASA ran together with the CSAB Special Rounds, immediately after the last JoSAA round. From Annexure 3 of the DASA 2026 Information Brochure (Version 1.5). All times in IST.</p>
 
     <div class="steps">
       <div class="step">
@@ -210,7 +225,7 @@
         <span class="step__num">06</span>
         <div>
           <div class="step__title">Wed, 12 Aug 2026 &middot; 17:00 IST &mdash; Round-II seat allotment</div>
-          <div class="step__text">Vacant CIWG seats now convert to Non-CIWG and are reallotted from the broader pool. This is also the last opportunity to Exit before the final (third) round.</div>
+          <div class="step__text">Vacant CIWG seats now convert to Non-CIWG and are reallotted from the broader pool. Round-II is the final round, and no Exit is possible once it starts.</div>
         </div>
       </div>
       <div class="step">
@@ -251,7 +266,7 @@
             <td><strong>Who it&rsquo;s for</strong></td>
             <td>Indian children of Gulf-employed parents, Gulf-schooled</td>
             <td>Indian nationals living abroad (non-Gulf, or Gulf without parent criteria)</td>
-            <td>OCI/PIO cardholders &mdash; no residential restriction</td>
+            <td>OCI/PIO cardholders &mdash; choose (I) or (F) status (see FAQ)</td>
             <td>Foreign passport holders &mdash; no residential restriction</td>
           </tr>
           <tr>
@@ -263,27 +278,27 @@
           </tr>
           <tr>
             <td><strong>Schooling rule (last 2 yrs)</strong></td>
-            <td>Must be in Gulf &mdash; UAE, Saudi, Kuwait, Oman, Qatar, Bahrain</td>
-            <td>Must be outside India (any foreign country, last 2 of 8 yrs)</td>
-            <td>None &mdash; may have studied anywhere, including India</td>
-            <td>None &mdash; may have studied anywhere, including India</td>
+            <td>NRI rule applies: at least 2 years of Class 11&ndash;12 abroad, within the last 8 years, and Class 12 passed from abroad</td>
+            <td>At least 2 years of Class 11&ndash;12 abroad (any foreign country), within the last 8 years, Class 12 passed from abroad</td>
+            <td><strong>OCI/PIO (I)</strong> &mdash; treated like Indian nationals, so the 2-years-abroad rule applies. <strong>OCI/PIO (F)</strong> &mdash; no residential restriction, may study anywhere including India</td>
+            <td>None &mdash; may have studied in any country, including India</td>
           </tr>
           <tr>
             <td><strong>Parent criterion</strong></td>
-            <td>Parent on valid Gulf employment visa, 3+ years</td>
+            <td>Either parent working (or who has worked) in a Gulf country &mdash; UAE, Bahrain, Iraq, Iran, Kuwait, Oman, Qatar, Saudi Arabia &mdash; up to any date of the cycle year; proof per Annexure 5</td>
             <td>Not required</td>
             <td>Not required</td>
             <td>Not required</td>
           </tr>
           <tr>
             <td><strong>Entrance test</strong></td>
-            <td>JEE Main 2026 &mdash; All India Rank</td>
-            <td>JEE Main 2026 &mdash; All India Rank</td>
-            <td>JEE Main 2026 &mdash; All India Rank</td>
-            <td>JEE Main 2026 &mdash; All India Rank</td>
+            <td>JEE Main rank (2026 cycle: JEE Main 2026)</td>
+            <td>JEE Main rank (2026 cycle: JEE Main 2026)</td>
+            <td>JEE Main rank (2026 cycle: JEE Main 2026)</td>
+            <td>JEE Main rank (2026 cycle: JEE Main 2026)</td>
           </tr>
           <tr>
-            <td><strong>Institutes (~84)</strong></td>
+            <td><strong>Institutes (87 in 2026)</strong></td>
             <td>NITs &middot; IIITs &middot; SPAs &middot; IIEST &middot; select CFTIs</td>
             <td>NITs &middot; IIITs &middot; SPAs &middot; IIEST &middot; select CFTIs</td>
             <td>NITs &middot; IIITs &middot; SPAs &middot; IIEST &middot; select CFTIs</td>
@@ -332,7 +347,7 @@
       <div class="info-card">
         <span class="info-card__icon">&#x2139;&#xFE0F;</span>
         <h4 class="info-card__title">Not a substitute for DASA</h4>
-        <p class="info-card__text">For NIT/IIIT/SPA engineering admission, you still need JEE Main 2026 and a DASA application via csab.nic.in.</p>
+        <p class="info-card__text">For NIT/IIIT/SPA engineering admission, you still need a JEE Main rank and a DASA application via csab.nic.in.</p>
       </div>
     </div>
 
@@ -345,7 +360,7 @@
   <!-- FAQ -->
   <section class="section">
     <div class="section__header">
-      <span class="eyebrow">DASA 2026 &middot; Frequently Asked</span>
+      <span class="eyebrow">DASA 2027 &middot; Frequently Asked</span>
       <h2 class="section__title">Answers, without the jargon</h2>
       <p class="section__desc">The questions that come up most often in our counselling sessions, addressed directly.</p>
     </div>
@@ -354,8 +369,8 @@
       <details class="faq-item" open>
         <summary class="faq-item__q">Is SAT really not accepted anymore?</summary>
         <div class="faq-item__a">
-          <p>Correct &mdash; and this isn&rsquo;t a 2026 change, it&rsquo;s a 2021&ndash;22 change that some families haven&rsquo;t caught up to. SAT and SAT Subject Tests are no longer accepted by DASA or CIWG, full stop. JEE Main 2026 All India Rank is the sole basis on which all four tracks (General DASA, CIWG, OCI/PIO, Foreign National) allocate seats.</p>
-          <p>Your child must register for and appear in JEE Main 2026 (either the January or April session) through the NTA portal &mdash; exactly the same exam that resident Indian students take for JoSAA.</p>
+          <p>Correct &mdash; this is a 2021&ndash;22 change that some families haven&rsquo;t caught up to. DASA and CIWG do not use SAT or SAT Subject Test scores. A JEE Main rank is the sole basis on which all four tracks (General DASA, CIWG, OCI/PIO, Foreign National) allocate seats; in the 2026 cycle the brochure required a valid JEE (Main) 2026 score card and rank.</p>
+          <p>For the 2027 cycle, your child should plan to appear in JEE Main 2027 through the NTA portal &mdash; exactly the same exam that resident Indian students take for JoSAA. Session dates are announced by NTA; confirm in the DASA 2027 brochure once published.</p>
         </div>
       </details>
       <details class="faq-item">
@@ -368,22 +383,22 @@
       <details class="faq-item">
         <summary class="faq-item__q">My child studied in India &mdash; can we still apply via DASA (OCI/PIO)?</summary>
         <div class="faq-item__a">
-          <p>Yes. Under the DASA 2026 rules, OCI and PIO cardholders have no residential restriction &mdash; they may apply irrespective of where they studied, including from inside India. The same is true for Foreign Nationals.</p>
-          <p>This is one of the most under-utilised facts about DASA: a family with an OCI card and a child schooled in India can choose between competing in the regular JoSAA pool (Indian-fee tier) or applying via DASA (USD tier) for the supernumerary OCI/PIO seats. Both routes use the same JEE Main 2026 rank.</p>
+          <p>It depends on which OCI/PIO status you choose. Under Annexure 8 of the DASA 2026 brochure (clarified in Version 1.5), OCI/PIO cardholders are split into <strong>OCI/PIO (F)</strong> &mdash; treated as foreign nationals, with no residential restriction, so schooling in India is fine &mdash; and <strong>OCI/PIO (I)</strong> &mdash; treated at par with Indian nationals, who need at least two years of Class 11&ndash;12 abroad within the last 8 years.</p>
+          <p>Cards issued after 04.03.2021 are always (F). Cardholders with cards issued before that date choose (I) or (F) at registration, and the choice cannot be changed later &mdash; so decide carefully, ideally with a mentor. Both routes use the same JEE Main rank; the fee tier differs (USD DASA fee vs Indian-tier fees through JoSAA).</p>
         </div>
       </details>
       <details class="faq-item">
         <summary class="faq-item__q">Do IITs participate in DASA?</summary>
         <div class="faq-item__a">
-          <p>No. IITs are not part of the DASA scheme &mdash; they admit only through JEE Advanced, which sits one stage beyond JEE Main. DASA covers NITs, IIITs, SPAs, IIEST Shibpur, and a curated set of other CFTIs (approximately 84 institutes in the 2026 cycle).</p>
+          <p>No. IITs are not part of the DASA scheme &mdash; they admit only through JEE Advanced, which sits one stage beyond JEE Main. DASA covers NITs, IIITs, SPAs, IIEST Shibpur, and a curated set of other CFTIs (87 institutes in the 2026 cycle: 31 NITs/IIEST, 18 IIITs and 38 other institutes).</p>
           <p>If IITs are part of your aspiration, your child needs to qualify JEE Advanced separately, then apply through JoSAA as a regular Indian student (which requires Indian-schooled status or specific NRI provisions for IITs that are narrower than DASA&rsquo;s).</p>
         </div>
       </details>
       <details class="faq-item">
-        <summary class="faq-item__q">When does the DASA 2026 window actually open?</summary>
+        <summary class="faq-item__q">When does the DASA 2027 window open?</summary>
         <div class="faq-item__a">
-          <p>Per the official DASA 2026 Information Brochure (Version 1.1, 27 May 2026): the application portal at csab.nic.in opens Tuesday, 28 July 2026 at 10:00 IST, with registration and fee payment closing on Monday, 3 August 2026. Choice locking is on 5 August, and Round-I seat allotment is published on Thursday, 6 August 2026. Round-II follows on 12 August, with physical reporting at allotted institutes tentatively scheduled for 13&ndash;18 August 2026.</p>
-          <p>IIEST Shibpur, Howrah is the coordinating institute for DASA 2026 &mdash; not NIT Warangal as some older sources suggest. JEE Main 2026 rank must be in hand before applying, so students should register for and appear in the January or April JEE Main 2026 session well in advance.</p>
+          <p><strong>It has not been announced.</strong> As of October 2026 there is no official DASA 2027 brochure or schedule on csab.nic.in or dasanit.org. Beware of sites quoting fixed 2027 dates &mdash; they are projections.</p>
+          <p>For reference, in 2026 (Brochure Version 1.5) the portal at csab.nic.in opened on Tuesday, 28 July at 10:00 IST, registration and fee payment closed on Monday, 3 August, choices locked on 5 August, Round-I allotment came on 6 August and Round-II on 12 August, with physical reporting on 13&ndash;18 August. The cycle starts right after the final JoSAA round, so the 2027 dates will depend on the JEE Main / JoSAA 2027 timeline. IIEST Shibpur, Howrah coordinated 2026; the 2027 coordinator will be named in the new brochure.</p>
         </div>
       </details>
       <details class="faq-item">

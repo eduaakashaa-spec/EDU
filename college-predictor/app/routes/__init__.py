@@ -299,6 +299,7 @@ def nri_admission():
 # New public content pages (eduaakashaa.in nav parity) — built from live captures
 # =============================================================
 @main_bp.route('/dasa-2026')
+@main_bp.route('/dasa-2027')
 def dasa_2026():
     return render_reference_page('dasa-2026.html', 'dasa_2026.html')
 
