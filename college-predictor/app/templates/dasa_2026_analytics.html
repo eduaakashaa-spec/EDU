@@ -1,0 +1,377 @@
+{% extends "base.html" %}
+{% block title %}DASA 2026 Closing-Rank Analytics | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Premium member analytics: DASA 2026 vs 2025 closing ranks — CIWG vs Non-CIWG, branch and institute trends, biggest movers and a personal rank explorer.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dasa_2026_analytics.css') }}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="da">
+{% raw %}
+<nav class="da-subnav" aria-label="Analytics sections"><div class="wrap">
+  <a href="#findings">Findings</a><a href="#quota">Quotas</a><a href="#branches">Branches</a><a href="#map">India map</a>
+  <a href="#institutes">Institutes</a><a href="#movers">Movers</a><a href="#explorer">Rank explorer</a><a href="#method">Method</a>
+</div></nav>
+
+<main>
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="da-badge">★ Premium Member Edition</span><br><span class="eyebrow">DASA 2026 · Closing-rank analytics</span>
+        <h1>DASA 2026 didn't get tougher everywhere. It got <span class="highlight"><em>different.</em></span></h1>
+        <p class="lede">We compared every DASA program's final closing rank, 2026 against 2025, across <span data-bind="n26">378</span> programs. CIWG seats tightened, Non-CIWG seats loosened, and Computer/IT/AI moved against every other branch. Here is what the numbers say, and what they can't.</p>
+        <div class="hero-ctas">
+          <a class="btn-primary" href="#explorer">Try the rank explorer <span class="ar">→</span></a>
+          <a class="btn-ghost" href="#findings">Read the key findings</a>
+        </div>
+      </div>
+      <aside class="card hero-card" aria-label="Quota snapshot">
+        <div class="hc-title">Median change in final closing rank · 2025 → 2026</div>
+        <div class="hc-row">
+          <div class="top"><span class="lbl">DASA-CIWG</span><span class="big neg" id="h-ciwg">–</span></div>
+          <div class="sub" id="h-ciwg-sub"></div>
+          <div class="tmix" id="h-ciwg-bar"></div>
+        </div>
+        <div class="hc-row">
+          <div class="top"><span class="lbl">DASA Non-CIWG</span><span class="big pos" id="h-non">–</span></div>
+          <div class="sub" id="h-non-sub"></div>
+          <div class="tmix" id="h-non-bar"></div>
+        </div>
+        <div class="legend-row"><span style="--c:var(--navy)">Easier</span><span style="--c:#B9C4DD">Stable (±5%)</span><span style="--c:var(--orange)">Tougher</span></div>
+      </aside>
+    </div>
+
+    <div class="stats reveal">
+      <div class="stat"><div class="n" id="s1">378</div><div class="l">Programs in 2026 · 324 in 2025</div></div>
+      <div class="stat"><div class="n" id="s2">55</div><div class="l">Institutes · 47 in 2025</div></div>
+      <div class="stat"><div class="n" id="s3">104<span>+</span></div><div class="l">New programs in 2026</div></div>
+      <div class="stat"><div class="n" id="s4">82<span>%</span></div><div class="l">Closed at Round 1 rank · 72% in 2025</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINDINGS -->
+<section class="block" id="findings">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Key findings · six things that matter</span>
+      <h2>The headline numbers, <em>honestly read</em></h2>
+      <p>Basis: final closing rank of each year's last round (2025 Round 3, 2026 Round 2), engineering and science programs offered in both years (263 programs), OPEN / gender-neutral seats only.</p>
+    </div>
+    <div class="grid-lines reveal">
+      <article class="fcard"><span class="num">01</span>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h18M7 7l-4 5 4 5M17 7l4 5-4 5"/></svg></div>
+        <div class="kpi o" id="f1k">–</div><h4>Two quotas, two stories</h4>
+        <p id="f1p"></p></article>
+      <article class="fcard"><span class="num">02</span>
+        <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg></div>
+        <div class="kpi" id="f2k">–</div><h4>Computer/IT/AI eased; most others tightened</h4>
+        <p id="f2p"></p></article>
+      <article class="fcard"><span class="num">03</span>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div>
+        <div class="kpi" id="f3k">–</div><h4>The menu grew</h4>
+        <p id="f3p"></p></article>
+      <article class="fcard"><span class="num">04</span>
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div class="kpi" id="f4k">–</div><h4>Round 1 does most of the work</h4>
+        <p id="f4p"></p></article>
+      <article class="fcard"><span class="num">05</span>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M3 17l5-6 4 4 8-10"/></svg></div>
+        <div class="kpi o" id="f5k">–</div><h4>Single-year swings are large</h4>
+        <p id="f5p"></p></article>
+      <article class="fcard"><span class="num">06</span>
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></div>
+        <div class="kpi" id="f6k">–</div><h4>More programs reach mid-range ranks</h4>
+        <p id="f6p"></p></article>
+    </div>
+  </div>
+</section>
+
+<!-- COVERAGE -->
+<section class="block" style="padding-top:20px" id="coverage">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Supply · what was on offer</span>
+      <h2>More programs, <em>new names</em></h2>
+      <p>Before judging cut-offs, look at what changed on the menu. Programs that are new in 2026 have no 2025 history, and programs that were dropped can't be compared at all.</p>
+    </div>
+    <div class="cgrid g-12 reveal">
+      <div class="ccard">
+        <h3>Program coverage by quota</h3>
+        <div class="note">All programs including B.Arch / B.Plan. Matched across years by institute + program + quota.</div>
+        <div class="cv"><canvas id="ch-cov" aria-label="Program coverage by quota"></canvas></div>
+      </div>
+      <div class="ccard">
+        <h3>Where the new and dropped programs sit</h3>
+        <div class="note">By branch group. Computer/IT/AI and Electronics lead both the additions and the exits.</div>
+        <div class="cv"><canvas id="ch-newdrop" aria-label="New versus dropped programs by branch"></canvas></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTA (dark) -->
+<section class="block dark" id="quota">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Quota story · CIWG vs Non-CIWG</span>
+      <h2>One scheme, <em style="color:var(--orange-soft)">opposite</em> directions</h2>
+      <p>If you are a CIWG-eligible family, the data says your quota became more competitive. If you are applying Non-CIWG, a majority of programs closed at weaker ranks than a year ago.</p>
+    </div>
+    <div class="qtiles reveal">
+      <div class="qtile"><div class="q">DASA-CIWG · median change</div><div class="v neg" id="q-c">–</div><p id="q-c-p"></p>
+        <div class="mini"><div><b id="q-c-25">–</b><span>Median close 2025</span></div><div><b id="q-c-26">–</b><span>Median close 2026</span></div><div><b id="q-c-r1">–</b><span>Round 1 vs Round 1</span></div></div></div>
+      <div class="qtile"><div class="q">DASA Non-CIWG · median change</div><div class="v" id="q-n">–</div><p id="q-n-p"></p>
+        <div class="mini"><div><b id="q-n-25">–</b><span>Median close 2025</span></div><div><b id="q-n-26">–</b><span>Median close 2026</span></div><div><b id="q-n-r1">–</b><span>Round 1 vs Round 1</span></div></div></div>
+    </div>
+    <div class="cgrid g-eq reveal">
+      <div class="ccard">
+        <h3>Trend mix by quota</h3>
+        <div class="note">Share of matched programs that got Easier, stayed Stable or got Tougher (±5% band).</div>
+        <div class="cv" style="height:240px"><canvas id="ch-mix" aria-label="Trend mix by quota"></canvas></div>
+      </div>
+      <div class="ccard">
+        <div class="chead"><div><h3>How many programs could your rank reach?</h3></div>
+          <div class="seg" id="seg-curve" role="group" aria-label="Quota for access curve"><button data-v="C" class="on">CIWG</button><button data-v="N">Non-CIWG</button><button data-v="A">Both</button></div></div>
+        <div class="note">Programs whose final closing rank was at or beyond a given rank. Higher line = more options at that rank.</div>
+        <div class="cv" style="height:240px"><canvas id="ch-curve" aria-label="Access curve"></canvas></div>
+      </div>
+    </div>
+    <div class="callout reveal" style="color:#fff;border-color:var(--orange-soft);opacity:.92"><b style="color:#fff">Read with care:</b> the 2026 line is higher partly because more programs were offered, not only because cut-offs moved. The R1-vs-R1 check above uses the same round in both years and points the same way as the final-round comparison.</div>
+  </div>
+</section>
+
+<!-- BRANCHES -->
+<section class="block" id="branches">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Branches · who got tougher</span>
+      <h2>Computer/IT/AI went <em>against</em> the grain</h2>
+      <p>Median final closing rank for matched engineering and science programs. A rising line means weaker ranks got in (easier); a falling line means only stronger ranks did (tougher). B.Arch / B.Plan use a separate rank list and are excluded.</p>
+    </div>
+    <div class="cgrid g-21 reveal">
+      <div class="ccard">
+        <h3>Median closing rank, 2025 → 2026</h3>
+        <div class="note">Orange = tougher, navy = easier, grey = stable (median change within ±5%). Percentages are the median of each program's own change, so a line can tilt the other way when the program mix is uneven (Chemical and Science show this).</div>
+        <div class="svgbox"><svg id="slope" viewBox="0 0 520 380" role="img" aria-label="Slope chart of median closing rank by branch"></svg></div>
+      </div>
+      <div class="ccard">
+        <h3>Median % change by branch × quota</h3>
+        <div class="note">Cells with fewer than 5 programs are shaded lightly and marked *: treat them as anecdotes.</div>
+        <div class="svgbox"><svg id="heat" viewBox="0 0 560 360" role="img" aria-label="Heatmap of median percent change by branch and quota"></svg></div>
+        <div class="legend-row"><span style="--c:var(--orange)">Tougher</span><span style="--c:#D9DEE9">≈ flat</span><span style="--c:var(--navy)">Easier</span></div>
+      </div>
+    </div>
+    <div class="ccard reveal" style="margin-top:24px">
+      <h3>Branch scorecard</h3>
+      <div class="note">Matched programs only. The bar shows how programs split across Easier, Stable and Tougher.</div>
+      <div style="overflow-x:auto"><table class="btab" id="btab" style="min-width:640px"></table></div>
+    </div>
+
+    <div class="cgrid g-12 reveal" style="margin-top:24px">
+      <div class="ccard">
+        <div class="chead"><div><h3>Every matched program: 2025 vs 2026</h3></div>
+          <div class="seg" id="seg-sc" role="group" aria-label="Quota for scatter"><button data-v="A" class="on">Both</button><button data-v="C">CIWG</button><button data-v="N">Non-CIWG</button></div></div>
+        <div class="note">Log scale. Dots above the diagonal closed at weaker ranks in 2026 (easier); below it, stronger ranks (tougher). Hover for details.</div>
+        <div class="cv xt"><canvas id="ch-sc" aria-label="Scatter of 2025 vs 2026 closing ranks"></canvas></div>
+      </div>
+      <div class="ccard">
+        <h3>How consistent is DASA year to year?</h3>
+        <div class="note">Distribution of % change across the 263 matched programs.</div>
+        <div class="cv" style="height:340px"><canvas id="ch-hist" aria-label="Histogram of percent change"></canvas></div>
+        <div class="callout" id="hist-call"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDIA MAP -->
+<section class="block" style="padding-top:20px" id="map">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">India map · where the seats are</span>
+      <h2>Every campus, <em>on the map</em></h2>
+      <p>Each pin is a DASA institute. Shade the states by how many programs they offer or by how much closing ranks moved, then click a state or a pin for college details and the median trend mix for CIWG and Non-CIWG.</p>
+    </div>
+    <div class="reveal">
+      <div class="filter-bar" role="group" aria-label="Map filters">
+        <span class="filter-label">Shade by</span>
+        <button class="filter-pill" data-metric="programs" aria-pressed="true">Programs in 2026 <span class="badge" id="b-prog">–</span></button>
+        <button class="filter-pill has-pins" data-metric="change" aria-pressed="false">Median change <span class="badge" id="b-chg">–</span></button>
+        <span class="filter-label" style="margin-left:14px">Quota</span>
+        <div class="seg" id="seg-map" role="group" aria-label="Quota for map"><button data-v="A" class="on">Both</button><button data-v="C">CIWG</button><button data-v="N">Non-CIWG</button></div>
+      </div>
+      <div class="map-grid">
+        <div class="ccard mapcard">
+          <svg id="india-map" viewBox="0 0 720 780" role="img" aria-label="Map of India with DASA institutes"></svg>
+          <div class="map-legend" id="map-legend"></div>
+          <div class="note-sm">Pin size = programs offered in 2026. Pin colour = median change in closing rank. Grey pins have fewer than 3 matched programs or no 2025 history.</div>
+        </div>
+        <div class="ccard" id="rightPanel" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTITUTES -->
+<section class="block" style="padding-top:20px" id="institutes">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Institutes · league table</span>
+      <h2>Which campuses moved <em>most</em></h2>
+      <p>Median % change in final closing rank across each institute's matched engineering programs. Institutes with fewer than 3 matched programs are hidden so a single seat doesn't masquerade as a trend. Click a column header to sort.</p>
+    </div>
+    <div class="reveal">
+      <div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:16px;align-items:center">
+        <div class="seg" id="seg-inst" role="group" aria-label="Quota for institute table"><button data-v="A" class="on">Both quotas</button><button data-v="C">CIWG</button><button data-v="N">Non-CIWG</button></div>
+        <div class="legend-row" style="margin:0"><span style="--c:var(--orange)">Tougher</span><span style="--c:var(--navy)">Easier</span></div>
+      </div>
+      <div class="tablewrap tw-scroll" style="max-height:620px"><table class="dt" id="itab"></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- MOVERS -->
+<section class="block" style="padding-top:20px" id="movers">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Biggest movers · top 10 each way</span>
+      <h2>The dramatic swings, <em>with a warning</em></h2>
+      <p>These are the programs whose closing rank moved furthest. DASA files don't include seat counts, and many of these programs have only a handful of seats, so one student's choice can move the number a long way. Use them to ask better questions, not as predictions.</p>
+    </div>
+    <div class="cgrid g-eq reveal">
+      <div class="ccard"><h3>Became more competitive</h3><div class="note">Largest fall in closing rank</div><ol class="mv" id="mv-t"></ol></div>
+      <div class="ccard"><h3>Became less competitive</h3><div class="note">Largest rise in closing rank</div><ol class="mv" id="mv-e"></ol></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPLORER -->
+<section class="block dark" id="explorer">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Rank explorer · your numbers</span>
+      <h2>Where does <em style="color:var(--orange-soft)">your</em> rank land?</h2>
+      <p>Enter your DASA CRL rank, pick your quota, and see every program sorted into Safe, Realistic or Stretch using 2026 closing ranks, with a check on whether it also worked in 2025. Everything runs in your browser; nothing is uploaded.</p>
+    </div>
+    <div class="xpl reveal">
+      <div class="ctrl">
+        <div class="field"><label for="x-rank">Your DASA rank (CRL)</label><input id="x-rank" type="number" inputmode="numeric" min="1" max="2000000" placeholder="e.g. 185000"></div>
+        <div class="field"><label for="x-quota">Quota</label><select id="x-quota"><option value="A">All</option><option value="C">DASA-CIWG</option><option value="N">DASA Non-CIWG</option></select></div>
+        <div class="field"><label for="x-branch">Branch group</label><select id="x-branch"></select></div>
+        <div class="field"><label for="x-inst">Institute</label><select id="x-inst"></select></div>
+      </div>
+      <div class="ctrl2">
+        <div class="field"><label for="x-q">Search program or institute</label><input id="x-q" type="search" placeholder="e.g. Computer Science, Trichy, Mathematics"></div>
+        <div class="field"><label for="x-sort">Sort by</label><select id="x-sort"><option value="f26a">2026 close · best rank first</option><option value="f26d">2026 close · weakest rank first</option><option value="band">Fit to your rank</option><option value="pct">% change · toughest first</option><option value="inst">Institute A–Z</option></select></div>
+        <label class="chk"><input type="checkbox" id="x-both"> Offered in both years</label>
+      </div>
+
+      <div class="gauges" id="gauges"></div>
+      <div class="bandsum" id="bandsum"></div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px">
+        <div class="mono" style="font-size:11px;color:var(--muted)" id="x-count"></div>
+        <button class="btn-ghost btn-sm" id="x-csv" style="color:var(--navy-ink)">Download list (CSV)</button>
+      </div>
+      <div class="tablewrap tw-scroll"><table class="dt" id="xtab"></table></div>
+      <div class="more"><button class="btn-primary btn-sm" id="x-more" style="display:none">Show 50 more <span class="ar">→</span></button></div>
+      <div class="callout" style="margin-top:22px"><b>How bands work.</b> Safe: 2026 closing rank is at least 25% weaker than yours. Realistic: closing rank is between yours and 25% weaker. Stretch: closing rank is up to 20% better than yours (you'd need later-round movement). Out of reach: further than that. A program that worked in both years is a sturdier choice than one that worked in only one.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TAKEAWAYS -->
+<section class="block" id="takeaways">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">What to do with this · for Gulf and NRI families</span>
+      <h2>Six habits for <em>choice-filling</em></h2>
+      <p>Closing ranks describe the past. They are a guide to building a balanced list, not a promise about next round.</p>
+    </div>
+    <div class="tk reveal">
+      <div class="card lead"><span class="tag">01 · Build in bands</span><h4>Mix Dream, Realistic and Safe, and fill all of them.</h4><p>Because round 1 decided about 82% of programs in 2026, the choices you rank highest matter most. Put real preferences at the top, but keep enough Safe options below them that a missed seat doesn't leave you with nothing.</p></div>
+      <div class="card"><span class="tag">02 · Use both years</span><h4>Prefer programs that worked twice.</h4><p>With over half of matched programs moving by more than 25% in a year, a seat that was within reach in both 2025 and 2026 is a sturdier bet than one that was within reach once.</p></div>
+      <div class="card"><span class="tag">03 · Respect your quota</span><h4>CIWG and Non-CIWG are different markets.</h4><p>Don't carry intuition across. The same branch can be tightening for CIWG applicants while loosening for Non-CIWG.</p></div>
+    </div>
+    <div class="tk2 reveal">
+      <div class="card"><span class="tag">04 · Don't chase a one-year spike</span><h4>Treat extreme movers as noise until proven otherwise.</h4><p>A program that fell 70% or rose 400% probably has very few seats. Ask what happened before treating it as a trend.</p></div>
+      <div class="card"><span class="tag">05 · Watch new programs</span><h4>104 programs have no history.</h4><p>New programs show a 2026 closing rank only. Use them as additions to a list you've already anchored with matched programs, and look at the institute's track record too.</p></div>
+      <div class="card"><span class="tag">06 · Verify, then decide</span><h4>Confirm eligibility, fees and seat matrix on the official DASA portal.</h4><p>Branch choice, campus, fees and career goals matter as much as a rank. A counsellor can help you weigh them against these numbers, and we are happy to walk through your list with you.</p>
+        <p style="margin-top:16px"><a class="btn-primary btn-sm" href="tel:+918015722706">Call +91-80157 22706 <span class="ar">→</span></a></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="block" style="padding-top:20px" id="method">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Method · data and limits</span>
+      <h2>What this analysis <em>can't</em> tell you</h2>
+    </div>
+    <article class="doc reveal">
+      <div class="doc-head"><span class="t">DASA closing ranks · 2025 vs 2026</span><span class="m">Source: official DASA closing-rank files, as compiled by EduAakashaa</span></div>
+      <div class="meta">
+        <div><span>Programs</span><b>324 → 378</b></div>
+        <div><span>Matched both years</span><b>274 (263 engineering &amp; science)</b></div>
+        <div><span>Basis</span><b>2025 R3 · 2026 R2</b></div>
+        <div><span>Seats covered</span><b>OPEN / gender-neutral</b></div>
+      </div>
+      <div class="doc-body">
+        <div>
+          <div class="sec-title">How we computed it</div>
+          <ul>
+            <li><b>Change</b> = 2026 final closing rank ÷ 2025 final closing rank − 1. Positive means weaker ranks got in (easier). Easier / Stable / Tougher uses a ±5% band.</li>
+            <li><b>Medians, not averages.</b> Medians stop a few extreme programs from dominating a branch or institute.</li>
+            <li><b>Matching.</b> Programs are matched on institute, program and quota. Renamed programs were matched by hand where possible; unmatched ones show as New in 2026 or 2025 only.</li>
+            <li><b>Round 1 check.</b> Because the final round differs by year, we also compare Round 1 closing ranks. The direction agrees by quota and by branch.</li>
+            <li><b>Bands</b> in the explorer are a simple rule of thumb on 2026 closing ranks, not a probability.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="sec-title">Limits to keep in mind</div>
+          <ul>
+            <li><b>Different round counts.</b> 2025 had three rounds, 2026 had two. Later rounds can loosen closing ranks, so some 2026 figures may sit slightly tighter than a third round would have produced.</li>
+            <li><b>No seat counts.</b> A program with 2 seats and one with 40 are weighted the same here.</li>
+            <li><b>Open seats only.</b> Category, gender-specific and supernumerary seats are not included.</li>
+            <li><b>B.Arch / B.Plan</b> use a separate rank list and must not be compared with engineering ranks.</li>
+            <li><b>Past ≠ future.</b> Applicants, seats and choices change every year. Always confirm on the official DASA website.</li>
+          </ul>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="block" style="padding-top:20px" id="faq">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Questions · students and parents</span>
+      <h2>Common <em>questions</em></h2>
+    </div>
+    <div class="faq reveal" id="faq-list">
+      <div class="fq"><button aria-expanded="false"><span><span class="qn">Q·01 · For students</span><span class="qt">My rank is worse than a program's closing rank. Is it out of the question?</span></span><span class="tg">+</span></button><div class="a"><p>Not always, but it is a stretch. Closing ranks are the last rank that got a seat in a given round, and later rounds can reach further as seats are released. Treat stretch programs as upside at the top of your list, and make sure you have realistic and safe choices below them.</p></div></div>
+      <div class="fq"><button aria-expanded="false"><span><span class="qn">Q·02 · For parents</span><span class="qt">Computer Science got "easier". Should we expect it to be easy next year?</span></button><div class="a"><p>No. The median moved about 13% weaker for Computer/IT/AI, but individual programs swung in both directions, and 104 new programs (many in this group) changed the pool. One year of data is a snapshot, not a forecast.</p></div></div>
+      <div class="fq"><button aria-expanded="false"><span><span class="qn">Q·03 · For students</span><span class="qt">Why do you compare 2025 Round 3 with 2026 Round 2?</span></span><span class="tg">+</span></button><div class="a"><p>Because those were the last rounds in each year, so they show where the seats finally closed. We also checked Round 1 against Round 1 as a like-for-like test, and the direction by quota and branch was the same.</p></div></div>
+      <div class="fq"><button aria-expanded="false"><span><span class="qn">Q·04 · For parents</span><span class="qt">Are CIWG seats really harder now?</span></span><span class="tg">+</span></button><div class="a"><p>For the typical program, yes: the median closing rank fell about 8%, and a little over half of CIWG programs got tougher. But CIWG is still a large and varied pool, so check the specific institute and branch you are considering rather than relying on the median.</p></div></div>
+      <div class="fq"><button aria-expanded="false"><span><span class="qn">Q·05 · For everyone</span><span class="qt">Can this page choose my programs for me?</span></span><span class="tg">+</span></button><div class="a"><p>No. It shows how closing ranks behaved and where your rank sits against them. Fit with the student's interests, campus, fees and long-term plans is a separate conversation, and that is where counselling helps.</p></div></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<section class="block" style="padding:10px 0 60px"><div class="wrap"><p style="font-size:12.5px;color:var(--muted)">Analysis of official DASA closing-rank files for 2025 (Rounds 1–3) and 2026 (Rounds 1–2), open / gender-neutral seats only. Past closing ranks do not guarantee future admission. Always verify seat matrix, fees and eligibility on the official DASA website before filling choices.</p></div></section>
+<div class="tip" id="tip"></div>
+{% endraw %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dasa_2026_analytics.js') }}"></script>
+{% endblock %}

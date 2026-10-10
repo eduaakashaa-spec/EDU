@@ -436,6 +436,12 @@ def dasa_prediction_report():
 
 # The pages below are full ports of the live-site premium content
 # (migrated from the Hostinger embeds; see migration/ notes).
+@main_bp.route('/dasa-2026-analytics')
+@premium_required
+def dasa_2026_analytics():
+    return render_template('dasa_2026_analytics.html')
+
+
 @main_bp.route('/jee-2027-roadmap')
 @premium_required
 def jee_2027_roadmap():
