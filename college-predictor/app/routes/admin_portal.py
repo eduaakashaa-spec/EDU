@@ -16,6 +16,8 @@ Legacy tabs → in-app equivalents:
 
 Every route requires the admin tier (same RBAC as the rest of /admin).
 """
+import re
+import time
 from datetime import datetime, timedelta, timezone
 
 from flask import (Blueprint, flash, jsonify, redirect, render_template,
@@ -246,6 +248,24 @@ def _users_url():
     return safe_next(request.form.get('next')) or url_for('membership.admin_users')
 
 
+_EMAIL_RE = re.compile(r'^[^@\s<>,;]+@[^@\s<>,;]+\.[^@\s<>,;]{2,}$')
+_MAX_TO, _MAX_CC = 15, 10
+
+
+def _split_addrs(raw):
+    """'a@x.com, b@y.com; c@z.com' or a list -> de-duplicated, order-kept list."""
+    if raw is None:
+        return []
+    parts = raw if isinstance(raw, (list, tuple)) else re.split(r'[,;\s]+', str(raw))
+    out, seen = [], set()
+    for p_ in parts:
+        p_ = str(p_).strip().strip('<>').strip()
+        if p_ and p_.lower() not in seen:
+            seen.add(p_.lower())
+            out.append(p_)
+    return out
+
+
 @admin_portal_bp.route('/admin/templates/send', methods=['POST'])
 @admin_required
 def templates_send():
@@ -254,27 +274,69 @@ def templates_send():
     The composer already renders the final subject/text/html client-side (fills
     the {placeholders} and wraps the body in the branded shell), so it posts that
     finished email here rather than duplicating the templating server-side.
+
+    Supports several recipients and a chosen sender:
+      to    one address, a comma/space/semicolon list, or a JSON list
+      cc/bcc  optional, same format (used in mode='group' only)
+      from  one of mailer.allowed_senders() (e.g. info@eduaakashaa.com)
+      mode  'individual' (default — each person gets their own email, nobody sees
+            the others) or 'group' (one email, everyone on the To line)
     Sends synchronously so the admin gets a real success/failure, not a maybe."""
     data = request.get_json(silent=True) or {}
-    to = (data.get('to') or '').strip()[:200]
+    to_list = _split_addrs(data.get('to'))
+    cc_list = _split_addrs(data.get('cc'))
+    bcc_list = _split_addrs(data.get('bcc'))
     subject = (data.get('subject') or '').strip()[:300]
     text = (data.get('text') or '')[:100_000]
     html = (data.get('html') or '')[:400_000]
+    mode = 'group' if data.get('mode') == 'group' else 'individual'
+    from_addr = (data.get('from') or '').strip()
 
-    if '@' not in to or '.' not in to.rsplit('@', 1)[-1]:
+    if not to_list:
         return jsonify({'ok': False, 'error': 'Enter a valid recipient email address.'}), 400
+    bad = [a for a in to_list + cc_list + bcc_list if not _EMAIL_RE.match(a)]
+    if bad:
+        return jsonify({'ok': False, 'error': 'Not a valid email address: ' + ', '.join(bad[:3])}), 400
+    if len(to_list) > _MAX_TO:
+        return jsonify({'ok': False, 'error': f'Up to {_MAX_TO} recipients at a time.'}), 400
+    if len(cc_list) > _MAX_CC or len(bcc_list) > _MAX_CC:
+        return jsonify({'ok': False, 'error': f'Up to {_MAX_CC} Cc / Bcc addresses.'}), 400
     if not subject:
         return jsonify({'ok': False, 'error': 'This email has no subject.'}), 400
     if not (text or html):
         return jsonify({'ok': False, 'error': 'This email has no body.'}), 400
+    if from_addr:
+        allowed = {a.lower(): a for a in mailer.allowed_senders()}
+        if from_addr.lower() not in allowed:
+            return jsonify({'ok': False, 'error': 'That sender address is not allowed.'}), 400
+        from_addr = allowed[from_addr.lower()]
     if not mailer.is_configured():
         return jsonify({'ok': False, 'error': 'No email transport configured — set '
                                               'RESEND_API_KEY (see Broadcast → Email Test).'}), 503
+
+    extra = {'from_addr': from_addr or None, 'reply_to': from_addr or None}
+    sent, failed = [], []
     try:
-        mailer.send_now(to, subject, text or ' ', html or None)
+        if mode == 'group' or len(to_list) == 1:
+            mailer.send_now(to_list if len(to_list) > 1 else to_list[0], subject, text or ' ',
+                            html or None, cc=cc_list or None, bcc=bcc_list or None, **extra)
+            sent = list(to_list)
+        else:
+            for i, addr in enumerate(to_list):
+                try:
+                    mailer.send_now(addr, subject, text or ' ', html or None, **extra)
+                    sent.append(addr)
+                except Exception as exc:
+                    failed.append({'to': addr, 'error': f'{type(exc).__name__}: {exc}'})
+                if i < len(to_list) - 1:
+                    time.sleep(0.6)       # stay under the provider's rate limit
     except Exception as exc:
         return jsonify({'ok': False, 'error': f'{type(exc).__name__}: {exc}'}), 502
-    return jsonify({'ok': True, 'to': to, 'via': mailer.transport()})
+    if not sent:
+        return jsonify({'ok': False, 'error': failed[0]['error'] if failed else 'Send failed.',
+                        'failed': failed}), 502
+    return jsonify({'ok': not failed, 'to': ', '.join(sent), 'sent': len(sent), 'failed': failed,
+                    'mode': mode, 'from': from_addr or None, 'via': mailer.transport()})
 
 
 @admin_portal_bp.route('/admin/email-test', methods=['GET', 'POST'])
@@ -752,4 +814,6 @@ def templates():
                            recipients=_recipient_directory(), sender=SENDER_EMAIL,
                            logo_url=LOGO_URL, site=SITE,
                            whatsapp=WHATSAPP_NUMBER,
-                           mail_from=mail_from, can_send=st['configured'])
+                           mail_from=mail_from, can_send=st['configured'],
+                           senders=mailer.allowed_senders(),
+                           default_sender=mailer.INFO_FROM)

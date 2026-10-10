@@ -636,3 +636,10 @@ EMAIL_TEMPLATES = [
                   + _btn(SITE, 'Explore the free tools'))},
      ]},
 ]
+
+
+# Mentorship programme templates (built from the Elite Mentorship brochure and the
+# 2027 student guides) — defined in their own module, appended to the registry.
+from app.services.mentorship_email_templates import build_mentorship_templates  # noqa: E402
+
+EMAIL_TEMPLATES.extend(build_mentorship_templates(SITE, WHATSAPP_NUMBER, _btn))

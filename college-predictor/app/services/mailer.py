@@ -35,6 +35,9 @@ ADMIN_NOTIFY_EMAIL = os.environ.get('ADMIN_NOTIFY_EMAIL', 'eduaakashaa@gmail.com
 RESEND_ENDPOINT = 'https://api.resend.com/emails'
 DEFAULT_FROM = 'noreply@eduaakashaa.com'   # must match the domain verified in Resend
 USER_AGENT = 'EduAakashaa/1.0'
+# Extra "From" addresses the admin composer may choose (same verified domain as
+# MAIL_FROM). The composer can only pick from this list — never a free-form address.
+INFO_FROM = os.environ.get('INFO_MAIL_FROM', 'info@eduaakashaa.com')
 
 
 def _resend_cfg():
@@ -103,9 +106,33 @@ def config_status():
     }
 
 
-def _send_resend(cfg, to, subject, text, html, from_name):
-    payload = {'from': formataddr((from_name, cfg['from'])), 'to': [to],
-               'subject': subject, 'text': text}
+def _as_list(v):
+    if not v:
+        return []
+    return [v] if isinstance(v, str) else [x for x in v if x]
+
+
+def allowed_senders():
+    """From addresses the admin composer may use: the transport default plus
+    INFO_FROM. Anything else is refused server-side."""
+    base = (_resend_cfg() or _smtp_cfg() or {}).get('from') or DEFAULT_FROM
+    out = []
+    for a in (INFO_FROM, base):
+        if a and a.lower() not in [x.lower() for x in out]:
+            out.append(a)
+    return out
+
+
+def _send_resend(cfg, to, subject, text, html, from_name, cc=None, bcc=None,
+                 from_addr=None, reply_to=None):
+    payload = {'from': formataddr((from_name, from_addr or cfg['from'])),
+               'to': _as_list(to), 'subject': subject, 'text': text}
+    if cc:
+        payload['cc'] = _as_list(cc)
+    if bcc:
+        payload['bcc'] = _as_list(bcc)
+    if reply_to:
+        payload['reply_to'] = reply_to
     if html:
         payload['html'] = html
     req = urllib.request.Request(
@@ -128,36 +155,50 @@ def _send_resend(cfg, to, subject, text, html, from_name):
         raise RuntimeError(f'Resend API {e.code}: {detail}') from None
 
 
-def _send_smtp(cfg, to, subject, text, html, from_name):
+def _send_smtp(cfg, to, subject, text, html, from_name, cc=None, bcc=None,
+               from_addr=None, reply_to=None):
     msg = EmailMessage()
     msg['Subject'] = subject
-    msg['From'] = formataddr((from_name, cfg['from']))
-    msg['To'] = to
+    msg['From'] = formataddr((from_name, from_addr or cfg['from']))
+    msg['To'] = ', '.join(_as_list(to))
+    if cc:
+        msg['Cc'] = ', '.join(_as_list(cc))
+    if reply_to:
+        msg['Reply-To'] = reply_to
     msg.set_content(text)
     if html:
         msg.add_alternative(html, subtype='html')
     with smtplib.SMTP(cfg['host'], cfg['port'], timeout=15) as s:
         s.starttls()
         s.login(cfg['user'], cfg['pwd'])
-        s.send_message(msg)
+        # Bcc is passed as an envelope recipient only — it never appears in a header
+        s.send_message(msg, to_addrs=_as_list(to) + _as_list(cc) + _as_list(bcc))
     return True
 
 
-def _send(to, subject, text, html, from_name='EduAakashaa'):
+def _send(to, subject, text, html, from_name='EduAakashaa', cc=None, bcc=None,
+          from_addr=None, reply_to=None):
     if not to:
         return False
     chosen = transport()          # honours MAIL_TRANSPORT, so both configs can coexist
     if chosen == 'resend':
-        return _send_resend(_resend_cfg(), to, subject, text, html, from_name)
+        return _send_resend(_resend_cfg(), to, subject, text, html, from_name,
+                            cc=cc, bcc=bcc, from_addr=from_addr, reply_to=reply_to)
     if chosen == 'smtp':
-        return _send_smtp(_smtp_cfg(), to, subject, text, html, from_name)
+        return _send_smtp(_smtp_cfg(), to, subject, text, html, from_name,
+                          cc=cc, bcc=bcc, from_addr=from_addr, reply_to=reply_to)
     return False
 
 
-def send_now(to, subject, text, html=None, from_name='EduAakashaa'):
+def send_now(to, subject, text, html=None, from_name='EduAakashaa', cc=None, bcc=None,
+             from_addr=None, reply_to=None):
     """Synchronous send that RAISES on failure — used by the admin email test so
-    the real error reaches the screen instead of being swallowed."""
-    return _send(to, subject, text, html, from_name)
+    the real error reaches the screen instead of being swallowed.
+
+    `to` may be one address or a list. `from_addr` overrides the default sender
+    (callers must validate it against allowed_senders())."""
+    return _send(to, subject, text, html, from_name, cc=cc, bcc=bcc,
+                 from_addr=from_addr, reply_to=reply_to)
 
 
 def send_bulk(recipients, subject, text, html=None, from_name='EduAakashaa'):

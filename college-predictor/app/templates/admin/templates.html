@@ -59,6 +59,27 @@
   .tpl-preview-wrap .cap{ font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase;
                           letter-spacing:.1em; color:var(--muted); margin:0 8px 12px; }
 
+  /* multi-recipient chips */
+  .tpl-chipbox{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; padding:6px 8px; min-height:44px;
+                border:1.5px solid var(--hairline); border-radius:8px; background:#fff; cursor:text; }
+  .tpl-chipbox:focus-within{ border-color:var(--navy); box-shadow:0 0 0 4px rgba(14,58,138,.08); }
+  .tpl-chipbox input{ flex:1 1 180px; min-width:140px; border:0 !important; box-shadow:none !important; padding:6px 4px !important; }
+  .tpl-chip{ display:inline-flex; align-items:center; gap:6px; background:rgba(14,58,138,.08); color:var(--navy);
+             border-radius:999px; padding:4px 6px 4px 12px; font-size:12.5px; font-weight:600; }
+  .tpl-chip button{ border:0; background:rgba(14,58,138,.14); color:var(--navy); width:18px; height:18px; border-radius:50%;
+                    cursor:pointer; line-height:1; font-size:13px; padding:0; }
+  .tpl-chip button:hover{ background:var(--navy); color:#fff; }
+  .tpl-hint{ font-size:12px; color:var(--muted); margin-top:5px; }
+  .tpl-send{ background:#FBF7EE; border:1px solid var(--hairline); border-radius:12px; padding:14px 16px; margin-bottom:16px;
+             display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+  .tpl-send label.t{ display:block; font-family:'JetBrains Mono',monospace; font-size:10px; text-transform:uppercase;
+                     letter-spacing:.1em; color:var(--muted); margin-bottom:5px; }
+  .tpl-send select, .tpl-send input[type=text]{ width:100%; padding:9px 12px; border:1.5px solid var(--hairline); border-radius:8px;
+                     background:#fff; color:var(--ink); font-family:inherit; font-size:.92rem; }
+  .tpl-send .radio{ display:flex; gap:14px; flex-wrap:wrap; font-size:13px; padding-top:4px; }
+  .tpl-send .radio label{ display:flex; gap:6px; align-items:flex-start; cursor:pointer; }
+  .tpl-send .cc-wrap.off{ opacity:.45; pointer-events:none; }
+
   .tpl-toast{ position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0;
               background:var(--navy-ink); color:#fff; padding:10px 18px; border-radius:999px; font-size:13px;
               transition:.2s; z-index:1000; pointer-events:none; }
@@ -104,6 +125,31 @@
 
     <div class="tpl-fields" id="cFields"></div>
 
+    <div class="tpl-send">
+      <div>
+        <label class="t" for="cFrom">Send from</label>
+        <select id="cFrom">
+          {% for a in senders %}<option value="{{ a }}" {% if a == default_sender %}selected{% endif %}>{{ a }}</option>{% endfor %}
+        </select>
+        <div class="tpl-hint">Replies go to the same address.</div>
+      </div>
+      <div>
+        <label class="t">When there are several recipients</label>
+        <div class="radio">
+          <label><input type="radio" name="cMode" value="individual" checked>
+            <span><strong>Send separately</strong><br><span class="tpl-hint">each person gets their own email; nobody sees the others</span></span></label>
+          <label><input type="radio" name="cMode" value="group">
+            <span><strong>One group email</strong><br><span class="tpl-hint">everyone on the To line (enables Cc / Bcc)</span></span></label>
+        </div>
+      </div>
+      <div class="cc-wrap off" id="ccWrap">
+        <label class="t" for="cCc">Cc (optional)</label>
+        <input type="text" id="cCc" placeholder="a@x.com, b@y.com">
+        <label class="t" for="cBcc" style="margin-top:10px">Bcc (optional)</label>
+        <input type="text" id="cBcc" placeholder="e.g. info@eduaakashaa.com to keep a copy">
+      </div>
+    </div>
+
     <div class="tpl-subject">Subject: <strong id="cSubject"></strong>
       <button type="button" class="mini" id="btnCopySubject">copy</button></div>
 
@@ -113,11 +159,14 @@
       <button type="button" class="btn btn-ghost" id="btnMailto">Open in mail app</button>
       <button type="button" class="btn btn-ghost" id="btnCopyHtml">Copy formatted email</button>
       <button type="button" class="btn btn-ghost" id="btnCopyText">Copy plain text</button>
+      <button type="button" class="btn btn-ghost" id="btnCopyWa" style="display:none">💬 Copy WhatsApp message</button>
+      <button type="button" class="btn btn-ghost" id="btnOpenWa" style="display:none">Open in WhatsApp</button>
     </div>
     <p class="sub" id="cSendHint" style="margin-top:-4px;">
       {% if can_send %}
-      <strong>Send now</strong> delivers this exact email (formatting and all) from
-      <strong>{{ mail_from }}</strong> — no Gmail step. The other buttons still open a draft instead.
+      <strong>Send now</strong> delivers this exact email (formatting and all) from the address chosen
+      above (default <strong>{{ default_sender }}</strong>) — no Gmail step. Add several recipients to
+      send the same message to a whole group. The other buttons still open a draft instead.
       {% else %}
       <span style="color:var(--red);"><strong>Send now</strong> is unavailable — no email transport is
       configured. See <a href="{{ url_for('admin_portal.email_test') }}">Email Test</a>.</span>
@@ -164,7 +213,8 @@
     return str.replace(/\{(\w+)\}/g, function (m, k) {
       return (values[k] !== undefined && values[k] !== '') ? esc(values[k]) : m; });
   }
-  function recipient() { return (values.__to || '').trim(); }
+  var chips = [];                         // committed recipients [{email, name}]
+  function recipient() { commitInput(); return chips.map(function (c) { return c.email; }).join(', '); }
   function subject() { return fill(ver.subject); }
   function textBody() { return fill(ver.text); }
 
@@ -217,6 +267,7 @@
   function update() {
     elSubject.textContent = subject();
     elPreview.innerHTML = htmlBody();
+    if (window.__syncWa) window.__syncWa();
   }
 
   // ---------------- recipient combo ----------------
@@ -228,10 +279,12 @@
 
   function filterRecipients(q) {
     q = q.trim().toLowerCase();
-    if (!q) return RECIPIENTS.slice(0, 8);
+    if (!q) return RECIPIENTS.filter(function (r) {
+      return !chips.some(function (c) { return c.email.toLowerCase() === r.email; }); }).slice(0, 8);
     var out = [];
     for (var i = 0; i < RECIPIENTS.length && out.length < 8; i++) {
       var r = RECIPIENTS[i];
+      if (chips.some(function (c) { return c.email.toLowerCase() === r.email; })) continue;
       if (r.name.toLowerCase().indexOf(q) !== -1 || r.email.indexOf(q) !== -1 ||
           (r.hint && r.hint.toLowerCase().indexOf(q) !== -1)) out.push(r);
     }
@@ -268,52 +321,94 @@
     return values[key] === undefined || values[key] === '' || values[key] === def;
   }
 
+  var EMAIL_RE = /^[^@\s<>,;]+@[^@\s<>,;]+\.[^@\s<>,;]{2,}$/;
+  var chipHost = null;
+
+  function drawChips() {
+    if (!chipHost) return;
+    chipHost.querySelectorAll('.tpl-chip').forEach(function (n) { n.remove(); });
+    chips.forEach(function (c, i) {
+      var el = document.createElement('span');
+      el.className = 'tpl-chip'; el.title = c.name || c.email;
+      el.innerHTML = esc(c.email) + '<button type="button" aria-label="Remove" data-i="' + i + '">×</button>';
+      chipHost.insertBefore(el, toInput);
+    });
+    values.__to = chips.map(function (c) { return c.email; }).join(', ');
+    var h = document.getElementById('toCount');
+    if (h) h.textContent = chips.length > 1 ? '· ' + chips.length + ' recipients' : '';
+  }
+
+  function addChip(email, name) {
+    email = (email || '').trim().replace(/^<|>$/g, '');
+    if (!EMAIL_RE.test(email)) return false;
+    if (chips.some(function (c) { return c.email.toLowerCase() === email.toLowerCase(); })) return true;
+    chips.push({ email: email, name: name || '' });
+    return true;
+  }
+
+  // turn whatever is typed/pasted in the box into chips (comma, space, ; or newline separated)
+  function commitInput() {
+    if (!toInput) return;
+    var parts = toInput.value.split(/[,;\s]+/).filter(Boolean), keep = [];
+    parts.forEach(function (p) { if (!addChip(p)) keep.push(p); });
+    toInput.value = keep.join(' ');
+    drawChips();
+  }
+
   function pick(r) {
+    addChip(r.email, r.name);
     picked = r;
-    values.__to = r.email;
-    toInput.value = r.email;
-    // autofill matching fields, but never stomp something the admin typed
+    // autofill matching fields from the FIRST recipient, never stomping what the admin typed
     var hasField = {};
     ver.fields.forEach(function (f) { hasField[f.key] = true; });
-    if (hasField.name && isUntouched('name') && firstName(r.name)) {
-      values.name = firstName(r.name);
-    }
-    if (hasField.college && r.kind === 'guide' && r.hint && isUntouched('college')) {
-      values.college = r.hint;
+    if (chips.length === 1) {
+      if (hasField.name && isUntouched('name') && firstName(r.name)) values.name = firstName(r.name);
+      if (hasField.college && r.kind === 'guide' && r.hint && isUntouched('college')) values.college = r.hint;
     }
     closeMenu();
-    renderFields();      // re-render so autofilled inputs show their values
-    showPicked();
+    renderFields();      // re-render so autofilled inputs show their values (keeps the chips)
   }
 
   function showPicked() {
     var el = document.getElementById('toPicked');
     if (!el) return;
-    if (picked && values.__to === picked.email) {
-      el.innerHTML = '✓ ' + esc(picked.name) + ' · ' + (KIND_LABEL[picked.kind] || picked.kind) +
-        (picked.hint ? ' · ' + esc(picked.hint) : '');
-    } else { el.textContent = ''; }
+    el.textContent = (chips.length === 1 && picked && picked.email === chips[0].email)
+      ? '✓ ' + picked.name + ' · ' + (KIND_LABEL[picked.kind] || picked.kind) + (picked.hint ? ' · ' + picked.hint : '') : '';
   }
 
   function addToCombo() {
     var wrap = document.createElement('div');
     wrap.className = 'tpl-to';
     wrap.innerHTML =
-      '<label for="tf___to">To — search members, guides &amp; leads, or type any email</label>' +
-      '<input id="tf___to" type="email" placeholder="Start typing a name or email…" autocomplete="off">' +
+      '<label for="tf___to">To — pick one or more members, guides &amp; leads, or type / paste any emails <span id="toCount" style="color:var(--green)"></span></label>' +
+      '<div class="tpl-chipbox" id="chipBox"><input id="tf___to" type="text" placeholder="Type a name or email, press Enter or comma to add…" autocomplete="off"></div>' +
       '<div class="tpl-to-menu" id="toMenu"></div>' +
       '<div class="tpl-to-picked" id="toPicked"></div>';
     elFields.appendChild(wrap);
     toInput = wrap.querySelector('input');
     toMenu = wrap.querySelector('.tpl-to-menu');
-    toInput.value = values.__to || '';
-
-    toInput.addEventListener('input', function () {
-      values.__to = toInput.value; openMenu(); showPicked(); update();
+    chipHost = wrap.querySelector('#chipBox');
+    chipHost.addEventListener('click', function (e) {
+      var x = e.target.closest('button[data-i]');
+      if (x) { chips.splice(+x.getAttribute('data-i'), 1); drawChips(); showPicked(); }
+      else toInput.focus();
     });
+    drawChips(); showPicked();
+
+    toInput.addEventListener('input', function () { openMenu(); });
+    toInput.addEventListener('paste', function () { setTimeout(function () { commitInput(); showPicked(); }, 0); });
     toInput.addEventListener('focus', openMenu);
+    toInput.addEventListener('blur', function () { setTimeout(function () { commitInput(); showPicked(); }, 150); });
     toInput.addEventListener('keydown', function (e) {
-      if (!toMenu.classList.contains('open')) return;
+      if (e.key === 'Backspace' && !toInput.value && chips.length) { chips.pop(); drawChips(); showPicked(); return; }
+      if (e.key === ',' || e.key === ';' || e.key === ' ') {
+        if (toInput.value.trim()) { e.preventDefault(); commitInput(); showPicked(); }
+        return;
+      }
+      if (!toMenu.classList.contains('open')) {
+        if (e.key === 'Enter') { e.preventDefault(); commitInput(); showPicked(); }
+        return;
+      }
       if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
         e.preventDefault();
         if (!shown.length) return;
@@ -321,17 +416,18 @@
         toMenu.querySelectorAll('.tpl-to-opt').forEach(function (o, i) {
           o.classList.toggle('hover', i === hoverIdx); });
       } else if (e.key === 'Enter') {
-        if (hoverIdx >= 0 && shown[hoverIdx]) { e.preventDefault(); pick(shown[hoverIdx]); update(); }
+        e.preventDefault();
+        if (toInput.value.trim() && EMAIL_RE.test(toInput.value.trim())) { commitInput(); showPicked(); }
+        else if (hoverIdx >= 0 && shown[hoverIdx]) { pick(shown[hoverIdx]); }
       } else if (e.key === 'Escape') { closeMenu(); }
     });
     toMenu.addEventListener('mousedown', function (e) {   // mousedown beats input blur
       var opt = e.target.closest('.tpl-to-opt');
-      if (opt) { e.preventDefault(); pick(shown[+opt.getAttribute('data-i')]); update(); }
+      if (opt) { e.preventDefault(); pick(shown[+opt.getAttribute('data-i')]); }
     });
     document.addEventListener('click', function (e) {
       if (!wrap.contains(e.target)) closeMenu();
     });
-    showPicked();
   }
 
   // ---------------- fields ----------------
@@ -398,18 +494,28 @@
   var btnSend = document.getElementById('btnSend');
   btnSend.addEventListener('click', function () {
     if (!needTo()) return;
-    if (!confirm('Send this email now?\n\nTo: ' + recipient() + '\nSubject: ' + subject())) return;
+    var fromSel = document.getElementById('cFrom');
+    var mode = (document.querySelector('input[name=cMode]:checked') || {}).value || 'individual';
+    var n = chips.length;
+    var who = n > 1 ? (n + ' recipients ' + (mode === 'group' ? '(one group email)' : '(separate emails)')) : recipient();
+    if (!confirm('Send this email now?\n\nFrom: ' + fromSel.value + '\nTo: ' + who +
+                 '\nSubject: ' + subject())) return;
     var label = btnSend.textContent;
     btnSend.disabled = true; btnSend.textContent = 'Sending…';
     fetch('{{ url_for("admin_portal.templates_send") }}', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ to: recipient(), subject: subject(),
-                             text: textBody(), html: htmlBody() })
+      body: JSON.stringify({ to: chips.map(function (c) { return c.email; }), subject: subject(),
+                             text: textBody(), html: htmlBody(), from: fromSel.value, mode: mode,
+                             cc: document.getElementById('cCc').value,
+                             bcc: document.getElementById('cBcc').value })
     })
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
       .then(function (res) {
-        if (res.ok && res.d.ok) toast('✅ Sent to ' + res.d.to);
+        if (res.ok && res.d.ok) toast('✅ Sent' + (res.d.sent > 1 ? ' to ' + res.d.sent + ' recipients' : ' to ' + res.d.to)
+                                      + (res.d.from ? ' from ' + res.d.from : ''), 4000);
+        else if (res.ok && res.d.failed && res.d.failed.length)
+          toast('⚠️ Sent to ' + res.d.sent + ', failed for ' + res.d.failed.map(function (f) { return f.to; }).join(', '), 9000);
         else toast('❌ ' + (res.d.error || 'Send failed'), 7000);
       })
       .catch(function () { toast('❌ Send failed — network error', 7000); })
@@ -435,6 +541,28 @@
     navigator.clipboard.writeText(subject() + '\n\n' + textBody())
       .then(function () { toast('Plain text copied'); }, function () { toast('Copy failed'); });
   });
+  // ---- WhatsApp (templates that ship a short chat version) ----
+  function waText() { return fill(ver.wa || ''); }
+  function syncWa() {
+    var has = !!(ver && ver.wa);
+    document.getElementById('btnCopyWa').style.display = has ? '' : 'none';
+    document.getElementById('btnOpenWa').style.display = has ? '' : 'none';
+  }
+  window.__syncWa = syncWa;
+  document.getElementById('btnCopyWa').addEventListener('click', function () {
+    navigator.clipboard.writeText(waText())
+      .then(function () { toast('WhatsApp message copied'); }, function () { toast('Copy failed'); });
+  });
+  document.getElementById('btnOpenWa').addEventListener('click', function () {
+    window.open('https://wa.me/?text=' + encodeURIComponent(waText()), '_blank', 'noopener');
+  });
+  document.querySelectorAll('input[name=cMode]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      var group = (document.querySelector('input[name=cMode]:checked') || {}).value === 'group';
+      document.getElementById('ccWrap').classList.toggle('off', !group);
+    });
+  });
+
   document.getElementById('btnCopyHtml').addEventListener('click', function () {
     var html = htmlBody(), text = textBody();
     if (navigator.clipboard && window.ClipboardItem) {

@@ -94,5 +94,56 @@ assert r.status_code in (302, 401, 403), r.status_code
 r = ac.get('/admin/templates')
 assert r.status_code == 200 and b'Send now' in r.data
 
-os.unlink(_db)
+
+# 7) several recipients + a chosen sender -------------------------------------
+from app.services import mailer as _m
+AP.mailer.send_now = lambda to, subject, text, html=None, **k: sent.append(
+    {'to': to, 'subject': subject, 'text': text, 'html': html, **k})
+AP.mailer.allowed_senders = _m.allowed_senders
+del sent[:]
+# separate emails: one message per person, from info@, replies to info@
+code, body = send({'to': ['a@x.com', 'b@y.com', 'A@X.com'], 'subject': 'S', 'text': 'T',
+                   'from': 'info@eduaakashaa.com', 'mode': 'individual'})
+assert code == 200 and body['ok'] and body['sent'] == 2, (code, body)       # de-duplicated
+assert [m['to'] for m in sent] == ['a@x.com', 'b@y.com']
+assert all(m['from_addr'] == 'info@eduaakashaa.com' and m['reply_to'] == 'info@eduaakashaa.com' for m in sent)
+# one group email: single message, list To, Cc/Bcc honoured
+del sent[:]
+code, body = send({'to': 'a@x.com, b@y.com', 'cc': 'c@z.com', 'bcc': 'info@eduaakashaa.com',
+                   'subject': 'S', 'text': 'T', 'from': 'info@eduaakashaa.com', 'mode': 'group'})
+assert code == 200 and len(sent) == 1, (code, body, sent)
+assert sent[0]['to'] == ['a@x.com', 'b@y.com'] and sent[0]['cc'] == ['c@z.com']
+assert sent[0]['bcc'] == ['info@eduaakashaa.com']
+# an arbitrary sender is refused; so is a bad address in the list; so is too many
+del sent[:]
+code, body = send({'to': 'a@x.com', 'subject': 'S', 'text': 'T', 'from': 'ceo@evil.com'})
+assert code == 400 and 'sender' in body['error'], (code, body)
+code, body = send({'to': ['a@x.com', 'nope'], 'subject': 'S', 'text': 'T'})
+assert code == 400, (code, body)
+code, body = send({'to': ['u%d@x.com' % i for i in range(30)], 'subject': 'S', 'text': 'T'})
+assert code == 400, (code, body)
+assert sent == []
+# partial failure is reported per recipient, not hidden
+def flaky(to, subject, text, html=None, **k):
+    if to == 'bad@x.com':
+        raise RuntimeError('mailbox full')
+    sent.append(to)
+AP.mailer.send_now = flaky
+code, body = send({'to': ['ok@x.com', 'bad@x.com'], 'subject': 'S', 'text': 'T'})
+assert code == 200 and body['ok'] is False and body['sent'] == 1 and body['failed'][0]['to'] == 'bad@x.com', (code, body)
+
+# 8) mentorship templates are in the registry and render to HTML
+from app.services.email_templates import EMAIL_TEMPLATES, render_email
+mp = [t for t in EMAIL_TEMPLATES if t['key'].startswith('mp_')]
+assert len(mp) >= 20, len(mp)
+for t in mp:
+    for v in t['versions']:
+        subj, text, html_ = render_email(t['key'], {'name': 'Asha', 'student': 'Rohan'}, v['key'])
+        assert subj and text and '<p' in html_ and 'EduAakashaa' in html_, t['key']
+        assert 'Asha' in text or 'Rohan' in text or t['key'] in ('mp_mentor_monthly',), t['key']
+
+try:
+    os.unlink(_db)
+except OSError:
+    pass  # Windows keeps the sqlite file locked
 print('all templates-send checks passed')
