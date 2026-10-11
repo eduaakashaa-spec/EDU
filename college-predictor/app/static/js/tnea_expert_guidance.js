@@ -2660,7 +2660,7 @@ function generatePDFReport(opts){
       <strong>Stay Connected</strong>
       <a href="https://wa.me/918015722706">💬 WhatsApp Channel</a>
       <a href="https://www.instagram.com/eduaakashaa">📷 Instagram @eduaakashaa</a>
-      <a href="https://www.linkedin.com/company/eduaakashaa">💼 LinkedIn</a>
+      <a href="https://www.linkedin.com/company/eduaakashaa-educational-services-pvt-ltd-215a00357">💼 LinkedIn</a>
       <a href="https://www.youtube.com/@eduaakashaa">▶️ YouTube</a>
     </div>
   </footer>
