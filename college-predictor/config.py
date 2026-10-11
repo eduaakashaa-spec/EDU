@@ -67,7 +67,7 @@ class Config:
         'ADDRESS': os.environ.get('COMPANY_ADDRESS', 'Palani, Tamil Nadu 624615, India'),
         'PHONE_IN': os.environ.get('PHONE_IN', '+91 80157 22706'),
         'EMAIL': os.environ.get('ADMIN_EMAIL', 'info@eduaakashaa.com'),
-        'WEBSITE': 'www.eduaakashaa.in',
+        'WEBSITE': 'www.eduaakashaa.com',
         'LOGO_URL': os.environ.get('LOGO_URL', ''),
         'BANK_AC_NAME': os.environ.get('BANK_AC_NAME', ''),
         'BANK_AC_NO': os.environ.get('BANK_AC_NO', ''),

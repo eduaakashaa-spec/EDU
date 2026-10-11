@@ -1069,7 +1069,7 @@ Colleges in your community (${COMM_LABEL[DASH.community]}) ranked 1 to ${totalRa
 *This report was generated from official TNEA 2025 cutoff data. 2026 cutoffs may shift by 1-2 marks. Cross-verify against tneaonline.org before final choice filling.*
 
 `;
-  md += `**EduAakashaa** · Coimbatore · www.eduaakashaa.in · +91 80157 22706
+  md += `**EduAakashaa** · Coimbatore · www.eduaakashaa.com · +91 80157 22706
 `;
 
   return md;
@@ -2632,7 +2632,7 @@ function generatePDFReport(opts){
       <div class="rpt-qr-card">
         <div class="rpt-qr-card-label">📖 Bookmark this dashboard</div>
         <div class="rpt-qr-img-wrap"><img src="${IMG.qrweb}" alt="QR to dashboard" class="rpt-qr-img"></div>
-        <div class="rpt-qr-card-caption">eduaakashaa.in/tnea-2026</div>
+        <div class="rpt-qr-card-caption">www.eduaakashaa.com/tnea2026</div>
       </div>
       <div class="rpt-qr-card rpt-qr-card-wa">
         <div class="rpt-qr-card-label">💬 Join EduAakashaa TNEA group</div>
@@ -2647,7 +2647,7 @@ function generatePDFReport(opts){
       <strong>Reach Us</strong>
       <a href="tel:+918015722706">+91 80157 22706 (India)</a>
       <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
-      <a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a>
+      <a href="https://www.eduaakashaa.com">www.eduaakashaa.com</a>
     </div>
     <div class="rpt-footer-block">
       <strong>Hours</strong>
@@ -2719,7 +2719,7 @@ function generateExcelReport(){
     ['─── EduAakashaa Contact ───'],
     ['India',     '+91 80157 22706'],
     ['Email',     'info@eduaakashaa.com'],
-    ['Website',   'www.eduaakashaa.in'],
+    ['Website',   'www.eduaakashaa.com'],
     ['WhatsApp',  'https://wa.me/918015722706'],
     ['Hours',     'Mon–Fri 9:00–22:00 · Sat & Sun 9:00–16:00'],
     ['Locations', 'Coimbatore, Tamil Nadu'],

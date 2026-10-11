@@ -522,7 +522,7 @@ function renderResults() {
     </div>
   </div>`;
  
-  html+=`<div class="footer-box"><p style="font-size:12px;margin-bottom:2px">${isTa?T.counselling:'For personalized 1-on-1 counselling'}</p><a href="https://www.eduaakashaa.in" target="_blank">www.eduaakashaa.in</a><p style="font-size:10px;color:var(--gray);margin-top:4px">contact@eduaakashaa.in</p></div>`;
+  html+=`<div class="footer-box"><p style="font-size:12px;margin-bottom:2px">${isTa?T.counselling:'For personalized 1-on-1 counselling'}</p><a href="https://www.eduaakashaa.com" target="_blank">www.eduaakashaa.com</a><p style="font-size:10px;color:var(--gray);margin-top:4px">info@eduaakashaa.com</p></div>`;
  
   document.getElementById('resultsContent').innerHTML = html;
  
@@ -534,7 +534,7 @@ function renderResults() {
 //  PRINT
 // ════════════════════════════════════════
 function buildPrintContent(r,gap,stu,par,careers,subjects,board,parentMatch,prefGap,topTraits,heatData,heatDims) {
-  let h = `<div style="text-align:center;border-bottom:3px solid #2454A4;padding-bottom:14px;margin-bottom:18px"><h1 style="color:#2454A4;font-size:24px">EduAakashaa</h1><p style="color:#F47B20;font-size:11px;letter-spacing:3px">PSYCHOMETRIC CAREER STREAM ASSESSMENT REPORT</p><p style="font-size:10px;color:#888;margin-top:3px">www.eduaakashaa.in | contact@eduaakashaa.in</p></div>`;
+  let h = `<div style="text-align:center;border-bottom:3px solid #2454A4;padding-bottom:14px;margin-bottom:18px"><h1 style="color:#2454A4;font-size:24px">EduAakashaa</h1><p style="color:#F47B20;font-size:11px;letter-spacing:3px">PSYCHOMETRIC CAREER STREAM ASSESSMENT REPORT</p><p style="font-size:10px;color:#888;margin-top:3px">www.eduaakashaa.com | info@eduaakashaa.com</p></div>`;
   h+=`<h2>Student Details</h2><table><tr><td><b>Name</b></td><td>${stu.name}</td><td><b>Age</b></td><td>${stu.age}</td></tr><tr><td><b>School</b></td><td>${stu.school}</td><td><b>City</b></td><td>${stu.city}</td></tr><tr><td><b>Board</b></td><td>${stu.board}</td><td><b>Class</b></td><td>${stu.currentClass}</td></tr><tr><td><b>Student Pref</b></td><td>${studentPref}</td><td><b>Parent Pref</b></td><td>${par.preferredStream||'N/A'}</td></tr></table>`;
   h+=`<div style="background:#2454A4;color:#fff;text-align:center;padding:18px;border-radius:8px;margin:16px 0"><div style="font-size:10px;letter-spacing:3px">RECOMMENDED STREAM</div><div style="font-size:26px;font-weight:800">${r.recommended}</div></div>`;
   if(r.risks.length){h+=`<h2>Risk Flags</h2>`;r.risks.forEach(rk=>{h+=`<div class="${rk.severity==='critical'?'risk-crit':'risk-warn'}"><b>${rk.flag}</b> — ${rk.detail}</div>`;});}
@@ -553,7 +553,7 @@ function buildPrintContent(r,gap,stu,par,careers,subjects,board,parentMatch,pref
   h+=`</table><h3>Timeline</h3><p><b>0-3 mo:</b> Bridge gaps. Explore careers.<br><b>3-6 mo:</b> Build routines. Join communities.<br><b>6-12 mo:</b> Certifications. Career fairs.<br><b>1-2 yr:</b> Exam prep. Portfolio. Mentorship.</p>`;
   h+=`<h2>Subjects (${board})</h2><p>${subjects.join(', ')}</p>`;
   h+=`<h2>Parent Input</h2><table><tr><td><b>Parent</b></td><td>${par.name}</td><td><b>Contact</b></td><td>${par.phone} | ${par.email}</td></tr><tr><td><b>Pref</b></td><td>${par.preferredStream||'N/A'}</td><td><b>Aligned</b></td><td>${parentMatch?'✅ Yes':'⚠️ No'}</td></tr></table>`;
-  h+=`<h2>Note to Parents</h2><p>This is a conversation starter. Discuss openly with ${stu.name}. Explore careers together. If mismatch exists, approach with curiosity. Consider counselling at www.eduaakashaa.in.</p>`;
+  h+=`<h2>Note to Parents</h2><p>This is a conversation starter. Discuss openly with ${stu.name}. Explore careers together. If mismatch exists, approach with curiosity. Consider counselling at www.eduaakashaa.com.</p>`;
   // Breaking barriers in print
   if(prefGap){
     h+=`<h2>🔥 Breaking Barriers — Stepping Out of Comfort Zone</h2>`;
@@ -570,7 +570,7 @@ function buildPrintContent(r,gap,stu,par,careers,subjects,board,parentMatch,pref
   h+=`<p><b>${waRec.name}</b><br/>${waRec.url}</p>`;
   h+=`<p><b>${waLinks.Emerging.name}</b><br/>${waLinks.Emerging.url}</p>`;
   if(prefGap && waLinks[studentPref]){h+=`<p><b>${waLinks[studentPref].name}</b> (Your preferred pathway)<br/>${waLinks[studentPref].url}</p>`;}
-  h+=`<div class="footer"><b style="color:#2454A4">EduAakashaa</b> — www.eduaakashaa.in | contact@eduaakashaa.in<br><em>Generated ${new Date().toLocaleDateString('en-IN')}. For personalized counselling, visit our website.</em></div>`;
+  h+=`<div class="footer"><b style="color:#2454A4">EduAakashaa</b> — www.eduaakashaa.com | info@eduaakashaa.com<br><em>Generated ${new Date().toLocaleDateString('en-IN')}. For personalized counselling, visit our website.</em></div>`;
   document.getElementById('printContent').innerHTML = h;
 }
  

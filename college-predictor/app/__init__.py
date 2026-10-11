@@ -79,6 +79,18 @@ def create_app():
     from app.routes.survey import survey_bp
     app.register_blueprint(survey_bp)
 
+    # The legacy eduaakashaa.in domain forwards to eduaakashaa.com (path and query
+    # kept), so old links, QR codes and bookmarks land on the live site.
+    from flask import redirect, request
+    legacy_hosts = {'eduaakashaa.in', 'www.eduaakashaa.in'}
+    canonical = app.config.get('CANONICAL_URL', 'https://www.eduaakashaa.com')
+
+    @app.before_request
+    def _legacy_domain_redirect():
+        host = (request.host or '').split(':')[0].lower()
+        if host in legacy_hosts:
+            return redirect(canonical + request.full_path.rstrip('?'), code=301)
+
     from app.routes.onboarding import onboarding_bp
     app.register_blueprint(onboarding_bp)
 

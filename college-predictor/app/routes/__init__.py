@@ -382,7 +382,6 @@ def members_login():
 # off to the live tool; each body is swapped for an in-app version as it
 # is migrated (Choice Builder PRO code pending from the team).
 # =============================================================
-_LIVE_SITE = 'https://www.eduaakashaa.in'
 
 
 def _portal_tool(title, desc, live_url, features):
@@ -411,7 +410,7 @@ def dasa2026_expert_report():
     return _portal_tool(
         'DASA 2026 Expert Report',
         'Generate the personalised DASA/CIWG decision-matrix report for a student.',
-        f'{_LIVE_SITE}/dasa2026-expert-report',
+        url_for('main.expert_portal_dasa'),     # the in-app DASA expert portal
         [{'icon': '\U0001F3AF', 'title': 'College predictor', 'text': 'NITs & IIITs decision-matrix tuned to the JEE rank.'},
          {'icon': '\U0001F9ED', 'title': 'Choice strategy', 'text': 'CIWG vs Non-CIWG option analysis and ordering.'},
          {'icon': '\U0001F468‍\U0001F3EB', 'title': 'Expert guidance', 'text': 'Counsellor support through choice filling.'}])
@@ -441,6 +440,22 @@ def dasa_prediction_report():
 def mentorship_templates():
     from app.data.mentorship_templates import GROUPS, GUIDELINES
     return render_template('mentorship_templates.html', groups=GROUPS, guidelines=GUIDELINES)
+
+
+# Legacy eduaakashaa.in paths (printed QR codes, old links) that now live elsewhere
+@main_bp.route('/tnea-2026')
+def tnea_2026_legacy():
+    return redirect(url_for('main.tnea2026'), code=301)
+
+
+@main_bp.route('/services')
+def services_legacy():
+    return redirect(url_for('main.premium_membership'), code=301)
+
+
+@main_bp.route('/internship-programs')
+def internship_programs_legacy():
+    return redirect(url_for('main.contact'), code=301)
 
 
 @main_bp.route('/dasa-2026-analytics')

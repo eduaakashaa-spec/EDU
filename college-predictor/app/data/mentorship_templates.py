@@ -12,7 +12,7 @@ channel is "email" or "whatsapp".
 SIG_EMAIL = """Warm regards,
 [Your Name]
 [Designation], EduAakashaa
-+91 80157 22706 (Phone / WhatsApp) · info@eduaakashaa.com · www.eduaakashaa.in
++91 80157 22706 (Phone / WhatsApp) · info@eduaakashaa.com · www.eduaakashaa.com
 Guiding students towards the right future"""
 
 SIG_WA = "— [Your Name], EduAakashaa"

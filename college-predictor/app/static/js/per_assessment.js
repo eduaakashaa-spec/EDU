@@ -7,12 +7,12 @@
 const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyGKI5EK4pO5f0BpsbjOz_bb61ji6N9jbmXt4n_xwu_xCRdOIbovDA8pZFwdk_6oIxO1w/exec"; // e.g. "https://script.google.com/macros/s/XXXX/exec"
 const EXPERT_ACCESS_CODE = "Edu@Palani"; // Change this in production
 
-// WhatsApp community channels — update these URLs with your actual links from www.eduaakashaa.in
+// WhatsApp community channels — update these URLs with your actual links from www.eduaakashaa.com
 // These appear in every report sent to students (in-app + PDF + email).
 const WHATSAPP_CHANNELS = [
   { name: "JEE Aspirants 2027",        desc: "One physics question + solution every weekday.", url: "https://whatsapp.com/channel/0029VbCqalB3QxSAakeOeL42" },
   { name: "NRI College Admission",       desc: "Get expert guidance for NRI engineering admissions via DASA & CIWG.", url: "https://whatsapp.com/channel/0029Vb7risZ9RZAVrAFgLo3m" },
-  { name: "Career Counselling Updates", desc: "College alerts, scholarship news, and career path guidance.", url: "https://www.eduaakashaa.in" },
+  { name: "Career Counselling Updates", desc: "College alerts, scholarship news, and career path guidance.", url: "https://www.eduaakashaa.com" },
   { name: "Parent Community",           desc: "A dedicated channel for Grades 10–12 students. Get expert guidance on choosing the right stream—Science, Commerce or Arts—along with subject insights,", url: "https://whatsapp.com/channel/0029VbCdfmZIt5rp574qxr2y" }
 ];
 
@@ -645,7 +645,7 @@ function renderReport(sub) {
             <h4>Want to walk through this report with an expert?</h4>
             <p>Book a FREE 30-minute counselling session — no commitment, no upsell.</p>
           </div>
-          <a href="https://www.eduaakashaa.in/contact-us" target="_blank" rel="noopener">Expert Guidance →</a>
+          <a href="https://www.eduaakashaa.com/contact-us" target="_blank" rel="noopener">Expert Guidance →</a>
         </div>
 
         <!-- Classification -->
@@ -717,8 +717,8 @@ function renderReport(sub) {
 
         <!-- Inline CTA #1 -->
         <div class="report-inline-ad">
-          <div class="text"><strong>Need targeted practice?</strong> Our JEE Main / NEET physics drill series turns these skill gaps into mastery — visit <a href="https://www.eduaakashaa.in" target="_blank" rel="noopener" style="color:var(--orange);">www.eduaakashaa.in</a></div>
-          <a href="https://www.eduaakashaa.in/contact-us" target="_blank" rel="noopener">Talk to Expert →</a>
+          <div class="text"><strong>Need targeted practice?</strong> Our JEE Main / NEET physics drill series turns these skill gaps into mastery — visit <a href="https://www.eduaakashaa.com" target="_blank" rel="noopener" style="color:var(--orange);">www.eduaakashaa.com</a></div>
+          <a href="https://www.eduaakashaa.com/contact-us" target="_blank" rel="noopener">Talk to Expert →</a>
         </div>
 
         <!-- Misconceptions -->
@@ -783,7 +783,7 @@ function renderReport(sub) {
                 </div>
               `).join('')}
             </div>
-            <p style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.7);">Find all channel links and the latest community list at <a href="https://www.eduaakashaa.in" target="_blank" rel="noopener" style="color:#fff;border-bottom:1px solid rgba(255,255,255,0.4);">www.eduaakashaa.in</a></p>
+            <p style="margin-top:14px;font-size:12px;color:rgba(255,255,255,0.7);">Find all channel links and the latest community list at <a href="https://www.eduaakashaa.com" target="_blank" rel="noopener" style="color:#fff;border-bottom:1px solid rgba(255,255,255,0.4);">www.eduaakashaa.com</a></p>
           </div>
         </div>
 
@@ -826,7 +826,7 @@ function renderReport(sub) {
         <!-- Inline CTA #2 -->
         <div class="report-inline-ad">
           <div class="text"><strong>Stuck on Day 4?</strong> Our mentors are 1-tap away. Free first 30 minutes — no card, no commitment.</div>
-          <a href="https://www.eduaakashaa.in/contact-us" target="_blank" rel="noopener">Expert Guidance →</a>
+          <a href="https://www.eduaakashaa.com/contact-us" target="_blank" rel="noopener">Expert Guidance →</a>
         </div>
 
         <!-- Testimonial -->
@@ -842,8 +842,8 @@ function renderReport(sub) {
             <h3>Talk to <em>a real expert</em>.</h3>
             <p>Your first counselling session is on us — 30 minutes, 1-on-1, with a PER-trained counsellor. We'll walk through this exact report and build your next 30 days together.</p>
             <div class="cta-row">
-              <a href="https://www.eduaakashaa.in/contact-us" target="_blank" rel="noopener" class="solid">Expert Guidance →</a>
-              <a href="https://www.eduaakashaa.in" target="_blank" rel="noopener" class="outline">Visit eduaakashaa.in</a>
+              <a href="https://www.eduaakashaa.com/contact-us" target="_blank" rel="noopener" class="solid">Expert Guidance →</a>
+              <a href="https://www.eduaakashaa.com" target="_blank" rel="noopener" class="outline">Visit www.eduaakashaa.com</a>
             </div>
           </div>
         </div>
@@ -1177,7 +1177,7 @@ function buildPdfHtml(sub, reportHtml) {
   // We'll keep the data summary in the static elements
   const cleanedHtml = reportHtml
     .replace(/<canvas[^>]*><\/canvas>/g, '')
-    .replace(/<div class="chart-canvas-wrap">.*?<\/div>/gs, '<div style="padding:18px;background:#FBF7EE;border-radius:8px;text-align:center;color:#5A6278;font-size:11px;">📊 See interactive charts in your online report at eduaakashaa.in</div>');
+    .replace(/<div class="chart-canvas-wrap">.*?<\/div>/gs, '<div style="padding:18px;background:#FBF7EE;border-radius:8px;text-align:center;color:#5A6278;font-size:11px;">📊 See interactive charts in your online report at www.eduaakashaa.com</div>');
 
   return `<!DOCTYPE html>
 <html><head><meta charset="UTF-8"><title>EduAakashaa PER Report — ${sub.refId}</title>

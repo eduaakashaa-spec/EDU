@@ -222,7 +222,7 @@ function generateExcel() {
   showToast('Generating Excel...','info');
   var wb=XLSX.utils.book_new();
   var safe=allResults.filter(function(d){ return getChance(rank,d.overall_open,d.overall_close)==='safe'; }).length;
-  var sw=XLSX.utils.aoa_to_sheet([['DASA & CIWG 2025 - College Prediction'],['EduAakashaa www.eduaakashaa.in'],[],['Student',name],['Email',document.getElementById('studentEmail').value.trim()||'-'],['Rank',rank],['Date',new Date().toLocaleDateString('en-IN')],[],['Summary'],['Total',allResults.length],['Safe',safe],['Moderate',allResults.filter(function(d){ return getChance(rank,d.overall_open,d.overall_close)==='moderate'; }).length],['Reach',allResults.filter(function(d){ return getChance(rank,d.overall_open,d.overall_close)==='reach'; }).length]]);
+  var sw=XLSX.utils.aoa_to_sheet([['DASA & CIWG 2025 - College Prediction'],['EduAakashaa www.eduaakashaa.com'],[],['Student',name],['Email',document.getElementById('studentEmail').value.trim()||'-'],['Rank',rank],['Date',new Date().toLocaleDateString('en-IN')],[],['Summary'],['Total',allResults.length],['Safe',safe],['Moderate',allResults.filter(function(d){ return getChance(rank,d.overall_open,d.overall_close)==='moderate'; }).length],['Reach',allResults.filter(function(d){ return getChance(rank,d.overall_open,d.overall_close)==='reach'; }).length]]);
   sw['!cols']=[{wch:22},{wch:40}];
   XLSX.utils.book_append_sheet(wb,sw,'Summary');
   var hdr=['#','Institute','Program','Branch','Category','Quota','NIRF Rank','Ovrl Open','Ovrl Close','R1 Open','R1 Close','R2 Open','R2 Close','Rounds','Chance'];
@@ -271,7 +271,7 @@ function sendEmail() {
 }
 function fallbackEmail(email,name,rank) {
   var sub=encodeURIComponent('DASA 2025 Prediction Report - '+name);
-  var body=encodeURIComponent('Dear '+name+',\n\nYour DASA & CIWG 2025 report.\nRank: '+rank.toLocaleString('en-IN')+'\nPrograms: '+allResults.length+'\n\nEduAakashaa Team\nhttps://www.eduaakashaa.in');
+  var body=encodeURIComponent('Dear '+name+',\n\nYour DASA & CIWG 2025 report.\nRank: '+rank.toLocaleString('en-IN')+'\nPrograms: '+allResults.length+'\n\nEduAakashaa Team\nhttps://www.eduaakashaa.com');
   window.open('mailto:'+email+'?subject='+sub+'&body='+body);
   showToast('Opening mail client. Connect backend for automation.','info',5000);
 }

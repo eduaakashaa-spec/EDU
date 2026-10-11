@@ -669,7 +669,7 @@ MESSAGE_TEMPLATES = {
                  'Welcome to EduAakashaa! Your {plan} membership is active'
                  '{validity}. You now have access to every premium tool — '
                  'predictors, expert reports and counsellor support.\n\n'
-                 'Start here: https://www.eduaakashaa.in/dashboard\n\n'
+                 'Start here: https://www.eduaakashaa.com/dashboard\n\n'
                  'Questions? Just reply to this message.\n— Team EduAakashaa'),
     },
     'renewal': {
@@ -679,7 +679,7 @@ MESSAGE_TEMPLATES = {
                  'A quick reminder that your {plan} membership{validity}. '
                  'Renew in time to keep uninterrupted access to the premium '
                  'predictors and expert reports during counselling season.\n\n'
-                 'Renew: https://www.eduaakashaa.in/members-registration\n'
+                 'Renew: https://www.eduaakashaa.com/members-registration\n'
                  '— Team EduAakashaa'),
     },
     'counselling': {

@@ -419,7 +419,7 @@ async function generatePDF(){
       String(i+1),
       branchLabels[row.k],
       row.v + '%',
-      'eduaakashaa.in'
+      'www.eduaakashaa.com'
     ]),
     theme:'grid',
     headStyles:{fillColor:NAVY_INK, textColor:[255,255,255], font:'helvetica', fontStyle:'bold', fontSize:9.5},
@@ -500,7 +500,7 @@ async function generatePDF(){
     doc.setFont('helvetica','normal');
     doc.setFontSize(7.5);
     doc.setTextColor(...MUTED);
-    doc.text('EduAakashaa  ·  www.eduaakashaa.in  ·  info@eduaakashaa.com', 15, pageH-9);
+    doc.text('EduAakashaa  ·  www.eduaakashaa.com  ·  info@eduaakashaa.com', 15, pageH-9);
     doc.text('Coimbatore, Tamil Nadu', 15, pageH-5);
     doc.setTextColor(...NAVY);
     doc.setFont('helvetica','bold');

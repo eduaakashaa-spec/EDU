@@ -912,7 +912,7 @@ function buildReport(results, name, rank, cat, goal) {
   var html = '<div id="printReport">';
   html += '<div style="text-align:center;margin-bottom:16px">';
   html += '<div style="font-size:20px;font-weight:700;color:var(--bd)">EduAakashaa JOSAA Report</div>';
-  html += '<div style="font-size:12px;color:var(--muted)">www.eduaakashaa.in | contact@eduaakashaa.com</div>';
+  html += '<div style="font-size:12px;color:var(--muted)">www.eduaakashaa.com | contact@eduaakashaa.com</div>';
   html += '<div style="font-size:12px;color:var(--muted)">Generated: ' + new Date().toLocaleDateString('en-IN') + '</div>';
   html += '</div>';
   html += '<div style="border:1px solid var(--bdr);border-radius:8px;padding:14px;margin-bottom:14px">';
@@ -934,7 +934,7 @@ function buildReport(results, name, rank, cat, goal) {
   html += '<div style="margin-top:14px;padding:12px;background:#EFF6FF;border-radius:8px;font-size:12px">';
   html += '<strong>&#128161; Key Advice:</strong> Fill ALL options in your rank range. Choose Float, not Freeze. Fill Home State NIT with HS quota. Include reach options — Round 5-6 cutoffs often drop by 2,000-10,000 ranks.';
   html += '</div>';
-  html += '<div style="margin-top:10px;font-size:11px;color:var(--muted);text-align:center">For personalised counselling: contact@eduaakashaa.com | www.eduaakashaa.in</div>';
+  html += '<div style="margin-top:10px;font-size:11px;color:var(--muted);text-align:center">For personalised counselling: contact@eduaakashaa.com | www.eduaakashaa.com</div>';
   html += '</div>';
   document.getElementById('reportContent').innerHTML = html;
 }
@@ -1028,7 +1028,7 @@ function showSubmitSuccess(name, email, id, url) {
     '<div style="font-size:12px;color:#94A3B8;margin-bottom:16px">Reference ID: <strong style="color:#163896">' + id + '</strong></div>' +
     '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">' +
     '<a href="mailto:contact@eduaakashaa.com" style="background:#163896;color:#fff;padding:9px 18px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none">&#128231; Contact Us</a>' +
-    '<a href="https://www.eduaakashaa.in" target="_blank" style="background:#F97316;color:#fff;padding:9px 18px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none">&#127760; Visit Website</a>' +
+    '<a href="https://www.eduaakashaa.com" target="_blank" style="background:#F97316;color:#fff;padding:9px 18px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none">&#127760; Visit Website</a>' +
     '</div>' +
     '<div style="margin-top:14px"><button onclick="this.closest('div[style*=fixed]').remove()" style="background:#E2E8F0;border:none;padding:8px 20px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600">Close</button></div>' +
     '</div>';
@@ -1180,7 +1180,7 @@ function buildExcel(choices, studentData) {
   wb.Props = {
     Title: 'EduAakashaa JOSAA Choice Filling List',
     Subject: 'JOSAA 2025 College Choices - ' + studentData.name,
-    Author: 'EduAakashaa (www.eduaakashaa.in)',
+    Author: 'EduAakashaa (www.eduaakashaa.com)',
     CreatedDate: new Date()
   };
 
@@ -1291,7 +1291,7 @@ function buildExcel(choices, studentData) {
   // ── SHEET 6: Student Profile ─────────────────────────────────────────────
   var profRows = [
     ['EduAakashaa JOSAA Choice Filling Report', ''],
-    ['www.eduaakashaa.in | contact@eduaakashaa.com', ''],
+    ['www.eduaakashaa.com | contact@eduaakashaa.com', ''],
     ['Generated', new Date().toLocaleString('en-IN')],
     ['', ''],
     ['STUDENT PROFILE', ''],
@@ -1329,7 +1329,7 @@ function buildExcel(choices, studentData) {
     ['Top 50 NIRF Options', choices.filter(function(c){ return c.nirfRank<=50&&c.nirfRank>0; }).length],
     ['', ''],
     ['CONTACT', ''],
-    ['Website', 'www.eduaakashaa.in'],
+    ['Website', 'www.eduaakashaa.com'],
     ['Email', 'contact@eduaakashaa.com'],
     ['WhatsApp Ch 1', 'https://whatsapp.com/channel/0029Vb7risZ9RZAVrAFgLo3m'],
     ['WhatsApp Ch 2', 'https://whatsapp.com/channel/0029VbBxOWUKwqSYpWBgge1x'],
@@ -1377,9 +1377,9 @@ function buildExcel(choices, studentData) {
     ['Mistake 6', 'Choosing CSE at Rank 50 NIT over Mechanical at Rank 10 NIT.'],
     ['', ''],
     ['CONTACT EDUAAKASHAA FOR HELP', ''],
-    ['Website', 'www.eduaakashaa.in'],
+    ['Website', 'www.eduaakashaa.com'],
     ['Email', 'contact@eduaakashaa.com'],
-    ['1-on-1 Counselling', 'Book at www.eduaakashaa.in — Rs.999 per session']
+    ['1-on-1 Counselling', 'Book at www.eduaakashaa.com — Rs.999 per session']
   ];
   var ws7 = XLSX.utils.aoa_to_sheet(tipRows);
   ws7['!cols'] = [{wch:28},{wch:70}];
@@ -1410,7 +1410,7 @@ function buildPDF(choices, studentData) {
   doc.setFontSize(22); doc.setFont('helvetica','bold');
   doc.text('EduAakashaa', 14, 16);
   doc.setFontSize(10); doc.setFont('helvetica','normal');
-  doc.text('Illuminating Your Future | www.eduaakashaa.in | contact@eduaakashaa.com', 14, 24);
+  doc.text('Illuminating Your Future | www.eduaakashaa.com | contact@eduaakashaa.com', 14, 24);
   doc.setFontSize(14); doc.setFont('helvetica','bold');
   doc.text('JOSAA 2025 — Personalised Choice Filling Report', 14, 35);
 
@@ -1495,7 +1495,7 @@ function buildPDF(choices, studentData) {
   doc.setFillColor(22,56,150);
   doc.rect(0, 282, W, 15, 'F');
   doc.setTextColor(255,255,255); doc.setFontSize(8); doc.setFont('helvetica','normal');
-  doc.text('EduAakashaa | www.eduaakashaa.in | contact@eduaakashaa.com | Page 1', W/2, 291, {align:'center'});
+  doc.text('EduAakashaa | www.eduaakashaa.com | contact@eduaakashaa.com | Page 1', W/2, 291, {align:'center'});
 
   // ── PAGE 2: TOP 50 CHOICES TABLE ────────────────────────────────────────
   doc.addPage();
@@ -1546,7 +1546,7 @@ function buildPDF(choices, studentData) {
   // Footer page 2
   doc.setFillColor(22,56,150); doc.rect(0,282,W,15,'F');
   doc.setTextColor(255,255,255); doc.setFontSize(8); doc.setFont('helvetica','normal');
-  doc.text('EduAakashaa | www.eduaakashaa.in | contact@eduaakashaa.com | Page 2', W/2,291,{align:'center'});
+  doc.text('EduAakashaa | www.eduaakashaa.com | contact@eduaakashaa.com | Page 2', W/2,291,{align:'center'});
 
   // ── PAGE 3: CHOICES 51-150 ───────────────────────────────────────────────
   if (choices.length > 50) {
@@ -1574,7 +1574,7 @@ function buildPDF(choices, studentData) {
 
     doc.setFillColor(22,56,150); doc.rect(0,282,W,15,'F');
     doc.setTextColor(255,255,255); doc.setFontSize(8); doc.setFont('helvetica','normal');
-    doc.text('EduAakashaa | www.eduaakashaa.in | contact@eduaakashaa.com | Page 3', W/2,291,{align:'center'});
+    doc.text('EduAakashaa | www.eduaakashaa.com | contact@eduaakashaa.com | Page 3', W/2,291,{align:'center'});
   }
 
   // ── PAGE 4: CHOICES 151-250 ──────────────────────────────────────────────
@@ -1603,7 +1603,7 @@ function buildPDF(choices, studentData) {
 
     doc.setFillColor(22,56,150); doc.rect(0,282,W,15,'F');
     doc.setTextColor(255,255,255); doc.setFontSize(8); doc.setFont('helvetica','normal');
-    doc.text('EduAakashaa | www.eduaakashaa.in | contact@eduaakashaa.com | Page 4', W/2,291,{align:'center'});
+    doc.text('EduAakashaa | www.eduaakashaa.com | contact@eduaakashaa.com | Page 4', W/2,291,{align:'center'});
   }
 
   // ── PAGE 5: STRATEGY TIPS ────────────────────────────────────────────────
@@ -1642,7 +1642,7 @@ function buildPDF(choices, studentData) {
     ['X Do not pay seat fee late — seat is cancelled permanently.'],
     [''],
     ['CONTACT EDUAAKASHAA FOR 1-ON-1 COUNSELLING'],
-    ['Website : www.eduaakashaa.in'],
+    ['Website : www.eduaakashaa.com'],
     ['Email   : contact@eduaakashaa.com'],
     ['WhatsApp: Join our channels for daily JOSAA updates and cutoff alerts.']
   ];
@@ -1666,7 +1666,7 @@ function buildPDF(choices, studentData) {
 
   doc.setFillColor(22,56,150); doc.rect(0,282,W,15,'F');
   doc.setTextColor(255,255,255); doc.setFontSize(8); doc.setFont('helvetica','normal');
-  doc.text('EduAakashaa | www.eduaakashaa.in | contact@eduaakashaa.com | Strategy Guide', W/2,291,{align:'center'});
+  doc.text('EduAakashaa | www.eduaakashaa.com | contact@eduaakashaa.com | Strategy Guide', W/2,291,{align:'center'});
 
   return doc;
 }

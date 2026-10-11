@@ -109,7 +109,7 @@ function t(k){
       whatsapp:"Join TNEA WhatsApp Groups",wGroups:["TNEA 2026 Updates","Choice Filling Help","EduAakashaA Expert","Parents Community"],
       contactT:"Contact EduAakashaA",yourName:"Your Name",phoneN:"Phone",emailL:"Email",
       howHelp:"How can we help?",submitC:"Submit",needExp:"Need Expert Guidance?",
-      visitW:"Visit www.eduaakashaa.in for 200+ personalized choices",visitB:"Visit www.eduaakashaa.in →",
+      visitW:"Visit www.eduaakashaa.com for 200+ personalized choices",visitB:"Visit www.eduaakashaa.com →",
       riskA:"Risk",allotP:"Allotment",readiness:"Readiness",
       high:"HIGH",low:"LOW",ready:"READY",needsG:"NEEDS GUIDANCE",confid:"CONFIDENTIAL",
       eaRank:"EA Rank",saveSheets:"💾 Save to Google Sheets",saving:"Saving...",saved:"Saved!",
@@ -151,7 +151,7 @@ function t(k){
       whatsapp:"TNEA WhatsApp குழுக்களில் சேருங்கள்",wGroups:["TNEA 2026 புதுப்பிப்புகள்","சாய்ஸ் ஃபில்லிங் உதவி","EduAakashaA நிபுணர்","பெற்றோர் சமூகம்"],
       contactT:"EduAakashaA தொடர்பு",yourName:"பெயர்",phoneN:"தொலைபேசி",emailL:"மின்னஞ்சல்",
       howHelp:"எவ்வாறு உதவ முடியும்?",submitC:"சமர்ப்பிக்கவும்",needExp:"நிபுணர் வழிகாட்டுதல் தேவையா?",
-      visitW:"200+ தனிப்பயன் சாய்ஸ் லிஸ்ட்டுக்கு www.eduaakashaa.in பார்வையிடவும்",visitB:"www.eduaakashaa.in →",
+      visitW:"200+ தனிப்பயன் சாய்ஸ் லிஸ்ட்டுக்கு www.eduaakashaa.com பார்வையிடவும்",visitB:"www.eduaakashaa.com →",
       riskA:"ஆபத்து",allotP:"ஒதுக்கீடு",readiness:"தயார்நிலை",
       high:"அதிகம்",low:"குறைவு",ready:"தயார்",needsG:"வழிகாட்டுதல் தேவை",confid:"ரகசியம்",
       eaRank:"EA ரேங்க்",saveSheets:"💾 Sheets சேமி",saving:"சேமிக்கிறது...",saved:"சேமிக்கப்பட்டது!",
@@ -208,7 +208,7 @@ function setLang(l){S.lang=l;_render()}
 function renderHdr(){
   return `<div class="hdr"><div class="hdr-l"><img src="${LOGO}" alt="EA"><div><div class="hdr-t">${t('title')}</div><div class="hdr-s">${t('sub')}</div></div></div>
   <div class="hdr-r"><div class="lang"><button class="lang-btn ${S.lang==='en'?'la':'li'}" onclick="setLang('en')">English</button><button class="lang-btn ${S.lang==='ta'?'la':'li'}" onclick="setLang('ta')">தமிழ்</button></div>
-  <a href="https://www.eduaakashaa.in" target="_blank" class="btn btn-o" style="text-decoration:none">${t('expert')}</a>
+  <a href="https://www.eduaakashaa.com" target="_blank" class="btn btn-o" style="text-decoration:none">${t('expert')}</a>
   <button class="btn ${S.showExpert?'btn-g':'btn-gr'}" onclick="S.showExpert=!S.showExpert;_render()">${S.showExpert?t('sv'):t('ev')}</button></div></div>`;
 }
 
@@ -217,7 +217,7 @@ function renderProg(){
   return `<div class="prog">${st.map((s,i)=>`<button class="${S.step===i?'s-a':i<S.step?'s-d':'s-p'}" onclick="${i<=S.step?`setStep(${i})`:''}">${i<S.step?'✓ ':''}${s}</button>`).join('')}</div>`;
 }
 
-function renderFtr(){return `<div class="footer"><img src="${LOGO}" alt="EA"><p>© 2026 EduAakashaA | <a href="https://www.eduaakashaa.in">www.eduaakashaa.in</a></p></div>`}
+function renderFtr(){return `<div class="footer"><img src="${LOGO}" alt="EA"><p>© 2026 EduAakashaA | <a href="https://www.eduaakashaa.com">www.eduaakashaa.com</a></p></div>`}
 
 function renderWelcome(){
   return `<div class="con" style="text-align:center">
@@ -471,7 +471,7 @@ function renderReport(){
       <p style="font-size:12px;line-height:1.7;color:var(--g600)">${score>=80?'⭐ Excellent strategy!':score>=60?'✅ Good strategy, add more safe choices.':score>=40?'⚠️ Too many risky choices. Add realistic options.':'❌ Needs revision. Consult EduAakashaA expert.'}</p>
     </div>
     <div class="card"><h3>📋 ${t('actionPlan')}</h3>
-      ${[S.selectedChoices.length<50?'Add more choices - aim for 50+':null,dist.r>S.selectedChoices.length*0.3?'Reduce risky choices':null,qs<3?'Review TNEA counseling process':null,'Book free consultation at www.eduaakashaa.in','Join TNEA WhatsApp group'].filter(Boolean).map(a=>`<div style="display:flex;gap:6px;font-size:11px;color:var(--g600);margin-bottom:4px"><span style="color:var(--ea-orange);font-weight:700">▶</span>${a}</div>`).join('')}
+      ${[S.selectedChoices.length<50?'Add more choices - aim for 50+':null,dist.r>S.selectedChoices.length*0.3?'Reduce risky choices':null,qs<3?'Review TNEA counseling process':null,'Book free consultation at www.eduaakashaa.com','Join TNEA WhatsApp group'].filter(Boolean).map(a=>`<div style="display:flex;gap:6px;font-size:11px;color:var(--g600);margin-bottom:4px"><span style="color:var(--ea-orange);font-weight:700">▶</span>${a}</div>`).join('')}
     </div>`;
   } else if(S.activeTab==='student'){
     content=`<div class="card"><h3>🎓 ${t('studentR')}</h3>
@@ -482,7 +482,7 @@ function renderReport(){
       </div>
       <div style="overflow:auto;max-height:280px"><table><thead><tr><th>#</th><th>College</th><th>Branch</th><th>${t('eaRank')}</th><th>Status</th></tr></thead>
       <tbody>${S.selectedChoices.slice(0,25).map((c,i)=>{const fb=getFB(c.ranks[getCK()]);return `<tr><td style="font-weight:700">${i+1}</td><td>${c.name}</td><td>${BN[c.branch]||c.branch}</td><td>${c.ranks[getCK()]}</td><td style="color:${fb.c};font-weight:600">${fb.i}${fb.l}</td></tr>`}).join('')}</tbody></table></div>
-      <div class="card cg" style="margin-top:10px;font-size:12px"><a href="https://www.eduaakashaa.in" target="_blank" style="color:var(--ea-orange)">www.eduaakashaa.in</a> ${S.lang==='ta'?'நிபுணர் வழிகாட்டுதலுக்கு':'for expert guidance'}</div>
+      <div class="card cg" style="margin-top:10px;font-size:12px"><a href="https://www.eduaakashaa.com" target="_blank" style="color:var(--ea-orange)">www.eduaakashaa.com</a> ${S.lang==='ta'?'நிபுணர் வழிகாட்டுதலுக்கு':'for expert guidance'}</div>
     </div>`;
   } else if(S.activeTab==='expert'){
     if(!S.showExpert){content=`<div style="text-align:center;padding:30px;color:var(--g500)">${S.lang==='ta'?'நிபுணர் பார்வைக்கு மாறவும்':'Switch to Expert View in header'}</div>`;
@@ -516,7 +516,7 @@ function renderReport(){
     <div class="card" style="text-align:center;margin-top:12px;background:var(--ea-light)">
       <img src="${LOGO}" style="height:40px;margin-bottom:6px"><h3>${t('needExp')}</h3>
       <p style="font-size:12px;color:var(--g600);margin-bottom:8px">${t('visitW')}</p>
-      <a href="https://www.eduaakashaa.in" target="_blank" class="btn btn-o" style="text-decoration:none;padding:10px 28px;font-size:13px">${t('visitB')}</a>
+      <a href="https://www.eduaakashaa.com" target="_blank" class="btn btn-o" style="text-decoration:none;padding:10px 28px;font-size:13px">${t('visitB')}</a>
     </div>`;
   }
 

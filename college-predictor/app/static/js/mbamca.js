@@ -5,7 +5,7 @@ const COMMS = ['OC','BC','BCM','MBC','SC','SCA','ST'];
 const CC = {OC:'#1565c0',BC:'#2e7d32',BCM:'#bf360c',MBC:'#6a1b9a',SC:'#b71c1c',SCA:'#00695c',ST:'#4a148c'};
 const TIER_LABELS = {'Tier 1 - Elite':'Elite','Tier 2 - Premier':'Premier','Tier 3 - Good':'Good','Tier 4 - Standard':'Standard','Tier 5 - Open':'Open'};
 const TIER_COLORS = {'Tier 1 - Elite':'#c0392b','Tier 2 - Premier':'#d35400','Tier 3 - Good':'#14784a','Tier 4 - Standard':'#1a4fa0','Tier 5 - Open':'#64748b'};
-const NIRF_URL = 'https://www.nirfindia.org/2024/ManagementRanking.html';
+const NIRF_URL = 'https://www.nirfindia.org/Rankings/2024/ManagementRanking.html';
 const NAAC_URL = 'https://www.naac.gov.in/';
 
 // ─── TAB NAVIGATION ─────────────────────────────────────────────────────────

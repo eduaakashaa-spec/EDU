@@ -593,7 +593,7 @@ var C='*{margin:0;padding:0;box-sizing:border-box}'
 +'.cs{background:#FBF7EE;border:1px solid #E8DFC8;border-radius:6px;padding:8px 10px;margin:5px 0;font-size:10px;line-height:1.5}.cs h4{color:#0E3A8A;font-size:11px;margin-bottom:3px}'
 ;
 var HD='<div class="hd"><div><div class="bn"><img src="'+LG+'" alt="EA">EduAakashaa</div><div class="bs">'+TF('Guiding students towards the right future | சரியான எதிர்காலத்தை நோக்கி','Guiding students towards the right future')+'</div></div><div class="mt"><span class="or">TNEA 2026</span><br>'+nm+' | '+ct+'<br>'+dt+'</div></div>';
-var FT='<div class="ft"><div>India: +91 8015722706 | info@eduaakashaa.com</div><div><a href="https://eduaakashaa.in">www.eduaakashaa.in</a> | EduAakashaa Analytics</div></div>';
+var FT='<div class="ft"><div>India: +91 8015722706 | info@eduaakashaa.com</div><div><a href="https://www.eduaakashaa.com">www.eduaakashaa.com</a> | EduAakashaa Analytics</div></div>';
 function PG(){return'<div class="pg">'+HD;}
 function EP(){return FT+'</div>';}
 var S='<!DOCTYPE html><html><head><meta charset="UTF-8"><title>TNEA 2026 - '+nm+'</title>';
@@ -872,7 +872,7 @@ S+=EP();
 S+=PG();
 S+='<span class="ey">'+TF('கருவிகள்','Tools')+'</span><h2>EduAakashaa College Decision Analyzer</h2>';
 S+='<div class="tp tpn'+(LANG==='ta'?' ta':'')+'"><b>'+TF('ஏற்கனவே கல்லூரி முடிவு செய்துவிட்டீர்களா?','Already decided on a college?')+'</b> '+TF('எங்கள் Decision Analyzer உங்கள் முடிவை பகுப்பாய்வு செய்து, சரியா தவறா என்று விளக்கும். Placement record, cutoff trend, peer comparison ஆகியவற்றின் அடிப்படையில் insight கொடுக்கும்.','Our Decision Analyzer reviews your choice and explains whether it is right or wrong, giving insight based on placement record, cutoff trend and peer comparison.')+'</div>';
-S+='<div class="tp"><b>Visit:</b> <a href="https://eduaakashaa.in" style="color:#0E3A8A">www.eduaakashaa.in</a> &rarr; Decision Analyzer</div>';
+S+='<div class="tp"><b>Visit:</b> <a href="https://www.eduaakashaa.com" style="color:#0E3A8A">www.eduaakashaa.com</a> &rarr; Decision Analyzer</div>';
 S+='<h2>'+TF('பொறியியல் படிப்புகள் ஆழ்நிலை பார்வை','Engineering Branches - Deep Dive')+'</h2>';
 S+='<table><tr class="th"><td>'+T('படிப்பு','Branch')+'</td><td>'+T('AI தாக்கம்','AI Impact')+'</td><td>'+T('சம்பளம்','Salary')+'</td><td>'+T('அரசு வேலை','Govt Job')+'</td><td>'+T('வெளிநாடு','Abroad')+'</td><td>ROI</td></tr>';
 S+='<tr><td class="b">CSE</td><td class="sf">High</td><td class="sf">₹6-25L</td><td class="cl">Medium</td><td class="sf">Excellent</td><td class="sf">High</td></tr>';
@@ -893,7 +893,7 @@ S+='<div class="doo">'+TF('4 இலக்க குறியீட்டை ம�
 S+='<div class="doo">'+TF('30-50 தேர்வுகளை நிரப்புங்கள் (கனவு:இலக்கு:பாதுகாப்பு = 1:2:2)','Fill 30-50 choices (Dream:Target:Safe = 1:2:2)')+'</div>';
 S+='<div class="doo">'+TF('உண்மையான முன்னுரிமை வரிசையில் வரிசைப்படுத்துங்கள்','Order them in your true preference')+'</div>';
 S+='<div class="doo">'+TF('Placement records ஆராயுங்கள் - cutoff மட்டும் பார்க்காதீர்கள்','Study placement records - do not look at cutoff alone')+'</div>';
-S+='<div class="doo">'+TF('eduaakashaa.in-ல் திறன் மதிப்பீடு எடுங்கள்','Take the aptitude assessment at eduaakashaa.in')+'</div>';
+S+='<div class="doo">'+TF('www.eduaakashaa.com-ல் திறன் மதிப்பீடு எடுங்கள்','Take the aptitude assessment at www.eduaakashaa.com')+'</div>';
 S+='<div class="doo">'+TF('பெற்றோருடன் ஒரு முறை முழுவதும் பாருங்கள்','Review the full list once with your parents')+'</div>';
 S+='</div>';
 S+='<h3 style="color:#C23A3A">'+TF('செய்யாதீர்கள்',"Don\'t")+'</h3>';
@@ -921,7 +921,7 @@ S+='<p class="'+(LANG==='ta'?'ta':'')+'">'+TF('முழுமையான TNEA 
 S+='<div class="pr">&#8377;5,000 <span style="font-size:11px;opacity:.5;text-decoration:line-through">&#8377;8,000</span></div>';
 S+='<p style="line-height:1.6;position:relative;z-index:1"><b>'+TF('நீங்கள் பெறுவது:','What you get:')+'</b><br>'+TF('6 பக்க அறிக்கை + 30 நிமிட ஆலோசகர் + குறியீடு மதிப்பாய்வு + ஒதுக்கீடு ஆதரவு + சுற்று 2/3 வழிகாட்டுதல்','6-page report + 30-minute counsellor + code review + allotment support + Round 2/3 guidance')+'</p></div>';
 S+='<div class="ig" style="margin:10px 0"><div class="ii" style="text-align:center;background:#0E3A8A;color:#fff;border:none;border-radius:6px;padding:8px"><div style="font-size:7px;opacity:.6">INDIA</div><div style="font-size:13px;font-weight:700">+91 8015722706</div></div></div>';
-S+='<div class="ig"><div class="ii"><strong>'+TF('பதிவு:','Website:')+'</strong> <a href="https://eduaakashaa.in" style="color:#0E3A8A">www.eduaakashaa.in</a></div><div class="ii"><strong>Email:</strong> info@eduaakashaa.com</div></div>';
+S+='<div class="ig"><div class="ii"><strong>'+TF('பதிவு:','Website:')+'</strong> <a href="https://www.eduaakashaa.com" style="color:#0E3A8A">www.eduaakashaa.com</a></div><div class="ii"><strong>Email:</strong> info@eduaakashaa.com</div></div>';
 S+='<div class="wb"><h2 style="font-size:18px;color:#0E3A8A">All the Best!</h2>';
 S+='<h2 class="'+(LANG==='ta'?'ta':'')+'" style="font-size:16px;color:#FF6B0A">'+TF('வாழ்த்துக்கள்!','Congratulations!')+'</h2>';
 S+='<p style="font-family:Fraunces,serif;font-size:12px;font-style:italic;color:#071A44;margin:4px 0">'+TF('சரியான தகவல் + சரியான வழிகாட்டுதல் = சிறந்த எதிர்காலம்','The right information + the right guidance = a better future')+'</p>';
@@ -1070,11 +1070,11 @@ S+=EP();
 S+=PG();
 S+='<div class="pm"><h3>'+TF('EduAakashaa-வுடன் இணையுங்கள்','Connect with EduAakashaa')+'</h3>';
 S+='<p style="line-height:1.8;position:relative;z-index:1">';
-S+=TF('<b>தொலைபேசி (இந்தியா):</b> +91 8015722706<br><b>மின்னஞ்சல்:</b> info@eduaakashaa.com<br><b>இணையதளம்:</b> www.eduaakashaa.in<br><b>அலுவலகம்:</b> கோயம்புத்தூர், தமிழ்நாடு<br><b>நேரம்:</b> திங்கள்-வெள்ளி 9:00-22:00 | சனி-ஞாயிறு 9:00-16:00<br><b>WhatsApp:</b> <a href="https://whatsapp.com/channel/0029VbBxOWUKwqSYpWBgge1x" style="color:#FF8A3D">TNEA 2026 Channel</a>','<b>Phone (India):</b> +91 8015722706<br><b>Email:</b> info@eduaakashaa.com<br><b>Website:</b> www.eduaakashaa.in<br><b>Office:</b> Coimbatore, Tamil Nadu<br><b>Hours:</b> Mon-Fri 9:00-22:00 | Sat-Sun 9:00-16:00<br><b>WhatsApp:</b> <a href="https://whatsapp.com/channel/0029VbBxOWUKwqSYpWBgge1x" style="color:#FF8A3D">TNEA 2026 Channel</a>');
+S+=TF('<b>தொலைபேசி (இந்தியா):</b> +91 8015722706<br><b>மின்னஞ்சல்:</b> info@eduaakashaa.com<br><b>இணையதளம்:</b> www.eduaakashaa.com<br><b>அலுவலகம்:</b> கோயம்புத்தூர், தமிழ்நாடு<br><b>நேரம்:</b> திங்கள்-வெள்ளி 9:00-22:00 | சனி-ஞாயிறு 9:00-16:00<br><b>WhatsApp:</b> <a href="https://whatsapp.com/channel/0029VbBxOWUKwqSYpWBgge1x" style="color:#FF8A3D">TNEA 2026 Channel</a>','<b>Phone (India):</b> +91 8015722706<br><b>Email:</b> info@eduaakashaa.com<br><b>Website:</b> www.eduaakashaa.com<br><b>Office:</b> Coimbatore, Tamil Nadu<br><b>Hours:</b> Mon-Fri 9:00-22:00 | Sat-Sun 9:00-16:00<br><b>WhatsApp:</b> <a href="https://whatsapp.com/channel/0029VbBxOWUKwqSYpWBgge1x" style="color:#FF8A3D">TNEA 2026 Channel</a>');
 S+='</p></div>';
 S+='<div class="ig" style="margin:10px 0"><div class="ii" style="text-align:center;background:#0E3A8A;color:#fff;border:none;border-radius:6px;padding:10px"><div style="font-size:7px;opacity:.6">INDIA</div><div style="font-size:14px;font-weight:700">+91 8015722706</div></div></div>';
-S+='<div class="ig"><div class="ii"><strong>'+TF('பதிவு:','Register:')+'</strong> <a href="https://eduaakashaa.in" style="color:#0E3A8A">www.eduaakashaa.in</a></div><div class="ii"><strong>Email:</strong> info@eduaakashaa.com</div></div>';
-S+='<div class="ig"><div class="ii"><strong>'+TF('திறன் மதிப்பீடு:','Aptitude Assessment:')+'</strong> <a href="https://eduaakashaa.in/student-assessment" style="color:#0E3A8A">eduaakashaa.in/student-assessment</a></div><div class="ii"><strong>WhatsApp:</strong> <a href="https://whatsapp.com/channel/0029VbBxOWUKwqSYpWBgge1x" style="color:#1F8B5C">'+TF('சேர்ந்து கொள்ளுங்கள்','Join Channel')+'</a></div></div>';
+S+='<div class="ig"><div class="ii"><strong>'+TF('பதிவு:','Register:')+'</strong> <a href="https://www.eduaakashaa.com" style="color:#0E3A8A">www.eduaakashaa.com</a></div><div class="ii"><strong>Email:</strong> info@eduaakashaa.com</div></div>';
+S+='<div class="ig"><div class="ii"><strong>'+TF('திறன் மதிப்பீடு:','Aptitude Assessment:')+'</strong> <a href="https://www.eduaakashaa.com/student-assessment" style="color:#0E3A8A">www.eduaakashaa.com/student-assessment</a></div><div class="ii"><strong>WhatsApp:</strong> <a href="https://whatsapp.com/channel/0029VbBxOWUKwqSYpWBgge1x" style="color:#1F8B5C">'+TF('சேர்ந்து கொள்ளுங்கள்','Join Channel')+'</a></div></div>';
 S+=EP();
 S+=PG();
 S+='<span class="ey">'+TF('\u0BAE\u0BB1\u0BC1\u0BAA\u0BCD\u0BAA\u0BC1 | Disclaimer','Important Disclaimer')+'</span><h2>'+TF('\u0BA4\u0B95\u0BB5\u0BB2\u0BCD \u0BA4\u0BC1\u0BB2\u0BCD\u0BB2\u0BBF\u0BAF\u0BAE\u0BCD & \u0BAE\u0BB1\u0BC1\u0BAA\u0BCD\u0BAA\u0BC1','Data Accuracy & Disclaimer')+'</h2>';
