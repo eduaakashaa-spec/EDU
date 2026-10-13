@@ -69,6 +69,7 @@
             </select>
           </div>
         </div>
+        {% if TIER_PRICES.get(a.tier) %}<p style="font-size:12.5px; color:var(--muted); margin:-4px 0 8px;">List price for <strong>{{ a.tier }}</strong>: {{ rupees(TIER_PRICES[a.tier]) }} incl. GST. Changing the path re-prices automatically.</p>{% endif %}
         <div class="row2">
           <div><label>Tier price (₹)</label><input name="tier_price" type="number" step="0.01" value="{{ '%.2f'|format((a.tier_price or 0)/100) }}"></div>
           <div><label>Add-on amount (₹)</label><input name="addon_amount" type="number" step="0.01" value="{{ '%.2f'|format((a.addon_amount or 0)/100) }}"></div>
@@ -125,6 +126,18 @@
           <p style="font-size:14px; color:var(--muted);">No invoice issued yet.</p>
           <button class="btn btn-navy" type="submit">Issue invoice</button>
         {% endif %}
+      </form>
+
+      <!-- Premium portal access -->
+      <form class="card" method="post" action="{{ url_for('membership.admin_grant_access', app_id=a.id) }}">
+        <h2>Premium portal access</h2>
+        <table class="kv">
+          <tr><td>Portal account</td><td>{% if portal_user %}{{ portal_user.email }}{% else %}<em>none for this email</em>{% endif %}</td></tr>
+          <tr><td>Current tier</td><td>{{ portal_user.tier if portal_user else '—' }}{% if portal_user and portal_user.tier_expires_at %} · until {{ portal_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}</td></tr>
+          <tr><td>Switches on automatically</td><td>{{ 'Yes — when the invoice is fully paid' if grants_portal else 'No — only the Premium Portal Access path' }}</td></tr>
+        </table>
+        <p style="font-size:12.5px; color:var(--muted);">Unlocks DASA insights &amp; 2026–27 analytics, the Choice Builder simulator and personalised choice-filling reports. Adds 12 months.</p>
+        <button class="btn btn-ghost" type="submit">Grant / extend 12 months now</button>
       </form>
 
       <!-- Payment -->

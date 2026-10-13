@@ -21,8 +21,26 @@ def _utcnow():
 
 
 # Membership paths offered on the premium-membership / members-registration page.
-TIERS = ('Foundation Path', 'Aspirant Path', 'NRI / Global',
+PORTAL_TIER = 'Premium Portal Access'
+TIERS = (PORTAL_TIER, 'Foundation Path', 'Aspirant Path', 'NRI / Global',
          'NRI · AI Report', 'NRI · Expert Guidance', 'Elite Mentorship')
+
+# Published list price per path, GST-inclusive, in PAISE — the single source the
+# registration form, the admin pre-fill and the invoice use.
+TIER_PRICES = {
+    PORTAL_TIER: 10_000_00,
+    'Foundation Path': 14_999_00,
+    'Aspirant Path': 24_999_00,
+    'NRI / Global': 39_999_00,
+    'NRI · AI Report': 5_000_00,
+    'NRI · Expert Guidance': 20_000_00,
+    'Elite Mentorship': 74_999_00,
+}
+
+# Paths whose payment switches on the Premium portal (members-only tools:
+# DASA insights & analytics, Choice Builder simulator, personalised reports).
+PORTAL_ACCESS_TIERS = {PORTAL_TIER}
+PORTAL_ACCESS_DAYS = 365
 
 # Application lifecycle
 APP_STATUSES = ('New', 'Approved', 'Invoiced', 'Partially Paid', 'Paid')

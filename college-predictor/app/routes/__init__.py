@@ -398,7 +398,7 @@ def ea_admin_portal():
 
 
 @main_bp.route('/choice-builder-pro')
-@admin_required
+@premium_required        # included in Premium Portal Access (admins pass too)
 def choice_builder_pro():
     # The full DASA 2026 Choice Builder PRO + Allotment Analyzer tool, migrated
     # in-app from the team's build (client-side D3 / Chart.js, no backend).
@@ -429,7 +429,7 @@ def _premium(title, desc, features):
 @premium_required
 def dasa_prediction_report():
     return _premium('DASA Prediction Report', 'Your personalised DASA/CIWG college-prediction report, member edition.',
-                    [{'icon': '\U0001F3AF', 'title': 'Personalised list', 'text': 'Colleges and branches matched to your DASA rank and quota.'},
+                    [{'icon': '\U0001F3AF', 'title': 'Personalised choice-filling report', 'text': 'Colleges and branches matched to your DASA rank and quota, in the order to fill them.'},
                      {'icon': '\U0001F4CA', 'title': 'Chance analysis', 'text': 'Safe / moderate / reach classification for every option.'},
                      {'icon': '\U0001F4DD', 'title': 'Counsellor notes', 'text': 'Expert commentary added to your report before delivery.'}])
 

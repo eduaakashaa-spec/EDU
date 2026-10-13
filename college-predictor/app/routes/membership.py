@@ -18,7 +18,7 @@ PDF generation and email sending are Phase B (stubs are clearly marked).
 """
 import io
 import json
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 from flask import (Blueprint, request, jsonify, render_template, redirect,
                    url_for, flash, abort, current_app, send_file)
@@ -27,7 +27,8 @@ from flask_login import current_user
 from app.extensions import db
 from app.decorators import admin_required
 from app.models_membership import (MembershipApplication, MembershipInvoice,
-                                   DocSequence, TIERS, APP_STATUSES)
+                                   DocSequence, TIERS, APP_STATUSES, TIER_PRICES,
+                                   PORTAL_ACCESS_TIERS, PORTAL_ACCESS_DAYS)
 from app.services.pricing import compute_totals, rupees, to_paise
 from app.services.queries import count_if
 
@@ -58,6 +59,28 @@ def _allocate(name, prefix, width=4):
         seq = _seq(name, prefix)
     seq.value += 1
     return f'{seq.prefix}{str(seq.value).zfill(width)}'
+
+
+def _grant_portal_access(app_row):
+    """Switch on Premium portal access for the member behind this application.
+
+    Matches the portal account by email. Adds PORTAL_ACCESS_DAYS from today (or
+    from the current expiry if the member is already premium). Never downgrades
+    an admin. Returns (ok, message) for the admin flash."""
+    from app.models import User
+    user = User.query.filter(db.func.lower(User.email) == (app_row.email or '').lower()).first()
+    if user is None:
+        return False, (f'No portal account found for {app_row.email}. Create the member under '
+                       f'Admin → Users (tier: premium) so the login details are emailed.')
+    if user.tier == 'admin':
+        return True, f'{user.email} is an admin — already has full access.'
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
+    base = user.tier_expires_at if (user.tier == 'premium' and user.tier_expires_at
+                                    and user.tier_expires_at > now) else now
+    user.tier = 'premium'
+    user.tier_expires_at = base + timedelta(days=PORTAL_ACCESS_DAYS)
+    return True, (f'Premium portal access active for {user.email} until '
+                  f'{user.tier_expires_at.strftime("%d %b %Y")}.')
 
 
 def _recalc(app_row):
@@ -101,6 +124,9 @@ def apply():
         tier=(data.get('tier') or '').strip(),
         status='New',
     )
+    # Pre-fill the published list price for the chosen path (admin can still edit).
+    app_row.tier_price = TIER_PRICES.get(app_row.tier, 0)
+    _recalc(app_row)
     # Allocate a human reference like EA-PREM-0001 (transaction-safe).
     app_row.reference = _allocate('reference', 'EA-PREM-')
     db.session.add(app_row)
@@ -156,10 +182,15 @@ def admin_list():
 @membership_bp.route('/admin/membership/<int:app_id>')
 @admin_required
 def admin_detail(app_id):
+    from app.models import User
     app_row = db.session.get(MembershipApplication, app_id) or abort(404)
+    portal_user = User.query.filter(
+        db.func.lower(User.email) == (app_row.email or '').lower()).first()
     return render_template('admin/membership_detail.html',
                            a=app_row, rupees=rupees,
-                           TIERS=TIERS, STATUSES=APP_STATUSES)
+                           TIERS=TIERS, STATUSES=APP_STATUSES,
+                           TIER_PRICES=TIER_PRICES, portal_user=portal_user,
+                           grants_portal=app_row.tier in PORTAL_ACCESS_TIERS)
 
 
 # --------------------------------------------------------------------------- #
@@ -174,12 +205,18 @@ def admin_update(app_id):
     a.phone = (f.get('phone') or '').strip()
     a.city = (f.get('city') or '').strip()
     a.state = (f.get('state') or '').strip()
+    old_tier = a.tier
     a.tier = (f.get('tier') or '').strip()
     if f.get('status') in APP_STATUSES:
         a.status = f.get('status')
     a.internal_notes = (f.get('internal_notes') or '').strip()
     if f.get('tier_price') is not None:
-        a.tier_price = to_paise(f.get('tier_price'))
+        posted = to_paise(f.get('tier_price'))
+        # Changing the path re-prices to the new list price — unless the admin
+        # deliberately typed a custom amount (anything other than 0 / the old list price).
+        if a.tier != old_tier and posted in (0, TIER_PRICES.get(old_tier, 0)):
+            posted = TIER_PRICES.get(a.tier, posted)
+        a.tier_price = posted
     if f.get('addon_amount') is not None:
         a.addon_amount = to_paise(f.get('addon_amount'))
     _recalc(a)
@@ -260,6 +297,9 @@ def admin_payment(app_id):
         a.status = 'Paid'
         if not inv.receipt_no:
             inv.receipt_no = _allocate('receipt', 'RCPT/')
+        if a.tier in PORTAL_ACCESS_TIERS:
+            ok, note = _grant_portal_access(a)
+            flash(note, 'success' if ok else 'warning')
         # Phase B: build_document_pdf(inv, kind='receipt') + email_receipt(a, inv)
     elif inv.amount_paid > 0:
         inv.payment_status = 'Partially Paid'
@@ -267,6 +307,16 @@ def admin_payment(app_id):
 
     db.session.commit()
     flash('Payment recorded.', 'success')
+    return redirect(url_for('membership.admin_detail', app_id=a.id))
+
+
+@membership_bp.route('/admin/membership/<int:app_id>/grant-access', methods=['POST'])
+@admin_required
+def admin_grant_access(app_id):
+    a = db.session.get(MembershipApplication, app_id) or abort(404)
+    ok, note = _grant_portal_access(a)
+    db.session.commit()
+    flash(note, 'success' if ok else 'danger')
     return redirect(url_for('membership.admin_detail', app_id=a.id))
 
 
