@@ -487,7 +487,7 @@ async function generatePDF(){
   doc.setTextColor(...ORANGE);
   doc.setFontSize(10);
   doc.setFont('helvetica','bold');
-  doc.text('+91 80157 22706', 22, y+33);
+  doc.text('+91-80157 22706', 22, y+33);
 
   // --- FOOTER ---
   const totalPages = doc.internal.getNumberOfPages();

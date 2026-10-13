@@ -189,6 +189,7 @@
   var TEMPLATES = {{ email_templates | tojson }};
   var RECIPIENTS = {{ recipients | tojson }};
   var SENDER = {{ sender | tojson }};
+  var FOOTER_EMAIL = {{ footer_email | tojson }};
   var LOGO = {{ logo_url | tojson }};
   var SITE = {{ site | tojson }};
   var WA_IN = {{ whatsapp | tojson }};
@@ -256,8 +257,7 @@
                     'color:#5A6278;font-size:12px;line-height:1.7">' +
           '<strong style="color:#0E1B3D">EduAakashaa</strong> &middot; Evidence-based college guidance<br>' +
           'WhatsApp: ' + esc(WA_IN) + '<br>' +
-          '<a href="' + SITE + '" style="color:#0E3A8A">' + SITE.replace('https://', '') + '</a>' +
-          ' &middot; Sent from ' + esc(SENDER) +
+          '<a href="mailto:' + FOOTER_EMAIL + '" style="color:#0E3A8A">' + FOOTER_EMAIL + '</a>' +
         '</div>' +
       '</div>' +
     '</div>';

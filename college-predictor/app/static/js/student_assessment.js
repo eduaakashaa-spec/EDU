@@ -578,7 +578,7 @@ function analyzeAndReport(){
       <p style="text-align:center;margin-top:6px">
         🌐 <a href="https://www.eduaakashaa.com" style="color:var(--accent2)" target="_blank">www.eduaakashaa.com</a><br>
         📧 <a href="mailto:info@eduaakashaa.com" style="color:var(--accent2)">info@eduaakashaa.com</a><br>
-        📱 India: <strong>+91-9150426094</strong>
+        📱 India: <strong>+91-80157 22706</strong>
       </p>
     </div>
     <p class="disclaimer">${t('disclaimer')}</p>
@@ -614,7 +614,7 @@ function downloadPdf(){
       // Footer text
       pdf.setFontSize(7);
       pdf.setTextColor(100,116,139);
-      pdf.text('www.eduaakashaa.com  |  For Expert Guidance: info@eduaakashaa.com  |  India: +91-9150426094',pageW/2,pageH-10,{align:'center'});
+      pdf.text('www.eduaakashaa.com  |  For Expert Guidance: info@eduaakashaa.com  |  India: +91-80157 22706',pageW/2,pageH-10,{align:'center'});
       // Page number
       pdf.setFontSize(7);
       pdf.setTextColor(150,160,175);

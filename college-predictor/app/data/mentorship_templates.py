@@ -12,7 +12,7 @@ channel is "email" or "whatsapp".
 SIG_EMAIL = """Warm regards,
 [Your Name]
 [Designation], EduAakashaa
-+91 80157 22706 (Phone / WhatsApp) · info@eduaakashaa.com · www.eduaakashaa.com
++91-80157 22706 (Phone / WhatsApp) · info@eduaakashaa.com · www.eduaakashaa.com
 Guiding students towards the right future"""
 
 SIG_WA = "— [Your Name], EduAakashaa"
@@ -50,7 +50,7 @@ EduAakashaa Elite Mentorship puts one senior mentor beside your family from enro
 Did you know? DASA went from three rounds to two in 2026, and closing ranks moved in opposite directions by quota — CIWG got tougher, Non-CIWG eased. Families planning from last year's PDF are planning for a process that no longer exists.
 
 Book a free 20-minute mentorship conversation — by video call, telephone or in person in Coimbatore:
-[Booking link]  ·  WhatsApp +91 80157 22706
+[Booking link]  ·  WhatsApp +91-80157 22706
 
 The best time to begin was Grade 11. The next best time is today.
 
@@ -383,7 +383,7 @@ Your initial discussion is confirmed:
 
 Please keep ready: [Student Name]'s latest mark sheet, passport details, parent's work-country details and any college/route ideas. Please also invite [Student Name] to join — their voice matters.
 
-Need to reschedule? Reply to this email or WhatsApp +91 80157 22706.
+Need to reschedule? Reply to this email or WhatsApp +91-80157 22706.
 
 """ + SIG_EMAIL,
                     },

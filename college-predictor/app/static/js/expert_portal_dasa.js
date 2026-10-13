@@ -2485,7 +2485,7 @@ function printNRIChecklist() {
       <div class="nri-pf-channels">
         <div class="nri-pf-channel">
           <div class="nri-pf-channel-label">WhatsApp India</div>
-          <div class="nri-pf-channel-value">+91 80157 22706</div>
+          <div class="nri-pf-channel-value">+91-80157 22706</div>
         </div>
         <div class="nri-pf-channel">
           <div class="nri-pf-channel-label">Email</div>
@@ -2673,7 +2673,7 @@ function printPDF(scope) {
       </div>
     </div>
     <div class="pf-contact">
-      <div><b>India:</b> +91 80157 22706</div>
+      <div><b>India:</b> +91-80157 22706</div>
       <div><b>Email:</b> info@eduaakashaa.com &nbsp;&middot;&nbsp; <b>Web:</b> www.eduaakashaa.com</div>
       <div style="margin-top:3px;">Coimbatore, Tamil Nadu &nbsp;&middot;&nbsp; Mon&ndash;Fri 9:00&ndash;22:00 &middot; Sat &amp; Sun 9:00&ndash;16:00</div>
     </div>

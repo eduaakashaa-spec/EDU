@@ -37,7 +37,7 @@ from app.services.mailer import send_async, send_bulk
 from app.models_membership import (APP_STATUSES, MembershipApplication,
                                    MembershipInvoice)
 from app.services.email_templates import (ANNOUNCEMENT_TEMPLATES, EMAIL_TEMPLATES,
-                                          LOGO_URL, SENDER_EMAIL, SITE,
+                                          FOOTER_EMAIL, LOGO_URL, SENDER_EMAIL, SITE,
                                           WHATSAPP_NUMBER, branded_shell)
 from app.services.queries import count_if as _n, sum_if as _sum_if
 
@@ -689,7 +689,7 @@ MESSAGE_TEMPLATES = {
                  'Counselling season is moving fast — have you finalised your '
                  'choice list? Book a session with a counsellor and we\'ll '
                  'review it together before you lock.\n\n'
-                 'WhatsApp us any time: +91 80157 22706\n— Team EduAakashaa'),
+                 'WhatsApp us any time: +91-80157 22706\n— Team EduAakashaa'),
     },
     'docs': {
         'label': 'Document reminder',
@@ -812,6 +812,7 @@ def templates():
     return render_template('admin/templates.html', admin_tab='templates',
                            email_templates=EMAIL_TEMPLATES, categories=categories,
                            recipients=_recipient_directory(), sender=SENDER_EMAIL,
+                           footer_email=FOOTER_EMAIL,
                            logo_url=LOGO_URL, site=SITE,
                            whatsapp=WHATSAPP_NUMBER,
                            mail_from=mail_from, can_send=st['configured'],

@@ -13,11 +13,12 @@ or copies the formatted email and pastes it into Gmail.
 import html
 import re
 
-SENDER_EMAIL = 'eduaakashaa@gmail.com'
-WHATSAPP_NUMBER = '+91 80157 22706'
+SENDER_EMAIL = 'eduaakashaa@gmail.com'      # Gmail drafts / reply-to identity
+FOOTER_EMAIL = 'info@eduaakashaa.com'       # shown in every email footer
+WHATSAPP_NUMBER = '+91-80157 22706'
 # EduAakashaa is registered and operates in India only — no UAE/Dubai
 # establishment or contact number anywhere in customer-facing copy.
-SITE = 'https://eduaakashaa.onrender.com'
+SITE = 'https://www.eduaakashaa.com'
 LOGO_URL = SITE + '/static/images/logo.png'
 
 
@@ -91,8 +92,8 @@ def branded_shell(body_html):
         'color:#5A6278;font-size:12px;line-height:1.7">'
         '<strong style="color:#0E1B3D">EduAakashaa</strong> &middot; Evidence-based college guidance<br>'
         f'WhatsApp: {WHATSAPP_NUMBER}<br>'
-        f'<a href="{SITE}" style="color:#0E3A8A">{SITE.replace("https://", "")}</a>'
-        f' &middot; Sent from {SENDER_EMAIL}</div></div></div>')
+        f'<a href="mailto:{FOOTER_EMAIL}" style="color:#0E3A8A">{FOOTER_EMAIL}</a>'
+        '</div></div></div>')
 
 
 def _fill(text, values, escape=False):

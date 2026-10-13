@@ -1109,7 +1109,7 @@ Colleges in your community (${COMM_LABEL[DASH.community]}) ranked 1 to ${totalRa
 *This report was generated from official TNEA 2025 cutoff data. 2026 cutoffs may shift by 1-2 marks. Cross-verify against tneaonline.org before final choice filling.*
 
 `;
-  md += `**EduAakashaa** · Coimbatore · www.eduaakashaa.com · +91 80157 22706
+  md += `**EduAakashaa** · Coimbatore · www.eduaakashaa.com · +91-80157 22706
 `;
 
   return md;
@@ -3114,9 +3114,9 @@ function generatePDFReport(opts){
       <p>Choice filling is a one-shot decision that shapes the next 4 years and your career trajectory. Our counsellors have guided 1,200+ TN families through TNEA, JOSAA, NEET-UG, and overseas admissions. Book a free 30-minute call — we'll review this report with you and build your final choice list.</p>
     </div>
     <div class="rpt-expert-cta-actions">
-      <a href="https://wa.me/918015722706?text=Hi%2C%20I%20just%20generated%20my%20EduAakashaa%20TNEA%20report%20and%20would%20like%20to%20book%20a%20counselling%20call." class="rpt-cta-btn whatsapp"><span class="rpt-cta-btn-icon">💬</span> WhatsApp · +91 80157 22706</a>
+      <a href="https://wa.me/918015722706?text=Hi%2C%20I%20just%20generated%20my%20EduAakashaa%20TNEA%20report%20and%20would%20like%20to%20book%20a%20counselling%20call." class="rpt-cta-btn whatsapp"><span class="rpt-cta-btn-icon">💬</span> WhatsApp · +91-80157 22706</a>
       <a href="mailto:info@eduaakashaa.com?subject=TNEA%202026%20Counselling%20Request&body=Hi%20EduAakashaa%20team%2C%0A%0AI%20just%20generated%20my%20personalised%20TNEA%20report%20and%20would%20like%20to%20book%20a%20counselling%20call.%0A%0AMy%20cutoff%3A%20${DASH.cutoff}%0AMy%20community%3A%20${COMM_LABEL[DASH.community]}%0A%0APlease%20call%20me%20at%3A%20" class="rpt-cta-btn email"><span class="rpt-cta-btn-icon">✉️</span> Email · info@eduaakashaa.com</a>
-      <a href="tel:+918015722706" class="rpt-cta-btn"><span class="rpt-cta-btn-icon">📞</span> Call · +91 80157 22706</a>
+      <a href="tel:+918015722706" class="rpt-cta-btn"><span class="rpt-cta-btn-icon">📞</span> Call · +91-80157 22706</a>
     </div>
   </div>
 
@@ -3143,7 +3143,7 @@ function generatePDFReport(opts){
   <footer class="rpt-footer" id="sec-contact">
     <div class="rpt-footer-block">
       <strong>Reach Us</strong>
-      <a href="tel:+918015722706">+91 80157 22706 (India)</a>
+      <a href="tel:+918015722706">+91-80157 22706 (India)</a>
       <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>
       <a href="https://www.eduaakashaa.com">www.eduaakashaa.com</a>
     </div>
@@ -3215,7 +3215,7 @@ function generateExcelReport(){
     ['Recommendations are produced algorithmically — always validate with tneaonline.org and a counsellor.'],
     [''],
     ['─── EduAakashaa Contact ───'],
-    ['India',     '+91 80157 22706'],
+    ['India',     '+91-80157 22706'],
     ['Email',     'info@eduaakashaa.com'],
     ['Website',   'www.eduaakashaa.com'],
     ['WhatsApp',  'https://wa.me/918015722706'],

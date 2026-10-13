@@ -37,7 +37,7 @@ def create_app():
     def inject_contact_globals():
         from urllib.parse import quote
         company = app.config.get('COMPANY', {})
-        num_in = company.get('PHONE_IN', '+91 80157 22706')
+        num_in = company.get('PHONE_IN', '+91-80157 22706')
         digits = ''.join(c for c in num_in if c.isdigit())
         msg = ("Hi EduAakashaa, I'd like to know more about your mentorship "
                "and college-admission guidance.")
