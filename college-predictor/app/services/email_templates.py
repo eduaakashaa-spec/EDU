@@ -33,6 +33,15 @@ def _f(key, label, default=''):
 # to prefill the form — no {placeholders} or versions to resolve.
 # --------------------------------------------------------------------------- #
 ANNOUNCEMENT_TEMPLATES = [
+    {'key': 'jee_main_reg', 'icon': '📝', 'label': 'JEE Main 2027 registration',
+     'title': 'JEE Main 2027: Session 1 registration expected from late October',
+     'body': ('NTA has not opened JEE Main 2027 registration yet, and the Information Bulletin is '
+              'awaited. It is expected in the last week of October 2026 at jeemain.nta.nic.in. '
+              'Session 1 is listed for 22–24 and 28–30 January 2027 (31 January is the buffer day); '
+              'Session 2 is expected in April 2027. Keep a photograph, signature, Class 10 '
+              'certificate and any category / PwD certificate scanned and ready. Apply only on '
+              'the official NTA site. We will post here the day registration opens. Please confirm '
+              'all dates on jeemain.nta.nic.in.')},
     {'key': 'results', 'icon': '📢', 'label': 'Results / list out',
      'title': 'DASA Round-1 results are out',
      'body': ('Round-1 seat allotment results have been published. Log in to the official '
