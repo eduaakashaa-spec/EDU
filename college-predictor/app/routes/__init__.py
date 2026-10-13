@@ -66,7 +66,8 @@ def homepage_alias():
 
 @main_bp.route('/nri-admissions-guide')
 def nri_guide():
-    return render_reference_page('dasa-admissions-guide.html', 'nri_guide.html')
+    # one maintained guide: same page as /nri-admission (the old copy had drifted)
+    return render_reference_page('nri-admission.html', 'nri_admission.html')
 
 
 @main_bp.route('/josaa')
