@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block title %}NID Admission Guide 2026 — B.Des / M.Des | EduAakashaA{% endblock %}
+{% block title %}NID Admission Guide 2026–27 — DAT 2027, B.Des / Integrated M.Des | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="NID admissions for 2026–27 (DAT 2027, academic year 2027–28): registration till 30 Nov 2026, DAT Prelims 20 Dec 2026, fees, eligibility, the new 5.5-year Integrated M.Des pathway and B.Des campuses — from the official Admissions Handbook.">{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 {% endblock %}
@@ -11,9 +12,9 @@
   <div class="container">
     <div class="hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">NID 2026 · Design Admission Guide</span>
+        <span class="eyebrow">NID DAT 2027 · Admissions 2026&ndash;27 cycle</span>
         <h1 style="margin-top:22px;">NID <span class="accent">Admission Guide 2026-27</span></h1>
-        <p class="hero-sub">Your complete roadmap to cracking the National Institute of Design entrance — from registration to placement. Expert insights by EduAakashaA.</p>
+        <p class="hero-sub">Your roadmap to the National Institute of Design entrance (DAT 2027, for the 2027&ndash;28 academic year) &mdash; dates, fees, eligibility, the new 5.5-year Integrated M.Des pathway and B.Des campuses. Updated 14 October 2026 from the official Admissions Handbook 2027&ndash;28.</p>
         <div class="hero-ctas">
           <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
           <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
@@ -24,20 +25,20 @@
         <div class="hero-card-title">Design admissions, decoded</div>
         <div class="hero-card-rows">
           <div class="hero-card-row">
-            <span class="hcr-label">Campuses</span>
-            <span class="hcr-value">7</span>
+            <span class="hcr-label">Registration closes</span>
+            <span class="hcr-value">30 Nov 2026</span>
           </div>
           <div class="hero-card-row">
-            <span class="hcr-label">B.Des Seats</span>
-            <span class="hcr-value">425<span class="accent">+</span></span>
+            <span class="hcr-label">DAT Prelims</span>
+            <span class="hcr-value">Sun, 20 Dec 2026</span>
           </div>
           <div class="hero-card-row">
-            <span class="hcr-label">Avg Package</span>
-            <span class="hcr-value">₹21 LPA</span>
+            <span class="hcr-label">Prelims result</span>
+            <span class="hcr-value">16 Mar 2027</span>
           </div>
           <div class="hero-card-row">
-            <span class="hcr-label">Placement</span>
-            <span class="hcr-value">90%<span class="accent">+</span></span>
+            <span class="hcr-label">Apply at</span>
+            <span class="hcr-value">admissions.nid.edu</span>
           </div>
         </div>
       </aside>
@@ -47,55 +48,117 @@
 
 <div class="main-content">
 
+  <!-- Status / what's new -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">LATEST &middot; 14 OCT 2026</span>
+      <h2 class="section__title">Applications are open &mdash; closing 30 November 2026</h2>
+      <p class="section__desc">NID published its Admissions Handbook 2027&ndash;28 on 10 September 2026. One online form covers B.Des and the 5.5-year Integrated M.Des; apply only at <strong>admissions.nid.edu</strong> (sites ending .org or org.in are fake).</p>
+    </div>
+    <div class="info-cards info-cards--4">
+      <div class="info-card"><div class="info-card__icon">&#128197;</div><div class="info-card__title">Deadline</div><div class="info-card__text">11:59 pm IST, Mon 30 Nov 2026. Edit window 1&ndash;3 Dec 2026.</div></div>
+      <div class="info-card"><div class="info-card__icon">&#128221;</div><div class="info-card__title">DAT Prelims</div><div class="info-card__text">Sun 20 Dec 2026 &mdash; pen-and-paper, same day at all centres. Admit cards from 10 Dec, 4 pm.</div></div>
+      <div class="info-card"><div class="info-card__icon">&#127891;</div><div class="info-card__title">New pathway</div><div class="info-card__text">5.5-year Professional Education Master of Design (Integrated Pathway) &mdash; 15 disciplines in 5 streams.</div></div>
+      <div class="info-card"><div class="info-card__icon">&#127970;</div><div class="info-card__title">Any stream</div><div class="info-card__text">Class 12 in Science, Commerce, Arts or Humanities from any recognised board.</div></div>
+    </div>
+    <div class="callout callout--info">
+      <span class="callout__icon">i</span>
+      <div>
+        <span class="callout__label">What changed from last year</span>
+        <p class="callout__text">The undergraduate entry is now described as the <strong>5.5 Year Professional Education Programme &mdash; Master of Design (Integrated Pathway) and B.Des.</strong>, with a single application. The DAT Prelims result is on 16 March 2027, and DAT Mains uses a Studio Sensitivity Test plus an In-Person Sensitivity Test. The Prelims score is used only to shortlist &mdash; it carries no weightage into Mains.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Process -->
   <section class="section">
     <div class="section__header">
       <span class="eyebrow">ADMISSION PROCESS</span>
-      <h2 class="section__title">Two-stage DAT: Prelims → Mains → Counselling</h2>
+      <h2 class="section__title">Two-stage DAT: Prelims → Mains → Admission</h2>
     </div>
     <div class="steps">
-      <div class="step"><span class="step__num">1</span><div><div class="step__title">Online Registration</div><div class="step__text">Create an account at <strong>admissions.nid.edu</strong>. Upload photo, signature &amp; category certificates.</div></div></div>
-      <div class="step"><span class="step__num">2</span><div><div class="step__title">Pay Application Fee</div><div class="step__text">General/OBC/EWS: ₹3,000 · SC/ST/PwD: ₹1,500 · Overseas: ₹5,000.</div></div></div>
-      <div class="step"><span class="step__num">3</span><div><div class="step__title">DAT Prelims</div><div class="step__text">3-hour written test · MCQ + subjective. Tests design aptitude, creativity, visualisation, observation &amp; GK.</div></div></div>
-      <div class="step"><span class="step__num">4</span><div><div class="step__title">Prelims Result</div><div class="step__text">Only 1.5× candidates (of total seats) shortlisted for Mains. Prelims score is NOT counted in final merit.</div></div></div>
-      <div class="step"><span class="step__num">5</span><div><div class="step__title">DAT Mains — Studio Test</div><div class="step__text">Sketching, model-making, design exercises. M.Des: studio test + interview.</div></div></div>
-      <div class="step"><span class="step__num">6</span><div><div class="step__title">Final Merit</div><div class="step__text">Based entirely on Mains performance. Category-wise merit lists released.</div></div></div>
-      <div class="step"><span class="step__num">7</span><div><div class="step__title">Counselling</div><div class="step__text">June 2026 · Submit campus preferences, verify documents, pay token fee.</div></div></div>
-      <div class="step"><span class="step__num">8</span><div><div class="step__title">Report to Campus</div><div class="step__text">Submit original documents, pay semester fees and begin your design journey.</div></div></div>
+      <div class="step"><span class="step__num">1</span><div><div class="step__title">Online application</div><div class="step__text">One form on <strong>admissions.nid.edu</strong> (10 Sep &ndash; 30 Nov 2026) covers DAT Prelims and Mains. Upload photograph, signature and category / PwD / passport documents as applicable. B.Des / Integrated applicants cannot also apply for the independent 2.5-year M.Des &mdash; both tests are on the same day.</div></div></div>
+      <div class="step"><span class="step__num">2</span><div><div class="step__title">Pay the application fee</div><div class="step__text">General, Gen-EWS, OBC-NCL: &#8377;3,000 &middot; Female (except SC/ST/PwD): &#8377;2,000 &middot; SC / ST: &#8377;1,500 &middot; PwD and Third Gender: &#8377;500 &middot; Overseas: US$125. Non-refundable and non-transferable; paid by debit / credit card or net banking; bank charges extra.</div></div></div>
+      <div class="step"><span class="step__num">3</span><div><div class="step__title">DAT Prelims &mdash; 20 Dec 2026</div><div class="step__text">A paper-and-pencil/pen test, text and visual questions, in English only; the duration is printed on the admit card. Held in 17 cities: Ahmedabad, Bengaluru, Bhopal, Bhubaneswar, Chandigarh, Chennai, Dehradun, Hyderabad, Jaipur, Jorhat, Kochi, Kolkata, Lucknow, Mumbai, Nagpur, New Delhi and Patna.</div></div></div>
+      <div class="step"><span class="step__num">4</span><div><div class="step__title">Prelims result &mdash; 16 Mar 2027</div><div class="step__text">Separate merit lists per category. For each category, <strong>2.5&times; the available seats</strong> are shortlisted for Mains. Re-totalling window: 16&ndash;17 March 2027 (arithmetic check only, no re-evaluation).</div></div></div>
+      <div class="step"><span class="step__num">5</span><div><div class="step__title">DAT Mains</div><div class="step__text">Studio Sensitivity Test + In-Person Sensitivity Test, details and admit cards to be announced. Final merit is based on Mains marks only; both parts must be attempted to be on the merit list.</div></div></div>
+      <div class="step"><span class="step__num">6</span><div><div class="step__title">Results, allotment &amp; reporting</div><div class="step__text">Final results and campus-wise admission follow the Mains &mdash; dates to be announced on the official website. Each NID uses the Mains score for its own campus.</div></div></div>
     </div>
+  </section>
+
+  <!-- Eligibility & fees -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">ELIGIBILITY</span>
+      <h2 class="section__title">Who can apply &mdash; age and qualification</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Category</th><th>Born on or after</th></tr></thead>
+        <tbody>
+          <tr><td>Indian nationals &mdash; General and Gen-EWS</td><td>1 July 2006</td></tr>
+          <tr><td>Indian nationals &mdash; OBC-NCL, SC, ST</td><td>1 July 2003</td></tr>
+          <tr><td>Indian nationals &mdash; PwD</td><td>1 July 2001</td></tr>
+          <tr><td>Foreign nationals &mdash; Overseas (supernumerary)</td><td>1 July 2006</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text">Qualification: passed or appearing in 10+2 (or equivalent) in academic year 2026&ndash;27, in <strong>any stream</strong>, from a recognised board such as CBSE, ICSE or IB. Reserved-seat percentages are the national norms: GEN-EWS 10%, OBC-NCL 27%, SC 15%, ST 7.5%, with PwD seats as per the handbook.</p>
+  </section>
+
+  <!-- Programmes & campuses -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">PROGRAMMES &amp; SEATS</span>
+      <h2 class="section__title">Where you can study</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Campus</th><th>Programme</th><th>Intake (per official handbook)</th></tr></thead>
+        <tbody>
+          <tr><td><strong>NID Ahmedabad</strong></td><td>5.5-yr Integrated M.Des</td><td>9 seats in each of 8 disciplines &mdash; Ceramic &amp; Glass, Product, Animation Film, Film &amp; Video, Graphic, Exhibition, Furniture &amp; Interior, Textile</td></tr>
+          <tr><td><strong>NID Gandhinagar</strong></td><td>5.5-yr Integrated M.Des</td><td>Transportation &amp; Automobile, Apparel and Lifestyle Accessory Design &mdash; 9 seats each</td></tr>
+          <tr><td><strong>NID Bengaluru</strong></td><td>5.5-yr Integrated M.Des</td><td>Design for Retail Experience, Digital Game, Interaction and Information Design &mdash; 9 seats each (the 15 disciplines also carry 15 Overseas supernumerary seats, one per discipline)</td></tr>
+          <tr><td><strong>NID Madhya Pradesh (Bhopal)</strong></td><td>B.Des / 5.5-yr Integrated M.Des</td><td>Graphic, Moving Images, Interaction &mdash; 9 each; Product, Transportation &amp; Automobile, Textile, Apparel &mdash; 13 each (amended 24 Sep 2026)</td></tr>
+          <tr><td><strong>NID Haryana (Kurukshetra)</strong></td><td>B.Des / 5.5-yr Integrated M.Des</td><td>Six disciplines &mdash; 13 seats each (amended 24 Sep 2026)</td></tr>
+          <tr><td><strong>NID Andhra Pradesh</strong></td><td>B.Des / 5.5-yr Integrated M.Des</td><td>Disciplines and seats on the NID AP website</td></tr>
+          <tr><td><strong>NID Assam (Jorhat)</strong></td><td>B.Des / 5.5-yr Integrated M.Des</td><td>Disciplines and seats on the NID Assam website</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="content-text content-text--note">Seat numbers are per the Admissions Handbook 2027&ndash;28 and its amendments; the handbook may be amended again &mdash; check admissions.nid.edu. The integrated programme is 11 semesters across 15 sector-specific disciplines under five streams (Industrial, Communication, Spatial Experience, Textile &amp; Apparel, Digital Design Futures).</p>
   </section>
 
   <!-- Schedule -->
   <section class="section">
     <div class="section__header">
       <span class="eyebrow">KEY DATES</span>
-      <h2 class="section__title">NID DAT 2026 Schedule</h2>
+      <h2 class="section__title">NID DAT 2027 Schedule (official)</h2>
     </div>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Date</th><th>Event</th></tr></thead>
         <tbody>
-          <tr><td>Oct – Nov 2025</td><td>Online application window opens</td></tr>
-          <tr><td>1 Dec 2025</td><td>Last date to submit online application (11:59 PM)</td></tr>
-          <tr><td>21 Dec 2025</td><td>DAT Prelims (B.Des &amp; M.Des)</td></tr>
-          <tr><td>16 Feb 2026</td><td>M.Des Prelims result</td></tr>
-          <tr><td>8 Mar 2026</td><td>M.Des DAT Mains</td></tr>
-          <tr><td>21 Mar – 1 Apr 2026</td><td>M.Des personal interviews</td></tr>
-          <tr><td>7 Apr 2026</td><td>B.Des Prelims result (4 PM)</td></tr>
-          <tr><td>Apr 2026</td><td>B.Des DAT Mains (offline studio test at NID campuses)</td></tr>
-          <tr><td>May – Jun 2026</td><td>Final results for B.Des &amp; M.Des</td></tr>
-          <tr><td>Jun 2026</td><td>Counselling, document verification, seat allotment</td></tr>
-          <tr><td>Jul 2026</td><td>Round 2 allotment &amp; academic session begins</td></tr>
+          <tr><td>10 Sep 2026</td><td>Online application opens (Handbook 2027&ndash;28 published)</td></tr>
+          <tr><td><strong>Mon 30 Nov 2026, 11:59 pm</strong></td><td><strong>Last date to submit the application and fee</strong></td></tr>
+          <tr><td>1 Dec, 4 pm &ndash; 3 Dec 2026, 11:59 pm</td><td>Window to edit the application form</td></tr>
+          <tr><td>10 Dec 2026, 4 pm</td><td>Download admit cards for DAT Prelims</td></tr>
+          <tr><td><strong>Sun 20 Dec 2026</strong></td><td><strong>DAT Prelims</strong></td></tr>
+          <tr><td>16 Feb 2027, 4 pm &ndash; 28 Feb 2027</td><td>One-time window to edit the category certificate</td></tr>
+          <tr><td>16 Mar 2027, 4 pm</td><td>DAT Prelims result</td></tr>
+          <tr><td>16 Mar, 4 pm &ndash; 17 Mar 2027</td><td>Re-totalling of Prelims marks</td></tr>
+          <tr><td>To be announced</td><td>DAT Mains admit cards, Studio Sensitivity Test, In-Person Sensitivity Test, Mains result, counselling</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="content-text content-text--note">As on 14 October 2026. NID may change schedules and the format of tests (online, offline or both) in unforeseen circumstances &mdash; confirm on <a href="https://admissions.nid.edu" target="_blank" rel="noopener noreferrer">admissions.nid.edu</a>. Questions: admissions@nid.edu &middot; 079 26623462 (Mon&ndash;Fri).</p>
   </section>
 
   <!-- Campus rankings -->
   <section class="section">
     <div class="section__header">
       <span class="eyebrow">RANKINGS</span>
-      <h2 class="section__title">NID Campus Rankings</h2>
+      <h2 class="section__title">NID Campus Rankings <span style="font-size:.6em;font-weight:500">(reference, earlier cycles)</span></h2>
     </div>
     <div class="table-wrap">
       <table>
@@ -134,7 +197,7 @@
       <div class="fee-compare__col">
         <h3>🎨 NID Design (B.Des)</h3>
         <ul>
-          <li>4-year degree via NID DAT</li>
+          <li>B.Des / 5.5-year Integrated M.Des via NID DAT</li>
           <li>Focus on creativity, visual thinking, aptitude</li>
           <li>Career: UX/UI, Product, Animation, Branding</li>
           <li>Avg NID Ahmedabad: ₹17–30 LPA</li>
@@ -148,7 +211,7 @@
   <section class="section">
     <div class="section__header">
       <span class="eyebrow">B.DES CUTOFF TRENDS</span>
-      <h2 class="section__title">Last 3 Years — Closing Ranks</h2>
+      <h2 class="section__title">2023&ndash;2025 Closing Ranks <span style="font-size:.6em;font-weight:500">(previous cycles)</span></h2>
     </div>
     <div class="table-wrap">
       <table>
@@ -166,7 +229,7 @@
         </tbody>
       </table>
     </div>
-    <p class="content-text content-text--note">Lower rank = better performance. Cutoffs vary by counselling round. Source: official NID data.</p>
+    <p class="content-text content-text--note">Lower rank = better performance. These are past-cycle figures and the 2027&ndash;28 intake is structured differently (discipline-wise seats under the integrated pathway), so use them only as a rough guide. Cutoffs vary by counselling round.</p>
   </section>
 
   <!-- Placement -->
@@ -191,10 +254,11 @@
       <h2 class="section__title">International Applicants Guide</h2>
     </div>
     <ul class="check-list">
-      <li><strong>Overseas category:</strong> 15% supernumerary seats in B.Des and M.Des. For foreign passport holders with PIO / OCI.</li>
-      <li><strong>NRI with Indian passport:</strong> NOT eligible for Overseas category. Must apply as Indian nationals.</li>
-      <li><strong>OCI / PIO:</strong> Apply only under Overseas category. Pay foreign-citizen fees.</li>
-      <li><strong>Student visa:</strong> Mandatory for Overseas candidates before joining.</li>
+      <li><strong>Overseas (supernumerary) category:</strong> for <strong>foreign citizens only</strong> &mdash; candidates holding citizenship of a country other than India. An additional 15% supernumerary seats are available: 15 seats (one per discipline) for the Ahmedabad / Gandhinagar / Bengaluru programme, and 1&ndash;2 per discipline at NID Madhya Pradesh and NID Haryana.</li>
+      <li><strong>Fee and age:</strong> US$125 application fee (converted to rupees at the time of admission announcements); born on or after 1 July 2006; a separate Overseas merit list is prepared.</li>
+      <li><strong>NRI with an Indian passport:</strong> not eligible for the Overseas category &mdash; apply as an Indian national (general fee, general age limit).</li>
+      <li><strong>OCI / PIO:</strong> check the nationality clause (Section 5.2) of the handbook for your case before choosing a category.</li>
+      <li><strong>Documents:</strong> a valid passport (first and last pages, JPG) is mandatory for Overseas applicants; the passport must not expire during the process. A student visa is required before joining.</li>
     </ul>
   </section>
 
