@@ -48,6 +48,27 @@ def create_app():
             'CURRENT_YEAR': date.today().year,
         }
 
+    # Short "data is not updated periodically -> go Premium" notice, shown on the
+    # public information pages. Hidden on membership / account / admin pages, on
+    # contact pages, and for members who already have Premium.
+    NOTICE_SKIP_BLUEPRINTS = {'membership', 'admin_portal', 'auth', 'members', 'invoices',
+                              'onboarding', 'alumni', 'survey', 'api'}
+    NOTICE_SKIP_ENDPOINTS = {'main.members_registration', 'main.premium_membership',
+                             'main.members_login', 'main.contact', 'main.contact_alias',
+                             'main.contactus_alias', 'static'}
+
+    @app.context_processor
+    def inject_premium_notice():
+        from flask import request
+        from flask_login import current_user
+        ep = request.endpoint or ''
+        if (request.blueprint in NOTICE_SKIP_BLUEPRINTS or ep in NOTICE_SKIP_ENDPOINTS
+                or not ep):
+            return {'show_premium_notice': False}
+        member = bool(getattr(current_user, 'is_authenticated', False)
+                      and getattr(current_user, 'is_premium', False))
+        return {'show_premium_notice': not member}
+
     # Create tables if they don't exist
     with app.app_context():
         from app import models  # noqa: F401 – ensure all models are imported

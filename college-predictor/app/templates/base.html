@@ -196,6 +196,27 @@
     </div>
   </header>
 
+  {% block premium_notice %}{% if show_premium_notice %}
+  <div class="premium-notice" id="premiumNotice" role="note">
+    <span class="premium-notice__text">
+      <strong>Heads-up:</strong> this page and its data are not updated periodically.
+      <a href="{{ url_for('main.members_registration') }}">Register for Premium Membership</a>
+      for the latest, regularly updated college insights and admission information.
+    </span>
+    <button type="button" class="premium-notice__close" id="premiumNoticeClose" aria-label="Dismiss notice">&times;</button>
+  </div>
+  <script>
+    (function () {
+      var el = document.getElementById('premiumNotice');
+      try { if (sessionStorage.getItem('ea-premium-notice') === '1') el.style.display = 'none'; } catch (e) {}
+      document.getElementById('premiumNoticeClose').addEventListener('click', function () {
+        el.style.display = 'none';
+        try { sessionStorage.setItem('ea-premium-notice', '1'); } catch (e) {}
+      });
+    })();
+  </script>
+  {% endif %}{% endblock %}
+
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
     <div class="global-flash" role="status">

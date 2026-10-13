@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Premium Members Only | EduAakashaA{% endblock %}
+{# this page is itself the Premium upsell — no extra notice #}
+{% block premium_notice %}{% endblock %}
 {% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">{% endblock %}
 
 {% block content %}
