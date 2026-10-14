@@ -22,6 +22,8 @@ def login():
             login_user(user, remember=request.form.get('remember'))
             next_page = safe_next(request.args.get('next'))
             flash('Logged in successfully.', 'success')
+            if not next_page and user.is_ea_mentor:
+                return redirect(url_for('members.mentor_desk'))
             return redirect(next_page or url_for('main.home'))
 
         flash('Invalid email or password.', 'danger')

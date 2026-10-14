@@ -203,7 +203,7 @@ def for_user(user):
 
 
 def can_view(user, row):
-    if user.is_admin:
+    if getattr(user, 'is_staff', False):
         return True
     if row.user_id == user.id:
         return True

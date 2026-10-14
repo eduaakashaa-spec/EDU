@@ -23,7 +23,7 @@ from flask import (Blueprint, abort, flash, jsonify, redirect, render_template,
                    request, send_file, url_for)
 from flask_login import current_user, login_required
 
-from app.decorators import admin_required
+from app.decorators import admin_required, staff_required
 from app.extensions import db
 from app.models import AssessmentResult, User
 from app.services import assessments as svc
@@ -85,7 +85,7 @@ def _filtered(args):
 
 
 @assessments_bp.route('/admin/assessments')
-@admin_required
+@staff_required
 def admin_list():
     query, q, source, link = _filtered(request.args)
     page = request.args.get('page', 1, type=int)
@@ -101,7 +101,7 @@ def admin_list():
 
 
 @assessments_bp.route('/admin/assessments/<int:rid>')
-@admin_required
+@staff_required
 def admin_detail(rid):
     row = db.session.get(AssessmentResult, rid) or abort(404)
     owner = db.session.get(User, row.user_id) if row.user_id else None

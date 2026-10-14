@@ -156,6 +156,17 @@
               <li><a href="{{ url_for('main.mentorship_templates') }}">Mentorship Email &amp; WhatsApp Templates</a></li>
             </ul>
           </li>
+          {% elif current_user.is_authenticated and current_user.is_ea_mentor %}
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">EA Mentor Desk</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('members.mentor_desk') }}">Mentor desk</a></li>
+              <li><a href="{{ url_for('assessments.admin_list') }}">Assessment Results</a></li>
+              <li><a href="{{ url_for('members.admin_doc_list') }}">Document Verify</a></li>
+              <li><a href="{{ url_for('onboarding.admin_list') }}">Onboarding Assessments</a></li>
+              <li><a href="{{ url_for('main.choice_builder_pro') }}">Choice Builder Simulator</a></li>
+            </ul>
+          </li>
           {% endif %}
 
           <li class="nav__item"><a href="{{ url_for('main.about') }}" class="nav__link">About</a></li>

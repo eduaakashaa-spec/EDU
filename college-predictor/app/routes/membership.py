@@ -494,7 +494,7 @@ def admin_users():
     if q:
         like = f'%{q}%'
         query = query.filter(db.or_(User.name.ilike(like), User.email.ilike(like)))
-    if tier_filter in ('free', 'premium', 'admin'):
+    if tier_filter in ('free', 'premium', 'ea_mentor', 'admin'):
         query = query.filter(User.tier == tier_filter)
 
     pagination = (query.order_by(User.created_at.desc())

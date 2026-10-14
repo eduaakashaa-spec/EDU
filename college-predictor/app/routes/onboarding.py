@@ -22,7 +22,7 @@ from flask import (Blueprint, Response, abort, current_app, flash, redirect,
                    render_template, request, url_for)
 from flask_login import current_user, login_required
 
-from app.decorators import admin_required
+from app.decorators import admin_required, staff_required
 from app.extensions import db
 from app.models import OnboardingResponse
 from app.services.mailer import send_async
@@ -282,7 +282,7 @@ def _oa_slug(label):
 # admin
 # --------------------------------------------------------------------------- #
 @onboarding_bp.route('/admin/onboarding')
-@admin_required
+@staff_required
 def admin_list():
     q = (request.args.get('q') or '').strip()
     query = OnboardingResponse.query
@@ -332,7 +332,7 @@ def _student_parent(sub):
 
 
 @onboarding_bp.route('/admin/onboarding/<int:sub_id>')
-@admin_required
+@staff_required
 def admin_detail(sub_id):
     sub = db.session.get(OnboardingResponse, sub_id) or abort(404)
     student, parent = _student_parent(sub)
@@ -354,7 +354,7 @@ def _rubric_text():
 
 
 @onboarding_bp.route('/admin/onboarding/<int:sub_id>/download')
-@admin_required
+@staff_required
 def admin_download(sub_id):
     sub = db.session.get(OnboardingResponse, sub_id) or abort(404)
     student, parent = _student_parent(sub)

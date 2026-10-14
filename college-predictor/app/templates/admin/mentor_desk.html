@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}EA Mentor Desk · EduAakashaa{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  <div class="adm-top">
+    <div><div class="adm-eyebrow">EA Mentor</div><h1>Hi, {{ current_user.name.split(' ')[0] }} — your mentor desk</h1></div>
+  </div>
+  {% include "admin/_nav.html" %}
+
+  <p style="color:var(--muted);font-size:14px;margin-bottom:18px;">
+    Everything you need to support students in one place: their assessment results, documents and session notes.
+  </p>
+
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-bottom:22px;">
+    <a class="adm-card" href="{{ url_for('members.admin_doc_list') }}" style="text-decoration:none;color:inherit;">
+      <div class="adm-eyebrow">Documents</div><div style="font-size:2rem;font-weight:700;">{{ stats.docs_waiting }}</div>
+      <div style="color:var(--muted);font-size:13px;">awaiting your review</div></a>
+    <a class="adm-card" href="{{ url_for('assessments.admin_list') }}" style="text-decoration:none;color:inherit;">
+      <div class="adm-eyebrow">Assessments</div><div style="font-size:2rem;font-weight:700;">{{ stats.assessments_30d }}</div>
+      <div style="color:var(--muted);font-size:13px;">in the last 30 days · {{ stats.assessments_total }} in total</div></a>
+    <a class="adm-card" href="{{ url_for('onboarding.admin_list') }}" style="text-decoration:none;color:inherit;">
+      <div class="adm-eyebrow">Onboarding</div><div style="font-size:2rem;font-weight:700;">{{ stats.onboarding }}</div>
+      <div style="color:var(--muted);font-size:13px;">student / parent responses</div></a>
+    <a class="adm-card" href="{{ url_for('members.admin_doc_list') }}" style="text-decoration:none;color:inherit;">
+      <div class="adm-eyebrow">Premium members</div><div style="font-size:2rem;font-weight:700;">{{ stats.members }}</div>
+      <div style="color:var(--muted);font-size:13px;">open a member record</div></a>
+  </div>
+
+  <div class="adm-card">
+    <h2>Latest assessment results</h2>
+    <div class="adm-table-wrap">
+      <table class="adm-table">
+        <thead><tr><th>Date</th><th>Assessment</th><th>Student</th><th>Result</th><th></th></tr></thead>
+        <tbody>
+        {% for r in recent %}
+          <tr>
+            <td>{{ r.created_at.strftime('%d %b %Y') if r.created_at }}</td>
+            <td>{{ assessment_label(r.source) }}</td>
+            <td>{{ r.student_name or '—' }}</td>
+            <td>{{ r.result_label or '—' }}</td>
+            <td><a class="ref" href="{{ url_for('assessments.admin_detail', rid=r.id) }}">Open →</a></td>
+          </tr>
+        {% else %}
+          <tr><td colspan="5" style="text-align:center;padding:30px;color:var(--muted);">No assessment results yet.</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div></div>
+{% endblock %}

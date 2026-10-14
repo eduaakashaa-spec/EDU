@@ -18,6 +18,14 @@
   .adm-navmenu a:hover{ background:var(--cream); color:var(--navy); }
   .adm-navmenu a.cur{ background:var(--navy); color:#fff; }
 </style>
+{% if current_user.is_authenticated and not current_user.is_admin and current_user.is_ea_mentor %}
+<nav class="adm-nav" aria-label="Mentor sections">
+  <a href="{{ url_for('members.mentor_desk') }}" class="adm-navlink {{ 'on' if admin_tab == 'desk' }}">Mentor desk</a>
+  <a href="{{ url_for('assessments.admin_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'assessments' }}">Assessment Results</a>
+  <a href="{{ url_for('members.admin_doc_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'documents' }}">Document Verify</a>
+  <a href="{{ url_for('onboarding.admin_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'onboarding' }}">Onboarding Assessments</a>
+</nav>
+{% else %}
 <nav class="adm-nav" aria-label="Admin sections">
   <a href="{{ url_for('admin_portal.home') }}" class="adm-navlink {{ 'on' if admin_tab == 'overview' }}">Overview</a>
 
@@ -68,3 +76,4 @@
     </div>
   </div>
 </nav>
+{% endif %}

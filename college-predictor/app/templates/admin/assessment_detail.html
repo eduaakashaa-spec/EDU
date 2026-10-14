@@ -19,10 +19,12 @@
       <p style="color:var(--muted);">Not linked to a member account yet.
       {% if suggestion %}A member with a matching email exists: <strong>{{ suggestion.name }}</strong> ({{ suggestion.email }}).{% endif %}</p>
     {% endif %}
+    {% if current_user.is_admin %}
     <form method="post" action="{{ url_for('assessments.admin_link', rid=r.id) }}" style="display:flex;gap:8px;flex-wrap:wrap;">
       <input type="email" name="email" value="{{ (owner.email if owner else (suggestion.email if suggestion else '')) }}" placeholder="member email" style="flex:1;min-width:220px;">
       <button class="btn btn-navy" type="submit">{{ 'Re-link' if owner else 'Link to member' }}</button>
     </form>
+    {% endif %}
   </div>
 
   {% include "_assessment_summary.html" %}
@@ -32,9 +34,9 @@
     <pre style="white-space:pre-wrap;word-break:break-word;font-size:12px;max-height:520px;overflow:auto;margin-top:12px;">{{ pretty }}</pre>
   </details>
 
-  <form method="post" action="{{ url_for('assessments.admin_delete', rid=r.id) }}" style="margin-top:18px;"
+  {% if current_user.is_admin %}<form method="post" action="{{ url_for('assessments.admin_delete', rid=r.id) }}" style="margin-top:18px;"
         onsubmit="return confirm('Delete this assessment result permanently?');">
     <button class="btn btn-ghost" type="submit" style="color:#a33;">Delete result</button>
-  </form>
+  </form>{% endif %}
 </div></div>
 {% endblock %}

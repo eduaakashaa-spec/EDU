@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(256), nullable=False)
-    tier = db.Column(db.String(20), nullable=False, default='free')  # free | premium | admin | mentor
+    tier = db.Column(db.String(20), nullable=False, default='free')  # free | premium | admin | mentor (alumni College Guide) | ea_mentor (EduAakashaa staff mentor)
     tier_expires_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
 
     @property
     def is_premium(self):
-        if self.tier == 'admin':
+        if self.tier in ('admin', 'ea_mentor'):      # staff can open every member tool
             return True
         if self.tier != 'premium':
             return False
@@ -40,7 +40,17 @@ class User(UserMixin, db.Model):
 
     @property
     def is_mentor(self):
+        """Alumni 'College Guide' — a different role from an EA mentor."""
         return self.tier == 'mentor'
+
+    @property
+    def is_ea_mentor(self):
+        """EduAakashaa's own mentor / counsellor (staff, sees student records)."""
+        return self.tier == 'ea_mentor'
+
+    @property
+    def is_staff(self):
+        return self.tier in ('admin', 'ea_mentor')
 
 
 class DasaLead(db.Model):

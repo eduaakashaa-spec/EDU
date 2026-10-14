@@ -29,8 +29,10 @@
     </select>
     <button class="btn btn-navy" type="submit">Filter</button>
     <a class="btn btn-ghost" href="{{ url_for('assessments.admin_list') }}">Reset</a>
+    {% if current_user.is_admin %}
     <a class="btn btn-ghost" href="{{ url_for('assessments.admin_export', q=q, source=source, link=link) }}">⬇ Excel</a>
     <a class="btn btn-ghost" href="{{ url_for('assessments.admin_import') }}">⬆ Import history</a>
+    {% endif %}
   </form>
 
   <div class="adm-table-wrap">

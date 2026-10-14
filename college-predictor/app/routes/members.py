@@ -26,7 +26,7 @@ from flask import (Blueprint, abort, flash, redirect, render_template, request,
 from flask_login import current_user, login_required
 from werkzeug.utils import secure_filename
 
-from app.decorators import admin_required
+from app.decorators import admin_required, staff_required
 from app.extensions import db
 from app.models import DocVerification, MemberMeeting, User
 from app.services import r2
@@ -326,8 +326,29 @@ def _doc_counts(user_id):
     return counts
 
 
+@members_bp.route('/mentor-desk')
+@staff_required
+def mentor_desk():
+    """Landing page for EA mentors: what needs attention, student records at a glance."""
+    from datetime import timedelta
+    from app.models import AssessmentResult, OnboardingResponse
+    from app.services import assessments as _assess
+    since = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=30)
+    awaiting = (DocVerification.query.filter(DocVerification.status == 'Submitted').count())
+    stats = {
+        'members': User.query.filter(User.tier == 'premium').count(),
+        'docs_waiting': awaiting,
+        'assessments_30d': AssessmentResult.query.filter(AssessmentResult.created_at >= since).count(),
+        'assessments_total': AssessmentResult.query.count(),
+        'onboarding': OnboardingResponse.query.count(),
+    }
+    recent = AssessmentResult.query.order_by(AssessmentResult.created_at.desc()).limit(8).all()
+    return render_template('admin/mentor_desk.html', admin_tab='desk', stats=stats, recent=recent,
+                           assessment_label=_assess.label_for)
+
+
 @members_bp.route('/admin/documents')
-@admin_required
+@staff_required
 def admin_doc_list():
     q = (request.args.get('q') or '').strip()
     page = request.args.get('page', 1, type=int)
@@ -346,7 +367,7 @@ def admin_doc_list():
 
 
 @members_bp.route('/admin/documents/<int:user_id>')
-@admin_required
+@staff_required
 def admin_doc_detail(user_id):
     user = db.session.get(User, user_id) or abort(404)
     docs = user.doc_verifications.order_by(DocVerification.requested_at.asc()).all()
@@ -365,7 +386,7 @@ def admin_doc_detail(user_id):
 
 
 @members_bp.route('/admin/documents/<int:user_id>/request', methods=['POST'])
-@admin_required
+@staff_required
 def admin_request_docs(user_id):
     user = db.session.get(User, user_id) or abort(404)
     existing = {d.doc_type for d in user.doc_verifications}
@@ -393,7 +414,7 @@ def admin_request_docs(user_id):
 
 
 @members_bp.route('/admin/documents/doc/<int:doc_id>/review', methods=['POST'])
-@admin_required
+@staff_required
 def admin_review_doc(doc_id):
     doc = db.session.get(DocVerification, doc_id) or abort(404)
     decision = request.form.get('decision')
@@ -426,7 +447,7 @@ def admin_review_doc(doc_id):
 
 
 @members_bp.route('/admin/documents/doc/<int:doc_id>/file')
-@admin_required
+@staff_required
 def admin_doc_file(doc_id):
     doc = db.session.get(DocVerification, doc_id) or abort(404)
     if not doc.file_key:
@@ -437,7 +458,7 @@ def admin_doc_file(doc_id):
 
 
 @members_bp.route('/admin/documents/<int:user_id>/meeting', methods=['POST'])
-@admin_required
+@staff_required
 def admin_add_meeting(user_id):
     user = db.session.get(User, user_id) or abort(404)
     title = (request.form.get('title') or '').strip()[:200]
@@ -462,7 +483,7 @@ def admin_add_meeting(user_id):
 
 
 @members_bp.route('/admin/documents/meeting/<int:mid>/delete', methods=['POST'])
-@admin_required
+@staff_required
 def admin_delete_meeting(mid):
     meeting = db.session.get(MemberMeeting, mid) or abort(404)
     uid = meeting.user_id

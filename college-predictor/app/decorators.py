@@ -51,6 +51,23 @@ def admin_required(f):
     return wrapped
 
 
+def staff_required(f):
+    """Admin OR EA mentor — the EduAakashaa team that supports students.
+
+    EA mentors can work with student records (assessment results, document
+    verification, meeting logs, onboarding assessments). Money, member-tier
+    management, broadcasts and bulk export/import stay admin-only."""
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        if not current_user.is_authenticated:
+            flash('Please log in to continue.', 'info')
+            return redirect(url_for('auth.login', next=request.path))
+        if not current_user.is_staff:
+            abort(403)
+        return f(*args, **kwargs)
+    return wrapped
+
+
 def mentor_required(f):
     """Allow only logged-in mentor-tier users (the alumni mentor portal)."""
     @wraps(f)
