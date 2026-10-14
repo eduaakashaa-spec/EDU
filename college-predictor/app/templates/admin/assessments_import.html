@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Import assessments — Admin · EduAakashaa{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  <a class="adm-eyebrow" href="{{ url_for('assessments.admin_list') }}" style="text-decoration:none;">← All assessments</a>
+  <h1 style="margin:6px 0 16px;">Import assessment history</h1>
+  {% include "admin/_nav.html" %}
+
+  <div class="card">
+    <h2>Bring in the data that is still in Google Sheets</h2>
+    <ol style="line-height:1.8;color:var(--muted);">
+      <li>Open the Google Sheet for one assessment, then <strong>File → Download → Comma-separated values (.csv)</strong>.</li>
+      <li>Choose which assessment it is, attach the file, and import. One row becomes one result.</li>
+      <li>Columns that hold JSON (for example the full results) are unpacked automatically; student and parent
+          name, email and phone are picked up from common column names.</li>
+      <li>Importing the same file twice is safe &mdash; rows already imported are skipped.</li>
+      <li>Results are linked to a member automatically when a student or parent email matches an account.</li>
+    </ol>
+    <form method="post" enctype="multipart/form-data" style="display:grid;gap:12px;max-width:520px;">
+      <div><label>Assessment</label>
+        <select name="source" required>
+          <option value="">Choose…</option>
+          {% for slug, lab in sources.items() %}{% if slug != 'tnea-expert' %}<option value="{{ slug }}">{{ lab }}</option>{% endif %}{% endfor %}
+        </select></div>
+      <div><label>File (.csv or .json)</label><input type="file" name="file" accept=".csv,.json" required></div>
+      <button class="btn btn-navy" type="submit">Import</button>
+    </form>
+    {% if result %}
+    <p style="margin-top:16px;"><strong>{{ result.added }}</strong> added · {{ result.skipped }} skipped · {{ result.failed }} failed (of {{ result.total }} rows).</p>
+    {% endif %}
+  </div>
+</div></div>
+{% endblock %}

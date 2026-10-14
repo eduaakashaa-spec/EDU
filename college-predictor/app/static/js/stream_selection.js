@@ -2,7 +2,6 @@
 // ════════════════════════════════════════
 //  CONFIG
 // ════════════════════════════════════════
-const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBM-WYfXNFgwiGMe1-lVXbLMy61dZSi9ESVvEFzkfNRII-cGFmjmeOlUD2fpfSvR6z/exec";
  
 // ════════════════════════════════════════
 //  DATA
@@ -352,7 +351,7 @@ function submitAndShowResults() {
   skillGap = results.skillGap;
   goStep(8);
   renderResults();
-  setTimeout(submitToGoogle, 500);
+  setTimeout(saveAssessment, 500);
 }
  
 function renderResults() {
@@ -590,27 +589,24 @@ function retake() {
 }
  
 // ════════════════════════════════════════
-//  GOOGLE SUBMIT
+//  SAVE TO THE MEMBER RECORD (EduAakashaa database)
 // ════════════════════════════════════════
-async function submitToGoogle() {
-  if(APPS_SCRIPT_URL.includes('YOUR_APPS')){showBanner('error','Apps Script URL not configured. Deploy the script first.');return;}
-  showBanner('saving','Saving to Google Sheets & generating PDF on Drive...');
-  const stu={name:document.getElementById('stuName').value,age:document.getElementById('stuAge').value,school:document.getElementById('stuSchool').value,city:document.getElementById('stuCity').value,board:document.getElementById('stuBoard').value,currentClass:document.getElementById('stuClass').value};
-  const par={name:document.getElementById('parName').value,phone:document.getElementById('parPhone').value,email:document.getElementById('parEmail').value,preferredStream:parentPref,reason:document.getElementById('parReason').value,expectations:document.getElementById('parExpect').value};
-  const board=stu.board==='ICSE'?'ICSE':stu.board==='State Board'?'State Board':'CBSE';
+async function saveAssessment() {
+  showBanner('saving','Saving your results to your EduAakashaa record...');
+  const val=id=>{const el=document.getElementById(id);return el?el.value:'';};
+  const stu={name:val('stuName'),age:val('stuAge'),school:val('stuSchool'),city:val('stuCity'),board:val('stuBoard'),currentClass:val('stuClass'),email:val('stuEmail'),phone:val('stuPhone')};
+  const par={name:val('parName'),phone:val('parPhone'),email:val('parEmail'),preferredStream:parentPref,reason:val('parReason'),expectations:val('parExpect')};
   const r=results;
-  try{fetch('/api/leads?source=stream-selection',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({student:stu,parent:par,results:r})}).catch(function(){});}catch(e){}
+  const body={studentInfo:stu,studentPreference:studentPref,personalityAns:psyAns,aptitudeAns:aptAns,applicationAns:appAns,confidenceData:confData,parentInfo:par,results:r,skillGap,reportLang,topCareers:topCareers[r.recommended]||[],streamInfo:{careers:(topCareers[r.recommended]||[]).map(c=>c.title)}};
   try{
-    const resp=await fetch(APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({action:'saveAssessment',studentInfo:stu,studentPreference:studentPref,personalityAns:psyAns,aptitudeAns:aptAns,applicationAns:appAns,confidenceData:confData,parentInfo:par,results:r,skillGap,reportLang,topCareers:topCareers[r.recommended],streamInfo:{subjects:(streamSubjects[r.recommended]||{})[board]||[],careers:topCareers[r.recommended].map(c=>c.title)}})});
+    const resp=await fetch('/api/assessments?source=stream-selection',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
     const data=await resp.json();
-    if(data.success){
-      showBanner('success','✅ Saved to Sheets & PDF uploaded to Drive!');
-      if(data.pdfUrl){document.getElementById('pdfBtnArea').innerHTML=`<div style="text-align:center;margin-bottom:16px"><button class="btn btn-primary" onclick="window.open('${data.pdfUrl}','_blank')">📄 Open PDF from Google Drive</button></div>`;}
-    } else { showBanner('error','Error: '+(data.error||'Unknown')); }
+    if(data.ok){
+      showBanner('success','✅ Saved to your EduAakashaa record.'+(data.view_url?' <a href="'+data.view_url+'" style="font-weight:700;margin-left:6px">View it in your profile →</a>':' Log in with the same email to see it in your profile.'));
+    } else { showBanner('error','Could not save: '+(data.error||'unknown error')); }
   }catch(e){showBanner('error','Network error: '+e.message);}
 }
- 
+
 function showBanner(type,text) {
   const area = document.getElementById('bannerArea');
   if(!area) return;

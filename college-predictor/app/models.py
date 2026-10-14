@@ -322,6 +322,62 @@ class OnboardingResponse(db.Model):
             return {}
 
 
+class AssessmentResult(db.Model):
+    """One completed assessment, stored in our own database (replaces the Google
+    Sheets / Apps Script backends). The whole submission is kept as JSON in
+    `payload_json`; the columns below are the structured, queryable fields used
+    for the member/mentor views and for analysis exports.
+
+    Linked to a member by `user_id` when the student was logged in; otherwise it
+    is matched at read time by student/parent email, so results captured before
+    someone registers still appear in their profile."""
+    __tablename__ = 'assessment_results'
+    __table_args__ = (db.UniqueConstraint('source', 'source_ref', name='uq_assessment_source_ref'),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True, index=True)
+    source = db.Column(db.String(60), nullable=False, index=True)   # 'stream-selection', 'student-assessment', ...
+
+    # who it is about
+    student_name = db.Column(db.String(150), index=True)
+    student_email = db.Column(db.String(200), index=True)
+    student_phone = db.Column(db.String(40))
+    parent_name = db.Column(db.String(150))
+    parent_email = db.Column(db.String(200), index=True)
+    parent_phone = db.Column(db.String(40))
+    school = db.Column(db.String(200))
+    city = db.Column(db.String(120))
+    board = db.Column(db.String(60))
+    current_class = db.Column(db.String(40))
+
+    # headline outcome + normalised scores (for filtering / charts / analysis)
+    result_label = db.Column(db.String(200), index=True)   # e.g. recommended stream
+    result_score = db.Column(db.Float)                     # e.g. aptitude score %
+    scores_json = db.Column(db.Text)                       # {"Science": 46, "Commerce": 31, ...}
+
+    payload_json = db.Column(db.Text)                      # full submission (answers + results)
+    lang = db.Column(db.String(8))
+    origin = db.Column(db.String(12), default='web')       # 'web' | 'import'
+    source_ref = db.Column(db.String(80))                  # external id / hash, makes imports idempotent
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), index=True)
+
+    user = db.relationship('User', backref=db.backref('assessment_results', lazy='dynamic'))
+
+    @property
+    def payload(self):
+        try:
+            return json.loads(self.payload_json) if self.payload_json else {}
+        except (ValueError, TypeError):
+            return {}
+
+    @property
+    def scores(self):
+        try:
+            return json.loads(self.scores_json) if self.scores_json else {}
+        except (ValueError, TypeError):
+            return {}
+
+
 class MemberMeeting(db.Model):
     """A counselling session the admin logs for a premium member. The member
     sees it read-only on their profile (meeting log + notes) — mirrors the

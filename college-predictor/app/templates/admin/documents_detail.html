@@ -46,6 +46,30 @@
     </ul>
   </div>
 
+  <!-- ASSESSMENT RESULTS -->
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>Assessment results</h2>
+    <p class="sub">Everything {{ member.name.split(' ')[0] }} (or their parent) completed on the site, in one record.</p>
+    {% if assessments %}
+    <table class="adm-table">
+      <thead><tr><th>Assessment</th><th>Student</th><th>Result</th><th>Date</th><th></th></tr></thead>
+      <tbody>
+      {% for a in assessments %}
+        <tr>
+          <td>{{ assessment_label(a.source) }}</td>
+          <td>{{ a.student_name or '—' }}</td>
+          <td>{{ a.result_label or '—' }}{% if a.result_score is not none %} · {{ a.result_score|round(0)|int }}%{% endif %}</td>
+          <td>{{ a.created_at.strftime('%d %b %Y') if a.created_at }}</td>
+          <td><a class="ref" href="{{ url_for('assessments.admin_detail', rid=a.id) }}">Open →</a></td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p style="color:var(--muted);">No assessments linked to this member yet.</p>
+    {% endif %}
+  </div>
+
   <!-- REQUEST DOCUMENTS -->
   <div class="adm-card" style="margin-bottom:18px;">
     <h2>Request documents</h2>

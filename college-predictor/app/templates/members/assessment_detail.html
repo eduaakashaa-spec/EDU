@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ label }} result — EduAakashaa{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">{% endblock %}
+{% block content %}
+<div style="max-width:1000px;margin:0 auto;padding:36px 20px 70px;">
+  <a href="{{ url_for('members.profile') }}#assessments" style="text-decoration:none;color:var(--navy);font-weight:600;">← My profile</a>
+  <h1 style="font-family:'Fraunces',serif;margin:10px 0 4px;">{{ label }}</h1>
+  <p style="color:var(--text-dim);margin-bottom:22px;">{{ r.student_name or 'Student' }} · {{ r.created_at.strftime('%d %b %Y') if r.created_at else '' }} — visible to you and your EduAakashaa mentor.</p>
+  {% include "_assessment_summary.html" %}
+</div>
+{% endblock %}

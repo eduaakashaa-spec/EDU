@@ -244,9 +244,13 @@ def profile():
               .order_by(ScheduleEvent.important.desc(), ScheduleEvent.starts_at.asc())
               .limit(5).all())
 
+    from app.services import assessments as _assess
+    assessments = _assess.for_user(current_user).limit(30).all()
+
     return render_template('members/profile.html', meetings=meetings, docs=docs,
                            can_submit=can_submit, announcements=announcements,
-                           events=events)
+                           events=events, assessments=assessments,
+                           assessment_label=_assess.label_for)
 
 
 def _my_doc(doc_id):
@@ -350,8 +354,11 @@ def admin_doc_detail(user_id):
                 .order_by(MemberMeeting.meeting_date.desc().nullslast(),
                           MemberMeeting.created_at.desc()).all())
     requested_types = {d.doc_type for d in docs}
+    from app.services import assessments as _assess
     return render_template('admin/documents_detail.html', admin_tab='documents',
                            member=user, docs=docs, meetings=meetings,
+                           assessments=_assess.for_user(user).limit(50).all(),
+                           assessment_label=_assess.label_for,
                            doc_groups=DOC_TYPES, requested_types=requested_types,
                            counts=_doc_counts(user.id),
                            meeting_statuses=MEETING_STATUSES)

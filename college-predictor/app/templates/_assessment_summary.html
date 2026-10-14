@@ -1,0 +1,125 @@
+{# Shared structured view of one assessment result. Expects r (AssessmentResult) and s (summary dict). #}
+<style>
+  .as-card{ background:var(--white,#fff); border:1px solid var(--border,#E8DFC8); border-radius:16px; padding:22px; margin-bottom:18px; }
+  .as-card h2{ font-family:'Fraunces',serif; font-size:1.2rem; margin:0 0 12px; color:var(--dark,#071A44); }
+  .as-hero{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; }
+  .as-kpi{ background:#FBF7EE; border:1px solid #E8DFC8; border-radius:14px; padding:14px 16px; }
+  .as-kpi small{ display:block; font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:#5A6278; }
+  .as-kpi b{ font-family:'Fraunces',serif; font-size:1.5rem; color:#0E3A8A; }
+  .as-bars{ display:grid; gap:10px; }
+  .as-bar .lb{ display:flex; justify-content:space-between; font-size:.88rem; margin-bottom:4px; }
+  .as-bar .tr{ height:12px; background:#EFE6CF; border-radius:99px; overflow:hidden; }
+  .as-bar .tr i{ display:block; height:100%; background:linear-gradient(90deg,#0E3A8A,#2a62c9); border-radius:99px; }
+  .as-bar.alt .tr i{ background:linear-gradient(90deg,#E8590C,#FF6B0A); }
+  .as-tbl{ width:100%; border-collapse:collapse; font-size:.9rem; }
+  .as-tbl td{ padding:8px 6px; border-bottom:1px solid #f1ead7; vertical-align:top; }
+  .as-tbl td:first-child{ color:#5A6278; width:36%; }
+  .as-risk{ padding:10px 14px; border-radius:10px; margin-bottom:8px; font-size:.9rem; background:#FFF4E5; border:1px solid #F4D2A6; }
+  .as-risk.danger{ background:#FCE4E4; border-color:#F0BCBC; }
+  .as-chip{ display:inline-block; background:rgba(14,58,138,.08); color:#0E3A8A; border-radius:999px; padding:4px 12px; font-size:.82rem; font-weight:600; margin:0 6px 6px 0; }
+  .as-two{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px; }
+</style>
+
+<div class="as-card">
+  <h2>Outcome</h2>
+  <div class="as-hero">
+    {% if s.headline %}<div class="as-kpi"><small>Result</small><b>{{ s.headline }}</b></div>{% endif %}
+    {% if s.score is not none %}<div class="as-kpi"><small>Score</small><b>{{ s.score|round(1) }}%</b></div>{% endif %}
+    {% if s.student_pref %}<div class="as-kpi"><small>Student preference</small><b>{{ s.student_pref }}</b></div>{% endif %}
+    {% if s.parent_pref %}<div class="as-kpi"><small>Parent preference</small><b>{{ s.parent_pref }}</b></div>{% endif %}
+    <div class="as-kpi"><small>Submitted</small><b style="font-size:1.05rem">{{ r.created_at.strftime('%d %b %Y, %H:%M') if r.created_at else '—' }}</b></div>
+  </div>
+</div>
+
+<div class="as-two">
+  <div class="as-card">
+    <h2>Student</h2>
+    <table class="as-tbl">
+      <tr><td>Name</td><td>{{ r.student_name or '—' }}</td></tr>
+      {% if r.current_class %}<tr><td>Class</td><td>{{ r.current_class }}</td></tr>{% endif %}
+      {% if r.school %}<tr><td>School</td><td>{{ r.school }}</td></tr>{% endif %}
+      {% if r.board %}<tr><td>Board</td><td>{{ r.board }}</td></tr>{% endif %}
+      {% if r.city %}<tr><td>City</td><td>{{ r.city }}</td></tr>{% endif %}
+      {% if r.student_email %}<tr><td>Email</td><td>{{ r.student_email }}</td></tr>{% endif %}
+      {% if r.student_phone %}<tr><td>Phone</td><td>{{ r.student_phone }}</td></tr>{% endif %}
+    </table>
+  </div>
+  {% if r.parent_name or r.parent_email or r.parent_phone %}
+  <div class="as-card">
+    <h2>Parent / guardian</h2>
+    <table class="as-tbl">
+      <tr><td>Name</td><td>{{ r.parent_name or '—' }}</td></tr>
+      {% if r.parent_email %}<tr><td>Email</td><td>{{ r.parent_email }}</td></tr>{% endif %}
+      {% if r.parent_phone %}<tr><td>Phone</td><td>{{ r.parent_phone }}</td></tr>{% endif %}
+    </table>
+  </div>
+  {% endif %}
+</div>
+
+{% if s.scores %}
+<div class="as-card">
+  <h2>Scores</h2>
+  <div class="as-bars">
+    {% for k, v in s.scores %}
+    <div class="as-bar"><div class="lb"><span>{{ k }}</span><strong>{{ v }}</strong></div>
+      <div class="tr"><i style="width:{{ [[(v|float), 0]|max, 100]|min }}%"></i></div></div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% if s.radar %}
+<div class="as-card">
+  <h2>Strength profile</h2>
+  <div class="as-bars">
+    {% for k, v in s.radar %}
+    <div class="as-bar alt"><div class="lb"><span>{{ k }}</span><strong>{{ v }}</strong></div>
+      <div class="tr"><i style="width:{{ [[(v|float), 0]|max, 100]|min }}%"></i></div></div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% if s.risks %}
+<div class="as-card">
+  <h2>Flags to discuss</h2>
+  {% for k in s.risks %}
+  <div class="as-risk {{ 'danger' if k.severity == 'danger' }}"><strong>{{ k.flag }}</strong>{% if k.detail %}<div>{{ k.detail }}</div>{% endif %}</div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if s.careers %}
+<div class="as-card">
+  <h2>Suggested careers</h2>
+  {% for c in s.careers %}<span class="as-chip">{{ c }}</span>{% endfor %}
+</div>
+{% endif %}
+
+{% if s.skill_gap %}
+<div class="as-card">
+  <h2>Skill gap</h2>
+  <div class="as-bars">
+    {% for g in s.skill_gap %}
+    <div class="as-bar"><div class="lb"><span>{{ g.skill }}</span><strong>{{ g.current }} / {{ g.required }}</strong></div>
+      <div class="tr"><i style="width:{{ [[(g.current|float), 0]|max, 100]|min }}%"></i></div></div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+{% if s.facts %}
+<div class="as-card">
+  <h2>Other details</h2>
+  <table class="as-tbl">
+    {% for k, v in s.facts %}<tr><td>{{ k }}</td><td>{{ v }}</td></tr>{% endfor %}
+  </table>
+</div>
+{% endif %}
+
+{% if s.answered %}
+<div class="as-card">
+  <h2>Questions answered</h2>
+  {% for k, n in s.answered.items() %}<span class="as-chip">{{ k }}: {{ n }}</span>{% endfor %}
+</div>
+{% endif %}

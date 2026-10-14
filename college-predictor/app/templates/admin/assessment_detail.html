@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Assessment #{{ r.id }} — Admin · EduAakashaa{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  <a class="adm-eyebrow" href="{{ url_for('assessments.admin_list') }}" style="text-decoration:none;">← All assessments</a>
+  <h1 style="margin:6px 0 16px;">{{ label }} · {{ r.student_name or 'Unnamed student' }}</h1>
+  {% include "admin/_nav.html" %}
+
+  <div class="card" style="margin-bottom:18px;">
+    <h2>Member</h2>
+    {% if owner %}
+      <p>Linked to <strong>{{ owner.name }}</strong> ({{ owner.email }}) ·
+         <a href="{{ url_for('members.admin_doc_detail', user_id=owner.id) }}">open member record →</a></p>
+    {% else %}
+      <p style="color:var(--muted);">Not linked to a member account yet.
+      {% if suggestion %}A member with a matching email exists: <strong>{{ suggestion.name }}</strong> ({{ suggestion.email }}).{% endif %}</p>
+    {% endif %}
+    <form method="post" action="{{ url_for('assessments.admin_link', rid=r.id) }}" style="display:flex;gap:8px;flex-wrap:wrap;">
+      <input type="email" name="email" value="{{ (owner.email if owner else (suggestion.email if suggestion else '')) }}" placeholder="member email" style="flex:1;min-width:220px;">
+      <button class="btn btn-navy" type="submit">{{ 'Re-link' if owner else 'Link to member' }}</button>
+    </form>
+  </div>
+
+  {% include "_assessment_summary.html" %}
+
+  <details class="card" style="margin-top:18px;">
+    <summary style="cursor:pointer;font-weight:700;">Full submission (JSON)</summary>
+    <pre style="white-space:pre-wrap;word-break:break-word;font-size:12px;max-height:520px;overflow:auto;margin-top:12px;">{{ pretty }}</pre>
+  </details>
+
+  <form method="post" action="{{ url_for('assessments.admin_delete', rid=r.id) }}" style="margin-top:18px;"
+        onsubmit="return confirm('Delete this assessment result permanently?');">
+    <button class="btn btn-ghost" type="submit" style="color:#a33;">Delete result</button>
+  </form>
+</div></div>
+{% endblock %}

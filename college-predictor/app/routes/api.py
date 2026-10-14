@@ -76,6 +76,17 @@ def capture_lead():
     )
     db.session.add(lead)
     db.session.commit()
+
+    # Assessment pages also land in the structured results table (the member /
+    # mentor views read from there). Stream selection posts its full submission
+    # to /api/assessments itself, so skip it here to avoid a second, thinner row.
+    from app.services import assessments as _assess
+    if source in _assess.ASSESSMENT_SOURCES and source != 'stream-selection':
+        try:
+            from flask_login import current_user
+            _assess.ingest(source, data, user=current_user if current_user.is_authenticated else None)
+        except Exception:                      # never lose the lead because of this
+            db.session.rollback()
     return jsonify({'ok': True, 'id': lead.id})
 
 # Branch category keyword mapping for grouped filtering

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Assessments — Admin · EduAakashaa{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  <div class="adm-top">
+    <div><div class="adm-eyebrow">Admin · Student records</div><h1>Assessment Results</h1></div>
+  </div>
+  {% include "admin/_nav.html" %}
+
+  <p style="color:var(--muted);font-size:14px;margin-bottom:14px;">
+    Every assessment completed on the site, stored in our own database and linked to the member.
+    <strong>{{ total }}</strong> results · <strong>{{ linked }}</strong> linked to a member.
+  </p>
+
+  <form class="adm-bar" method="get" action="{{ url_for('assessments.admin_list') }}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search student, parent, email, school, result…" style="flex:1;min-width:220px;">
+    <select name="source">
+      <option value="">All assessments</option>
+      {% for slug, lab in sources.items() %}<option value="{{ slug }}" {{ 'selected' if source == slug }}>{{ lab }} ({{ totals.get(slug, 0) }})</option>{% endfor %}
+    </select>
+    <select name="link">
+      <option value="">Linked + unlinked</option>
+      <option value="linked" {{ 'selected' if link == 'linked' }}>Linked to a member</option>
+      <option value="unlinked" {{ 'selected' if link == 'unlinked' }}>Not linked</option>
+    </select>
+    <button class="btn btn-navy" type="submit">Filter</button>
+    <a class="btn btn-ghost" href="{{ url_for('assessments.admin_list') }}">Reset</a>
+    <a class="btn btn-ghost" href="{{ url_for('assessments.admin_export', q=q, source=source, link=link) }}">⬇ Excel</a>
+    <a class="btn btn-ghost" href="{{ url_for('assessments.admin_import') }}">⬆ Import history</a>
+  </form>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr><th>Submitted</th><th>Assessment</th><th>Student</th><th>Parent</th><th>Result</th><th>Member</th><th></th></tr></thead>
+      <tbody>
+      {% for r in rows %}
+        <tr>
+          <td>{{ r.created_at.strftime('%d %b %Y') if r.created_at }}<div style="color:var(--muted);font-size:12px;">{{ r.origin }}</div></td>
+          <td>{{ label_for(r.source) }}</td>
+          <td>{{ r.student_name or '—' }}<div style="color:var(--muted);font-size:12px;">{{ r.student_email or r.student_phone or '' }}</div></td>
+          <td>{{ r.parent_name or '—' }}<div style="color:var(--muted);font-size:12px;">{{ r.parent_email or r.parent_phone or '' }}</div></td>
+          <td>{{ r.result_label or '—' }}{% if r.result_score is not none %}<div style="color:var(--muted);font-size:12px;">{{ r.result_score|round(1) }}%</div>{% endif %}</td>
+          <td>{% if r.user_id %}<span class="pill pill-premium">Linked</span>{% else %}<span class="pill pill-free">Unlinked</span>{% endif %}</td>
+          <td><a class="ref" href="{{ url_for('assessments.admin_detail', rid=r.id) }}">Open →</a></td>
+        </tr>
+      {% else %}
+        <tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted);">No assessment results yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if pagination.pages > 1 %}
+  <div class="adm-pager">
+    {% if pagination.has_prev %}<a href="{{ url_for('assessments.admin_list', page=pagination.prev_num, q=q, source=source, link=link) }}">‹ Prev</a>{% endif %}
+    <span class="cur">{{ pagination.page }} / {{ pagination.pages }}</span>
+    {% if pagination.has_next %}<a href="{{ url_for('assessments.admin_list', page=pagination.next_num, q=q, source=source, link=link) }}">Next ›</a>{% endif %}
+  </div>
+  {% endif %}
+</div></div>
+{% endblock %}
