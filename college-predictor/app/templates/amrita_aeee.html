@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block title %}AMRITA AEEE 2026 – Admission Guide | EduAakashaA{% endblock %}
+{% block title %}Amrita AEEE 2027 – Exam Dates, Pattern &amp; Admission Guide | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Amrita AEEE 2027: registration opens November 2026, exam window 15 April – 7 May 2027, B.Tech pattern, fees, CSAP counselling and NRI guidance — updated 14 October 2026.">{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 {% endblock %}
@@ -11,8 +12,8 @@
   <div class="container">
     <div class="hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">AMRITA VISHWA VIDYAPEETHAM · ADMISSION SUPPORT 2026</span>
-        <h1 style="margin-top:22px;">AMRITA <span class="accent">AEEE 2026</span></h1>
+        <span class="eyebrow">AMRITA VISHWA VIDYAPEETHAM · ADMISSION SUPPORT 2027</span>
+        <h1 style="margin-top:22px;">AMRITA <span class="accent">AEEE 2027</span></h1>
         <p class="hero-sub">Your complete guide to Amrita admissions — AEEE, AEEL, A-CLAT schedules, fee structures, campus insights, branch prediction, NRI guidance and scholarships.</p>
         <div class="hero-ctas">
           <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
@@ -50,7 +51,27 @@
     <p class="content-text content-text--note">⚠️ EduAakashaA provides independent guidance on college &amp; branch selection. We are not affiliated with Amrita Vishwa Vidyapeetham. Always verify from <a href="https://amrita.edu/admissions" target="_blank" rel="noopener">amrita.edu/admissions</a>.</p>
   </section>
 
-  <!-- Admission Pathways -->
+  <!-- AEEE 2027 status -->
+<section class="section">
+  <div class="section__header">
+    <span class="eyebrow">LATEST &middot; 14 OCT 2026</span>
+    <h2 class="section__title">AEEE 2027 &mdash; what Amrita has announced</h2>
+  </div>
+  <div class="info-cards info-cards--3">
+    <div class="info-card"><div class="info-card__icon">&#128221;</div><div class="info-card__title">Registration</div><div class="info-card__text">Opens in <strong>November 2026</strong> at aeee.amrita.edu. The exact opening date is not yet announced.</div></div>
+    <div class="info-card"><div class="info-card__icon">&#128197;</div><div class="info-card__title">Exam window</div><div class="info-card__text"><strong>15 April &ndash; 7 May 2027</strong>, computer-based. Phase-wise dates, slot booking and admit cards are yet to be announced.</div></div>
+    <div class="info-card"><div class="info-card__icon">&#128260;</div><div class="info-card__title">Two routes</div><div class="info-card__text">B.Tech seats are filled through AEEE or JEE Main (apply on the same portal). Amrita admission rank decides the CSAP counselling.</div></div>
+  </div>
+  <div class="callout callout--warn">
+    <span class="callout__icon">!</span>
+    <div>
+      <span class="callout__label">Not yet announced for 2027</span>
+      <p class="callout__text">The 2027 application fee, eligibility cut-off date and whether the two-phase format continues are not yet published. The 2026 cycle had two phases (Phase 1: 30 Jan &ndash; 1 Feb 2026; Phase 2, optional: 24&ndash;30 Apr 2026), fee &#8377;1,300 for AEEE or AEEE + JEE and &#8377;500 for JEE-only, and required 55% in PCM with 50% in each subject. Treat these as the 2026 reference and confirm on <a href="https://aeee.amrita.edu" target="_blank" rel="noopener noreferrer">aeee.amrita.edu</a>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Admission Pathways -->
   <section class="section">
     <div class="section__header">
       <span class="eyebrow">PATHWAYS</span>
@@ -62,7 +83,7 @@
       <div class="info-card">
         <div class="info-card__icon">{{ ea_icon('gear') }}</div>
         <div class="info-card__title">AEEE — Engineering</div>
-        <div class="info-card__text">B.Tech entrance across 8 campuses. CBT, 100 MCQs / 300 marks / 150 mins. 70% seats via AEEE, 30% via JEE Main. 19 specializations. Two phases (Jan–Feb &amp; Apr).</div>
+        <div class="info-card__text">B.Tech entrance across 8 campuses. CBT, 100 MCQs / 300 marks / 150 mins. 70% seats via AEEE, 30% via JEE Main. 19 specializations. 2027 exam window: 15 Apr – 7 May 2027.</div>
       </div>
       <div class="info-card">
         <div class="info-card__icon">{{ ea_icon('flask') }}</div>
@@ -98,36 +119,34 @@
       <span class="chapter-divider__num">{{ ea_icon('calendar') }}</span>
       <div>
         <span class="chapter-divider__label">TIMELINE</span>
-        <span class="chapter-divider__title">AEEE 2026 Admission Timeline</span>
+        <span class="chapter-divider__title">AEEE 2027 Admission Timeline</span>
       </div>
     </div>
     <div class="steps">
-      <div class="step"><span class="step__num">1</span><div><div class="step__title">Oct – Nov 2025 · Registration Opens</div><div class="step__text">Online at aeee.amrita.edu · Fee ₹1,300 · JEE Main option at no extra cost.</div></div></div>
-      <div class="step"><span class="step__num">2</span><div><div class="step__title">Jan 30 – Feb 1, 2026 · Phase 1 Exam</div><div class="step__text">CBT across 109 cities (incl. Dubai). 3 slots/day. Quantitative Aptitude section added.</div></div></div>
-      <div class="step"><span class="step__num">3</span><div><div class="step__title">Feb 2026 · Phase 1 Results</div><div class="step__text">Best score across both phases considered for final ranking.</div></div></div>
-      <div class="step"><span class="step__num">4</span><div><div class="step__title">Apr 10 – 20, 2026 · Phase 2 Slot Booking</div><div class="step__text">First-come, first-served. Last date for slot booking: Apr 18.</div></div></div>
-      <div class="step"><span class="step__num">5</span><div><div class="step__title">Apr 21, 2026 · Phase 2 Admit Card</div><div class="step__text">Download using registered Email/Mobile. Carry Aadhaar for verification.</div></div></div>
-      <div class="step"><span class="step__num">6</span><div><div class="step__title">Apr 24 – 30, 2026 · Phase 2 Exam</div><div class="step__text">Additional ₹600 for Phase 1 candidates. 3 slots daily. Arrive 1 hour early.</div></div></div>
-      <div class="step"><span class="step__num">7</span><div><div class="step__title">May 2026 · CSAP Registration</div><div class="step__text">Register with ₹5,000. Fill campus &amp; branch preferences. Allotments online.</div></div></div>
-      <div class="step"><span class="step__num">8</span><div><div class="step__title">Jun – Jul 2026 · Seat Allotment</div><div class="step__text">Multiple CSAP rounds. Pay fees to confirm seat. Document verification on campus.</div></div></div>
-    </div>
-  </section>
+<div class="step"><span class="step__num">1</span><div><div class="step__title">November 2026 &middot; Registration opens</div><div class="step__text">Online at aeee.amrita.edu. 2026 fee was &#8377;1,300 (AEEE, or AEEE + JEE Main); the 2027 fee is yet to be announced.</div></div></div>
+<div class="step"><span class="step__num">2</span><div><div class="step__title">To be announced &middot; Slot booking &amp; admit card</div><div class="step__text">Slot booking and admit-card dates are published closer to the exam. Carry a photo ID and arrive early.</div></div></div>
+<div class="step"><span class="step__num">3</span><div><div class="step__title">15 April &ndash; 7 May 2027 &middot; AEEE 2027 exam window</div><div class="step__text">Computer-based test at centres across India and abroad. Phase structure for 2027 is not yet announced.</div></div></div>
+<div class="step"><span class="step__num">4</span><div><div class="step__title">After the exam &middot; Percentile &amp; rank</div><div class="step__text">Percentiles are shown after each phase; the final rank uses the best percentile (or JEE Main if opted).</div></div></div>
+<div class="step"><span class="step__num">5</span><div><div class="step__title">CSAP counselling</div><div class="step__text">Register for CSAP (2026 fee &#8377;5,000; refundable only if no preferred branch is allotted), fill campus and branch preferences, and pay to confirm the seat.</div></div></div>
+</div>
+<p class="content-text content-text--note">For reference, the 2026 cycle: registration Oct&ndash;Nov 2025 &middot; Phase 1: 30 Jan &ndash; 1 Feb 2026 (109 cities) &middot; Phase 2: 24&ndash;30 Apr 2026 (extra &#8377;600) &middot; CSAP from May 2026 &middot; seat allotment Jun&ndash;Jul 2026.</p>
+</section>
 
   <!-- Exam Pattern -->
   <section class="section">
     <div class="section__header">
       <span class="eyebrow">EXAM PATTERN</span>
-      <h2 class="section__title">AEEE 2026 Exam Pattern</h2>
+      <h2 class="section__title">AEEE Exam Pattern <span style="font-size:.6em;font-weight:500">(2026 paper &mdash; 2027 pattern to be confirmed)</span></h2>
     </div>
     <div class="table-wrap">
       <table>
         <thead><tr><th>Section</th><th>Questions</th><th>Marks</th><th>Key Topics</th></tr></thead>
         <tbody>
-          <tr><td>Mathematics</td><td>30</td><td>90</td><td>Calculus, Algebra, Probability, Coordinate Geometry</td></tr>
+          <tr><td>Mathematics</td><td>40</td><td>120</td><td>Calculus, Algebra, Probability, Coordinate Geometry</td></tr>
           <tr><td>Physics</td><td>25</td><td>75</td><td>Mechanics, Electrodynamics, Optics, Modern Physics</td></tr>
           <tr><td>Chemistry</td><td>20</td><td>60</td><td>Organic, Inorganic &amp; Physical Chemistry</td></tr>
           <tr><td>Quantitative Aptitude ✨ NEW</td><td>10</td><td>30</td><td>Number Systems, Percentages, Data Interpretation</td></tr>
-          <tr><td>English</td><td>15</td><td>45</td><td>Comprehension, Vocabulary, Grammar</td></tr>
+          <tr><td>English</td><td>5</td><td>15</td><td>Comprehension, Vocabulary, Grammar</td></tr>
           <tr><td><strong>TOTAL</strong></td><td><strong>100</strong></td><td><strong>300</strong></td><td>Duration 150 mins · +3 correct · −1 wrong</td></tr>
         </tbody>
       </table>
@@ -255,7 +274,8 @@
       <h2 class="section__title">Frequently Asked Questions</h2>
     </div>
     <div class="faq-list">
-      <details class="faq-item" open><summary class="faq-item__q">Can NRI students get direct admission without AEEE?</summary><div class="faq-item__a">Yes. Foreign passport holders of Indian origin (OCI/PIO) can apply under the NRI quota and do not need AEEE. SAT is accepted as an alternative.</div></details>
+      <details class="faq-item" open><summary class="faq-item__q">When is AEEE 2027?</summary><div class="faq-item__a">Amrita has announced that the AEEE 2027 B.Tech exam will be held between <strong>15 April and 7 May 2027</strong>, with registration opening in November 2026. Phase-wise dates, slot booking and the application fee are yet to be announced &mdash; check aeee.amrita.edu.</div></details>
+<details class="faq-item"><summary class="faq-item__q">Can NRI students get direct admission without AEEE?</summary><div class="faq-item__a">Yes. Foreign passport holders of Indian origin (OCI/PIO) can apply under the NRI quota and do not need AEEE. SAT is accepted as an alternative.</div></details>
       <details class="faq-item"><summary class="faq-item__q">What is the NRI fee structure for B.Tech?</summary><div class="faq-item__a">Approximately USD 7,000 per year across all engineering campuses. Separate from the Indian fee slabs.</div></details>
       <details class="faq-item"><summary class="faq-item__q">Do NRI students need SAT scores?</summary><div class="faq-item__a">SAT is one of several accepted options. Merit in Class 12 + SAT/AEEE scores are considered for NRI allotment.</div></details>
       <details class="faq-item"><summary class="faq-item__q">What is CSAP counselling?</summary><div class="faq-item__a">Amrita's centralized seat allotment process. After Phase 2 results, register for CSAP, fill campus &amp; branch preferences, and pay fees online.</div></details>
