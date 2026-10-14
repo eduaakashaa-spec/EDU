@@ -238,7 +238,7 @@ def notify_admin(subject, text, html=None):
     send_async(ADMIN_NOTIFY_EMAIL, subject, text, html)
 
 
-def send_async(to, subject, text, html=None, from_name='EduAakashaa'):
+def send_async(to, subject, text, html=None, from_name='EduAakashaa', from_addr=None, reply_to=None):
     """Best-effort background send — never blocks or raises into the request.
 
     Failures must not break the request, but they MUST be visible: everything is
@@ -254,7 +254,7 @@ def send_async(to, subject, text, html=None, from_name='EduAakashaa'):
 
     def worker():
         try:
-            _send(to, subject, text, html, from_name)
+            _send(to, subject, text, html, from_name, from_addr=from_addr, reply_to=reply_to)
             log.info('Email sent to %s via %s (subject=%r)', to, transport(), subject)
         except Exception:
             log.exception('Email FAILED to %s via %s (subject=%r)', to, transport(), subject)

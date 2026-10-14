@@ -128,7 +128,9 @@ def _email_link(guide, name, email, path):
               'or WhatsApp us — the first conversation is free.</p>')
         text = (f'Hi {first},\n\nThanks for downloading "{guide.title}". Download it again (valid 48 hours):\n'
                 f'{link}\n\nQuestions? Reply to this email.\n\n— Team EduAakashaA')
-        mailer.send_async(email, f'Your free guide: {guide.title}', text, html)
+        # guide emails go out from the public info@ address, and replies come back to it
+        mailer.send_async(email, f'Your free guide: {guide.title}', text, html,
+                          from_addr=mailer.INFO_FROM, reply_to=mailer.INFO_FROM)
     except Exception:                                    # never block the download
         current_app.logger.exception('free-guide email failed')
 

@@ -71,6 +71,11 @@ assert 'NRI Admission Guide 2027' in page and 'DASA and CIWG explained' in page 
 assert pub.get(f'/admin/free-guides/{gid}/file').status_code in (302, 401, 403)
 assert pub.get('/free-guides/get/not-a-real-token').status_code == 404
 
+# the emailed link goes out from info@eduaakashaa.com (replies too)
+from app.services import mailer as _mailer
+_sent = []
+_mailer.send_async = lambda to, subject, text, html=None, **k: _sent.append({'to': to, 'subject': subject, **k})
+
 # gated download: needs name + valid email
 assert pub.post(f'/free-guides/{gid}/request', json={'name': '', 'email': 'a@b.com'}).status_code == 400
 assert pub.post(f'/free-guides/{gid}/request', json={'name': 'Asha', 'email': 'nope'}).status_code == 400
@@ -80,6 +85,10 @@ url = r.get_json()['url']
 f = pub.get(url)
 assert f.status_code == 200 and f.data == PDF
 assert 'attachment' in f.headers['Content-Disposition'] and f.mimetype == 'application/pdf'
+
+assert len(_sent) == 1 and _sent[0]['to'] == 'asha@example.com', _sent
+assert _sent[0]['from_addr'] == 'info@eduaakashaa.com' and _sent[0]['reply_to'] == 'info@eduaakashaa.com'
+assert 'NRI Admission Guide 2027' in _sent[0]['subject']
 
 # the lead is captured (normalised email) and counted
 with app.app_context():
