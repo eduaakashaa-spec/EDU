@@ -98,6 +98,50 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
 
     # ============================ Marketing ============================ #
     C = 'Mentorship · Marketing'
+    add('mp_profile_guide', '🧭', 'Profile + NRI Admission Guide — Mentorship 2027', C,
+        'Introduce EduAakashaA, share the NRI Admission Guide and promote the 2027 mentorship. Sends from info@eduaakashaa.com.', [
+        {'fields': [PARENT, STUDENT,
+                    _f('guide', 'NRI Admission Guide link', SITE + '/nri-admission'),
+                    _f('link', 'Mentorship / membership link', SITE + '/members-registration'),
+                    _f('sender', 'Signed by', 'Admissions Team')],
+         'subject': 'EduAakashaA — your NRI Admission Guide 2027 and mentorship for {student}',
+         'blocks': [
+            ('p', 'Dear {name},'),
+            ('p', 'Thank you for your interest in engineering admissions in India for {student}. We are **EduAakashaA** — an '
+                  'evidence-based admissions counselling practice based in Coimbatore, Tamil Nadu, guiding students and parents '
+                  'in India and the Gulf through DASA, CIWG, JoSAA, TNEA and state and private NRI routes.'),
+            ('h', 'Who we are'),
+            ('ul', ['**Data-first guidance** — official cut-off and seat data, analysed and explained in plain language',
+                    '**NRI specialists** — DASA and CIWG eligibility, documents, fees and choice-filling for Gulf families',
+                    '**Mentors, not a one-time consultancy** — one senior mentor from enrolment to the seat decision',
+                    '**Honest by design** — we show risks and trade-offs; we never promise a rank or a seat']),
+            ('h', 'Your free NRI Admission Guide'),
+            ('p', 'Our guide is updated for the 2026–27 cycle using the official DASA 2026 brochure: who is eligible for DASA and '
+                  'CIWG, the two-year-abroad rule, fees, documents, the 87 participating institutes, the two-round process and what '
+                  'the closing ranks did in 2026.'),
+            ('btn', '{guide}', 'Read the NRI Admission Guide'),
+            ('h', 'Elite Mentorship — Class of 2027'),
+            ('ul', ['A dedicated 1:1 senior mentor, supported by a domain mentor and an admissions specialist',
+                    'Minimum 10 virtual 1:1 sessions, time-zone friendly for Gulf families',
+                    'A live admissions roadmap, reach / match / safe college list, choice-filling strategy and a final seat decision brief',
+                    'Premium portal with the DASA analytics report, choice-filling simulator and personalised reports for one year']),
+            ('p', 'Want portal access only? **Premium Portal Access** gives the latest DASA insights, the 2026–27 analytics report, '
+                  'the Choice Builder simulator and a personalised choice-filling report.'),
+            ('btn', '{link}', 'Explore mentorship paths & book a free conversation'),
+            ('h', 'Contact us'),
+            ('kv', [('Phone / WhatsApp', WHATSAPP), ('Email', 'info@eduaakashaa.com'),
+                    ('Website', 'www.eduaakashaa.com'), ('Office', 'Coimbatore, Tamil Nadu, India')]),
+            ('p', 'Reply to this email or message us on WhatsApp and a mentor will respond within one working day.'),
+            ('p', 'Warm regards, **{sender}**, EduAakashaA'),
+            ('note', NO_GUARANTEE + ' Rules, fees and dates are re-verified against each official notification.')],
+         'wa': ('Hello {name} 👋 This is *EduAakashaA* (Coimbatore) — evidence-based admissions guidance for NRI and Indian families.\n\n'
+                '📘 *NRI Admission Guide 2026–27* (DASA · CIWG · JoSAA): {guide}\n\n'
+                '🎓 *Elite Mentorship — Class of 2027*: dedicated 1:1 senior mentor, 10+ sessions, live roadmap, '
+                'choice-filling strategy and final seat-decision brief. Portal-only access also available.\n'
+                'Free 20-min conversation: {link}\n\n'
+                '📞 ' + WHATSAPP + ' · ✉️ info@eduaakashaa.com · 🌐 www.eduaakashaa.com\n'
+                'No rank or seat is guaranteed — we guide the process. — {sender}')}])
+
     add('mp_promo_launch', '📣', 'Promotional — programme launch', C,
         'Campaign email introducing Elite Mentorship to Grade 11–12 NRI families.', [
         {'fields': [PARENT, BOOK],
