@@ -24,7 +24,7 @@ from itsdangerous import BadSignature, SignatureExpired, URLSafeTimedSerializer
 
 from app.decorators import admin_required
 from app.extensions import db
-from app.models import FreeGuide, GuideDownload, PageLead
+from app.models import FreeGuide, FreeGuideCover, GuideDownload, PageLead
 
 guides_bp = Blueprint('guides', __name__)
 
@@ -37,6 +37,9 @@ ALLOWED = {
     'pptx': ('application/vnd.openxmlformats-officedocument.presentationml.presentation', b'PK\x03\x04'),
 }
 MAX_BYTES = 9 * 1024 * 1024
+COVER_MAX = 1024 * 1024                      # 1 MB
+COVER_SIZE = (1200, 675)                     # recommended: 16:9
+COVER_TYPES = [(b'\xff\xd8\xff', 'image/jpeg'), (b'\x89PNG\r\n\x1a\n', 'image/png')]
 _EMAIL = re.compile(r'^[^@\s]+@[^@\s]+\.[^@\s]{2,}$')
 TOKEN_AGE = 48 * 3600
 
@@ -64,6 +67,37 @@ def _read_upload(storage):
     return data, mime, safe, None
 
 
+def _read_cover(storage):
+    """-> (data, mime, error); an empty file field is not an error (returns None, None, None)."""
+    if storage is None or not storage.filename:
+        return None, None, None
+    ext = storage.filename.rsplit('.', 1)[-1].lower() if '.' in storage.filename else ''
+    if ext not in ('jpg', 'jpeg', 'png', 'webp'):
+        return None, None, 'Tile image must be a JPG, PNG or WebP.'
+    data = storage.read(COVER_MAX + 1)
+    if not data:
+        return None, None, 'The image file was empty.'
+    if len(data) > COVER_MAX:
+        return None, None, 'Tile image is larger than 1 MB — please compress it.'
+    if data[:4] == b'RIFF' and data[8:12] == b'WEBP':
+        return data, 'image/webp', None
+    for magic, mime in COVER_TYPES:
+        if data.startswith(magic):
+            return data, mime, None
+    return None, None, 'That does not look like a valid JPG, PNG or WebP image.'
+
+
+def _set_cover(guide, data, mime):
+    if guide.cover is None:
+        db.session.add(FreeGuideCover(guide_id=guide.id, mime=mime, data=data, size=len(data)))
+    else:
+        guide.cover.mime, guide.cover.data, guide.cover.size = mime, data, len(data)
+
+
+def _cover_ids():
+    return {gid for (gid,) in db.session.query(FreeGuideCover.guide_id).all()}
+
+
 def _size_label(n):
     n = n or 0
     return f'{n / 1024:.0f} KB' if n < 1024 * 1024 else f'{n / (1024 * 1024):.1f} MB'
@@ -80,7 +114,25 @@ def library():
     for g in guides:
         if g.category and g.category not in cats:
             cats.append(g.category)
-    return render_template('guides/library.html', guides=guides, cats=cats, size_label=_size_label)
+    return render_template('guides/library.html', guides=guides, cats=cats, size_label=_size_label,
+                           cover_ids=_cover_ids())
+
+
+@guides_bp.route('/free-guides/cover/<int:gid>')
+def cover(gid):
+    c = db.session.get(FreeGuideCover, gid)
+    g = db.session.get(FreeGuide, gid)
+    if c is None or g is None or not g.active:
+        abort(404)
+    stamp = int(c.updated_at.timestamp()) if c.updated_at else 0
+    etag = f'"c{gid}-{stamp}-{c.size}"'
+    if request.headers.get('If-None-Match') == etag:
+        return Response(status=304, headers={'ETag': etag})
+    resp = Response(c.data, mimetype=c.mime)
+    resp.headers['ETag'] = etag
+    resp.headers['Cache-Control'] = 'public, max-age=3600'
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    return resp
 
 
 @guides_bp.route('/free-guides/<int:gid>/request', methods=['POST'])
@@ -168,7 +220,8 @@ def admin_list():
     total_dl = db.session.query(db.func.coalesce(db.func.sum(FreeGuide.download_count), 0)).scalar()
     return render_template('admin/guides_list.html', admin_tab='guides', rows=rows, cats=CATEGORIES,
                            size_label=_size_label, total_downloads=total_dl,
-                           exts=', '.join('.' + e for e in ALLOWED))
+                           exts=', '.join('.' + e for e in ALLOWED), cover_ids=_cover_ids(),
+                           cover_size=COVER_SIZE)
 
 
 @guides_bp.route('/admin/free-guides/upload', methods=['POST'])
@@ -182,11 +235,18 @@ def admin_upload():
     if err:
         flash(err, 'danger')
         return redirect(url_for('guides.admin_list'))
+    c_data, c_mime, c_err = _read_cover(request.files.get('cover'))
+    if c_err:
+        flash(c_err, 'danger')
+        return redirect(url_for('guides.admin_list'))
     g = FreeGuide(title=title, description=(request.form.get('description') or '').strip(),
                   category=(request.form.get('category') or 'General').strip()[:60] or 'General',
                   file_name=fname, file_mime=mime, file_size=len(data), data=data,
                   sort_order=request.form.get('sort_order', type=int) or 100, active=True)
     db.session.add(g)
+    db.session.flush()
+    if c_data:
+        _set_cover(g, c_data, c_mime)
     db.session.commit()
     flash(f'"{title}" is live on the Free Guides page.', 'success')
     return redirect(url_for('guides.admin_list'))
@@ -209,6 +269,14 @@ def admin_update(gid):
             flash(err, 'danger')
             return redirect(url_for('guides.admin_list'))
         g.data, g.file_mime, g.file_name, g.file_size = data, mime, fname, len(data)
+    c_data, c_mime, c_err = _read_cover(request.files.get('cover'))
+    if c_err:
+        flash(c_err, 'danger')
+        return redirect(url_for('guides.admin_list'))
+    if c_data:
+        _set_cover(g, c_data, c_mime)
+    elif request.form.get('remove_cover') == '1' and g.cover is not None:
+        db.session.delete(g.cover)
     db.session.commit()
     flash('Guide updated.', 'success')
     return redirect(url_for('guides.admin_list'))
@@ -232,6 +300,15 @@ def admin_delete(gid):
     db.session.commit()
     flash('Guide deleted.', 'success')
     return redirect(url_for('guides.admin_list'))
+
+
+@guides_bp.route('/admin/free-guides/<int:gid>/cover')
+@admin_required
+def admin_cover(gid):
+    c = db.session.get(FreeGuideCover, gid) or abort(404)
+    resp = Response(c.data, mimetype=c.mime)
+    resp.headers['Cache-Control'] = 'private, no-store'
+    return resp
 
 
 @guides_bp.route('/admin/free-guides/<int:gid>/file')

@@ -17,7 +17,11 @@
   .fg-tile{ background:var(--white,#fff); border:1px solid var(--border,#E8DFC8); border-radius:20px; overflow:hidden; display:flex; flex-direction:column;
     box-shadow:0 1px 2px rgba(14,27,61,.05),0 8px 22px rgba(14,27,61,.05); transition:transform .18s, box-shadow .18s; }
   .fg-tile:hover{ transform:translateY(-4px); box-shadow:0 14px 34px rgba(14,27,61,.12); }
-  .fg-cover{ height:120px; display:flex; align-items:flex-end; justify-content:space-between; padding:14px 16px; color:#fff; position:relative; }
+  .fg-cover{ aspect-ratio:16/9; display:flex; align-items:flex-end; justify-content:space-between; padding:14px 16px; color:#fff; position:relative; overflow:hidden; }
+  .fg-cover img{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .fg-cover .ico, .fg-cover .ext{ position:relative; z-index:1; }
+  .fg-cover.has-img{ background:#EFE6CF !important; }
+  .fg-cover.has-img .ico{ display:none; }
   .fg-cover .ext{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.14em; background:rgba(255,255,255,.2); border-radius:8px; padding:4px 9px; }
   .fg-cover .ico{ font-size:34px; line-height:1; }
   .fg-body{ padding:18px 18px 20px; display:flex; flex-direction:column; flex:1; }
@@ -69,7 +73,8 @@
     {% set palette = ['linear-gradient(135deg,#071A44,#0E3A8A)','linear-gradient(135deg,#C2410C,#FF6B0A)','linear-gradient(135deg,#145C3E,#1F8B5C)','linear-gradient(135deg,#5B3FB5,#8A5CF5)','linear-gradient(135deg,#0F4C81,#2a62c9)'] %}
     {% for g in guides %}
     <article class="fg-tile" data-cat="{{ g.category }}">
-      <div class="fg-cover" style="background:{{ palette[loop.index0 % palette|length] }}">
+      <div class="fg-cover{{ ' has-img' if g.id in cover_ids }}" style="background:{{ palette[loop.index0 % palette|length] }}">
+        {% if g.id in cover_ids %}<img src="{{ url_for('guides.cover', gid=g.id) }}" alt="{{ g.title }}" loading="lazy">{% endif %}
         <span class="ico">{{ '📘' if g.file_name.lower().endswith('.pdf') else '📄' }}</span>
         <span class="ext">{{ g.file_name.rsplit('.',1)[-1]|upper }}</span>
       </div>

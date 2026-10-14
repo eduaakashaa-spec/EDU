@@ -411,6 +411,22 @@ class FreeGuide(db.Model):
                            onupdate=lambda: datetime.now(timezone.utc))
 
 
+class FreeGuideCover(db.Model):
+    """Optional tile image for a free guide. Kept in its own table so the guide
+    list never loads image bytes and no ALTER TABLE is needed on existing data."""
+    __tablename__ = 'free_guide_covers'
+
+    guide_id = db.Column(db.Integer, db.ForeignKey('free_guides.id', ondelete='CASCADE'), primary_key=True)
+    mime = db.Column(db.String(60), nullable=False)
+    data = db.deferred(db.Column(db.LargeBinary, nullable=False))
+    size = db.Column(db.Integer, default=0)
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc),
+                           onupdate=lambda: datetime.now(timezone.utc))
+
+    guide = db.relationship('FreeGuide', backref=db.backref(
+        'cover', uselist=False, cascade='all, delete-orphan', passive_deletes=True))
+
+
 class GuideDownload(db.Model):
     """One person who requested a free guide — the lead record (name + email)."""
     __tablename__ = 'guide_downloads'

@@ -123,6 +123,38 @@ with app.app_context():
     assert FreeGuide.query.count() == 0
     assert GuideDownload.query.count() == 1              # the lead survives the guide
 
+# tile image: validated, shown on the tile, cached, removable, and cascades on delete
+PNG = bytes([0x89]) + b'PNG' + bytes([0x0d, 0x0a, 0x1a, 0x0a]) + bytes(64)
+JPG = bytes([0xff, 0xd8, 0xff, 0xe0]) + bytes(64)
+r = ac.post('/admin/free-guides/upload', data={'title': 'With cover', 'category': 'General',
+            'file': (io.BytesIO(PDF), 'a.pdf'), 'cover': (io.BytesIO(b'GIF89a-not-allowed'), 'c.gif')},
+            content_type='multipart/form-data', follow_redirects=True)
+assert b'JPG, PNG or WebP' in r.data
+r = ac.post('/admin/free-guides/upload', data={'title': 'With cover', 'category': 'General',
+            'file': (io.BytesIO(PDF), 'a.pdf'), 'cover': (io.BytesIO(b'x' * 2_000_000), 'big.png')},
+            content_type='multipart/form-data', follow_redirects=True)
+assert b'larger than 1 MB' in r.data
+with app.app_context():
+    assert FreeGuide.query.count() == 0
+r = ac.post('/admin/free-guides/upload', data={'title': 'With cover', 'category': 'General',
+            'file': (io.BytesIO(PDF), 'a.pdf'), 'cover': (io.BytesIO(PNG), 'c.png')},
+            content_type='multipart/form-data', follow_redirects=True)
+assert b'is live' in r.data
+with app.app_context():
+    cid = FreeGuide.query.one().id
+c = pub.get(f'/free-guides/cover/{cid}')
+assert c.status_code == 200 and c.data == PNG and c.mimetype == 'image/png'
+assert 'max-age' in c.headers['Cache-Control'] and c.headers.get('ETag')
+assert pub.get(f'/free-guides/cover/{cid}', headers={'If-None-Match': c.headers['ETag']}).status_code == 304
+assert f'/free-guides/cover/{cid}' in pub.get('/free-guides').get_data(as_text=True)
+assert '1200' in ac.get('/admin/free-guides').get_data(as_text=True)          # recommended size is shown
+ac.post(f'/admin/free-guides/{cid}/update', data={'title': 'With cover', 'category': 'General',
+        'cover': (io.BytesIO(JPG), 'new.jpg')}, content_type='multipart/form-data')
+assert pub.get(f'/free-guides/cover/{cid}').mimetype == 'image/jpeg'
+ac.post(f'/admin/free-guides/{cid}/update', data={'title': 'With cover', 'category': 'General', 'remove_cover': '1'})
+assert pub.get(f'/free-guides/cover/{cid}').status_code == 404
+ac.post(f'/admin/free-guides/{cid}/delete')
+
 # linked from the site menu and footer
 assert '/free-guides' in pub.get('/').get_data(as_text=True)
 
