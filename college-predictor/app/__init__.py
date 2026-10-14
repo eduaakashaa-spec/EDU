@@ -103,6 +103,9 @@ def create_app():
     from app.routes.assessments import assessments_bp
     app.register_blueprint(assessments_bp)
 
+    from app.routes.guides import guides_bp
+    app.register_blueprint(guides_bp)
+
     # The legacy eduaakashaa.in domain forwards to eduaakashaa.com (path and query
     # kept), so old links, QR codes and bookmarks land on the live site.
     from flask import redirect, request

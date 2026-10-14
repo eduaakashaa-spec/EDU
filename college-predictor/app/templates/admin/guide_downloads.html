@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Guide downloads — Admin · EduAakashaA{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  <a class="adm-eyebrow" href="{{ url_for('guides.admin_list') }}" style="text-decoration:none;">← Free guides</a>
+  <h1 style="margin:6px 0 16px;">Guide downloads</h1>
+  {% include "admin/_nav.html" %}
+
+  <form class="adm-bar" method="get" action="{{ url_for('guides.admin_downloads') }}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search name, email or guide…" style="flex:1;min-width:220px;">
+    <button class="btn btn-navy" type="submit">Search</button>
+    <a class="btn btn-ghost" href="{{ url_for('guides.admin_downloads') }}">Reset</a>
+    <a class="btn btn-ghost" href="{{ url_for('guides.admin_downloads', q=q, csv=1) }}">⬇ CSV</a>
+  </form>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr><th>Date</th><th>Guide</th><th>Name</th><th>Email</th><th>Phone</th></tr></thead>
+      <tbody>
+      {% for r in rows %}
+        <tr>
+          <td>{{ r.created_at.strftime('%d %b %Y %H:%M') if r.created_at }}</td>
+          <td>{{ r.guide_title }}</td>
+          <td>{{ r.name }}</td>
+          <td>{{ r.email }}</td>
+          <td>{{ r.phone or '—' }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" style="text-align:center;padding:40px;color:var(--muted);">No downloads yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if pagination.pages > 1 %}
+  <div class="adm-pager">
+    {% if pagination.has_prev %}<a href="{{ url_for('guides.admin_downloads', page=pagination.prev_num, q=q) }}">‹ Prev</a>{% endif %}
+    <span class="cur">{{ pagination.page }} / {{ pagination.pages }}</span>
+    {% if pagination.has_next %}<a href="{{ url_for('guides.admin_downloads', page=pagination.next_num, q=q) }}">Next ›</a>{% endif %}
+  </div>
+  {% endif %}
+</div></div>
+{% endblock %}

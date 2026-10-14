@@ -40,11 +40,12 @@
     </div>
   </div>
 
-  <div class="adm-navgrp {{ 'on' if admin_tab in ['leads', 'inquiries'] }}">
+  <div class="adm-navgrp {{ 'on' if admin_tab in ['leads', 'inquiries', 'guides'] }}">
     <button type="button" class="adm-navtop" aria-haspopup="true">Inbox ▾</button>
     <div class="adm-navmenu">
       <a href="{{ url_for('membership.admin_leads') }}" class="{{ 'cur' if admin_tab == 'leads' }}">Leads &amp; Assessments</a>
       <a href="{{ url_for('membership.admin_inquiries') }}" class="{{ 'cur' if admin_tab == 'inquiries' }}">Inquiries</a>
+      <a href="{{ url_for('guides.admin_list') }}" class="{{ 'cur' if admin_tab == 'guides' }}">Free Guides</a>
     </div>
   </div>
 

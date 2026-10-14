@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Free Guides — Admin · EduAakashaA{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .gd-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; margin-top:6px; }
+  .gd-tile{ background:var(--paper); border:1px solid var(--hairline); border-radius:16px; overflow:hidden; }
+  .gd-tile.off{ opacity:.6; }
+  .gd-top{ padding:14px 16px; background:linear-gradient(135deg,#071A44,#0E3A8A); color:#fff; display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .gd-top b{ font-family:'Fraunces',serif; font-size:1.05rem; }
+  .gd-top small{ display:block; opacity:.75; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; margin-top:3px; }
+  .gd-body{ padding:14px 16px; font-size:.9rem; }
+  .gd-body p{ color:var(--muted); margin:0 0 10px; }
+  .gd-actions{ display:flex; gap:6px; flex-wrap:wrap; }
+  .gd-edit summary{ cursor:pointer; font-weight:700; color:var(--navy); margin-top:10px; }
+  .gd-edit form{ display:grid; gap:8px; margin-top:10px; }
+  .gd-edit input[type=text], .gd-edit input[type=number], .gd-edit select, .gd-edit textarea{ width:100%; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  <div class="adm-top">
+    <div><div class="adm-eyebrow">Admin · Content</div><h1>Free Guides</h1></div>
+  </div>
+  {% include "admin/_nav.html" %}
+
+  <p style="color:var(--muted);font-size:14px;margin-bottom:14px;">
+    Files you upload appear as tiles on <a href="{{ url_for('guides.library') }}" target="_blank">/free-guides</a>.
+    Visitors enter their name and email to download. <strong>{{ rows|length }}</strong> guides ·
+    <strong>{{ total_downloads }}</strong> downloads ·
+    <a href="{{ url_for('guides.admin_downloads') }}">see who downloaded →</a>
+  </p>
+
+  <div class="adm-card" style="margin-bottom:20px;">
+    <h2>+ Upload a guide</h2>
+    <p class="sub">PDF recommended ({{ exts }} accepted), up to 9 MB.</p>
+    <form method="post" action="{{ url_for('guides.admin_upload') }}" enctype="multipart/form-data" class="adm-form">
+      <div><label>Title *</label><input name="title" required maxlength="160" placeholder="e.g. NRI Admission Guide 2027"></div>
+      <div><label>Category</label>
+        <select name="category">{% for c in cats %}<option value="{{ c }}">{{ c }}</option>{% endfor %}</select></div>
+      <div style="grid-column:1/-1"><label>Short description (shown on the tile)</label>
+        <textarea name="description" rows="2" maxlength="400" placeholder="One or two lines on what the guide covers"></textarea></div>
+      <div><label>File *</label><input type="file" name="file" accept=".pdf,.docx,.xlsx,.pptx" required></div>
+      <div><label>Order (lower shows first)</label><input name="sort_order" type="number" value="100"></div>
+      <div style="align-self:end"><button class="btn btn-navy" type="submit">Upload &amp; publish</button></div>
+    </form>
+  </div>
+
+  <div class="gd-grid">
+    {% for g in rows %}
+    <article class="gd-tile {{ '' if g.active else 'off' }}">
+      <div class="gd-top">
+        <div><b>{{ g.title }}</b><small>{{ g.category }} · {{ g.file_name.rsplit('.',1)[-1]|upper }} · {{ size_label(g.file_size) }}</small></div>
+        <span class="pill {{ 'pill-premium' if g.active else 'pill-free' }}">{{ 'Live' if g.active else 'Hidden' }}</span>
+      </div>
+      <div class="gd-body">
+        <p>{{ g.description or 'No description.' }}</p>
+        <div style="color:var(--muted);font-size:12.5px;margin-bottom:10px;">{{ g.download_count or 0 }} downloads · order {{ g.sort_order }}</div>
+        <div class="gd-actions">
+          <a class="btn btn-ghost" href="{{ url_for('guides.admin_file', gid=g.id) }}">⬇ Download</a>
+          <form method="post" action="{{ url_for('guides.admin_toggle', gid=g.id) }}" style="display:inline">
+            <button class="btn btn-ghost" type="submit">{{ 'Hide' if g.active else 'Show' }}</button></form>
+          <form method="post" action="{{ url_for('guides.admin_delete', gid=g.id) }}" style="display:inline"
+                onsubmit="return confirm('Delete this guide permanently?');">
+            <button class="btn btn-ghost" type="submit" style="color:#a33">Delete</button></form>
+        </div>
+        <details class="gd-edit">
+          <summary>Edit / replace file</summary>
+          <form method="post" action="{{ url_for('guides.admin_update', gid=g.id) }}" enctype="multipart/form-data">
+            <input type="text" name="title" value="{{ g.title }}" maxlength="160">
+            <select name="category">{% for c in cats %}<option value="{{ c }}" {{ 'selected' if g.category == c }}>{{ c }}</option>{% endfor %}
+              {% if g.category not in cats %}<option value="{{ g.category }}" selected>{{ g.category }}</option>{% endif %}</select>
+            <textarea name="description" rows="2" maxlength="400">{{ g.description or '' }}</textarea>
+            <input type="number" name="sort_order" value="{{ g.sort_order }}">
+            <input type="file" name="file" accept=".pdf,.docx,.xlsx,.pptx">
+            <button class="btn btn-navy" type="submit">Save</button>
+          </form>
+        </details>
+      </div>
+    </article>
+    {% else %}
+    <p style="color:var(--muted);">No guides yet &mdash; upload the first one above.</p>
+    {% endfor %}
+  </div>
+</div></div>
+{% endblock %}

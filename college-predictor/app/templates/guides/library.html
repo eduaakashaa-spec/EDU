@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+{% block title %}Free Student Guides — Download PDFs | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Free admission and career guides from EduAakashaA — NRI admissions, DASA, JoSAA, TNEA, boards and stream selection. Download the PDF with your email.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .fg-wrap{ max-width:1200px; margin:0 auto; padding:34px 20px 80px; }
+  .fg-hero{ background:linear-gradient(135deg,#071A44,#0E3A8A); color:#fff; border-radius:24px; padding:44px 32px; margin-bottom:28px; position:relative; overflow:hidden; }
+  .fg-hero::after{ content:""; position:absolute; right:-80px; top:-100px; width:340px; height:340px; border-radius:50%; background:radial-gradient(circle,rgba(255,107,10,.4),transparent 70%); }
+  .fg-hero h1{ font-family:'Fraunces',serif; font-size:clamp(30px,4.4vw,52px); margin:10px 0 10px; color:#fff; position:relative; }
+  .fg-hero p{ color:rgba(255,255,255,.82); max-width:640px; position:relative; }
+  .fg-pill{ display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.3); padding:5px 12px; border-radius:99px; position:relative; }
+  .fg-filters{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+  .fg-filters button{ border:1.5px solid var(--border,#E8DFC8); background:var(--white,#fff); color:var(--dark,#071A44); border-radius:99px; padding:7px 16px; font-weight:600; font-size:13px; cursor:pointer; font-family:inherit; }
+  .fg-filters button.on{ background:#0E3A8A; border-color:#0E3A8A; color:#fff; }
+  .fg-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:20px; }
+  .fg-tile{ background:var(--white,#fff); border:1px solid var(--border,#E8DFC8); border-radius:20px; overflow:hidden; display:flex; flex-direction:column;
+    box-shadow:0 1px 2px rgba(14,27,61,.05),0 8px 22px rgba(14,27,61,.05); transition:transform .18s, box-shadow .18s; }
+  .fg-tile:hover{ transform:translateY(-4px); box-shadow:0 14px 34px rgba(14,27,61,.12); }
+  .fg-cover{ height:120px; display:flex; align-items:flex-end; justify-content:space-between; padding:14px 16px; color:#fff; position:relative; }
+  .fg-cover .ext{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.14em; background:rgba(255,255,255,.2); border-radius:8px; padding:4px 9px; }
+  .fg-cover .ico{ font-size:34px; line-height:1; }
+  .fg-body{ padding:18px 18px 20px; display:flex; flex-direction:column; flex:1; }
+  .fg-cat{ font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#C2410C; font-weight:700; }
+  .fg-body h3{ font-family:'Fraunces',serif; font-size:1.2rem; margin:6px 0 8px; color:var(--dark,#071A44); line-height:1.2; }
+  .fg-body p{ color:var(--text-dim,#5A6278); font-size:.92rem; flex:1; margin:0 0 14px; }
+  .fg-meta{ display:flex; justify-content:space-between; align-items:center; gap:10px; }
+  .fg-meta small{ color:var(--text-dim,#5A6278); }
+  .fg-btn{ background:#FF6B0A; color:#fff; border:0; border-radius:99px; padding:10px 20px; font-weight:700; cursor:pointer; font-family:inherit; font-size:.9rem; }
+  .fg-btn:hover{ background:#0E3A8A; }
+  .fg-empty{ text-align:center; padding:60px 20px; border:2px dashed var(--border,#E8DFC8); border-radius:20px; color:var(--text-dim,#5A6278); }
+  /* modal */
+  .fg-modal{ position:fixed; inset:0; background:rgba(7,26,68,.55); display:none; align-items:center; justify-content:center; z-index:3000; padding:16px; }
+  .fg-modal.open{ display:flex; }
+  .fg-dialog{ background:#fff; border-radius:20px; padding:26px; width:min(440px,100%); box-shadow:0 30px 80px rgba(0,0,0,.3); position:relative; }
+  .fg-dialog h2{ font-family:'Fraunces',serif; margin:0 0 4px; font-size:1.4rem; }
+  .fg-dialog .sub{ color:#5A6278; font-size:.92rem; margin-bottom:14px; }
+  .fg-dialog label{ display:block; font-size:12px; font-weight:700; margin:10px 0 4px; color:#071A44; }
+  .fg-dialog input[type=text], .fg-dialog input[type=email], .fg-dialog input[type=tel]{ width:100%; padding:11px 12px; border:1.5px solid #E8DFC8; border-radius:10px; font-family:inherit; font-size:.95rem; }
+  .fg-dialog input:focus{ outline:none; border-color:#0E3A8A; box-shadow:0 0 0 4px rgba(14,58,138,.08); }
+  .fg-dialog .consent{ display:flex; gap:8px; font-size:.82rem; color:#5A6278; margin:12px 0; align-items:flex-start; }
+  .fg-dialog .go{ width:100%; background:#0E3A8A; color:#fff; border:0; border-radius:99px; padding:13px; font-weight:700; cursor:pointer; font-size:1rem; font-family:inherit; }
+  .fg-dialog .go:disabled{ opacity:.6; cursor:wait; }
+  .fg-dialog .x{ position:absolute; right:12px; top:10px; border:0; background:transparent; font-size:26px; cursor:pointer; color:#5A6278; }
+  .fg-err{ color:#C23A3A; font-size:.88rem; min-height:18px; margin-top:6px; }
+  .fg-ok{ text-align:center; }
+  .fg-ok .tick{ width:58px; height:58px; border-radius:50%; background:#DDF3E7; color:#1F8B5C; display:grid; place-content:center; font-size:30px; margin:0 auto 10px; }
+  .fg-hp{ position:absolute; left:-9999px; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="fg-wrap">
+  <header class="fg-hero">
+    <span class="fg-pill">Free resources</span>
+    <h1>Free Student &amp; Parent Guides</h1>
+    <p>Admission roadmaps, exam guides and decision checklists from EduAakashaA mentors. Enter your email once per guide and download the PDF instantly &mdash; no payment, no catch.</p>
+  </header>
+
+  {% if cats|length > 1 %}
+  <div class="fg-filters" id="fgFilters">
+    <button type="button" class="on" data-cat="">All guides</button>
+    {% for c in cats %}<button type="button" data-cat="{{ c }}">{{ c }}</button>{% endfor %}
+  </div>
+  {% endif %}
+
+  {% if guides %}
+  <div class="fg-grid" id="fgGrid">
+    {% set palette = ['linear-gradient(135deg,#071A44,#0E3A8A)','linear-gradient(135deg,#C2410C,#FF6B0A)','linear-gradient(135deg,#145C3E,#1F8B5C)','linear-gradient(135deg,#5B3FB5,#8A5CF5)','linear-gradient(135deg,#0F4C81,#2a62c9)'] %}
+    {% for g in guides %}
+    <article class="fg-tile" data-cat="{{ g.category }}">
+      <div class="fg-cover" style="background:{{ palette[loop.index0 % palette|length] }}">
+        <span class="ico">{{ '📘' if g.file_name.lower().endswith('.pdf') else '📄' }}</span>
+        <span class="ext">{{ g.file_name.rsplit('.',1)[-1]|upper }}</span>
+      </div>
+      <div class="fg-body">
+        <span class="fg-cat">{{ g.category }}</span>
+        <h3>{{ g.title }}</h3>
+        <p>{{ g.description or 'A free guide from the EduAakashaA mentoring team.' }}</p>
+        <div class="fg-meta">
+          <small>{{ size_label(g.file_size) }}{% if g.download_count %} · {{ g.download_count }} downloads{% endif %}</small>
+          <button type="button" class="fg-btn" data-id="{{ g.id }}" data-title="{{ g.title }}">⬇ Download</button>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="fg-empty">
+    <h2 style="font-family:'Fraunces',serif;">New guides are on their way</h2>
+    <p>Our mentors are preparing free admission guides. In the meantime, explore the <a href="{{ url_for('main.nri_guide') }}">NRI Admission Guide</a> or <a href="{{ url_for('main.members_registration') }}">talk to a mentor</a>.</p>
+  </div>
+  {% endif %}
+</div>
+
+<div class="fg-modal" id="fgModal" role="dialog" aria-modal="true" aria-labelledby="fgTitle">
+  <div class="fg-dialog">
+    <button type="button" class="x" id="fgClose" aria-label="Close">&times;</button>
+    <div id="fgForm">
+      <h2 id="fgTitle">Get your free guide</h2>
+      <p class="sub" id="fgSub">Enter your details and the download starts right away. We also email you the link.</p>
+      <form id="fgFormEl" autocomplete="on">
+        <label for="fgName">Your name</label>
+        <input type="text" id="fgName" name="name" required maxlength="150" autocomplete="name">
+        <label for="fgEmail">Email address</label>
+        <input type="email" id="fgEmail" name="email" required maxlength="200" autocomplete="email">
+        <label for="fgPhone">Phone / WhatsApp <span style="font-weight:400;color:#5A6278">(optional)</span></label>
+        <input type="tel" id="fgPhone" name="phone" maxlength="40" autocomplete="tel">
+        <input class="fg-hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <label class="consent"><input type="checkbox" id="fgConsent" required>
+          <span>I agree to receive this guide and occasional admission updates from EduAakashaA. I can unsubscribe at any time.</span></label>
+        <div class="fg-err" id="fgErr"></div>
+        <button type="submit" class="go" id="fgGo">Download now</button>
+      </form>
+    </div>
+    <div id="fgDone" class="fg-ok" style="display:none">
+      <div class="tick">✓</div>
+      <h2>Your download is ready</h2>
+      <p class="sub">If it did not start, <a id="fgLink" href="#">click here</a>. We have also emailed you the link.</p>
+      <a class="fg-btn" href="{{ url_for('main.members_registration') }}" style="display:inline-block;text-decoration:none;">Talk to a mentor →</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var modal = document.getElementById('fgModal'), current = null;
+  var form = document.getElementById('fgFormEl'), err = document.getElementById('fgErr');
+  function load(k) { try { return localStorage.getItem(k) || ''; } catch (e) { return ''; } }
+  function save(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+
+  document.querySelectorAll('.fg-btn[data-id]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      current = b.getAttribute('data-id');
+      document.getElementById('fgTitle').textContent = b.getAttribute('data-title');
+      document.getElementById('fgForm').style.display = '';
+      document.getElementById('fgDone').style.display = 'none';
+      document.getElementById('fgName').value = load('ea-guide-name');
+      document.getElementById('fgEmail').value = load('ea-guide-email');
+      document.getElementById('fgPhone').value = load('ea-guide-phone');
+      err.textContent = '';
+      modal.classList.add('open');
+      setTimeout(function () { document.getElementById('fgName').focus(); }, 50);
+    });
+  });
+  function close() { modal.classList.remove('open'); }
+  document.getElementById('fgClose').addEventListener('click', close);
+  modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var go = document.getElementById('fgGo');
+    go.disabled = true; go.textContent = 'Preparing…'; err.textContent = '';
+    var body = { name: form.name.value, email: form.email.value, phone: form.phone.value, website: form.website.value };
+    fetch('/free-guides/' + current + '/request', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, d: d }; }); })
+      .then(function (res) {
+        if (res.ok && res.d.ok && res.d.url) {
+          save('ea-guide-name', body.name); save('ea-guide-email', body.email); save('ea-guide-phone', body.phone);
+          document.getElementById('fgForm').style.display = 'none';
+          document.getElementById('fgDone').style.display = '';
+          document.getElementById('fgLink').href = res.d.url;
+          window.location.href = res.d.url;               // starts the file download
+        } else { err.textContent = (res.d && res.d.error) || 'Something went wrong. Please try again.'; }
+      })
+      .catch(function () { err.textContent = 'Network error. Please try again.'; })
+      .finally(function () { go.disabled = false; go.textContent = 'Download now'; });
+  });
+
+  var filters = document.getElementById('fgFilters');
+  if (filters) filters.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-cat]'); if (!b) return;
+    filters.querySelectorAll('button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    var c = b.getAttribute('data-cat');
+    document.querySelectorAll('.fg-tile').forEach(function (t) {
+      t.style.display = (!c || t.getAttribute('data-cat') === c) ? '' : 'none';
+    });
+  });
+})();
+</script>
+{% endblock %}

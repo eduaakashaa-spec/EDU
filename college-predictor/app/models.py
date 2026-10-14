@@ -388,6 +388,44 @@ class AssessmentResult(db.Model):
             return {}
 
 
+class FreeGuide(db.Model):
+    """A free, downloadable guide (PDF / Office file) shown as a tile on
+    /free-guides. The file itself is stored in the database (deferred, so list
+    queries never load it) — durable on hosts with an ephemeral disk and needs
+    no extra storage service. Downloads are gated behind an email."""
+    __tablename__ = 'free_guides'
+
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(160), nullable=False)
+    description = db.Column(db.Text)
+    category = db.Column(db.String(60), index=True, default='General')
+    file_name = db.Column(db.String(255), nullable=False)
+    file_mime = db.Column(db.String(100))
+    file_size = db.Column(db.Integer, default=0)
+    data = db.deferred(db.Column(db.LargeBinary))
+    sort_order = db.Column(db.Integer, default=100, index=True)
+    active = db.Column(db.Boolean, nullable=False, default=True, index=True)
+    download_count = db.Column(db.Integer, default=0)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc),
+                           onupdate=lambda: datetime.now(timezone.utc))
+
+
+class GuideDownload(db.Model):
+    """One person who requested a free guide — the lead record (name + email)."""
+    __tablename__ = 'guide_downloads'
+
+    id = db.Column(db.Integer, primary_key=True)
+    guide_id = db.Column(db.Integer, db.ForeignKey('free_guides.id', ondelete='SET NULL'), index=True)
+    guide_title = db.Column(db.String(160))          # kept even if the guide is later deleted
+    name = db.Column(db.String(150))
+    email = db.Column(db.String(200), index=True)
+    phone = db.Column(db.String(40))
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), index=True)
+
+    guide = db.relationship('FreeGuide', backref=db.backref('downloads', lazy='dynamic'))
+
+
 class MemberMeeting(db.Model):
     """A counselling session the admin logs for a premium member. The member
     sees it read-only on their profile (meeting log + notes) — mirrors the
