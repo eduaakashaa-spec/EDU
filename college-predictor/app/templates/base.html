@@ -183,6 +183,7 @@
               {% else %}<a href="{{ url_for('members.profile') }}" class="nav__link nav__link--auth">My Profile</a>{% endif %}
             {% else %}
               <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth nav__link--ghost">Login</a>
+              <a href="{{ url_for('auth.mentor_login') }}" class="nav__link nav__link--auth nav__link--ghost">Mentor Login</a>
             {% endif %}
           </li>
         </ul>
@@ -200,6 +201,7 @@
         {% endif %}
         {% else %}
         <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth nav__link--ghost">Login</a>
+        <a href="{{ url_for('auth.mentor_login') }}" class="nav__link nav__link--auth nav__link--ghost">Mentor Login</a>
         {% endif %}
       </div>
       <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch to dark mode" aria-pressed="false" title="Toggle dark / light mode">

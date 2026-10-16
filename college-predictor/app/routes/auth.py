@@ -8,6 +8,37 @@ from app.models import User, ContactInquiry
 auth_bp = Blueprint('auth', __name__)
 
 
+def _mentor_landing(user):
+    """Where each kind of mentor starts: EA mentors on their desk, alumni guides on their portal."""
+    if user.is_ea_mentor:
+        return url_for('members.mentor_desk')
+    if user.is_mentor:
+        return url_for('alumni.mentor_dashboard')
+    return url_for('main.home')
+
+
+@auth_bp.route('/mentor-login', methods=['GET', 'POST'])
+def mentor_login():
+    """Dedicated sign-in for mentors (EA mentors and alumni College Guides)."""
+    if current_user.is_authenticated:
+        return redirect(_mentor_landing(current_user))
+
+    if request.method == 'POST':
+        email = (request.form.get('email') or '').strip().lower()
+        password = request.form.get('password') or ''
+        user = User.query.filter_by(email=email).first()
+        if user and bcrypt.check_password_hash(user.password_hash, password):
+            if not (user.is_mentor or user.is_ea_mentor):
+                flash('This account is not registered as a mentor. Please use the member login.', 'danger')
+                return render_template('auth/mentor_login.html')
+            login_user(user, remember=request.form.get('remember'))
+            flash('Logged in successfully.', 'success')
+            return redirect(safe_next(request.args.get('next')) or _mentor_landing(user))
+        flash('Invalid email or password.', 'danger')
+
+    return render_template('auth/mentor_login.html')
+
+
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
@@ -22,8 +53,8 @@ def login():
             login_user(user, remember=request.form.get('remember'))
             next_page = safe_next(request.args.get('next'))
             flash('Logged in successfully.', 'success')
-            if not next_page and user.is_ea_mentor:
-                return redirect(url_for('members.mentor_desk'))
+            if not next_page and (user.is_ea_mentor or user.is_mentor):
+                return redirect(_mentor_landing(user))
             return redirect(next_page or url_for('main.home'))
 
         flash('Invalid email or password.', 'danger')
