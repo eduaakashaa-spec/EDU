@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Mentorship Progress Report — {{ d.full_name }} | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/mentorship.css') }}">{% endblock %}
+{% block content %}
+{% set s = d.snapshot %}
+<div class="ms" style="max-width:920px;">
+  <div class="ms-noprint" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+    <a class="ms-btn g sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='reports') }}">← Reports</a>
+    <a class="ms-btn p sm" href="{{ url_for('mentorship.report_pdf', eid=e.id, rid=rep.id) }}">⬇ Download PDF</a>
+    <button class="ms-btn g sm" onclick="window.print()">🖨 Print / Save as PDF</button>
+  </div>
+  <section class="ms-head"><div class="grow"><span class="ms-chip">{{ rep.status }}</span>
+    <h1 style="margin-top:8px;">Mentorship Progress Report</h1>
+    <div class="sub">{{ d.full_name }} · {{ d.grade }} · {{ d.programme }} · Mentor {{ d.mentor }} · Data through {{ d.data_through }}</div></div></section>
+
+  <div class="ms-card" style="margin-top:16px;"><h2>1 · Period &amp; goals</h2>
+    <p>Start: {{ na(d.start) }} · End: {{ na(d.end) }}</p><p>Goals: {{ na(d.goals) }}</p></div>
+
+  <div class="ms-card"><h2>2 · Sessions &amp; actions</h2>
+    <p>Core sessions completed: <strong>{{ s.sessions.core_done }} of {{ s.sessions.core_total }}</strong> ({{ s.sessions.pct }}%). Additional sessions held: {{ s.sessions.extra_done }} of {{ s.sessions.extra_total }}. Cancelled sessions ({{ s.sessions.cancelled }}) are not counted as completed.</p>
+    <p>Actions completed: <strong>{{ s.actions.done }} of {{ s.actions.total }}</strong> ({{ s.actions.pct }}%; cancelled actions excluded). Overdue: {{ s.actions.overdue }}. Weekly check-ins submitted: {{ s.checkins_submitted }}.</p>
+    <div class="ms-tbl-wrap"><table class="ms-tbl"><thead><tr><th>#</th><th>Session</th><th>Type</th><th>Status</th><th>Held on</th><th>Deliverable</th></tr></thead><tbody>
+    {% for x in d.sessions %}<tr><td>{{ x.n }}</td><td>{{ x.title }}</td><td>{{ x.kind }}</td><td>{{ x.status }}</td><td>{{ na(x.actual) }}</td><td>{{ na(x.deliverable) }}</td></tr>{% endfor %}</tbody></table></div></div>
+
+  <div class="ms-card"><h2>3 · KPIs</h2>
+    {% if s.kpis %}<div class="ms-tbl-wrap"><table class="ms-tbl"><thead><tr><th>KPI</th><th>Baseline</th><th>Target</th><th>Latest</th><th>Status</th></tr></thead><tbody>
+    {% for k in s.kpis %}<tr><td>{{ k.name }}{% if k.outcome %} <span class="ms-pill info">exam outcome</span>{% endif %}</td><td>{{ na(k.baseline) }}</td><td>{{ na(k.target) }}</td><td>{{ na(k.current if k.current is not none else k.qualitative) }}</td><td>{{ k.status }}</td></tr>{% endfor %}</tbody></table></div>
+    <p class="hint">Marks and ranks are exam outcomes and are not fully within a student's control.</p>{% else %}<p>No KPIs recorded.</p>{% endif %}</div>
+
+  <div class="ms-card"><h2>4 · Quarterly reviews</h2>
+    {% for r in d.reviews %}<p><strong>{{ r.label }}</strong> — Strengths: {{ na(r.strengths) }} · Challenges: {{ na(r.challenges) }} · Next targets: {{ na(r.next_targets) }}</p>{% else %}<p>No finalised quarterly review yet.</p>{% endfor %}</div>
+
+  <div class="ms-card"><h2>5 · Branch fit</h2>
+    <p>{{ 'Assessment completed.' if d.branch.completed else 'Assessment not completed.' }}</p>
+    {% if d.branch.ratings %}<div class="ms-tbl-wrap"><table class="ms-tbl"><thead><tr><th>Branch</th><th>Interest</th><th>Readiness</th><th>Feasibility</th><th>Family fit</th></tr></thead><tbody>
+    {% for r in d.branch.ratings %}<tr><td>{{ r.branch }}</td><td>{{ na(r.interest) }}</td><td>{{ na(r.readiness) }}</td><td>{{ na(r.feasibility) }}</td><td>{{ na(r.family) }}</td></tr>{% endfor %}</tbody></table></div>
+    <p class="hint">Shown separately on a 1–5 scale; discussion aids, not predictions.</p>{% endif %}
+    {% if d.branch.mentor_summary %}<p>Mentor summary: {{ d.branch.mentor_summary }}</p>{% endif %}</div>
+
+  <div class="ms-card"><h2>6 · College preferences</h2>
+    {% if d.preferences.entries %}<p>{{ d.preferences.list }} — {{ d.preferences.status }}. A list prepared in EduAakashaA is not an official counselling submission.</p>
+    <div class="ms-tbl-wrap"><table class="ms-tbl"><thead><tr><th>#</th><th>College</th><th>Branch</th><th>Route</th><th>Eligibility</th></tr></thead><tbody>
+    {% for x in d.preferences.entries %}<tr><td>{{ x.n }}</td><td>{{ x.college }}</td><td>{{ na(x.branch) }}</td><td>{{ na(x.route) }}</td><td>{{ x.eligibility }}</td></tr>{% endfor %}</tbody></table></div>{% else %}<p>No preference list recorded.</p>{% endif %}</div>
+
+  <div class="ms-card"><h2>7 · Outstanding tasks &amp; next milestones</h2>
+    <ul>{% for t in s.open_actions %}<li>{{ t }}</li>{% else %}<li>No open actions.</li>{% endfor %}</ul>
+    <ul>{% for mm in d.next_milestones %}<li>{{ mm.date }} — {{ mm.title }} ({{ mm.category }})</li>{% endfor %}</ul></div>
+
+  <p class="hint">This report summarises recorded mentorship activity. It does not guarantee any examination rank, seat, college or branch. “Not recorded” means data was not entered — it is not a zero score.</p>
+</div>
+{% endblock %}

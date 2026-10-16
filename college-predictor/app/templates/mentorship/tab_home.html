@@ -1,0 +1,121 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+
+{% if role in ('mentor', 'admin') %}
+<div class="ms-card">
+  <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;justify-content:space-between;">
+    <div><div class="ms-eyebrow">Mentor summary</div><h2>{{ m.att(level) }}</h2></div>
+    <div style="font-size:.88rem;max-width:620px;">
+      {% if reasons %}<ul style="margin:0;padding-left:18px;">{% for r in reasons %}<li>{{ r }}</li>{% endfor %}</ul>
+      <div style="color:var(--text-dim);font-size:.78rem;margin-top:4px;">These are workflow indicators from the attention rules, not a judgement about the student.</div>
+      {% else %}Nothing is flagged right now.{% endif %}
+    </div>
+  </div>
+</div>
+{% endif %}
+
+{% if role == 'parent' %}
+<div class="ms-note info">You are viewing {{ e.student.name }}'s mentorship as a parent. Private mentor notes and the student's personal reflections are not shown here — your mentor shares summaries when appropriate.
+  {% if last_update %}Records last updated {{ fmt_dt(last_update, e.timezone) }}.{% endif %}</div>
+{% endif %}
+
+<div class="ms-grid ms-g3" style="margin-bottom:16px;">
+  <!-- 1. Where am I -->
+  <div class="ms-card">
+    <div class="ms-eyebrow">1 · Where am I?</div>
+    <h2 style="margin:6px 0;">{% if current %}{{ current.title }}{% elif ss.core_total %}All core sessions complete 🎉{% else %}Not started{% endif %}</h2>
+    {{ m.bar(ss.pct) }}
+    <p class="hint" style="margin-top:8px;">{{ ss.core_done }} of {{ ss.core_total }} core sessions completed
+      {% if ss.extra_total %}· {{ ss.extra_done }}/{{ ss.extra_total }} additional{% endif %}.
+      Overall progress = completed core sessions ÷ planned core sessions (cancelled sessions are not counted as completed).</p>
+    <a class="ms-btn p sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='sessions') }}">{{ 'Continue my journey' if role == 'student' else 'Open journey' }} →</a>
+  </div>
+  <!-- 2. Completed -->
+  <div class="ms-card">
+    <div class="ms-eyebrow">2 · What is done?</div>
+    <div class="ms-grid ms-g2" style="gap:10px;margin:8px 0;">
+      <div class="ms-stat"><div class="n">{{ ss.core_done }}<small style="font-size:1rem;color:#888">/{{ ss.core_total }}</small></div><div class="l">sessions</div></div>
+      <div class="ms-stat"><div class="n">{{ ast.done }}<small style="font-size:1rem;color:#888">/{{ ast.total }}</small></div><div class="l">actions</div></div>
+    </div>
+    {{ m.bar(ast.pct, true) }}
+    <p class="hint" style="margin-top:8px;">Actions: cancelled actions are excluded from the total. {% if ast.overdue %}<strong>{{ ast.overdue }} overdue.</strong>{% endif %}</p>
+  </div>
+  <!-- 5. Next -->
+  <div class="ms-card">
+    <div class="ms-eyebrow">5 · What is next?</div>
+    {% if nxt %}<h2 style="margin:6px 0;">{{ nxt.title }}</h2><p class="hint">Next mentor session · {{ fmt_dt(nxt.planned_at, e.timezone) }}</p>
+    {% else %}<p class="hint" style="margin-top:8px;">No mentor session is scheduled yet{% if staff %} — schedule one in <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='sessions') }}">Sessions</a>{% endif %}.</p>{% endif %}
+    {% set nexam = upcoming | selectattr('kind', 'equalto', 'event') | list %}
+    {% if nexam %}<p style="margin:0;font-size:.88rem;"><strong>{{ nexam[0].date.strftime('%d %b %Y') }}</strong> · {{ nexam[0].title }} <span class="ms-pill info">{{ nexam[0].category }}</span></p>
+    {% else %}<p style="margin:0;font-size:.84rem;color:var(--text-dim);">No exam or admission milestone on the calendar yet.</p>{% endif %}
+  </div>
+</div>
+
+<div class="ms-grid ms-g2">
+  <!-- 3 + 4. This week -->
+  <div class="ms-card">
+    <div class="ms-eyebrow">3 · This week's action plan</div>
+    {% if priority %}<div class="ms-note" style="margin-top:8px;"><strong>4 · Biggest priority:</strong> {{ priority.title }}{% if priority.purpose %} — {{ priority.purpose }}{% endif %}</div>{% endif %}
+    {% if week %}
+    {% for a in week %}
+    <div id="a{{ a.id }}" style="padding:10px 0;border-bottom:1px solid #F1EAD7;">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+        <strong>{{ a.title }}</strong>
+        <span>{{ m.state_pill(action_state(a)) }} <span class="ms-pill {{ 'bad' if a.priority == 'High' else '' }}">{{ a.priority }}</span></span>
+      </div>
+      {% if a.purpose %}<div class="hint" style="margin:2px 0;">Why: {{ a.purpose }}</div>{% endif %}
+      <div style="font-size:.8rem;color:var(--text-dim);">{% if a.due_date %}Due {{ a.due_date.strftime('%d %b') }}{% endif %}{% if a.est_minutes %} · ~{{ a.est_minutes }} min{% endif %} · {{ a.status }}</div>
+      {% if a.mentor_feedback %}<div style="font-size:.84rem;margin-top:4px;">💬 Mentor: {{ a.mentor_feedback }}</div>{% endif %}
+      {% if (role == 'student' and a.owner == 'student') and a.status not in ('Completed', 'Cancelled', 'Blocked') %}
+      <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
+        <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}"><input type="hidden" name="back" value="home"><input type="hidden" name="status" value="Completed"><button class="ms-btn p sm">✓ Mark complete</button></form>
+        <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}"><input type="hidden" name="back" value="home"><input type="hidden" name="status" value="Needs Help"><button class="ms-btn g sm">Request help</button></form>
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+    {% else %}<div class="ms-empty" style="margin-top:10px;">No actions due this week. {% if role == 'student' %}Your mentor will add the next steps after your session.{% endif %}</div>{% endif %}
+    {% if role == 'student' %}<p style="margin-top:12px;"><a class="ms-btn g sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='weekly') }}">Weekly check-in →</a></p>{% endif %}
+  </div>
+
+  <!-- performance snapshot -->
+  <div class="ms-card">
+    <div class="ms-eyebrow">Performance snapshot</div>
+    {% if kpis %}
+    {% for k, v in kpis %}
+    <div style="padding:8px 0;border-bottom:1px solid #F1EAD7;">
+      <div style="display:flex;justify-content:space-between;gap:8px;"><strong style="font-size:.9rem;">{{ k.name }}</strong><span class="ms-pill {{ 'ok' if v.status in ('Achieved', 'On track', 'In range') else ('warn' if v.status in ('Needs attention', 'Out of range') else '') }}">{{ v.status }}</span></div>
+      <div style="font-size:.8rem;color:var(--text-dim);">Baseline {{ k.baseline if k.baseline is not none else '—' }} → target {{ k.target if k.target is not none else '—' }} {{ k.unit or '' }} · latest <strong>{{ v.current if v.current is not none else 'not recorded' }}</strong>
+        {% if v.trend %}{{ {'up': '▲', 'down': '▼', 'flat': '■'}[v.trend] }}{% endif %}</div>
+      {% if v.pct is not none %}{{ m.bar(v.pct) }}{% endif %}
+    </div>
+    {% endfor %}
+    {% else %}<div class="ms-empty" style="margin-top:10px;">No KPIs agreed yet — they are set with your mentor in the first sessions.</div>{% endif %}
+    {% if last_checkin and role != 'parent' and last_checkin.confidence %}
+    <p style="font-size:.84rem;margin-top:10px;">Latest self-rated confidence: <strong>{{ last_checkin.confidence }}/5</strong> (week of {{ last_checkin.week_start.strftime('%d %b') }})</p>
+    {% elif last_checkin and role == 'parent' and last_checkin.share_parent and last_checkin.parent_summary %}
+    <p style="font-size:.84rem;margin-top:10px;">Latest update from the mentor: {{ last_checkin.parent_summary }}</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="ms-grid ms-g2" style="margin-top:16px;">
+  <div class="ms-card">
+    <div class="ms-eyebrow">Coming up</div>
+    {% for i in upcoming %}
+    <div class="ms-ev"><div class="d">{{ i.date.strftime('%d') }}<small>{{ i.date.strftime('%b') }}</small></div>
+      <div><strong>{{ i.title }}</strong><div style="font-size:.8rem;color:var(--text-dim);">{{ i.category }}{% if i.source %} · Source: {{ i.source }}{% endif %}</div></div><div></div></div>
+    {% else %}<div class="ms-empty" style="margin-top:10px;">Nothing scheduled yet.</div>{% endfor %}
+    <p style="margin-top:10px;"><a class="ms-btn g sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='calendar') }}">Full calendar →</a></p>
+  </div>
+  <div class="ms-card">
+    <div class="ms-eyebrow">Messages & updates</div>
+    {% for msg in msgs %}
+    <div class="ms-msg {{ 'internal' if msg.audience == 'internal' }}"><div class="who">{{ msg.sender.name if msg.sender else 'System' }} · {{ fmt_dt(msg.created_at, e.timezone) }}{% if msg.kind == 'announcement' %} · 📣 announcement{% endif %}</div>{{ msg.body[:240] }}</div>
+    {% else %}<div class="ms-empty" style="margin-top:10px;">No messages yet.</div>{% endfor %}
+    <p style="margin-top:10px;"><a class="ms-btn g sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='messages') }}">Open messages{% if unread %} ({{ unread }} new){% endif %} →</a></p>
+    {% if shared_review %}<p style="font-size:.86rem;margin-top:8px;">🧾 Latest shared review: <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='reviews') }}">{{ shared_review.label }}</a></p>{% endif %}
+  </div>
+</div>
+{% endblock %}

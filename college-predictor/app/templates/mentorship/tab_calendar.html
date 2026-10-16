@@ -1,0 +1,51 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+<div class="ms-note info">Dates marked <strong>unverified</strong> have no recorded official source/last-verified date — treat them as a plan, and confirm on the official notice. Times are shown in <strong>{{ e.timezone }}</strong>. Agenda view; month/week grids are not built yet.</div>
+
+<div class="ms-card">
+  <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;">
+    <div><label class="f">Category</label><select name="cat" onchange="this.form.submit()"><option value="">All</option>{% for c in cats %}<option {{ 'selected' if c == cat }}>{{ c }}</option>{% endfor %}</select></div>
+    <noscript><button class="ms-btn p sm">Filter</button></noscript>
+  </form>
+</div>
+
+{% for month, items in months.items() %}
+<div class="ms-card">
+  <h2>{{ month }}</h2>
+  {% for i in items %}
+  <div class="ms-ev {{ 'done' if i.done }}">
+    <div class="d {{ 'ms-cat-session-d' if i.kind == 'session' }}">{{ i.date.strftime('%d') }}<small>{{ i.date.strftime('%a') }}</small></div>
+    <div><strong>{{ i.title }}</strong>{% if i.end and i.end != i.date %} <span style="font-size:.8rem">→ {{ i.end.strftime('%d %b') }}</span>{% endif %}
+      <div style="font-size:.8rem;color:var(--text-dim);"><span class="ms-pill {{ 'warn' if i.kind == 'action' else 'info' }}">{{ i.category }}</span>
+        {% if i.kind == 'event' %}
+          {% if i.verified %}✔ Verified {{ i.verified.strftime('%d %b %Y') }}{% else %}<span class="ms-pill warn">unverified</span>{% endif %}
+          {% if i.source %} · Source: {{ i.source }}{% endif %}
+        {% elif i.notes %}{{ i.notes }}{% endif %}
+      </div>
+      {% if i.notes and i.kind == 'event' %}<div style="font-size:.82rem;">{{ i.notes }}</div>{% endif %}</div>
+    <div>{% if i.kind == 'event' and i.scope == 'Student' and role != 'parent' %}
+      <form method="post" action="{{ url_for('mentorship.event_toggle', eid=e.id, evid=i.id) }}"><button class="ms-btn g sm">{{ 'Undo' if i.done else 'Mark done' }}</button></form>{% endif %}</div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}<div class="ms-empty">Nothing on the calendar yet. {% if staff %}Add the student's exam and admission dates below, or ask an administrator to load the programme calendar.{% endif %}</div>{% endfor %}
+
+{% if role != 'parent' %}
+<div class="ms-card">
+  <div class="ms-eyebrow">Add to calendar</div>
+  <form method="post" action="{{ url_for('mentorship.event_add', eid=e.id) }}" style="margin-top:8px;">
+    <div class="ms-row">
+      <div><label>Title</label><input type="text" name="title" required></div>
+      <div><label>Category</label><select name="category">{% for c in EVENT_CATEGORIES %}<option>{{ c }}</option>{% endfor %}</select></div>
+      <div><label>Date</label><input type="date" name="starts_on" required></div>
+      <div><label>Until (optional)</label><input type="date" name="ends_on"></div>
+      {% if staff %}<div><label>Official source</label><input type="text" name="source" placeholder="Body / notice URL"></div>
+      <div><label>Last verified on</label><input type="date" name="verified_on"></div>{% endif %}
+    </div>
+    <label>Notes</label><input type="text" name="notes">
+    <button class="ms-btn o sm" style="margin-top:8px;">Add</button>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

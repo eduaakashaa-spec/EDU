@@ -1,0 +1,142 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+
+<div class="ms-grid ms-g2" style="align-items:start;">
+  <!-- action plan -->
+  <div class="ms-card">
+    <div class="ms-eyebrow">Action plan</div>
+    <h2>This week &amp; open actions</h2>
+    <p class="hint">Progress counts completed ÷ total actions; cancelled actions are excluded.</p>
+    {% for a in actions %}
+    <div id="a{{ a.id }}" style="padding:12px 0;border-bottom:1px solid #F1EAD7;">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+        <strong>{{ a.title }}</strong>
+        <span>{{ m.state_pill(action_state(a)) }} <span class="ms-pill {{ 'bad' if a.priority == 'High' else '' }}">{{ a.priority }}</span> <span class="ms-pill">{{ a.owner }}</span></span>
+      </div>
+      {% if a.purpose %}<div class="hint" style="margin:2px 0;">Why it matters: {{ a.purpose }}</div>{% endif %}
+      {% if a.instruction %}<div style="font-size:.86rem;">{{ a.instruction }}</div>{% endif %}
+      <div style="font-size:.8rem;color:var(--text-dim);">{% if a.due_date %}Due {{ a.due_date.strftime('%d %b %Y') }} · {% endif %}{% if a.est_minutes %}~{{ a.est_minutes }} min · {% endif %}Status: <strong>{{ a.status }}</strong>{% if a.completed_at %} · done {{ a.completed_at.strftime('%d %b') }}{% endif %}</div>
+      {% if a.mentor_feedback %}<div style="font-size:.84rem;margin-top:4px;">💬 Mentor: {{ a.mentor_feedback }}</div>{% endif %}
+      {% if a.student_comment %}<div style="font-size:.84rem;margin-top:4px;">📝 Student: {{ a.student_comment }}</div>{% endif %}
+
+      {% if role == 'student' and a.owner == 'student' and a.status not in ('Cancelled', 'Blocked') %}
+      <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}" style="margin-top:8px;">
+        <input type="hidden" name="back" value="weekly">
+        <div class="ms-row">
+          <div><label>Status</label><select name="status">{% for st in STUDENT_ACTION_STATUSES %}<option {{ 'selected' if st == a.status }}>{{ st }}</option>{% endfor %}</select></div>
+          <div><label>Evidence link (optional)</label><input type="url" name="evidence_url" value="{{ a.evidence_url or '' }}" placeholder="https://…"></div>
+        </div>
+        <label>My notes</label><textarea name="student_comment" style="min-height:52px;">{{ a.student_comment or '' }}</textarea>
+        <button class="ms-btn p sm" style="margin-top:6px;">Save</button>
+      </form>
+      {% elif staff %}
+      <details class="ms-fold"><summary>Review / change</summary>
+        <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}">
+          <input type="hidden" name="back" value="weekly"><input type="hidden" name="parent_visible_present" value="1">
+          <div class="ms-row">
+            <div><label>Title</label><input type="text" name="title" value="{{ a.title }}"></div>
+            <div><label>Status</label><select name="status">{% for st in ACTION_STATUSES %}<option {{ 'selected' if st == a.status }}>{{ st }}</option>{% endfor %}</select></div>
+            <div><label>Priority</label><select name="priority">{% for p in PRIORITIES %}<option {{ 'selected' if p == a.priority }}>{{ p }}</option>{% endfor %}</select></div>
+            <div><label>New deadline</label><input type="date" name="due_date" value="{{ a.due_date or '' }}"></div>
+          </div>
+          <label>Feedback to student</label><textarea name="mentor_feedback" style="min-height:56px;">{{ a.mentor_feedback or '' }}</textarea>
+          <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="parent_visible" value="1" {{ 'checked' if a.parent_visible }}> Visible to parent</label>
+          <button class="ms-btn p sm" style="margin-top:8px;">Save</button>
+        </form>
+      </details>
+      {% endif %}
+    </div>
+    {% else %}<div class="ms-empty">No actions yet. {% if staff %}Add the first one below.{% else %}Your mentor will add actions after your session.{% endif %}</div>{% endfor %}
+
+    {% if staff %}
+    <details class="ms-fold"><summary>＋ Assign a new action</summary>
+      <form method="post" action="{{ url_for('mentorship.action_add', eid=e.id) }}">
+        <input type="hidden" name="back" value="weekly">
+        <div class="ms-row">
+          <div><label>Action title</label><input type="text" name="title" required></div>
+          <div><label>Linked session</label><select name="session_id"><option value="">—</option>{% for s in sessions_for_link %}<option value="{{ s.id }}">#{{ s.position }} {{ s.title[:40] }}</option>{% endfor %}</select></div>
+          <div><label>Owner</label><select name="owner"><option>student</option><option>mentor</option><option>parent</option></select></div>
+          <div><label>Priority</label><select name="priority">{% for p in PRIORITIES %}<option {{ 'selected' if p == 'Medium' }}>{{ p }}</option>{% endfor %}</select></div>
+          <div><label>Start</label><input type="date" name="start_date"></div>
+          <div><label>Due</label><input type="date" name="due_date"></div>
+          <div><label>Minutes</label><input type="number" name="est_minutes"></div>
+        </div>
+        <label>Why it matters</label><input type="text" name="purpose">
+        <label style="margin-top:6px;">Detailed instruction</label><textarea name="instruction"></textarea>
+        <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="parent_visible" value="1" checked> Visible to parent</label>
+        <button class="ms-btn o sm" style="margin-top:8px;">Add action</button>
+      </form>
+    </details>
+    {% endif %}
+  </div>
+
+  <!-- weekly check-in -->
+  <div>
+    {% if role == 'student' %}
+    <div class="ms-card" id="checkin">
+      <div class="ms-eyebrow">Weekly check-in · week of {{ week.strftime('%d %b %Y') }}</div>
+      <h2>{{ 'Submitted ✓' if checkin and checkin.status != 'Draft' else 'How did the week go?' }}</h2>
+      {% if checkin and checkin.status != 'Draft' %}
+        <p class="hint">Submitted {{ fmt_dt(checkin.submitted_at, e.timezone) }}. {% if checkin.mentor_comment %}Mentor feedback below.{% else %}Your mentor will review it.{% endif %}</p>
+        {% if checkin.mentor_comment %}<div class="ms-note info">💬 {{ checkin.mentor_comment }}</div>{% endif %}
+      {% else %}
+      <div class="ms-note priv">Your reflections are private to you and your mentor. Parents only see a summary if your mentor shares one. This is an academic check-in, not a mental-health assessment.</div>
+      <form method="post" action="{{ url_for('mentorship.checkin_save', eid=e.id) }}">
+        {% if actions %}<label class="f">1 · Review last week's commitments</label>
+        {% for a in actions if a.owner == 'student' %}
+        <div style="padding:6px 0;border-bottom:1px dashed #E8DFC8;"><div style="font-size:.88rem;font-weight:600;">{{ a.title }}</div>
+          <select name="out_{{ a.id }}">{% set cur = outcomes.get(a.id|string) %}
+            <option value="">— choose —</option>
+            <option value="completed" {{ 'selected' if cur == 'completed' }}>Completed</option><option value="partial" {{ 'selected' if cur == 'partial' }}>Partially completed</option>
+            <option value="not" {{ 'selected' if cur == 'not' }}>Not completed</option><option value="blocked" {{ 'selected' if cur == 'blocked' }}>Blocked</option></select>
+          <input type="text" name="note_{{ a.id }}" placeholder="Comment or barrier (optional)" value="{{ outcome_notes.get(a.id|string, '') }}" style="margin-top:4px;">
+        </div>{% endfor %}{% endif %}
+        <label class="f" style="margin-top:12px;">2 · How confident do you feel about your preparation? (1 low – 5 high)</label>
+        {{ m.scale('confidence', checkin.confidence if checkin) }}
+        <label class="f" style="margin-top:12px;">What went well?</label><textarea name="went_well">{{ checkin.went_well if checkin }}</textarea>
+        <label class="f" style="margin-top:8px;">What was difficult?</label><textarea name="difficult">{{ checkin.difficult if checkin }}</textarea>
+        <label class="f" style="margin-top:8px;">What stopped you completing your plan?</label><textarea name="barriers">{{ checkin.barriers if checkin }}</textarea>
+        <label class="f" style="margin-top:8px;">What help do you need from your mentor?</label><textarea name="help_needed">{{ checkin.help_needed if checkin }}</textarea>
+        <label class="f" style="margin-top:8px;">Your priority for next week</label><input type="text" name="next_priority" value="{{ checkin.next_priority if checkin }}">
+        <label style="text-transform:none;margin-top:10px;"><input type="checkbox" name="urgent_help" value="1" {{ 'checked' if checkin and checkin.urgent_help }}> I need urgent help from my mentor</label>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;">
+          <button class="ms-btn g" name="submit" value="0">Save draft</button>
+          <button class="ms-btn o" name="submit" value="1">Submit to mentor</button>
+        </div>
+      </form>
+      {% endif %}
+      {% if prev %}<p class="hint" style="margin-top:10px;">Last week you planned: <em>{{ prev.next_priority or 'no priority recorded' }}</em></p>{% endif %}
+    </div>
+    {% endif %}
+
+    <div class="ms-card" id="history">
+      <div class="ms-eyebrow">{{ 'Check-in history' if role == 'student' else 'Weekly submissions' }}</div>
+      {% for c in history %}
+      <div style="padding:10px 0;border-bottom:1px solid #F1EAD7;">
+        <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;"><strong>Week of {{ c.week_start.strftime('%d %b %Y') }}</strong>
+          <span class="ms-pill {{ 'ok' if c.status == 'Reviewed' else 'warn' }}">{{ c.status }}</span></div>
+        {% if staff or role == 'student' %}
+          <div style="font-size:.86rem;">Confidence {{ c.confidence or '—' }}/5{% if c.urgent_help %} · <span class="ms-pill bad">urgent help</span>{% endif %}</div>
+          {% for lbl, v in (('Went well', c.went_well), ('Difficult', c.difficult), ('Barriers', c.barriers), ('Help needed', c.help_needed), ('Next priority', c.next_priority)) if v %}<div style="font-size:.84rem;"><strong>{{ lbl }}:</strong> {{ v }}</div>{% endfor %}
+        {% endif %}
+        {% if c.mentor_comment and (staff or role == 'student') %}<div class="ms-note info" style="margin-top:6px;">💬 {{ c.mentor_comment }}</div>{% endif %}
+        {% if staff %}
+        <details class="ms-fold"><summary>{{ 'Edit review' if c.status == 'Reviewed' else 'Review this check-in' }}</summary>
+          <form method="post" action="{{ url_for('mentorship.checkin_review', eid=e.id, cid=c.id) }}">
+            <label>Comment to student</label><textarea name="mentor_comment">{{ c.mentor_comment or '' }}</textarea>
+            <label style="margin-top:6px;">Summary for parent (the reflection itself stays private)</label><textarea name="parent_summary" style="min-height:52px;">{{ c.parent_summary or '' }}</textarea>
+            <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="share_parent" value="1" {{ 'checked' if c.share_parent }}> Share the parent summary</label>
+            <button class="ms-btn p sm" style="margin-top:8px;">Save review</button>
+          </form>
+          <form method="post" action="{{ url_for('mentorship.session_add', eid=e.id) }}" style="margin-top:8px;">
+            <input type="hidden" name="kind" value="intervention"><input type="hidden" name="title" value="Intervention: week of {{ c.week_start.strftime('%d %b') }}">
+            <button class="ms-btn g sm">Schedule an intervention session</button></form>
+        </details>
+        {% endif %}
+      </div>
+      {% else %}<div class="ms-empty" style="margin-top:10px;">No submitted check-ins yet.</div>{% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

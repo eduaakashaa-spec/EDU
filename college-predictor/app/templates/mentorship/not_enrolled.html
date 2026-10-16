@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}My Mentorship | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/mentorship.css') }}">{% endblock %}
+{% block content %}
+<div class="ms" style="max-width:760px;">
+  <section class="ms-head"><div class="grow"><span class="ms-chip">Mentorship Portal</span><h1 style="margin-top:8px;">Your mentorship journey starts here</h1>
+    <div class="sub">One student. One connected journey — sessions, weekly plan, KPIs, branch fit, college preferences and a final report.</div></div></section>
+  <div class="ms-card" style="margin-top:16px;">
+    <h2>You are not enrolled in a mentorship programme yet</h2>
+    <p class="hint">Once EduAakashaA enrols you, your journey appears here automatically. Parents see their child's progress after the team links their account.</p>
+    <p><a class="ms-btn o" href="{{ url_for('main.members_registration') }}">See membership paths</a>
+       <a class="ms-btn g" href="{{ url_for('main.contact_alias') }}">Talk to the team</a>
+       <a class="ms-btn g" href="{{ url_for('memberhub.home') }}">Back to Member Home</a></p>
+  </div>
+</div>
+{% endblock %}

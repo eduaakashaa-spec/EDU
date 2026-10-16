@@ -1,0 +1,108 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+
+<div class="ms-card">
+  <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">
+    <div><div class="ms-eyebrow">My Journey</div><h2>Core sessions {{ ss.core_done }} / {{ ss.core_total }}</h2>
+      <p class="hint" style="margin:2px 0 0;">Planned and actual dates are tracked separately. Cancelled sessions never count as completed. Completing a session does not complete its action items.</p></div>
+    <div style="min-width:200px;flex:1;max-width:320px;">{{ m.bar(ss.pct) }}
+      <div style="font-size:.78rem;color:var(--text-dim);margin-top:4px;">{{ ss.partial }} partial · {{ ss.missed }} missed · {{ ss.cancelled }} cancelled · {{ ss.extra_total }} additional</div></div>
+  </div>
+</div>
+
+{% macro session_card(s) %}
+<li class="{{ 'done' if s.status == 'Completed' else ('off' if s.status in ('Cancelled', 'Missed') else ('now' if s.status in ('Planned', 'Rescheduled') else '')) }}" id="s{{ s.id }}">
+  <span class="ms-dot">{{ s.position }}</span>
+  <div class="t">{{ s.title }} {{ m.session_pill(s.status) }}
+    {% if s.kind != 'core' %}<span class="ms-pill info">{{ s.kind }}</span>{% endif %}</div>
+  <div class="m">
+    {% if s.planned_at %}Planned {{ fmt_dt(s.planned_at, e.timezone) }}{% else %}Date not set{% endif %}
+    {% if s.actual_at %} · Held {{ fmt_dt(s.actual_at, e.timezone) }}{% endif %}
+    {% if s.duration_min %} · {{ s.duration_min }} min{% endif %}
+  </div>
+  {% if s.agenda %}<details class="ms-fold"><summary>Agenda &amp; deliverable</summary>
+    <ul style="margin:0 0 6px;padding-left:18px;font-size:.88rem;">{% for line in s.agenda.splitlines() if line.strip() %}<li>{{ line }}</li>{% endfor %}</ul>
+    {% if s.deliverable %}<div style="font-size:.86rem;"><strong>Deliverable:</strong> {{ s.deliverable }}{% if s.deliverable_url %} — <a href="{{ s.deliverable_url }}" target="_blank" rel="noopener">open</a>{% endif %}</div>{% endif %}
+  </details>{% endif %}
+  {% if s.shared_summary %}<div class="ms-note info" style="margin-top:8px;"><strong>Session recap:</strong> {{ s.shared_summary }}</div>{% endif %}
+  {% if s.next_review_date %}<div class="m">Next review: {{ s.next_review_date.strftime('%d %b %Y') }}</div>{% endif %}
+  {% set acts = actions_by_session.get(s.id, []) %}
+  {% if acts %}<div style="font-size:.84rem;margin-top:6px;"><strong>Actions from this session:</strong>
+    {% for a in acts if a.status != 'Cancelled' %}<span class="ms-pill {{ 'ok' if a.status == 'Completed' else '' }}" title="{{ a.title }}">{{ a.title[:28] }}{{ ' ✓' if a.status == 'Completed' }}</span> {% endfor %}</div>{% endif %}
+
+  {% if staff %}
+  <details class="ms-fold"><summary>Record / edit session</summary>
+    <form method="post" action="{{ url_for('mentorship.session_update', eid=e.id, sid=s.id) }}" class="ms-form">
+      <div class="ms-row">
+        <div><label>Title</label><input type="text" name="title" value="{{ s.title }}"></div>
+        <div><label>Status</label><select name="status">{% for st in SESSION_STATUSES %}<option {{ 'selected' if st == s.status }}>{{ st }}</option>{% endfor %}</select></div>
+        <div><label>Planned ({{ e.timezone }})</label><input type="datetime-local" name="planned_at" value="{{ to_input(s.planned_at, e.timezone) }}"></div>
+        <div><label>Actual ({{ e.timezone }})</label><input type="datetime-local" name="actual_at" value="{{ to_input(s.actual_at, e.timezone) }}"></div>
+        <div><label>Duration (min)</label><input type="number" name="duration_min" value="{{ s.duration_min or '' }}"></div>
+        <div><label>Next review date</label><input type="date" name="next_review_date" value="{{ s.next_review_date or '' }}"></div>
+      </div>
+      <div class="ms-row">
+        <div><label>Participants</label><input type="text" name="participants" value="{{ s.participants or '' }}" placeholder="Student, parent, mentor"></div>
+        <div><label>Deliverable</label><input type="text" name="deliverable" value="{{ s.deliverable or '' }}"></div>
+        <div><label>Deliverable link</label><input type="url" name="deliverable_url" value="{{ s.deliverable_url or '' }}" placeholder="https://…"></div>
+      </div>
+      <label>Agenda (one topic per line)</label><textarea name="agenda">{{ s.agenda or '' }}</textarea>
+      <label style="margin-top:8px;">Recap shared with student {% if s.parent_visible %}(and parent){% endif %}</label><textarea name="shared_summary">{{ s.shared_summary or '' }}</textarea>
+      <label style="margin-top:8px;">🔒 Private mentor notes (never shown to student or parent)</label><textarea name="mentor_notes">{{ s.mentor_notes or '' }}</textarea>
+      <label style="text-transform:none;margin-top:8px;"><input type="checkbox" name="parent_visible" value="1" {{ 'checked' if s.parent_visible }}> Show this session's recap to the parent</label>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
+        <button class="ms-btn p sm">Save session</button>
+      </div>
+    </form>
+    <div style="display:flex;gap:6px;margin:8px 0;">
+      <form method="post" action="{{ url_for('mentorship.session_move', eid=e.id, sid=s.id) }}"><input type="hidden" name="dir" value="up"><button class="ms-btn g sm" aria-label="Move up">↑ Move up</button></form>
+      <form method="post" action="{{ url_for('mentorship.session_move', eid=e.id, sid=s.id) }}"><input type="hidden" name="dir" value="down"><button class="ms-btn g sm" aria-label="Move down">↓ Move down</button></form>
+    </div>
+    <details class="ms-fold"><summary>Assign an action from this session</summary>
+      <form method="post" action="{{ url_for('mentorship.action_add', eid=e.id) }}">
+        <input type="hidden" name="session_id" value="{{ s.id }}"><input type="hidden" name="back" value="sessions">
+        <div class="ms-row"><div><label>Action</label><input type="text" name="title" required></div>
+          <div><label>Due</label><input type="date" name="due_date"></div>
+          <div><label>Priority</label><select name="priority">{% for p in PRIORITIES %}<option {{ 'selected' if p == 'Medium' }}>{{ p }}</option>{% endfor %}</select></div>
+          <div><label>Owner</label><select name="owner"><option>student</option><option>mentor</option><option>parent</option></select></div></div>
+        <label>Why it matters</label><input type="text" name="purpose">
+        <label style="margin-top:6px;">Instructions</label><textarea name="instruction"></textarea>
+        <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="parent_visible" value="1" checked> Visible to parent</label>
+        <button class="ms-btn p sm" style="margin-top:8px;">Add action</button>
+      </form>
+    </details>
+  </details>
+  {% endif %}
+</li>
+{% endmacro %}
+
+<div class="ms-grid ms-g2" style="align-items:start;">
+  <div class="ms-card">
+    <h2>Core journey</h2>
+    <p class="hint">The {{ core|length }} sessions of your programme, in order.</p>
+    {% if core %}<ol class="ms-line">{% for s in core %}{{ session_card(s) }}{% endfor %}</ol>{% else %}<div class="ms-empty">No core sessions in this programme yet.</div>{% endif %}
+  </div>
+  <div class="ms-card">
+    <h2>Additional sessions</h2>
+    <p class="hint">Extra, follow-up and intervention sessions appear here and count toward the overall journey.</p>
+    {% if extra %}<ol class="ms-line">{% for s in extra %}{{ session_card(s) }}{% endfor %}</ol>{% else %}<div class="ms-empty">No additional sessions.</div>{% endif %}
+
+    {% if staff %}
+    <details class="ms-fold" open><summary>Schedule an additional session</summary>
+      <div class="ms-note">Package allowance: <strong>{{ used }}</strong> of <strong>{{ e.extra_quota or 0 }}</strong> extra session(s) used.
+        {% if not can_extra %}{% if role == 'mentor' %}Raise the allowance via an administrator to schedule more.{% endif %}{% else %}You may schedule another.{% endif %}</div>
+      {% if can_extra %}
+      <form method="post" action="{{ url_for('mentorship.session_add', eid=e.id) }}">
+        <div class="ms-row"><div><label>Title</label><input type="text" name="title" required placeholder="e.g. Urgent mock-test debrief"></div>
+          <div><label>Type</label><select name="kind"><option value="extra">Extra session</option><option value="intervention">Intervention</option><option value="follow-up">Follow-up</option></select></div>
+          <div><label>Planned ({{ e.timezone }})</label><input type="datetime-local" name="planned_at"></div>
+          <div><label>Duration (min)</label><input type="number" name="duration_min" value="45"></div></div>
+        <label>Agenda</label><textarea name="agenda"></textarea>
+        <button class="ms-btn o sm" style="margin-top:8px;">Add session</button>
+      </form>{% endif %}
+    </details>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

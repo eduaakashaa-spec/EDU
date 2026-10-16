@@ -40,12 +40,12 @@ assert anon.get('/member-home').status_code in (302, 401)
 c, r = client('free@ex.com')
 assert r.status_code == 302 and r.headers['Location'].endswith('/member-home')       # login lands on the hub
 page = c.get('/member-home').get_data(as_text=True)
-for cat in ('My Journey', 'Admission Intelligence', 'Choice-Filling Tools', 'Engineering Insights',
+for cat in ('My Journey', 'Mentorship Portal', 'Admission Intelligence', 'Choice-Filling Tools', 'Engineering Insights',
             'Free Resources', 'Support &amp; Membership'):
     assert cat in page, cat
 assert 'Premium</span>' in page and 'Free plan' in page          # locks + plan badge for a free member
 assert '/free-guides' in page and '/dasa-2026-analytics' in page
-assert page.count('img/hub/') == 6 and c.get('/static/img/hub/journey.svg').status_code == 200   # one image tile per category
+assert page.count('img/hub/') == 7 and c.get('/static/img/hub/journey.svg').status_code == 200   # one image tile per category
 assert '0 of 7 open' in page                                      # intelligence: all premium tiles locked
 
 # premium member: unlocked

@@ -52,7 +52,7 @@ def create_app():
     # public information pages. Hidden on membership / account / admin pages, on
     # contact pages, and for members who already have Premium.
     NOTICE_SKIP_BLUEPRINTS = {'membership', 'admin_portal', 'auth', 'members', 'invoices',
-                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub'}
+                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship'}
     NOTICE_SKIP_ENDPOINTS = {'main.members_registration', 'main.premium_membership',
                              'main.members_login', 'main.contact', 'main.contact_alias',
                              'main.contactus_alias', 'static'}
@@ -73,6 +73,7 @@ def create_app():
     with app.app_context():
         from app import models  # noqa: F401 – ensure all models are imported
         from app import models_membership  # noqa: F401 – membership/invoice tables
+        from app import models_mentorship  # noqa: F401 – mentorship portal tables
         db.create_all()
 
     # Load JOSAA + NIRF data into memory once at startup
@@ -108,6 +109,9 @@ def create_app():
 
     from app.routes.memberhub import memberhub_bp
     app.register_blueprint(memberhub_bp)
+
+    from app.routes.mentorship import mentorship_bp
+    app.register_blueprint(mentorship_bp)
 
     # The legacy eduaakashaa.in domain forwards to eduaakashaa.com (path and query
     # kept), so old links, QR codes and bookmarks land on the live site.

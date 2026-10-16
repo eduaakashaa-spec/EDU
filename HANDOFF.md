@@ -118,6 +118,13 @@ see §6.
 
 ## 5. What was built recently (newest first)
 
+- **Mentorship Portal** (`/mentorship`, see `college-predictor/MENTORSHIP_PORTAL.md`): student / EA-mentor / parent
+  dashboards over one record (`ms_*` tables), expandable 10+ session programmes, weekly check-ins, action + KPI
+  engines, quarterly reviews, branch-fit matrix, college preference lists, calendar with source + verification,
+  messaging with private notes, report PDF (ReportLab), audit log, admin console at `/mentorship/admin`. Tile on
+  Member Home (Premium). Test: `tests/test_mentorship_portal.py`. Not built: email/WhatsApp notifications, live push,
+  month grid, college dataset import.
+
 - **Homepage v3 — "Night Instrument"** (`templates/home.html`, `aw-*` namespace):
   Awwwards-style rework. Deep-navy observatory world (inverts the cream default);
   GSAP ScrollTrigger + Lenis via CDN (defer, progressive enhancement — fully usable

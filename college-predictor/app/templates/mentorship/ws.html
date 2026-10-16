@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block title %}{{ e.preferred_name or e.student.name }} — Mentorship Portal | EduAakashaA{% endblock %}
+{# a members-only workspace: the generic "data not updated" notice does not apply #}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/mentorship.css') }}">{% endblock %}
+
+{% block content %}
+<div class="ms">
+  <div class="ms-crumbs">
+    <a href="{{ url_for('memberhub.home') }}">Member Home</a> ›
+    {% if staff %}<a href="{{ url_for('mentorship.mentor_home') }}">Mentor dashboard</a> ›{% else %}<a href="{{ url_for('mentorship.index') }}">My Mentorship</a> ›{% endif %}
+    {{ e.preferred_name or e.student.name }} › {% for t in tabs if t[0] == tab %}{{ t[1] }}{% endfor %}
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="ms-flash" role="status">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+
+  <section class="ms-head">
+    <div class="grow">
+      <span class="ms-chip">{{ {'student': 'Student view', 'parent': 'Parent view', 'mentor': 'Mentor view', 'admin': 'Admin view'}[role] }}</span>
+      <h1 style="margin-top:8px;">{% if role == 'student' %}Hi {{ e.preferred_name or e.student.name }} 👋{% else %}{{ e.student.name }}{% endif %}</h1>
+      <div class="sub">{{ e.grade }} · {{ e.programme.name }} · Mentor: {{ e.mentor.name if e.mentor else 'to be assigned' }}
+        · {{ e.start_date.strftime('%d %b %Y') if e.start_date }}{% if e.end_date %} → {{ e.end_date.strftime('%d %b %Y') }}{% endif %}</div>
+    </div>
+    {% set ss = svc.session_stats(e) %}
+    <div style="text-align:right;min-width:150px;">
+      <div style="font-family:'Fraunces',serif;font-size:2rem;line-height:1;">{{ ss.pct }}%</div>
+      <div class="sub" style="font-size:.78rem;">{{ ss.core_done }} of {{ ss.core_total }} core sessions complete</div>
+    </div>
+  </section>
+
+  <nav class="ms-tabs" aria-label="Mentorship sections">
+    {% for key, label, icon, _r in tabs %}
+    <a class="ms-tab {{ 'on' if key == tab }}" href="{{ url_for('mentorship.workspace', eid=e.id, tab=key) }}" {{ 'aria-current=page' if key == tab }}>{{ icon }} {{ label }}{% if key == 'messages' and unread %}<span class="ms-badge">{{ unread }}</span>{% endif %}</a>
+    {% endfor %}
+  </nav>
+
+  {% block body %}{% endblock %}
+
+  <p style="font-size:.76rem;color:var(--text-dim,#5A6278);margin-top:26px;">
+    EduAakashaA mentorship is academic guidance, not medical or psychological care. If something affects wellbeing, please speak to a qualified professional and tell your mentor so we can help you find one.
+    No mentorship activity guarantees a rank, seat, college or branch.
+  </p>
+</div>
+{% endblock %}

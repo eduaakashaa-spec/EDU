@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Choose a student | Mentorship Portal{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/mentorship.css') }}">{% endblock %}
+{% block content %}
+<div class="ms" style="max-width:760px;">
+  <section class="ms-head"><div class="grow"><span class="ms-chip">Mentorship Portal</span><h1 style="margin-top:8px;">Which journey would you like to open?</h1></div></section>
+  <div class="ms-grid" style="margin-top:16px;">
+    {% for e in enrolments %}
+    <a class="ms-kpi" href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}"><div class="n" style="font-size:1.3rem;">{{ e.student.name }}</div><div class="l">{{ e.programme.name }} · mentor {{ e.mentor.name if e.mentor else 'to be assigned' }}</div></a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

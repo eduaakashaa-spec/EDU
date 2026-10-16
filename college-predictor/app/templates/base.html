@@ -155,6 +155,7 @@
               <li><a href="{{ url_for('main.choice_builder_pro') }}">Choice Builder PRO</a></li>
               <li><a href="{{ url_for('main.dasa2026_expert_report') }}">DASA 2026 Expert Report</a></li>
               <li><a href="{{ url_for('main.mentorship_templates') }}">Mentorship Email &amp; WhatsApp Templates</a></li>
+              <li><a href="{{ url_for('mentorship.mentor_home') }}">Mentorship Portal</a></li>
             </ul>
           </li>
           {% elif current_user.is_authenticated and current_user.is_ea_mentor %}
@@ -162,6 +163,7 @@
             <a href="#" class="nav__link">EA Mentor Desk</a>
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('members.mentor_desk') }}">Mentor desk</a></li>
+              <li><a href="{{ url_for('mentorship.mentor_home') }}">Mentorship Portal</a></li>
               <li><a href="{{ url_for('assessments.admin_list') }}">Assessment Results</a></li>
               <li><a href="{{ url_for('members.admin_doc_list') }}">Document Verify</a></li>
               <li><a href="{{ url_for('onboarding.admin_list') }}">Onboarding Assessments</a></li>

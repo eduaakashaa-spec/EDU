@@ -1,0 +1,95 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+<div class="ms-note"><strong>Important:</strong> a list prepared here is a <em>planning list</em>. EduAakashaA does not submit choices to JoSAA, CSAB, TNEA, DASA or any official portal — the family must enter the final list on the official website. Cutoffs, fees and eligibility shown below are only what your mentor or you recorded, each with its year and source; always confirm on the official notice.</div>
+
+{% if role != 'parent' %}
+<div class="ms-card">
+  <form method="post" action="{{ url_for('mentorship.pref_list_new', eid=e.id) }}" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;">
+    <div style="flex:1;min-width:220px;"><label class="f">New draft list</label><input type="text" name="name" placeholder="e.g. JoSAA draft v1"></div>
+    <button class="ms-btn o">＋ Create list</button>
+  </form>
+</div>
+{% endif %}
+
+{% for lst in lists %}
+{% set entries = lst.entries.all() %}
+<div class="ms-card" id="l{{ lst.id }}">
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">
+    <h2>{{ lst.name }} {% if lst.is_final %}<span class="ms-pill ok">Final family-approved list</span>{% endif %}</h2>
+    <span class="ms-pill info">{{ lst.status }}</span>
+  </div>
+  {% if lst.evidence %}<p class="hint">Recorded reference for official portal entry: {{ lst.evidence }}</p>{% endif %}
+
+  <div class="ms-tbl-wrap"><table class="ms-tbl">
+    <thead><tr><th>#</th><th>College / branch</th><th>Route</th><th>Tier</th><th>Interest</th><th>Eligibility</th><th>Data &amp; fee notes</th><th>Mentor</th><th>Parent</th><th></th></tr></thead>
+    <tbody>
+    {% for x in entries %}
+      <tr id="x{{ x.id }}">
+        <td><strong>{{ loop.index }}</strong></td>
+        <td><strong>{{ x.college }}</strong><div style="font-size:.8rem;color:var(--text-dim)">{{ x.branch or '' }}{% if x.location %} · {{ x.location }}{% endif %}</div>
+          {% if x.reason %}<div style="font-size:.78rem;">Why: {{ x.reason }}</div>{% endif %}</td>
+        <td>{{ x.route or '—' }}</td><td>{{ x.tier or '—' }}</td><td>{{ m.stars(x.interest) }}</td>
+        <td><span class="ms-pill {{ 'ok' if x.eligibility == 'Eligible' else ('bad' if x.eligibility == 'Not eligible' else 'warn') }}">{{ x.eligibility }}</span></td>
+        <td style="font-size:.8rem;max-width:230px;">{% if x.data_note %}{{ x.data_note }}<div style="color:var(--text-dim)">{{ x.data_year or 'year not stated' }} · {{ x.data_source or 'source not stated' }}</div>{% else %}<span style="color:#999">No data recorded</span>{% endif %}
+          {% if x.fee_note %}<div>Fee: {{ x.fee_note }}</div>{% endif %}</td>
+        <td style="font-size:.8rem;max-width:170px;">{{ x.mentor_reco or '—' }}<div style="color:var(--text-dim)">{{ x.review_status }}</div></td>
+        <td style="font-size:.8rem;max-width:150px;">{{ x.parent_comment or '—' }}</td>
+        <td style="white-space:nowrap;">
+          {% if role != 'parent' %}
+          <form method="post" action="{{ url_for('mentorship.pref_entry_move', eid=e.id, xid=x.id) }}" style="display:inline"><input type="hidden" name="dir" value="up"><button class="ms-btn g sm" aria-label="Move {{ x.college }} up" {{ 'disabled' if loop.first }}>↑</button></form>
+          <form method="post" action="{{ url_for('mentorship.pref_entry_move', eid=e.id, xid=x.id) }}" style="display:inline"><input type="hidden" name="dir" value="down"><button class="ms-btn g sm" aria-label="Move {{ x.college }} down" {{ 'disabled' if loop.last }}>↓</button></form>
+          <form method="post" action="{{ url_for('mentorship.pref_entry_delete', eid=e.id, xid=x.id) }}" style="display:inline" onsubmit="return confirm('Remove this choice?')"><button class="ms-btn g sm" aria-label="Remove">✕</button></form>
+          {% endif %}
+          <details class="ms-fold" style="min-width:230px;"><summary>{{ 'Comment' if role == 'parent' else 'Review' }}</summary>
+            <form method="post" action="{{ url_for('mentorship.pref_entry_update', eid=e.id, xid=x.id) }}">
+              {% if role == 'parent' %}<label>Parent comment</label><textarea name="parent_comment" style="min-height:48px;">{{ x.parent_comment or '' }}</textarea>
+              {% elif role == 'student' %}<label>Interest (1–5)</label>{{ m.scale('interest', x.interest) }}<label style="margin-top:6px;">Reason</label><textarea name="reason" style="min-height:48px;">{{ x.reason or '' }}</textarea>
+                <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="request_review" value="1"> Ask my mentor to review this choice</label>
+              {% else %}<label>Mentor recommendation</label><textarea name="mentor_reco" style="min-height:48px;">{{ x.mentor_reco or '' }}</textarea>
+                <label style="margin-top:6px;">Review status</label><input type="text" name="review_status" value="{{ x.review_status }}">
+                <label style="margin-top:6px;">Eligibility</label><select name="eligibility">{% for el in ELIGIBILITY %}<option {{ 'selected' if el == x.eligibility }}>{{ el }}</option>{% endfor %}</select>
+                <label style="margin-top:6px;">Historical data note</label><textarea name="data_note" style="min-height:48px;">{{ x.data_note or '' }}</textarea>
+                <div class="ms-row"><div><label>Year</label><input type="text" name="data_year" value="{{ x.data_year or '' }}"></div><div><label>Source</label><input type="text" name="data_source" value="{{ x.data_source or '' }}"></div></div>{% endif %}
+              <button class="ms-btn p sm" style="margin-top:6px;">Save</button></form>
+          </details>
+        </td>
+      </tr>
+    {% else %}<tr><td colspan="10"><div class="ms-empty">No choices yet — add the first one below.</div></td></tr>{% endfor %}
+    </tbody></table></div>
+
+  {% if role != 'parent' %}
+  <details class="ms-fold"><summary>＋ Add a choice</summary>
+    <form method="post" action="{{ url_for('mentorship.pref_entry_add', eid=e.id, lid=lst.id) }}">
+      <div class="ms-row">
+        <div><label>College</label><input type="text" name="college" required></div><div><label>Branch</label><input type="text" name="branch"></div>
+        <div><label>Admission route</label><select name="route"><option value="">—</option>{% for r in ADMISSION_ROUTES %}<option>{{ r }}</option>{% endfor %}</select></div>
+        <div><label>Tier</label><select name="tier"><option value="">—</option><option>Aspirational</option><option>Target</option><option>Backup</option></select></div>
+        <div><label>Location</label><input type="text" name="location"></div><div><label>Fee note (with date)</label><input type="text" name="fee_note"></div>
+        <div><label>Eligibility</label><select name="eligibility">{% for el in ELIGIBILITY %}<option>{{ el }}</option>{% endfor %}</select></div>
+      </div>
+      <label>Historical data (e.g. closing rank)</label><textarea name="data_note" style="min-height:48px;"></textarea>
+      <div class="ms-row" style="margin-top:6px;"><div><label>Data year</label><input type="text" name="data_year" placeholder="2025"></div><div><label>Data source</label><input type="text" name="data_source" placeholder="e.g. JoSAA official closing ranks"></div><div><label>Interest (1–5)</label><input type="number" min="1" max="5" name="interest"></div></div>
+      <label>Why this choice?</label><textarea name="reason" style="min-height:48px;"></textarea>
+      <button class="ms-btn o sm" style="margin-top:8px;">Add choice</button>
+    </form>
+  </details>
+  {% endif %}
+
+  <details class="ms-fold"><summary>Workflow status</summary>
+    <form method="post" action="{{ url_for('mentorship.pref_list_status', eid=e.id, lid=lst.id) }}">
+      <div class="ms-row"><div><label>Status</label><select name="status">{% for st in allowed_status %}<option {{ 'selected' if st == lst.status }}>{{ st }}</option>{% endfor %}</select></div>
+        {% if role != 'parent' %}<div><label>Evidence / portal reference</label><input type="text" name="evidence" value="{{ lst.evidence or '' }}" placeholder="Only after you entered it on the official portal"></div>{% endif %}</div>
+      {% if role != 'parent' %}<label>Notes</label><textarea name="notes" style="min-height:48px;">{{ lst.notes or '' }}</textarea>{% endif %}
+      <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="is_final" value="1" {{ 'checked' if lst.is_final }}> Record as the final family-approved list (only for approved or later statuses)</label>
+      <button class="ms-btn p sm" style="margin-top:8px;">Update status</button>
+    </form>
+  </details>
+</div>
+{% else %}<div class="ms-empty">No preference lists yet.</div>{% endfor %}
+
+{% if hist %}
+<div class="ms-card"><div class="ms-eyebrow">Change history</div>
+  {% for h in hist %}<div style="font-size:.82rem;padding:4px 0;border-bottom:1px solid #F1EAD7;">{{ fmt_dt(h.created_at, e.timezone) }} · <strong>{{ h.role }}</strong> · {{ h.action.replace('pref.', '').replace('_', ' ') }} — {{ h.detail }}</div>{% endfor %}</div>
+{% endif %}
+{% endblock %}

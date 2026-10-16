@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block title %}Mentor Dashboard — Mentorship Portal | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/mentorship.css') }}">{% endblock %}
+{% block content %}
+<div class="ms">
+  <div class="ms-crumbs"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › Mentorship › Mentor dashboard</div>
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<ul class="ms-flash">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}{% endwith %}
+  <section class="ms-head"><div class="grow"><span class="ms-chip">{{ 'Admin' if current_user.is_admin else 'EA Mentor' }}</span>
+    <h1 style="margin-top:8px;">Hi {{ current_user.name.split(' ')[0] }} — your mentorship workspace</h1>
+    <div class="sub">Every assigned student, session, follow-up and intervention in one place. Click a card to filter.</div></div>
+    {% if current_user.is_admin %}<a class="ms-btn o" href="{{ url_for('mentorship.admin_home') }}">⚙ Programmes &amp; enrolment</a>{% endif %}
+  </section>
+
+  <div class="ms-grid ms-g4" style="margin:18px 0;">
+    {% for key, label in filter_labels %}
+    <a class="ms-kpi {{ 'on' if key == active }}" href="{{ url_for('mentorship.mentor_home', f=key) }}"><div class="n">{{ counts[key] }}</div><div class="l">{{ label }}</div></a>
+    {% endfor %}
+  </div>
+
+  <div class="ms-card">
+    <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;">
+      <input type="hidden" name="f" value="{{ active }}">
+      <div style="flex:1;min-width:200px;"><label class="f">Search</label><input type="text" name="q" value="{{ q }}" placeholder="Student name or email"></div>
+      <div><label class="f">Stage</label><select name="stage"><option value="">All</option>{% for st in stages %}<option {{ 'selected' if st == stage }}>{{ st }}</option>{% endfor %}</select></div>
+      <div><label class="f">Attention</label><select name="level"><option value="">All</option>{% for l, t in (('ok', 'On track'), ('watch', 'Watch'), ('attention', 'Needs attention')) %}<option value="{{ l }}" {{ 'selected' if l == level }}>{{ t }}</option>{% endfor %}</select></div>
+      <div><label class="f">Programme</label><select name="programme"><option value="">All</option>{% for p in programmes %}<option value="{{ p.id }}" {{ 'selected' if p.id == prog }}>{{ p.name }}</option>{% endfor %}</select></div>
+      <div><label class="f">Sort</label><select name="sort">{% for k, t in (('attention', 'Attention'), ('name', 'Name'), ('progress', 'Progress'), ('next', 'Next session')) %}<option value="{{ k }}" {{ 'selected' if k == sort }}>{{ t }}</option>{% endfor %}</select></div>
+      <button class="ms-btn p">Apply</button><a class="ms-btn g" href="{{ url_for('mentorship.mentor_home') }}">Reset</a>
+    </form>
+  </div>
+
+  <div class="ms-card ms-tbl-wrap">
+    <table class="ms-tbl">
+      <thead><tr><th>Student</th><th>Programme · tier</th><th>Mentor</th><th>Stage</th><th>Progress</th><th>Last contact</th><th>Next session</th><th>Actions</th><th>KPIs</th><th>Next milestone</th><th>Attention</th></tr></thead>
+      <tbody>
+      {% for r in rows %}{% set e = r.e %}
+        <tr>
+          <td><a href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}"><strong>{{ e.student.name }}</strong></a><div style="font-size:.76rem;color:var(--text-dim)">{{ e.student.email }}</div></td>
+          <td>{{ e.programme.name }}<div style="font-size:.76rem;color:var(--text-dim)">{{ e.programme.tier or '—' }}</div></td>
+          <td>{{ e.mentor.name if e.mentor else 'Unassigned' }}</td>
+          <td style="max-width:170px;">{{ r.stage }}</td>
+          <td style="min-width:110px;">{{ r.ss.core_done }}/{{ r.ss.core_total }}{{ m.bar(r.ss.pct) }}</td>
+          <td>{{ r.last_contact.strftime('%d %b %Y') if r.last_contact else '—' }}</td>
+          <td>{{ fmt_dt(r.next.planned_at, e.timezone) if r.next else '—' }}</td>
+          <td>{{ r.ast.done }}/{{ r.ast.total }}{% if r.ast.overdue %} <span class="ms-pill bad">{{ r.ast.overdue }} overdue</span>{% endif %}</td>
+          <td>{% if r.kpi_n %}{{ r.kpi_n - r.kpi_attn }}/{{ r.kpi_n }} on track{% else %}—{% endif %}</td>
+          <td style="max-width:180px;font-size:.82rem;">{% if r.event %}{{ r.event.date.strftime('%d %b') }} · {{ r.event.title }}{% else %}—{% endif %}</td>
+          <td>{{ m.att(r.level) }}{% if r.reasons %}<div style="font-size:.72rem;color:var(--text-dim);max-width:200px;">{{ r.reasons[0] }}</div>{% endif %}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="11"><div class="ms-empty">{% if counts['all'] == 0 %}No students are assigned to you yet. An administrator enrols students from the Mentorship admin page.{% else %}No students match this filter.{% endif %}</div></td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="hint" style="font-size:.78rem;">Attention levels come from configurable rules (overdue actions, missed check-ins, help requests, upcoming exams). They are workflow prompts, not judgements about a student.</p>
+</div>
+{% endblock %}

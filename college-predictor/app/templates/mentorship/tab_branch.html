@@ -1,0 +1,75 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+<div class="ms-note info">A conversation aid, not a prediction. Interest fit, academic readiness, admission feasibility and family/practical fit are shown <strong>separately</strong> (1 = low, 5 = high). The weighted view only combines them using weights the student chooses, and shows the formula.</div>
+
+<div class="ms-grid ms-g2" style="align-items:start;">
+  <div class="ms-card">
+    <div class="ms-eyebrow">Student profile</div>
+    <h2>Interests &amp; preferences {% if fit %}<span class="ms-pill {{ 'ok' if fit.status != 'Draft' else 'warn' }}">{{ fit.status }}</span>{% endif %}</h2>
+    {% if role == 'student' %}
+    <form method="post" action="{{ url_for('mentorship.branch_profile', eid=e.id) }}">
+      {% for f, label in (('interests', 'What subjects and topics interest you?'), ('activities', 'Activities and problem-solving styles you enjoy'), ('strengths', 'Subjects where you feel strong'), ('environments', 'Learning / work environments you prefer'), ('career_areas', 'Career areas you want to explore'), ('family_constraints', 'Family preferences or constraints'), ('assessment_notes', 'Results of any aptitude / interest assessment you took (optional)')) %}
+      <label class="f" style="margin-top:8px;">{{ label }}</label><textarea name="{{ f }}" style="min-height:56px;">{{ fit[f] if fit and fit[f] }}</textarea>{% endfor %}
+      <label class="f" style="margin-top:8px;">How open are you to alternative branches? (1–5)</label>{{ m.scale('openness', fit.openness if fit) }}
+      <label class="f" style="margin-top:10px;">Matrix weights (0–5) — how much each factor matters to you</label>
+      <div class="ms-row">{% for k, lbl in (('interest', 'Interest'), ('readiness', 'Readiness'), ('feasibility', 'Feasibility'), ('family', 'Family fit')) %}<div><label>{{ lbl }}</label><input type="number" min="0" max="5" name="w_{{ k }}" value="{{ weights[k] }}"></div>{% endfor %}</div>
+      <div style="display:flex;gap:8px;margin-top:10px;"><button class="ms-btn g" name="submit" value="0">Save draft</button><button class="ms-btn o" name="submit" value="1">Submit to mentor</button></div>
+    </form>
+    {% elif fit %}
+      {% for f, label in (('interests', 'Interests'), ('activities', 'Activities'), ('strengths', 'Strengths'), ('environments', 'Environments'), ('career_areas', 'Career areas'), ('family_constraints', 'Family constraints'), ('assessment_notes', 'Assessment notes')) if fit[f] %}
+      <div style="margin:6px 0;font-size:.9rem;"><strong>{{ label }}:</strong> {{ fit[f] }}</div>{% endfor %}
+      <div style="font-size:.9rem;"><strong>Openness to alternatives:</strong> {{ fit.openness or '—' }}/5</div>
+    {% else %}<div class="ms-empty">The student has not started the profile yet.</div>{% endif %}
+
+    {% if staff %}
+    <form method="post" action="{{ url_for('mentorship.branch_profile', eid=e.id) }}" style="margin-top:12px;">
+      <label class="f">Mentor summary (visible to student; does not override the student's own preferences)</label>
+      <textarea name="mentor_summary">{{ fit.mentor_summary if fit and fit.mentor_summary }}</textarea>
+      <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="reviewed" value="1"> Mark profile as reviewed</label>
+      <button class="ms-btn p sm" style="margin-top:6px;">Save mentor summary</button>
+    </form>
+    {% elif fit and fit.mentor_summary %}<div class="ms-note info" style="margin-top:10px;"><strong>Mentor summary:</strong> {{ fit.mentor_summary }}</div>{% endif %}
+  </div>
+
+  <div class="ms-card" id="matrix">
+    <div class="ms-eyebrow">Branch comparison matrix</div>
+    <h2>Preferred branches</h2>
+    <p class="hint">Weighted view = Σ(weight × rating) ÷ Σ(weights of rated factors) using weights: interest {{ weights.interest }}, readiness {{ weights.readiness }}, feasibility {{ weights.feasibility }}, family {{ weights.family }}. Unrated factors are left out, never counted as zero.</p>
+    {% if ranked %}<ol style="padding-left:18px;font-size:.92rem;">{% for r in ranked[:4] %}<li><strong>{{ r.b.name }}</strong> — {{ r.score }}/5</li>{% endfor %}</ol>{% endif %}
+    <div class="ms-tbl-wrap"><table class="ms-tbl">
+      <thead><tr><th>Branch</th><th title="Student interest">Interest</th><th title="Academic readiness (mentor)">Readiness</th><th title="Admission feasibility (mentor, evidence-based)">Feasibility</th><th title="Family and practical fit">Family</th><th>Weighted</th></tr></thead>
+      <tbody>{% for x in matrix %}<tr><td>{{ x.b.name }}</td><td>{{ m.stars(x.r.interest if x.r) }}</td><td>{{ m.stars(x.r.readiness if x.r) }}</td><td>{{ m.stars(x.r.feasibility if x.r) }}</td><td>{{ m.stars(x.r.family if x.r) }}</td><td>{{ x.score or '—' }}</td></tr>{% endfor %}</tbody>
+    </table></div>
+  </div>
+</div>
+
+<div class="ms-card">
+  <div class="ms-eyebrow">Explore branches</div>
+  <div class="ms-grid ms-g3" style="margin-top:10px;">
+  {% for b in branches %}{% set r = ratings.get(b.name) %}
+    <div class="ms-card" style="margin:0;">
+      <h3 style="font-size:1.02rem;">{{ b.name }}</h3>
+      {% for lbl, v in (('What you study', b.studies), ('Core subjects', b.subjects), ('Useful skills', b.skills), ('Example projects', b.projects), ('Career directions', b.careers)) if v %}<div style="font-size:.82rem;margin-top:4px;"><strong>{{ lbl }}:</strong> {{ v }}</div>{% endfor %}
+      {% if b.questions %}<div style="font-size:.82rem;margin-top:4px;color:var(--navy)"><strong>Ask yourself:</strong> {{ b.questions }}</div>{% endif %}
+      {% if r and r.student_note %}<div style="font-size:.82rem;margin-top:4px;">📝 Student: {{ r.student_note }}</div>{% endif %}
+      {% if r and r.mentor_note %}<div style="font-size:.82rem;margin-top:4px;">🧑‍🏫 Mentor: {{ r.mentor_note }}</div>{% endif %}
+      {% if r and r.family_concern %}<div style="font-size:.82rem;margin-top:4px;">👪 Family: {{ r.family_concern }}</div>{% endif %}
+      <details class="ms-fold"><summary>{{ 'Rate this branch' if role == 'student' else ('Add family view' if role == 'parent' else 'Mentor assessment') }}</summary>
+        <form method="post" action="{{ url_for('mentorship.branch_rate', eid=e.id) }}"><input type="hidden" name="branch" value="{{ b.name }}">
+          {% if role == 'student' %}
+            <label>My interest (1–5)</label>{{ m.scale('interest', r.interest if r) }}<label style="margin-top:6px;">Family / practical fit (1–5)</label>{{ m.scale('family', r.family if r) }}
+            <label style="margin-top:6px;">My note</label><textarea name="student_note" style="min-height:48px;">{{ r.student_note if r and r.student_note }}</textarea>
+          {% elif role == 'parent' %}
+            <label>Family / practical fit (1–5)</label>{{ m.scale('family', r.family if r) }}<label style="margin-top:6px;">Concerns or questions</label><textarea name="family_concern" style="min-height:48px;">{{ r.family_concern if r and r.family_concern }}</textarea>
+          {% else %}
+            <label>Academic readiness (1–5)</label>{{ m.scale('readiness', r.readiness if r) }}<label style="margin-top:6px;">Admission feasibility (1–5, from evidence)</label>{{ m.scale('feasibility', r.feasibility if r) }}
+            <label style="margin-top:6px;">Professional observation</label><textarea name="mentor_note" style="min-height:48px;">{{ r.mentor_note if r and r.mentor_note }}</textarea>
+          {% endif %}
+          <button class="ms-btn p sm" style="margin-top:8px;">Save</button></form>
+      </details>
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endblock %}

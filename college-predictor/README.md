@@ -142,6 +142,19 @@ college-predictor/
 | `/admin/membership/<id>/payment` | POST | Record payment / issue receipt |
 | `/admin/membership/export.xlsx` | GET | Download all (filtered) rows as Excel |
 
+### Mentorship Portal (`mentorship_bp` — prefix `/mentorship`)
+
+Full documentation: [`MENTORSHIP_PORTAL.md`](MENTORSHIP_PORTAL.md).
+
+| Route | Method | Description |
+|-------|--------|-------------|
+| `/mentorship/` | GET | Dispatcher: staff → mentor dashboard; student/parent → their workspace; others → "not enrolled" |
+| `/mentorship/mentor` | GET | Mentor dashboard — 10 filter cards + searchable student table (assigned students; admin sees all) |
+| `/mentorship/e/<id>/<tab>` | GET | Workspace tab: `home`, `sessions`, `weekly`, `kpis`, `reviews`, `branch`, `prefs`, `calendar`, `messages`, `reports`, `history` (role decides content) |
+| `/mentorship/e/<id>/…` | POST | Every write (sessions, actions, check-ins, KPIs, reviews, branch ratings, preference lists/entries, events, messages, reports) — role checked per request |
+| `/mentorship/e/<id>/reports/<rid>` · `.pdf` | GET | Report view / PDF download (students and parents only after it is shared) |
+| `/mentorship/admin` | GET/POST | Admin: programmes & session templates, enrol student, mentor, extra-session allowance, parent links, programme calendar, attention rules, branch catalogue |
+
 ### API Endpoints (`api_bp` — prefix `/api`)
 
 | Endpoint | Method | Description |
@@ -492,6 +505,12 @@ Data is loaded server-side at startup using Pandas. The client never sees the fu
   Overview · **People** (Members, Applications) · **Inbox** (Leads, Inquiries) ·
   **Broadcast** (Announcements, Schedule, Messages) · **Network** (Alumni,
   Surveys) · DASA Review (`templates/admin/_nav.html`, CSS hover + focus-within).
+
+### Phase 20 — Mentorship Portal (2026)
+- New blueprint **`/mentorship`** with student, EA-mentor and parent views over one student record (`ms_*` tables, no migration), plus an admin console.
+- Expandable session programmes (default 10 sessions, add more without code), weekly check-ins and action engine, KPI engine (effort vs exam-outcome), quarterly reviews, transparent branch-fit matrix, college preference lists + choice-filling workflow, calendar with source/verified date, in-portal messaging with private notes, frozen-snapshot report with PDF (ReportLab), audit log.
+- Linked from **Member Home → Mentorship Portal** (Premium) and from the mentor/admin menus. Test: `python tests/test_mentorship_portal.py`.
+- Honest scope: no email/WhatsApp notifications yet, refresh-based (not live push), agenda calendar, no college dataset import — listed in `MENTORSHIP_PORTAL.md`.
 
 ### Phase 19 — College Guides rebrand, page cull, admin dashboard & email templates (2026)
 - **"Mentor network" rebranded to "College Guides"** across all user-facing copy

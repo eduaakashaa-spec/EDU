@@ -445,6 +445,23 @@ set lives in `routes/survey.py` (one `SECTIONS` list) — **to add or reorder
 questions, edit that list; no database migration is needed** (answers live in a
 single `responses_json` column).
 
+### 3.10 Mentorship Portal
+
+The portal (`/mentorship`) gives each enrolled student, their parent and their mentor one connected record. Full reference: `MENTORSHIP_PORTAL.md`.
+
+**Set up once** (Admin → **Mentorship**):
+1. Click **Load standard 10-session programme** (edit titles, topics, deliverables, order — or add an 11th, 12th… core session — any time; changes apply to students enrolled afterwards).
+2. Make sure the mentor's account has the **EA Mentor** role and the student/parent have accounts. The student also needs **Premium** access.
+3. **Enrol a student**: pick the programme, mentor, start date and how many *extra* sessions the package includes.
+4. **Link parent**: enter the parent's account email under the enrolment.
+5. Under **Programme calendar** add the real exam/counselling dates with the official source and the date you last checked it.
+
+**Day to day (mentor):** Member Home → Mentorship Portal → *Mentor dashboard*. The cards filter the list (upcoming sessions, sessions awaiting notes, follow-ups due, overdue actions, needing attention, reviews due, reports pending…). Open a student to schedule/record sessions, assign actions, review the weekly check-in, set KPIs, run the quarterly review and generate the report (**Generate → Approve → Share**).
+
+**Privacy rules to remember:** private session notes and *internal* messages are never shown to student or parent; the student's reflections stay between student and mentor — use the "summary for parent" box to share what is appropriate; shared reports are the only report students/parents can open.
+
+**Not yet automatic:** email/WhatsApp alerts are not connected (people see messages and unread badges when they open the portal), and there is no college/cutoff database — enter each choice with its year and source.
+
 ### 3.9 Email Templates
 
 `/admin/templates` (the **Email Templates** tab, under the Broadcast group) is a

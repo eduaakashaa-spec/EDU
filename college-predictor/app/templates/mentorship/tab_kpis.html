@@ -1,0 +1,85 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+<div class="ms-grid ms-g4" style="margin-bottom:16px;">
+  <div class="ms-card ms-stat"><div class="n">{{ ss.core_done }}/{{ ss.core_total }}</div><div class="l">core sessions completed</div></div>
+  <div class="ms-card ms-stat"><div class="n">{{ ast.pct }}%</div><div class="l">actions completed ({{ ast.done }}/{{ ast.total }})</div></div>
+  <div class="ms-card ms-stat"><div class="n">{{ ast.overdue }}</div><div class="l">overdue actions</div></div>
+  <div class="ms-card ms-stat"><div class="n">{{ kpis|length }}</div><div class="l">KPIs tracked</div></div>
+</div>
+<div class="ms-note info">Effort indicators (study, revision, check-ins) are shown separately from <strong>exam outcomes</strong> such as marks — outcomes are never fully within a student's control. Values change only when an authorised person records a measurement.</div>
+
+{% for cat in ('Preparation', 'Performance', 'Mentorship', 'Readiness') %}
+{% set rows = kpis | selectattr('0.category', 'equalto', cat) | list %}
+{% if rows %}
+<div class="ms-card">
+  <div class="ms-eyebrow">{{ cat }} KPIs</div>
+  <div class="ms-grid ms-g2" style="margin-top:10px;">
+  {% for k, v in rows %}
+    <div class="ms-card" id="k{{ k.id }}" style="margin:0;{{ 'opacity:.6;' if k.status != 'Active' }}">
+      <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;"><strong>{{ k.name }}{% if k.outcome_metric %} <span class="ms-pill info">exam outcome</span>{% endif %}</strong>
+        <span class="ms-pill {{ 'ok' if v.status in ('Achieved', 'On track', 'In range') else ('warn' if v.status in ('Needs attention', 'Out of range') else '') }}">{{ v.status }}</span></div>
+      {% if k.definition %}<div class="hint" style="margin:2px 0 6px;">{{ k.definition }}</div>{% endif %}
+      <div style="font-size:.86rem;">Baseline <strong>{{ k.baseline if k.baseline is not none else '—' }}</strong> → target
+        <strong>{% if k.direction == 'range' %}{{ k.target }}–{{ k.target_high }}{% elif k.direction == 'qualitative' %}review{% else %}{{ k.target if k.target is not none else '—' }}{% endif %}</strong> {{ k.unit or '' }}
+        <span style="color:var(--text-dim)">({{ {'higher': 'higher is better', 'lower': 'lower is better', 'range': 'stay in range', 'milestone': 'milestone', 'qualitative': 'qualitative'}[k.direction] }})</span></div>
+      <div style="font-size:.9rem;margin:4px 0;">Latest: <strong>{{ v.current if v.current is not none else (k.qualitative or 'not recorded') }}</strong> {{ k.unit or '' }}
+        {% if v.trend %}<span style="color:{{ '#1F8B5C' if v.improving else '#C23A3A' if v.improving == false else '#888' }}">{{ {'up': '▲', 'down': '▼', 'flat': '■'}[v.trend] }} {{ 'improving' if v.improving else ('slipping' if v.improving == false else 'steady') }}</span>{% endif %}</div>
+      {% if v.pct is not none %}{{ m.bar(v.pct) }}{% endif %}
+      {% if v.obs|length > 1 %}<div class="ms-sparkline" style="margin-top:8px;" aria-hidden="true">{% set mx = (v.obs | map(attribute='value') | max) or 1 %}{% for o in v.obs[-12:] %}<i title="{{ o.observed_on }}: {{ o.value }}" style="height:{{ [6, (o.value / mx * 40)|int]|max }}px"></i>{% endfor %}</div>{% endif %}
+      <div style="font-size:.76rem;color:var(--text-dim);margin-top:6px;">Method: {{ k.method or '—' }} · {{ k.frequency }} · owner {{ k.owner or '—' }} · updated {{ k.updated_at.strftime('%d %b %Y') if k.updated_at }}</div>
+      {% if k.notes %}<div style="font-size:.82rem;">Notes: {{ k.notes }}</div>{% endif %}
+      {% if staff %}
+      <details class="ms-fold"><summary>Record progress / edit</summary>
+        <form method="post" action="{{ url_for('mentorship.kpi_observe', eid=e.id, kid=k.id) }}">
+          <div class="ms-row"><div><label>New value{% if k.unit %} ({{ k.unit }}){% endif %}</label><input type="number" step="any" name="value"></div>
+            <div><label>Date</label><input type="date" name="observed_on" value="{{ today }}"></div>
+            <div><label>Qualitative note</label><input type="text" name="text"></div></div>
+          <label>Source / note</label><input type="text" name="note" placeholder="e.g. Mock test 3 report">
+          <button class="ms-btn p sm" style="margin-top:6px;">Record</button></form>
+        <form method="post" action="{{ url_for('mentorship.kpi_update', eid=e.id, kid=k.id) }}" style="margin-top:10px;">
+          <div class="ms-row"><div><label>Target</label><input type="number" step="any" name="target" value="{{ k.target if k.target is not none }}"></div>
+            <div><label>Upper bound (range)</label><input type="number" step="any" name="target_high" value="{{ k.target_high if k.target_high is not none }}"></div>
+            <div><label>Frequency</label><input type="text" name="frequency" value="{{ k.frequency }}"></div>
+            <div><label>Status</label><select name="status">{% for st in ('Active', 'Paused', 'Archived') %}<option {{ 'selected' if st == k.status }}>{{ st }}</option>{% endfor %}</select></div></div>
+          <label>Definition</label><textarea name="definition" style="min-height:52px;">{{ k.definition or '' }}</textarea>
+          <label style="margin-top:6px;">Measurement method</label><input type="text" name="method" value="{{ k.method or '' }}">
+          <label style="margin-top:6px;">Notes</label><input type="text" name="notes" value="{{ k.notes or '' }}">
+          <button class="ms-btn g sm" style="margin-top:6px;">Save KPI</button></form>
+      </details>
+      {% endif %}
+    </div>
+  {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% else %}<div class="ms-empty">No KPIs agreed yet.</div>{% endfor %}
+{% if not kpis %}<div class="ms-empty">No KPIs agreed yet.</div>{% endif %}
+
+{% if staff %}
+<div class="ms-card">
+  <div class="ms-eyebrow">Add a KPI</div>
+  <form method="post" action="{{ url_for('mentorship.kpi_add', eid=e.id) }}" class="ms-form" style="margin-top:8px;">
+    <label>Start from a template</label>
+    <select onchange="var o=this.options[this.selectedIndex]; if(!o.value) return; var f=this.form; f.name.value=o.dataset.n; f.category.value=o.dataset.c; f.unit.value=o.dataset.u; f.direction.value=o.dataset.d; f.target.value=o.dataset.t;">
+      <option value="">— custom KPI —</option>
+      {% for c, n, u, d, t in presets %}<option value="1" data-c="{{ c }}" data-n="{{ n }}" data-u="{{ u }}" data-d="{{ d }}" data-t="{{ t if t is not none }}">{{ c }} · {{ n }}</option>{% endfor %}
+    </select>
+    <div class="ms-row" style="margin-top:10px;">
+      <div><label>Name</label><input type="text" name="name" required></div>
+      <div><label>Category</label><select name="category">{% for c in KPI_CATEGORIES %}<option>{{ c }}</option>{% endfor %}</select></div>
+      <div><label>Target type</label><select name="direction">{% for d in KPI_DIRECTIONS %}<option>{{ d }}</option>{% endfor %}</select></div>
+      <div><label>Unit</label><input type="text" name="unit" placeholder="%, count, marks"></div>
+      <div><label>Baseline</label><input type="number" step="any" name="baseline"></div>
+      <div><label>Target</label><input type="number" step="any" name="target"></div>
+      <div><label>Upper bound (range)</label><input type="number" step="any" name="target_high"></div>
+      <div><label>Review frequency</label><input type="text" name="frequency" value="Weekly"></div>
+    </div>
+    <label>Definition</label><textarea name="definition" style="min-height:52px;"></textarea>
+    <label style="margin-top:6px;">How it is measured</label><input type="text" name="method">
+    <label style="text-transform:none;margin-top:8px;"><input type="checkbox" name="outcome_metric" value="1"> This is an exam outcome (marks / rank style), not an effort KPI</label>
+    <div><button class="ms-btn o sm" style="margin-top:10px;">Add KPI</button></div>
+  </form>
+</div>
+{% endif %}
+{% endblock %}

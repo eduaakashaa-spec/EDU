@@ -1,0 +1,11 @@
+{% extends "mentorship/ws.html" %}
+{% block body %}
+<div class="ms-card">
+  <div class="ms-eyebrow">Audit trail</div><h2>Activity history</h2>
+  <p class="hint">Every significant change to this student's record, with who made it. Staff only.</p>
+  <div class="ms-tbl-wrap"><table class="ms-tbl"><thead><tr><th>When</th><th>Who</th><th>Action</th><th>Detail</th></tr></thead><tbody>
+  {% for h in log %}<tr><td>{{ fmt_dt(h.created_at, e.timezone) }}</td><td>{{ h.role or '—' }} #{{ h.user_id or '' }}</td><td>{{ h.action }}</td><td>{{ h.detail }}</td></tr>
+  {% else %}<tr><td colspan="4"><div class="ms-empty">No activity yet.</div></td></tr>{% endfor %}
+  </tbody></table></div>
+</div>
+{% endblock %}

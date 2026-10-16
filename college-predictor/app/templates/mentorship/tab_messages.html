@@ -1,0 +1,31 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+<div class="ms-note info">Messages live inside the portal. <strong>Email / WhatsApp notifications are not connected</strong> — the other person sees a message with an unread badge when they open the portal.</div>
+<div class="ms-grid ms-g2" style="align-items:start;">
+  <div class="ms-card">
+    <div class="ms-eyebrow">New message</div>
+    <form method="post" action="{{ url_for('mentorship.message_post', eid=e.id) }}" style="margin-top:8px;">
+      {% if staff %}
+      <label>Send to</label>
+      <select name="audience"><option value="student">Student</option><option value="parent">Parent</option><option value="all">Student &amp; parent (announcement)</option><option value="internal">🔒 Internal mentor note (nobody else sees this)</option></select>
+      <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="announcement" value="1"> Mark as announcement</label>
+      {% elif role == 'student' %}<div class="ms-note priv">Visible to your mentor{% if False %}{% endif %} only. Parents see messages in their own thread with the mentor.</div>
+      {% else %}<div class="ms-note priv">Visible to the mentor only. Your child's own messages and reflections are not shown to you.</div>{% endif %}
+      <label style="margin-top:6px;">Message</label><textarea name="body" required></textarea>
+      <button class="ms-btn o" style="margin-top:8px;">Send</button>
+    </form>
+  </div>
+  <div class="ms-card">
+    <div class="ms-eyebrow">Conversation</div>
+    {% for msg in msgs %}
+    <div class="ms-msg {{ 'mine' if msg.sender_id == current_user.id }} {{ 'internal' if msg.audience == 'internal' }} {{ 'unread' if msg.id in was_unread }}">
+      <div class="who">{{ msg.sender.name if msg.sender else 'System' }} · {{ fmt_dt(msg.created_at, e.timezone) }}
+        {% if msg.kind == 'announcement' %} · 📣 announcement{% endif %}
+        {% if msg.audience == 'internal' %} · 🔒 internal note{% elif staff %} · to {{ msg.audience }}{% endif %}</div>
+      <div style="white-space:pre-wrap;">{{ msg.body }}</div>
+    </div>
+    {% else %}<div class="ms-empty" style="margin-top:10px;">No messages yet.</div>{% endfor %}
+  </div>
+</div>
+{% endblock %}

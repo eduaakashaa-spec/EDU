@@ -1,0 +1,67 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+{% if staff %}
+<div class="ms-card">
+  <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">
+    <div><div class="ms-eyebrow">Quarterly review workflow</div><h2>Start a new review</h2>
+      <p class="hint" style="margin:0;">Pre-fills sessions, actions, KPIs and check-ins from current records. Draft → Awaiting input → Ready for review → Finalised → Shared.</p></div>
+    <form method="post" action="{{ url_for('mentorship.review_new', eid=e.id) }}" style="display:flex;gap:8px;"><input type="text" name="label" placeholder="Quarter {{ reviews|length + 1 }}" style="width:150px"><button class="ms-btn o">＋ New review</button></form>
+  </div>
+</div>
+{% endif %}
+
+{% for r in reviews %}
+{% set snap = jload(r.snapshot_json) %}
+{% set prev = reviews[loop.index] if loop.index < reviews|length else none %}
+{% set psnap = jload(prev.snapshot_json) if prev else {} %}
+<div class="ms-card" id="r{{ r.id }}">
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">
+    <h2>{{ r.label }}</h2><span class="ms-pill {{ 'ok' if r.status in ('Finalised', 'Shared') else 'warn' }}">{{ r.status }}</span>
+  </div>
+  <p class="hint">Data snapshot taken {{ snap.get('taken_on', '—') }}{% if prev %} · compared with {{ prev.label }}{% endif %}</p>
+
+  {% if snap %}
+  <div class="ms-grid ms-g4" style="margin-bottom:12px;">
+    <div class="ms-stat"><div class="n">{{ snap.sessions.core_done }}/{{ snap.sessions.core_total }}</div><div class="l">core sessions{% if psnap %} (prev {{ psnap.sessions.core_done }}){% endif %}</div></div>
+    <div class="ms-stat"><div class="n">{{ snap.actions.pct }}%</div><div class="l">actions done{% if psnap %} (prev {{ psnap.actions.pct }}%){% endif %}</div></div>
+    <div class="ms-stat"><div class="n">{{ snap.actions.overdue }}</div><div class="l">overdue</div></div>
+    <div class="ms-stat"><div class="n">{{ snap.checkins_submitted }}</div><div class="l">check-ins submitted</div></div>
+  </div>
+  {% if snap.kpis %}<div class="ms-tbl-wrap"><table class="ms-tbl"><thead><tr><th>KPI</th><th>Baseline</th><th>Target</th><th>At this review</th><th>Status</th></tr></thead><tbody>
+    {% for k in snap.kpis %}<tr><td>{{ k.name }}{% if k.outcome %} <span class="ms-pill info">outcome</span>{% endif %}</td><td>{{ k.baseline if k.baseline is not none else '—' }}</td><td>{{ k.target if k.target is not none else '—' }}</td><td>{{ k.current if k.current is not none else (k.qualitative or 'not recorded') }}</td><td>{{ k.status }}</td></tr>{% endfor %}
+  </tbody></table></div>{% endif %}
+  {% endif %}
+
+  {% if staff %}
+  <form method="post" action="{{ url_for('mentorship.review_update', eid=e.id, rid=r.id) }}" style="margin-top:12px;">
+    <div class="ms-row">
+      <div><label>Next review date</label><input type="date" name="next_review_date" value="{{ r.next_review_date or '' }}"></div>
+      <div><label>Status</label><select name="status">{% for st in REVIEW_STATUSES %}<option {{ 'selected' if st == r.status }}>{{ st }}</option>{% endfor %}</select></div>
+    </div>
+    {% for f, label in (('mentor_observations', 'Mentor observations'), ('strengths', 'Strengths'), ('challenges', 'Main challenges'), ('goal_changes', 'Changes in goals or priorities'), ('interventions', 'Recommended interventions'), ('next_targets', 'Next-quarter targets')) %}
+    <label style="margin-top:6px;">{{ label }}</label><textarea name="{{ f }}" style="min-height:56px;">{{ r[f] or '' }}</textarea>{% endfor %}
+    <label style="text-transform:none;margin-top:8px;"><input type="checkbox" name="parent_requested" value="1" {{ 'checked' if r.parent_requested }}> Ask the parent for feedback</label>
+    <label style="text-transform:none;"><input type="checkbox" name="refresh" value="1"> Refresh the data snapshot from current records</label>
+    {% if r.student_reflection %}<div class="ms-note info" style="margin-top:8px;"><strong>Student reflection:</strong> {{ r.student_reflection }}</div>{% endif %}
+    {% if r.parent_feedback %}<div class="ms-note info"><strong>Parent feedback:</strong> {{ r.parent_feedback }}</div>{% endif %}
+    <button class="ms-btn p sm" style="margin-top:8px;">Save review</button>
+  </form>
+  {% elif r.status == 'Awaiting input' %}
+    <div class="ms-note">Your mentor is preparing this review and would like your input.</div>
+    {% if role == 'student' or r.parent_requested %}
+    <form method="post" action="{{ url_for('mentorship.review_input', eid=e.id, rid=r.id) }}">
+      <label>{{ 'Your reflection on this quarter' if role == 'student' else 'Your feedback or questions for the next review' }}</label>
+      <textarea name="text">{{ (r.student_reflection if role == 'student' else r.parent_feedback) or '' }}</textarea>
+      <button class="ms-btn o sm" style="margin-top:8px;">Save</button></form>
+    {% endif %}
+  {% else %}
+    {% for f, label in (('mentor_observations', 'Mentor observations'), ('strengths', 'Strengths'), ('challenges', 'Main challenges'), ('goal_changes', 'Changes in goals'), ('next_targets', 'Next-quarter targets')) if r[f] %}
+    <div style="margin:8px 0;"><strong>{{ label }}</strong><div style="font-size:.9rem;white-space:pre-wrap;">{{ r[f] }}</div></div>{% endfor %}
+    {% if r.next_review_date %}<p class="hint">Next review: {{ r.next_review_date.strftime('%d %b %Y') }}</p>{% endif %}
+  {% endif %}
+</div>
+{% else %}
+<div class="ms-empty">{% if staff %}No quarterly reviews yet — start the first one above.{% else %}No review has been shared yet. You will see it here once your mentor finalises it.{% endif %}</div>
+{% endfor %}
+{% endblock %}

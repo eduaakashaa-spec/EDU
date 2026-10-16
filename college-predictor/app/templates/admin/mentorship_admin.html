@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+{% block title %}Mentorship — Admin · EduAakashaA{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .ma label{ display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#4a5470; margin:0 0 4px; }
+  .ma input[type=text], .ma input[type=number], .ma input[type=date], .ma input[type=email], .ma select, .ma textarea{ width:100%; padding:8px 10px; border:1.5px solid var(--hairline); border-radius:9px; font:inherit; font-size:13.5px; background:#fff; box-sizing:border-box; }
+  .ma .row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin-bottom:10px; }
+  .ma .card{ background:var(--paper); border:1px solid var(--hairline); border-radius:14px; padding:18px 20px; margin-bottom:18px; }
+  .ma h2{ font-family:'Fraunces',serif; color:var(--navy-ink); font-size:1.2rem; margin:0 0 4px; }
+  .ma .hint{ color:var(--muted); font-size:13px; margin:0 0 12px; }
+  .ma details{ border:1px dashed var(--hairline); border-radius:10px; padding:4px 12px; margin:8px 0; }
+  .ma summary{ cursor:pointer; font-weight:700; font-size:13px; color:var(--navy); padding:6px 0; }
+  .ma .tpl{ display:grid; grid-template-columns:34px 1fr auto; gap:10px; align-items:start; padding:8px 0; border-bottom:1px solid #F1EAD7; }
+  .ma .n{ background:var(--navy); color:#fff; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; }
+  .ma .off{ opacity:.5; }
+</style>{% endblock %}
+{% block content %}
+<div class="adm ma"><div class="adm-wrap">
+  <div class="adm-top"><div><div class="adm-eyebrow">Admin</div><h1>Mentorship Portal</h1></div>
+    <a class="btn btn-ghost" href="{{ url_for('mentorship.mentor_home') }}">Open mentor dashboard →</a></div>
+  {% include "admin/_nav.html" %}
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<ul style="list-style:none;padding:0;margin:0 0 14px;">{% for cat, msg in messages %}<li style="padding:10px 14px;border-radius:9px;margin-bottom:6px;background:{{ '#e6f9ed' if cat == 'success' else ('#fce4e4' if cat == 'danger' else '#e4edf9') }};">{{ msg }}</li>{% endfor %}</ul>{% endif %}{% endwith %}
+
+  {% if not programmes %}
+  <div class="card"><h2>Start with the standard programme</h2><p class="hint">Creates “Grade 12 Engineering Mentorship” with the 10 core sessions and the branch catalogue. Everything stays editable.</p>
+    <form method="post" action="{{ url_for('mentorship.admin_load_default') }}"><button class="btn btn-navy">Load standard 10-session programme</button></form></div>
+  {% endif %}
+
+  {% for p in programmes %}
+  <div class="card" id="p{{ p.id }}">
+    <h2>{{ p.name }} <span style="font-size:12px;color:var(--muted)">· {{ p.templates.filter_by(active=True).count() }} core sessions · tier: {{ p.tier or '—' }}</span></h2>
+    <p class="hint">{{ p.description }} Changing the session list applies to <strong>newly enrolled</strong> students; existing students keep their own session records.</p>
+    {% for t in p.templates %}
+    <div class="tpl {{ 'off' if not t.active }}">
+      <div class="n">{{ t.position }}</div>
+      <div><strong>{{ t.title }}</strong> <span style="font-size:12px;color:var(--muted)">{{ t.duration_min }} min{% if not t.active %} · inactive{% endif %}</span>
+        <div style="font-size:12.5px;color:var(--muted)">Deliverable: {{ t.deliverable or '—' }}</div>
+        <details><summary>Edit</summary>
+          <form method="post" action="{{ url_for('mentorship.admin_template_op', tid=t.id, op='save') }}">
+            <div class="row"><div><label>Title</label><input type="text" name="title" value="{{ t.title }}"></div><div><label>Deliverable</label><input type="text" name="deliverable" value="{{ t.deliverable or '' }}"></div><div><label>Minutes</label><input type="number" name="duration_min" value="{{ t.duration_min }}"></div></div>
+            <label>Topics (one per line)</label><textarea name="topics" rows="4">{{ t.topics or '' }}</textarea>
+            <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="active" value="1" {{ 'checked' if t.active }}> Active</label>
+            <button class="btn btn-navy" style="margin-top:8px;">Save</button></form></details></div>
+      <div style="display:flex;gap:4px;">
+        <form method="post" action="{{ url_for('mentorship.admin_template_op', tid=t.id, op='up') }}"><button class="btn btn-ghost" aria-label="Move up">↑</button></form>
+        <form method="post" action="{{ url_for('mentorship.admin_template_op', tid=t.id, op='down') }}"><button class="btn btn-ghost" aria-label="Move down">↓</button></form></div>
+    </div>
+    {% endfor %}
+    <details><summary>＋ Add a core session (no code change needed)</summary>
+      <form method="post" action="{{ url_for('mentorship.admin_template_add', pid=p.id) }}">
+        <div class="row"><div><label>Title</label><input type="text" name="title" required></div><div><label>Deliverable</label><input type="text" name="deliverable"></div><div><label>Minutes</label><input type="number" name="duration_min" value="60"></div></div>
+        <label>Topics (one per line)</label><textarea name="topics" rows="3"></textarea>
+        <button class="btn btn-navy" style="margin-top:8px;">Add session</button></form></details>
+  </div>
+  {% endfor %}
+
+  <div class="card"><h2>New programme</h2><p class="hint">For another grade, exam pathway or membership tier.</p>
+    <form method="post" action="{{ url_for('mentorship.admin_programme_new') }}"><div class="row"><div><label>Name</label><input type="text" name="name" required></div><div><label>Membership tier</label><input type="text" name="tier" placeholder="e.g. Elite Mentorship"></div></div>
+      <label>Description</label><textarea name="description" rows="2"></textarea><button class="btn btn-navy" style="margin-top:8px;">Create programme</button></form></div>
+
+  <div class="card"><h2>Enrol a student</h2>
+    <p class="hint">The student (and mentor) must already have an account. The student gets all programme sessions as planned records. Mentors must hold the EA Mentor role. The student needs Premium access to open the portal.</p>
+    <form method="post" action="{{ url_for('mentorship.admin_enrol') }}">
+      <div class="row"><div><label>Student email</label><input type="email" name="student_email" required></div>
+        <div><label>Programme</label><select name="programme_id">{% for p in programmes %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}</select></div>
+        <div><label>Mentor email</label><select name="mentor_email"><option value="">— assign later —</option>{% for u in mentors %}<option value="{{ u.email }}">{{ u.name }} ({{ u.email }})</option>{% endfor %}</select></div>
+        <div><label>Grade</label><input type="text" name="grade" value="Grade 12"></div>
+        <div><label>Start</label><input type="date" name="start_date" value="{{ today }}"></div><div><label>End</label><input type="date" name="end_date"></div>
+        <div><label>Extra sessions included</label><input type="number" name="extra_quota" value="0" min="0"></div></div>
+      <button class="btn btn-navy">Enrol student</button></form></div>
+
+  <div class="card"><h2>Enrolments ({{ enrolments|length }})</h2>
+    {% for e in enrolments %}
+    <details id="e{{ e.id }}" {{ 'open' if loop.first and enrolments|length == 1 }}><summary>{{ e.student.name }} — {{ e.programme.name }} · {{ e.status }} · mentor {{ e.mentor.name if e.mentor else 'unassigned' }}</summary>
+      <form method="post" action="{{ url_for('mentorship.admin_enrolment_update', eid=e.id) }}">
+        <div class="row"><div><label>Mentor</label><select name="mentor_email"><option value="">— keep —</option>{% for u in mentors %}<option value="{{ u.email }}" {{ 'selected' if e.mentor_id == u.id }}>{{ u.name }}</option>{% endfor %}</select></div>
+          <div><label>Status</label><select name="status">{% for st in ('Active', 'Paused', 'Completed') %}<option {{ 'selected' if st == e.status }}>{{ st }}</option>{% endfor %}</select></div>
+          <div><label>Extra sessions included</label><input type="number" name="extra_quota" min="0" value="{{ e.extra_quota or 0 }}"></div>
+          <div><label>Start</label><input type="date" name="start_date" value="{{ e.start_date or '' }}"></div><div><label>End</label><input type="date" name="end_date" value="{{ e.end_date or '' }}"></div>
+          <div><label>Time zone</label><input type="text" name="timezone" value="{{ e.timezone }}"></div></div>
+        <button class="btn btn-navy">Save</button> <a class="btn btn-ghost" href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}">Open record</a></form>
+      <div style="margin-top:8px;font-size:13px;"><strong>Linked parents:</strong>
+        {% for l in links if l.enrolment_id == e.id %}{{ l.parent.name }} ({{ l.parent.email }}) <form method="post" action="{{ url_for('mentorship.admin_parent_unlink', lid=l.id) }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">remove</button></form> {% else %}none{% endfor %}</div>
+      <form method="post" action="{{ url_for('mentorship.admin_parent_link') }}" style="margin-top:8px;"><input type="hidden" name="enrolment_id" value="{{ e.id }}">
+        <div class="row"><div><label>Parent account email</label><input type="email" name="parent_email" required></div><div><label>Relation</label><input type="text" name="relation" value="Parent"></div></div>
+        <button class="btn btn-ghost">Link parent</button></form>
+    </details>
+    {% else %}<p class="hint">No students enrolled yet.</p>{% endfor %}</div>
+
+  <div class="card" id="calendar"><h2>Programme calendar</h2>
+    <p class="hint">Exam / counselling / deadline events shown to every enrolled student. Always record the official source and the date you last verified it — nothing is pre-loaded because dates change every year.</p>
+    {% for ev in prog_events %}<div style="font-size:13px;padding:4px 0;border-bottom:1px solid #F1EAD7;">{{ ev.starts_on }} · <strong>{{ ev.title }}</strong> ({{ ev.category }}) · {{ ev.source or 'no source' }} · {{ 'verified ' ~ ev.verified_on if ev.verified_on else 'UNVERIFIED' }}
+      <form method="post" action="{{ url_for('mentorship.admin_event_delete', evid=ev.id) }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">delete</button></form></div>{% endfor %}
+    <form method="post" action="{{ url_for('mentorship.admin_event') }}" style="margin-top:10px;">
+      <div class="row"><div><label>Programme</label><select name="programme_id">{% for p in programmes %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}</select></div>
+        <div><label>Title</label><input type="text" name="title" required></div>
+        <div><label>Category</label><select name="category">{% for c in EVENT_CATEGORIES %}<option>{{ c }}</option>{% endfor %}</select></div>
+        <div><label>Date</label><input type="date" name="starts_on" required></div><div><label>Until</label><input type="date" name="ends_on"></div>
+        <div><label>Official source</label><input type="text" name="source"></div><div><label>Last verified</label><input type="date" name="verified_on"></div></div>
+      <button class="btn btn-navy">Add event</button></form></div>
+
+  <div class="card" id="rules"><h2>Attention rules</h2><p class="hint">Thresholds that flag a student for mentor attention. Workflow indicators only.</p>
+    <form method="post" action="{{ url_for('mentorship.admin_rules') }}"><div class="row">
+      {% for k, v, help in rules %}<div><label>{{ k.replace('_', ' ') }}</label><input type="number" name="{{ k }}" value="{{ v }}" min="0"><div style="font-size:11.5px;color:var(--muted)">{{ help }}</div></div>{% endfor %}</div>
+      <button class="btn btn-navy">Save rules</button></form></div>
+
+  <div class="card" id="branches"><h2>Branch catalogue</h2>
+    {% if not branches %}<p class="hint">Empty — loads automatically the first time a branch-fit tab opens, or use “Load standard programme”.</p>{% endif %}
+    {% for b in branches %}<details><summary>{{ b.name }}{% if not b.active %} (inactive){% endif %}</summary>
+      <form method="post" action="{{ url_for('mentorship.admin_branch') }}"><input type="hidden" name="id" value="{{ b.id }}">
+        <div class="row"><div><label>Name</label><input type="text" name="name" value="{{ b.name }}"></div><div><label>Active</label><select name="active"><option value="1" {{ 'selected' if b.active }}>Yes</option><option value="0" {{ 'selected' if not b.active }}>No</option></select></div></div>
+        {% for f, lbl in (('studies', 'What students study'), ('subjects', 'Core subjects'), ('skills', 'Useful skills'), ('projects', 'Example projects'), ('careers', 'Career directions'), ('questions', 'Questions to ask')) %}<label style="margin-top:6px;">{{ lbl }}</label><input type="text" name="{{ f }}" value="{{ b[f] or '' }}">{% endfor %}
+        <button class="btn btn-navy" style="margin-top:8px;">Save</button></form></details>{% endfor %}
+    <details><summary>＋ Add a branch</summary>
+      <form method="post" action="{{ url_for('mentorship.admin_branch') }}"><label>Name</label><input type="text" name="name" required>
+        {% for f, lbl in (('studies', 'What students study'), ('subjects', 'Core subjects'), ('skills', 'Useful skills'), ('projects', 'Example projects'), ('careers', 'Career directions'), ('questions', 'Questions to ask')) %}<label style="margin-top:6px;">{{ lbl }}</label><input type="text" name="{{ f }}">{% endfor %}
+        <button class="btn btn-navy" style="margin-top:8px;">Add branch</button></form></details></div>
+</div></div>
+{% endblock %}

@@ -16,6 +16,12 @@ CATEGORIES = [
          {'title': 'My assessments', 'desc': 'Every assessment result, shared with your mentor.', 'icon': '📝', 'endpoint': 'members.profile', 'anchor': 'assessments', 'access': 'free'},
          {'title': 'Stream selection', 'desc': 'Find the stream that fits your strengths.', 'icon': '🎯', 'endpoint': 'main.stream_selection', 'access': 'premium'},
      ]},
+    {'key': 'mentorship', 'title': 'Mentorship Portal', 'icon': '🎯', 'color': '#EA580C', 'tint': '#FFEBDD',
+     'blurb': 'Sessions, weekly plan, KPIs, branch fit, college preferences and your progress report.',
+     'tiles': [
+         {'title': 'My Mentorship', 'desc': 'Your journey, weekly plan, KPIs, reviews and reports (students and parents).', 'icon': '🧑\u200d🏫', 'endpoint': 'mentorship.index', 'access': 'premium'},
+         {'title': 'Mentor dashboard', 'desc': 'Assigned students, sessions, follow-ups and interventions.', 'icon': '📋', 'endpoint': 'mentorship.mentor_home', 'access': 'premium', 'staff': True},
+     ]},
     {'key': 'intel', 'title': 'Admission Intelligence', 'icon': '📊', 'color': '#D97706', 'tint': '#FFF3DD',
      'blurb': 'Latest analytics and reports for the 2026–27 cycle.',
      'tiles': [
@@ -65,6 +71,8 @@ def build(user):
         tiles = []
         for t in cat['tiles']:
             t = dict(t)
+            if t.get('staff') and not user.is_staff:
+                continue
             if t['access'] == 'soon':
                 t['url'], t['locked'] = None, False
             else:

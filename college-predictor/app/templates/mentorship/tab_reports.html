@@ -1,0 +1,31 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+{% if staff %}
+<div class="ms-card">
+  <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;">
+    <div><div class="ms-eyebrow">Final mentorship report</div><h2>Generate from current records</h2>
+      <p class="hint" style="margin:0;">Freezes a snapshot of verified records. Missing data is shown as “Not recorded”, never as zero. Review → Approve → Share with student &amp; parent.</p></div>
+    <form method="post" action="{{ url_for('mentorship.report_generate', eid=e.id) }}"><button class="ms-btn o">＋ Generate draft</button></form>
+  </div>
+</div>
+{% endif %}
+{% for r in reports %}
+<div class="ms-card">
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">
+    <div><h2>Progress report · data through {{ r.data_through.strftime('%d %b %Y') if r.data_through }}</h2>
+      <p class="hint" style="margin:0;">Generated {{ fmt_dt(r.created_at, e.timezone) }}{% if r.approved_at %} · approved {{ r.approved_at.strftime('%d %b %Y') }}{% endif %}{% if r.shared_at %} · shared {{ r.shared_at.strftime('%d %b %Y') }}{% endif %}</p></div>
+    <span class="ms-pill {{ 'ok' if r.status == 'Shared' else ('info' if r.status == 'Approved' else 'warn') }}">{{ r.status }}</span>
+  </div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;">
+    <a class="ms-btn p sm" href="{{ url_for('mentorship.report_view', eid=e.id, rid=r.id) }}">View</a>
+    <a class="ms-btn g sm" href="{{ url_for('mentorship.report_pdf', eid=e.id, rid=r.id) }}">⬇ PDF</a>
+    {% if staff %}
+      {% if r.status == 'Draft' %}<form method="post" action="{{ url_for('mentorship.report_step', eid=e.id, rid=r.id, step='approve') }}"><button class="ms-btn o sm">Approve</button></form>{% endif %}
+      {% if r.status == 'Approved' %}<form method="post" action="{{ url_for('mentorship.report_step', eid=e.id, rid=r.id, step='share') }}"><button class="ms-btn o sm">Share with student &amp; parent</button></form>{% endif %}
+      {% if r.status != 'Shared' %}<form method="post" action="{{ url_for('mentorship.report_step', eid=e.id, rid=r.id, step='delete') }}" onsubmit="return confirm('Delete this draft?')"><button class="ms-btn g sm">Delete</button></form>{% endif %}
+    {% endif %}
+  </div>
+</div>
+{% else %}<div class="ms-empty">{% if staff %}No reports yet.{% else %}Your mentor will share the progress report here once it is ready.{% endif %}</div>{% endfor %}
+{% endblock %}

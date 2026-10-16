@@ -24,10 +24,12 @@
   <a href="{{ url_for('assessments.admin_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'assessments' }}">Assessment Results</a>
   <a href="{{ url_for('members.admin_doc_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'documents' }}">Document Verify</a>
   <a href="{{ url_for('onboarding.admin_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'onboarding' }}">Onboarding Assessments</a>
+  <a href="{{ url_for('mentorship.mentor_home') }}" class="adm-navlink {{ 'on' if admin_tab == 'mentorship' }}">Mentorship</a>
 </nav>
 {% else %}
 <nav class="adm-nav" aria-label="Admin sections">
   <a href="{{ url_for('admin_portal.home') }}" class="adm-navlink {{ 'on' if admin_tab == 'overview' }}">Overview</a>
+  <a href="{{ url_for('mentorship.admin_home') }}" class="adm-navlink {{ 'on' if admin_tab == 'mentorship' }}">Mentorship</a>
 
   <div class="adm-navgrp {{ 'on' if admin_tab in ['users', 'memberships', 'onboarding', 'documents', 'assessments'] }}">
     <button type="button" class="adm-navtop" aria-haspopup="true">People ▾</button>
