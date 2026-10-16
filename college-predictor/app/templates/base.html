@@ -183,6 +183,7 @@
               {% if current_user.is_admin %}<a href="{{ url_for('admin_portal.home') }}" class="nav__link nav__link--auth">Admin</a>{% endif %}
               {% if current_user.is_mentor %}<a href="{{ url_for('alumni.mentor_dashboard') }}" class="nav__link nav__link--auth">Guide Portal</a>
               {% else %}<a href="{{ url_for('memberhub.home') }}" class="nav__link nav__link--auth">Member Home</a>{% endif %}
+              <a href="{{ url_for('auth.logout') }}" class="nav__link nav__link--auth nav__link--ghost">Logout</a>
             {% else %}
               <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth nav__link--ghost">Login</a>
               <a href="{{ url_for('auth.mentor_login') }}" class="nav__link nav__link--auth nav__link--ghost">Mentor Login</a>
@@ -201,6 +202,7 @@
         {% else %}
         <a href="{{ url_for('memberhub.home') }}" class="nav__link nav__link--auth">Member Home</a>
         {% endif %}
+        <a href="{{ url_for('auth.logout') }}" class="nav__link nav__link--auth nav__link--ghost">Logout</a>
         {% else %}
         <a href="{{ url_for('auth.login') }}" class="nav__link nav__link--auth nav__link--ghost">Login</a>
         <a href="{{ url_for('auth.mentor_login') }}" class="nav__link nav__link--auth nav__link--ghost">Mentor Login</a>
