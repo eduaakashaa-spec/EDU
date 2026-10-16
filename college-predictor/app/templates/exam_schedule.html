@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Exam Schedule 2026 — Engineering / Design / Architecture | EduAakashaA{% endblock %}
+{% block title %}Exam Schedule 2026–27 — Engineering / Design / Architecture | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 {% endblock %}
@@ -11,21 +11,21 @@
   <div class="container">
     <div class="hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">UPDATED APRIL 2026</span>
-        <h1 style="margin-top:22px;">Engineering &amp; Design <span class="accent">Exam Schedule 2026</span></h1>
-        <p class="hero-sub">44+ exams across 4 streams — with dates, boards, state, and status. Filter by stream, type, state and plan ahead with EduAakashaA.</p>
+        <span class="eyebrow">UPDATED 16 OCTOBER 2026</span>
+        <h1 style="margin-top:22px;">Engineering &amp; Design <span class="accent">Exam Schedule 2026&ndash;27</span></h1>
+        <p class="hero-sub">32 entrance exams for the 2027 admission cycle across 4 streams — with dates, boards, state and status. Only dates officially announced are marked Confirmed; the rest are clearly labelled Tentative or Expected.</p>
         <div class="hero-ctas">
           <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
           <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
         </div>
       </div>
       <aside class="hero-card">
-        <div class="hero-card-eyebrow">2026 Exam Calendar</div>
+        <div class="hero-card-eyebrow">2027 Admission Cycle</div>
         <div class="hero-card-title">Every entrance, one schedule</div>
         <div class="hero-card-rows">
           <div class="hero-card-row">
             <span class="hcr-label">Exams</span>
-            <span class="hcr-value">44</span>
+            <span class="hcr-value">32</span>
           </div>
           <div class="hero-card-row">
             <span class="hcr-label">Streams</span>
@@ -47,11 +47,35 @@
 
 <div class="main-content">
 
+  <!-- Key dates ahead -->
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">COMING UP</span>
+      <h2 class="section__title">Key dates in the next few months</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>When</th><th>What</th></tr></thead>
+        <tbody>
+          <tr><td>Late Oct 2026 (expected)</td><td>JEE Main 2027 Session 1 registration opens &mdash; NTA bulletin awaited at jeemain.nta.nic.in</td></tr>
+          <tr><td>Oct 31, 2026 (late fee Nov 6)</td><td>UCEED / CEED 2027 registration deadline</td></tr>
+          <tr><td>Nov 2026</td><td>Amrita AEEE 2027 and SRMJEEE 2027 registration expected to open</td></tr>
+          <tr><td>Nov 29, 2026</td><td>CAT 2026 (MBA entrance) &mdash; for students planning management after B.Tech</td></tr>
+          <tr><td>Nov 30, 2026</td><td>NID DAT 2027 registration closes</td></tr>
+          <tr><td>Dec 2026</td><td>BITSAT 2027 and NIFT 2027 registration expected to open</td></tr>
+          <tr><td>Dec 20, 2026</td><td>NID DAT Prelims</td></tr>
+          <tr><td>Jan 17, 2027</td><td>UCEED &amp; CEED 2027</td></tr>
+          <tr><td>Jan 22-30, 2027</td><td>JEE Main 2027 Session 1 (tentative, per NTA calendar)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <!-- Filters -->
   <section class="section">
     <div class="section__header">
       <span class="eyebrow">FILTERS</span>
-      <h2 class="section__title">Narrow down the 2026 exams</h2>
+      <h2 class="section__title">Narrow down the 2027-cycle exams</h2>
     </div>
     <div class="filter-row" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
       <select id="streamFilter" class="filter-input">
@@ -70,8 +94,9 @@
       </select>
       <select id="statusFilter" class="filter-input">
         <option value="">All Status</option>
-        <option>Completed</option>
-        <option>Upcoming</option>
+        <option>Confirmed</option>
+        <option>Tentative</option>
+        <option>Expected</option>
       </select>
       <input type="text" id="searchFilter" class="filter-input" placeholder="Search exam or state…" style="flex:1;min-width:180px;">
     </div>
@@ -87,54 +112,42 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td>JEE Main (S1)</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Jan 21-29, 2026</td><td>Completed</td><td>NITs · IIITs · GFTIs</td></tr>
-          <tr><td>JEE Main (S2)</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Apr 2-8, 2026</td><td>Completed</td><td>NITs · IIITs · GFTIs</td></tr>
-          <tr><td>JEE Main Paper 2 B.Arch (S1)</td><td>NTA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>Jan 29, 2026</td><td>Completed</td><td>NITs / IIITs B.Arch</td></tr>
-          <tr><td>JEE Main Paper 2 B.Arch (S2)</td><td>NTA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>Apr 7, 2026</td><td>Completed</td><td>NITs / IIITs B.Arch</td></tr>
-          <tr><td>JEE Advanced 2026</td><td>IIT Roorkee</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>May 2026 (Tentative)</td><td>Upcoming</td><td>23 IITs</td></tr>
-          <tr><td>BITSAT (S1)</td><td>BITS Pilani</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>Apr 15-16, 2026</td><td>Completed</td><td>BITS Pilani / Goa / Hyderabad</td></tr>
-          <tr><td>BITSAT (S2)</td><td>BITS Pilani</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>May 24-26, 2026</td><td>Upcoming</td><td>BITS Pilani / Goa / Hyderabad</td></tr>
-          <tr><td>VITEEE 2026</td><td>VIT Vellore</td><td>B.Tech/B.E.</td><td>Private</td><td>Tamil Nadu</td><td>Apr 28-May 3, 2026</td><td>Upcoming</td><td>VIT Vellore / Chennai / AP / Bhopal</td></tr>
-          <tr><td>SRMJEEE 2026</td><td>SRM University</td><td>B.Tech/B.E.</td><td>Private</td><td>Tamil Nadu</td><td>Apr 23-25 · Jun 10-15 · Jul 4-5</td><td>Upcoming</td><td>SRM Institute of Science &amp; Tech</td></tr>
-          <tr><td>MET 2026 (Ph1)</td><td>Manipal</td><td>B.Tech/B.E.</td><td>Private</td><td>Karnataka</td><td>Apr 13-14, 2026</td><td>Completed</td><td>Manipal Institute of Technology</td></tr>
-          <tr><td>MET 2026 (Ph2)</td><td>Manipal</td><td>B.Tech/B.E.</td><td>Private</td><td>Karnataka</td><td>May 23-24, 2026</td><td>Upcoming</td><td>Manipal Institute of Technology</td></tr>
-          <tr><td>AEEE 2026</td><td>Amrita</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>Apr 24-30, 2026</td><td>Upcoming</td><td>Amrita Vishwa Vidyapeetham</td></tr>
-          <tr><td>KIITEE (Ph1)</td><td>KIIT</td><td>B.Tech/B.E.</td><td>Private</td><td>Odisha</td><td>Apr 16-20, 2026</td><td>Completed</td><td>KIIT Bhubaneswar</td></tr>
-          <tr><td>KIITEE (Ph2)</td><td>KIIT</td><td>B.Tech/B.E.</td><td>Private</td><td>Odisha</td><td>Jun 4-8, 2026</td><td>Upcoming</td><td>KIIT Bhubaneswar</td></tr>
-          <tr><td>KLEEE 2026</td><td>KLE Tech</td><td>B.Tech/B.E.</td><td>Private</td><td>Karnataka</td><td>Mar 28-31, 2026</td><td>Completed</td><td>KLE Technological University</td></tr>
-          <tr><td>KCET 2026</td><td>KEA Karnataka</td><td>B.Tech/B.E.</td><td>State</td><td>Karnataka</td><td>Apr 23-24, 2026</td><td>Upcoming</td><td>200+ Karnataka Engg Colleges</td></tr>
-          <tr><td>COMEDK UGET</td><td>COMEDK</td><td>B.Tech/B.E.</td><td>State</td><td>Karnataka</td><td>May 9, 2026</td><td>Upcoming</td><td>181 Private KA Colleges</td></tr>
-          <tr><td>MHT CET (S1)</td><td>CET Cell MH</td><td>B.Tech/B.E.</td><td>State</td><td>Maharashtra</td><td>Apr 11-19, 2026</td><td>Completed</td><td>300+ Maharashtra Colleges</td></tr>
-          <tr><td>MHT CET (S2)</td><td>CET Cell MH</td><td>B.Tech/B.E.</td><td>State</td><td>Maharashtra</td><td>May 2026</td><td>Upcoming</td><td>300+ Maharashtra Colleges</td></tr>
-          <tr><td>WBJEE 2026</td><td>WBJEEB</td><td>B.Tech/B.E.</td><td>State</td><td>West Bengal</td><td>May 24, 2026</td><td>Upcoming</td><td>100+ WB Engg Colleges</td></tr>
-          <tr><td>GUJCET 2026</td><td>GSEB</td><td>B.Tech/B.E.</td><td>State</td><td>Gujarat</td><td>Mar 29, 2026</td><td>Completed</td><td>Gujarat Govt &amp; Pvt Colleges</td></tr>
-          <tr><td>KEAM 2026</td><td>CEE Kerala</td><td>B.Tech/B.E.</td><td>State</td><td>Kerala</td><td>Apr 17-22, 2026</td><td>Completed</td><td>Kerala Engineering Colleges</td></tr>
-          <tr><td>TG-EAPCET</td><td>TSCHE</td><td>B.Tech/B.E.</td><td>State</td><td>Telangana</td><td>May 9 &amp; 11, 2026</td><td>Upcoming</td><td>Telangana Engg Colleges</td></tr>
-          <tr><td>AP-EAPCET</td><td>APSCHE</td><td>B.Tech/B.E.</td><td>State</td><td>Andhra Pradesh</td><td>May 12-15 &amp; 18, 2026</td><td>Upcoming</td><td>AP Engineering Colleges</td></tr>
-          <tr><td>TNEA 2026</td><td>Anna University</td><td>B.Tech/B.E.</td><td>State</td><td>Tamil Nadu</td><td>Based on +2 Marks</td><td>Upcoming</td><td>550+ TN Colleges (No Exam)</td></tr>
-          <tr><td>OJEE 2026</td><td>OJEE Board</td><td>B.Tech/B.E.</td><td>State</td><td>Odisha</td><td>May 4-9, 2026</td><td>Upcoming</td><td>Odisha Govt &amp; Pvt Colleges</td></tr>
-          <tr><td>Assam CEE</td><td>DTE Assam</td><td>B.Tech/B.E.</td><td>State</td><td>Assam</td><td>Apr 19-20 &amp; Jun 7, 2026</td><td>Completed</td><td>Assam Engineering Colleges</td></tr>
-          <tr><td>JKCET 2026</td><td>BOPEE</td><td>B.Tech/B.E.</td><td>State</td><td>Jammu &amp; Kashmir</td><td>Apr 19, 2026</td><td>Completed</td><td>J&amp;K Engineering Colleges</td></tr>
-          <tr><td>HPCET 2026</td><td>HPU</td><td>B.Tech/B.E.</td><td>State</td><td>Himachal Pradesh</td><td>May 10, 2026</td><td>Upcoming</td><td>HP Engineering Colleges</td></tr>
-          <tr><td>CG PET 2026</td><td>CG Vyapam</td><td>B.Tech/B.E.</td><td>State</td><td>Chhattisgarh</td><td>May 14, 2026</td><td>Upcoming</td><td>Chhattisgarh Engg Colleges</td></tr>
-          <tr><td>UPSEE / AKTU</td><td>AKTU</td><td>B.Tech/B.E.</td><td>State</td><td>Uttar Pradesh</td><td>Via JEE Main Score</td><td>Upcoming</td><td>UP Engineering Colleges</td></tr>
-          <tr><td>CUSAT CAT</td><td>Cochin Univ</td><td>B.Tech/B.E.</td><td>State</td><td>Kerala</td><td>May 9-11, 2026</td><td>Upcoming</td><td>CUSAT Kochi</td></tr>
-          <tr><td>CUCET 2026</td><td>Central Univs</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>May 1, 2026</td><td>Upcoming</td><td>Central Universities</td></tr>
-          <tr><td>ISI Admission</td><td>ISI Kolkata</td><td>Research/Science</td><td>Research</td><td>West Bengal</td><td>May 10, 2026</td><td>Upcoming</td><td>ISI Kolkata / Bangalore / Delhi</td></tr>
-          <tr><td>UGEE (IIIT-H)</td><td>IIIT Hyderabad</td><td>Research/Science</td><td>Research</td><td>Telangana</td><td>May 2, 2026</td><td>Upcoming</td><td>IIIT Hyderabad</td></tr>
-          <tr><td>IAT (IISER)</td><td>IISER</td><td>Research/Science</td><td>Research</td><td>All India</td><td>Jun 7, 2026</td><td>Upcoming</td><td>7 IISERs</td></tr>
-          <tr><td>NEST 2026</td><td>NISER/CEBS</td><td>Research/Science</td><td>Research</td><td>All India</td><td>Jun 6, 2026</td><td>Upcoming</td><td>NISER · UM-DAE CEBS</td></tr>
-          <tr><td>NID DAT Prelims</td><td>NID</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Dec 21, 2025</td><td>Completed</td><td>7 NID Campuses</td></tr>
-          <tr><td>NID DAT B.Des Mains</td><td>NID</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Apr 19, 2026</td><td>Completed</td><td>NID Campuses</td></tr>
-          <tr><td>NIFT 2026 (Stage 1)</td><td>NTA/NIFT</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Feb 8, 2026</td><td>Completed</td><td>19 NIFT Campuses</td></tr>
-          <tr><td>NIFT 2026 (Stage 2)</td><td>NIFT</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Apr 6-11, 2026</td><td>Completed</td><td>NIFT Delhi &amp; Campuses</td></tr>
-          <tr><td>UCEED 2026</td><td>IIT Bombay</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan 18, 2026</td><td>Completed</td><td>IIT Bombay / Delhi / Guwahati B.Des</td></tr>
-          <tr><td>CEED 2026</td><td>IIT Bombay</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan 18, 2026</td><td>Completed</td><td>IITs M.Des Programs</td></tr>
-          <tr><td>NATA (Multi-Session)</td><td>CoA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>Mar 7 - Jun 28, 2026</td><td>Upcoming</td><td>400+ Architecture Colleges</td></tr>
+          <tr><td>JEE Main 2027 (Session 1)</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Jan 22-24 &amp; 28-30, 2027 (buffer Jan 31)</td><td>Tentative</td><td>NITs · IIITs · GFTIs</td></tr>
+          <tr><td>JEE Main 2027 (Session 2)</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Apr 2027 (dates awaited)</td><td>Expected</td><td>NITs · IIITs · GFTIs</td></tr>
+          <tr><td>JEE Main Paper 2 (B.Arch / B.Planning)</td><td>NTA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>With JEE Main sessions (paper-wise dates in bulletin)</td><td>Expected</td><td>NITs / IIITs / SPAs B.Arch</td></tr>
+          <tr><td>JEE Advanced 2027</td><td>IIT (organiser TBA)</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Mid-May 2027 (JAB notice awaited)</td><td>Expected</td><td>23 IITs</td></tr>
+          <tr><td>BITSAT 2027</td><td>BITS Pilani</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>Registration from Dec 2026 · sessions Apr-Jun 2027 (dates awaited)</td><td>Expected</td><td>BITS Pilani / Goa / Hyderabad</td></tr>
+          <tr><td>VITEEE 2027</td><td>VIT Vellore</td><td>B.Tech/B.E.</td><td>Private</td><td>Tamil Nadu</td><td>Late Apr - early May 2027 (notification awaited)</td><td>Expected</td><td>VIT Vellore / Chennai / AP / Bhopal</td></tr>
+          <tr><td>SRMJEEE 2027</td><td>SRM University</td><td>B.Tech/B.E.</td><td>Private</td><td>Tamil Nadu</td><td>Registration Nov 2026 · Phases Apr / Jun / Jul 2027</td><td>Expected</td><td>SRM Institute of Science &amp; Tech</td></tr>
+          <tr><td>AEEE 2027</td><td>Amrita</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>Apr 15 - May 7, 2027 (registration from Nov 2026)</td><td>Confirmed</td><td>Amrita Vishwa Vidyapeetham</td></tr>
+          <tr><td>MET 2027</td><td>Manipal</td><td>B.Tech/B.E.</td><td>Private</td><td>Karnataka</td><td>Not announced (2026: Apr &amp; May)</td><td>Expected</td><td>Manipal Institute of Technology</td></tr>
+          <tr><td>KIITEE 2027</td><td>KIIT</td><td>B.Tech/B.E.</td><td>Private</td><td>Odisha</td><td>Not announced (2026: Apr &amp; Jun)</td><td>Expected</td><td>KIIT Bhubaneswar</td></tr>
+          <tr><td>KCET 2027</td><td>KEA Karnataka</td><td>B.Tech/B.E.</td><td>State</td><td>Karnataka</td><td>Apr 2027 (dates awaited)</td><td>Expected</td><td>200+ Karnataka Engg Colleges</td></tr>
+          <tr><td>COMEDK UGET 2027</td><td>COMEDK</td><td>B.Tech/B.E.</td><td>State</td><td>Karnataka</td><td>Apr-May 2027 (2026: May 9)</td><td>Expected</td><td>181 Private KA Colleges</td></tr>
+          <tr><td>MHT CET 2027</td><td>CET Cell MH</td><td>B.Tech/B.E.</td><td>State</td><td>Maharashtra</td><td>Apr-May 2027 (dates awaited)</td><td>Expected</td><td>300+ Maharashtra Colleges</td></tr>
+          <tr><td>WBJEE 2027</td><td>WBJEEB</td><td>B.Tech/B.E.</td><td>State</td><td>West Bengal</td><td>Late Apr - early May 2027 (2026: May 24)</td><td>Expected</td><td>100+ WB Engg Colleges</td></tr>
+          <tr><td>KEAM 2027</td><td>CEE Kerala</td><td>B.Tech/B.E.</td><td>State</td><td>Kerala</td><td>Apr-May 2027 (dates awaited)</td><td>Expected</td><td>Kerala Engineering Colleges</td></tr>
+          <tr><td>TG-EAPCET 2027</td><td>TSCHE</td><td>B.Tech/B.E.</td><td>State</td><td>Telangana</td><td>May 2027 (2026: May 9 &amp; 11)</td><td>Expected</td><td>Telangana Engg Colleges</td></tr>
+          <tr><td>AP-EAPCET 2027</td><td>APSCHE</td><td>B.Tech/B.E.</td><td>State</td><td>Andhra Pradesh</td><td>May 2027 (2026: May 12-18)</td><td>Expected</td><td>AP Engineering Colleges</td></tr>
+          <tr><td>OJEE 2027</td><td>OJEE Board</td><td>B.Tech/B.E.</td><td>State</td><td>Odisha</td><td>May 2027 (2026: May 4-9)</td><td>Expected</td><td>Odisha Govt &amp; Pvt Colleges</td></tr>
+          <tr><td>GUJCET 2027</td><td>GSEB</td><td>B.Tech/B.E.</td><td>State</td><td>Gujarat</td><td>Mar 2027 (2026: Mar 29)</td><td>Expected</td><td>Gujarat Govt &amp; Pvt Colleges</td></tr>
+          <tr><td>TNEA 2027</td><td>Anna University</td><td>B.Tech/B.E.</td><td>State</td><td>Tamil Nadu</td><td>Based on +2 marks · registration expected May 2027</td><td>Expected</td><td>550+ TN Colleges (No Exam)</td></tr>
+          <tr><td>UPTAC / AKTU 2027</td><td>AKTU</td><td>B.Tech/B.E.</td><td>State</td><td>Uttar Pradesh</td><td>Via JEE Main score · counselling Jun 2027</td><td>Expected</td><td>UP Engineering Colleges</td></tr>
+          <tr><td>CUET UG 2027</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>May 2027 (2026: May 11-31) · NTA notice ~Jan 2027</td><td>Expected</td><td>Central Universities</td></tr>
+          <tr><td>ISI Admission 2027</td><td>ISI Kolkata</td><td>Research/Science</td><td>Research</td><td>West Bengal</td><td>Notification ~Feb 2027 · test May 2027 (2026: May 10)</td><td>Expected</td><td>ISI Kolkata / Bangalore / Delhi</td></tr>
+          <tr><td>UGEE 2027 (IIIT-H)</td><td>IIIT Hyderabad</td><td>Research/Science</td><td>Research</td><td>Telangana</td><td>May 2027 (2026: May 2)</td><td>Expected</td><td>IIIT Hyderabad</td></tr>
+          <tr><td>IAT 2027 (IISER)</td><td>IISER</td><td>Research/Science</td><td>Research</td><td>All India</td><td>Early Jun 2027 (notification ~Feb 2027)</td><td>Expected</td><td>7 IISERs</td></tr>
+          <tr><td>NEST 2027</td><td>NISER/CEBS</td><td>Research/Science</td><td>Research</td><td>All India</td><td>First week of Jun 2027</td><td>Tentative</td><td>NISER · UM-DAE CEBS</td></tr>
+          <tr><td>UCEED 2027</td><td>IIT Bombay</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan 17, 2027 (registration till Oct 31, late fee Nov 6)</td><td>Confirmed</td><td>IIT Bombay / Delhi / Guwahati B.Des</td></tr>
+          <tr><td>CEED 2027</td><td>IIT Bombay</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan 17, 2027 (registration till Oct 31, late fee Nov 6)</td><td>Confirmed</td><td>IITs M.Des Programs</td></tr>
+          <tr><td>NID DAT Prelims 2027</td><td>NID</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Dec 20, 2026 (registration till Nov 30)</td><td>Confirmed</td><td>NID Campuses · 5.5-yr Integrated M.Des / B.Des</td></tr>
+          <tr><td>NID DAT Mains 2027</td><td>NID</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>After Prelims result on Mar 16, 2027 (date awaited)</td><td>Expected</td><td>NID Campuses</td></tr>
+          <tr><td>NIFT 2027</td><td>NTA/NIFT</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan-Feb 2027 (NTA calendar lists Jan 10 · registration Dec 2026)</td><td>Tentative</td><td>19 NIFT Campuses</td></tr>
+          <tr><td>NATA 2027</td><td>CoA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>Brochure awaited (2026: Mar 7 - Jun 28)</td><td>Expected</td><td>400+ Architecture Colleges</td></tr>
         </tbody>
       </table>
     </div>
-    <p class="content-text content-text--note">Dates are tentative &amp; compiled from official sources. Always verify at the respective official portal.</p>
+    <p class="content-text content-text--note"><strong>Confirmed</strong> = announced by the conducting body. <strong>Tentative</strong> = published provisionally (for example in NTA&rsquo;s exam calendar of 16 Sep 2026) and may change. <strong>Expected</strong> = not yet announced; the window is inferred from the 2026 cycle. Where we show &ldquo;2026&rdquo; dates they are last year&rsquo;s, for reference only. Always verify at the official portal before you act on a date.</p>
   </section>
 
   <div class="final-cta">
