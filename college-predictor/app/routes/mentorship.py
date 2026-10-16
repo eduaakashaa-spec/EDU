@@ -253,8 +253,10 @@ def _tab_home(e, role):
     msgs = (MsMessage.query.filter(MsMessage.enrolment_id == e.id, MsMessage.audience.in_(svc.visible_audiences(role)))
             .order_by(MsMessage.created_at.desc()).limit(3).all())
     review = e.reviews.filter(MsReview.status.in_(['Shared'])).order_by(MsReview.shared_at.desc()).first()
-    last_update = max([x for x in (e.sessions.with_entities(db.func.max(MsSession.updated_at)).scalar(),
-                                   e.actions.with_entities(db.func.max(MsAction.updated_at)).scalar()) if x], default=None)
+    # plain queries: `e.sessions` carries an ORDER BY position, which PostgreSQL rejects next to max()
+    last_update = max([x for x in (
+        db.session.query(db.func.max(MsSession.updated_at)).filter(MsSession.enrolment_id == e.id).scalar(),
+        db.session.query(db.func.max(MsAction.updated_at)).filter(MsAction.enrolment_id == e.id).scalar()) if x], default=None)
     return dict(timeline=rows, current=cur, ss=ss, ast=ast, week=week, kpis=kpis, upcoming=upcoming, last_checkin=ci,
                 priority=priority, nxt=svc.next_session(e), level=level, reasons=reasons, msgs=msgs, shared_review=review,
                 last_update=last_update, action_state=svc.action_state)
