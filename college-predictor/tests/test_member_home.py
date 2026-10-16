@@ -45,6 +45,7 @@ for cat in ('My Journey', 'Admission Intelligence', 'Choice-Filling Tools', 'Eng
     assert cat in page, cat
 assert 'Premium</span>' in page and 'Free plan' in page          # locks + plan badge for a free member
 assert '/free-guides' in page and '/dasa-2026-analytics' in page
+assert page.count('img/hub/') == 6 and c.get('/static/img/hub/journey.svg').status_code == 200   # one image tile per category
 assert '0 of 7 open' in page                                      # intelligence: all premium tiles locked
 
 # premium member: unlocked
