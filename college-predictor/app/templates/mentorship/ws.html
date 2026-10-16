@@ -17,6 +17,8 @@
   {% if messages %}<ul class="ms-flash" role="status">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
   {% endwith %}
 
+  {% include "mentorship/_alerts.html" %}
+
   <section class="ms-head">
     <div class="grow">
       <span class="ms-chip">{{ {'student': 'Student view', 'parent': 'Parent view', 'mentor': 'Mentor view', 'admin': 'Admin view'}[role] }}</span>

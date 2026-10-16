@@ -7,6 +7,7 @@
 <div class="ms">
   <div class="ms-crumbs"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › Mentorship › Mentor dashboard</div>
   {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<ul class="ms-flash">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}{% endwith %}
+  {% include "mentorship/_alerts.html" %}
   <section class="ms-head"><div class="grow"><span class="ms-chip">{{ 'Admin' if current_user.is_admin else 'EA Mentor' }}</span>
     <h1 style="margin-top:8px;">Hi {{ current_user.name.split(' ')[0] }} — your mentorship workspace</h1>
     <div class="sub">Every assigned student, session, follow-up and intervention in one place. Click a card to filter.</div></div>

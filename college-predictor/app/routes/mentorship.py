@@ -24,8 +24,10 @@ from app.models_mentorship import (
     ACTION_STATUSES, ADMISSION_ROUTES, ELIGIBILITY, EVENT_CATEGORIES, KPI_DIRECTIONS, PREF_LIST_STATUSES,
     REVIEW_STATUSES, SESSION_STATUSES, MsAction, MsAudit, MsBranch, MsBranchFit, MsBranchRating, MsCheckin,
     MsEnrolment, MsEvent, MsKpi, MsKpiObs, MsMessage, MsMessageRead, MsParentLink, MsPrefEntry, MsPrefList,
-    MsProgramme, MsReport, MsReview, MsSession, MsSessionTemplate,
+    EXAM_STATUSES, MsAlert, MsExam, MsExamFocus, MsProgramme, MsReport, MsReview, MsSession, MsSessionTemplate,
 )
+from app.services import exam_calendar as xc
+from app.services import mailer
 from app.services import mentorship as svc
 
 mentorship_bp = Blueprint('mentorship', __name__, url_prefix='/mentorship')
@@ -198,7 +200,7 @@ def mentor_home():
              'progress': lambda r: r['ss']['pct'], 'next': lambda r: (r['next'].planned_at if r['next'] else svc.utcnow() + timedelta(days=9999))}
     shown.sort(key=order.get(sort, order['attention']))
     stages = sorted({r['stage'] for r in rows})
-    return render_template('mentorship/mentor_home.html', rows=shown, counts={k: len(v) for k, v in f.items()},
+    return render_template('mentorship/mentor_home.html', alerts=xc.unread_alerts(current_user), rows=shown, counts={k: len(v) for k, v in f.items()},
                            filter_labels=FILTER_LABELS, active=key, q=q, stage=stage, level=level, prog=prog, sort=sort,
                            stages=stages, programmes=MsProgramme.query.all(), fmt_dt=svc.fmt_dt)
 
@@ -216,6 +218,8 @@ def workspace(eid, tab):
     if tab not in {t[0] for t in tabs}:
         abort(404)
     ctx = dict(e=e, role=role, tab=tab, tabs=tabs, svc=svc, fmt_dt=svc.fmt_dt, today=svc.today(),
+               alerts=xc.unread_alerts(current_user), xc=xc,
+               followed_ids={f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()},
                unread=svc.unread_count(e, current_user, role), staff=role in STAFF,
                SESSION_STATUSES=SESSION_STATUSES, PRIORITIES=PRIORITIES)
     ctx.update(globals()['_tab_' + tab](e, role))
@@ -334,7 +338,20 @@ def _tab_calendar(e, role):
     months = {}
     for i in items:
         months.setdefault(i['date'].strftime('%B %Y'), []).append(i)
-    return dict(months=months, cats=cats, cat=cat, EVENT_CATEGORIES=EVENT_CATEGORIES)
+    # catalogue of exams to choose from (search / category / status filters)
+    q = (request.args.get('q') or '').strip().lower()
+    xcat, xstatus = request.args.get('xcat', ''), request.args.get('xstatus', '')
+    exams = MsExam.query.filter_by(active=True).order_by(MsExam.starts_on, MsExam.name).all()
+    xcats = sorted({x.category for x in exams})
+    if q:
+        exams = [x for x in exams if q in x.name.lower() or q in (x.stream or '').lower()]
+    if xcat:
+        exams = [x for x in exams if x.category == xcat]
+    if xstatus:
+        exams = [x for x in exams if x.status == xstatus]
+    return dict(months=months, cats=cats, cat=cat, EVENT_CATEGORIES=EVENT_CATEGORIES, exams=exams, xcats=xcats,
+                xq=q, xcat=xcat, xstatus=xstatus, EXAM_STATUSES=EXAM_STATUSES,
+                mail_ready=mailer.is_configured())
 
 
 def _tab_messages(e, role):
@@ -1014,7 +1031,9 @@ def admin_home():
                            branches=MsBranch.query.order_by(MsBranch.position, MsBranch.id).all(),
                            rules=[(k, svc.rule(k), svc.RULE_HELP[k]) for k in svc.RULES],
                            prog_events=MsEvent.query.filter(MsEvent.programme_id != None).order_by(MsEvent.starts_on).all(),  # noqa: E711
-                           EVENT_CATEGORIES=EVENT_CATEGORIES, links=MsParentLink.query.all(), today=svc.today())
+                           EVENT_CATEGORIES=EVENT_CATEGORIES, links=MsParentLink.query.all(), today=svc.today(),
+                           exams=MsExam.query.order_by(MsExam.active.desc(), MsExam.starts_on).all(), EXAM_STATUSES=EXAM_STATUSES,
+                           fmt_range=xc.fmt_range)
 
 
 @mentorship_bp.route('/admin/load-default', methods=['POST'])
@@ -1206,3 +1225,171 @@ def admin_branch():
     db.session.commit()
     flash('Branch saved.', 'success')
     return redirect(url_for('mentorship.admin_home') + '#branches')
+
+
+# --------------------------------------------------------------------------- #
+# exam focus, calendar invitations, alerts
+# --------------------------------------------------------------------------- #
+def _focused_exams(e):
+    ids = [f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()]
+    return MsExam.query.filter(MsExam.id.in_(ids), MsExam.active == True).order_by(MsExam.starts_on).all() if ids else []  # noqa: E712
+
+
+@mentorship_bp.route('/e/<int:eid>/exams/<int:xid>/focus', methods=['POST'])
+@login_required
+def exam_focus(eid, xid):
+    e, role = _ctx(eid, ('student', 'mentor', 'admin'))
+    if _premium_gate(role):
+        abort(403)
+    x = db.session.get(MsExam, xid)
+    if not x or not x.active:
+        abort(404)
+    f = MsExamFocus.query.filter_by(enrolment_id=e.id, exam_id=x.id).first()
+    want = request.form.get('on')
+    if f and want != '1':
+        db.session.delete(f)
+        svc.audit(e, 'exam.unfollowed', x.name, role)
+        flash(f'Stopped following {x.name}.', 'info')
+    elif not f:
+        db.session.add(MsExamFocus(enrolment_id=e.id, exam_id=x.id, created_by=current_user.id))
+        svc.audit(e, 'exam.followed', x.name, role)
+        flash(f'Now following {x.name} — it is on the calendar and you will be alerted if its schedule changes.', 'success')
+    aid = request.form.get('alert_id', type=int)
+    if aid:
+        xc.mark_read(current_user, [aid])
+    db.session.commit()
+    return _back(e, 'calendar', 'exams')
+
+
+@mentorship_bp.route('/e/<int:eid>/calendar.ics')
+@login_required
+def calendar_ics(eid):
+    e, role = _ctx(eid)
+    if _premium_gate(role):
+        abort(403)
+    exams = _focused_exams(e)
+    if not exams:
+        flash('Follow at least one exam first, then download the invitation.', 'info')
+        return _back(e, 'calendar', 'exams')
+    return Response(xc.make_ics(exams), mimetype='text/calendar', headers={
+        'Content-Disposition': 'attachment; filename="eduaakashaa-exams.ics"'})
+
+
+@mentorship_bp.route('/e/<int:eid>/exams/<int:xid>.ics')
+@login_required
+def exam_ics(eid, xid):
+    e, role = _ctx(eid)
+    if _premium_gate(role):
+        abort(403)
+    x = db.session.get(MsExam, xid)
+    if not x or not x.active:
+        abort(404)
+    return Response(xc.make_ics([x], x.name), mimetype='text/calendar', headers={
+        'Content-Disposition': f'attachment; filename="exam-{x.id}.ics"'})
+
+
+@mentorship_bp.route('/e/<int:eid>/calendar/email', methods=['POST'])
+@login_required
+def calendar_email(eid):
+    """Email the invitation (.ics attached) to any personal address. Limited to 5 sends/hour per user."""
+    e, role = _ctx(eid)
+    if _premium_gate(role):
+        abort(403)
+    to = _s('email', 200).lower()
+    import re
+    if not re.fullmatch(r"[^@\s]+@[^@\s]+\.[^@\s]+", to):
+        flash('Enter a valid email address.', 'danger')
+        return _back(e, 'calendar', 'share')
+    exams = _focused_exams(e)
+    if not exams:
+        flash('Follow at least one exam first, then email the invitation.', 'info')
+        return _back(e, 'calendar', 'exams')
+    from datetime import timedelta as _td
+    since = svc.utcnow() - _td(hours=1)
+    if MsAudit.query.filter(MsAudit.user_id == current_user.id, MsAudit.action == 'calendar.emailed', MsAudit.created_at >= since).count() >= 5:
+        flash('You have sent several invitations this hour — please try again later, or download the .ics file instead.', 'danger')
+        return _back(e, 'calendar', 'share')
+    if not mailer.is_configured():
+        flash('Email sending is not configured on this server yet, so nothing was sent. Download the .ics file instead '
+              '(it opens in Google, Apple and Outlook calendars).', 'danger')
+        return _back(e, 'calendar', 'share')
+    rows = ''.join(f'<li><strong>{xc._esc(x.name)}</strong> — {xc._esc(xc.fmt_range(x))} ({xc._esc(x.status)})</li>' for x in exams)
+    text = 'Your EduAakashaA exam calendar (attached as an .ics invitation):\n' + '\n'.join(
+        f'- {x.name}: {xc.fmt_range(x)} ({x.status})' for x in exams) + '\n\nTentative or expected dates can change — confirm on the official notice.'
+    html = xc.branded_shell('<h2 style="margin:0 0 8px;color:#0E3A8A;font-family:Georgia,serif">Your exam calendar</h2>'
+                            f'<ul style="line-height:1.6">{rows}</ul><p style="font-size:13px">Open the attached .ics file to add these to your calendar. '
+                            'Tentative or expected dates can change — confirm on the official notice.</p>')
+    mailer.send_async(to, 'Your EduAakashaA exam calendar', text, html, from_addr=mailer.INFO_FROM, reply_to=mailer.INFO_FROM,
+                      attachments=[('eduaakashaa-exams.ics', xc.make_ics(exams), 'text/calendar')])
+    svc.audit(e, 'calendar.emailed', f'{len(exams)} exam(s)', role)
+    db.session.commit()
+    flash(f'Invitation queued to {to}. Check your inbox (and spam) in a minute.', 'success')
+    return _back(e, 'calendar', 'share')
+
+
+@mentorship_bp.route('/alerts/read', methods=['POST'])
+@login_required
+def alerts_read():
+    ids = request.form.getlist('alert_id', type=int)
+    if request.form.get('all') == '1':
+        ids = [a.id for a in xc.unread_alerts(current_user, limit=200)]
+    if ids:
+        xc.mark_read(current_user, ids)
+        db.session.commit()
+    nxt = request.form.get('next', '')
+    return redirect(nxt if nxt.startswith('/mentorship/') else url_for('mentorship.index'))
+
+
+# --- admin: exam catalogue ----------------------------------------------------------------------------------
+@mentorship_bp.route('/admin/exams/load-default', methods=['POST'])
+@admin_required
+def admin_exams_default():
+    n = xc.ensure_default_exams()
+    flash(f'{n} exam(s) added to the catalogue (members are not alerted for the starter list).', 'success')
+    return redirect(url_for('mentorship.admin_home') + '#exams')
+
+
+@mentorship_bp.route('/admin/exams/save', methods=['POST'])
+@admin_required
+def admin_exam_save():
+    name, d = _s('name', 200), svc.parse_date(request.form.get('starts_on'))
+    if not name or not d:
+        flash('Exam name and a start date are required.', 'danger')
+        return redirect(url_for('mentorship.admin_home') + '#exams')
+    exam = db.session.get(MsExam, _int('id')) if _int('id') else None
+    before = xc.snapshot(exam) if exam else None
+    exam = exam or MsExam(name=name, starts_on=d)
+    exam.name, exam.starts_on = name, d
+    exam.ends_on = svc.parse_date(request.form.get('ends_on'))
+    exam.category = request.form.get('category') if request.form.get('category') in EVENT_CATEGORIES else (exam.category or 'Other')
+    exam.stream = _s('stream', 40)
+    exam.status = request.form.get('status') if request.form.get('status') in EXAM_STATUSES else 'Expected'
+    exam.window_note, exam.source, exam.notes = _s('window_note', 200), _s('source', 300), _s('notes')
+    exam.verified_on = svc.parse_date(request.form.get('verified_on'))
+    exam.active = request.form.get('active', '1') == '1'
+    db.session.add(exam)
+    db.session.flush()
+    alert = xc.record_change(exam, before)
+    db.session.commit()
+    if not alert:
+        flash('Exam saved (no schedule change, so nobody was alerted).' if before else 'Exam saved.', 'success')
+    else:
+        queued = xc.email_alert(alert)
+        db.session.commit()
+        flash(f'Saved. Alert posted in every member portal' + (f' and {queued} email(s) queued from info@.' if queued
+              else '. (Email not sent: no mail transport configured.)'), 'success')
+    return redirect(url_for('mentorship.admin_home') + '#exams')
+
+
+@mentorship_bp.route('/admin/exams/<int:xid>/delete', methods=['POST'])
+@admin_required
+def admin_exam_delete(xid):
+    exam = db.session.get(MsExam, xid) or abort(404)
+    before = xc.snapshot(exam)
+    exam.active = False                                         # soft-remove so followers get an alert and history stays
+    alert = xc.record_change(exam, before)
+    db.session.commit()
+    if alert:
+        xc.email_alert(alert)
+    flash('Exam removed from the catalogue; members who follow it were alerted.', 'success')
+    return redirect(url_for('mentorship.admin_home') + '#exams')

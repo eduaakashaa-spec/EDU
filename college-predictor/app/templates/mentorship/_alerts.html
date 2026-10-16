@@ -1,0 +1,22 @@
+{% if alerts %}
+<div class="ms-alerts" role="region" aria-label="Exam schedule alerts">
+  {% for a in alerts %}
+  <div class="ms-alert {{ a.kind }}">
+    <div class="ms-alert-body">
+      <strong>{{ '🆕' if a.kind == 'new' else ('🗑️' if a.kind == 'removed' else '⚠️') }} {{ a.title }}</strong>
+      {% if a.detail %}<div>{{ a.detail }}</div>{% endif %}
+      {% if e is defined and a.exam and a.exam.id in followed_ids %}<span class="ms-pill info">You follow this exam</span>{% endif %}
+    </div>
+    <div class="ms-alert-acts">
+      {% if e is defined and a.kind == 'new' and a.exam and a.exam.active and role in ('student', 'mentor', 'admin') and a.exam.id not in followed_ids %}
+      <form method="post" action="{{ url_for('mentorship.exam_focus', eid=e.id, xid=a.exam.id) }}"><input type="hidden" name="on" value="1"><input type="hidden" name="alert_id" value="{{ a.id }}"><button class="ms-btn o sm">＋ Add to my calendar</button></form>
+      {% elif e is defined and a.kind == 'changed' %}
+      <a class="ms-btn g sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='calendar') }}#exams">View</a>
+      {% endif %}
+      <form method="post" action="{{ url_for('mentorship.alerts_read') }}"><input type="hidden" name="alert_id" value="{{ a.id }}"><input type="hidden" name="next" value="{{ request.path }}"><button class="ms-btn g sm" aria-label="Dismiss alert">Dismiss</button></form>
+    </div>
+  </div>
+  {% endfor %}
+  {% if alerts|length > 1 %}<form method="post" action="{{ url_for('mentorship.alerts_read') }}" style="text-align:right;"><input type="hidden" name="all" value="1"><input type="hidden" name="next" value="{{ request.path }}"><button class="ms-btn g sm">Dismiss all</button></form>{% endif %}
+</div>
+{% endif %}

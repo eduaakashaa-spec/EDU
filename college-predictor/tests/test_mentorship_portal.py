@@ -374,6 +374,109 @@ with app.app_context():
     db.engine.dispose()
     assert MsSession.query.filter_by(enrolment_id=E1).count() == 12 and MsAction.query.filter_by(enrolment_id=E1).count() == 3
 
+# ---- exam catalogue: follow, share (.ics / email), new-exam and schedule-change alerts -------------------------------------------------
+from app.services import mailer as _mailer, exam_calendar as xc
+from app.models_mentorship import MsExam, MsExamFocus, MsAlert
+post(admin, '/mentorship/admin/exams/load-default')
+with app.app_context():
+    assert MsExam.query.count() >= 20 and MsAlert.query.count() == 0               # starter list is a seed, not news
+    uceed = MsExam.query.filter_by(name='UCEED 2027').one().id
+    jee1 = MsExam.query.filter_by(name='JEE Main 2027 — Session 1').one().id
+cal = s1.get(f'/mentorship/e/{E1}/calendar').get_data(as_text=True)
+assert 'Choose the exams to focus on' in cal and 'UCEED 2027' in cal and 'Confirmed' in cal and 'Tentative' in cal
+assert 'Add to Google Calendar' in cal and 'Email delivery is not configured' in cal       # honest about email not being set up
+filtered = s1.get(f'/mentorship/e/{E1}/calendar?q=nata').get_data(as_text=True).split('Exams you can follow')[1].split('Share the calendar')[0]
+assert 'UCEED 2027' not in filtered and 'NATA 2027' in filtered
+# follow: student and mentor can, parent/stranger cannot
+assert b'Follow at least one exam' in s1.get(f'/mentorship/e/{E1}/calendar.ics', follow_redirects=True).data
+post(s1, f'/mentorship/e/{E1}/exams/{uceed}/focus', on='1')
+post(mentor, f'/mentorship/e/{E1}/exams/{jee1}/focus', on='1')
+assert p1.post(f'/mentorship/e/{E1}/exams/{uceed}/focus', data={'on': '1'}).status_code == 403
+assert p2.post(f'/mentorship/e/{E1}/exams/{uceed}/focus', data={'on': '1'}).status_code == 404
+assert mentor2.post(f'/mentorship/e/{E1}/exams/{uceed}/focus', data={'on': '1'}).status_code == 404
+cal = s1.get(f'/mentorship/e/{E1}/calendar').get_data(as_text=True)
+assert cal.count('✓ Following') == 2 and '2 exam(s) you follow' in cal
+agenda = cal.split('Add to calendar')[0]
+assert 'JEE Main 2027 — Session 1' in agenda and 'January 2027' in agenda                 # followed exams join the agenda
+assert '✓ Following' in p1.get(f'/mentorship/e/{E1}/calendar').get_data(as_text=True) or 'Followed' in p1.get(f'/mentorship/e/{E1}/calendar').get_data(as_text=True)
+# .ics
+ics = s1.get(f'/mentorship/e/{E1}/calendar.ics')
+body = ics.data.decode()
+assert ics.mimetype == 'text/calendar' and body.startswith('BEGIN:VCALENDAR') and body.count('BEGIN:VEVENT') == 2
+assert 'DTSTART;VALUE=DATE:20270117' in body and 'DTEND;VALUE=DATE:20270118' in body and f'UID:exam-{uceed}@eduaakashaa.com' in body
+assert 'STATUS:CONFIRMED' in body and 'STATUS:TENTATIVE' in body and 'SEQUENCE:0' in body
+assert p1.get(f'/mentorship/e/{E1}/calendar.ics').status_code == 200 and p2.get(f'/mentorship/e/{E1}/calendar.ics').status_code == 404
+assert s1.get(f'/mentorship/e/{E1}/exams/{uceed}.ics').data.count(b'BEGIN:VEVENT') == 1
+# email the invite: refuses honestly when not configured, then sends with an .ics attachment from info@ (rate-limited)
+assert b'not configured' in post(s1, f'/mentorship/e/{E1}/calendar/email', email='me@personal.test').data
+_sent2, _orig = [], (_mailer.is_configured, _mailer.send_async, _mailer.send_bulk)
+_mailer.is_configured = lambda: True
+_mailer.send_async = lambda to, subject, text, html=None, **k: _sent2.append({'to': to, 'subject': subject, **k})
+_bulk = []
+_mailer.send_bulk = lambda rec, subject, text, html=None, **k: (_bulk.append({'rec': list(rec), 'subject': subject, **k}), len(list(rec)))[1]
+assert b'valid email' in post(s1, f'/mentorship/e/{E1}/calendar/email', email='nope').data
+assert b'queued to me@personal.test' in post(s1, f'/mentorship/e/{E1}/calendar/email', email='me@personal.test').data
+m_ = _sent2[0]
+assert m_['to'] == 'me@personal.test' and m_['from_addr'] == 'info@eduaakashaa.com'
+assert m_['attachments'][0][0].endswith('.ics') and m_['attachments'][0][2] == 'text/calendar' and b'BEGIN:VEVENT' in m_['attachments'][0][1]
+for _ in range(4):
+    post(s1, f'/mentorship/e/{E1}/calendar/email', email='me@personal.test')
+assert b'several invitations' in post(s1, f'/mentorship/e/{E1}/calendar/email', email='me@personal.test').data      # 6th in an hour blocked
+assert len(_sent2) == 5
+
+# new exam → alert for everyone with a mentorship role (and an email from info@), with an "Add" action
+r = post(admin, '/mentorship/admin/exams/save', name='DEMO Test Exam 2027', category='Admission deadline', stream='B.Tech/B.E.',
+         starts_on='2027-03-05', ends_on='2027-03-06', status='Confirmed', source='https://example.test/notice', verified_on=str(svc.today()))
+assert b'Alert posted' in r.data and b'email(s) queued from info@' in r.data
+assert _bulk and set(_bulk[-1]['rec']) >= {'s1@demo.test', 'p1@demo.test', 'mentor@demo.test', 's2@demo.test', 'p2@demo.test', 'mentor2@demo.test'}
+assert 'free@demo.test' not in _bulk[-1]['rec'] and _bulk[-1]['from_addr'] == 'info@eduaakashaa.com'
+with app.app_context():
+    demo = MsExam.query.filter_by(name='DEMO Test Exam 2027').one().id
+for who, c, eid in (('student', s1, E1), ('parent', p1, E1), ('mentor', mentor, E1), ('student2', s2, E2)):
+    page = c.get(f'/mentorship/e/{eid}/home').get_data(as_text=True)
+    assert 'New exam added: DEMO Test Exam 2027' in page, who
+assert 'New exam added' not in free.get('/member-home').get_data(as_text=True)
+assert 'New exam added: DEMO Test Exam 2027' in mentor.get('/mentorship/mentor').get_data(as_text=True)
+assert 'Add to my calendar' in s1.get(f'/mentorship/e/{E1}/home').get_data(as_text=True)
+assert 'Add to my calendar' not in p1.get(f'/mentorship/e/{E1}/home').get_data(as_text=True)         # parents are alerted but cannot follow
+with app.app_context():
+    aid_new = MsAlert.query.filter_by(kind='new').one().id
+r = post(s1, f'/mentorship/e/{E1}/exams/{demo}/focus', on='1', alert_id=str(aid_new))
+assert b'Now following' in r.data
+with app.app_context():
+    assert MsExamFocus.query.filter_by(enrolment_id=E1, exam_id=demo).count() == 1
+assert 'New exam added: DEMO Test Exam 2027' not in s1.get(f'/mentorship/e/{E1}/home').get_data(as_text=True)    # acted on → cleared for this user
+assert 'New exam added: DEMO Test Exam 2027' in p1.get(f'/mentorship/e/{E1}/home').get_data(as_text=True)        # others still see it
+post(p1, '/mentorship/alerts/read', alert_id=str(aid_new), next=f'/mentorship/e/{E1}/home')
+assert 'New exam added: DEMO Test Exam 2027' not in p1.get(f'/mentorship/e/{E1}/home').get_data(as_text=True)
+
+# schedule change → "changed" alert to everyone, with before → after; unchanged re-save is silent; ICS SEQUENCE bumps
+_bulk.clear()
+SAVE = dict(id=str(demo), name='DEMO Test Exam 2027', category='Admission deadline', stream='B.Tech/B.E.', source='https://example.test/notice',
+            verified_on=str(svc.today()))
+r = post(admin, '/mentorship/admin/exams/save', starts_on='2027-03-12', ends_on='2027-03-13', status='Tentative', **SAVE)
+assert b'Alert posted' in r.data
+with app.app_context():
+    ch = MsAlert.query.filter_by(kind='changed').one()
+    assert '05' in ch.detail and '12' in ch.detail and 'Confirmed → Tentative' in ch.detail
+    assert db.session.get(MsExam, demo).version == 2
+for c, eid in ((s1, E1), (p1, E1), (mentor, E1), (s2, E2)):
+    assert 'Schedule change: DEMO Test Exam 2027' in c.get(f'/mentorship/e/{eid}/home').get_data(as_text=True)
+assert 'You follow this exam' in s1.get(f'/mentorship/e/{E1}/home').get_data(as_text=True)
+assert _bulk and 'Schedule change' in _bulk[-1]['subject']
+assert 'SEQUENCE:1' in s1.get(f'/mentorship/e/{E1}/exams/{demo}.ics').get_data(as_text=True)         # calendar clients update the entry
+_bulk.clear()
+r = post(admin, '/mentorship/admin/exams/save', starts_on='2027-03-12', ends_on='2027-03-13', status='Tentative', **SAVE)
+assert b'nobody was alerted' in r.data and not _bulk
+# only admins manage the catalogue
+assert s1.post('/mentorship/admin/exams/save', data={'name': 'x', 'starts_on': '2027-01-01'}).status_code in (302, 403)
+assert mentor.post('/mentorship/admin/exams/save', data={'name': 'x', 'starts_on': '2027-01-01'}).status_code in (302, 403)
+# removal → alert, gone from catalogue
+post(admin, '/mentorship/admin/exams/save', starts_on='2027-03-12', status='Tentative', active='0', **{k: v for k, v in SAVE.items() if k != 'source'})
+assert 'Exam removed: DEMO Test Exam 2027' in s1.get(f'/mentorship/e/{E1}/home').get_data(as_text=True)
+assert 'DEMO Test Exam 2027' not in s1.get(f'/mentorship/e/{E1}/calendar').get_data(as_text=True).split('Exams you can follow')[1].split('Share the calendar')[0]
+_mailer.is_configured, _mailer.send_async, _mailer.send_bulk = _orig
+
 # rules are admin-editable
 post(admin, '/mentorship/admin/rules', due_soon_days='5', overdue_attention='2', checkin_gap_days='14', low_confidence='1', exam_window_days='30')
 with app.app_context():

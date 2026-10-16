@@ -124,7 +124,7 @@ def allowed_senders():
 
 
 def _send_resend(cfg, to, subject, text, html, from_name, cc=None, bcc=None,
-                 from_addr=None, reply_to=None):
+                 from_addr=None, reply_to=None, attachments=None):
     payload = {'from': formataddr((from_name, from_addr or cfg['from'])),
                'to': _as_list(to), 'subject': subject, 'text': text}
     if cc:
@@ -135,6 +135,10 @@ def _send_resend(cfg, to, subject, text, html, from_name, cc=None, bcc=None,
         payload['reply_to'] = reply_to
     if html:
         payload['html'] = html
+    if attachments:        # [(filename, bytes, mime)] → Resend wants base64 content
+        import base64
+        payload['attachments'] = [{'filename': n, 'content': base64.b64encode(d).decode('ascii')}
+                                  for n, d, _m in attachments]
     req = urllib.request.Request(
         RESEND_ENDPOINT, data=json.dumps(payload).encode('utf-8'),
         headers={'Authorization': 'Bearer ' + cfg['key'],
@@ -156,7 +160,7 @@ def _send_resend(cfg, to, subject, text, html, from_name, cc=None, bcc=None,
 
 
 def _send_smtp(cfg, to, subject, text, html, from_name, cc=None, bcc=None,
-               from_addr=None, reply_to=None):
+               from_addr=None, reply_to=None, attachments=None):
     msg = EmailMessage()
     msg['Subject'] = subject
     msg['From'] = formataddr((from_name, from_addr or cfg['from']))
@@ -168,6 +172,9 @@ def _send_smtp(cfg, to, subject, text, html, from_name, cc=None, bcc=None,
     msg.set_content(text)
     if html:
         msg.add_alternative(html, subtype='html')
+    for name, data, mime in (attachments or []):
+        maintype, _, subtype = (mime or 'application/octet-stream').partition('/')
+        msg.add_attachment(data, maintype=maintype, subtype=subtype or 'octet-stream', filename=name)
     with smtplib.SMTP(cfg['host'], cfg['port'], timeout=15) as s:
         s.starttls()
         s.login(cfg['user'], cfg['pwd'])
@@ -177,31 +184,33 @@ def _send_smtp(cfg, to, subject, text, html, from_name, cc=None, bcc=None,
 
 
 def _send(to, subject, text, html, from_name='EduAakashaa', cc=None, bcc=None,
-          from_addr=None, reply_to=None):
+          from_addr=None, reply_to=None, attachments=None):
     if not to:
         return False
     chosen = transport()          # honours MAIL_TRANSPORT, so both configs can coexist
     if chosen == 'resend':
         return _send_resend(_resend_cfg(), to, subject, text, html, from_name,
-                            cc=cc, bcc=bcc, from_addr=from_addr, reply_to=reply_to)
+                            cc=cc, bcc=bcc, from_addr=from_addr, reply_to=reply_to,
+                            attachments=attachments)
     if chosen == 'smtp':
         return _send_smtp(_smtp_cfg(), to, subject, text, html, from_name,
-                          cc=cc, bcc=bcc, from_addr=from_addr, reply_to=reply_to)
+                          cc=cc, bcc=bcc, from_addr=from_addr, reply_to=reply_to,
+                          attachments=attachments)
     return False
 
 
 def send_now(to, subject, text, html=None, from_name='EduAakashaa', cc=None, bcc=None,
-             from_addr=None, reply_to=None):
+             from_addr=None, reply_to=None, attachments=None):
     """Synchronous send that RAISES on failure — used by the admin email test so
     the real error reaches the screen instead of being swallowed.
 
     `to` may be one address or a list. `from_addr` overrides the default sender
     (callers must validate it against allowed_senders())."""
     return _send(to, subject, text, html, from_name, cc=cc, bcc=bcc,
-                 from_addr=from_addr, reply_to=reply_to)
+                 from_addr=from_addr, reply_to=reply_to, attachments=attachments)
 
 
-def send_bulk(recipients, subject, text, html=None, from_name='EduAakashaa'):
+def send_bulk(recipients, subject, text, html=None, from_name='EduAakashaa', from_addr=None, reply_to=None):
     """Send one email to many people from a SINGLE background thread.
 
     Deliberately sequential and paced: Resend allows ~2 requests/second, and a
@@ -220,7 +229,7 @@ def send_bulk(recipients, subject, text, html=None, from_name='EduAakashaa'):
         ok = failed = 0
         for to in todo:
             try:
-                _send(to, subject, text, html, from_name)
+                _send(to, subject, text, html, from_name, from_addr=from_addr, reply_to=reply_to)
                 ok += 1
             except Exception:
                 failed += 1
@@ -238,7 +247,8 @@ def notify_admin(subject, text, html=None):
     send_async(ADMIN_NOTIFY_EMAIL, subject, text, html)
 
 
-def send_async(to, subject, text, html=None, from_name='EduAakashaa', from_addr=None, reply_to=None):
+def send_async(to, subject, text, html=None, from_name='EduAakashaa', from_addr=None, reply_to=None,
+               attachments=None):
     """Best-effort background send — never blocks or raises into the request.
 
     Failures must not break the request, but they MUST be visible: everything is
@@ -254,7 +264,8 @@ def send_async(to, subject, text, html=None, from_name='EduAakashaa', from_addr=
 
     def worker():
         try:
-            _send(to, subject, text, html, from_name, from_addr=from_addr, reply_to=reply_to)
+            _send(to, subject, text, html, from_name, from_addr=from_addr, reply_to=reply_to,
+                  attachments=attachments)
             log.info('Email sent to %s via %s (subject=%r)', to, transport(), subject)
         except Exception:
             log.exception('Email FAILED to %s via %s (subject=%r)', to, transport(), subject)

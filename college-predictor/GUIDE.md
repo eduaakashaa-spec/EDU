@@ -458,6 +458,8 @@ The portal (`/mentorship`) gives each enrolled student, their parent and their m
 
 **Day to day (mentor):** Member Home → Mentorship Portal → *Mentor dashboard*. The cards filter the list (upcoming sessions, sessions awaiting notes, follow-ups due, overdue actions, needing attention, reviews due, reports pending…). Open a student to schedule/record sessions, assign actions, review the weekly check-in, set KPIs, run the quarterly review and generate the report (**Generate → Approve → Share**).
 
+**Exam catalogue & alerts:** under **Exam catalogue** load the starter list, then keep it current — *adding an exam or changing its dates/status/source alerts every student, parent and mentor* (in the portal, and by email from info@ when email sending is configured). Students and mentors open the **Exam Calendar** tab, tick the exams to follow, and can download or email the `.ics` invitation to a personal address. Use **Confirmed** only for dates announced by the exam body.
+
 **Privacy rules to remember:** private session notes and *internal* messages are never shown to student or parent; the student's reflections stay between student and mentor — use the "summary for parent" box to share what is appropriate; shared reports are the only report students/parents can open.
 
 **Not yet automatic:** email/WhatsApp alerts are not connected (people see messages and unread badges when they open the portal), and there is no college/cutoff database — enter each choice with its year and source.

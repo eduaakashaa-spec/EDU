@@ -3,6 +3,53 @@
 {% block body %}
 <div class="ms-note info">Dates marked <strong>unverified</strong> have no recorded official source/last-verified date — treat them as a plan, and confirm on the official notice. Times are shown in <strong>{{ e.timezone }}</strong>. Agenda view; month/week grids are not built yet.</div>
 
+<div class="ms-card" id="exams">
+  <div class="ms-eyebrow">Exams you can follow</div>
+  <h2>Choose the exams to focus on</h2>
+  <p class="hint">Pick the entrance exams that matter for {{ 'you' if role == 'student' else 'this student' }}. Followed exams appear in the agenda below, can be shared as a calendar invitation, and you are alerted whenever their schedule changes or a new exam is added.</p>
+  <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:6px;">
+    <div style="flex:1;min-width:180px;"><label class="f">Search</label><input type="text" name="q" value="{{ xq }}" placeholder="Exam or stream"></div>
+    <div><label class="f">Type</label><select name="xcat"><option value="">All</option>{% for c in xcats %}<option {{ 'selected' if c == xcat }}>{{ c }}</option>{% endfor %}</select></div>
+    <div><label class="f">Status</label><select name="xstatus"><option value="">All</option>{% for s in EXAM_STATUSES if s != 'Cancelled' %}<option {{ 'selected' if s == xstatus }}>{{ s }}</option>{% endfor %}</select></div>
+    <button class="ms-btn p sm">Filter</button><a class="ms-btn g sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='calendar') }}#exams">Reset</a>
+  </form>
+  {% for x in exams %}
+  <div class="ms-exam {{ 'on' if x.id in followed_ids }}">
+    <div>
+      <strong>{{ x.name }}</strong>
+      <span class="ms-pill {{ 'ok' if x.status == 'Confirmed' else ('warn' if x.status == 'Tentative' else '') }}">{{ x.status }}</span>
+      {% if x.stream %}<span class="ms-pill info">{{ x.stream }}</span>{% endif %}
+      <div style="font-size:.86rem;"><strong>{{ xc.fmt_range(x) }}</strong>{% if x.window_note %} · {{ x.window_note }}{% endif %}</div>
+      <div style="font-size:.78rem;color:var(--text-dim);">{{ x.source or 'No source recorded' }} · {% if x.verified_on %}checked {{ x.verified_on.strftime('%d %b %Y') }}{% else %}unverified{% endif %}</div>
+      <div style="font-size:.78rem;margin-top:3px;"><a href="{{ url_for('mentorship.exam_ics', eid=e.id, xid=x.id) }}">⬇ .ics</a> · <a href="{{ xc.gcal_link(x) }}" target="_blank" rel="noopener">Add to Google Calendar</a></div>
+    </div>
+    <div>
+      {% if role in ('student', 'mentor', 'admin') %}
+      <form method="post" action="{{ url_for('mentorship.exam_focus', eid=e.id, xid=x.id) }}">
+        {% if x.id in followed_ids %}<button class="ms-btn g sm" aria-pressed="true">✓ Following</button>
+        {% else %}<input type="hidden" name="on" value="1"><button class="ms-btn o sm" aria-pressed="false">＋ Follow</button>{% endif %}
+      </form>
+      {% elif x.id in followed_ids %}<span class="ms-pill ok">Followed</span>{% endif %}
+    </div>
+  </div>
+  {% else %}<div class="ms-empty" style="margin-top:10px;">{% if staff %}No exams in the catalogue match. An administrator can load the starter list under Admin → Mentorship → Exam catalogue.{% else %}No exams match your filters.{% endif %}</div>{% endfor %}
+  <p class="hint" style="margin-top:10px;">Statuses: <strong>Confirmed</strong> = announced by the conducting body · <strong>Tentative</strong> = provisional, may change · <strong>Expected</strong> = not announced, window inferred. Always confirm on the official notice.</p>
+</div>
+
+<div class="ms-card" id="share">
+  <div class="ms-eyebrow">Share the calendar</div>
+  <h2>Send the invitation to your own calendar or email</h2>
+  <p class="hint">Includes the {{ followed_ids|length }} exam(s) you follow. The .ics file works in Google, Apple and Outlook calendars; re-importing it after a schedule change updates the entries.</p>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;">
+    <a class="ms-btn p" href="{{ url_for('mentorship.calendar_ics', eid=e.id) }}">⬇ Download .ics</a>
+    <form method="post" action="{{ url_for('mentorship.calendar_email', eid=e.id) }}" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;flex:1;min-width:260px;">
+      <div style="flex:1;min-width:200px;"><label class="f">Email the invitation to</label><input type="email" name="email" value="{{ current_user.email }}" required></div>
+      <button class="ms-btn o">✉ Email me the invite</button>
+    </form>
+  </div>
+  {% if not mail_ready %}<div class="ms-note" style="margin-top:10px;">Email delivery is not configured on this server yet — use the .ics download. (Emails come from info@eduaakashaa.com once sending is set up.)</div>{% endif %}
+</div>
+
 <div class="ms-card">
   <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;">
     <div><label class="f">Category</label><select name="cat" onchange="this.form.submit()"><option value="">All</option>{% for c in cats %}<option {{ 'selected' if c == cat }}>{{ c }}</option>{% endfor %}</select></div>

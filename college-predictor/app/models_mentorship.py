@@ -402,3 +402,58 @@ class MsAudit(db.Model):
     action = db.Column(db.String(60), nullable=False)
     detail = db.Column(db.String(500))
     created_at = db.Column(db.DateTime, default=_utcnow)
+
+
+# --------------------------------------------------------------------------- #
+# Exam catalogue, focus selection and schedule alerts
+# --------------------------------------------------------------------------- #
+EXAM_STATUSES = ('Confirmed', 'Tentative', 'Expected', 'Cancelled')
+
+
+class MsExam(db.Model):
+    """One entrance exam / admission milestone in the shared catalogue that students and mentors can follow.
+    `version` goes up on every schedule change so calendar clients (ICS SEQUENCE) pick up the update."""
+    __tablename__ = 'ms_exams'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    category = db.Column(db.String(24), default='Other')
+    stream = db.Column(db.String(40))                 # B.Tech/B.E. | B.Des | B.Arch | Research/Science | …
+    starts_on = db.Column(db.Date, nullable=False)    # first day (or first day of the expected window)
+    ends_on = db.Column(db.Date)
+    status = db.Column(db.String(12), default='Expected')
+    window_note = db.Column(db.String(200))           # e.g. "Window only — exact date not announced"
+    source = db.Column(db.String(300))
+    verified_on = db.Column(db.Date)
+    notes = db.Column(db.Text)
+    active = db.Column(db.Boolean, default=True)
+    version = db.Column(db.Integer, default=1)
+    created_at = db.Column(db.DateTime, default=_utcnow)
+    updated_at = db.Column(db.DateTime, default=_utcnow, onupdate=_utcnow)
+
+
+class MsExamFocus(db.Model):
+    __tablename__ = 'ms_exam_focus'
+    id = db.Column(db.Integer, primary_key=True)
+    enrolment_id = db.Column(db.Integer, db.ForeignKey('ms_enrolments.id', ondelete='CASCADE'), index=True, nullable=False)
+    exam_id = db.Column(db.Integer, db.ForeignKey('ms_exams.id', ondelete='CASCADE'), index=True, nullable=False)
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_at = db.Column(db.DateTime, default=_utcnow)
+    __table_args__ = (db.UniqueConstraint('enrolment_id', 'exam_id'),)
+    exam = db.relationship('MsExam')
+
+
+class MsAlert(db.Model):
+    __tablename__ = 'ms_alerts'
+    id = db.Column(db.Integer, primary_key=True)
+    exam_id = db.Column(db.Integer, db.ForeignKey('ms_exams.id', ondelete='SET NULL'), index=True)
+    kind = db.Column(db.String(10), nullable=False)   # new | changed | removed
+    title = db.Column(db.String(300), nullable=False)
+    detail = db.Column(db.String(600))
+    created_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    exam = db.relationship('MsExam')
+
+
+class MsAlertRead(db.Model):
+    __tablename__ = 'ms_alert_reads'
+    alert_id = db.Column(db.Integer, db.ForeignKey('ms_alerts.id', ondelete='CASCADE'), primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)

@@ -403,6 +403,13 @@ def events_for(e, include_all=True):
         items.append({'date': x.starts_on, 'end': x.ends_on, 'title': x.title, 'category': x.category, 'source': x.source,
                       'verified': x.verified_on, 'notes': x.notes, 'done': x.done, 'kind': 'event', 'id': x.id,
                       'scope': 'Programme' if x.programme_id else 'Student'})
+    from app.models_mentorship import MsExam, MsExamFocus
+    for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all():
+        x = db.session.get(MsExam, f.exam_id)
+        if x and x.active:
+            items.append({'date': x.starts_on, 'end': x.ends_on, 'title': x.name, 'category': x.category, 'source': x.source,
+                          'verified': x.verified_on, 'notes': ((x.window_note + ' · ') if x.window_note else '') + x.status,
+                          'done': False, 'kind': 'event', 'id': None, 'scope': 'Following', 'status': x.status})
     for s in e.sessions.filter(MsSession.planned_at != None, MsSession.status.in_(['Planned', 'Rescheduled', 'Completed'])).all():  # noqa: E711
         items.append({'date': to_local(s.planned_at, e.timezone).date(), 'title': s.title, 'category': 'Mentorship session',
                       'notes': fmt_dt(s.planned_at, e.timezone), 'done': s.status == 'Completed', 'kind': 'session', 'id': s.id})
