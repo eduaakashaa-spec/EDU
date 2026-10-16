@@ -52,7 +52,7 @@ def create_app():
     # public information pages. Hidden on membership / account / admin pages, on
     # contact pages, and for members who already have Premium.
     NOTICE_SKIP_BLUEPRINTS = {'membership', 'admin_portal', 'auth', 'members', 'invoices',
-                              'onboarding', 'alumni', 'survey', 'api', 'assessments'}
+                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub'}
     NOTICE_SKIP_ENDPOINTS = {'main.members_registration', 'main.premium_membership',
                              'main.members_login', 'main.contact', 'main.contact_alias',
                              'main.contactus_alias', 'static'}
@@ -105,6 +105,9 @@ def create_app():
 
     from app.routes.guides import guides_bp
     app.register_blueprint(guides_bp)
+
+    from app.routes.memberhub import memberhub_bp
+    app.register_blueprint(memberhub_bp)
 
     # The legacy eduaakashaa.in domain forwards to eduaakashaa.com (path and query
     # kept), so old links, QR codes and bookmarks land on the live site.

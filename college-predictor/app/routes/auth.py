@@ -55,7 +55,7 @@ def login():
             flash('Logged in successfully.', 'success')
             if not next_page and (user.is_ea_mentor or user.is_mentor):
                 return redirect(_mentor_landing(user))
-            return redirect(next_page or url_for('main.home'))
+            return redirect(next_page or url_for('memberhub.home'))
 
         flash('Invalid email or password.', 'danger')
 

@@ -411,6 +411,32 @@ class FreeGuide(db.Model):
                            onupdate=lambda: datetime.now(timezone.utc))
 
 
+class StudentProfile(db.Model):
+    """Student details + photo shown on the Member Home. Own table (no ALTER on users);
+    the photo lives in the DB because the host disk is ephemeral."""
+    __tablename__ = 'student_profiles'
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+    student_name = db.Column(db.String(150))
+    grade = db.Column(db.String(60))
+    school = db.Column(db.String(200))
+    board = db.Column(db.String(60))
+    city = db.Column(db.String(100))
+    country = db.Column(db.String(80))
+    target_exams = db.Column(db.String(200))
+    target_year = db.Column(db.String(20))
+    phone = db.Column(db.String(40))
+    parent_name = db.Column(db.String(150))
+    photo_mime = db.Column(db.String(60))
+    photo_data = db.deferred(db.Column(db.LargeBinary))
+    photo_size = db.Column(db.Integer, default=0)
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc),
+                           onupdate=lambda: datetime.now(timezone.utc))
+
+    user = db.relationship('User', backref=db.backref(
+        'student_profile', uselist=False, cascade='all, delete-orphan', passive_deletes=True))
+
+
 class FreeGuideCover(db.Model):
     """Optional tile image for a free guide. Kept in its own table so the guide
     list never loads image bytes and no ALTER TABLE is needed on existing data."""

@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Member Home — EduAakashaA{% endblock %}
+
+{% block head %}
+<style>
+  .mh { max-width: 1160px; margin: 0 auto; padding: 32px 20px 70px; }
+  .mh-hero { display:flex; gap:24px; align-items:center; flex-wrap:wrap; padding:26px 28px; border-radius:22px; color:#fff;
+             background:linear-gradient(120deg,#1A1A2E 0%,#2B2F77 55%,#7C3AED 100%); box-shadow:0 14px 34px rgba(26,26,46,.22); }
+  .mh-photo { width:104px; height:104px; border-radius:50%; flex:none; border:4px solid #C9A84C; object-fit:cover; background:#C9A84C;
+              display:flex; align-items:center; justify-content:center; font:700 2.4rem 'Oswald',sans-serif; color:#1A1A2E; }
+  .mh-id { flex:1; min-width:240px; }
+  .mh-id h1 { font-family:'Fraunces',serif; font-size:1.9rem; margin:0 0 4px; color:#fff; }
+  .mh-plan { display:inline-block; font-size:.7rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border-radius:999px; background:#C9A84C; color:#1A1A2E; }
+  .mh-plan--free { background:rgba(255,255,255,.18); color:#fff; }
+  .mh-facts { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .mh-fact { background:rgba(255,255,255,.14); border-radius:10px; padding:6px 12px; font-size:.85rem; }
+  .mh-fact b { display:block; font-size:.62rem; letter-spacing:.9px; text-transform:uppercase; opacity:.75; font-weight:700; }
+  .mh-edit { background:#C9A84C; color:#1A1A2E; border:0; border-radius:10px; padding:11px 20px; font-weight:700; cursor:pointer; text-decoration:none; font-size:.92rem; }
+  .mh-details { margin-top:14px; background:var(--white,#fff); border:1px solid var(--border,#e8e0d4); border-radius:18px; padding:0; overflow:hidden; }
+  .mh-details summary { cursor:pointer; padding:16px 22px; font-weight:700; color:var(--dark,#1A1A2E); }
+  .mh-form { padding:4px 22px 22px; display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
+  .mh-form label { display:block; font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#555; margin-bottom:5px; }
+  .mh-form input { width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #d0c8bb; border-radius:8px; font-size:.95rem; }
+  .mh-form .hint { font-size:.76rem; color:#777; margin-top:4px; }
+  .mh-form .wide { grid-column:1/-1; }
+  .mh-save { background:#1A1A2E; color:#C9A84C; border:0; border-radius:10px; padding:12px 28px; font-weight:700; cursor:pointer; }
+  .mh-nudge { margin-top:14px; background:#FFF3DD; border:1px solid #F3D9A0; color:#8a5a0a; border-radius:12px; padding:10px 16px; font-size:.9rem; }
+  .mh-cat { margin-top:34px; }
+  .mh-cat-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  .mh-cat-ico { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#fff; }
+  .mh-cat-head h2 { margin:0; font-family:'Fraunces',serif; font-size:1.3rem; color:var(--dark,#1A1A2E); }
+  .mh-cat-head p { margin:0; font-size:.86rem; color:var(--text-dim,#777); }
+  .mh-count { margin-left:auto; font-size:.74rem; font-weight:700; padding:4px 10px; border-radius:999px; }
+  .mh-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; }
+  .mh-tile { position:relative; display:block; text-decoration:none; border-radius:16px; padding:18px 18px 16px; border:1px solid transparent;
+             transition:transform .15s, box-shadow .15s; color:#222; }
+  .mh-tile:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,.12); }
+  .mh-tile .ico { font-size:1.7rem; line-height:1; }
+  .mh-tile h3 { margin:10px 0 4px; font-size:1.02rem; font-family:'Oswald',sans-serif; letter-spacing:.3px; color:#1A1A2E; }
+  .mh-tile p { margin:0; font-size:.84rem; color:#555; }
+  .mh-tile.locked { opacity:.72; }
+  .mh-tile.soon { border-style:dashed; cursor:default; }
+  .mh-tile.soon:hover { transform:none; box-shadow:none; }
+  .mh-lock { position:absolute; top:12px; right:12px; font-size:.66rem; font-weight:800; letter-spacing:.6px; text-transform:uppercase; padding:3px 9px; border-radius:999px; background:#1A1A2E; color:#C9A84C; }
+  .flash-list{ list-style:none; padding:0; margin:0 0 16px; }
+  .flash-list li{ padding:10px 14px; border-radius:8px; font-size:.9rem; margin-bottom:8px; }
+  .flash-success{ background:#e6f9ed; color:#276738; border:1px solid #b8e6c8; }
+  .flash-danger{ background:#fce4e4; color:#a33; border:1px solid #f0bcbc; }
+  .flash-info{ background:#e4edf9; color:#2c5282; border:1px solid #bcd4f0; }
+</style>
+{% endblock %}
+
+{% block content %}
+{% set shown_name = (sp.student_name if sp and sp.student_name else current_user.name) %}
+<div class="mh">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+
+  <section class="mh-hero">
+    {% if has_photo %}
+      <img class="mh-photo" src="{{ url_for('memberhub.photo', uid=current_user.id) }}?v={{ sp.photo_size }}" alt="{{ shown_name }}">
+    {% else %}
+      <div class="mh-photo" aria-hidden="true">{{ shown_name[:1]|upper }}</div>
+    {% endif %}
+    <div class="mh-id">
+      <h1>{{ shown_name }}</h1>
+      {% if current_user.is_admin %}<span class="mh-plan">Admin</span>
+      {% elif current_user.is_premium %}<span class="mh-plan">Premium member</span>
+      {% else %}<span class="mh-plan mh-plan--free">Free plan</span>{% endif %}
+      <div class="mh-facts">
+        <div class="mh-fact"><b>Email</b>{{ current_user.email }}</div>
+        {% if sp and sp.grade %}<div class="mh-fact"><b>Class</b>{{ sp.grade }}{% if sp.board %} · {{ sp.board }}{% endif %}</div>{% endif %}
+        {% if sp and sp.school %}<div class="mh-fact"><b>School</b>{{ sp.school }}</div>{% endif %}
+        {% if sp and sp.target_exams %}<div class="mh-fact"><b>Targeting</b>{{ sp.target_exams }}{% if sp.target_year %} · {{ sp.target_year }}{% endif %}</div>{% endif %}
+        {% if sp and (sp.city or sp.country) %}<div class="mh-fact"><b>Location</b>{{ [sp.city, sp.country]|select|join(', ') }}</div>{% endif %}
+        {% if sp and sp.parent_name %}<div class="mh-fact"><b>Parent / guardian</b>{{ sp.parent_name }}</div>{% endif %}
+        {% if current_user.is_premium and current_user.tier_expires_at %}<div class="mh-fact"><b>Access until</b>{{ current_user.tier_expires_at.strftime('%d %b %Y') }}</div>{% endif %}
+      </div>
+    </div>
+    <a class="mh-edit" href="#details" onclick="document.getElementById('details').open=true">✎ Edit details &amp; photo</a>
+  </section>
+
+  {% if not complete %}
+  <div class="mh-nudge">Add your student details and photo so your mentor can recognise and guide you better — it takes a minute.</div>
+  {% endif %}
+
+  <details class="mh-details" id="details" {% if not complete %}open{% endif %}>
+    <summary>Student details &amp; photo</summary>
+    <form class="mh-form" method="post" action="{{ url_for('memberhub.save_details') }}" enctype="multipart/form-data">
+      <div><label>Student name</label><input name="student_name" maxlength="150" value="{{ sp.student_name or '' if sp }}" placeholder="{{ current_user.name }}"></div>
+      <div><label>Class / status</label><input name="grade" maxlength="60" value="{{ sp.grade or '' if sp }}" placeholder="Class 12, Gap year…"></div>
+      <div><label>Board</label><input name="board" maxlength="60" value="{{ sp.board or '' if sp }}" placeholder="CBSE, IB, State…"></div>
+      <div><label>School</label><input name="school" maxlength="200" value="{{ sp.school or '' if sp }}"></div>
+      <div><label>Target exams</label><input name="target_exams" maxlength="200" value="{{ sp.target_exams or '' if sp }}" placeholder="JEE, DASA, NEET…"></div>
+      <div><label>Target admission year</label><input name="target_year" maxlength="20" value="{{ sp.target_year or '' if sp }}" placeholder="2027"></div>
+      <div><label>City</label><input name="city" maxlength="100" value="{{ sp.city or '' if sp }}"></div>
+      <div><label>Country</label><input name="country" maxlength="80" value="{{ sp.country or '' if sp }}"></div>
+      <div><label>Phone / WhatsApp</label><input name="phone" maxlength="40" value="{{ sp.phone or '' if sp }}"></div>
+      <div><label>Parent / guardian</label><input name="parent_name" maxlength="150" value="{{ sp.parent_name or '' if sp }}"></div>
+      <div class="wide"><label>Student photo</label>
+        <input type="file" name="photo" accept=".jpg,.jpeg,.png,.webp">
+        <div class="hint">Square photo works best (e.g. 400 × 400 px), JPG, PNG or WebP, under 1 MB. Only you and your EduAakashaA mentors can see it.</div>
+        {% if has_photo %}<label style="margin-top:8px;text-transform:none;font-weight:600;"><input type="checkbox" name="remove_photo" value="1" style="width:auto;"> Remove current photo</label>{% endif %}
+      </div>
+      <div class="wide"><button class="mh-save" type="submit">Save details</button></div>
+    </form>
+  </details>
+
+  {% for cat in categories %}
+  <section class="mh-cat" id="cat-{{ cat.key }}">
+    <div class="mh-cat-head">
+      <div class="mh-cat-ico" style="background:{{ cat.color }}">{{ cat.icon }}</div>
+      <div><h2>{{ cat.title }}</h2><p>{{ cat.blurb }}</p></div>
+      <span class="mh-count" style="background:{{ cat.tint }};color:{{ cat.color }}">{{ cat.open }} of {{ cat.tiles|length }} open</span>
+    </div>
+    <div class="mh-grid">
+      {% for t in cat.tiles %}
+      {% if t.access == 'soon' %}
+      <div class="mh-tile soon" style="background:#fff;border-color:{{ cat.color }}55;">
+        <div class="ico">{{ t.icon }}</div><h3>{{ t.title }}</h3><p>{{ t.desc }}</p>
+      </div>
+      {% else %}
+      <a class="mh-tile{{ ' locked' if t.locked }}" href="{{ url_for('main.members_registration') if t.locked else t.url }}"
+         style="background:{{ cat.tint }};border-color:{{ cat.color }}33;">
+        {% if t.locked %}<span class="mh-lock">🔒 Premium</span>{% endif %}
+        <div class="ico">{{ t.icon }}</div><h3>{{ t.title }}</h3><p>{{ t.desc }}</p>
+      </a>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
+</div>
+{% endblock %}
