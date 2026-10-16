@@ -125,14 +125,14 @@ def allowed_senders():
 
 def _send_resend(cfg, to, subject, text, html, from_name, cc=None, bcc=None,
                  from_addr=None, reply_to=None, attachments=None):
-    payload = {'from': formataddr((from_name, from_addr or cfg['from'])),
+    # every automated email goes out as info@ unless a caller picks another allowed sender
+    payload = {'from': formataddr((from_name, from_addr or INFO_FROM or cfg['from'])),
                'to': _as_list(to), 'subject': subject, 'text': text}
     if cc:
         payload['cc'] = _as_list(cc)
     if bcc:
         payload['bcc'] = _as_list(bcc)
-    if reply_to:
-        payload['reply_to'] = reply_to
+    payload['reply_to'] = reply_to or INFO_FROM
     if html:
         payload['html'] = html
     if attachments:        # [(filename, bytes, mime)] → Resend wants base64 content
