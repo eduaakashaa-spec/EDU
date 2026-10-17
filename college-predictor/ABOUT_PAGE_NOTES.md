@@ -33,6 +33,7 @@ Tagline options
 | 6 | Our approach — we take ownership (six steps) | `#approach` | — |
 | 7 | Our values (eight) | `#values` | — |
 | 8 | What makes our mentorship different | `#different` | — |
+| 8b | Data you can use, freely — free insights, facts over social-media noise, open invitation | `#insights` | **Talk to a Mentor** · WhatsApp |
 | 9 | A promise to students and parents | `#promise` | **Talk to a Mentor** · WhatsApp · email · phone |
 
 CTAs are deliberately limited to the hero, the NRI band and the closing promise so the page reads as a story, not a sales page.
