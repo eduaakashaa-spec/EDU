@@ -118,6 +118,10 @@ see §6.
 
 ## 5. What was built recently (newest first)
 
+- **EduPulse-UCEED** (`/edupulse-uceed/`, see `college-predictor/EDUPULSE_UCEED.md`): question bank + practice + dashboard + mentor view +
+  email reports. Starter bank = 40 original questions (no PYQs — copyright). Emails need Resend/SMTP configured and a weekly trigger
+  (`PULSE_CRON_TOKEN` + the GitHub workflow, or a Render cron running `python manage.py send_pulse_reports`).
+
 - **/law-2027-roadmap** (premium) built on a now-shared roadmap engine (`roadmap_engine.js`, `_rm_tools.html`, `services/roadmap_cfg.py`);
   the UCEED page uses the same engine. Law facts: CLAT 6 Dec 2026, AILET 13 Dec 2026, SLAT 19 & 26 Dec 2026 (all via news reports of the
   exam bodies' announcements — not the official PDFs); CLAT counselling and LSAT-India 2027 dates were not available. /exam-schedule updated to match.

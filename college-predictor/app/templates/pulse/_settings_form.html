@@ -1,0 +1,11 @@
+<form method="post" action="{{ url_for('pulse.register') }}" style="margin-top:8px;">
+  <div class="pl-row">
+    <div><label class="f" for="pf-class">Current class</label><select id="pf-class" name="student_class">{% for c in ('Class 10', 'Class 11', 'Class 12', 'Drop year', 'Other') %}<option {{ 'selected' if (prof and prof.student_class == c) or (not prof and c == 'Class 12') }}>{{ c }}</option>{% endfor %}</select></div>
+    <div><label class="f" for="pf-parent">Parent / guardian email (optional)</label><input type="email" id="pf-parent" name="parent_email" maxlength="200" value="{{ prof.parent_email if prof and prof.parent_email }}" autocomplete="off"></div>
+    <div><label class="f" for="pf-freq">Progress report</label><select id="pf-freq" name="frequency">{% for v, t in (('weekly', 'Weekly'), ('monthly', 'Monthly'), ('off', 'Off')) %}<option value="{{ v }}" {{ 'selected' if (prof and prof.frequency == v) or (not prof and v == 'weekly') }}>{{ t }}</option>{% endfor %}</select></div>
+  </div>
+  <label style="display:flex;gap:10px;align-items:flex-start;font-size:.88rem;margin:6px 0;"><input type="checkbox" name="parent_consent" value="1" {{ 'checked' if prof and prof.parent_consent }} style="margin-top:3px;width:auto;min-height:0;"><span>My parent / guardian agrees to receive my EduPulse progress reports at the address above. (Nothing is sent to them unless this is ticked.)</span></label>
+  <label style="display:flex;gap:10px;align-items:flex-start;font-size:.88rem;margin:6px 0 12px;"><input type="checkbox" name="email_results" value="1" {{ 'checked' if not prof or prof.email_results }} style="margin-top:3px;width:auto;min-height:0;"><span>Email me the result after each practice set.</span></label>
+  <p style="font-size:.8rem;color:var(--muted);margin:0 0 10px;">Your EduAakashaA mentor{% if prof and prof.mentor %} ({{ prof.mentor.name }}){% endif %}, if you have one linked, also receives the periodic progress report. We use these details only for EduPulse progress emails; write to info@eduaakashaa.com to have them removed.</p>
+  <button class="pl-btn o">{{ 'Save settings' if prof else 'Register & start practising' }}</button>
+</form>

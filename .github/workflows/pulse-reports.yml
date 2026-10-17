@@ -1,0 +1,29 @@
+name: EduPulse weekly reports
+
+# Triggers the EduPulse-UCEED progress digests (student / parent / mentor emails).
+# Requires repository secret PULSE_CRON_TOKEN (the same value as the PULSE_CRON_TOKEN env var on Render).
+# Optional secret SITE_URL (defaults to https://www.eduaakashaa.com). The app only mails profiles whose period has elapsed.
+
+on:
+  schedule:
+    - cron: '30 3 * * 1'        # Mondays 03:30 UTC (09:00 IST)
+  workflow_dispatch: {}
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the report endpoint
+        env:
+          TOKEN: ${{ secrets.PULSE_CRON_TOKEN }}
+          SITE: ${{ secrets.SITE_URL }}
+        run: |
+          if [ -z "$TOKEN" ]; then echo "PULSE_CRON_TOKEN is not set — skipping."; exit 0; fi
+          URL="${SITE:-https://www.eduaakashaa.com}/edupulse-uceed/cron/reports"
+          for i in 1 2 3; do
+            code=$(curl -s -o /tmp/out.txt -w "%{http_code}" --max-time 120 -H "X-Cron-Token: $TOKEN" "$URL" || echo 000)
+            echo "Attempt $i -> HTTP $code"; cat /tmp/out.txt; echo
+            [ "$code" = "200" ] && exit 0
+            sleep 20
+          done
+          exit 1

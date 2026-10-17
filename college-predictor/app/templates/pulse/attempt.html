@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Practice set — EduPulse-UCEED | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">{% endblock %}
+{% block content %}
+<div class="pl" style="max-width:860px;">
+  <div class="pl-crumb"><a href="{{ url_for('pulse.home') }}">EduPulse-UCEED</a> › {{ att.chapter.title if att.chapter else 'Mixed set' }}</div>
+  <h1>{{ att.chapter.title if att.chapter else 'Mixed set' }}</h1>
+  <p style="color:var(--muted);">{{ items|length }} question{{ '' if items|length == 1 else 's' }} · choose one answer per question · you may skip any. Answers and explanations appear after you submit.</p>
+  {% if att.limit_sec %}<div class="pl-timer" id="pl-timer" role="timer" aria-live="off" data-limit="{{ att.limit_sec }}">--:--</div>{% endif %}
+  <form method="post" action="{{ url_for('pulse.submit', aid=att.id) }}" id="pl-form">
+    {% for a in items %}{% set q = a.question %}
+    <div class="pl-q"><div class="n">Question {{ loop.index }} of {{ items|length }} · {{ q.difficulty }}</div>
+      <div class="stem">{{ q.stem }}</div>
+      {% if q.has_image %}<img src="{{ url_for('pulse.question_image', qid=q.id) }}" alt="Figure for question {{ loop.index }}">{% endif %}
+      {% for letter, text in q.options() %}
+      <label class="pl-opt"><input type="radio" name="q{{ a.id }}" value="{{ letter }}"><b>{{ letter }}</b><span>{{ text }}</span></label>
+      {% endfor %}
+      <button type="button" class="pl-btn g sm" data-clear="q{{ a.id }}">Clear answer</button>
+    </div>
+    {% endfor %}
+    <button class="pl-btn o" type="submit">Submit set</button>
+  </form>
+</div>
+<script>
+document.querySelectorAll('[data-clear]').forEach(function (b) { b.addEventListener('click', function () { document.querySelectorAll('input[name="' + b.dataset.clear + '"]').forEach(function (i) { i.checked = false; }); }); });
+(function () {
+  var t = document.getElementById('pl-timer'); if (!t) return;
+  var left = parseInt(t.dataset.limit, 10), form = document.getElementById('pl-form');
+  function tick() { var m = Math.floor(left / 60), s = left % 60; t.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0'); if (left <= 0) { form.submit(); return; } left--; setTimeout(tick, 1000); }
+  tick();
+})();
+</script>
+{% endblock %}

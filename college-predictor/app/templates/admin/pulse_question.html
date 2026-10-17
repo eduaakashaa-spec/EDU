@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Question — EduPulse-UCEED · EduAakashaA{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>.pq label{ display:block; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#4a5470; margin:10px 0 4px; } .pq input[type=text], .pq select, .pq textarea, .pq input[type=file]{ width:100%; padding:8px 10px; border:1.5px solid var(--hairline); border-radius:9px; font:inherit; background:#fff; box-sizing:border-box; } .pq textarea{ min-height:90px; }</style>{% endblock %}
+{% block content %}
+{% set v = form or {} %}
+<div class="adm pq"><div class="adm-wrap" style="max-width:820px;">
+  <div class="adm-top"><div><div class="adm-eyebrow"><a href="{{ url_for('pulse.admin_home') }}" style="text-decoration:none;">← Question bank</a></div><h1>{{ 'Edit question #' ~ q.id if q and q.id else 'Add a question' }}</h1></div></div>
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}{% for cat, msg in messages %}<div style="padding:10px 14px;border-radius:9px;margin-bottom:10px;background:{{ '#fce4e4' if cat == 'danger' else '#e6f9ed' }};">{{ msg }}</div>{% endfor %}{% endif %}{% endwith %}
+  <form method="post" enctype="multipart/form-data" class="adm-card" style="background:var(--paper);border:1px solid var(--hairline);border-radius:14px;padding:20px;">
+    <label>Chapter</label><select name="chapter_id">{% for c in chapters %}<option value="{{ c.id }}" {{ 'selected' if (v.get('chapter_id') or (q.chapter_id if q else 0))|string == c.id|string }}>{{ c.title }}</option>{% endfor %}</select>
+    <label>Question</label><textarea name="stem" required>{{ v.get('stem') or (q.stem if q) or '' }}</textarea>
+    {% for k in 'abcd' %}<label>Option {{ k|upper }}</label><input type="text" name="option_{{ k }}" maxlength="400" required value="{{ v.get('option_' ~ k) or (q['option_' ~ k] if q) or '' }}">{% endfor %}
+    <label>Correct option</label><select name="correct">{% for l in 'ABCD' %}<option {{ 'selected' if (v.get('correct') or (q.correct if q) or 'A') == l }}>{{ l }}</option>{% endfor %}</select>
+    <label>Explanation (shown after the student submits)</label><textarea name="explanation">{{ v.get('explanation') or (q.explanation if q) or '' }}</textarea>
+    <label>Difficulty</label><select name="difficulty">{% for d in ('Easy', 'Medium', 'Hard') %}<option {{ 'selected' if (v.get('difficulty') or (q.difficulty if q) or 'Medium') == d }}>{{ d }}</option>{% endfor %}</select>
+    <label>Source</label><input type="text" name="source" maxlength="160" value="{{ v.get('source') or (q.source if q) or 'EduAakashaA original practice question' }}">
+    <label>Year (only for genuine previous-year items you hold the rights to)</label><input type="text" name="year" maxlength="8" value="{{ v.get('year') or (q.year if q and q.year) or '' }}">
+    <label>Figure (optional — JPG, PNG or WebP, under 500 KB)</label><input type="file" name="image" accept=".jpg,.jpeg,.png,.webp">
+    {% if q and q.has_image %}<label style="text-transform:none;"><input type="checkbox" name="remove_image" value="1" style="width:auto;"> Remove the current figure</label>{% endif %}
+    <label style="text-transform:none;margin-top:14px;"><input type="checkbox" name="publish" value="1" style="width:auto;" {{ 'checked' if (q and q.status == 'published') }}> Publish (make it available to students)</label>
+    <button class="btn btn-navy" style="margin-top:14px;">Save question</button>
+  </form>
+</div></div>
+{% endblock %}

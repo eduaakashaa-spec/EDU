@@ -61,6 +61,13 @@ def seed_demo():
         print(f'Inserted {len(samples)} demo applications.')
 
 
+def send_pulse_reports():
+    """E-mail the EduPulse-UCEED progress digests that are due (run weekly from a scheduler)."""
+    with app.app_context():
+        from app.services import pulse
+        print(f'{pulse.send_due_reports()} report(s) queued.')
+
+
 if __name__ == '__main__':
     args = sys.argv[1:]
     if not args:
@@ -76,6 +83,8 @@ if __name__ == '__main__':
             sys.exit(1)
         name = args[3] if len(args) > 3 else 'Admin'
         create_admin(args[1], args[2], name)
+    elif cmd == 'send_pulse_reports':
+        send_pulse_reports()
     elif cmd == 'seed_sequences':
         seed_sequences()
     elif cmd == 'seed_demo':

@@ -30,6 +30,7 @@
 <nav class="adm-nav" aria-label="Admin sections">
   <a href="{{ url_for('admin_portal.home') }}" class="adm-navlink {{ 'on' if admin_tab == 'overview' }}">Overview</a>
   <a href="{{ url_for('mentorship.admin_home') }}" class="adm-navlink {{ 'on' if admin_tab == 'mentorship' }}">Mentorship</a>
+  <a href="{{ url_for('pulse.admin_home') }}" class="adm-navlink {{ 'on' if admin_tab == 'pulse' }}">EduPulse</a>
 
   <div class="adm-navgrp {{ 'on' if admin_tab in ['users', 'memberships', 'onboarding', 'documents', 'assessments'] }}">
     <button type="button" class="adm-navtop" aria-haspopup="true">People ▾</button>

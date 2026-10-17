@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}EduPulse-UCEED — Practice & Progress | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-UCEED</div>
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<ul class="pl-flash" role="status">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}{% endwith %}
+
+  <section class="pl-hero">
+    <div><span class="pl-chip">UCEED 2027 · MCQ practice</span><h1>EduPulse-UCEED</h1>
+      <p>Chapter-wise practice for the multiple-choice side of UCEED preparation. Every set you finish updates your dashboard, and your progress can be shared with your parent and mentor by email.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ ov.attempts }}</b><span>practice sets</span></div><div class="pl-kpi"><b>{{ ov.answered }}</b><span>questions answered</span></div>
+      <div class="pl-kpi"><b>{{ ov.accuracy ~ '%' if ov.accuracy is not none else '—' }}</b><span>accuracy</span></div><div class="pl-kpi"><b>{{ streak }}</b><span>day streak</span></div>
+    </div>
+  </section>
+
+  <div class="pl-note">The practice bank is <strong>EduAakashaA original practice material</strong> — it is not a set of UCEED previous-year questions, and EduPulse scores are guidance only, not official UCEED marks. Check the official UCEED brochure for the real exam pattern.</div>
+
+  {% if not prof %}
+  <div class="pl-card" style="margin-top:16px;" id="settings">
+    <span class="pl-eyebrow">Step 1 · Register for EduPulse</span><h3>Tell us who should receive your progress</h3>
+    <p>One short form. You can change it any time.</p>
+    {% include "pulse/_settings_form.html" %}
+  </div>
+  {% else %}
+
+  <div class="pl-grid pl-g2">
+    <div class="pl-card"><span class="pl-eyebrow">Accuracy trend</span><h3>Last {{ ov.trend|length }} set{{ '' if ov.trend|length == 1 else 's' }}</h3>
+      {% if ov.trend %}<div class="pl-spark" role="img" aria-label="Accuracy across your recent practice sets">{% for v in ov.trend %}<i style="height:{{ [6, v * 0.8]|max }}px" data-v="{{ v }}%"></i>{% endfor %}</div>
+      {% else %}<p>No sets finished yet — start one below and your trend appears here.</p>{% endif %}
+      {% if ov.sec_per_q %}<p style="margin:0;">Average pace: about {{ ov.sec_per_q }} seconds per question.</p>{% endif %}</div>
+    <div class="pl-card"><span class="pl-eyebrow">Next best steps</span><h3>Where to focus</h3>
+      <ul style="margin:6px 0 0;padding-left:18px;line-height:1.7;">{% for t in tips %}<li>{{ t }}</li>{% endfor %}</ul></div>
+  </div>
+
+  <h2 style="margin:28px 0 4px;">Practise by chapter</h2>
+  <p style="margin:0 0 6px;color:var(--muted);font-size:.9rem;">{{ published }} published question{{ '' if published == 1 else 's' }} in the bank. Questions you have not seen come first, then ones you got wrong.</p>
+  <div class="pl-grid pl-g3">
+    {% for r in rows %}
+    <div class="pl-card" id="ch-{{ r.chapter.key }}">
+      <div style="display:flex;justify-content:space-between;gap:8px;"><h3>{{ r.chapter.title }}</h3>
+        <span class="pl-pill {{ r.level }}">{{ {'new': 'Not enough data', 'weak': 'Needs work', 'ok': 'On track', 'strong': 'Strong'}[r.level] }}</span></div>
+      <p>{{ r.chapter.description }}</p>
+      <div style="font-size:.8rem;color:var(--muted);">Coverage {{ r.seen }}/{{ r.total }} · {{ r.answered }} answered{% if r.accuracy is not none %} · accuracy <strong>{{ r.accuracy }}%</strong>{% endif %}</div>
+      <div class="pl-bar {{ 'g' if r.level == 'strong' else ('r' if r.level == 'weak' else '') }}" role="progressbar" aria-valuenow="{{ r.accuracy or 0 }}" aria-valuemin="0" aria-valuemax="100"><i style="width:{{ r.accuracy or 0 }}%"></i></div>
+      {% if r.total %}
+      <form method="post" action="{{ url_for('pulse.start') }}" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+        <input type="hidden" name="chapter" value="{{ r.chapter.key }}">
+        <select name="count" aria-label="Number of questions" style="width:auto;">{% for n in SET_SIZES %}<option {{ 'selected' if n == 10 }}>{{ n }}</option>{% endfor %}</select>
+        <select name="mode" aria-label="Mode" style="width:auto;"><option value="practice">Untimed</option><option value="timed">Timed</option></select>
+        <button class="pl-btn o sm">Practise →</button></form>
+      {% else %}<p style="margin-top:8px;">Questions for this chapter are coming soon.</p>{% endif %}
+    </div>
+    {% endfor %}
+    <div class="pl-card" style="border-color:#FF6B0A;">
+      <h3>Mixed set</h3><p>A random mix across all chapters — closest to a real test feel.</p>
+      <form method="post" action="{{ url_for('pulse.start') }}" style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input type="hidden" name="chapter" value="mixed">
+        <select name="count" aria-label="Number of questions" style="width:auto;">{% for n in SET_SIZES %}<option {{ 'selected' if n == 10 }}>{{ n }}</option>{% endfor %}</select>
+        <select name="difficulty" aria-label="Difficulty" style="width:auto;"><option value="">Any level</option><option>Easy</option><option>Medium</option><option>Hard</option></select>
+        <select name="mode" aria-label="Mode" style="width:auto;"><option value="practice">Untimed</option><option value="timed">Timed</option></select>
+        <button class="pl-btn n sm">Start mixed set →</button></form>
+    </div>
+  </div>
+
+  <h2 style="margin:28px 0 8px;">Recent practice sets</h2>
+  <div class="pl-card pl-scroll">
+    {% if recent %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Set</th><th>Result</th><th>Accuracy</th><th>Practice score</th><th></th></tr></thead><tbody>
+      {% for a in recent %}<tr><td>{{ a.submitted_at.strftime('%d %b %Y') }}</td><td>{{ a.chapter.title if a.chapter else 'Mixed' }}{{ ' · timed' if a.mode == 'timed' }}</td>
+        <td>{{ a.correct }}/{{ a.total }}</td><td>{{ a.accuracy ~ '%' if a.accuracy is not none else '—' }}</td><td>{{ practice_score(a) }}</td><td><a href="{{ url_for('pulse.result', aid=a.id) }}">Review →</a></td></tr>{% endfor %}
+    </tbody></table>{% else %}<p style="margin:0;">Nothing yet — your finished sets will be listed here.</p>{% endif %}
+  </div>
+
+  <div class="pl-card" style="margin-top:22px;" id="settings"><span class="pl-eyebrow">Settings</span><h3>Email reports &amp; privacy</h3>
+    {% if not mail_ready %}<div class="pl-note">Email delivery is not configured on this server yet, so reports will not be sent until the team sets it up. Your dashboard works as normal.</div>{% endif %}
+    {% include "pulse/_settings_form.html" %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

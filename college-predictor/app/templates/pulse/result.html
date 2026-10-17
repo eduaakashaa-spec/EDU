@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Result — EduPulse-UCEED | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">{% endblock %}
+{% block content %}
+<div class="pl" style="max-width:900px;">
+  <div class="pl-crumb"><a href="{{ url_for('pulse.home') }}">EduPulse-UCEED</a> › Result</div>
+  <section class="pl-hero" style="grid-template-columns:1fr;">
+    <div><span class="pl-chip">{{ att.chapter.title if att.chapter else 'Mixed set' }}{{ ' · timed' if att.mode == 'timed' }}</span>
+      <h1>{{ att.correct }} of {{ att.total }} correct</h1>
+      <p>Accuracy on answered questions: <strong>{{ att.accuracy ~ '%' if att.accuracy is not none else '—' }}</strong> · wrong {{ att.wrong }} · skipped {{ att.skipped }} · practice score {{ score }} (+1 / −⅓, guidance only) · took {{ (att.duration_sec // 60) }} min {{ att.duration_sec % 60 }} s.</p></div>
+  </section>
+  {% if by_ch|length > 1 %}<div class="pl-card" style="margin-top:14px;"><h3>By chapter</h3>
+    {% for name, (c, t) in by_ch.items() %}<div style="margin:8px 0;font-size:.9rem;">{{ name }} — {{ c }}/{{ t }}<div class="pl-bar {{ 'g' if c == t else '' }}"><i style="width:{{ (100 * c / t)|round }}%"></i></div></div>{% endfor %}</div>{% endif %}
+
+  <h2 style="margin:24px 0 10px;">Review your answers</h2>
+  {% for a in items %}{% set q = a.question %}
+  <div class="pl-q"><div class="n">Question {{ loop.index }} · {{ q.chapter.title }} · {{ q.difficulty }} · <span style="color:{{ '#1F8B5C' if a.is_correct else ('#8a5a0a' if not a.chosen else '#C23A3A') }}">{{ 'Correct' if a.is_correct else ('Skipped' if not a.chosen else 'Incorrect') }}</span></div>
+    <div class="stem">{{ q.stem }}</div>
+    {% if q.has_image %}<img src="{{ url_for('pulse.question_image', qid=q.id) }}" alt="Figure for question {{ loop.index }}">{% endif %}
+    {% for letter, text in q.options() %}
+    <div class="pl-opt {{ 'right' if letter == q.correct else ('wrong' if letter == a.chosen else '') }}"><b>{{ letter }}</b><span>{{ text }}{% if letter == a.chosen %} <em>(your answer)</em>{% endif %}{% if letter == q.correct %} ✓{% endif %}</span></div>
+    {% endfor %}
+    {% if q.explanation %}<div class="pl-expl"><strong>Why:</strong> {{ q.explanation }}</div>{% endif %}
+    <div style="font-size:.76rem;color:var(--muted);margin-top:6px;">Source: {{ q.source }}{% if q.year %} ({{ q.year }}){% endif %}</div>
+  </div>
+  {% endfor %}
+  <div style="display:flex;gap:10px;flex-wrap:wrap;"><a class="pl-btn o" href="{{ url_for('pulse.home') }}">Back to dashboard</a></div>
+</div>
+{% endblock %}

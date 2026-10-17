@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ p.user.name }} — EduPulse-UCEED | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('pulse.mentor_home') }}">EduPulse mentor view</a> › {{ p.user.name }}</div>
+  <section class="pl-hero"><div><span class="pl-chip">{{ p.student_class or 'Student' }} · reports {{ p.frequency }}</span><h1>{{ p.user.name }}</h1>
+    <p>Parent emails {{ 'ON (with consent)' if p.parent_consent else 'OFF' }} · last report {{ p.last_report_at.strftime('%d %b %Y') if p.last_report_at else 'not sent yet' }}.</p></div>
+    <div class="pl-kpis"><div class="pl-kpi"><b>{{ ov.attempts }}</b><span>sets</span></div><div class="pl-kpi"><b>{{ ov.answered }}</b><span>answered</span></div>
+      <div class="pl-kpi"><b>{{ ov.accuracy ~ '%' if ov.accuracy is not none else '—' }}</b><span>accuracy</span></div><div class="pl-kpi"><b>{{ streak }}</b><span>day streak</span></div></div></section>
+  <div class="pl-grid pl-g2">
+    <div class="pl-card"><h3>Accuracy trend</h3>{% if ov.trend %}<div class="pl-spark">{% for v in ov.trend %}<i style="height:{{ [6, v * 0.8]|max }}px" data-v="{{ v }}%"></i>{% endfor %}</div>{% else %}<p>No sets finished yet.</p>{% endif %}</div>
+    <div class="pl-card"><h3>Suggested focus</h3><ul style="margin:6px 0 0;padding-left:18px;line-height:1.7;">{% for t in tips %}<li>{{ t }}</li>{% endfor %}</ul></div>
+  </div>
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>Chapters</h3><table class="pl-tbl"><thead><tr><th>Chapter</th><th>Answered</th><th>Accuracy</th><th>Coverage</th><th>Status</th></tr></thead><tbody>
+    {% for r in rows %}<tr><td>{{ r.chapter.title }}</td><td>{{ r.answered }}</td><td>{{ r.accuracy ~ '%' if r.accuracy is not none else '—' }}</td><td>{{ r.seen }}/{{ r.total }}</td><td><span class="pl-pill {{ r.level }}">{{ {'new': 'Not enough data', 'weak': 'Needs work', 'ok': 'On track', 'strong': 'Strong'}[r.level] }}</span></td></tr>{% endfor %}</tbody></table></div>
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>Recent sets</h3>{% if recent %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Set</th><th>Result</th><th>Accuracy</th><th>Score</th></tr></thead><tbody>
+    {% for a in recent %}<tr><td>{{ a.submitted_at.strftime('%d %b %Y') }}</td><td>{{ a.chapter.title if a.chapter else 'Mixed' }}</td><td>{{ a.correct }}/{{ a.total }}</td><td>{{ a.accuracy ~ '%' if a.accuracy is not none else '—' }}</td><td>{{ practice_score(a) }}</td></tr>{% endfor %}</tbody></table>{% else %}<p style="margin:0;">None yet.</p>{% endif %}</div>
+</div>
+{% endblock %}
