@@ -48,6 +48,10 @@ assert 'does not automatically guarantee admission' in t and 'No. Qualifying and
 assert 'Not shown until verified' in t                                       # fees / seats / eligibility not invented per institute
 assert 'KVPY' not in t and 'guaranteed admission' not in t and 'guarantee admission' not in t.replace('not automatically guarantee admission', '').replace('Does qualifying UCEED guarantee admission', '')
 assert 'eduaakashaa.in' not in t and 'www.eduaakashaa.com' in t
+# design-exam landscape section: official dates only where official; others labelled reported
+assert 'id="design-exams"' in t and 'Prelims 20 Dec 2026' in t and '16 Mar 2027' in t
+for ex in ('NID DAT', 'NIFT', 'SEED', 'CEED', 'Other institute tests'):
+    assert ex in t, ex
 # structure: 7 phases are built by the script; every id the script needs exists
 js = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'app/static/js/uceed_roadmap.js'), encoding='utf-8').read()
 ids = set(re.findall(r"\$\('#([A-Za-z0-9_-]+)'\)", js))
