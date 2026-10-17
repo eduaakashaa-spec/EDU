@@ -1,17 +1,74 @@
 {% extends "base.html" %}
-{% block title %}About Us | EduAakashaA{% endblock %}
+{% block title %}About EduAakashaA | Educational Mentorship &amp; College Admission Guidance{% endblock %}
+{% block meta_description %}
+<meta name="description" content="Student-first educational mentorship: personalised college admission guidance, career guidance and NRI admissions in India, with honest advice and committed support.">
+<meta property="og:title" content="About EduAakashaA — Educational Mentorship &amp; College Admission Guidance">
+<meta property="og:description" content="Personalised admission counselling and mentorship for students and parents, including NRI families exploring Indian college admissions. Clarity, confidence and committed support.">
+<meta property="og:type" content="website">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"EducationalOrganization","name":"EduAakashaA","url":"https://www.eduaakashaa.com","logo":"https://www.eduaakashaa.com/static/images/logo.png","email":"info@eduaakashaa.com","telephone":"+91-80157-22706","description":"Educational mentorship and college admission guidance for students and parents, including NRI families seeking admission in Indian colleges."}</script>
+{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .ab-wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+  .ab-sec { padding: 64px 0; }
+  .ab-sec + .ab-sec { border-top: 1px solid var(--border, #E8DFC8); }
+  .ab-eyebrow { font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: .18em; font-size: 11px; color: var(--navy, #0E3A8A); }
+  .ab h2 { font-family: 'Fraunces', serif; color: var(--navy-ink, #071A44); font-size: clamp(1.7rem, 3.4vw, 2.4rem); line-height: 1.15; letter-spacing: -.015em; margin: 10px 0 14px; }
+  .ab p { font-size: 1.05rem; line-height: 1.7; color: var(--text, #0E1B3D); margin: 0 0 14px; max-width: 70ch; }
+  .ab .lead { font-size: 1.18rem; }
+  .ab-quote { font-family: 'Fraunces', serif; font-size: clamp(1.3rem, 2.6vw, 1.8rem); line-height: 1.3; color: var(--navy, #0E3A8A); border-left: 4px solid var(--orange, #FF6B0A); padding: 4px 0 4px 20px; margin: 22px 0; max-width: 30em; }
+  .ab-grid { display: grid; gap: 16px; }
+  .ab-g2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .ab-g3 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+  .ab-g4 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+  .ab-card { background: var(--paper, #FFFDF7); border: 1px solid var(--border, #E8DFC8); border-radius: 18px; padding: 22px 22px 20px; box-shadow: 0 1px 2px rgba(14,27,61,.05), 0 4px 12px rgba(14,27,61,.04); }
+  .ab-card h3 { font-family: 'Fraunces', serif; font-size: 1.15rem; color: var(--navy-ink, #071A44); margin: 0 0 6px; }
+  .ab-card p { font-size: .97rem; margin: 0; line-height: 1.6; }
+  .ab-ico { width: 40px; height: 40px; border-radius: 12px; background: #E1E9F7; color: var(--navy, #0E3A8A); display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
+  .ab-ico svg { width: 22px; height: 22px; }
+  .ab-list { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; }
+  .ab-list li { position: relative; padding-left: 30px; line-height: 1.55; }
+  .ab-list li::before { content: '✓'; position: absolute; left: 0; top: 1px; width: 20px; height: 20px; border-radius: 50%; background: rgba(31,139,92,.14); color: #1F8B5C; font-size: .8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; }
+  .ab-statement { background: linear-gradient(135deg, #071A44, #0E3A8A); color: #fff; border-radius: 22px; padding: 30px 32px; }
+  .ab-statement .ab-eyebrow { color: #FFB27A; }
+  .ab-statement p { color: #fff; font-family: 'Fraunces', serif; font-size: clamp(1.2rem, 2.3vw, 1.55rem); line-height: 1.4; margin: 8px 0 0; max-width: 40em; }
+  .ab-nri { background: linear-gradient(135deg, #071A44 0%, #0E3A8A 70%); color: #fff; border-radius: 28px; padding: 44px clamp(22px, 5vw, 56px); margin: 64px 0; }
+  .ab-nri h2, .ab-nri p, .ab-nri .ab-eyebrow { color: #fff; }
+  .ab-nri .ab-eyebrow { color: #FFB27A; }
+  .ab-nri .ab-card { background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); box-shadow: none; }
+  .ab-nri .ab-card h3 { color: #fff; } .ab-nri .ab-card p { color: rgba(255,255,255,.88); }
+  .ab-nri .ab-ico { background: rgba(255,255,255,.14); color: #FFB27A; }
+  .ab-nri .ab-list li::before { background: rgba(255,178,122,.2); color: #FFB27A; }
+  .ab-steps { counter-reset: s; list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+  .ab-steps li { counter-increment: s; position: relative; background: var(--paper, #FFFDF7); border: 1px solid var(--border, #E8DFC8); border-radius: 18px; padding: 20px 22px 18px 74px; }
+  .ab-steps li::before { content: counter(s); position: absolute; left: 20px; top: 18px; width: 38px; height: 38px; border-radius: 50%; background: var(--orange, #FF6B0A); color: #fff; font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+  .ab-steps strong { display: block; font-family: 'Fraunces', serif; font-size: 1.1rem; color: var(--navy-ink, #071A44); margin-bottom: 4px; }
+  .ab-steps span { font-size: .96rem; line-height: 1.6; }
+  .ab-promise { text-align: center; padding: 72px 0 24px; }
+  .ab-promise p { margin-left: auto; margin-right: auto; }
+  .ab-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+  .ab-promise .ab-btns { justify-content: center; }
+  .ab-fine { font-size: .84rem !important; color: var(--text-dim, #5A6278) !important; }
+  .ab-contact { display: flex; gap: 22px; flex-wrap: wrap; justify-content: center; margin-top: 22px; font-size: .95rem; }
+  .ab-contact a { color: var(--navy, #0E3A8A); font-weight: 600; text-decoration: none; }
+  html[data-theme="dark"] .ab h2, html[data-theme="dark"] .ab-card h3, html[data-theme="dark"] .ab-steps strong { color: #fff; }
+  html[data-theme="dark"] .ab-card, html[data-theme="dark"] .ab-steps li { background: #121c3a; border-color: #26325a; }
+  html[data-theme="dark"] .ab p, html[data-theme="dark"] .ab-card p, html[data-theme="dark"] .ab-steps span { color: #dfe4f2; }
+  html[data-theme="dark"] .ab-quote { color: #9DB8FF; }
+</style>
 {% endblock %}
 
 {% block content %}
-  <!-- ======== HERO ======== -->
+<div class="ab">
+
+  <!-- 1 · HERO -->
   <section class="hero">
     <div class="hero__glow"></div>
     <div class="hero__content">
       <span class="badge">About EduAakashaA</span>
-      <h1>Welcome to <span>EduAakashaA</span></h1>
-      <p>Your trusted source for JOSAA seat allotment results and NRI admissions guidance.</p>
+      <h1>Your Child&rsquo;s Future Deserves More Than Guidance. <span>It Deserves Commitment.</span></h1>
+      <p>EduAakashaA is an educational mentorship partner that stands beside students and parents through every stage of the career and college admission journey &mdash; so you can move forward with clarity, confidence and a well-planned approach, not alone and not guessing.</p>
       <div class="final-cta__btns" style="margin-top:26px;">
         <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor &rarr;</a>
         <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
@@ -19,113 +76,136 @@
     </div>
   </section>
 
-  <main class="main-content">
+  <main class="ab-wrap">
 
-    <!-- ======== OUR MISSION ======== -->
-    <section class="section">
-      <div class="section__header">
-        <span class="eyebrow">Our Mission</span>
-        <h2 class="section__title">Guiding Students Towards the Right Future</h2>
-        <p class="section__desc">To simplify your engineering admissions journey with clear, timely, and reliable information.</p>
+    <!-- 2 · PURPOSE -->
+    <section class="ab-sec" id="purpose">
+      <span class="ab-eyebrow">Why EduAakashaA exists</span>
+      <h2>Choosing a career and a college should not feel like a maze.</h2>
+      <p class="lead">For many families it does. There are entrance examinations to understand, eligibility rules that differ by route, applications and documents to prepare, deadlines that do not wait, and counselling rounds where one decision can shape the next four years.</p>
+      <p>Students carry the pressure of getting it right. Parents carry the worry of not knowing what they might be missing. And the information they find is often scattered, outdated or written for someone else&rsquo;s situation.</p>
+      <p>We exist to take that weight off. Our purpose is to reduce confusion, remove avoidable stress, simplify complex processes and make sure families know about the admission opportunities that are genuinely relevant to them &mdash; based on the student&rsquo;s aspirations, academic profile, eligibility, preferences and practical circumstances.</p>
+      <div class="ab-quote">Every student should be able to make an important decision knowing their options, not hoping they have found them all.</div>
+    </section>
+
+    <!-- 3 · MISSION -->
+    <section class="ab-sec" id="mission">
+      <div class="ab-statement">
+        <span class="ab-eyebrow">Our mission</span>
+        <p>To give every student personalised, honest mentorship &mdash; and to guide families through career choices and college admissions with clarity, care and consistent follow-through.</p>
       </div>
-      <div class="info-cards info-cards--3">
-        <div class="info-card"><div class="info-card__icon">{{ ea_icon('chart') }}</div><div class="info-card__title">JOSAA Seat Allotment</div><p class="info-card__text">Search and explore your seat allotment results across IITs, NITs, IIEST and other premier institutes.</p></div>
-        <div class="info-card"><div class="info-card__icon">{{ ea_icon('globe') }}</div><div class="info-card__title">NRI Admissions</div><p class="info-card__text">Dedicated guidance on special seat allotments for Non-Resident Indians in engineering institutes.</p></div>
-        <div class="info-card"><div class="info-card__icon">{{ ea_icon('clock') }}</div><div class="info-card__title">Always Up to Date</div><p class="info-card__text">Results, counselling schedules and updates reflected promptly on our platform &mdash; 24/7 access.</p></div>
+      <ul class="ab-list">
+        <li>Provide personalised, student-centred mentorship.</li>
+        <li>Help students identify suitable career and educational pathways.</li>
+        <li>Simplify the complexities of college admissions.</li>
+        <li>Connect students with relevant admission opportunities.</li>
+        <li>Guide families through eligibility, applications, documentation, deadlines and counselling decisions.</li>
+        <li>Build trust through transparent communication and consistent follow-through.</li>
+      </ul>
+    </section>
+
+    <!-- 4 · VISION -->
+    <section class="ab-sec" id="vision">
+      <span class="ab-eyebrow">Our vision</span>
+      <h2>No student should miss a suitable opportunity for want of information.</h2>
+      <p class="lead">We imagine an educational guidance ecosystem where a lack of information, an unclear procedure or too little guidance never decides a student&rsquo;s future &mdash; where families understand their choices and make them with confidence.</p>
+      <p>We want to be the partner families return to: a long-term, trusted presence for the important educational and career decisions that come before, during and after admission. Student empowerment, access to opportunities, informed choices and lasting trust are what we work towards.</p>
+    </section>
+
+  </main>
+
+  <!-- 5 · NRI -->
+  <div class="ab-wrap">
+    <section class="ab-nri" id="nri">
+      <span class="ab-eyebrow">Our commitment to NRI families</span>
+      <h2>Living abroad should not mean admissions in India are out of reach.</h2>
+      <p class="lead">Families overseas often face the hardest version of this journey: unfamiliar admission routes, eligibility criteria that depend on the route and category, document verification, fee structures, tight deadlines and counselling procedures designed with India-based applicants in mind &mdash; all while managing time zones and distance.</p>
+      <p>EduAakashaA aims to bridge the information and guidance gap between families abroad and Indian institutions. Within the agreed scope of support, we help you:</p>
+      <div class="ab-grid ab-g3" style="margin-top:22px;">
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('compass') }}</div><h3>Understand the pathways</h3><p>Learn which admission routes are relevant for your child &mdash; and which are not.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('shield') }}</div><h3>Assess eligibility</h3><p>Check eligibility and category requirements before time and money are spent.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('institution') }}</div><h3>Evaluate colleges and courses</h3><p>Compare options against your child&rsquo;s goals, preferences and family circumstances.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('file') }}</div><h3>Organise documentation</h3><p>Know what is needed, in what form and by when, so nothing is left to the last minute.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('calendar') }}</div><h3>Plan the decisions</h3><p>Map deadlines and counselling steps, and prepare choices before the windows open.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('check') }}</div><h3>Follow it through</h3><p>Stay with you through to admission and joining formalities, where these are part of your agreed support.</p></div>
+      </div>
+      <p style="margin-top:22px;">You can expect accessible communication, personal attention, clear explanations and dependable follow-through. Admission decisions rest with colleges and the admission authorities &mdash; we cannot control them and we never promise a seat. What we promise is that you will understand the process and will not face it unprepared.</p>
+      <div class="ab-btns">
+        <a href="{{ url_for('main.nri_guide') }}" class="btn-main">Read the NRI admission guide &rarr;</a>
+        <a href="{{ url_for('main.members_registration') }}" class="btn-out" style="color:#fff;border-color:#fff;">Talk to a Mentor</a>
+      </div>
+    </section>
+  </div>
+
+  <main class="ab-wrap">
+
+    <!-- 6 · APPROACH -->
+    <section class="ab-sec" id="approach" style="border-top:0;padding-top:8px;">
+      <span class="ab-eyebrow">Our approach</span>
+      <h2>We take ownership of the journey.</h2>
+      <div class="ab-quote">We don&rsquo;t just tell you what to do. We help you navigate what comes next.</div>
+      <p class="lead">Ownership, to us, means proactive coordination: knowing where you are in the process, telling you what comes next and why, following up on what we have agreed, and being accountable for the support we commit to. It does not mean controlling outcomes that belong to colleges and admission authorities &mdash; and we will always be clear about that line.</p>
+      <ol class="ab-steps">
+        <li><strong>Understand the student</strong><span>We listen to the student&rsquo;s interests, strengths, academic profile and ambitions, and to what the family expects and worries about.</span></li>
+        <li><strong>Identify opportunities</strong><span>We research relevant colleges, courses, eligibility requirements and admission pathways &mdash; including routes families often do not know exist.</span></li>
+        <li><strong>Build a personalised plan</strong><span>We help students and parents understand their options, priorities, timelines and the decisions ahead, in plain language.</span></li>
+        <li><strong>Coordinate the process</strong><span>Within the agreed scope, we guide you through applications, documents, deadlines, counselling and choice-filling steps.</span></li>
+        <li><strong>Stay connected</strong><span>We share timely updates, explain next steps, answer questions and help you respond when rules, dates or circumstances change.</span></li>
+        <li><strong>Support the transition</strong><span>Where included in your service, we guide you through admission confirmation, reporting and joining formalities.</span></li>
+      </ol>
+    </section>
+
+    <!-- 7 · VALUES -->
+    <section class="ab-sec" id="values">
+      <span class="ab-eyebrow">What we stand for</span>
+      <h2>Our values</h2>
+      <p>These are the standards we hold ourselves to &mdash; and the ones we hope you will hold us to.</p>
+      <div class="ab-grid ab-g4" style="margin-top:20px;">
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('cap') }}</div><h3>Students First</h3><p>Every recommendation must serve the student&rsquo;s educational interests &mdash; not convenience, and not ours.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('check') }}</div><h3>Commitment</h3><p>We take our responsibilities seriously and follow through on the support we have agreed, so you can rely on us.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('search') }}</div><h3>Transparency</h3><p>We explain options, processes, limitations and practical trade-offs honestly, including when the answer is not what you hoped.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('compass') }}</div><h3>Ownership</h3><p>We coordinate the journey proactively instead of leaving families to work out every next step alone.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('bulb') }}</div><h3>Opportunity Awareness</h3><p>We help students discover and evaluate the admission routes and opportunities that are relevant to them.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('users') }}</div><h3>Empathy</h3><p>We recognise the hopes, concerns and responsibilities that students and parents carry, and we guide with that in mind.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('scale') }}</div><h3>Accountability</h3><p>We communicate clearly, set realistic expectations and remain responsible for the services we agree to deliver.</p></div>
+        <div class="ab-card"><div class="ab-ico">{{ ea_icon('shield') }}</div><h3>Trust</h3><p>We aim to earn your confidence through consistent actions, not promises alone.</p></div>
       </div>
     </section>
 
-    <!-- ======== FAQs ======== -->
-    <section class="section">
-      <div class="section__header">
-        <span class="eyebrow">FAQs</span>
-        <h2 class="section__title">Frequently Asked Questions</h2>
-      </div>
-      <div class="faq-list">
-        <details class="faq-item"><summary class="faq-item__q">What is JOSAA?</summary><p class="faq-item__a">JOSAA manages seat allocation for premier Indian engineering institutes.</p></details>
-        <details class="faq-item"><summary class="faq-item__q">How to check results?</summary><p class="faq-item__a">Use our interactive viewer to search and explore your seat allotment results easily.</p></details>
-        <details class="faq-item"><summary class="faq-item__q">Who can apply through JOSAA?</summary><p class="faq-item__a">Indian and NRI candidates aspiring for IITs, NITs, IIEST, and other colleges can participate.</p></details>
-        <details class="faq-item"><summary class="faq-item__q">What are NRI admissions?</summary><p class="faq-item__a">Special seat allotments for Non-Resident Indians in engineering institutes.</p></details>
-        <details class="faq-item"><summary class="faq-item__q">Are results updated regularly?</summary><p class="faq-item__a">Yes, results and updates are reflected promptly on our platform.</p></details>
-        <details class="faq-item"><summary class="faq-item__q">Where can I find counseling details?</summary><p class="faq-item__a">Counseling schedules and procedures are listed alongside seat allotment results here.</p></details>
-      </div>
-    </section>
-
-    <!-- ======== GET IN TOUCH ======== -->
-    <section class="section">
-      <div class="section__header">
-        <span class="eyebrow">Get in Touch</span>
-        <h2 class="section__title">Questions? Reach out anytime.</h2>
-        <p class="section__desc">We&rsquo;re here to help &mdash; check your JOSAA seat allotment results and NRI admissions updates.</p>
-      </div>
-      <div class="contact-grid">
-        <div class="contact-form-card">
-          <h3 class="chart-card__title" style="font-size:1.15rem;">Check Your Results</h3>
-          <form class="contact-form" id="abResultsForm" method="post"
-                action="{{ url_for('api.capture_lead', source='about-check-results') }}">
-            <div class="form-group">
-              <label for="ab-name">Full Name</label>
-              <input type="text" id="ab-name" name="name" placeholder="Your full name">
-            </div>
-            <div class="form-group">
-              <label for="ab-email">Email <span style="color:var(--red);">*</span></label>
-              <input type="email" id="ab-email" name="email" placeholder="you@email.com" required>
-            </div>
-            <div class="form-group">
-              <label for="ab-roll">JOSAA Roll No <span style="color:var(--red);">*</span></label>
-              <input type="text" id="ab-roll" name="roll_no" placeholder="Your JOSAA roll number" required>
-            </div>
-            <button type="submit" class="btn-main">Check Results &rarr;</button>
-            <p id="abResultsMsg" style="display:none; margin-top:10px; color:var(--green); font-weight:600;">
-              Thank you! Our team will check your allotment and get back to you by email.
-            </p>
-          </form>
-          <script>
-            document.getElementById('abResultsForm').addEventListener('submit', async (e) => {
-              e.preventDefault();
-              const form = e.target;
-              const body = Object.fromEntries(new FormData(form));
-              try {
-                await fetch(form.action, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(body),
-                });
-                form.reset();
-                document.getElementById('abResultsMsg').style.display = 'block';
-              } catch (err) {
-                alert('Could not submit right now — please reach us on WhatsApp.');
-              }
-            });
-          </script>
-        </div>
-
-        <div class="contact-info-card">
-          <div class="contact-info-item">
-            <div class="contact-info-icon">&#x1F4CD;</div>
-            <div><strong>Address</strong><p>Online portal only</p></div>
-          </div>
-          <div class="contact-info-item">
-            <div class="contact-info-icon">{{ ea_icon('clock') }}</div>
-            <div><strong>Hours</strong><p>24/7 access</p></div>
-          </div>
-          <div class="contact-info-item">
-            <div class="contact-info-icon">{{ ea_icon('globe') }}</div>
-            <div><strong>Location</strong><p>Find us online anytime to check your JOSAA seat allotment results and NRI admissions updates.</p></div>
-          </div>
-        </div>
+    <!-- 8 · DIFFERENT -->
+    <section class="ab-sec" id="different">
+      <span class="ab-eyebrow">What makes our mentorship different</span>
+      <h2>One coordinated experience, built around the student.</h2>
+      <p class="lead">Admission information, college research, decision support, process guidance and family communication are usually scattered across websites, forums and conversations. We bring them together into a single mentorship journey.</p>
+      <div class="ab-grid ab-g3" style="margin-top:18px;">
+        <div class="ab-card"><h3>Student-first philosophy</h3><p>Advice starts from the student&rsquo;s goals, strengths and circumstances &mdash; and the family&rsquo;s priorities.</p></div>
+        <div class="ab-card"><h3>Personal attention</h3><p>A mentor who knows your child&rsquo;s situation, rather than generic answers to generic questions.</p></div>
+        <div class="ab-card"><h3>Evidence-informed recommendations</h3><p>Suggestions grounded in published eligibility rules, official notices and past admission data, with their limits explained.</p></div>
+        <div class="ab-card"><h3>Proactive coordination</h3><p>Reminders, next steps and follow-up, so deadlines and documents are not left to chance.</p></div>
+        <div class="ab-card"><h3>Sustained guidance</h3><p>Support across the journey &mdash; from first questions to joining formalities where included &mdash; not a single conversation.</p></div>
+        <div class="ab-card"><h3>Clear, honest communication</h3><p>Plain explanations, realistic expectations and no guarantees we cannot keep.</p></div>
       </div>
     </section>
 
-    <!-- ======== CTA ======== -->
-    <div class="final-cta">
-      <h2>Results and rankings are data. The right college is a decision.</h2>
-      <p>Same marks, different colleges. A mentor turns this information into the right admission decision for your student.</p>
-      <div class="final-cta__btns">
+    <!-- 9 · PROMISE -->
+    <section class="ab-sec ab-promise" id="promise">
+      <span class="ab-eyebrow">Our promise to students and parents</span>
+      <h2>We will listen carefully, explain honestly, guide responsibly and honour our commitments.</h2>
+      <p class="lead">Every student&rsquo;s future deserves thoughtful attention, and every family&rsquo;s trust deserves respect. We will stay engaged throughout the mentorship journey we agree with you, and we will tell you plainly what we can do, what we cannot, and what happens next.</p>
+      <div class="ab-quote" style="margin-left:auto;margin-right:auto;text-align:left;">Your child&rsquo;s future is not just another application to us. It is a responsibility we approach with care, commitment and purpose.</div>
+      <p>If you are a parent trying to make sense of the options, or a student unsure of your next step, begin with a conversation. There is no need to have the answers &mdash; that is what we are here for.</p>
+      <div class="ab-btns">
         <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor &rarr;</a>
         <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
       </div>
-    </div>
+      <div class="ab-contact">
+        <span>✉ <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a></span>
+        <span>☎ <a href="tel:+918015722706">+91-80157 22706</a></span>
+        <span>🌐 <a href="{{ url_for('main.contact_alias') }}">Contact page</a></span>
+      </div>
+      <p class="ab-fine" style="margin-top:22px;">EduAakashaA provides mentorship and guidance. Admission decisions are made by colleges and the relevant admission authorities; we do not guarantee any admission, college, branch or rank.</p>
+    </section>
 
   </main>
+</div>
 {% endblock %}
