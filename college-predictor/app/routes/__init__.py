@@ -502,10 +502,29 @@ UCEED_INSTITUTES = [
 ]
 
 
+# The 26 National Law Universities listed as Consortium members on consortiumofnlus.ac.in (checked 17 Oct 2026)
+CLAT_NLUS = [
+    ('NLSIU', 'Bengaluru'), ('NALSAR', 'Hyderabad'), ('NLIU', 'Bhopal'), ('WBNUJS', 'Kolkata'), ('NLU Jodhpur', 'Jodhpur'),
+    ('HNLU', 'Raipur'), ('GNLU', 'Gandhinagar'), ('RMLNLU', 'Lucknow'), ('RGNUL', 'Patiala'), ('CNLU', 'Patna'),
+    ('NUALS', 'Kochi'), ('NLUO', 'Cuttack'), ('NUSRL', 'Ranchi'), ('NLUJA', 'Guwahati'), ('DSNLU', 'Visakhapatnam'),
+    ('TNNLU', 'Tiruchirappalli'), ('MNLU Mumbai', 'Mumbai'), ('MNLU Nagpur', 'Nagpur'), ('MNLU Aurangabad', 'Chhatrapati Sambhajinagar'),
+    ('HPNLU', 'Shimla'), ('DNLU', 'Jabalpur'), ('DBRANLU', 'Sonipat'), ('NLU Tripura', 'Agartala'), ('RPNLU', 'Prayagraj'),
+    ('IIULER', 'Goa'), ('NLU Meghalaya', 'Shillong'),
+]
+
+
+@main_bp.route('/law-2027-roadmap')
+@premium_required
+def law_2027_roadmap():
+    from app.services import roadmap_cfg
+    return render_template('law_roadmap.html', cfg=roadmap_cfg.LAW, nlus=CLAT_NLUS)
+
+
 @main_bp.route('/uceed-2027-roadmap')
 @premium_required
 def uceed_2027_roadmap():
-    return render_template('uceed_roadmap.html', institutes=UCEED_INSTITUTES)
+    from app.services import roadmap_cfg
+    return render_template('uceed_roadmap.html', institutes=UCEED_INSTITUTES, cfg=roadmap_cfg.UCEED)
 
 
 @main_bp.route('/why-cse')

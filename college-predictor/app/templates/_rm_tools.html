@@ -1,0 +1,70 @@
+{# Shared roadmap tools: profile, 7-phase roadmap, dashboard, weekly planner. Driven by `cfg` (services/roadmap_cfg.py). #}
+<!-- ============ ROADMAP + DASHBOARD ============ -->
+<section class="uc-sec alt" id="roadmap"><div class="uc-wrap">
+  <span class="uc-eyebrow">Interactive roadmap</span>
+  <h2>{{ cfg.copy.roadTitle }}</h2>
+  <p class="lead">Tell us when you are starting and how experienced you are — phase dates adjust. Tick tasks as you go: your completion percentage comes from the tasks you actually complete.</p>
+
+  <div class="uc-banner" id="uc-nostore" hidden>Your browser is blocking local storage, so progress will be lost when you close this page.</div>
+  <div class="uc-banner" id="d-sample" hidden><span class="uc-tag sample">Sample data</span> The numbers below are demonstration data, not a real student. Use “Clear my data” to start fresh.</div>
+
+  <div class="uc-card">
+    <div class="uc-row">
+      <div><label class="f" for="pf-name">Student name</label><input type="text" id="pf-name" maxlength="60" autocomplete="off" placeholder="Your name"></div>
+      <div><label class="f" for="pf-start">Preparation start date</label><input type="date" id="pf-start"></div>
+      <div><label class="f" for="pf-hours">Study hours per week</label><input type="number" id="pf-hours" min="1" max="60" value="8"></div>
+      {% if cfg.targets %}<div style="grid-column:span 2;"><label class="f" for="pf-target">Target exam</label><select id="pf-target">{% for t in cfg.targets %}<option value="{{ t.id }}">{{ t.label }}</option>{% endfor %}</select></div>{% endif %}
+      <div><label class="f" for="pf-level">Current level</label><select id="pf-level"><option value="beginner">{{ cfg.copy.beginner }}</option><option value="intermediate" selected>Some practice</option><option value="advanced">Strong foundation</option></select></div>
+    </div>
+    <p class="uc-fine" id="uc-sched-note"></p>
+    <div class="uc-btns"><button type="button" class="uc-btn g sm" id="btn-sample">Load sample data</button><button type="button" class="uc-btn g sm" id="btn-reset">Clear my data</button></div>
+    <p class="uc-fine" style="margin-top:8px;">Prototype storage: your entries are saved in this browser only. In the live Mentorship Portal the same information is stored securely against your login and shared with your mentor.</p>
+  </div>
+
+  <div class="uc-road" id="uc-road" style="margin-top:16px;"></div>
+
+  <h2 style="margin-top:46px;">Your dashboard</h2>
+  <div class="uc-grid uc-g4" style="margin-bottom:16px;">
+    <div class="uc-card uc-kpi"><div class="l">Student</div><div class="n" id="d-name" style="font-size:1.3rem">Your name</div><div class="l">Target: {{ cfg.examName }} · started <span id="d-start">Not set</span></div></div>
+    <div class="uc-card uc-kpi"><div class="l">Roadmap completion</div><div class="n" id="d-pct">0%</div><div class="uc-bar"><i id="d-bar" style="width:0"></i></div><div class="l" id="d-done"></div></div>
+    <div class="uc-card uc-kpi"><div class="l">Current phase</div><div class="n" id="d-phase" style="font-size:1.1rem">—</div></div>
+    <div class="uc-card uc-kpi"><div class="l">This week: actual vs target</div><div class="n" id="d-week" style="font-size:1.3rem">—</div><div class="uc-bar g"><i id="d-weekbar" style="width:0"></i></div></div>
+  </div>
+  <div class="uc-grid uc-g2">
+    <div class="uc-next"><span class="uc-tag plan" style="background:rgba(255,255,255,.15);color:#fff;">My next best action</span>
+      <div id="d-next" style="margin-top:10px;"></div></div>
+    <div class="uc-card"><h3>Weak-topic alerts</h3><div id="d-alerts"></div></div>
+    <div class="uc-card"><h3>{{ cfg.copy.topicTitle }}</h3><p class="uc-fine">From Phase 2 tasks — “in progress” counts as half.</p><div id="d-topics"></div></div>
+    <div class="uc-card"><h3>Upcoming tasks &amp; deadlines</h3><div id="d-up"></div></div>
+    <div class="uc-card"><h3>{{ cfg.log.name }} practice tracker <span class="uc-fine" id="d-draw-wk"></span></h3><div id="d-draw"></div>
+      <form id="draw-form" style="margin-top:10px;"><div class="uc-row"><div><label class="f" for="dr-date">Date</label><input type="date" id="dr-date" name="date"></div><div><label class="f" for="dr-min">Minutes</label><input type="number" id="dr-min" name="min" min="5" max="600"></div><div><label class="f" for="dr-sub">Subject</label><input type="text" id="dr-sub" name="subject" maxlength="50" placeholder="{{ cfg.copy.logPh }}"></div></div><button class="uc-btn n sm">Log session</button></form></div>
+    <div class="uc-card"><h3>Revision checklist</h3><div id="d-rev"></div></div>
+    <div class="uc-card" style="grid-column:1/-1;"><h3>Mock-test history &amp; trend</h3><div id="d-mocks"></div>
+      <form id="mock-form" style="margin-top:12px;"><div class="uc-row"><div><label class="f" for="mk-date">Date</label><input type="date" id="mk-date" name="date"></div><div><label class="f" for="mk-a">{{ cfg.mock.a.label }}</label><input type="number" id="mk-a" name="a" step="0.5" required></div>{% if cfg.mock.b %}<div><label class="f" for="mk-b">{{ cfg.mock.b.label }}</label><input type="number" id="mk-b" name="b" step="0.5"></div>{% endif %}<div><label class="f" for="mk-acc">Accuracy %</label><input type="number" id="mk-acc" name="acc" min="0" max="100"></div><div><label class="f" for="mk-unf">Unfinished questions</label><input type="number" id="mk-unf" name="unf" min="0"></div><div><label class="f" for="mk-weak">Weakest topic</label><input type="text" id="mk-weak" name="weak" maxlength="40"></div></div><button class="uc-btn n sm">Save mock test</button></form></div>
+    <div class="uc-card" style="grid-column:1/-1;"><h3>Mentor feedback &amp; next action</h3><p id="d-feedback" style="margin:0;"></p></div>
+  </div>
+</div></section>
+
+<!-- ============ PLANNER ============ -->
+<section class="uc-sec" id="planner"><div class="uc-wrap">
+  <span class="uc-eyebrow">Weekly study planner</span>
+  <h2>Plan the week around your school schedule</h2>
+  <p class="lead">There is no single timetable for everyone. Start from your available hours, then add, edit, move and tick off tasks. Mark exam or holiday days so the plan respects them.</p>
+  <div class="uc-card">
+    <div class="uc-btns" style="margin-bottom:12px;align-items:center;">
+      <button type="button" class="uc-btn g sm" id="pl-prev" aria-label="Previous week">‹ Prev</button><strong id="pl-range" style="min-width:210px;text-align:center;"></strong>
+      <button type="button" class="uc-btn g sm" id="pl-next" aria-label="Next week">Next ›</button><button type="button" class="uc-btn g sm" id="pl-this">This week</button>
+      <button type="button" class="uc-btn n sm" id="pl-starter">Suggest a starter week</button><button type="button" class="uc-btn g sm" id="pl-resched">Reschedule unfinished</button><button type="button" class="uc-btn g sm" id="pl-summary-btn">Weekly summary</button>
+    </div>
+    <p class="uc-fine" id="pl-pct"></p>
+    <div class="uc-week" id="uc-week"></div>
+    <form id="pl-form" style="margin-top:14px;"><div class="uc-row">
+      <div><label class="f" for="pl-day">Day</label><select id="pl-day" name="day"><option value="0">Monday</option><option value="1">Tuesday</option><option value="2">Wednesday</option><option value="3">Thursday</option><option value="4">Friday</option><option value="5">Saturday</option><option value="6">Sunday</option></select></div>
+      <div><label class="f" for="pl-type">Type</label><select id="pl-type" name="type">{% for k, v in cfg.types.items() %}<option value="{{ k }}">{{ v }}</option>{% endfor %}</select></div>
+      <div style="grid-column:span 2;"><label class="f" for="pl-title">Task</label><input type="text" id="pl-title" name="title" maxlength="80" placeholder="e.g. Spatial reasoning set"></div>
+      <div><label class="f" for="pl-min">Minutes</label><input type="number" id="pl-min" name="minutes" min="5" max="600" value="45"></div></div>
+      <button class="uc-btn o sm">Add task</button></form>
+    <textarea id="pl-summary" rows="9" hidden readonly aria-label="Weekly summary" style="margin-top:12px;"></textarea><button type="button" class="uc-btn g sm" id="pl-copy" hidden style="margin-top:8px;">Copy summary</button>
+  </div>
+</div></section>
+

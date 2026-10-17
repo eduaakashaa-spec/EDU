@@ -53,13 +53,14 @@ assert 'id="design-exams"' in t and 'Prelims 20 Dec 2026' in t and '16 Mar 2027'
 for ex in ('NID DAT', 'NIFT', 'SEED', 'CEED', 'Other institute tests'):
     assert ex in t, ex
 # structure: 7 phases are built by the script; every id the script needs exists
-js = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'app/static/js/uceed_roadmap.js'), encoding='utf-8').read()
+js = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'app/static/js/roadmap_engine.js'), encoding='utf-8').read()
 ids = set(re.findall(r"\$\('#([A-Za-z0-9_-]+)'\)", js))
-missing = [i for i in sorted(ids) if f'id="{i}"' not in t]
+missing = [i for i in sorted(ids) if f'id="{i}"' not in t and i != 'pf-target']   # pf-target is only on pages with several target exams
 assert not missing, missing
-assert js.count("id: 'p") == 7
+from app.services import roadmap_cfg
+assert len(roadmap_cfg.UCEED['phases']) == 7 and '"id": "p7"' in t
 assert len(re.findall(r'<details><summary>', t)) >= 12                        # the 12 FAQs
-assert prem.get('/static/js/uceed_roadmap.js').status_code == 200 and prem.get('/static/css/uceed_roadmap.css').status_code == 200
+assert prem.get('/static/js/roadmap_engine.js').status_code == 200 and prem.get('/static/css/uceed_roadmap.css').status_code == 200
 # nav anchors all resolve to a section id
 for a in re.findall(r'href="#([a-z]+)"', t):
     assert f'id="{a}"' in t, a

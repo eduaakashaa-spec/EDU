@@ -118,6 +118,10 @@ see §6.
 
 ## 5. What was built recently (newest first)
 
+- **/law-2027-roadmap** (premium) built on a now-shared roadmap engine (`roadmap_engine.js`, `_rm_tools.html`, `services/roadmap_cfg.py`);
+  the UCEED page uses the same engine. Law facts: CLAT 6 Dec 2026, AILET 13 Dec 2026, SLAT 19 & 26 Dec 2026 (all via news reports of the
+  exam bodies' announcements — not the official PDFs); CLAT counselling and LSAT-India 2027 dates were not available. /exam-schedule updated to match.
+
 - **/exam-schedule rebuilt** from `services/exam_page.py` (status-labelled, .ics downloads) and a premium **/uceed-2027-roadmap** page
   (official UCEED dates verified at uceed.iitb.ac.in/2027 on 17 Oct 2026; age/attempts/pattern shown as "reported — verify").
   The user-supplied exam calendar had several conflicts with official sources (CAT, UCEED, CLAT, NID, KVPY, UPSEE…); the corrected

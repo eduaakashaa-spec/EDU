@@ -1,56 +1,16 @@
-/* UCEED 2027 Roadmap — interactive roadmap, dashboard and weekly planner.
-   Prototype storage: this browser only (localStorage). A production version stores the same objects per
-   student in the membership database behind login. All user text is written with textContent (no HTML injection). */
+/* Exam roadmap engine — interactive roadmap, dashboard and weekly planner, driven by a JSON config (#rm-cfg).
+   Used by the UCEED 2027 and Law 2027 pages. Prototype storage: this browser only (localStorage); a production version
+   stores the same objects per student in the membership database behind login. User text is written with textContent. */
 (function () {
   'use strict';
-
-  // ---- official dates (uceed.iitb.ac.in/2027, checked 17 Oct 2026) ---------------------------------
-  var EXAM = '2027-01-17';
-  var OFFICIAL = [
-    ['Registration closes', '2026-10-31', '31 Oct 2026'],
-    ['UCEED 2027 exam', EXAM, '17 Jan 2027 · 9 am–12 noon'],
-    ['Results', '2027-03-06', '6 Mar 2027'],
-    ['B.Des application', '2027-03-15', '15 Mar 2027'],
-    ['Admission rounds', '2027-04-21', 'From 21 Apr 2027']
-  ];
-
-  var PHASES = [
-    { id: 'p1', t: 'Orientation and baseline assessment', w: 0.08, d: 'Personalised UCEED readiness report', tasks: [
-      'Read the UCEED 2027 brochure and understand the admission process', 'Check eligibility requirements in the official brochure',
-      'Take a baseline aptitude check (observation, spatial, logical, creative, general awareness)', 'List strengths and improvement areas',
-      'Set a realistic weekly study target'] },
-    { id: 'p2', t: 'Build core design aptitude', w: 0.22, d: 'Topic-wise progress dashboard and practice checklist', topic: true, tasks: [
-      'Visual perception and observation', 'Spatial reasoning and visualisation', 'Patterns, shapes and transformations',
-      'Logical and analytical reasoning', 'Everyday design awareness', 'Problem-solving and lateral thinking',
-      'Materials, objects and functionality basics', 'Creativity and interpreting visual information'] },
-    { id: 'p3', t: 'Develop drawing and visual communication', w: 0.22, d: 'Weekly drawing portfolio and self-review checklist', note: 'Practise according to the current official syllabus and question format — do not assume every earlier drawing task will appear in 2027.', tasks: [
-      'Observation-based sketching', 'Perspective and proportion', 'Objects, environments and human figures',
-      'Composition and visual storytelling', 'Light, shadow, form and spatial relationships', 'Communicating ideas through drawings',
-      'Timed drawing exercises'] },
-    { id: 'p4', t: 'Structured practice and problem solving', w: 0.18, d: 'Accuracy dashboard, error log and improvement plan', tasks: [
-      'Topic-wise questions', 'Timed practice sessions', 'Previous-year question papers', 'Error analysis',
-      'Track accuracy and time management', 'Revise weak concepts', 'Review recurring mistakes weekly'] },
-    { id: 'p5', t: 'Mock tests and exam readiness', w: 0.20, d: 'Mock-test analysis report and final revision checklist', tasks: [
-      'Untimed diagnostic practice where needed', 'Timed sectional tests', 'Full-length mock tests in the verified format',
-      'Analyse mistakes, not just marks', 'Track speed, accuracy, question selection and unfinished questions',
-      'Revise weak areas with a personalised plan', 'Practise exam-day time management'] },
-    { id: 'p6', t: 'Final revision and examination', w: 0.10, d: 'Final readiness report', rev: true, tasks: [
-      'Revise high-priority concepts', 'Review frequently repeated error patterns', 'Practise under realistic time conditions',
-      'Check admit-card instructions on the official site', 'Plan exam-day travel and logistics', 'Set a sleep, revision and confidence routine'] },
-    { id: 'p7', t: 'Results, counselling and B.Des admission', after: true, d: 'Institute comparison matrix and admission action tracker', note: 'Exam registration, the separate B.Des application, and counselling / seat allocation are different steps.', tasks: [
-      'Track the official result announcement (6 Mar 2027)', 'Understand rank and qualifying criteria', 'Verify each institute\'s separate B.Des application requirements',
-      'Submit applications within official deadlines (B.Des application: 15 Mar 2027)', 'Compare institutes: seats, eligibility, fees, curriculum, location, career fit',
-      'Understand counselling and seat allocation (rounds from 21 Apr 2027)', 'Track documents, deadlines, offers and acceptance'] }
-  ];
-  var LEVEL_W = {
-    beginner: [0.08, 0.26, 0.26, 0.16, 0.16, 0.08], intermediate: [0.07, 0.20, 0.22, 0.20, 0.21, 0.10], advanced: [0.05, 0.14, 0.18, 0.22, 0.30, 0.11]
-  };
-  var TYPES = { aptitude: 'Aptitude', drawing: 'Drawing', pyq: 'Previous-year questions', revision: 'Revision', mock: 'Mock test', error: 'Error-log review', off: 'School exam / holiday' };
+  var CFG = JSON.parse(document.getElementById('rm-cfg').textContent);
+  var OFFICIAL = CFG.official, PHASES = CFG.phases, LEVEL_W = CFG.weights, TYPES = CFG.types;
+  var TOPIC = PHASES.filter(function (p) { return p.topic; })[0] || PHASES.slice(1, 2)[0], REVP = PHASES.filter(function (p) { return p.rev; })[0] || PHASES.slice(5, 6)[0];
   var DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
   // ---- storage ------------------------------------------------------------------------------------
-  var KEY = 'ea-uceed27-v1', mem = null, persistOk = true;
-  function blank() { return { profile: { name: '', start: '', hours: 8, level: 'intermediate' }, tasks: {}, planner: [], mocks: [], drawings: [], sample: false, notes: {} }; }
+  var KEY = CFG.key, mem = null, persistOk = true;
+  function blank() { return { profile: { name: '', start: '', hours: 8, level: 'intermediate', target: '' }, tasks: {}, planner: [], mocks: [], drawings: [], sample: false, notes: {} }; }
   function load() {
     try { var raw = localStorage.getItem(KEY); if (raw) return Object.assign(blank(), JSON.parse(raw)); } catch (e) { persistOk = false; }
     return mem || blank();
@@ -70,6 +30,11 @@
   function today() { var d = new Date(); d.setHours(0, 0, 0, 0); return d; }
   function uid() { return 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
   function toast(m) { var t = $('#uc-toast'); t.textContent = m; t.classList.add('show'); clearTimeout(t._t); t._t = setTimeout(function () { t.classList.remove('show'); }, 2600); }
+  function examDate() {
+    var t = (CFG.targets || []).filter(function (x) { return x.id === S.profile.target; })[0] || (CFG.targets || [])[0];
+    return t ? t.date : CFG.exam;
+  }
+  function targetOfficial() { var t = (CFG.targets || []).filter(function (x) { return x.id === S.profile.target; })[0] || (CFG.targets || [])[0]; return t ? t.official : true; }
   function taskId(p, i) { return p.id + 't' + i; }
   function status(id) { return S.tasks[id] || 'todo'; }
   var NEXT = { todo: 'doing', doing: 'done', done: 'todo' };
@@ -77,7 +42,7 @@
 
   // ---- roadmap schedule (adjusts to start date and level) -------------------------------------------
   function schedule() {
-    var start = parse(S.profile.start) || today(), exam = parse(EXAM), out = [];
+    var start = parse(S.profile.start) || today(), exam = parse(examDate()), out = [];
     var days = Math.round((exam - start) / 86400000), w = LEVEL_W[S.profile.level] || LEVEL_W.intermediate;
     if (days < 14) { PHASES.forEach(function (p, i) { out.push(null); }); return { rows: out, days: days }; }
     var cur = start;
@@ -104,13 +69,13 @@
     var host = $('#uc-road'); host.textContent = '';
     var sch = schedule(), cur = currentPhase();
     $('#uc-sched-note').textContent = sch.days >= 14
-      ? 'Your plan runs ' + fmt(parse(S.profile.start) || today()) + ' → ' + fmt(parse(EXAM)) + ' (' + sch.days + ' days to the exam). Phase dates adjust to your start date and level.'
-      : 'Fewer than 14 days remain before 17 Jan 2027, so a phase-by-phase schedule is not meaningful. Use the weekly planner to prioritise mock tests, error review and the official admit-card instructions.';
+      ? 'Your plan runs ' + fmt(parse(S.profile.start) || today()) + ' → ' + fmt(parse(examDate())) + ' (' + sch.days + ' days to the exam). Phase dates adjust to your start date and level.' + (targetOfficial() ? '' : ' Note: the next exam date is not announced — this is a planning assumption.')
+      : 'Fewer than 14 days remain before ' + fmt(parse(examDate())) + ', so a phase-by-phase schedule is not meaningful. Use the weekly planner to prioritise mock tests, error review and the official admit-card instructions.';
     PHASES.forEach(function (p, pi) {
       var q = phaseProgress(p), d = el('details', 'uc-phase' + (pi === cur ? ' now' : '')); if (pi === cur) d.open = true;
       var sm = el('summary'), ring = el('div', 'uc-ring'); ring.style.setProperty('--p', q.pct); ring.setAttribute('data-t', q.pct + '%'); ring.setAttribute('role', 'img'); ring.setAttribute('aria-label', 'Phase ' + (pi + 1) + ' ' + q.pct + ' percent complete');
       var mid = el('div'); mid.appendChild(el('h3', null, 'Phase ' + (pi + 1) + ' · ' + p.t));
-      var r = sch.rows[pi], when = p.after ? 'After the exam — results 6 Mar, B.Des application 15 Mar, admission rounds from 21 Apr 2027 (official)' : (r ? fmt(r[0]) + ' → ' + fmt(r[1]) : 'Dates not scheduled (exam is under 2 weeks away)');
+      var r = sch.rows[pi], when = p.after ? CFG.afterText : (r ? fmt(r[0]) + ' → ' + fmt(r[1]) : 'Dates not scheduled (exam is under 2 weeks away)');
       mid.appendChild(el('div', 'when', when + ' · ' + q.done + '/' + q.total + ' tasks'));
       sm.appendChild(ring); sm.appendChild(mid); sm.appendChild(el('span', 'uc-tag plan tag', pi === cur ? 'Current' : (q.pct === 100 ? 'Done' : 'Planned')));
       d.appendChild(sm);
@@ -160,16 +125,16 @@
 
     // topic progress (phase 2)
     var tp = $('#d-topics'); tp.textContent = '';
-    PHASES[1].tasks.forEach(function (t, i) {
-      var s = status(taskId(PHASES[1], i)), v = s === 'done' ? 100 : s === 'doing' ? 50 : 0, row = el('div'); row.style.margin = '8px 0';
+    TOPIC.tasks.forEach(function (t, i) {
+      var s = status(taskId(TOPIC, i)), v = s === 'done' ? 100 : s === 'doing' ? 50 : 0, row = el('div'); row.style.margin = '8px 0';
       row.appendChild(el('div', null, t + ' — ' + LABEL[s])); var bar = el('div', 'uc-bar'), fill = el('i'); fill.style.width = v + '%'; bar.appendChild(fill); row.appendChild(bar); tp.appendChild(row);
     });
 
     // drawing tracker
     var dl = $('#d-draw'); dl.textContent = '';
     var recent = S.drawings.slice().sort(function (a, b) { return a.date < b.date ? 1 : -1; }).slice(0, 5);
-    if (!recent.length) dl.appendChild(el('div', 'uc-empty', 'No drawing sessions logged yet.'));
-    recent.forEach(function (x) { dl.appendChild(el('div', 'uc-task', fmt(parse(x.date)) + ' · ' + x.min + ' min · ' + (x.subject || 'Drawing'))); });
+    if (!recent.length) dl.appendChild(el('div', 'uc-empty', 'No ' + CFG.log.noun + ' logged yet.'));
+    recent.forEach(function (x) { dl.appendChild(el('div', 'uc-task', fmt(parse(x.date)) + ' · ' + x.min + ' min · ' + (x.subject || CFG.log.name))); });
     $('#d-draw-wk').textContent = dMin + ' min this week';
 
     // mocks
@@ -177,11 +142,11 @@
     var mocks = S.mocks.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
     if (!mocks.length) mh.appendChild(el('div', 'uc-empty', 'No mock tests recorded yet. Add your first one below.'));
     else {
-      var sp = el('div', 'uc-spark'); sp.setAttribute('role', 'img'); sp.setAttribute('aria-label', 'Part A score percentage across mock tests');
-      mocks.slice(-10).forEach(function (m) { var i = el('i'); var pct = Math.round(100 * m.a / 200); i.style.height = Math.max(6, pct * 0.9) + 'px'; i.setAttribute('data-v', pct + '%'); i.title = m.date + ': Part A ' + m.a + '/200'; sp.appendChild(i); });
+      var sp = el('div', 'uc-spark'); sp.setAttribute('role', 'img'); sp.setAttribute('aria-label', 'Score percentage across mock tests');
+      mocks.slice(-10).forEach(function (m) { var i = el('i'); var pct = Math.round(100 * m.a / CFG.mock.a.max); i.style.height = Math.max(6, pct * 0.9) + 'px'; i.setAttribute('data-v', pct + '%'); i.title = m.date + ': ' + m.a + '/' + CFG.mock.a.max; sp.appendChild(i); });
       mh.appendChild(sp);
-      var t = el('table', 'uc-table'), hd = el('tr'); ['Date', 'Part A /200', 'Part B /100', 'Accuracy', 'Unfinished', 'Weak topic'].forEach(function (h) { hd.appendChild(el('th', null, h)); }); t.appendChild(hd);
-      mocks.slice(-6).reverse().forEach(function (m) { var r = el('tr'); [fmt(parse(m.date)), m.a, m.b === '' || m.b == null ? '—' : m.b, m.acc === '' || m.acc == null ? '—' : m.acc + '%', m.unf === '' || m.unf == null ? '—' : m.unf, m.weak || '—'].forEach(function (c) { r.appendChild(el('td', null, String(c))); }); t.appendChild(r); });
+      var t = el('table', 'uc-table'), hd = el('tr'); ['Date', CFG.mock.a.label].concat(CFG.mock.b ? [CFG.mock.b.label] : [], ['Accuracy', 'Unfinished', 'Weak topic']).forEach(function (h) { hd.appendChild(el('th', null, h)); }); t.appendChild(hd);
+      mocks.slice(-6).reverse().forEach(function (m) { var r = el('tr'); [fmt(parse(m.date)), m.a].concat(CFG.mock.b ? [m.b === '' || m.b == null ? '—' : m.b] : [], [m.acc === '' || m.acc == null ? '—' : m.acc + '%', m.unf === '' || m.unf == null ? '—' : m.unf, m.weak || '—']).forEach(function (c) { r.appendChild(el('td', null, String(c))); }); t.appendChild(r); });
       var w = el('div', 'uc-scroll'); w.appendChild(t); mh.appendChild(w);
     }
 
@@ -189,7 +154,7 @@
     var al = $('#d-alerts'); al.textContent = ''; var cnt = {};
     S.mocks.forEach(function (m) { if (m.weak) cnt[m.weak.toLowerCase()] = (cnt[m.weak.toLowerCase()] || 0) + 1; });
     Object.keys(cnt).forEach(function (k) { if (cnt[k] >= 2) al.appendChild(el('div', 'uc-alert', '⚠ “' + k + '” was marked weak in ' + cnt[k] + ' mock tests — schedule focused practice.')); });
-    if (cur >= 3) PHASES[1].tasks.forEach(function (t, i) { if (status(taskId(PHASES[1], i)) === 'todo') al.appendChild(el('div', 'uc-alert', '⚠ Core aptitude topic not started: ' + t)); });
+    if (cur >= 3) TOPIC.tasks.forEach(function (t, i) { if (status(taskId(TOPIC, i)) === 'todo') al.appendChild(el('div', 'uc-alert', '⚠ Core topic not started: ' + t)); });
     if (!al.firstChild) al.appendChild(el('div', 'uc-empty', 'No weak-topic alerts right now.'));
 
     // upcoming tasks and deadlines
@@ -199,7 +164,7 @@
 
     // revision checklist
     var rv = $('#d-rev'); rv.textContent = '';
-    PHASES[5].tasks.forEach(function (t, i) { var id = taskId(PHASES[5], i), s = status(id), r = el('div', 'uc-task' + (s === 'done' ? ' done' : '')); r.appendChild(el('span', 't', t)); var b = el('button', 'uc-st', LABEL[s]); b.type = 'button'; b.setAttribute('data-s', s); b.addEventListener('click', function () { S.tasks[id] = NEXT[status(id)]; save(); renderAll(); }); r.appendChild(b); rv.appendChild(r); });
+    REVP.tasks.forEach(function (t, i) { var id = taskId(REVP, i), s = status(id), r = el('div', 'uc-task' + (s === 'done' ? ' done' : '')); r.appendChild(el('span', 't', t)); var b = el('button', 'uc-st', LABEL[s]); b.type = 'button'; b.setAttribute('data-s', s); b.addEventListener('click', function () { S.tasks[id] = NEXT[status(id)]; save(); renderAll(); }); r.appendChild(b); rv.appendChild(r); });
 
     // mentor feedback
     $('#d-feedback').textContent = S.notes.feedback || 'No mentor feedback yet. In the live Mentorship Portal this card shows your mentor’s latest note and next action.';
@@ -235,7 +200,7 @@
 
   function starterWeek() {
     var ws = addDays(monday(today()), weekOffset * 7), wk = iso(ws), total = Math.max(2, +S.profile.hours || 8) * 60;
-    var mixes = { beginner: [['aptitude', .34], ['drawing', .34], ['pyq', .08], ['revision', .12], ['error', .06], ['mock', .06]], intermediate: [['aptitude', .26], ['drawing', .28], ['pyq', .14], ['revision', .12], ['error', .08], ['mock', .12]], advanced: [['aptitude', .16], ['drawing', .22], ['pyq', .18], ['revision', .12], ['error', .10], ['mock', .22]] };
+    var mixes = CFG.mixes;
     var offDays = S.planner.filter(function (x) { return x.week === wk && x.type === 'off'; }).map(function (x) { return x.day; });
     var free = [0, 1, 2, 3, 4, 5, 6].filter(function (d) { return offDays.indexOf(d) < 0; });
     if (!free.length) { toast('Every day is marked off'); return; }
@@ -252,7 +217,7 @@
     var wk = weekKey(addDays(today(), weekOffset * 7)), items = S.planner.filter(function (x) { return x.week === wk && x.type !== 'off'; });
     var done = items.filter(function (x) { return x.done; }), left = items.filter(function (x) { return !x.done; });
     var mins = done.reduce(function (a, x) { return a + x.min; }, 0), name = S.profile.name || 'Student';
-    var lines = ['UCEED 2027 — weekly summary for ' + name, 'Week of ' + fmt(parse(wk)), '', 'Completed (' + done.length + ', ' + (mins / 60).toFixed(1) + ' h):'];
+    var lines = [CFG.examName + ' — weekly summary for ' + name, 'Week of ' + fmt(parse(wk)), '', 'Completed (' + done.length + ', ' + (mins / 60).toFixed(1) + ' h):'];
     done.forEach(function (x) { lines.push(' • ' + x.title + ' (' + TYPES[x.type] + ', ' + x.min + ' min)'); }); if (!done.length) lines.push(' • nothing marked complete yet');
     lines.push('', 'Still pending (' + left.length + '):'); left.forEach(function (x) { lines.push(' • ' + x.title + ' (' + TYPES[x.type] + ', ' + x.min + ' min)'); }); if (!left.length) lines.push(' • none');
     var o = overall(); lines.push('', 'Roadmap completion: ' + o.pct + '% (' + o.done + '/' + o.total + ' tasks). Current phase: ' + PHASES[currentPhase()].t + '.');
@@ -262,14 +227,15 @@
   // ---- sample data / reset ---------------------------------------------------------------------------
   function loadSample() {
     var s = blank(), t = today(), wk = weekKey(t);
-    s.sample = true; s.profile = { name: 'Sample Student', start: iso(addDays(t, -42)), hours: 10, level: 'intermediate' };
+    s.sample = true; s.profile = { name: 'Sample Student', start: iso(addDays(t, -42)), hours: 10, level: 'intermediate', target: S.profile.target || '' };
     PHASES[0].tasks.forEach(function (_, i) { s.tasks[taskId(PHASES[0], i)] = 'done'; });
-    PHASES[1].tasks.forEach(function (_, i) { s.tasks[taskId(PHASES[1], i)] = i < 4 ? 'done' : (i < 6 ? 'doing' : 'todo'); });
+    TOPIC.tasks.forEach(function (_, i) { s.tasks[taskId(TOPIC, i)] = i < 4 ? 'done' : (i < 6 ? 'doing' : 'todo'); });
     s.tasks[taskId(PHASES[2], 0)] = 'done'; s.tasks[taskId(PHASES[2], 1)] = 'doing';
-    s.mocks = [{ date: iso(addDays(t, -21)), a: 78, b: 52, acc: 61, unf: 6, weak: 'Spatial reasoning' }, { date: iso(addDays(t, -14)), a: 91, b: 55, acc: 66, unf: 4, weak: 'Spatial reasoning' }, { date: iso(addDays(t, -7)), a: 104, b: 61, acc: 72, unf: 3, weak: 'Patterns' }];
-    s.drawings = [{ date: iso(addDays(t, -1)), min: 40, subject: 'Object sketching' }, { date: iso(addDays(t, -3)), min: 35, subject: 'Perspective' }];
-    s.planner = [{ id: uid(), week: wk, day: 0, type: 'aptitude', title: 'Spatial reasoning set', min: 60, done: true }, { id: uid(), week: wk, day: 1, type: 'drawing', title: 'Perspective sketches', min: 45, done: false }, { id: uid(), week: wk, day: 3, type: 'pyq', title: 'Previous-year paper section', min: 60, done: false }, { id: uid(), week: wk, day: 5, type: 'mock', title: 'Sectional mock test', min: 90, done: false }];
-    s.notes.feedback = 'SAMPLE: Good consistency on sketching. Prioritise spatial-reasoning practice this week and review your error log on Sunday.';
+    var sm = CFG.sample;
+    s.mocks = sm.mocks.map(function (m) { var o = { date: iso(addDays(t, -m.ago)), a: m.a, acc: m.acc, unf: m.unf, weak: m.weak }; if (m.b != null) o.b = m.b; return o; });
+    s.drawings = sm.logs.map(function (x) { return { date: iso(addDays(t, -x.ago)), min: x.min, subject: x.subject }; });
+    s.planner = sm.planner.map(function (x) { return { id: uid(), week: wk, day: x[0], type: x[1], title: x[2], min: x[3], done: x[4] }; });
+    s.notes.feedback = sm.feedback;
     S = s; save(); renderAll(); toast('Sample data loaded — clearly marked as demo');
   }
 
@@ -283,17 +249,27 @@
     });
   }
 
+  function updateCountdown() {
+    var t = (CFG.targets || []).filter(function (x) { return x.id === S.profile.target; })[0] || (CFG.targets || [])[0];
+    var d = Math.round((parse(examDate()) - today()) / 86400000), name = t ? t.label.split(' — ')[0] : CFG.examName;
+    $('#cd-days').textContent = d > 0 ? String(d) : (d === 0 ? 'Today' : 'Held');
+    $('#cd-label').textContent = d > 0 ? 'days to ' + name + ' (' + fmt(parse(examDate())) + ')' + (targetOfficial() ? '' : ' — assumed date') : (d === 0 ? name + ' is today' : name + ' has taken place');
+    var rc = Math.round((parse(CFG.regClose) - today()) / 86400000);
+    $('#cd-reg').textContent = rc >= 0 ? 'Registration closes in ' + rc + ' day' + (rc === 1 ? '' : 's') + ' — ' + CFG.regText : 'Registration closed on ' + CFG.regText + ' — ' + CFG.regNote + '.';
+  }
+
   // ---- wire up ---------------------------------------------------------------------------------------
   function init() {
     $('#pf-name').value = S.profile.name; $('#pf-start').value = S.profile.start; $('#pf-hours').value = S.profile.hours; $('#pf-level').value = S.profile.level;
-    ['pf-name', 'pf-start', 'pf-hours', 'pf-level'].forEach(function (id) {
+    if ($('#pf-target')) $('#pf-target').value = S.profile.target || CFG.targets[0].id;
+    ['pf-name', 'pf-start', 'pf-hours', 'pf-level'].concat($('#pf-target') ? ['pf-target'] : []).forEach(function (id) {
       $('#' + id).addEventListener('change', function () {
-        S.profile = { name: $('#pf-name').value.slice(0, 60), start: $('#pf-start').value, hours: Math.max(1, Math.min(60, +$('#pf-hours').value || 8)), level: $('#pf-level').value }; save(); renderAll();
+        S.profile = { name: $('#pf-name').value.slice(0, 60), start: $('#pf-start').value, hours: Math.max(1, Math.min(60, +$('#pf-hours').value || 8)), level: $('#pf-level').value, target: $('#pf-target') ? $('#pf-target').value : '' }; save(); renderAll(); updateCountdown();
       });
     });
     $('#pf-name').addEventListener('input', function () { S.profile.name = this.value.slice(0, 60); save(); $('#d-name').textContent = S.profile.name || 'Your name'; });
     $('#btn-sample').addEventListener('click', loadSample);
-    $('#btn-reset').addEventListener('click', function () { if (confirm('Clear all roadmap, planner and tracker data stored in this browser?')) { S = blank(); save(); $('#pf-name').value = ''; $('#pf-start').value = ''; $('#pf-hours').value = 8; $('#pf-level').value = 'intermediate'; renderAll(); toast('Cleared'); } });
+    $('#btn-reset').addEventListener('click', function () { if (confirm('Clear all roadmap, planner and tracker data stored in this browser?')) { S = blank(); save(); $('#pf-name').value = ''; $('#pf-start').value = ''; $('#pf-hours').value = 8; $('#pf-level').value = 'intermediate'; if ($('#pf-target')) $('#pf-target').value = CFG.targets[0].id; renderAll(); updateCountdown(); toast('Cleared'); } });
     $('#pl-prev').addEventListener('click', function () { weekOffset--; renderPlanner(); });
     $('#pl-next').addEventListener('click', function () { weekOffset++; renderPlanner(); });
     $('#pl-this').addEventListener('click', function () { weekOffset = 0; renderPlanner(); });
@@ -314,8 +290,8 @@
     });
     $('#mock-form').addEventListener('submit', function (e) {
       e.preventDefault(); var f = e.target, E = f.elements, a = parseFloat(E.a.value);
-      if (isNaN(a) || a < -100 || a > 200) { toast('Part A must be between -100 and 200'); return; }
-      S.mocks.push({ date: E.date.value || iso(today()), a: a, b: E.b.value === '' ? '' : Math.max(0, Math.min(100, +E.b.value)), acc: E.acc.value === '' ? '' : Math.max(0, Math.min(100, +E.acc.value)), unf: E.unf.value === '' ? '' : Math.max(0, +E.unf.value), weak: E.weak.value.trim().slice(0, 40) });
+      if (isNaN(a) || a < -100 || a > CFG.mock.a.max) { toast('Score must be between -100 and ' + CFG.mock.a.max); return; }
+      S.mocks.push({ date: E.date.value || iso(today()), a: a, b: !E.b || E.b.value === '' ? '' : Math.max(0, Math.min(CFG.mock.b.max, +E.b.value)), acc: E.acc.value === '' ? '' : Math.max(0, Math.min(100, +E.acc.value)), unf: E.unf.value === '' ? '' : Math.max(0, +E.unf.value), weak: E.weak.value.trim().slice(0, 40) });
       save(); f.reset(); renderAll(); toast('Mock test saved');
     });
     $('#draw-form').addEventListener('submit', function (e) {
@@ -329,19 +305,14 @@
     $('#lead-form').addEventListener('submit', function (e) {
       e.preventDefault(); var f = e.target, E = f.elements, msg = $('#lead-msg'); msg.className = 'uc-msg';
       if (!E.consent.checked) { msg.textContent = 'Please tick the consent box so we can contact you.'; msg.classList.add('err'); return; }
-      var contact = E.contact.value.trim(), body = { name: E.name.value.trim(), contact: contact, email: /@/.test(contact) ? contact : '', phone: /@/.test(contact) ? '' : contact, class: E.cls.value, prep_status: E.prep.value, guidance: E.guidance.value, consent: true, page: 'uceed-2027-roadmap' };
+      var contact = E.contact.value.trim(), body = { name: E.name.value.trim(), contact: contact, email: /@/.test(contact) ? contact : '', phone: /@/.test(contact) ? '' : contact, class: E.cls.value, prep_status: E.prep.value, guidance: E.guidance.value, consent: true, page: CFG.page };
       if (!body.name || !contact) { msg.textContent = 'Please enter the student name and a contact.'; msg.classList.add('err'); return; }
       msg.textContent = 'Sending…';
-      fetch('/api/leads?source=uceed-roadmap', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
-        .then(function (r) { if (!r.ok) throw new Error(); msg.textContent = 'Thank you! Our team will contact you about your UCEED 2027 preparation plan.'; msg.classList.add('ok'); f.reset(); })
+      fetch('/api/leads?source=' + CFG.leadSource, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+        .then(function (r) { if (!r.ok) throw new Error(); msg.textContent = 'Thank you! Our team will contact you about your ' + CFG.examName + ' preparation plan.'; msg.classList.add('ok'); f.reset(); })
         .catch(function () { msg.textContent = 'Could not send right now — please email info@eduaakashaa.com or WhatsApp us.'; msg.classList.add('err'); });
     });
-    // countdown + registration state from the official dates
-    var d = Math.round((parse(EXAM) - today()) / 86400000);
-    $('#cd-days').textContent = d > 0 ? String(d) : (d === 0 ? 'Today' : 'Held');
-    $('#cd-label').textContent = d > 0 ? 'days to UCEED 2027 (17 Jan 2027)' : (d === 0 ? 'UCEED 2027 is today' : 'UCEED 2027 has taken place');
-    var rc = Math.round((parse('2026-10-31') - today()) / 86400000);
-    $('#cd-reg').textContent = rc >= 0 ? 'Registration (regular fee) closes in ' + rc + ' day' + (rc === 1 ? '' : 's') + ' — 31 Oct 2026' : 'Regular-fee registration closed on 31 Oct 2026 — check uceed.iitb.ac.in for any late-fee window.';
+    updateCountdown();
     if (!persistOk) $('#uc-nostore').hidden = false;
     // sticky nav highlight
     var links = $$('.uc-nav a'), io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('href') === '#' + en.target.id); }); }); }, { rootMargin: '-40% 0px -55% 0px' }) : null;
