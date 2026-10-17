@@ -29,6 +29,7 @@ CATEGORIES = [
          {'title': 'DASA prediction report', 'desc': 'Personalised DASA / CIWG outlook.', 'icon': '🔮', 'endpoint': 'main.dasa_prediction_report', 'access': 'premium'},
          {'title': 'DASA expert portal', 'desc': 'Expert guidance for DASA choice filling.', 'icon': '🏛️', 'endpoint': 'main.expert_portal_dasa', 'access': 'premium'},
          {'title': 'JoSAA EA members', 'desc': 'Members-only JoSAA insights.', 'icon': '🇮🇳', 'endpoint': 'main.josaa_ea_members', 'access': 'premium'},
+         {'title': 'UCEED 2027 Roadmap', 'desc': 'Design-entrance plan, planner and B.Des admission guide.', 'icon': '✏️', 'endpoint': 'main.uceed_2027_roadmap', 'access': 'premium'},
          {'title': 'JEE 2027 Roadmap', 'desc': 'The exam process, mapped step by step.', 'icon': '🗺️', 'endpoint': 'main.jee_2027_roadmap', 'access': 'premium'},
          {'title': 'TNEA expert', 'desc': 'Tamil Nadu engineering counselling guide.', 'icon': '🎓', 'endpoint': 'main.tnea_expert', 'access': 'premium'},
          {'title': 'Members report', 'desc': 'Reports prepared for members.', 'icon': '📑', 'endpoint': 'main.members_report', 'access': 'premium'},

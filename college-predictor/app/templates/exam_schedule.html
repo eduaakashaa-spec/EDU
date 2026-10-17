@@ -1,200 +1,175 @@
 {% extends "base.html" %}
-{% block title %}Exam Schedule 2026–27 — Engineering / Design / Architecture | EduAakashaA{% endblock %}
+{% block title %}India Entrance Exam Schedule 2026–27 | EduAakashaA{% endblock %}
+{% block meta_description %}
+<meta name="description" content="India entrance exam calendar for 2026–27 admissions: engineering, medicine, law, management, science, design and NRI routes — with Confirmed, Tentative and Expected dates and downloadable calendar reminders.">
+{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .xs { --xs-navy:#0E3A8A; --xs-ink:#0E1B3D; --xs-muted:#5A6278; --xs-hl:#E8DFC8; --xs-or:#FF6B0A; --xs-green:#1F8B5C; --xs-amber:#B8730A; }
+  .xs-wrap { max-width: 1380px; margin: 0 auto; padding: 0 24px; }
+  .xs-hero { background: linear-gradient(135deg, #0E3A8A, #0A2560); padding: 40px 0 32px; position: relative; overflow: hidden; }
+  .xs-hero::before { content: ""; position: absolute; right: -80px; top: -80px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(255,107,10,.2), transparent 65%); }
+  .xs-hero-in { position: relative; display: grid; grid-template-columns: 1.3fr 1fr; gap: 36px; align-items: center; }
+  .xs-eyebrow { display: inline-flex; gap: 7px; align-items: center; font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.85); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: 999px; padding: 5px 13px; margin-bottom: 12px; }
+  .xs-hero h1 { font-family: 'Fraunces', serif; font-size: clamp(28px, 3.6vw, 50px); font-weight: 800; letter-spacing: -.03em; line-height: 1.08; color: #fff; margin: 0 0 12px; }
+  .xs-hero h1 em { color: #FF8A3D; font-weight: 500; }
+  .xs-hero p.sub { color: rgba(255,255,255,.78); font-size: 15px; line-height: 1.7; margin: 0 0 16px; max-width: 62ch; }
+  .xs-hero-note { background: rgba(255,107,10,.14); border: 1px solid rgba(255,107,10,.34); border-radius: 10px; padding: 11px 15px; font-size: 13px; color: rgba(255,255,255,.88); line-height: 1.6; max-width: 66ch; }
+  .xs-hero-note strong { color: #FFB27A; }
+  .xs-stats { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 16px; padding: 14px; display: grid; grid-template-columns: 1fr 1fr; }
+  .xs-stat { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.1); border-right: 1px solid rgba(255,255,255,.1); }
+  .xs-stat:nth-child(2n) { border-right: 0; } .xs-stat:nth-last-child(-n+2) { border-bottom: 0; }
+  .xs-stat b { display: block; font: 800 clamp(24px, 2.8vw, 34px) 'Fraunces', serif; color: #fff; line-height: 1; }
+  .xs-stat span { font: 500 8.5px 'JetBrains Mono', monospace; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.55); }
+  .xs-legend { background: #FFF6E3; border-bottom: 2px solid rgba(184,115,10,.25); padding: 11px 0; font-size: 13px; line-height: 1.65; color: var(--xs-ink); }
+  .xs-legend a { color: var(--xs-navy); font-weight: 600; text-decoration: none; }
+  .xs-bar { background: var(--paper, #FFFDF7); border-bottom: 1px solid var(--xs-hl); padding: 9px 0; position: sticky; top: 64px; z-index: 40; overflow-x: auto; }
+  .xs-bar .xs-wrap { display: flex; gap: 7px; align-items: center; white-space: nowrap; }
+  .xs-bar b { font: 600 9px 'JetBrains Mono', monospace; letter-spacing: .2em; text-transform: uppercase; color: var(--xs-muted); margin-right: 4px; }
+  .xs-fb { font: 600 9px 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--xs-hl); background: #fff; color: var(--xs-muted); cursor: pointer; }
+  .xs-fb.on, .xs-fb:hover { background: var(--xs-navy); color: #fff; border-color: var(--xs-navy); }
+  .xs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: start; padding: 24px 24px 40px; }
+  .xs-col { display: flex; flex-direction: column; gap: 16px; }
+  .xs-side { position: sticky; top: 120px; display: flex; flex-direction: column; gap: 14px; }
+  .xs-ch { display: flex; align-items: center; gap: 9px; padding: 9px 14px; border-radius: 10px; margin-bottom: 7px; color: #fff; }
+  .xs-ch i { width: 8px; height: 8px; border-radius: 50%; display: block; flex: none; }
+  .xs-ch b { font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .16em; text-transform: uppercase; }
+  .xs-ch em { margin-left: auto; font: 500 9px 'JetBrains Mono', monospace; opacity: .7; font-style: normal; }
+  .xs-cards { display: flex; flex-direction: column; gap: 6px; }
+  .xs-card { background: var(--paper, #FFFDF7); border: 1px solid var(--xs-hl); border-left: 3px solid var(--c, #0E3A8A); border-radius: 0 10px 10px 0; padding: 11px 13px; transition: box-shadow .15s, transform .15s; }
+  .xs-card:hover { box-shadow: 0 8px 22px rgba(14,27,61,.12); transform: translateY(-1px); }
+  .xs-top { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
+  .xs-name { font-size: 13.5px; font-weight: 700; color: #071A44; line-height: 1.3; }
+  .xs-badge { font: 600 8px 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; white-space: nowrap; background: rgba(14,58,138,.1); color: var(--xs-navy); }
+  .xs-when { font: 600 10.5px 'JetBrains Mono', monospace; color: var(--xs-ink); margin: 5px 0 3px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+  .xs-st { font: 700 8px 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
+  .xs-st.Confirmed { background: rgba(31,139,92,.14); color: var(--xs-green); }
+  .xs-st.Tentative { background: rgba(232,154,28,.18); color: #8a5a0a; }
+  .xs-st.Expected { background: #ECEEF4; color: #4a5470; }
+  .xs-desc { font-size: 12px; color: var(--xs-muted); line-height: 1.55; }
+  .xs-note { display: inline-block; margin-top: 5px; font: 600 8.5px 'JetBrains Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--xs-amber); background: rgba(212,137,10,.1); padding: 2px 8px; border-radius: 999px; }
+  .xs-cal { display: inline-block; margin: 6px 0 0 8px; font: 700 9px 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: rgba(14,58,138,.08); color: var(--xs-navy); text-decoration: none; }
+  .xs-cal:hover { background: var(--xs-navy); color: #fff; }
+  .xs-box { background: var(--paper, #FFFDF7); border: 1px solid var(--xs-hl); border-radius: 14px; padding: 15px; box-shadow: 0 1px 4px rgba(14,27,61,.06); }
+  .xs-box h3 { font: 700 15px 'Fraunces', serif; color: #071A44; margin: 0 0 6px; }
+  .xs-box p { font-size: 12.5px; color: var(--xs-muted); line-height: 1.55; margin: 0 0 10px; }
+  .xs-cta { background: linear-gradient(135deg, #FF6B0A, #E55500); border-radius: 14px; padding: 16px; color: #fff; }
+  .xs-cta h3 { font: 700 16px 'Fraunces', serif; margin: 0 0 6px; color: #fff; } .xs-cta p { font-size: 12.5px; color: rgba(255,255,255,.92); line-height: 1.55; margin: 0 0 10px; }
+  .xs-btn { display: inline-flex; gap: 6px; align-items: center; justify-content: center; font: 700 12px 'Plus Jakarta Sans', sans-serif; padding: 9px 16px; border-radius: 999px; text-decoration: none; border: 0; cursor: pointer; }
+  .xs-btn.w { background: #fff; color: #D4560A; } .xs-btn.n { background: var(--xs-navy); color: #fff; } .xs-btn.n:hover { background: var(--xs-or); }
+  .xs-btn.g { background: #1c9c4f; color: #fff; }
+  .xs-ms { padding: 6px 0; border-bottom: 1px solid var(--xs-hl); display: flex; gap: 9px; font-size: 12px; }
+  .xs-ms:last-child { border: 0; } .xs-ms b { font: 700 9px 'JetBrains Mono', monospace; color: #C24E00; min-width: 56px; padding-top: 2px; }
+  .xs-hide { display: none; }
+  .xs-more { background: linear-gradient(135deg, #0E3A8A, #0A2560); padding: 34px 0; }
+  .xs-more-in { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .xs-more .xs-gi { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 18px; }
+  .xs-more h3 { font: 700 15px 'Fraunces', serif; color: #fff; margin: 0 0 6px; } .xs-more p { color: rgba(255,255,255,.78); font-size: 12.5px; line-height: 1.6; margin: 0 0 8px; }
+  .xs-more a { color: #FFB27A; font-weight: 700; font-size: 12px; text-decoration: none; }
+  .xs-foot { font-size: 12px; color: var(--xs-muted); padding: 18px 24px 40px; line-height: 1.7; }
+  html[data-theme="dark"] .xs-card, html[data-theme="dark"] .xs-box, html[data-theme="dark"] .xs-bar { background: #121c3a; border-color: #26325a; }
+  html[data-theme="dark"] .xs-name, html[data-theme="dark"] .xs-box h3 { color: #fff; } html[data-theme="dark"] .xs-desc, html[data-theme="dark"] .xs-box p, html[data-theme="dark"] .xs-when, html[data-theme="dark"] .xs-ms { color: #dfe4f2; }
+  html[data-theme="dark"] .xs-legend { background: #2a2414; color: #f1e6c8; } html[data-theme="dark"] .xs-fb { background: #0c1530; color: #dfe4f2; border-color: #26325a; }
+  @media (max-width: 1100px) { .xs-grid { grid-template-columns: 1fr 260px 1fr; } }
+  @media (max-width: 920px) { .xs-grid { grid-template-columns: 1fr; } .xs-side { position: static; order: -1; } .xs-hero-in { grid-template-columns: 1fr; } .xs-stats { display: none; } .xs-more-in { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 580px) { .xs-wrap { padding: 0 14px; } .xs-grid { padding: 18px 14px 30px; } .xs-more-in { grid-template-columns: 1fr; } .xs-bar { top: 56px; } }
+</style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero — editorial split (copy + summary card) -->
-<section class="hero-editorial">
-  <div class="hero__glow"></div>
-  <div class="container">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <span class="eyebrow">UPDATED 16 OCTOBER 2026</span>
-        <h1 style="margin-top:22px;">Engineering &amp; Design <span class="accent">Exam Schedule 2026&ndash;27</span></h1>
-        <p class="hero-sub">32 entrance exams for the 2027 admission cycle across 4 streams — with dates, boards, state and status. Only dates officially announced are marked Confirmed; the rest are clearly labelled Tentative or Expected.</p>
-        <div class="hero-ctas">
-          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
-          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
-        </div>
-      </div>
-      <aside class="hero-card">
-        <div class="hero-card-eyebrow">2027 Admission Cycle</div>
-        <div class="hero-card-title">Every entrance, one schedule</div>
-        <div class="hero-card-rows">
-          <div class="hero-card-row">
-            <span class="hcr-label">Exams</span>
-            <span class="hcr-value">32</span>
-          </div>
-          <div class="hero-card-row">
-            <span class="hcr-label">Streams</span>
-            <span class="hcr-value">4</span>
-          </div>
-          <div class="hero-card-row">
-            <span class="hcr-label">States</span>
-            <span class="hcr-value">15<span class="accent">+</span></span>
-          </div>
-          <div class="hero-card-row">
-            <span class="hcr-label">Students</span>
-            <span class="hcr-value">50 L<span class="accent">+</span></span>
-          </div>
-        </div>
-      </aside>
-    </div>
+{% macro cat_block(c) %}
+<section class="xs-cat" data-cat="{{ c.key }}">
+  <div class="xs-ch" style="background:linear-gradient(135deg,{{ c.grad }})"><i style="background:{{ c.dot }}"></i><b>{{ c.title }}</b><em>{{ c.exams|length }} exams</em></div>
+  <div class="xs-cards">
+    {% for id, name, badge, when, status, desc, start, end, note in c.exams %}
+    <article class="xs-card" style="--c:{{ c.dot }}">
+      <div class="xs-top"><span class="xs-name">{{ name }}</span><span class="xs-badge">{{ badge }}</span></div>
+      <div class="xs-when"><span>{{ when }}</span><span class="xs-st {{ status }}">{{ status }}</span></div>
+      <div class="xs-desc">{{ desc }}</div>
+      {% if note %}<span class="xs-note">{{ note }}</span>{% endif %}
+      {% if start %}<a class="xs-cal" href="{{ url_for('main.exam_schedule_one_ics', exam_id=id) }}" aria-label="Add {{ name }} to calendar">📅 Add to calendar</a>{% endif %}
+    </article>
+    {% endfor %}
   </div>
 </section>
+{% endmacro %}
 
-<div class="main-content">
+<div class="xs">
+  <header class="xs-hero"><div class="xs-wrap xs-hero-in">
+    <div>
+      <div class="xs-eyebrow">Exam calendar · 2026–27 cycle · updated {{ verified.strftime('%d %b %Y') }}</div>
+      <h1>India Entrance Exam Schedule <em>2026–27</em></h1>
+      <p class="sub">Engineering · Medicine · Law · Management · Science · Design · NRI routes — every major entrance exam in one place, with an honest label on how firm each date is, and one-click calendar reminders.</p>
+      <div class="xs-hero-note"><strong>How to read this page:</strong> <strong>Confirmed</strong> dates are announced by the conducting body. <strong>Tentative</strong> dates are provisional (for example NTA&rsquo;s calendar of 16 Sep 2026). <strong>Expected</strong> rows show only a likely window &mdash; the exam date is not announced yet. Always confirm on the official website before you register or travel.</div>
+    </div>
+    <div class="xs-stats">
+      <div class="xs-stat"><b>{{ stats.total }}</b><span>Exams listed</span></div>
+      <div class="xs-stat"><b>{{ stats.get('Confirmed', 0) }}</b><span>Confirmed dates</span></div>
+      <div class="xs-stat"><b>{{ stats.get('Tentative', 0) }}</b><span>Tentative</span></div>
+      <div class="xs-stat"><b>{{ stats.get('Expected', 0) }}</b><span>Expected windows</span></div>
+    </div>
+  </div></header>
 
-  <!-- Key dates ahead -->
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">COMING UP</span>
-      <h2 class="section__title">Key dates in the next few months</h2>
-    </div>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>When</th><th>What</th></tr></thead>
-        <tbody>
-          <tr><td>Late Oct 2026 (expected)</td><td>JEE Main 2027 Session 1 registration opens &mdash; NTA bulletin awaited at jeemain.nta.nic.in</td></tr>
-          <tr><td>Oct 31, 2026 (late fee Nov 6)</td><td>UCEED / CEED 2027 registration deadline</td></tr>
-          <tr><td>Nov 2026</td><td>Amrita AEEE 2027 and SRMJEEE 2027 registration expected to open</td></tr>
-          <tr><td>Nov 29, 2026</td><td>CAT 2026 (MBA entrance) &mdash; for students planning management after B.Tech</td></tr>
-          <tr><td>Nov 30, 2026</td><td>NID DAT 2027 registration closes</td></tr>
-          <tr><td>Dec 2026</td><td>BITSAT 2027 and NIFT 2027 registration expected to open</td></tr>
-          <tr><td>Dec 20, 2026</td><td>NID DAT Prelims</td></tr>
-          <tr><td>Jan 17, 2027</td><td>UCEED &amp; CEED 2027</td></tr>
-          <tr><td>Jan 22-30, 2027</td><td>JEE Main 2027 Session 1 (tentative, per NTA calendar)</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+  <div class="xs-legend"><div class="xs-wrap"><strong>Please verify on the official sites:</strong>
+    <a href="https://jeemain.nta.nic.in" target="_blank" rel="noopener">JEE Main</a> ·
+    <a href="https://jeeadv.ac.in" target="_blank" rel="noopener">JEE Advanced</a> ·
+    <a href="https://neet.nta.nic.in" target="_blank" rel="noopener">NEET UG</a> ·
+    <a href="https://gate2027.iitm.ac.in" target="_blank" rel="noopener">GATE</a> ·
+    <a href="https://consortiumofnlus.ac.in" target="_blank" rel="noopener">CLAT</a> ·
+    <a href="https://iimcat.ac.in" target="_blank" rel="noopener">CAT</a> ·
+    <a href="https://uceed.iitb.ac.in" target="_blank" rel="noopener">UCEED</a> ·
+    <a href="https://josaa.nic.in" target="_blank" rel="noopener">JoSAA</a> ·
+    <a href="https://dasanit.org" target="_blank" rel="noopener">DASA</a> ·
+    <a href="https://nta.ac.in" target="_blank" rel="noopener">NTA</a></div></div>
 
-  <!-- Filters -->
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">FILTERS</span>
-      <h2 class="section__title">Narrow down the 2027-cycle exams</h2>
-    </div>
-    <div class="filter-row" style="display:flex; flex-wrap:wrap; gap:12px; margin-bottom:20px;">
-      <select id="streamFilter" class="filter-input">
-        <option value="">All Streams</option>
-        <option>B.Tech/B.E.</option>
-        <option>B.Des (Design)</option>
-        <option>B.Arch</option>
-        <option>Research/Science</option>
-      </select>
-      <select id="typeFilter" class="filter-input">
-        <option value="">All Types</option>
-        <option>National</option>
-        <option>State</option>
-        <option>Private</option>
-        <option>Research</option>
-      </select>
-      <select id="statusFilter" class="filter-input">
-        <option value="">All Status</option>
-        <option>Confirmed</option>
-        <option>Tentative</option>
-        <option>Expected</option>
-      </select>
-      <input type="text" id="searchFilter" class="filter-input" placeholder="Search exam or state…" style="flex:1;min-width:180px;">
-    </div>
-  </section>
+  <div class="xs-bar"><div class="xs-wrap" role="toolbar" aria-label="Filter exams">
+    <b>Filter:</b>
+    {% for key, label in filters %}<button type="button" class="xs-fb {{ 'on' if key == 'all' }}" data-f="{{ key }}">{{ label }}</button>{% endfor %}
+  </div></div>
 
-  <!-- Exam Table -->
-  <section class="section">
-    <div class="table-wrap">
-      <table id="examTable">
-        <thead>
-          <tr>
-            <th>Exam</th><th>Board</th><th>Stream</th><th>Type</th><th>State</th><th>Date</th><th>Status</th><th>Institutes</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>JEE Main 2027 (Session 1)</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Jan 22-24 &amp; 28-30, 2027 (buffer Jan 31)</td><td>Tentative</td><td>NITs · IIITs · GFTIs</td></tr>
-          <tr><td>JEE Main 2027 (Session 2)</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Apr 2027 (dates awaited)</td><td>Expected</td><td>NITs · IIITs · GFTIs</td></tr>
-          <tr><td>JEE Main Paper 2 (B.Arch / B.Planning)</td><td>NTA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>With JEE Main sessions (paper-wise dates in bulletin)</td><td>Expected</td><td>NITs / IIITs / SPAs B.Arch</td></tr>
-          <tr><td>JEE Advanced 2027</td><td>IIT (organiser TBA)</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>Mid-May 2027 (JAB notice awaited)</td><td>Expected</td><td>23 IITs</td></tr>
-          <tr><td>BITSAT 2027</td><td>BITS Pilani</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>Registration from Dec 2026 · sessions Apr-Jun 2027 (dates awaited)</td><td>Expected</td><td>BITS Pilani / Goa / Hyderabad</td></tr>
-          <tr><td>VITEEE 2027</td><td>VIT Vellore</td><td>B.Tech/B.E.</td><td>Private</td><td>Tamil Nadu</td><td>Late Apr - early May 2027 (notification awaited)</td><td>Expected</td><td>VIT Vellore / Chennai / AP / Bhopal</td></tr>
-          <tr><td>SRMJEEE 2027</td><td>SRM University</td><td>B.Tech/B.E.</td><td>Private</td><td>Tamil Nadu</td><td>Registration Nov 2026 · Phases Apr / Jun / Jul 2027</td><td>Expected</td><td>SRM Institute of Science &amp; Tech</td></tr>
-          <tr><td>AEEE 2027</td><td>Amrita</td><td>B.Tech/B.E.</td><td>Private</td><td>All India</td><td>Apr 15 - May 7, 2027 (registration from Nov 2026)</td><td>Confirmed</td><td>Amrita Vishwa Vidyapeetham</td></tr>
-          <tr><td>MET 2027</td><td>Manipal</td><td>B.Tech/B.E.</td><td>Private</td><td>Karnataka</td><td>Not announced (2026: Apr &amp; May)</td><td>Expected</td><td>Manipal Institute of Technology</td></tr>
-          <tr><td>KIITEE 2027</td><td>KIIT</td><td>B.Tech/B.E.</td><td>Private</td><td>Odisha</td><td>Not announced (2026: Apr &amp; Jun)</td><td>Expected</td><td>KIIT Bhubaneswar</td></tr>
-          <tr><td>KCET 2027</td><td>KEA Karnataka</td><td>B.Tech/B.E.</td><td>State</td><td>Karnataka</td><td>Apr 2027 (dates awaited)</td><td>Expected</td><td>200+ Karnataka Engg Colleges</td></tr>
-          <tr><td>COMEDK UGET 2027</td><td>COMEDK</td><td>B.Tech/B.E.</td><td>State</td><td>Karnataka</td><td>Apr-May 2027 (2026: May 9)</td><td>Expected</td><td>181 Private KA Colleges</td></tr>
-          <tr><td>MHT CET 2027</td><td>CET Cell MH</td><td>B.Tech/B.E.</td><td>State</td><td>Maharashtra</td><td>Apr-May 2027 (dates awaited)</td><td>Expected</td><td>300+ Maharashtra Colleges</td></tr>
-          <tr><td>WBJEE 2027</td><td>WBJEEB</td><td>B.Tech/B.E.</td><td>State</td><td>West Bengal</td><td>Late Apr - early May 2027 (2026: May 24)</td><td>Expected</td><td>100+ WB Engg Colleges</td></tr>
-          <tr><td>KEAM 2027</td><td>CEE Kerala</td><td>B.Tech/B.E.</td><td>State</td><td>Kerala</td><td>Apr-May 2027 (dates awaited)</td><td>Expected</td><td>Kerala Engineering Colleges</td></tr>
-          <tr><td>TG-EAPCET 2027</td><td>TSCHE</td><td>B.Tech/B.E.</td><td>State</td><td>Telangana</td><td>May 2027 (2026: May 9 &amp; 11)</td><td>Expected</td><td>Telangana Engg Colleges</td></tr>
-          <tr><td>AP-EAPCET 2027</td><td>APSCHE</td><td>B.Tech/B.E.</td><td>State</td><td>Andhra Pradesh</td><td>May 2027 (2026: May 12-18)</td><td>Expected</td><td>AP Engineering Colleges</td></tr>
-          <tr><td>OJEE 2027</td><td>OJEE Board</td><td>B.Tech/B.E.</td><td>State</td><td>Odisha</td><td>May 2027 (2026: May 4-9)</td><td>Expected</td><td>Odisha Govt &amp; Pvt Colleges</td></tr>
-          <tr><td>GUJCET 2027</td><td>GSEB</td><td>B.Tech/B.E.</td><td>State</td><td>Gujarat</td><td>Mar 2027 (2026: Mar 29)</td><td>Expected</td><td>Gujarat Govt &amp; Pvt Colleges</td></tr>
-          <tr><td>TNEA 2027</td><td>Anna University</td><td>B.Tech/B.E.</td><td>State</td><td>Tamil Nadu</td><td>Based on +2 marks · registration expected May 2027</td><td>Expected</td><td>550+ TN Colleges (No Exam)</td></tr>
-          <tr><td>UPTAC / AKTU 2027</td><td>AKTU</td><td>B.Tech/B.E.</td><td>State</td><td>Uttar Pradesh</td><td>Via JEE Main score · counselling Jun 2027</td><td>Expected</td><td>UP Engineering Colleges</td></tr>
-          <tr><td>CUET UG 2027</td><td>NTA</td><td>B.Tech/B.E.</td><td>National</td><td>All India</td><td>May 2027 (2026: May 11-31) · NTA notice ~Jan 2027</td><td>Expected</td><td>Central Universities</td></tr>
-          <tr><td>ISI Admission 2027</td><td>ISI Kolkata</td><td>Research/Science</td><td>Research</td><td>West Bengal</td><td>Notification ~Feb 2027 · test May 2027 (2026: May 10)</td><td>Expected</td><td>ISI Kolkata / Bangalore / Delhi</td></tr>
-          <tr><td>UGEE 2027 (IIIT-H)</td><td>IIIT Hyderabad</td><td>Research/Science</td><td>Research</td><td>Telangana</td><td>May 2027 (2026: May 2)</td><td>Expected</td><td>IIIT Hyderabad</td></tr>
-          <tr><td>IAT 2027 (IISER)</td><td>IISER</td><td>Research/Science</td><td>Research</td><td>All India</td><td>Early Jun 2027 (notification ~Feb 2027)</td><td>Expected</td><td>7 IISERs</td></tr>
-          <tr><td>NEST 2027</td><td>NISER/CEBS</td><td>Research/Science</td><td>Research</td><td>All India</td><td>First week of Jun 2027</td><td>Tentative</td><td>NISER · UM-DAE CEBS</td></tr>
-          <tr><td>UCEED 2027</td><td>IIT Bombay</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan 17, 2027 (registration till Oct 31, late fee Nov 6)</td><td>Confirmed</td><td>IIT Bombay / Delhi / Guwahati B.Des</td></tr>
-          <tr><td>CEED 2027</td><td>IIT Bombay</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan 17, 2027 (registration till Oct 31, late fee Nov 6)</td><td>Confirmed</td><td>IITs M.Des Programs</td></tr>
-          <tr><td>NID DAT Prelims 2027</td><td>NID</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Dec 20, 2026 (registration till Nov 30)</td><td>Confirmed</td><td>NID Campuses · 5.5-yr Integrated M.Des / B.Des</td></tr>
-          <tr><td>NID DAT Mains 2027</td><td>NID</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>After Prelims result on Mar 16, 2027 (date awaited)</td><td>Expected</td><td>NID Campuses</td></tr>
-          <tr><td>NIFT 2027</td><td>NTA/NIFT</td><td>B.Des (Design)</td><td>Design</td><td>All India</td><td>Jan-Feb 2027 (NTA calendar lists Jan 10 · registration Dec 2026)</td><td>Tentative</td><td>19 NIFT Campuses</td></tr>
-          <tr><td>NATA 2027</td><td>CoA</td><td>B.Arch</td><td>Architecture</td><td>All India</td><td>Brochure awaited (2026: Mar 7 - Jun 28)</td><td>Expected</td><td>400+ Architecture Colleges</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <p class="content-text content-text--note"><strong>Confirmed</strong> = announced by the conducting body. <strong>Tentative</strong> = published provisionally (for example in NTA&rsquo;s exam calendar of 16 Sep 2026) and may change. <strong>Expected</strong> = not yet announced; the window is inferred from the 2026 cycle. Where we show &ldquo;2026&rdquo; dates they are last year&rsquo;s, for reference only. Always verify at the official portal before you act on a date.</p>
-  </section>
+  <div class="xs-wrap xs-grid">
+    <div class="xs-col">{% for c in cats if c.col == 'left' %}{{ cat_block(c) }}{% endfor %}</div>
 
-  <div class="final-cta">
-    <h2>Too many exams, too many deadlines? Talk to a mentor.</h2>
-    <p>Same marks, different colleges. A mentor turns this schedule into the right exam-and-college plan for your student.</p>
-    <div class="final-cta__btns">
-      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor →</a>
-      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
-    </div>
+    <aside class="xs-side">
+      <div class="xs-cta"><h3>Which exams are right for you?</h3><p>Not every student needs every exam. A mentor can shortlist the 4–6 that fit your marks, goals and eligibility.</p>
+        <a class="xs-btn w" href="{{ url_for('main.members_registration') }}">Talk to a Mentor →</a></div>
+      <div class="xs-box"><h3>📅 Add to your calendar</h3>
+        <p>One .ics file with every dated exam &mdash; works in Google, Apple and Outlook calendars, with 1-day reminders. Entries marked &ldquo;expected&rdquo; are windows, not exam days.</p>
+        <div style="display:grid;gap:8px;">
+          <a class="xs-btn n" href="{{ url_for('main.exam_schedule_ics') }}">⬇ Download all exams</a>
+          <a class="xs-btn g" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">WhatsApp for updates</a>
+        </div></div>
+      <div class="xs-box"><h3>Key milestones</h3>
+        {% for when, what in milestones %}<div class="xs-ms"><b>{{ when }}</b><span>{{ what }}</span></div>{% endfor %}</div>
+      <div class="xs-box"><h3>Contact</h3>
+        <div class="xs-ms"><b>Phone</b><span><a href="tel:+918015722706">+91-80157 22706</a></span></div>
+        <div class="xs-ms"><b>Email</b><span><a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a></span></div>
+        <div class="xs-ms"><b>Hours</b><span>Mon–Fri 9am–10pm · Sat–Sun 9am–4pm</span></div></div>
+    </aside>
+
+    <div class="xs-col">{% for c in cats if c.col == 'right' %}{{ cat_block(c) }}{% endfor %}</div>
   </div>
+
+  <section class="xs-more"><div class="xs-wrap xs-more-in">
+    <div class="xs-gi"><h3>Exam strategy by profile</h3><p>We shortlist exams from your marks, category, stream and career goal.</p><a href="{{ url_for('main.members_registration') }}">Talk to a mentor →</a></div>
+    <div class="xs-gi"><h3>JoSAA choice-filling</h3><p>Prepare your choice list before the counselling window opens.</p><a href="{{ url_for('main.josaa') }}">JoSAA guide →</a></div>
+    <div class="xs-gi"><h3>TNEA &amp; state counselling</h3><p>Marks-based rank, certificates and choice order for Tamil Nadu.</p><a href="{{ url_for('main.tnea_expert') }}">TNEA guidance →</a></div>
+    <div class="xs-gi"><h3>NRI admissions (DASA / CIWG)</h3><p>DASA, CIWG and NRI quota are different routes with different rules.</p><a href="{{ url_for('main.nri_guide') }}">NRI guide →</a></div>
+  </div></section>
+
+  <div class="xs-wrap xs-foot">Dates compiled from official notices and news reports in October 2026 and shown with their status. Several dates will change as notices are published; this page is updated when they do. EduAakashaA is not affiliated with NTA, IIT Bombay, the IIMs, state boards or any examining body.</div>
 </div>
 {% endblock %}
 
 {% block scripts %}
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const stream = document.getElementById('streamFilter');
-  const type = document.getElementById('typeFilter');
-  const status = document.getElementById('statusFilter');
-  const search = document.getElementById('searchFilter');
-  const rows = document.querySelectorAll('#examTable tbody tr');
-
-  function norm(v){ return (v||'').trim().toLowerCase(); }
-
-  function applyFilters() {
-    const s = norm(stream.value);
-    const t = norm(type.value);
-    const st = norm(status.value);
-    const q = norm(search.value);
-    rows.forEach((r) => {
-      const c = r.children;
-      const exam = norm(c[0].textContent);
-      const streamV = norm(c[2].textContent);
-      const typeV = norm(c[3].textContent);
-      const stateV = norm(c[4].textContent);
-      const statusV = norm(c[6].textContent);
-      let ok = true;
-      if (s && streamV !== s) ok = false;
-      if (t && typeV !== t) ok = false;
-      if (st && statusV !== st) ok = false;
-      if (q && !(exam.includes(q) || stateV.includes(q))) ok = false;
-      r.style.display = ok ? '' : 'none';
-    });
-  }
-
-  [stream, type, status].forEach((el) => el.addEventListener('change', applyFilters));
-  search.addEventListener('input', applyFilters);
+document.querySelectorAll('.xs-fb').forEach(function (b) {
+  b.addEventListener('click', function () {
+    document.querySelectorAll('.xs-fb').forEach(function (x) { x.classList.remove('on'); });
+    b.classList.add('on');
+    var f = b.dataset.f;
+    document.querySelectorAll('.xs-cat').forEach(function (s) { s.classList.toggle('xs-hide', f !== 'all' && s.dataset.cat !== f); });
+  });
 });
 </script>
 {% endblock %}

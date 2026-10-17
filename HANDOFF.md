@@ -118,6 +118,11 @@ see §6.
 
 ## 5. What was built recently (newest first)
 
+- **/exam-schedule rebuilt** from `services/exam_page.py` (status-labelled, .ics downloads) and a premium **/uceed-2027-roadmap** page
+  (official UCEED dates verified at uceed.iitb.ac.in/2027 on 17 Oct 2026; age/attempts/pattern shown as "reported — verify").
+  The user-supplied exam calendar had several conflicts with official sources (CAT, UCEED, CLAT, NID, KVPY, UPSEE…); the corrected
+  values are in `exam_page.py` and asserted in `tests/test_exam_schedule_page.py`.
+
 - **Mentorship Portal** (`/mentorship`, see `college-predictor/MENTORSHIP_PORTAL.md`): student / EA-mentor / parent
   dashboards over one record (`ms_*` tables), expandable 10+ session programmes, weekly check-ins, action + KPI
   engines, quarterly reviews, branch-fit matrix, college preference lists, calendar with source + verification,

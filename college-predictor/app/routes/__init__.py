@@ -224,7 +224,28 @@ def stream_selection():
 
 @main_bp.route('/exam-schedule')
 def exam_schedule():
-    return render_reference_page('exam-schedule.html', 'exam_schedule.html')
+    from app.services import exam_page
+    return render_template('exam_schedule.html', cats=exam_page.CATEGORIES, stats=exam_page.counts(),
+                           milestones=exam_page.MILESTONES, filters=exam_page.FILTERS, verified=exam_page.VERIFIED)
+
+
+@main_bp.route('/exam-schedule.ics')
+def exam_schedule_ics():
+    from flask import Response
+    from app.services import exam_page
+    return Response(exam_page.all_ics(), mimetype='text/calendar', headers={
+        'Content-Disposition': 'attachment; filename="India-Entrance-Exams-2026-27-EduAakashaa.ics"'})
+
+
+@main_bp.route('/exam-schedule/<exam_id>.ics')
+def exam_schedule_one_ics(exam_id):
+    from flask import Response, abort
+    from app.services import exam_calendar, exam_page
+    ev = exam_page.as_event(exam_page.find(exam_id)) if exam_page.find(exam_id) else None
+    if not ev:
+        abort(404)
+    return Response(exam_calendar.make_ics([ev], ev.name), mimetype='text/calendar', headers={
+        'Content-Disposition': f'attachment; filename="{exam_id}-eduaakashaa.ics"'})
 
 
 @main_bp.route('/join-our-team')
@@ -469,6 +490,21 @@ def dasa_2026_analytics():
 @premium_required
 def jee_2027_roadmap():
     return render_template('jee_2027_roadmap.html')
+
+
+# Institutes listed on the official UCEED 2027 site (uceed.iitb.ac.in/2027, checked 17 Oct 2026)
+UCEED_INSTITUTES = [
+    ('IIT Bombay', 'Mumbai', 'https://www.iitb.ac.in'), ('IIT Delhi', 'New Delhi', 'https://home.iitd.ac.in'),
+    ('IIT Guwahati', 'Guwahati', 'https://www.iitg.ac.in'), ('IIT Hyderabad', 'Hyderabad', 'https://iith.ac.in'),
+    ('IIT Indore', 'Indore', 'https://www.iiti.ac.in'), ('IIT Roorkee', 'Roorkee', 'https://www.iitr.ac.in'),
+    ('IIITDM Jabalpur', 'Jabalpur', 'https://www.iiitdmj.ac.in'),
+]
+
+
+@main_bp.route('/uceed-2027-roadmap')
+@premium_required
+def uceed_2027_roadmap():
+    return render_template('uceed_roadmap.html', institutes=UCEED_INSTITUTES)
 
 
 @main_bp.route('/why-cse')

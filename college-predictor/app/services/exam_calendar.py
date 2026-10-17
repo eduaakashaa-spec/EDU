@@ -209,6 +209,9 @@ def _fold(line):
 
 
 def description(x):
+    custom = getattr(x, 'ics_description', None)      # public exam-schedule page supplies its own text
+    if custom:
+        return custom
     bits = [f'Status: {x.status}.']
     if x.window_note:
         bits.append(x.window_note + '.')
