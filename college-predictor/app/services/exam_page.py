@@ -226,3 +226,13 @@ def all_events():
 
 def all_ics():
     return xc.make_ics(all_events(), 'India Entrance Exams 2026-27 - EduAakashaA')
+
+
+def timeline_data():
+    """Flat list for the Timeline / By-month / Calendar views (rendered client-side from one JSON blob)."""
+    out = []
+    for cat, row in all_exams():
+        id_, name, badge, when, status, desc, start, end, note = row
+        out.append({'id': id_, 'name': name, 'cat': cat['key'], 'catTitle': cat['title'], 'color': cat['grad'].split(',')[0],
+                    'status': status, 'start': start, 'end': end or start, 'when': when, 'badge': badge, 'desc': desc, 'note': note})
+    return out

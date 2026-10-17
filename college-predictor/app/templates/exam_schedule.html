@@ -1,88 +1,19 @@
 {% extends "base.html" %}
 {% block title %}India Entrance Exam Schedule 2026–27 | EduAakashaA{% endblock %}
 {% block meta_description %}
-<meta name="description" content="India entrance exam calendar for 2026–27 admissions: engineering, medicine, law, management, science, design and NRI routes — with Confirmed, Tentative and Expected dates and downloadable calendar reminders.">
+<meta name="description" content="India entrance exam calendar for 2026–27 admissions: engineering, medicine, law, management, science, design and NRI routes — card, timeline (Gantt), month-wise and calendar views, with Confirmed, Tentative and Expected dates and downloadable reminders.">
 {% endblock %}
 {% block head %}
-<style>
-  .xs { --xs-navy:#0E3A8A; --xs-ink:#0E1B3D; --xs-muted:#5A6278; --xs-hl:#E8DFC8; --xs-or:#FF6B0A; --xs-green:#1F8B5C; --xs-amber:#B8730A; }
-  .xs-wrap { max-width: 1380px; margin: 0 auto; padding: 0 24px; }
-  .xs-hero { background: linear-gradient(135deg, #0E3A8A, #0A2560); padding: 40px 0 32px; position: relative; overflow: hidden; }
-  .xs-hero::before { content: ""; position: absolute; right: -80px; top: -80px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(255,107,10,.2), transparent 65%); }
-  .xs-hero-in { position: relative; display: grid; grid-template-columns: 1.3fr 1fr; gap: 36px; align-items: center; }
-  .xs-eyebrow { display: inline-flex; gap: 7px; align-items: center; font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: rgba(255,255,255,.85); background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: 999px; padding: 5px 13px; margin-bottom: 12px; }
-  .xs-hero h1 { font-family: 'Fraunces', serif; font-size: clamp(28px, 3.6vw, 50px); font-weight: 800; letter-spacing: -.03em; line-height: 1.08; color: #fff; margin: 0 0 12px; }
-  .xs-hero h1 em { color: #FF8A3D; font-weight: 500; }
-  .xs-hero p.sub { color: rgba(255,255,255,.78); font-size: 15px; line-height: 1.7; margin: 0 0 16px; max-width: 62ch; }
-  .xs-hero-note { background: rgba(255,107,10,.14); border: 1px solid rgba(255,107,10,.34); border-radius: 10px; padding: 11px 15px; font-size: 13px; color: rgba(255,255,255,.88); line-height: 1.6; max-width: 66ch; }
-  .xs-hero-note strong { color: #FFB27A; }
-  .xs-stats { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); border-radius: 16px; padding: 14px; display: grid; grid-template-columns: 1fr 1fr; }
-  .xs-stat { padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.1); border-right: 1px solid rgba(255,255,255,.1); }
-  .xs-stat:nth-child(2n) { border-right: 0; } .xs-stat:nth-last-child(-n+2) { border-bottom: 0; }
-  .xs-stat b { display: block; font: 800 clamp(24px, 2.8vw, 34px) 'Fraunces', serif; color: #fff; line-height: 1; }
-  .xs-stat span { font: 500 8.5px 'JetBrains Mono', monospace; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.55); }
-  .xs-legend { background: #FFF6E3; border-bottom: 2px solid rgba(184,115,10,.25); padding: 11px 0; font-size: 13px; line-height: 1.65; color: var(--xs-ink); }
-  .xs-legend a { color: var(--xs-navy); font-weight: 600; text-decoration: none; }
-  .xs-bar { background: var(--paper, #FFFDF7); border-bottom: 1px solid var(--xs-hl); padding: 9px 0; position: sticky; top: 64px; z-index: 40; overflow-x: auto; }
-  .xs-bar .xs-wrap { display: flex; gap: 7px; align-items: center; white-space: nowrap; }
-  .xs-bar b { font: 600 9px 'JetBrains Mono', monospace; letter-spacing: .2em; text-transform: uppercase; color: var(--xs-muted); margin-right: 4px; }
-  .xs-fb { font: 600 9px 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; padding: 6px 13px; border-radius: 999px; border: 1px solid var(--xs-hl); background: #fff; color: var(--xs-muted); cursor: pointer; }
-  .xs-fb.on, .xs-fb:hover { background: var(--xs-navy); color: #fff; border-color: var(--xs-navy); }
-  .xs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: start; padding: 24px 24px 40px; }
-  .xs-col { display: flex; flex-direction: column; gap: 16px; }
-  .xs-side { position: sticky; top: 120px; display: flex; flex-direction: column; gap: 14px; }
-  .xs-ch { display: flex; align-items: center; gap: 9px; padding: 9px 14px; border-radius: 10px; margin-bottom: 7px; color: #fff; }
-  .xs-ch i { width: 8px; height: 8px; border-radius: 50%; display: block; flex: none; }
-  .xs-ch b { font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .16em; text-transform: uppercase; }
-  .xs-ch em { margin-left: auto; font: 500 9px 'JetBrains Mono', monospace; opacity: .7; font-style: normal; }
-  .xs-cards { display: flex; flex-direction: column; gap: 6px; }
-  .xs-card { background: var(--paper, #FFFDF7); border: 1px solid var(--xs-hl); border-left: 3px solid var(--c, #0E3A8A); border-radius: 0 10px 10px 0; padding: 11px 13px; transition: box-shadow .15s, transform .15s; }
-  .xs-card:hover { box-shadow: 0 8px 22px rgba(14,27,61,.12); transform: translateY(-1px); }
-  .xs-top { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
-  .xs-name { font-size: 13.5px; font-weight: 700; color: #071A44; line-height: 1.3; }
-  .xs-badge { font: 600 8px 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; white-space: nowrap; background: rgba(14,58,138,.1); color: var(--xs-navy); }
-  .xs-when { font: 600 10.5px 'JetBrains Mono', monospace; color: var(--xs-ink); margin: 5px 0 3px; display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-  .xs-st { font: 700 8px 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; }
-  .xs-st.Confirmed { background: rgba(31,139,92,.14); color: var(--xs-green); }
-  .xs-st.Tentative { background: rgba(232,154,28,.18); color: #8a5a0a; }
-  .xs-st.Expected { background: #ECEEF4; color: #4a5470; }
-  .xs-desc { font-size: 12px; color: var(--xs-muted); line-height: 1.55; }
-  .xs-note { display: inline-block; margin-top: 5px; font: 600 8.5px 'JetBrains Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--xs-amber); background: rgba(212,137,10,.1); padding: 2px 8px; border-radius: 999px; }
-  .xs-cal { display: inline-block; margin: 6px 0 0 8px; font: 700 9px 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; background: rgba(14,58,138,.08); color: var(--xs-navy); text-decoration: none; }
-  .xs-cal:hover { background: var(--xs-navy); color: #fff; }
-  .xs-box { background: var(--paper, #FFFDF7); border: 1px solid var(--xs-hl); border-radius: 14px; padding: 15px; box-shadow: 0 1px 4px rgba(14,27,61,.06); }
-  .xs-box h3 { font: 700 15px 'Fraunces', serif; color: #071A44; margin: 0 0 6px; }
-  .xs-box p { font-size: 12.5px; color: var(--xs-muted); line-height: 1.55; margin: 0 0 10px; }
-  .xs-cta { background: linear-gradient(135deg, #FF6B0A, #E55500); border-radius: 14px; padding: 16px; color: #fff; }
-  .xs-cta h3 { font: 700 16px 'Fraunces', serif; margin: 0 0 6px; color: #fff; } .xs-cta p { font-size: 12.5px; color: rgba(255,255,255,.92); line-height: 1.55; margin: 0 0 10px; }
-  .xs-btn { display: inline-flex; gap: 6px; align-items: center; justify-content: center; font: 700 12px 'Plus Jakarta Sans', sans-serif; padding: 9px 16px; border-radius: 999px; text-decoration: none; border: 0; cursor: pointer; }
-  .xs-btn.w { background: #fff; color: #D4560A; } .xs-btn.n { background: var(--xs-navy); color: #fff; } .xs-btn.n:hover { background: var(--xs-or); }
-  .xs-btn.g { background: #1c9c4f; color: #fff; }
-  .xs-ms { padding: 6px 0; border-bottom: 1px solid var(--xs-hl); display: flex; gap: 9px; font-size: 12px; }
-  .xs-ms:last-child { border: 0; } .xs-ms b { font: 700 9px 'JetBrains Mono', monospace; color: #C24E00; min-width: 56px; padding-top: 2px; }
-  .xs-hide { display: none; }
-  .xs-more { background: linear-gradient(135deg, #0E3A8A, #0A2560); padding: 34px 0; }
-  .xs-more-in { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
-  .xs-more .xs-gi { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); border-radius: 14px; padding: 18px; }
-  .xs-more h3 { font: 700 15px 'Fraunces', serif; color: #fff; margin: 0 0 6px; } .xs-more p { color: rgba(255,255,255,.78); font-size: 12.5px; line-height: 1.6; margin: 0 0 8px; }
-  .xs-more a { color: #FFB27A; font-weight: 700; font-size: 12px; text-decoration: none; }
-  .xs-foot { font-size: 12px; color: var(--xs-muted); padding: 18px 24px 40px; line-height: 1.7; }
-  html[data-theme="dark"] .xs-card, html[data-theme="dark"] .xs-box, html[data-theme="dark"] .xs-bar { background: #121c3a; border-color: #26325a; }
-  html[data-theme="dark"] .xs-name, html[data-theme="dark"] .xs-box h3 { color: #fff; } html[data-theme="dark"] .xs-desc, html[data-theme="dark"] .xs-box p, html[data-theme="dark"] .xs-when, html[data-theme="dark"] .xs-ms { color: #dfe4f2; }
-  html[data-theme="dark"] .xs-legend { background: #2a2414; color: #f1e6c8; } html[data-theme="dark"] .xs-fb { background: #0c1530; color: #dfe4f2; border-color: #26325a; }
-  @media (max-width: 1100px) { .xs-grid { grid-template-columns: 1fr 260px 1fr; } }
-  @media (max-width: 920px) { .xs-grid { grid-template-columns: 1fr; } .xs-side { position: static; order: -1; } .xs-hero-in { grid-template-columns: 1fr; } .xs-stats { display: none; } .xs-more-in { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 580px) { .xs-wrap { padding: 0 14px; } .xs-grid { padding: 18px 14px 30px; } .xs-more-in { grid-template-columns: 1fr; } .xs-bar { top: 56px; } }
-</style>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/exam_schedule.css') }}">
 {% endblock %}
 
 {% block content %}
 {% macro cat_block(c) %}
 <section class="xs-cat" data-cat="{{ c.key }}">
-  <div class="xs-ch" style="background:linear-gradient(135deg,{{ c.grad }})"><i style="background:{{ c.dot }}"></i><b>{{ c.title }}</b><em>{{ c.exams|length }} exams</em></div>
+  <div class="xs-ch" style="background:linear-gradient(135deg,{{ c.grad }})"><i style="background:{{ c.dot }}"></i><b>{{ c.title }}</b><em class="xs-cnt">{{ c.exams|length }} exams</em></div>
   <div class="xs-cards">
     {% for id, name, badge, when, status, desc, start, end, note in c.exams %}
-    <article class="xs-card" style="--c:{{ c.dot }}">
+    <article class="xs-card" id="card-{{ id }}" data-id="{{ id }}" style="--c:{{ c.dot }}">
       <div class="xs-top"><span class="xs-name">{{ name }}</span><span class="xs-badge">{{ badge }}</span></div>
       <div class="xs-when"><span>{{ when }}</span><span class="xs-st {{ status }}">{{ status }}</span></div>
       <div class="xs-desc">{{ desc }}</div>
@@ -122,13 +53,60 @@
     <a href="https://dasanit.org" target="_blank" rel="noopener">DASA</a> ·
     <a href="https://nta.ac.in" target="_blank" rel="noopener">NTA</a></div></div>
 
-  <div class="xs-bar"><div class="xs-wrap" role="toolbar" aria-label="Filter exams">
-    <b>Filter:</b>
-    {% for key, label in filters %}<button type="button" class="xs-fb {{ 'on' if key == 'all' }}" data-f="{{ key }}">{{ label }}</button>{% endfor %}
+  <!-- toolbar: view switch + filters -->
+  <div class="xs-bar"><div class="xs-wrap">
+    <div class="xs-row" role="tablist" aria-label="Calendar view">
+      <button type="button" class="xs-view on" role="tab" aria-selected="true" data-view="cards">▦ Cards</button>
+      <button type="button" class="xs-view" role="tab" aria-selected="false" data-view="gantt">▬ Timeline (Gantt)</button>
+      <button type="button" class="xs-view" role="tab" aria-selected="false" data-view="months">☰ By month</button>
+      <button type="button" class="xs-view" role="tab" aria-selected="false" data-view="calendar">▤ Calendar</button>
+      <span class="xs-grow"></span>
+      <label class="xs-search"><span class="xs-sr">Search exams</span><input type="search" id="xs-q" placeholder="Search exam…" autocomplete="off"></label>
+    </div>
+    <div class="xs-row" role="toolbar" aria-label="Filter exams">
+      {% for key, label in filters %}<button type="button" class="xs-fb {{ 'on' if key == 'all' }}" data-f="{{ key }}">{{ label }}</button>{% endfor %}
+      <span class="xs-sep"></span>
+      <button type="button" class="xs-sb on" data-s="all">Any status</button>
+      <button type="button" class="xs-sb" data-s="Confirmed">Confirmed</button><button type="button" class="xs-sb" data-s="Tentative">Tentative</button><button type="button" class="xs-sb" data-s="Expected">Expected</button>
+    </div>
   </div></div>
 
-  <div class="xs-wrap xs-grid">
-    <div class="xs-col">{% for c in cats if c.col == 'left' %}{{ cat_block(c) }}{% endfor %}</div>
+  <div class="xs-wrap xs-layout">
+    <main class="xs-main" id="xs-main">
+      <div class="xs-count" id="xs-count" aria-live="polite"></div>
+
+      <!-- 1. cards (masonry: filtered cards reflow, no empty columns) -->
+      <div class="xs-masonry" id="v-cards">
+        {% for c in cats %}{{ cat_block(c) }}{% endfor %}
+      </div>
+
+      <!-- 2. timeline -->
+      <div id="v-gantt" hidden>
+        <div class="xs-row" style="margin-bottom:10px;">
+          <button type="button" class="xs-sb on" data-gmode="detail">Detailed (one row per exam)</button>
+          <button type="button" class="xs-sb" data-gmode="cons">Consolidated (one row per category)</button>
+          <span class="xs-fine">Oct 2026 – Sep 2027 · solid = confirmed · striped = tentative · dashed = expected window</span>
+        </div>
+        <div class="xg-scroll"><div id="xg"></div></div>
+      </div>
+
+      <!-- 3. by month -->
+      <div id="v-months" hidden></div>
+
+      <!-- 4. month grid -->
+      <div id="v-calendar" hidden>
+        <div class="xs-row" style="margin-bottom:10px;align-items:center;">
+          <button type="button" class="xs-sb" id="cal-prev" aria-label="Previous month">‹</button><strong id="cal-title" class="xs-month-title"></strong>
+          <button type="button" class="xs-sb" id="cal-next" aria-label="Next month">›</button><button type="button" class="xs-sb" id="cal-today">This month</button>
+        </div>
+        <div class="xc-grid" id="xc"></div>
+        <div class="xs-box" id="xc-day" style="margin-top:12px;" hidden></div>
+      </div>
+
+      <div class="xs-box" id="xs-detail" hidden></div>
+      <div class="xs-box" id="xs-awaited" hidden></div>
+      <div class="xs-empty" id="xs-empty" hidden>No exams match these filters. <button type="button" class="xs-sb" id="xs-clear">Clear filters</button></div>
+    </main>
 
     <aside class="xs-side">
       <div class="xs-cta"><h3>Which exams are right for you?</h3><p>Not every student needs every exam. A mentor can shortlist the 4–6 that fit your marks, goals and eligibility.</p>
@@ -146,8 +124,6 @@
         <div class="xs-ms"><b>Email</b><span><a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a></span></div>
         <div class="xs-ms"><b>Hours</b><span>Mon–Fri 9am–10pm · Sat–Sun 9am–4pm</span></div></div>
     </aside>
-
-    <div class="xs-col">{% for c in cats if c.col == 'right' %}{{ cat_block(c) }}{% endfor %}</div>
   </div>
 
   <section class="xs-more"><div class="xs-wrap xs-more-in">
@@ -159,17 +135,7 @@
 
   <div class="xs-wrap xs-foot">Dates compiled from official notices and news reports in October 2026 and shown with their status. Several dates will change as notices are published; this page is updated when they do. EduAakashaA is not affiliated with NTA, IIT Bombay, the IIMs, state boards or any examining body.</div>
 </div>
+<script type="application/json" id="xs-data">{{ tdata|tojson }}</script>
 {% endblock %}
 
-{% block scripts %}
-<script>
-document.querySelectorAll('.xs-fb').forEach(function (b) {
-  b.addEventListener('click', function () {
-    document.querySelectorAll('.xs-fb').forEach(function (x) { x.classList.remove('on'); });
-    b.classList.add('on');
-    var f = b.dataset.f;
-    document.querySelectorAll('.xs-cat').forEach(function (s) { s.classList.toggle('xs-hide', f !== 'all' && s.dataset.cat !== f); });
-  });
-});
-</script>
-{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/exam_schedule.js') }}" defer></script>{% endblock %}

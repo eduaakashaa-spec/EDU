@@ -226,7 +226,8 @@ def stream_selection():
 def exam_schedule():
     from app.services import exam_page
     return render_template('exam_schedule.html', cats=exam_page.CATEGORIES, stats=exam_page.counts(),
-                           milestones=exam_page.MILESTONES, filters=exam_page.FILTERS, verified=exam_page.VERIFIED)
+                           milestones=exam_page.MILESTONES, filters=exam_page.FILTERS, verified=exam_page.VERIFIED,
+                           tdata=exam_page.timeline_data())
 
 
 @main_bp.route('/exam-schedule.ics')

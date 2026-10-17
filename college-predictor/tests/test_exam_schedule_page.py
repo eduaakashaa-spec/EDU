@@ -66,4 +66,17 @@ for href in sorted(set(re.findall(r'href="(/[^"#]*)"', t))):
         continue
     assert c.get(href).status_code in (200, 301, 302, 403), href
 
+# views: one JSON dataset drives Gantt / by-month / calendar; every id the script needs exists
+import json
+blob = re.search(r'<script type="application/json" id="xs-data">(.*?)</script>', t, re.S).group(1)
+rows = json.loads(blob.replace('\u003c', '<').replace('\u003e', '>').replace('\u0026', '&').replace('\u0027', "'"))
+assert len(rows) == st['total'] and all(r['status'] in ('Confirmed', 'Tentative', 'Expected') for r in rows)
+assert any(r['id'] == 'uceed' and r['start'] == '2027-01-17' for r in rows)
+for v in ('cards', 'gantt', 'months', 'calendar'):
+    assert f'data-view="{v}"' in t and f'id="v-{v}"' in t
+js = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'app/static/js/exam_schedule.js'), encoding='utf-8').read()
+missing = [i for i in sorted(set(re.findall(r"\$\('#([A-Za-z0-9_-]+)'\)", js))) if f'id="{i}"' not in t and i not in ('card-' + 'x',)]
+assert not [m for m in missing if not m.startswith('card-')], missing
+assert c.get('/static/js/exam_schedule.js').status_code == 200 and c.get('/static/css/exam_schedule.css').status_code == 200
+
 print('exam-schedule page checks passed')
