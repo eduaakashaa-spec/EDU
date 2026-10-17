@@ -104,6 +104,17 @@
                   <button class="btn btn-navy btn-sm" type="submit">Save plan</button>
                 </form>
 
+                <form method="post" action="{{ url_for('admin_portal.user_email', user_id=u.id) }}">
+                  <div>
+                    <label>Login email</label>
+                    <input type="email" name="email" required maxlength="200" value="{{ u.email }}" autocomplete="off">
+                  </div>
+                  <label style="display:flex; align-items:center; gap:5px; font-size:12px;">
+                    <input type="checkbox" name="notify" value="1" checked style="width:auto;"> tell old &amp; new address
+                  </label>
+                  <button class="btn btn-ghost btn-sm" type="submit">Change email</button>
+                </form>
+
                 <form method="post" action="{{ url_for('admin_portal.user_password', user_id=u.id) }}">
                   <div>
                     <label>New password</label>

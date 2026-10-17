@@ -464,6 +464,8 @@ The portal (`/mentorship`) gives each enrolled student, their parent and their m
 
 **Not yet automatic:** email/WhatsApp alerts are not connected (people see messages and unread badges when they open the portal), and there is no college/cutoff database — enter each choice with its year and source.
 
+**Changing a member's email:** Admin → Members → **Manage ▾** → *Login email* → **Change email**. The member then signs in with the new address (password and plan are untouched). Emails must be unique (case-insensitive). The *tell old & new address* box emails both addresses a notice from info@ so a wrong change can't go unnoticed. Applications and invoices keep the email they were submitted with.
+
 ### 3.9 Email Templates
 
 `/admin/templates` (the **Email Templates** tab, under the Broadcast group) is a

@@ -484,6 +484,49 @@ def user_update(user_id):
     return redirect(_users_url())
 
 
+@admin_portal_bp.route('/admin/users/<int:user_id>/email', methods=['POST'])
+@admin_required
+def user_email(user_id):
+    """Change a member's login email (e.g. a typo or a new address). Optionally tells both addresses."""
+    user = db.session.get(User, user_id)
+    if user is None:
+        flash('User not found.', 'danger')
+        return redirect(_users_url())
+    new = (request.form.get('email') or '').strip().lower()
+    if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', new) or len(new) > 200:
+        flash('Enter a valid email address.', 'danger')
+        return redirect(_users_url())
+    old = user.email
+    if new == (old or '').lower():
+        flash("That is already this member's email.", 'info')
+        return redirect(_users_url())
+    taken = User.query.filter(db.func.lower(User.email) == new, User.id != user.id).first()
+    if taken:
+        flash(f'{new} already belongs to another member ({taken.name}). Emails must be unique.', 'danger')
+        return redirect(_users_url())
+    user.email = new
+    db.session.commit()
+    msg = f'Email changed: {old} → {new}. The member now signs in with the new address (password unchanged).'
+    if request.form.get('notify') == '1':
+        _email_changed(user, old, new)
+        msg += ' Both addresses were notified.' if mail_configured() else ' (Notification not sent — email is not configured.)'
+    flash(msg, 'success')
+    return redirect(_users_url())
+
+
+def _email_changed(user, old, new):
+    first = (user.name or '').split(' ')[0] or 'there'
+    text = (f'Hi {first},\n\nThe email address on your EduAakashaA account was changed from {old} to {new} by our team. '
+            f'Use {new} to sign in from now on; your password is unchanged.\n\nIf you did not expect this, reply to this email '
+            'or write to info@eduaakashaa.com straight away.\n\nEduAakashaA')
+    html = branded_shell(f'<p>Hi {escape(first)},</p><p>The email address on your EduAakashaA account was changed from '
+                         f'<strong>{escape(old)}</strong> to <strong>{escape(new)}</strong> by our team. Use the new address to sign in from now on; '
+                         'your password is unchanged.</p><p>If you did not expect this, reply to this email or write to '
+                         '<a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a> straight away.</p>')
+    for to in (new, old):
+        send_async(to, 'Your EduAakashaA account email was changed', text, html, from_addr=mailer.INFO_FROM, reply_to=mailer.INFO_FROM)
+
+
 @admin_portal_bp.route('/admin/users/<int:user_id>/password', methods=['POST'])
 @admin_required
 def user_password(user_id):
