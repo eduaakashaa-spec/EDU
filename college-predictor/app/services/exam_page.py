@@ -228,11 +228,74 @@ def all_ics():
     return xc.make_ics(all_events(), 'India Entrance Exams 2026-27 - EduAakashaA')
 
 
+# --------------------------------------------------------------------------- #
+# Application / deadline milestones (checked 17 Oct 2026). kind: open | close | late | admit | result | other
+# status as above. A date of None means "announced as pending". Expected dates never make an application show as "open now".
+# --------------------------------------------------------------------------- #
+KIND_LABEL = {'open': 'Applications open', 'close': 'Applications close', 'late': 'Last date with late fee', 'admit': 'Admit card',
+              'result': 'Result', 'other': 'Next step'}
+KIND_ICON = {'open': '▶', 'close': '⏰', 'late': '⏳', 'admit': '🎫', 'result': '✅', 'other': '📌'}
+DEADLINES = {
+    'uceed': [('open', '2026-10-01', _C, 'Registration (regular fee) — official'), ('close', '2026-10-31', _C, None),
+              ('late', '2026-11-06', _T, 'Until 5 pm — reported; confirm on the site'), ('admit', '2027-01-01', _T, 'From this date — reported'),
+              ('result', '2027-03-06', _C, None), ('other', '2027-03-15', _C, 'Separate B.Des application (official)'), ('other', '2027-04-21', _C, 'Admission rounds begin (official)')],
+    'ceed': [('open', '2026-10-01', _T, 'Reported with UCEED'), ('close', '2026-10-31', _T, None), ('late', '2026-11-06', _T, 'Reported')],
+    'clat': [('open', '2026-08-03', _T, 'Announced by the Consortium (reported)'), ('close', '2026-10-31', _T, 'No extension confirmed'), ('result', None, _E, 'Date awaited')],
+    'ailet': [('open', '2026-08-07', _T, 'Announced by NLU Delhi (reported)'), ('close', '2026-11-10', _E, 'Reported as about 10 Nov — confirm'),
+              ('admit', '2026-11-30', _E, 'About this date'), ('result', '2026-12-22', _E, 'Fourth week of December')],
+    'slat': [('open', '2026-08-01', _T, 'Opened in August (exact day not stated)'), ('close', '2026-12-04', _T, 'Reported'),
+             ('admit', '2026-12-11', _T, 'Test 1 (Test 2: 18 Dec)'), ('result', '2027-01-12', _T, 'Reported')],
+    'nid-prelims': [('open', '2026-09-10', _C, 'NID Handbook 2027–28'), ('close', '2026-11-30', _C, None), ('admit', '2026-12-10', _C, 'From 4 pm'),
+                    ('result', '2027-03-16', _C, 'Re-totalling 16–17 Mar')],
+    'cat': [('open', '2026-08-03', _C, None), ('close', '2026-09-22', _C, 'Extended from 15 Sep'), ('admit', '2026-11-04', _C, 'Until the exam'),
+            ('result', None, _E, 'Date awaited — reports differ (late Dec to Jan)')],
+    'gate': [('open', '2026-09-02', _T, 'Reported'), ('close', '2026-09-27', _T, 'Regular deadline'), ('late', '2026-10-05', _T, 'Reported'),
+             ('result', '2027-03-19', _T, 'Reported by IIT Madras coverage')],
+    'jee-main-s1': [('open', '2026-10-25', _E, 'Expected late October'), ('close', '2026-11-25', _E, 'About a month later'), ('result', '2027-02-12', _E, 'About 12 Feb')],
+    'cuet-ug': [('open', '2027-01-15', _E, 'Notification expected ~January')],
+    'aeee': [('open', '2026-11-01', _E, 'Registration opens in November')],
+    'bitsat': [('open', '2026-12-01', _T, 'BITS announced December (tentative)')],
+    'srmjeee': [('open', '2026-11-01', _E, 'Expected from November')],
+    'nift': [('open', '2026-12-01', _E, 'Expected December'), ('close', None, _E, 'January 2027 — date awaited')],
+}
+
+
+def deadlines_for(exam_id):
+    out = []
+    for kind, d, status, note in DEADLINES.get(exam_id, []):
+        dt = date.fromisoformat(d).strftime('%d %b %Y').lstrip('0') if d else None
+        out.append({'k': kind, 'd': d, 'dt': dt, 's': status, 'n': note, 'label': KIND_LABEL[kind], 'icon': KIND_ICON[kind]})
+    return out
+
+
 def timeline_data():
     """Flat list for the Timeline / By-month / Calendar views (rendered client-side from one JSON blob)."""
     out = []
     for cat, row in all_exams():
         id_, name, badge, when, status, desc, start, end, note = row
         out.append({'id': id_, 'name': name, 'cat': cat['key'], 'catTitle': cat['title'], 'color': cat['grad'].split(',')[0],
-                    'status': status, 'start': start, 'end': end or start, 'when': when, 'badge': badge, 'desc': desc, 'note': note})
+                    'status': status, 'start': start, 'end': end or start, 'when': when, 'badge': badge, 'desc': desc, 'note': note,
+                    'ms': deadlines_for(id_)})
     return out
+
+
+def milestone_events(exam_id=None):
+    """Dated deadline milestones as ICS-ready events (all exams, or one)."""
+    rows = [(c, r) for c, r in all_exams() if exam_id in (None, r[0])]
+    out = []
+    for _c, r in rows:
+        for m in deadlines_for(r[0]):
+            if not m['d']:
+                continue
+            d = date.fromisoformat(m['d'])
+            tail = {'Confirmed': 'Announced by the conducting body.', 'Tentative': 'Reported date — confirm on the official site.',
+                    'Expected': 'EXPECTED — not announced; the real date may differ.'}[m['s']]
+            text = f"{m['label']} for {r[1]}. {m['n'] + '. ' if m['n'] else ''}{tail} {CONTACT_LINE}"
+            out.append(SimpleNamespace(id=f"{r[0]}-{m['k']}-{m['d']}", name=f"{r[1]} — {m['label']}", starts_on=d, ends_on=d,
+                                       status=m['s'], version=1, window_note=None, source=None, verified_on=VERIFIED, ics_description=text))
+    return out
+
+
+def deadlines_ics(exam_id=None):
+    name = 'Entrance exam deadlines 2026-27 - EduAakashaA'
+    return xc.make_ics(milestone_events(exam_id), name)

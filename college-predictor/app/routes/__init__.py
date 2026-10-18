@@ -227,7 +227,7 @@ def exam_schedule():
     from app.services import exam_page
     return render_template('exam_schedule.html', cats=exam_page.CATEGORIES, stats=exam_page.counts(),
                            milestones=exam_page.MILESTONES, filters=exam_page.FILTERS, verified=exam_page.VERIFIED,
-                           tdata=exam_page.timeline_data())
+                           tdata=exam_page.timeline_data(), dl={r[0]: exam_page.deadlines_for(r[0]) for _c, r in exam_page.all_exams()})
 
 
 @main_bp.route('/exam-schedule.ics')
@@ -238,6 +238,14 @@ def exam_schedule_ics():
         'Content-Disposition': 'attachment; filename="India-Entrance-Exams-2026-27-EduAakashaa.ics"'})
 
 
+@main_bp.route('/exam-schedule/deadlines.ics')
+def exam_schedule_deadlines_ics():
+    from flask import Response
+    from app.services import exam_page
+    return Response(exam_page.deadlines_ics(), mimetype='text/calendar', headers={
+        'Content-Disposition': 'attachment; filename="Entrance-Exam-Deadlines-2026-27-EduAakashaa.ics"'})
+
+
 @main_bp.route('/exam-schedule/<exam_id>.ics')
 def exam_schedule_one_ics(exam_id):
     from flask import Response, abort
@@ -245,7 +253,7 @@ def exam_schedule_one_ics(exam_id):
     ev = exam_page.as_event(exam_page.find(exam_id)) if exam_page.find(exam_id) else None
     if not ev:
         abort(404)
-    return Response(exam_calendar.make_ics([ev], ev.name), mimetype='text/calendar', headers={
+    return Response(exam_calendar.make_ics([ev] + exam_page.milestone_events(exam_id), ev.name), mimetype='text/calendar', headers={
         'Content-Disposition': f'attachment; filename="{exam_id}-eduaakashaa.ics"'})
 
 

@@ -44,7 +44,8 @@ for _cat, row in exam_page.all_exams():
         ics = c.get(f'/exam-schedule/{id_}.ics')
         assert ics.status_code == 200 and ics.mimetype == 'text/calendar', id_
         b = ics.data.decode().replace(chr(13) + chr(10) + ' ', '')     # RFC 5545 line unfolding
-        assert b.count('BEGIN:VEVENT') == 1 and 'www.eduaakashaa.com' in b and 'eduaakashaa.in' not in b
+        n_ms = len([m for m in exam_page.deadlines_for(id_) if m['d']])
+        assert b.count('BEGIN:VEVENT') == 1 + n_ms and 'www.eduaakashaa.com' in b and 'eduaakashaa.in' not in b      # exam + its dated deadlines
         if status == 'Expected':
             assert 'EXPECTED WINDOW ONLY' in b and 'TENTATIVE' in b       # never presented as a fixed exam day
         if status == 'Confirmed':
@@ -78,5 +79,38 @@ js = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 missing = [i for i in sorted(set(re.findall(r"\$\('#([A-Za-z0-9_-]+)'\)", js))) if f'id="{i}"' not in t and i not in ('card-' + 'x',)]
 assert not [m for m in missing if not m.startswith('card-')], missing
 assert c.get('/static/js/exam_schedule.js').status_code == 200 and c.get('/static/css/exam_schedule.css').status_code == 200
+
+# deadlines: milestones are well-formed, ordered, and carried by the page, the JSON, the cards and the .ics downloads
+from datetime import date as _d
+ids_all = {r[0] for _c, r in exam_page.all_exams()}
+assert set(exam_page.DEADLINES) <= ids_all
+for eid, ms in exam_page.DEADLINES.items():
+    for kind, d, status, _n in ms:
+        assert kind in exam_page.KIND_LABEL and status in ('Confirmed', 'Tentative', 'Expected')
+        assert d is None or _d.fromisoformat(d)
+    by = {k: d for k, d, _s2, _n in ms if d}
+    if 'open' in by and 'close' in by:
+        assert by['open'] <= by['close'], eid
+    if 'close' in by and 'late' in by:
+        assert by['close'] < by['late'], eid
+    if 'result' in by and 'exam' not in by:
+        row = exam_page.find(eid)
+        assert row and (row[7] is None or by['result'] >= row[7] or eid == 'cat'), eid          # a result never precedes its exam
+# the facts the user asked for
+u = {k: d for k, d, _s2, _n in exam_page.DEADLINES['uceed'] if d}
+assert u['open'] == '2026-10-01' and u['close'] == '2026-10-31' and u['late'] == '2026-11-06' and u['result'] == '2027-03-06'
+assert {k: d for k, d, _s2, _n in exam_page.DEADLINES['nid-prelims']}['close'] == '2026-11-30'
+assert {k: d for k, d, _s2, _n in exam_page.DEADLINES['slat']}['close'] == '2026-12-04'
+assert 'data-a="open"' in t and 'Late-fee window' in t and 'Applications:' in t and 'xs-next' in t and 'xs-deadlines' in t
+assert all('ms' in r for r in rows) and any(r['ms'] for r in rows)
+assert 'Last date with late fee' in t and 'Applications close' in t
+dics = c.get('/exam-schedule/deadlines.ics')
+db_ = dics.data.decode().replace(chr(13) + chr(10) + ' ', '')
+assert dics.status_code == 200 and db_.count('BEGIN:VEVENT') == len(exam_page.milestone_events()) > 30
+assert 'Late-fee' in db_ or 'late fee' in db_.lower()
+assert 'DTSTART;VALUE=DATE:20261106' in db_ and 'DTSTART;VALUE=DATE:20270306' in db_      # UCEED late-fee date and result
+assert any('EXPECTED' in ev for ev in db_.split('BEGIN:VEVENT'))                          # expected dates are flagged in the event text
+js2 = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'app/static/js/exam_schedule.js'), encoding='utf-8').read()
+assert 'Expected' in js2 and 'never' in js2.lower()                                      # the script documents that expected dates don't open applications
 
 print('exam-schedule page checks passed')

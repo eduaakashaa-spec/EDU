@@ -17,6 +17,10 @@
       <div class="xs-top"><span class="xs-name">{{ name }}</span><span class="xs-badge">{{ badge }}</span></div>
       <div class="xs-when"><span>{{ when }}</span><span class="xs-st {{ status }}">{{ status }}</span></div>
       <div class="xs-desc">{{ desc }}</div>
+      {% if dl.get(id) %}<span class="xs-appbadge" data-app="{{ id }}"></span>
+      <ul class="xs-dl" aria-label="Deadlines for {{ name }}">
+        {% for m in dl[id] %}<li><span class="xs-dl-k">{{ m.icon }} {{ m.label }}</span><span class="xs-dl-d">{% if m.d %}{{ m.dt }}{% else %}awaited{% endif %}</span><span class="xs-st {{ m.s }}">{{ m.s }}</span>{% if m.n %}<em>{{ m.n }}</em>{% endif %}</li>{% endfor %}
+      </ul>{% endif %}
       {% if note %}<span class="xs-note">{{ note }}</span>{% endif %}
       {% if start %}<a class="xs-cal" href="{{ url_for('main.exam_schedule_one_ics', exam_id=id) }}" aria-label="Add {{ name }} to calendar">📅 Add to calendar</a>{% endif %}
     </article>
@@ -69,6 +73,15 @@
       <button type="button" class="xs-sb on" data-s="all">Any status</button>
       <button type="button" class="xs-sb" data-s="Confirmed">Confirmed</button><button type="button" class="xs-sb" data-s="Tentative">Tentative</button><button type="button" class="xs-sb" data-s="Expected">Expected</button>
     </div>
+    <div class="xs-row" role="toolbar" aria-label="Application status">
+      <b class="xs-lbl">Applications:</b>
+      <button type="button" class="xs-ab on" data-a="all">Any</button>
+      <button type="button" class="xs-ab xs-ab-open" data-a="open">Open now <span class="xs-ct" data-ct="open"></span></button>
+      <button type="button" class="xs-ab" data-a="closing">Closing in 14 days <span class="xs-ct" data-ct="closing"></span></button>
+      <button type="button" class="xs-ab" data-a="late">Late-fee window <span class="xs-ct" data-ct="late"></span></button>
+      <button type="button" class="xs-ab" data-a="soon">Opening soon <span class="xs-ct" data-ct="soon"></span></button>
+      <button type="button" class="xs-ab" data-a="closed">Closed <span class="xs-ct" data-ct="closed"></span></button>
+    </div>
   </div></div>
 
   <div class="xs-wrap xs-layout">
@@ -85,7 +98,8 @@
         <div class="xs-row" style="margin-bottom:10px;">
           <button type="button" class="xs-sb on" data-gmode="detail">Detailed (one row per exam)</button>
           <button type="button" class="xs-sb" data-gmode="cons">Consolidated (one row per category)</button>
-          <span class="xs-fine">Oct 2026 – Sep 2027 · solid = confirmed · striped = tentative · dashed = expected window</span>
+          <label class="xs-chk"><input type="checkbox" id="xs-deadlines" checked> Show application windows &amp; results</label>
+          <span class="xs-fine">Oct 2026 – Sep 2027 · exam bars: solid = confirmed · striped = tentative · dashed = expected · <span class="xg-key app"></span> application window · <span class="xg-key late"></span> late-fee period · ◆ result</span>
         </div>
         <div class="xg-scroll"><div id="xg"></div></div>
       </div>
@@ -117,6 +131,8 @@
           <a class="xs-btn n" href="{{ url_for('main.exam_schedule_ics') }}">⬇ Download all exams</a>
           <a class="xs-btn g" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">WhatsApp for updates</a>
         </div></div>
+      <div class="xs-box"><h3>⏰ Next deadlines</h3><p>The next dates that need action — applications opening, closing, late-fee cut-offs and results.</p><div id="xs-next" aria-live="polite"></div>
+        <a class="xs-btn n" href="{{ url_for('main.exam_schedule_deadlines_ics') }}" style="margin-top:8px;">⬇ Deadlines calendar (.ics)</a></div>
       <div class="xs-box"><h3>Key milestones</h3>
         {% for when, what in milestones %}<div class="xs-ms"><b>{{ when }}</b><span>{{ what }}</span></div>{% endfor %}</div>
       <div class="xs-box"><h3>Contact</h3>
