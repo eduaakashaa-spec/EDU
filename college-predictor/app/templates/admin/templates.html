@@ -457,7 +457,12 @@
     cur.versions.forEach(function (v) {
       var b = document.createElement('button');
       b.type = 'button'; b.textContent = v.label; b.className = (v === ver ? 'on' : '');
-      b.addEventListener('click', function () { ver = v; renderVariants(); renderFields(); });
+      b.addEventListener('click', function () {
+        // drop values still equal to the old version's default, so the new version's own default (e.g. its link) is used;
+        // anything the admin typed or autofilled is kept
+        ver.fields.forEach(function (f) { if (values[f.key] === (f.default || '')) delete values[f.key]; });
+        ver = v; renderVariants(); renderFields(); update();
+      });
       elVariants.appendChild(b);
     });
   }
