@@ -1,0 +1,187 @@
+{
+  "_note": "Official pages the daily exam watcher reads. 'exams' are exam ids in app/services/exam_page.py; 'keywords' limit which sentences are tracked. Add a source here to watch it. Pages that block bots are listed under 'could not be read' in the report.",
+  "sources": [
+    {
+      "id": "jee-main",
+      "name": "JEE Main (NTA)",
+      "url": "https://jeemain.nta.nic.in/",
+      "exams": [
+        "jee-main-reg",
+        "jee-main-s1",
+        "jee-main-s2"
+      ],
+      "keywords": [
+        "registration",
+        "session",
+        "examination",
+        "application",
+        "exam date",
+        "bulletin"
+      ]
+    },
+    {
+      "id": "neet-ug",
+      "name": "NEET UG (NTA)",
+      "url": "https://neet.nta.nic.in/",
+      "exams": [
+        "neet-ug"
+      ],
+      "keywords": [
+        "registration",
+        "application",
+        "examination",
+        "exam date",
+        "bulletin"
+      ]
+    },
+    {
+      "id": "cuet-ug",
+      "name": "CUET UG (NTA)",
+      "url": "https://cuet.nta.nic.in/",
+      "exams": [
+        "cuet-ug",
+        "cuet-pg"
+      ],
+      "keywords": [
+        "registration",
+        "application",
+        "examination",
+        "exam date",
+        "bulletin"
+      ]
+    },
+    {
+      "id": "jipmat",
+      "name": "JIPMAT (NTA)",
+      "url": "https://exams.nta.nic.in/jipmat/",
+      "exams": [],
+      "keywords": [
+        "registration",
+        "application",
+        "examination",
+        "exam date",
+        "bulletin"
+      ]
+    },
+    {
+      "id": "josaa",
+      "name": "JoSAA",
+      "url": "https://josaa.nic.in/",
+      "exams": [
+        "josaa"
+      ],
+      "keywords": [
+        "registration",
+        "round",
+        "counselling",
+        "schedule",
+        "choice"
+      ]
+    },
+    {
+      "id": "uceed",
+      "name": "UCEED / CEED (IIT Bombay)",
+      "url": "https://www.uceed.iitb.ac.in/",
+      "exams": [
+        "uceed",
+        "ceed"
+      ],
+      "keywords": [
+        "registration",
+        "exam",
+        "result",
+        "admit card",
+        "application",
+        "date"
+      ]
+    },
+    {
+      "id": "clat",
+      "name": "CLAT (Consortium of NLUs)",
+      "url": "https://consortiumofnlus.ac.in/",
+      "exams": [
+        "clat"
+      ],
+      "keywords": [
+        "registration",
+        "exam",
+        "result",
+        "counselling",
+        "application",
+        "date"
+      ]
+    },
+    {
+      "id": "ailet",
+      "name": "AILET (NLU Delhi)",
+      "url": "https://nationallawuniversitydelhi.in/",
+      "exams": [
+        "ailet"
+      ],
+      "keywords": [
+        "ailet",
+        "application",
+        "exam",
+        "admit card",
+        "result"
+      ]
+    },
+    {
+      "id": "slat",
+      "name": "SLAT (Symbiosis)",
+      "url": "https://www.slat-test.org/",
+      "exams": [
+        "slat"
+      ],
+      "keywords": [
+        "slat",
+        "registration",
+        "test date",
+        "result"
+      ]
+    },
+    {
+      "id": "ipmat-indore",
+      "name": "IPMAT (IIM Indore)",
+      "url": "https://www.iimidr.ac.in/ipm/",
+      "exams": [],
+      "keywords": [
+        "ipm",
+        "application",
+        "exam",
+        "result",
+        "interview"
+      ]
+    },
+    {
+      "id": "cat",
+      "name": "CAT (IIMs)",
+      "url": "https://iimcat.ac.in/",
+      "exams": [
+        "cat"
+      ],
+      "keywords": [
+        "registration",
+        "exam",
+        "admit card",
+        "result",
+        "date"
+      ]
+    },
+    {
+      "id": "bitsat",
+      "name": "BITSAT (BITS Pilani)",
+      "url": "https://www.bitsadmission.com/",
+      "exams": [
+        "bitsat"
+      ],
+      "keywords": [
+        "bitsat",
+        "registration",
+        "application",
+        "test",
+        "date"
+      ]
+    }
+  ]
+}

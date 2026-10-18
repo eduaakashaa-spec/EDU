@@ -737,3 +737,5 @@ class Config:
 - **REST API:** Formalize with Flask-RESTX if you build a mobile app later.
 - **Razorpay Subscriptions API:** Switch from one-time orders to auto-recurring subscriptions if you want automatic monthly/yearly renewals.
 - **Email Notifications:** Send payment receipts, tier expiry reminders, and welcome emails via Flask-Mail or a transactional service like Resend/SendGrid.
+### Daily exam-date watch (automation)
+`.github/workflows/exam-dates-watch.yml` runs `college-predictor/scripts/exam_watch.py` every day (07:00 IST). It reads the official pages in `app/data/exam_sources.json`, diffs the date sentences against the previous run (kept in the Actions cache), and checks `app/services/exam_page.py` for Expected / Tentative rows that are due or past and a stale `VERIFIED` stamp. Findings open or update one GitHub issue labelled `exam-schedule` (report also saved as an artifact). **It never edits the site** — a person applies confirmed dates in `exam_page.py` and pushes. Limits: NTA portals return 403 to bots (reported as "could not be read"), and only date sentences near the configured keywords are tracked. Test: `tests/test_exam_watch.py`.
