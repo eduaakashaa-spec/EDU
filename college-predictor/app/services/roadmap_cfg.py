@@ -120,3 +120,63 @@ LAW = {
             'Understand counselling, seat allocation and fee-payment deadlines', 'Track offers and acceptances']},
     ],
 }
+
+# IPM: five-year Integrated Programme in Management at IIMs — IPMAT Indore, IPMAT Rohtak, JIPMAT (NTA).
+# No official 2027 dates exist yet: every target below is a planning assumption based on the 2026 cycle (IIM Indore held IPMAT on 4 May 2026).
+IPM = {
+    'key': 'ea-ipm27-v1', 'examName': 'IPMAT 2027', 'leadSource': 'ipm-roadmap', 'page': 'ipm-2027-roadmap',
+    'targets': [
+        {'id': 'indore27', 'label': 'IPMAT Indore 2027 — planning assumption: early May 2027 (not announced)', 'date': '2027-05-03', 'official': False},
+        {'id': 'rohtak27', 'label': 'IPMAT Rohtak 2027 — planning assumption: mid May 2027 (not announced)', 'date': '2027-05-10', 'official': False},
+        {'id': 'jipmat27', 'label': 'JIPMAT 2027 — planning assumption: April–June 2027 (not announced)', 'date': '2027-05-01', 'official': False},
+        {'id': 'next', 'label': 'Next cycle (2028) — planning assumption: early May 2028', 'date': '2028-05-01', 'official': False},
+    ],
+    'exam': '2027-05-03', 'examText': 'early May 2027 (assumed)', 'regClose': '2027-03-16', 'regText': 'mid-March 2027 (assumed from the 2026 cycle)',
+    'regNote': 'official 2027 dates are not announced yet — watch iimidr.ac.in/ipm and exams.nta.nic.in/jipmat',
+    'official': [['IPMAT 2026 held at IIM Indore (last cycle)', '2026-05-04', '4 May 2026 · 120 min'], ['IPMAT 2026 application window closed (last cycle)', '2026-03-17', '17 Mar 2026']],
+    'afterText': 'After the exam — results, shortlists, WAT / personal interview and offers are announced by each IIM (2027 dates awaited)',
+    'weights': LEVEL_WEIGHTS,
+    'types': {'quant': 'Quantitative ability', 'verbal': 'Verbal ability & reading', 'lrdi': 'Logical reasoning & data interpretation', 'current': 'Business awareness & GK',
+              'wat': 'Writing ability & interview practice', 'pyq': 'Previous-year papers', 'revision': 'Revision', 'mock': 'Mock test', 'error': 'Error-log review', 'off': 'School exam / holiday'},
+    'mixes': {'beginner': [['quant', .24], ['verbal', .22], ['lrdi', .10], ['current', .06], ['wat', .06], ['pyq', .06], ['revision', .08], ['error', .08], ['mock', .10]],
+              'intermediate': [['quant', .20], ['verbal', .18], ['lrdi', .10], ['current', .05], ['wat', .06], ['pyq', .10], ['revision', .08], ['error', .08], ['mock', .15]],
+              'advanced': [['quant', .14], ['verbal', .14], ['lrdi', .10], ['current', .04], ['wat', .08], ['pyq', .14], ['revision', .07], ['error', .10], ['mock', .19]]},
+    'mock': {'a': {'label': 'Score (%)', 'max': 100}, 'b': None},
+    'log': {'name': 'Practice', 'noun': 'practice sessions'},
+    'copy': {'roadTitle': 'Seven phases from first step to IIM admission', 'topicTitle': 'Topic-wise skill progress', 'logPh': 'e.g. Reading comprehension set', 'beginner': 'New to IPM preparation'},
+    'sample': {
+        'mocks': [{'ago': 21, 'a': 38, 'acc': 55, 'unf': 14, 'weak': 'Quantitative ability'}, {'ago': 14, 'a': 46, 'acc': 61, 'unf': 10, 'weak': 'Quantitative ability'},
+                  {'ago': 7, 'a': 55, 'acc': 67, 'unf': 7, 'weak': 'Verbal ability'}],
+        'logs': [{'ago': 1, 'min': 50, 'subject': 'Arithmetic'}, {'ago': 3, 'min': 35, 'subject': 'Reading comprehension'}],
+        'planner': [[0, 'quant', 'Percentages and ratio set', 50, True], [1, 'verbal', 'Reading comprehension: 2 passages', 40, False], [3, 'lrdi', 'Data interpretation set', 45, False], [5, 'mock', 'Sectional mock test', 90, False]],
+        'feedback': 'SAMPLE: Quant accuracy is improving. Spend this week on verbal reading speed and review your error log on Sunday.',
+    },
+    'phases': [
+        {'id': 'p1', 't': 'Orientation and baseline assessment', 'd': 'Personalised IPM readiness report', 'tasks': [
+            'Understand what the five-year IPM is and how it differs from a BBA or a 3-year degree', 'Learn the three exams: IPMAT Indore, IPMAT Rohtak and JIPMAT',
+            "Check each IIM's eligibility (age, Class 10 / 12 marks, qualifying year) in its own notice", 'Take a baseline test in quantitative and verbal ability',
+            'Decide your target IIMs and note every registration deadline', 'Set a realistic weekly study target']},
+        {'id': 'p2', 't': 'Build the core skill areas', 'd': 'Topic-wise progress dashboard and practice checklist', 'topic': True, 'tasks': [
+            'Quantitative: arithmetic, algebra, number systems, geometry, mensuration', 'Quantitative: permutation-combination, probability, data handling',
+            'Verbal: reading comprehension, para-jumbles, sentence correction, vocabulary', 'Logical reasoning and data interpretation (where the exam tests it)',
+            'Reading speed and stamina on long passages', 'Basic business awareness and current affairs for the interview round']},
+        {'id': 'p3', 't': 'Build a reading and numeracy habit', 'd': 'Weekly reading log and self-review checklist',
+         'note': 'Patterns differ — IPMAT Indore, IPMAT Rohtak and JIPMAT are not identical. Always follow the current official pattern for each.', 'tasks': [
+            'Read an editorial or long-form article every day', 'Summarise what you read in your own words', 'Daily mental-maths and speed practice',
+            'Maintain a formula and vocabulary notebook', 'Timed reading-comprehension sets', 'Revisit Class 9–12 maths foundations']},
+        {'id': 'p4', 't': 'Structured practice and problem solving', 'd': 'Accuracy dashboard, error log and improvement plan', 'tasks': [
+            'Topic-wise question sets', 'Timed sectional practice', 'Previous-year papers of IPMAT and JIPMAT', 'Error analysis', 'Track accuracy and time per section',
+            'Learn question selection (including short-answer / non-MCQ items where the exam has them)', 'Review recurring mistakes weekly']},
+        {'id': 'p5', 't': 'Mock tests and exam readiness', 'd': 'Mock-test analysis report and final revision checklist', 'tasks': [
+            'Timed sectional tests', "Full-length mocks in each exam's verified format", 'Analyse mistakes, not just marks', 'Practise skipping and negative-marking strategy',
+            'Track speed, accuracy and unattempted questions', 'Revise weak areas with a personalised plan']},
+        {'id': 'p6', 't': 'Final revision and examinations', 'd': 'Final readiness report', 'rev': True, 'tasks': [
+            'Revise high-priority concepts and notes', 'Review repeated error patterns', 'Practise under realistic time conditions',
+            'Check admit-card and exam-day rules on the official site', 'Plan travel and logistics for the test centre', 'Set a sleep, revision and confidence routine']},
+        {'id': 'p7', 't': 'Results, WAT / interview and IIM admission', 'after': True, 'd': 'IIM comparison matrix and admission action tracker',
+         'note': 'Taking the exam, being shortlisted, the WAT / personal interview, the final merit list and accepting a seat are separate steps.', 'tasks': [
+            'Track the official result and shortlist announcements', 'Prepare for the written ability test (WAT) and personal interview', 'Prepare documents (marksheets, category and PwD certificates) before deadlines',
+            "Understand each IIM's weightage of exam score, school marks, WAT and interview", 'Compare IIMs: fees, location, curriculum, exit options, outcomes',
+            'Understand fee payment and seat-acceptance deadlines', 'Track offers and acceptances']},
+    ],
+}

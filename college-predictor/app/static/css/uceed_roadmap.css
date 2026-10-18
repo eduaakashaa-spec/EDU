@@ -138,3 +138,6 @@ html[data-theme="dark"] .uc-ring::after { background: #121c3a; color: #fff; } ht
 @media (max-width: 900px) { .uc-hero-in { grid-template-columns: 1fr; } .uc-week { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .uc-wrap { padding: 0 14px; } .uc-sec { padding: 44px 0; } .uc-week { grid-template-columns: 1fr; } .uc-phase > summary { grid-template-columns: 52px 1fr; } .uc-phase > summary .tag { display: none; } .uc-nav { top: 56px; } }
 @media (prefers-reduced-motion: reduce) { .uc * { transition: none !important; scroll-behavior: auto !important; } }
+
+.uc-list { margin: 0; padding-left: 18px; line-height: 1.75; }
+.uc-list li { margin-bottom: 4px; }

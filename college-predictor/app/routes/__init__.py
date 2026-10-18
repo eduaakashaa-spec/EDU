@@ -528,6 +528,20 @@ def law_2027_roadmap():
     return render_template('law_roadmap.html', cfg=roadmap_cfg.LAW, nlus=CLAT_NLUS)
 
 
+# IIMs reported to run a five-year IPM (sources conflict on the full list; routes are reported, not confirmed — checked 18 Oct 2026)
+IPM_IIMS = [
+    ('IIM Indore', 'Indore', 'IPMAT Indore'), ('IIM Rohtak', 'Rohtak', 'IPMAT Rohtak'),
+    ('IIM Ranchi', 'Ranchi', 'IPMAT Indore score (reported)'), ('IIM Bodh Gaya', 'Bodh Gaya', 'JIPMAT'), ('IIM Jammu', 'Jammu', 'JIPMAT'),
+]
+
+
+@main_bp.route('/ipm-2027-roadmap')
+@premium_required
+def ipm_2027_roadmap():
+    from app.services import roadmap_cfg
+    return render_template('ipm_roadmap.html', cfg=roadmap_cfg.IPM, iims=IPM_IIMS)
+
+
 @main_bp.route('/uceed-2027-roadmap')
 @premium_required
 def uceed_2027_roadmap():

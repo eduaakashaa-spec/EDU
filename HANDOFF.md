@@ -123,6 +123,7 @@ see §6.
   (`PULSE_CRON_TOKEN` + the GitHub workflow, or a Render cron running `python manage.py send_pulse_reports`).
 
 - **/law-2027-roadmap** (premium) built on a now-shared roadmap engine (`roadmap_engine.js`, `_rm_tools.html`, `services/roadmap_cfg.py`);
+- **/ipm-2027-roadmap** (premium): IIM five-year IPM guide on the same engine (`roadmap_cfg.IPM`, `ipm_roadmap.html`, `IPM_IIMS` in routes). Official 2027 dates were not published (18 Oct 2026); IIM Rohtak and NTA sites could not be read, so those facts are 'reported — verify'. Update targets and labels when notices appear.
   the UCEED page uses the same engine. Law facts: CLAT 6 Dec 2026, AILET 13 Dec 2026, SLAT 19 & 26 Dec 2026 (all via news reports of the
   exam bodies' announcements — not the official PDFs); CLAT counselling and LSAT-India 2027 dates were not available. /exam-schedule updated to match.
 
