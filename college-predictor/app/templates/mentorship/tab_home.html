@@ -15,6 +15,10 @@
 </div>
 {% endif %}
 
+{% if pa_pending %}
+<div class="ms-note"><strong>Next step:</strong> please complete the short <a href="{{ url_for('mentorship.parent_assessment', eid=e.id) }}">parent assessment</a> (about 8 minutes) so {{ e.student.name }}&rsquo;s mentor can build a plan the whole family can sustain.</div>
+{% endif %}
+{% if role in ('mentor', 'admin') %}<div class="ms-note info"><a href="{{ url_for('mentorship.parent_assessment', eid=e.id) }}">View parent assessments</a></div>{% endif %}
 {% if role == 'parent' %}
 <div class="ms-note info">You are viewing {{ e.student.name }}'s mentorship as a parent. Private mentor notes and the student's personal reflections are not shown here — your mentor shares summaries when appropriate.
   {% if last_update %}Records last updated {{ fmt_dt(last_update, e.timezone) }}.{% endif %}</div>

@@ -457,3 +457,18 @@ class MsAlertRead(db.Model):
     __tablename__ = 'ms_alert_reads'
     alert_id = db.Column(db.Integer, db.ForeignKey('ms_alerts.id', ondelete='CASCADE'), primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+
+
+# --------------------------------------------------------------------------- #
+# Parent onboarding assessment (one per linked parent per student record)
+# --------------------------------------------------------------------------- #
+class MsParentAssessment(db.Model):
+    __tablename__ = 'ms_parent_assessments'
+    id = db.Column(db.Integer, primary_key=True)
+    enrolment_id = db.Column(db.Integer, db.ForeignKey('ms_enrolments.id', ondelete='CASCADE'), index=True, nullable=False)
+    parent_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    answers = db.Column(db.Text, default='{}')               # JSON of the form answers
+    invited_at = db.Column(db.DateTime)                      # last time the invitation email was queued
+    submitted_at = db.Column(db.DateTime)
+    __table_args__ = (db.UniqueConstraint('enrolment_id', 'parent_id'),)
+    parent = db.relationship('User')

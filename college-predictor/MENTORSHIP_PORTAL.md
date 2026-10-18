@@ -181,3 +181,7 @@ Admin → Mentorship for configuration. Pushing to `main` deploys via Render aut
 
 **Extending:** a new grade or pathway is a new `MsProgramme` row plus its session templates (Admin → Mentorship). New KPI presets go in `services.mentorship.PRESET_KPIS`;
 attention thresholds are editable in the admin page; new tabs are a function `_tab_<name>` in `routes/mentorship.py`, a template `tab_<name>.html` and an entry in `services.mentorship.TABS`.
+
+## Parent onboarding assessment
+
+When an admin links a parent (new or existing account), the parent is emailed from info@eduaakashaa.com with direct links to **that student's** dashboard and to `/mentorship/e/<id>/parent-assessment`. Only a parent linked to that enrolment (plus the assigned mentor and admin, read-only) can open it; the student gets 403 and other students' parents get 404. Answers are stored per parent in `ms_parent_assessments` (JSON), the parent's dashboard shows a "Next step" nudge until submitted, and Admin → Mentorship shows *assessment submitted / pending* with a **resend invite** button. If email is not configured nothing is sent and the admin is told.

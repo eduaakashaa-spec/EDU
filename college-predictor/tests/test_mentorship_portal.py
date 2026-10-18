@@ -505,6 +505,56 @@ assert b'student' in post(admin, '/mentorship/admin/parent', enrolment_id=E1, pa
 _AP.send_async, _AP.mail_configured = _ap_orig
 _ml.is_configured = _ml_orig
 
+# ---- parent onboarding assessment: invitation email is tied to the student; only the linked parent can answer ----------------------------
+from app.routes import mentorship as _MR
+from app.models_mentorship import MsParentAssessment
+_sent = []
+_mr_orig = (_MR.mailer.send_async, _MR.mailer.is_configured)
+_MR.mailer.send_async = lambda to, subject, text, html=None, **k: _sent.append((to, subject, text, html))
+_MR.mailer.is_configured = lambda: True
+_AP.mail_configured = lambda: True
+_AP.send_async = lambda *a, **k: None
+r = post(admin, '/mentorship/admin/parent', enrolment_id=E1, parent_email='second@demo.test', parent_name='Sita Rao', relation='Mother', create='1')
+assert b'assessment invitation was emailed' in r.data and len(_sent) == 1
+to, subj, txt, html = _sent[0]
+assert to == 'second@demo.test' and 'Parent assessment for' in subj
+assert f'/mentorship/e/{E1}/parent-assessment' in txt and f'/mentorship/e/{E1}/home' in txt and 'www.eduaakashaa.com' in txt     # links are tied to this student
+with app.app_context():
+    sec = User.query.filter_by(email='second@demo.test').one()
+    pa = MsParentAssessment.query.filter_by(enrolment_id=E1, parent_id=sec.id).one()
+    assert pa.invited_at is not None and pa.submitted_at is None
+sec_c = app.test_client()
+# the new parent's temporary password is not in these mails; reset it to sign in for the test
+with app.app_context():
+    from app.extensions import bcrypt as _bc
+    User.query.filter_by(email='second@demo.test').one().password_hash = _bc.generate_password_hash('x').decode()
+    db.session.commit()
+sec_c.post('/login', data={'email': 'second@demo.test', 'password': 'x'})
+page = sec_c.get(f'/mentorship/e/{E1}/parent-assessment')
+assert page.status_code == 200 and b'Parent onboarding assessment' in page.data
+assert b'parent assessment' in sec_c.get(f'/mentorship/e/{E1}/home').data                        # dashboard nudge while pending
+assert sec_c.get(f'/mentorship/e/{E2}/parent-assessment').status_code == 404                     # a different student: no access
+ok = sec_c.post(f'/mentorship/e/{E1}/parent-assessment', data={'goals': 'Good CS seat', 'budget': '2–5 lakh', 'documents': ['Passport', 'bogus'], 'routes': 'JoSAA'})
+assert ok.status_code == 302
+with app.app_context():
+    pa = MsParentAssessment.query.filter_by(enrolment_id=E1, parent_id=sec.id).one()
+    import json as _j
+    a = _j.loads(pa.answers)
+    assert pa.submitted_at and a['goals'] == 'Good CS seat' and a['documents'] == ['Passport'] and a['budget'] == '2–5 lakh'
+assert b'parent assessment' not in sec_c.get(f'/mentorship/e/{E1}/home').data.replace(b'Parent assessment', b'')     # nudge gone once submitted
+assert b'Good CS seat' in admin.get(f'/mentorship/e/{E1}/parent-assessment').data                # staff can read it
+st = app.test_client()
+st.post('/login', data={'email': 's1@demo.test', 'password': 'x'})
+assert st.get(f'/mentorship/e/{E1}/parent-assessment').status_code == 403                        # the student cannot see parent answers
+assert b'assessment submitted' in admin.get('/mentorship/admin').data
+with app.app_context():
+    from app.models_mentorship import MsParentLink as _PL
+    _lid = _PL.query.filter_by(enrolment_id=E1, parent_id=sec.id).one().id
+n = len(_sent)
+assert b'emailed to second@demo.test' in post(admin, '/mentorship/admin/parent/%d/invite' % _lid).data and len(_sent) == n + 1      # resend invite
+assert app.test_client().get(f'/mentorship/e/{E1}/parent-assessment').status_code in (302, 401)
+_MR.mailer.send_async, _MR.mailer.is_configured = _mr_orig
+
 # rules are admin-editable
 post(admin, '/mentorship/admin/rules', due_soon_days='5', overdue_attention='2', checkin_gap_days='14', low_confidence='1', exam_window_days='30')
 with app.app_context():

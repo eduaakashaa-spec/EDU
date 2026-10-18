@@ -23,7 +23,7 @@ from app.models_membership import Setting
 from app.models_mentorship import (
     ACTION_STATUSES, ADMISSION_ROUTES, ELIGIBILITY, EVENT_CATEGORIES, KPI_DIRECTIONS, PREF_LIST_STATUSES,
     REVIEW_STATUSES, SESSION_STATUSES, MsAction, MsAudit, MsBranch, MsBranchFit, MsBranchRating, MsCheckin,
-    MsEnrolment, MsEvent, MsKpi, MsKpiObs, MsMessage, MsMessageRead, MsParentLink, MsPrefEntry, MsPrefList,
+    MsEnrolment, MsEvent, MsKpi, MsParentAssessment, MsKpiObs, MsMessage, MsMessageRead, MsParentLink, MsPrefEntry, MsPrefList,
     EXAM_STATUSES, MsAlert, MsExam, MsExamFocus, MsProgramme, MsReport, MsReview, MsSession, MsSessionTemplate,
 )
 from app.services import exam_calendar as xc
@@ -222,6 +222,7 @@ def workspace(eid, tab):
                followed_ids={f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()},
                unread=svc.unread_count(e, current_user, role), staff=role in STAFF,
                SESSION_STATUSES=SESSION_STATUSES, PRIORITIES=PRIORITIES)
+    ctx['pa_pending'] = (role == 'parent' and not MsParentAssessment.query.filter(MsParentAssessment.enrolment_id == e.id, MsParentAssessment.parent_id == current_user.id, MsParentAssessment.submitted_at != None).count())  # noqa: E711
     ctx.update(globals()['_tab_' + tab](e, role))
     return render_template(f'mentorship/tab_{tab}.html', **ctx)
 
@@ -1032,6 +1033,7 @@ def admin_home():
                            rules=[(k, svc.rule(k), svc.RULE_HELP[k]) for k in svc.RULES],
                            prog_events=MsEvent.query.filter(MsEvent.programme_id != None).order_by(MsEvent.starts_on).all(),  # noqa: E711
                            EVENT_CATEGORIES=EVENT_CATEGORIES, links=MsParentLink.query.all(), today=svc.today(),
+                           pa_done={(a.enrolment_id, a.parent_id): True for a in MsParentAssessment.query.filter(MsParentAssessment.submitted_at != None).all()},  # noqa: E711
                            exams=MsExam.query.order_by(MsExam.active.desc(), MsExam.starts_on).all(), EXAM_STATUSES=EXAM_STATUSES,
                            fmt_range=xc.fmt_range)
 
@@ -1181,7 +1183,98 @@ def admin_parent_link():
             _email_new_member(parent, created_pw)
             msg = (f'Parent account created for {parent.email} and linked. ' +
                    ('Login details were emailed to them.' if _mail_ok() else f'Email is not configured, so share these login details yourself — email {parent.email}, temporary password {created_pw}'))
+        invited = _invite_parent(e, parent)
+        msg += (' The assessment invitation was emailed.' if invited else
+                ' Email is not configured, so no invitation was sent — the parent will see the assessment on their dashboard.')
         flash(msg, 'success')
+    return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
+
+
+PA_QUESTIONS = (   # key, label, kind, choices
+    ('goals', 'What are your goals and expectations for your child?', 'text', None),
+    ('routes', 'Which routes or countries are you considering? (for example JoSAA, DASA, state counselling, abroad)', 'text', None),
+    ('budget', 'Budget comfort zone for tuition, hostel and travel (per year)', 'choice', ('Not decided yet', 'Under 2 lakh', '2–5 lakh', '5–10 lakh', 'Above 10 lakh')),
+    ('documents', 'Documents already available', 'multi', ('Mark sheets', 'Passport', 'Category / income certificate', 'Domicile certificate', 'Employer certificate (NRI / DASA)', 'Visa / OCI')),
+    ('constraints', 'Practical constraints we should know about (relocation, siblings, work schedule)', 'text', None),
+    ('contact', 'Best way and time to reach you', 'text', None),
+)
+
+
+def _invite_parent(e, parent):
+    """Email the parent a notice that they are connected to this student, with direct links to the student's
+    workspace and the parent assessment (both are protected by the parent<->student link). Returns True if queued."""
+    row = MsParentAssessment.query.filter_by(enrolment_id=e.id, parent_id=parent.id).first()
+    if row is None:
+        row = MsParentAssessment(enrolment_id=e.id, parent_id=parent.id)
+        db.session.add(row)
+    if not mailer.is_configured():
+        db.session.commit()
+        return False
+    from markupsafe import escape
+    from app.services.email_templates import SITE, branded_shell
+    first = (parent.name or 'there').split(' ')[0]
+    student = e.student.name
+    home = SITE + url_for('mentorship.workspace', eid=e.id, tab='home')
+    link = SITE + url_for('mentorship.parent_assessment', eid=e.id)
+    text = (f"Dear {first},\n\nYou are now connected to {student}'s EduAakashaA mentorship record as a parent. You can follow progress, "
+            f"sessions and reports here:\n{home}\n\nPlease complete a short parent assessment (about 8 minutes) so we can build a plan the whole family "
+            f"can sustain. It covers your goals, routes considered, budget comfort, documents and constraints.\n{link}\n\n"
+            f"Please let {student} complete their own assessment independently. Sign in with your registered email to open the links.\n\n— Team EduAakashaA")
+    html = branded_shell(f"<p style='margin:0 0 8px'>Dear {escape(first)},</p>"
+                         f"<p>You are now connected to <strong>{escape(student)}</strong>&rsquo;s EduAakashaA mentorship record as a parent.</p>"
+                         f"<p><a href='{home}'>Open {escape(student)}&rsquo;s mentorship dashboard</a></p>"
+                         "<p>Please complete a short <strong>parent assessment</strong> (about 8 minutes) so we can build a plan the whole family can sustain.</p>"
+                         f"<p><a href='{link}' style='background:#FF6B0A;color:#fff;padding:10px 18px;border-radius:8px;text-decoration:none;font-weight:700;'>Start the parent assessment</a></p>"
+                         f"<p style='font-size:13px'>Please let {escape(student)} complete their own assessment independently. Sign in with your registered email to open these links.</p>")
+    mailer.send_async(parent.email, f'Parent assessment for {student} — 8 minutes', text, html, from_addr=mailer.INFO_FROM, reply_to=mailer.INFO_FROM)
+    row.invited_at = svc.utcnow()
+    svc.audit(e, 'parent.invited', parent.email, 'admin')
+    db.session.commit()
+    return True
+
+
+@mentorship_bp.route('/e/<int:eid>/parent-assessment', methods=['GET', 'POST'])
+@login_required
+def parent_assessment(eid):
+    """Parents fill it in (only for the student they are linked to); staff see every submission read-only."""
+    import json
+    e, role = _ctx(eid, need=('parent', 'mentor', 'admin'))
+    if role in STAFF:
+        rows = MsParentAssessment.query.filter_by(enrolment_id=e.id).all()
+        data = [(r, json.loads(r.answers or '{}')) for r in rows]
+        return render_template('mentorship/parent_assessment.html', e=e, role=role, qs=PA_QUESTIONS, staff_rows=data, row=None, ans={})
+    row = MsParentAssessment.query.filter_by(enrolment_id=e.id, parent_id=current_user.id).first()
+    if row is None:
+        row = MsParentAssessment(enrolment_id=e.id, parent_id=current_user.id)
+        db.session.add(row)
+        db.session.flush()
+    if request.method == 'POST':
+        ans = {}
+        for key, _label, kind, choices in PA_QUESTIONS:
+            if kind == 'multi':
+                ans[key] = [c for c in request.form.getlist(key) if c in choices]
+            elif kind == 'choice':
+                v = _s(key, 60)
+                ans[key] = v if v in choices else ''
+            else:
+                ans[key] = _s(key, 1500)
+        row.answers = json.dumps(ans)
+        row.submitted_at = svc.utcnow()
+        svc.audit(e, 'parent.assessment', current_user.email, 'parent')
+        db.session.commit()
+        flash('Thank you — your assessment was saved and shared with your child\'s mentor.', 'success')
+        return redirect(url_for('mentorship.parent_assessment', eid=e.id))
+    db.session.commit()
+    return render_template('mentorship/parent_assessment.html', e=e, role=role, qs=PA_QUESTIONS, staff_rows=None, row=row, ans=json.loads(row.answers or '{}'))
+
+
+@mentorship_bp.route('/admin/parent/<int:lid>/invite', methods=['POST'])
+@admin_required
+def admin_parent_invite(lid):
+    link = db.session.get(MsParentLink, lid) or abort(404)
+    e = db.session.get(MsEnrolment, link.enrolment_id)
+    ok = _invite_parent(e, link.parent)
+    flash(f'Assessment invitation emailed to {link.parent.email}.' if ok else 'Email is not configured on this server, so nothing was sent.', 'success' if ok else 'danger')
     return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
 
 

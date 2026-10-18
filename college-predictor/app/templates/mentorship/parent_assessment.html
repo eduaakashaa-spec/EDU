@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Parent assessment — {{ e.student.name }} | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/mentorship.css') }}">{% endblock %}
+{% block content %}
+<div class="ms">
+  <div class="ms-crumbs"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}">{{ e.student.name }}</a> › Parent assessment</div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="ms-flash" role="status">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+
+  <section class="ms-head"><div class="grow">
+    <span class="ms-chip">{{ 'Parent view' if role == 'parent' else 'Mentor view' }}</span>
+    <h1 style="margin-top:8px;">Parent onboarding assessment</h1>
+    <div class="sub">For {{ e.student.name }} · about 8 minutes</div></div></section>
+
+  {% if staff_rows is not none %}
+  <div class="ms-note info">Answers submitted by parents linked to {{ e.student.name }}. Visible to the mentor and admin only.</div>
+  {% for r, a in staff_rows %}
+  <div class="ms-card"><h2>{{ r.parent.name }} <span class="ms-pill {{ 'ok' if r.submitted_at else 'warn' }}">{{ 'Submitted' if r.submitted_at else 'Pending' }}</span></h2>
+    {% if r.submitted_at %}{% for key, label, kind, ch in qs %}<p><strong>{{ label }}</strong><br>{{ (a.get(key) | join(', ')) if kind == 'multi' else (a.get(key) or '—') }}</p>{% endfor %}{% endif %}</div>
+  {% else %}<div class="ms-card">No parent is linked yet.</div>{% endfor %}
+  {% else %}
+  <div class="ms-note info">Parents see things we cannot — the household routine, budget and practical constraints. Your answers go to {{ e.student.name }}&rsquo;s mentor only. Please let {{ e.student.name }} complete their own assessment independently.
+    {% if row.submitted_at %}<br><strong>Submitted on {{ row.submitted_at.strftime('%d %b %Y') }}</strong> — you can update your answers below.{% endif %}</div>
+  <form method="post" class="ms-card">
+    {% for key, label, kind, ch in qs %}
+    <div style="margin-bottom:14px;">
+      {% if kind == 'text' %}<label class="f" for="q-{{ key }}">{{ label }}</label><textarea id="q-{{ key }}" name="{{ key }}" rows="3" maxlength="1500">{{ ans.get(key, '') }}</textarea>
+      {% elif kind == 'choice' %}<label class="f" for="q-{{ key }}">{{ label }}</label><select id="q-{{ key }}" name="{{ key }}"><option value="">—</option>{% for c in ch %}<option {{ 'selected' if ans.get(key) == c }}>{{ c }}</option>{% endfor %}</select>
+      {% else %}<label class="f">{{ label }}</label>{% for c in ch %}<label style="display:flex;gap:8px;align-items:center;text-transform:none;"><input type="checkbox" name="{{ key }}" value="{{ c }}" style="width:auto;" {{ 'checked' if c in ans.get(key, []) }}> {{ c }}</label>{% endfor %}
+      {% endif %}
+    </div>
+    {% endfor %}
+    <button class="ms-btn p">Save assessment</button>
+  </form>
+  {% endif %}
+</div>
+{% endblock %}
