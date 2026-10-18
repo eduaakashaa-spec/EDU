@@ -1144,18 +1144,45 @@ def admin_enrolment_update(eid):
 @mentorship_bp.route('/admin/parent', methods=['POST'])
 @admin_required
 def admin_parent_link():
+    import re
+    import secrets
     e = db.session.get(MsEnrolment, _int('enrolment_id') or 0)
-    parent = User.query.filter_by(email=_s('parent_email', 200).lower()).first()
-    if not e or not parent:
-        flash('Enrolment and an existing parent account (by email) are required.', 'danger')
+    email = _s('parent_email', 200).lower()
+    parent = User.query.filter(db.func.lower(User.email) == email).first() if email else None
+    created_pw = None
+    if e is None:
+        flash('That student record was not found — refresh the page and try again.', 'danger')
+        return redirect(url_for('mentorship.admin_home'))
+    if not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', email):
+        flash('Enter a valid parent email address.', 'danger')
+        return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
+    if parent is None and request.form.get('create') == '1':
+        from app.extensions import bcrypt
+        created_pw = secrets.token_urlsafe(9)
+        parent = User(name=_s('parent_name', 120) or email.split('@')[0].replace('.', ' ').title(), email=email, tier='free',
+                      password_hash=bcrypt.generate_password_hash(created_pw).decode())
+        db.session.add(parent)
+        db.session.flush()
+    if parent is None:
+        flash(f'{email} has no EduAakashaA account yet. Tick “Create the parent account” and link again — they will be emailed their login details.', 'danger')
+    elif parent.id == e.student_id:
+        flash('The parent account cannot be the student’s own account.', 'danger')
+        db.session.rollback()
     elif MsParentLink.query.filter_by(enrolment_id=e.id, parent_id=parent.id).first():
         flash('That parent is already linked.', 'info')
     else:
         db.session.add(MsParentLink(enrolment_id=e.id, parent_id=parent.id, relation=_s('relation', 40) or 'Parent'))
-        svc.audit(e, 'parent.linked', parent.email, 'admin')
+        svc.audit(e, 'parent.linked', parent.email + (' (account created)' if created_pw else ''), 'admin')
         db.session.commit()
-        flash('Parent linked to the student record.', 'success')
-    return redirect(url_for('mentorship.admin_home'))
+        msg = 'Parent linked to the student record.'
+        if created_pw:
+            from app.routes.admin_portal import _email_new_member
+            from app.services.mailer import is_configured as _mail_ok
+            _email_new_member(parent, created_pw)
+            msg = (f'Parent account created for {parent.email} and linked. ' +
+                   ('Login details were emailed to them.' if _mail_ok() else f'Email is not configured, so share these login details yourself — email {parent.email}, temporary password {created_pw}'))
+        flash(msg, 'success')
+    return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
 
 
 @mentorship_bp.route('/admin/parent/<int:lid>/remove', methods=['POST'])

@@ -453,7 +453,7 @@ The portal (`/mentorship`) gives each enrolled student, their parent and their m
 1. Click **Load standard 10-session programme** (edit titles, topics, deliverables, order — or add an 11th, 12th… core session — any time; changes apply to students enrolled afterwards).
 2. Make sure the mentor's account has the **EA Mentor** role and the student/parent have accounts. The student also needs **Premium** access.
 3. **Enrol a student**: pick the programme, mentor, start date and how many *extra* sessions the package includes.
-4. **Link parent**: enter the parent's account email under the enrolment.
+4. **Link parent**: enter the parent's email under the enrolment. If they have no account yet, leave *Create the parent's account* ticked — an account is created and the login details are emailed to them.
 5. Under **Programme calendar** add the real exam/counselling dates with the official source and the date you last checked it.
 
 **Day to day (mentor):** Member Home → Mentorship Portal → *Mentor dashboard*. The cards filter the list (upcoming sessions, sessions awaiting notes, follow-ups due, overdue actions, needing attention, reviews due, reports pending…). Open a student to schedule/record sessions, assign actions, review the weekly check-in, set KPIs, run the quarterly review and generate the report (**Generate → Approve → Share**).

@@ -477,6 +477,34 @@ assert 'Exam removed: DEMO Test Exam 2027' in s1.get(f'/mentorship/e/{E1}/home')
 assert 'DEMO Test Exam 2027' not in s1.get(f'/mentorship/e/{E1}/calendar').get_data(as_text=True).split('Exams you can follow')[1].split('Share the calendar')[0]
 _mailer.is_configured, _mailer.send_async, _mailer.send_bulk = _orig
 
+# ---- admin: link a parent who has no account yet (the account is created and emailed) --------------------------------------------------
+from app.routes import admin_portal as _AP
+_mails = []
+_ap_orig = (_AP.send_async, _AP.mail_configured)
+_AP.send_async = lambda to, subject, text, html=None, **k: _mails.append((to, subject, text))
+import app.services.mailer as _ml
+_ml_orig = _ml.is_configured
+_ml.is_configured = lambda: True
+_AP.mail_configured = lambda: True
+nolink = post(admin, '/mentorship/admin/parent', enrolment_id=E1, parent_email='newparent@demo.test', relation='Father')
+assert b'has no EduAakashaA account yet' in nolink.data and not _mails                         # clear message, nothing created
+assert b'valid parent email' in post(admin, '/mentorship/admin/parent', enrolment_id=E1, parent_email='nope', create='1').data
+assert b'not found' in post(admin, '/mentorship/admin/parent', enrolment_id='9999', parent_email='x@y.com', create='1').data
+r = post(admin, '/mentorship/admin/parent', enrolment_id=E1, parent_email='NewParent@Demo.test', parent_name='Ravi Kumar', relation='Father', create='1')
+assert b'Parent account created for newparent@demo.test and linked' in r.data and b'Login details were emailed' in r.data
+assert len(_mails) == 1 and _mails[0][0] == 'newparent@demo.test' and 'Password' in _mails[0][2]
+with app.app_context():
+    npar = User.query.filter_by(email='newparent@demo.test').one()
+    assert npar.name == 'Ravi Kumar' and npar.tier == 'free' and MsParentLink.query.filter_by(enrolment_id=E1, parent_id=npar.id).count() == 1
+pw_sent = _mails[0][2].split('Password   : ')[1].split('\n')[0]
+newp = app.test_client()
+assert newp.post('/login', data={'email': 'newparent@demo.test', 'password': pw_sent}).status_code == 302   # the emailed password works
+assert newp.get(f'/mentorship/e/{E1}/home').status_code == 200 and newp.get(f'/mentorship/e/{E2}/home').status_code == 404
+assert b'already linked' in post(admin, '/mentorship/admin/parent', enrolment_id=E1, parent_email='newparent@demo.test', create='1').data
+assert b'student' in post(admin, '/mentorship/admin/parent', enrolment_id=E1, parent_email='s1@demo.test', create='1').data.lower()   # not the student's own account
+_AP.send_async, _AP.mail_configured = _ap_orig
+_ml.is_configured = _ml_orig
+
 # rules are admin-editable
 post(admin, '/mentorship/admin/rules', due_soon_days='5', overdue_attention='2', checkin_gap_days='14', low_confidence='1', exam_window_days='30')
 with app.app_context():

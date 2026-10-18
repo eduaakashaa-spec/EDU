@@ -82,8 +82,9 @@
       <div style="margin-top:8px;font-size:13px;"><strong>Linked parents:</strong>
         {% for l in links if l.enrolment_id == e.id %}{{ l.parent.name }} ({{ l.parent.email }}) <form method="post" action="{{ url_for('mentorship.admin_parent_unlink', lid=l.id) }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">remove</button></form> {% else %}none{% endfor %}</div>
       <form method="post" action="{{ url_for('mentorship.admin_parent_link') }}" style="margin-top:8px;"><input type="hidden" name="enrolment_id" value="{{ e.id }}">
-        <div class="row"><div><label>Parent account email</label><input type="email" name="parent_email" required></div><div><label>Relation</label><input type="text" name="relation" value="Parent"></div></div>
-        <button class="btn btn-ghost">Link parent</button></form>
+        <div class="row"><div><label>Parent email</label><input type="email" name="parent_email" required></div><div><label>Parent name (for a new account)</label><input type="text" name="parent_name"></div><div><label>Relation</label><input type="text" name="relation" value="Parent"></div></div>
+        <label style="text-transform:none;display:flex;gap:6px;align-items:center;"><input type="checkbox" name="create" value="1" checked style="width:auto;"> Create the parent&rsquo;s account if they don&rsquo;t have one (login details are emailed)</label>
+        <button class="btn btn-ghost" style="margin-top:6px;">Link parent</button></form>
     </details>
     {% else %}<p class="hint">No students enrolled yet.</p>{% endfor %}</div>
 
