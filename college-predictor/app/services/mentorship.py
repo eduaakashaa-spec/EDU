@@ -241,7 +241,7 @@ OUTCOME_HINT = '(outcome)'
 
 def ensure_default_programme():
     """Create the standard 10-session programme if none exists. Returns the first programme."""
-    prog = MsProgramme.query.first()
+    prog = MsProgramme.query.filter(db.or_(MsProgramme.tier == None, MsProgramme.tier != 'Add-on')).first()  # noqa: E711
     if prog:
         return prog
     prog = MsProgramme(name='Grade 12 Engineering Mentorship',
@@ -256,12 +256,115 @@ def ensure_default_programme():
     return prog
 
 
+def ensure_addon_programmes():
+    """Create the ready-made add-on programmes (UCEED, NID, NIFT, IIT Delhi–Abu Dhabi, TNEA, state-specific, SRM, Amrita, VIT)
+    that do not exist yet. Idempotent: existing programmes (and any admin edits to them) are left alone. Returns how many were created."""
+    from app.data.mentorship_addons import ADDONS, TIER
+    made = 0
+    for a in ADDONS:
+        if MsProgramme.query.filter_by(name=a['title']).first():
+            continue
+        prog = MsProgramme(name=a['title'], tier=TIER, active=True,
+                           description=f"{a['blurb']} For: {a['audience']} About {a['weeks']} weeks. Verify: {a['verify']}")
+        db.session.add(prog)
+        db.session.flush()
+        for i, (title, topics, deliverable) in enumerate(a['sessions'], 1):
+            db.session.add(MsSessionTemplate(programme_id=prog.id, position=i, title=title, topics=topics,
+                                             deliverable=deliverable, duration_min=60))
+        made += 1
+    db.session.commit()
+    return made
+
+
+# Architecture, NID and NIFT programmes (name, studies, subjects, skills, projects, careers, reflection question).
+# Programme and discipline lists differ by campus and year — students must confirm them in the current NID / NIFT / university notice.
+DESIGN_BRANCHES = [
+    ('Architecture (B.Arch)', 'Five-year professional degree in designing buildings and spaces: design studio, structures, materials, history and sustainability.',
+     'Architectural design studio, building construction, structures, building services, history of architecture, environment and sustainability.',
+     'Freehand drawing, spatial visualisation, maths and physics basics, patience for long design projects, presentation skills.',
+     'Measure and sketch a room or street corner; build a scale model; keep a sketchbook of buildings you observe.',
+     'Architect (registration with the Council of Architecture), urban designer, conservation, interior and landscape design, research. Entrance route (for example NATA / JEE Main Paper 2) is stated in the current notice.',
+     'Do I enjoy drawing and model-making for hours, and presenting my ideas to critics?'),
+    ('Urban and Regional Planning (B.Plan)', 'Planning cities, transport, housing and land use with a mix of design, policy and data.',
+     'Planning studio, urban design, transport, housing, GIS, environment, planning law and economics.',
+     'Spatial thinking, data comfort, communication, interest in how cities work.',
+     'Map a neighbourhood\'s amenities; study one local planning problem such as traffic or waste.',
+     'Urban planner, transport and housing consultant, GIS analyst, government and development agencies.',
+     'Am I interested in cities and policy as much as in drawing?'),
+    ('Interior Architecture and Interior Design', 'Designing interior spaces: layout, materials, lighting, furniture and how people use rooms.',
+     'Design studio, materials and construction, lighting, furniture design, colour, drawing and visualisation software.',
+     'Drawing and colour sense, spatial planning, client communication, detail orientation.',
+     'Redesign one room on paper with a plan, mood board and materials list.',
+     'Interior designer, space planner, furniture and exhibition design, design-build firms.',
+     'Do I notice how spaces feel and function, and can I turn that into drawings?'),
+    ('NID B.Des: Industrial, Product and Transportation Design', 'Designing products and systems — usability, form, materials and manufacturing.',
+     'Design fundamentals, ergonomics, materials and processes, model-making, sketching and CAD, design research.',
+     'Sketching, observation, problem finding, hands-on prototyping.',
+     'Redesign an everyday object; document the problems users face and build a cardboard prototype.',
+     'Product, industrial and automotive designer, design researcher, design consultancies and in-house design teams.',
+     'Do I like making things and improving how people use them?'),
+    ('NID B.Des: Communication Design (Graphic, Film, Animation, Photography, Exhibition)', 'Visual communication across print, screen, motion and exhibition.',
+     'Typography and layout, visual storytelling, photography, film and video, animation, exhibition design.',
+     'Drawing, storytelling, visual taste, software comfort.',
+     'Make a short visual story, poster series or 30-second animation; keep a visual journal.',
+     'Graphic and brand designer, filmmaker, animator, motion and exhibition designer, art director.',
+     'Do I express ideas best through images, motion or stories?'),
+    ('NID B.Des: Textile, Apparel and Lifestyle Accessory Design', 'Designing fabrics, garments and accessories, from material to finished product.',
+     'Textile fundamentals, weaving/printing/dyeing, pattern and construction, accessory design, craft traditions.',
+     'Colour and pattern sense, hand skills, material curiosity.',
+     'Create a small print or weave sample; sketch a garment or accessory series.',
+     'Textile, apparel and accessory designer, craft and sustainability work, design studios and brands.',
+     'Do I enjoy working with materials, colour and craft?'),
+    ('NID B.Des: Ceramic and Glass, Furniture and Interior, Toy and Game Design', 'Material-led and experience-led design disciplines (availability varies by campus and year).',
+     'Material studies (clay, glass, wood, metal), making and prototyping, play and interaction design, spatial design.',
+     'Hands-on making, playfulness, spatial and material sense.',
+     'Make one object in clay or wood; prototype a simple board game and test it with friends.',
+     'Studio craftsperson, furniture and lifestyle designer, toy and game designer, design researcher.',
+     'Do I learn best by making and testing physical things?'),
+    ('NID B.Des: Interaction, New Media and Universal Design', 'Designing digital experiences and inclusive products and services.',
+     'Interaction design, UX research, new-media tools, accessibility and inclusive design.',
+     'Empathy, logical thinking, sketching, comfort with digital tools.',
+     'Redesign one app screen flow; test it with two people and note what confused them.',
+     'UX/UI designer, interaction designer, accessibility specialist, service designer.',
+     'Am I curious about how people use technology and what makes it easy or hard?'),
+    ('NIFT B.Des: Fashion Design', 'Designing garments and collections — trends, fabrics, pattern-making and styling.',
+     'Fashion illustration, textile knowledge, pattern-making, garment construction, trend and colour forecasting.',
+     'Sketching, colour and style sense, creativity, perseverance with construction detail.',
+     'Sketch a mini collection from a theme; sew or drape one simple garment.',
+     'Fashion designer, stylist, costume designer, buying and merchandising, fashion brands and export houses.',
+     'Do I enjoy sketching clothes and following trends, and finishing detailed work?'),
+    ('NIFT B.Des: Accessory, Leather and Knitwear Design', 'Designing bags, footwear, jewellery, leather goods and knitted products.',
+     'Material study (leather, metal, yarns), product drawing, construction and finishing, knit technology, accessory trends.',
+     'Product sketching, hands-on craftsmanship, material curiosity.',
+     'Design and prototype a bag or small accessory; try basic knitting or leather work.',
+     'Accessory, footwear and leather designer, knitwear designer, brand design teams, export houses.',
+     'Do I prefer designing objects and materials to designing full garments?'),
+    ('NIFT B.Des: Textile Design and Fashion Communication', 'Fabric surface design on one side, fashion media, styling and visual communication on the other.',
+     'Textile design (weaving, printing), fashion illustration, photography, styling, visual merchandising, communication design.',
+     'Visual taste, storytelling, drawing, software and camera comfort.',
+     'Make a print repeat or a small styled photo story; build a fashion mood board.',
+     'Textile designer, fashion stylist, visual merchandiser, fashion journalist or communicator, brand creative teams.',
+     'Am I drawn more to fabric design or to telling fashion stories visually?'),
+    ('NIFT B.FTech: Apparel Production', 'Technology side of fashion: garment manufacturing, quality, production planning and industry engineering.',
+     'Garment construction technology, fabric science, production planning, quality, industrial engineering, apparel CAD.',
+     'Maths and logic, process thinking, interest in manufacturing, teamwork.',
+     'Study how one garment is made step by step; time a simple sewing operation and list improvements.',
+     'Production manager, quality and merchandising roles, apparel technologists, export and manufacturing companies.',
+     'Do I enjoy how things are made and improved in factories more than designing them?'),
+]
+
+
 def ensure_branches():
-    if MsBranch.query.count():
-        return
-    for i, (name, studies, subjects, skills, projects, careers, q) in enumerate(DEFAULT_BRANCHES, 1):
+    """Load the branch catalogue; adds any default branch that is missing by name (so new defaults reach existing sites).
+    Existing rows, including admin edits and deactivations, are never changed."""
+    have = {b.name for b in MsBranch.query.all()}
+    pos = MsBranch.query.count()
+    for name, studies, subjects, skills, projects, careers, q in DEFAULT_BRANCHES + DESIGN_BRANCHES:
+        if name in have:
+            continue
+        pos += 1
         db.session.add(MsBranch(name=name, studies=studies, subjects=subjects, skills=skills, projects=projects,
-                                careers=careers, questions=q, position=i))
+                                careers=careers, questions=q, position=pos))
     db.session.commit()
 
 

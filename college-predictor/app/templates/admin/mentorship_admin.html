@@ -54,6 +54,9 @@
   </div>
   {% endfor %}
 
+  <div class="card"><h2>Ready-made add-on programmes</h2><p class="hint">UCEED, NID, NIFT, IIT Delhi–Abu Dhabi, TNEA, State-specific, SRM, Amrita and VIT. Creates any that are missing (existing ones and your edits are kept); then enrol a student into one like any programme. Members see the catalogue at <a href="{{ url_for('mentorship.addons') }}">/mentorship/addons</a>.</p>
+    <form method="post" action="{{ url_for('mentorship.admin_addons_load') }}"><button class="btn btn-navy">Load add-on programmes</button></form></div>
+
   <div class="card"><h2>New programme</h2><p class="hint">For another grade, exam pathway or membership tier.</p>
     <form method="post" action="{{ url_for('mentorship.admin_programme_new') }}"><div class="row"><div><label>Name</label><input type="text" name="name" required></div><div><label>Membership tier</label><input type="text" name="tier" placeholder="e.g. Elite Mentorship"></div></div>
       <label>Description</label><textarea name="description" rows="2"></textarea><button class="btn btn-navy" style="margin-top:8px;">Create programme</button></form></div>

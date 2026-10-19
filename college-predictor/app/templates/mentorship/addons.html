@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Add-on Mentorship Programmes — UCEED, NID, NIFT, TNEA, SRM, Amrita, VIT | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/mentorship.css') }}">{% endblock %}
+{% block content %}
+<div class="ms" style="max-width:1000px;">
+  <div class="ms-crumbs"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › Add-on programmes</div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="ms-flash" role="status">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  <section class="ms-head"><div class="grow">
+    <span class="ms-chip">Mentorship add-ons</span>
+    <h1 style="margin-top:8px;">Ready-made programmes, mentored by EduAakashaA</h1>
+    <div class="sub">Pick the pathway you are targeting. Each add-on is a structured set of mentor sessions with a deliverable at every step, tracked in the same portal your parent can follow.</div></div></section>
+
+  <div class="ms-note info">These programmes give structure and guidance — they do not guarantee admission or a rank. Exam dates, eligibility, fees and cut-offs change every year, so each session sends you to the official notice for the current cycle. Scope and fees are agreed with the EduAakashaA team.</div>
+
+  {% for a in addons %}
+  <div class="ms-card" id="{{ a.key }}" style="margin-top:16px;">
+    <div style="display:flex;gap:12px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;">
+      <div style="flex:1;min-width:240px;">
+        <div class="ms-eyebrow">{{ a.icon }} Add-on · about {{ a.weeks }} weeks · {{ a.sessions|length }} sessions</div>
+        <h2 style="margin:4px 0;">{{ a.title }}</h2>
+        <p style="margin:0 0 6px;">{{ a.blurb }}</p>
+        <p class="hint" style="margin:0;"><strong>For:</strong> {{ a.audience }}</p>
+      </div>
+      <div>
+        {% if a.title in mine %}<span class="ms-pill ok">You are enrolled</span>
+        {% elif a.key in asked %}<span class="ms-pill warn">Request received</span>
+        {% else %}<form method="post" action="{{ url_for('mentorship.addon_request', key=a.key) }}">
+          <input type="text" name="note" maxlength="500" placeholder="Anything we should know? (optional)" aria-label="Note for {{ a.title }}" style="margin-bottom:6px;">
+          <button class="ms-btn p">Request this programme</button></form>{% endif %}
+      </div>
+    </div>
+    <details style="margin-top:10px;"><summary>See the {{ a.sessions|length }} sessions</summary>
+      <ol style="padding-left:20px;line-height:1.55;">
+        {% for title, topics, deliverable in a.sessions %}
+        <li><strong>{{ title }}</strong><br><span class="hint">{{ topics.split('\n')|join(' · ') }}</span><br><span class="hint">Deliverable: {{ deliverable }}</span></li>
+        {% endfor %}
+      </ol></details>
+    <p class="hint" style="margin-top:6px;">Verify on the official site: {{ a.verify }}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

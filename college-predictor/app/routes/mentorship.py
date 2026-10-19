@@ -1047,6 +1047,58 @@ def admin_load_default():
     return redirect(url_for('mentorship.admin_home'))
 
 
+@mentorship_bp.route('/admin/addons/load', methods=['POST'])
+@admin_required
+def admin_addons_load():
+    n = svc.ensure_addon_programmes()
+    flash(f'{n} add-on programme(s) created.' if n else 'All ready-made add-on programmes are already available.', 'success' if n else 'info')
+    return redirect(url_for('mentorship.admin_home'))
+
+
+@mentorship_bp.route('/addons')
+@login_required
+def addons():
+    """Catalogue of ready-made add-on programmes. Anyone signed in can read it and request one."""
+    from app.data.mentorship_addons import ADDONS
+    mine = {e.programme.name for e in MsEnrolment.query.filter_by(student_id=current_user.id).all()}
+    asked = _addon_requests(current_user)
+    return render_template('mentorship/addons.html', addons=ADDONS, mine=mine, asked=asked)
+
+
+def _addon_requests(user):
+    import json
+    from app.models import PageLead
+    rows = PageLead.query.filter_by(source='mentorship-addon', email=user.email).all()
+    out = set()
+    for r in rows:
+        try:
+            out.add(json.loads(r.payload_json or '{}').get('addon'))
+        except ValueError:
+            pass
+    return out
+
+
+@mentorship_bp.route('/addons/<key>/request', methods=['POST'])
+@login_required
+def addon_request(key):
+    import json
+    from app.data.mentorship_addons import ADDONS
+    from app.models import PageLead
+    a = next((x for x in ADDONS if x['key'] == key), None) or abort(404)
+    if key in _addon_requests(current_user):
+        flash('You have already requested this add-on — our team will contact you.', 'info')
+        return redirect(url_for('mentorship.addons') + '#' + key)
+    db.session.add(PageLead(source='mentorship-addon', name=current_user.name, email=current_user.email,
+                            payload_json=json.dumps({'addon': key, 'title': a['title'], 'note': _s('note', 500), 'user_id': current_user.id})))
+    db.session.commit()
+    if mailer.is_configured():
+        mailer.send_async(mailer.INFO_FROM, f"Add-on request: {a['title']} — {current_user.name}",
+                          f"{current_user.name} <{current_user.email}> asked about the \"{a['title']}\" add-on programme.\n\nNote: {_s('note', 500) or '—'}\n\n"
+                          "Enrol them from Admin → Mentorship → Enrol student.", from_addr=mailer.INFO_FROM, reply_to=current_user.email)
+    flash(f"Thanks — we have noted your interest in {a['title']}. Our team will contact you on {current_user.email}.", 'success')
+    return redirect(url_for('mentorship.addons') + '#' + key)
+
+
 @mentorship_bp.route('/admin/programme/new', methods=['POST'])
 @admin_required
 def admin_programme_new():

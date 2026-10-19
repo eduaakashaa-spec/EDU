@@ -10,5 +10,6 @@
     <a class="ms-kpi" href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}"><div class="n" style="font-size:1.3rem;">{{ e.student.name }}</div><div class="l">{{ e.programme.name }} · mentor {{ e.mentor.name if e.mentor else 'to be assigned' }}</div></a>
     {% endfor %}
   </div>
+  <p style="margin-top:18px;"><a href="{{ url_for('mentorship.addons') }}">Explore ready-made add-on programmes →</a></p>
 </div>
 {% endblock %}
