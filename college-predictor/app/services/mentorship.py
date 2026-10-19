@@ -264,6 +264,15 @@ def ensure_addon_programmes():
     for a in ADDONS:
         if MsProgramme.query.filter_by(name=a['title']).first():
             continue
+        old = next((p for n in a.get('legacy', []) for p in [MsProgramme.query.filter_by(name=n).first()] if p), None)
+        if old is not None and not MsEnrolment.query.filter_by(programme_id=old.id).count():
+            # renamed add-on, nobody enrolled yet: refresh it in place instead of creating a duplicate
+            old.name = a['title']
+            old.description = f"{a['blurb']} For: {a['audience']} About {a['weeks']} weeks. Verify: {a['verify']}"
+            MsSessionTemplate.query.filter_by(programme_id=old.id).delete()
+            for i, (title, topics, deliverable) in enumerate(a['sessions'], 1):
+                db.session.add(MsSessionTemplate(programme_id=old.id, position=i, title=title, topics=topics, deliverable=deliverable, duration_min=60))
+            continue
         prog = MsProgramme(name=a['title'], tier=TIER, active=True,
                            description=f"{a['blurb']} For: {a['audience']} About {a['weeks']} weeks. Verify: {a['verify']}")
         db.session.add(prog)

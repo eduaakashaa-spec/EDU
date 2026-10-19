@@ -44,9 +44,20 @@ assert len(ADDONS) == 9 and len({a['key'] for a in ADDONS}) == 9 and all(len(a['
 blob = json.dumps(ADDONS)
 assert not re.search(r'₹|\bRs\.?\s?\d|\b\d+\s?lakh|\bcut-?off of \d|guaranteed', blob, re.I)
 
+# the IIT Delhi - Abu Dhabi add-on is built around CAET (and the JEE Advanced route for Indian nationals)
+iitd = next(a for a in ADDONS if a['key'] == 'iitd-ad')
+txt = json.dumps(iitd, ensure_ascii=False)
+assert 'CAET' in txt and 'JEE Advanced' in txt and 'admissions.abudhabi.iitd.ac.in' in txt and 'Indian expatriate' in txt
+
 # seeding is idempotent and does not disturb the standard programme
 with app.app_context():
-    assert svc.ensure_addon_programmes() == 9 and svc.ensure_addon_programmes() == 0
+    old = MsProgramme(name='IIT Delhi – Abu Dhabi admission', tier=TIER, description='old')      # a site that loaded the first version
+    db.session.add(old)
+    db.session.commit()
+    assert svc.ensure_addon_programmes() == 8                                                      # renamed in place, no duplicate
+    assert MsProgramme.query.filter_by(name=iitd['title']).count() == 1 and MsProgramme.query.filter_by(name='IIT Delhi – Abu Dhabi admission').count() == 0
+    assert MsProgramme.query.filter_by(name=iitd['title']).one().templates.count() == 7 and 'CAET' in MsProgramme.query.filter_by(name=iitd['title']).one().description
+    assert svc.ensure_addon_programmes() == 0
     assert MsProgramme.query.filter_by(tier=TIER).count() == 9
     base = svc.ensure_default_programme()                                   # add-ons exist first: the standard programme must still be created
     assert base.tier == 'Elite Mentorship' and MsProgramme.query.count() == 10
