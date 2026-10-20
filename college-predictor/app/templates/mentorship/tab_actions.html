@@ -1,0 +1,90 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+
+<div class="ms-grid ms-g3" style="margin-bottom:16px;">
+  {% for o in OWNERS %}
+  <div class="ms-card">
+    <div class="ms-eyebrow">{{ OWNER_LABEL[o] }} actions</div>
+    <h2 style="margin:4px 0;">{{ progress[o].done }} of {{ progress[o].total }} done</h2>
+    {{ m.bar(progress[o].pct, green=true) }}
+    <div class="hint" style="margin-top:6px;">{{ progress[o].open }} open{% if progress[o].overdue %} · <span style="color:#C23A3A;font-weight:600;">{{ progress[o].overdue }} overdue</span>{% endif %}{% if progress[o].help %} · {{ progress[o].help }} need help{% endif %}</div>
+    <a class="hint" href="{{ url_for('mentorship.workspace', eid=e.id, tab='actions', owner=o) }}">Show {{ OWNER_LABEL[o]|lower }} actions</a>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="ms-card" id="list">
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;">
+    <div><div class="ms-eyebrow">Action tracker</div><h2 style="margin:2px 0;">What was agreed, who owns it, and where it stands</h2></div>
+    <div class="ms-filters" style="display:flex;gap:6px;flex-wrap:wrap;">
+      {% for key, label in ACTION_FILTERS %}<a class="ms-btn {{ 'p' if key == flt else 'g' }} sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='actions', f=key, owner=owner_f) }}">{{ label }}</a>{% endfor %}
+    </div>
+  </div>
+  {% if owner_f %}<p class="hint">Showing {{ OWNER_LABEL.get(owner_f, owner_f)|lower }} actions only. <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='actions', f=flt) }}">Show everyone</a></p>{% endif %}
+  <p class="hint">Each owner updates their own actions: the student marks student actions, a linked parent marks parent actions, and the mentor marks mentor actions. Progress = completed ÷ total; cancelled actions are excluded.</p>
+
+  <div class="ms-scroll"><table class="ms-table" style="width:100%;border-collapse:collapse;font-size:.88rem;">
+    <thead><tr style="text-align:left;background:#FFF8EE;"><th style="padding:8px;">Action</th><th>Owner</th><th>Due</th><th>Priority</th><th>Status</th><th>Update</th></tr></thead>
+    <tbody>
+    {% for a in rows %}
+    <tr id="a{{ a.id }}" style="border-bottom:1px solid #F1EAD7;vertical-align:top;">
+      <td style="padding:8px;"><strong>{{ a.title }}</strong>
+        {% if a.instruction %}<div class="hint">{{ a.instruction }}</div>{% endif %}
+        {% if a.student_comment %}<div class="hint">📝 {{ a.student_comment }}</div>{% endif %}
+        {% if a.mentor_feedback %}<div class="hint">💬 {{ a.mentor_feedback }}</div>{% endif %}</td>
+      <td><span class="ms-pill">{{ OWNER_LABEL.get(a.owner or 'student', a.owner) }}</span></td>
+      <td style="white-space:nowrap;">{{ a.due_date.strftime('%d %b %Y') if a.due_date else '—' }}</td>
+      <td><span class="ms-pill {{ 'bad' if a.priority == 'High' else '' }}">{{ a.priority }}</span></td>
+      <td>{{ m.state_pill(action_state(a)) }}<div class="hint">{{ a.status }}{% if a.completed_at %} · {{ a.completed_at.strftime('%d %b') }}{% endif %}</div></td>
+      <td>
+        {% set mine = staff or (role == 'student' and a.owner == 'student') or (role == 'parent' and a.owner == 'parent') %}
+        {% if mine and a.status not in ('Cancelled',) and not (not staff and a.status == 'Blocked') %}
+        <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}" style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">
+          <input type="hidden" name="back" value="actions">
+          <select name="status" aria-label="Status for {{ a.title }}" style="min-width:120px;">{% for st in (ACTION_STATUSES if staff else STUDENT_ACTION_STATUSES) %}<option {{ 'selected' if st == a.status }}>{{ st }}</option>{% endfor %}</select>
+          {% if not staff %}<input type="text" name="student_comment" value="{{ a.student_comment or '' }}" placeholder="Note (optional)" aria-label="Note" style="min-width:120px;">{% endif %}
+          <button class="ms-btn p sm">Save</button>
+        </form>
+        {% else %}<span class="hint">{{ 'Owned by ' ~ (OWNER_LABEL.get(a.owner or 'student')|lower) }}</span>{% endif %}
+      </td>
+    </tr>
+    {% else %}<tr><td colspan="6" class="ms-empty" style="padding:18px;">No actions match. {% if staff %}Add some below from your meeting notes.{% else %}Your mentor will add actions after each meeting.{% endif %}</td></tr>{% endfor %}
+    </tbody></table></div>
+</div>
+
+{% if staff %}
+<div class="ms-grid ms-g2" style="margin-top:16px;align-items:start;">
+  <div class="ms-card" id="import">
+    <div class="ms-eyebrow">From a meeting</div>
+    <h2>Add actions from meeting notes</h2>
+    <p class="hint">One action per line: <code>owner | action | due date | priority</code>. Owner is student, parent or mentor. Due date (YYYY-MM-DD) and priority (High, Medium, Low) are optional.</p>
+    <form method="post" action="{{ url_for('mentorship.actions_bulk', eid=e.id) }}">
+      <label>Linked session</label><select name="session_id"><option value="">—</option>{% for s in sessions_for_link %}<option value="{{ s.id }}">#{{ s.position }} {{ s.title[:44] }}</option>{% endfor %}</select>
+      <label style="margin-top:6px;">Actions</label>
+      <textarea name="lines" rows="7" placeholder="student | Share recent Allen test reports by subject | 2026-10-30 | High&#10;parent | Confirm whether Darsh will register for UCEED | 2026-10-25 | High&#10;mentor | Send UCEED information and fee schedule | 2026-10-24"></textarea>
+      <button class="ms-btn o" style="margin-top:8px;">Add actions</button>
+    </form>
+  </div>
+
+  <div class="ms-card" id="share">
+    <div class="ms-eyebrow">Share</div>
+    <h2>Send the action list</h2>
+    <p class="hint">Parents only receive actions marked visible to them.</p>
+    <form method="post" action="{{ url_for('mentorship.actions_share', eid=e.id) }}">
+      <label style="text-transform:none;display:flex;gap:6px;align-items:center;"><input type="checkbox" name="to" value="student" style="width:auto;"> Student — {{ e.student.email }}</label>
+      <label style="text-transform:none;display:flex;gap:6px;align-items:center;"><input type="checkbox" name="to" value="parent" style="width:auto;"> Parents — {% if parents %}{{ parents|map(attribute='email')|join(', ') }}{% else %}none linked{% endif %}</label>
+      <label style="text-transform:none;display:flex;gap:6px;align-items:center;"><input type="checkbox" name="to" value="mentor" style="width:auto;"> Mentor — {{ e.mentor.email if e.mentor else 'not assigned' }}</label>
+      <label style="margin-top:6px;">Optional note</label><input type="text" name="note" maxlength="400" placeholder="e.g. Following up on our meeting of 18 Oct">
+      <button class="ms-btn p" style="margin-top:8px;">Email action list</button>
+    </form>
+    <hr style="border:0;border-top:1px solid #F1EAD7;margin:14px 0;">
+    <label>WhatsApp (opens WhatsApp with the message ready)</label>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+      {% for aud in ('student', 'parent', 'mentor') %}<a class="ms-btn g sm" target="_blank" rel="noopener" href="{{ wa_links[aud] }}">WhatsApp {{ aud }}</a>{% endfor %}
+    </div>
+    <p class="hint" style="margin-top:6px;">{% if wa_links.student.startswith('https://wa.me/?') %}No saved phone number for this family, so WhatsApp will ask you to pick the contact.{% else %}Uses the phone number saved in the student&rsquo;s profile.{% endif %}</p>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

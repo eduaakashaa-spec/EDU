@@ -21,6 +21,7 @@ CATEGORIES = [
      'tiles': [
          {'title': 'My Mentorship', 'desc': 'Your journey, weekly plan, KPIs, reviews and reports (students and parents).', 'icon': '🧑\u200d🏫', 'endpoint': 'mentorship.index', 'access': 'premium'},
          {'title': 'Add-on programmes', 'desc': 'Ready-made mentoring for UCEED, NID, NIFT, IIT Delhi–Abu Dhabi, TNEA, state colleges, SRM, Amrita and VIT.', 'icon': '🧩', 'endpoint': 'mentorship.addons', 'access': 'free'},
+         {'title': 'Action tracker', 'desc': 'Meeting actions for every member: owner, due date, completion — share by email or WhatsApp.', 'icon': '📌', 'endpoint': 'mentorship.action_tracker', 'access': 'premium', 'staff': True},
          {'title': 'Mentor dashboard', 'desc': 'Assigned students, sessions, follow-ups and interventions.', 'icon': '📋', 'endpoint': 'mentorship.mentor_home', 'access': 'premium', 'staff': True},
      ]},
     {'key': 'intel', 'title': 'Admission Intelligence', 'icon': '📊', 'color': '#D97706', 'tint': '#FFF3DD',

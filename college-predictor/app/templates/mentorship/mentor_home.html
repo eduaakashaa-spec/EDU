@@ -11,6 +11,7 @@
   <section class="ms-head"><div class="grow"><span class="ms-chip">{{ 'Admin' if current_user.is_admin else 'EA Mentor' }}</span>
     <h1 style="margin-top:8px;">Hi {{ current_user.name.split(' ')[0] }} — your mentorship workspace</h1>
     <div class="sub">Every assigned student, session, follow-up and intervention in one place. Click a card to filter.</div></div>
+    <a class="ms-btn g" href="{{ url_for('mentorship.action_tracker') }}">📌 Action tracker</a>
     {% if current_user.is_admin %}<a class="ms-btn o" href="{{ url_for('mentorship.admin_home') }}">⚙ Programmes &amp; enrolment</a>{% endif %}
   </section>
 

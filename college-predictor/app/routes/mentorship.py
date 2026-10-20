@@ -1400,6 +1400,136 @@ def admin_branch():
 
 
 # --------------------------------------------------------------------------- #
+# Action tracker: per-member tab, cross-member tracker for staff, meeting-note import, email / WhatsApp sharing
+# --------------------------------------------------------------------------- #
+def _family_phone(e):
+    from app.models import StudentProfile
+    sp = db.session.get(StudentProfile, e.student_id)
+    return (sp.phone if sp else '') or ''
+
+
+def _tab_actions(e, role):
+    audience = 'parent' if role == 'parent' else ('student' if role == 'student' else 'mentor')
+    rows = svc.visible_actions(e, 'parent' if role == 'parent' else 'student')
+    flt = request.args.get('f', 'all')
+    flt = flt if flt in {k for k, _ in svc.ACTION_FILTERS} else 'all'
+    owner = request.args.get('owner', '')
+    shown = [a for a in rows if svc.action_matches(a, flt) and (owner not in svc.OWNERS or (a.owner or 'student') == owner)]
+    links = {}
+    if role in STAFF:
+        phone = _family_phone(e)
+        for aud in ('student', 'parent', 'mentor'):
+            links[aud] = svc.wa_link(phone if aud != 'mentor' else '', svc.share_text(e, aud, svc.visible_actions(e, 'parent' if aud == 'parent' else 'student')))
+    parents = [l.parent for l in MsParentLink.query.filter_by(enrolment_id=e.id).all()]
+    return dict(rows=shown, all_rows=rows, progress=svc.owner_progress(rows), flt=flt, owner_f=owner, ACTION_FILTERS=svc.ACTION_FILTERS,
+                OWNERS=svc.OWNERS, OWNER_LABEL=svc.OWNER_LABEL, wa_links=links, parents=parents, audience=audience,
+                ACTION_STATUSES=ACTION_STATUSES, STUDENT_ACTION_STATUSES=STUDENT_ACTION_STATUSES, PRIORITIES=PRIORITIES,
+                action_state=svc.action_state, sessions_for_link=e.sessions.order_by(MsSession.position).all())
+
+
+@mentorship_bp.route('/e/<int:eid>/actions/bulk', methods=['POST'])
+@login_required
+def actions_bulk(eid):
+    """Paste action items from a meeting (one per line: owner | action | due | priority) and create them all."""
+    e, role = _ctx(eid, STAFF)
+    rows, errors = svc.parse_meeting_actions(request.form.get('lines', ''))
+    sid = _int('session_id')
+    if sid and not (db.session.get(MsSession, sid) and db.session.get(MsSession, sid).enrolment_id == e.id):
+        sid = None
+    for r in rows:
+        db.session.add(MsAction(enrolment_id=e.id, session_id=sid, title=r['title'], owner=r['owner'], due_date=r['due'], priority=r['priority'],
+                                parent_visible=True))
+    if rows:
+        svc.audit(e, 'action.bulk_added', f'{len(rows)} action(s) from meeting notes', role)
+        db.session.commit()
+    if rows:
+        flash(f'{len(rows)} action(s) added.' + (f' {len(errors)} line(s) skipped.' if errors else ''), 'success')
+    for er in errors[:5]:
+        flash(er, 'danger')
+    if not rows and not errors:
+        flash('Paste at least one action, one per line.', 'info')
+    return _back(e, 'actions')
+
+
+@mentorship_bp.route('/e/<int:eid>/actions/share', methods=['POST'])
+@login_required
+def actions_share(eid):
+    """Email the action list to the chosen people (student, linked parents, mentor). Parents only receive parent-visible actions."""
+    e, role = _ctx(eid, STAFF)
+    want = set(request.form.getlist('to'))
+    note = _s('note', 400)
+    if not want:
+        flash('Choose who should receive the action list.', 'info')
+        return _back(e, 'actions', 'share')
+    if not mailer.is_configured():
+        flash('Email sending is not configured on this server, so nothing was sent. Use the WhatsApp buttons instead.', 'danger')
+        return _back(e, 'actions', 'share')
+    since = svc.utcnow() - timedelta(hours=1)
+    if MsAudit.query.filter(MsAudit.user_id == current_user.id, MsAudit.action == 'actions.shared', MsAudit.created_at >= since).count() >= 20:
+        flash('Many action lists were sent this hour — please try again later.', 'danger')
+        return _back(e, 'actions', 'share')
+    from app.services.email_templates import branded_shell
+    targets = []
+    if 'student' in want and e.student.email:
+        targets.append(('student', e.student))
+    if 'parent' in want:
+        targets += [('parent', l.parent) for l in MsParentLink.query.filter_by(enrolment_id=e.id).all() if l.parent.email]
+    if 'mentor' in want and e.mentor and e.mentor.email:
+        targets.append(('mentor', e.mentor))
+    sent = []
+    for aud, user in targets:
+        rows = svc.visible_actions(e, 'parent' if aud == 'parent' else 'student')
+        text = svc.share_text(e, aud, rows) + (f'\n\nNote: {note}' if note else '')
+        mailer.send_async(user.email, f"Action list for {e.preferred_name or e.student.name}", text,
+                          branded_shell(svc.share_html(e, aud, rows, note)), from_addr=mailer.INFO_FROM, reply_to=mailer.INFO_FROM)
+        sent.append(f'{aud}:{user.email}')
+    if sent:
+        svc.audit(e, 'actions.shared', ', '.join(sent)[:480], role)
+        db.session.commit()
+        flash(f'Action list queued to {len(sent)} recipient(s). Check inboxes (and spam) in a minute.', 'success')
+    else:
+        flash('No email address found for the selected people.', 'danger')
+    return _back(e, 'actions', 'share')
+
+
+@mentorship_bp.route('/actions')
+@staff_required
+def action_tracker():
+    """All members' actions in one place for staff (admins see everyone, mentors their own students)."""
+    import csv
+    import io
+    enrolments = _staff_enrolments()
+    flt = request.args.get('f', 'open')
+    flt = flt if flt in {k for k, _ in svc.ACTION_FILTERS} else 'open'
+    owner = request.args.get('owner', '')
+    q = (request.args.get('q') or '').strip().lower()
+    items = []
+    for e in enrolments:
+        if q and q not in (e.student.name or '').lower() and q not in (e.student.email or '').lower():
+            continue
+        for a in svc.visible_actions(e, 'student'):
+            if svc.action_matches(a, flt) and (owner not in svc.OWNERS or (a.owner or 'student') == owner):
+                items.append((e, a))
+    items.sort(key=lambda x: (x[1].due_date is None, x[1].due_date or svc.today(), x[0].id))
+    all_rows = [a for e in enrolments for a in svc.visible_actions(e, 'student')]
+    if request.args.get('format') == 'csv':
+        buf = io.StringIO()
+        w = csv.writer(buf)
+        w.writerow(['Member', 'Action', 'Owner', 'Priority', 'Due', 'Status', 'Workflow state', 'Completed on'])
+        for e, a in items:
+            w.writerow([e.student.name, a.title, a.owner, a.priority, a.due_date or '', a.status, svc.action_state(a), a.completed_at.date() if a.completed_at else ''])
+        return Response(buf.getvalue(), mimetype='text/csv', headers={'Content-Disposition': 'attachment; filename=eduaakashaa-actions.csv'})
+    per_member = []
+    for e in enrolments:
+        rows = svc.visible_actions(e, 'student')
+        if rows:
+            per_member.append((e, svc.owner_progress(rows)))
+    return render_template('mentorship/action_tracker.html', items=items, progress=svc.owner_progress(all_rows), flt=flt, owner_f=owner, q=q,
+                           ACTION_FILTERS=svc.ACTION_FILTERS, OWNERS=svc.OWNERS, OWNER_LABEL=svc.OWNER_LABEL, action_state=svc.action_state,
+                           total=len(all_rows), per_member=per_member, alerts=xc.unread_alerts(current_user))
+
+
+# --------------------------------------------------------------------------- #
 # exam focus, calendar invitations, alerts
 # --------------------------------------------------------------------------- #
 def _focused_exams(e):

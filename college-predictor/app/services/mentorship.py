@@ -132,6 +132,7 @@ TABS = [  # key, label, icon, roles allowed
     ('home', 'Home', '🏠', ('student', 'parent', 'mentor', 'admin')),
     ('sessions', 'Sessions', '🗓️', ('student', 'parent', 'mentor', 'admin')),
     ('weekly', 'Weekly Plan', '✅', ('student', 'mentor', 'admin')),
+    ('actions', 'Action Tracker', '📌', ('student', 'parent', 'mentor', 'admin')),
     ('kpis', 'KPIs & Progress', '📈', ('student', 'parent', 'mentor', 'admin')),
     ('reviews', 'Quarterly Reviews', '🧾', ('student', 'parent', 'mentor', 'admin')),
     ('branch', 'Branch Fit', '🧭', ('student', 'parent', 'mentor', 'admin')),
@@ -768,3 +769,168 @@ def jload(s, default=None):
         return json.loads(s) if s else (default if default is not None else {})
     except ValueError:
         return default if default is not None else {}
+
+
+# --------------------------------------------------------------------------- #
+# Action tracker: progress by owner, sharing (email / WhatsApp), meeting-note import
+# --------------------------------------------------------------------------- #
+OWNERS = ('student', 'parent', 'mentor')
+OWNER_LABEL = {'student': 'Student', 'parent': 'Parent', 'mentor': 'Mentor'}
+ACTION_FILTERS = (('all', 'All'), ('open', 'Open'), ('overdue', 'Overdue'), ('help', 'Needs help'), ('done', 'Completed'))
+
+
+def visible_actions(e, audience):
+    """Actions an audience may see. Parents only see actions marked visible to them; cancelled ones are never listed."""
+    rows = e.actions.filter(MsAction.status != 'Cancelled').order_by(MsAction.due_date.is_(None), MsAction.due_date, MsAction.id).all()
+    if audience == 'parent':
+        rows = [a for a in rows if a.parent_visible]
+    return rows
+
+
+def owner_progress(rows):
+    """{owner: {total, done, open, overdue, help, pct}} for a list of actions."""
+    out = {}
+    for o in OWNERS:
+        mine = [a for a in rows if (a.owner or 'student') == o]
+        done = [a for a in mine if a.status == 'Completed']
+        out[o] = {'total': len(mine), 'done': len(done), 'open': len(mine) - len(done),
+                  'overdue': sum(1 for a in mine if action_state(a) == 'Overdue'),
+                  'help': sum(1 for a in mine if a.status in ('Needs Help', 'Blocked')),
+                  'pct': round(100 * len(done) / len(mine)) if mine else 0}
+    return out
+
+
+def action_matches(a, flt):
+    if flt == 'open':
+        return a.status not in ('Completed', 'Cancelled')
+    if flt == 'overdue':
+        return action_state(a) == 'Overdue'
+    if flt == 'help':
+        return a.status in ('Needs Help', 'Blocked')
+    if flt == 'done':
+        return a.status == 'Completed'
+    return True
+
+
+_OWNER_ALIASES = {'student': 'student', 'parent': 'parent', 'mentor': 'mentor', 'family': 'parent', 'parents': 'parent', 'mother': 'parent', 'father': 'parent',
+                  'team': 'mentor', 'eduaakashaa': 'mentor'}
+
+
+def _parse_any_date(text):
+    """YYYY-MM-DD, DD/MM/YYYY or '18 Oct 2026'."""
+    t = (text or '').strip()
+    d = parse_date(t)
+    if d:
+        return d
+    for fmt in ('%d/%m/%Y', '%d-%m-%Y', '%d %b %Y', '%d %B %Y'):
+        try:
+            return datetime.strptime(t, fmt).date()
+        except ValueError:
+            pass
+    return None
+
+
+def parse_meeting_actions(text):
+    """Turn pasted meeting notes into action rows. One per line:  owner | title | due (YYYY-MM-DD or DD/MM/YYYY) | priority.
+    Also accepts 'owner: title'. Blank lines and leading bullets/numbers are ignored. Returns (rows, errors)."""
+    import re
+    rows, errors = [], []
+    for n, raw in enumerate((text or '').splitlines(), 1):
+        line = re.sub(r'^\s*(?:[-*•]|\d+[.)])\s*', '', raw).strip()
+        if not line:
+            continue
+        parts = [p.strip() for p in line.split('|')]
+        if ':' in parts[0] and parts[0].split(':', 1)[0].strip().lower() in _OWNER_ALIASES:       # 'parent: do this | due'
+            head, rest = parts[0].split(':', 1)
+            parts = [head.strip(), rest.strip()] + parts[1:]
+        elif len(parts) == 1 and ':' in parts[0]:
+            parts = [p.strip() for p in parts[0].split(':', 1)]
+        owner = (parts[0] or '').lower()
+        owner = _OWNER_ALIASES.get(owner, owner)
+        if len(parts) < 2 or owner not in OWNERS or not parts[1]:
+            errors.append(f'Line {n}: start with student, parent or mentor, then the action ("{raw.strip()[:50]}")')
+            continue
+        due = _parse_any_date(parts[2]) if len(parts) > 2 and parts[2] else None
+        if len(parts) > 2 and parts[2] and due is None:
+            errors.append(f'Line {n}: could not read the date "{parts[2]}" (use YYYY-MM-DD)')
+            continue
+        pr = (parts[3].title() if len(parts) > 3 else 'Medium')
+        rows.append({'owner': owner, 'title': parts[1][:240], 'due': due, 'priority': pr if pr in ('High', 'Medium', 'Low') else 'Medium'})
+    return rows, errors
+
+
+def _fmt_due(a):
+    return a.due_date.strftime('%d %b %Y') if a.due_date else 'no date'
+
+
+def share_text(e, audience, rows=None):
+    """Plain-text action list, formatted for WhatsApp (*bold*) and email. `audience` is student | parent | mentor."""
+    rows = rows if rows is not None else visible_actions(e, audience)
+    name = e.preferred_name or e.student.name
+    mine = [a for a in rows if (a.owner or 'student') == audience and a.status != 'Completed']
+    others = [a for a in rows if (a.owner or 'student') != audience and a.status != 'Completed']
+    done = [a for a in rows if a.status == 'Completed']
+    lines = [f'*EduAakashaA action list — {name}*', '']
+
+    def block(title, items):
+        if not items:
+            return
+        lines.append(f'*{title}*')
+        for i, a in enumerate(items, 1):
+            lines.append(f'{i}. {a.title} — due {_fmt_due(a)} ({OWNER_LABEL.get(a.owner or "student", "Student")}, {a.status})')
+        lines.append('')
+
+    block('For you' if audience != 'mentor' else 'Mentor actions', mine)
+    block('Other open actions (for information)', others)
+    if done:
+        lines.append(f'Completed so far: {len(done)}')
+        lines.append('')
+    if not (mine or others):
+        lines.append('No open actions right now.')
+        lines.append('')
+    lines.append('Please update the status in the portal when done. — Team EduAakashaA (www.eduaakashaa.com)')
+    return '\n'.join(lines)
+
+
+def share_html(e, audience, rows=None, note=''):
+    from html import escape
+    rows = rows if rows is not None else visible_actions(e, audience)
+    name = escape(e.preferred_name or e.student.name)
+    colour = {'Completed': '#1F8B5C', 'Needs Help': '#C23A3A', 'Blocked': '#C23A3A', 'In Progress': '#0E3A8A'}
+
+    def table(items):
+        if not items:
+            return ''
+        body = ''.join(
+            f"<tr><td style='padding:6px 8px;border-bottom:1px solid #EEE;'>{escape(a.title)}</td>"
+            f"<td style='padding:6px 8px;border-bottom:1px solid #EEE;white-space:nowrap;'>{escape(OWNER_LABEL.get(a.owner or 'student', 'Student'))}</td>"
+            f"<td style='padding:6px 8px;border-bottom:1px solid #EEE;white-space:nowrap;'>{escape(_fmt_due(a))}</td>"
+            f"<td style='padding:6px 8px;border-bottom:1px solid #EEE;white-space:nowrap;color:{colour.get(a.status, '#555')};font-weight:600;'>{escape(a.status)}</td></tr>"
+            for a in items)
+        return ("<table role='presentation' cellpadding='0' cellspacing='0' style='border-collapse:collapse;width:100%;font-size:13px;margin:6px 0 14px;'>"
+                "<tr style='background:#FFF8EE;text-align:left;'><th style='padding:6px 8px;'>Action</th><th style='padding:6px 8px;'>Owner</th><th style='padding:6px 8px;'>Due</th><th style='padding:6px 8px;'>Status</th></tr>"
+                + body + '</table>')
+
+    mine = [a for a in rows if (a.owner or 'student') == audience and a.status != 'Completed']
+    others = [a for a in rows if (a.owner or 'student') != audience and a.status != 'Completed']
+    done = [a for a in rows if a.status == 'Completed']
+    prog = owner_progress(rows)
+    summary = ' · '.join(f"{OWNER_LABEL[o]}: {prog[o]['done']}/{prog[o]['total']} done" for o in OWNERS if prog[o]['total'])
+    html = (f"<h2 style='margin:0 0 6px;color:#0E3A8A;font-family:Georgia,serif'>Action list for {name}</h2>"
+            + (f"<p style='margin:0 0 10px;font-size:13px;color:#555'>{escape(note)}</p>" if note else '')
+            + (f"<p style='margin:0 0 10px;font-size:12.5px;color:#555'>{escape(summary)}</p>" if summary else '')
+            + ("<h3 style='margin:10px 0 0;font-size:14px;'>For you</h3>" + table(mine) if mine else '')
+            + ("<h3 style='margin:10px 0 0;font-size:14px;'>Other open actions (for information)</h3>" + table(others) if others else '')
+            + (f"<p style='font-size:13px'>Completed so far: <strong>{len(done)}</strong></p>" if done else '')
+            + ('' if (mine or others) else "<p>No open actions right now.</p>")
+            + "<p style='font-size:13px'>Please update the status in the portal when an action is done.</p>")
+    return html
+
+
+def wa_link(phone, text):
+    """wa.me link with the message pre-filled. Without a usable international number it opens WhatsApp's chat picker."""
+    import re
+    from urllib.parse import quote
+    digits = re.sub(r'\D', '', phone or '')
+    base = f'https://wa.me/{digits}' if len(digits) >= 11 else 'https://wa.me/'
+    return f'{base}?text={quote(text)}'

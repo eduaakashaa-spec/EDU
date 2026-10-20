@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block title %}Action Tracker — Mentorship Portal | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/mentorship.css') }}">{% endblock %}
+{% block content %}
+<div class="ms">
+  <div class="ms-crumbs"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('mentorship.mentor_home') }}">Mentor dashboard</a> › Action tracker</div>
+  {% include "mentorship/_alerts.html" %}
+  <section class="ms-head"><div class="grow"><span class="ms-chip">{{ 'Admin' if current_user.is_admin else 'EA Mentor' }}</span>
+    <h1 style="margin-top:8px;">Action tracker — all members</h1>
+    <div class="sub">Every action agreed in meetings, who owns it, and whether it is done. {{ total }} action(s) across your members.</div></div>
+    <a class="ms-btn g" href="{{ url_for('mentorship.action_tracker', f=flt, owner=owner_f, q=q, format='csv') }}">⬇ Export CSV</a></section>
+
+  <div class="ms-grid ms-g3" style="margin:16px 0;">
+    {% for o in OWNERS %}
+    <a class="ms-card" href="{{ url_for('mentorship.action_tracker', f=flt, owner=o, q=q) }}" style="text-decoration:none;color:inherit;">
+      <div class="ms-eyebrow">{{ OWNER_LABEL[o] }} actions</div>
+      <h2 style="margin:4px 0;">{{ progress[o].done }} of {{ progress[o].total }} done</h2>
+      {{ m.bar(progress[o].pct, green=true) }}
+      <div class="hint" style="margin-top:6px;">{{ progress[o].open }} open{% if progress[o].overdue %} · <span style="color:#C23A3A;font-weight:600;">{{ progress[o].overdue }} overdue</span>{% endif %}{% if progress[o].help %} · {{ progress[o].help }} need help{% endif %}</div>
+    </a>
+    {% endfor %}
+  </div>
+
+  <div class="ms-card">
+    <form method="get" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:10px;">
+      <div><label class="f">Show</label><select name="f">{% for key, label in ACTION_FILTERS %}<option value="{{ key }}" {{ 'selected' if key == flt }}>{{ label }}</option>{% endfor %}</select></div>
+      <div><label class="f">Owner</label><select name="owner"><option value="">Everyone</option>{% for o in OWNERS %}<option value="{{ o }}" {{ 'selected' if o == owner_f }}>{{ OWNER_LABEL[o] }}</option>{% endfor %}</select></div>
+      <div style="flex:1;min-width:180px;"><label class="f">Member</label><input type="text" name="q" value="{{ q }}" placeholder="Name or email"></div>
+      <button class="ms-btn p sm">Apply</button><a class="ms-btn g sm" href="{{ url_for('mentorship.action_tracker') }}">Reset</a>
+    </form>
+    <div class="ms-scroll"><table style="width:100%;border-collapse:collapse;font-size:.88rem;">
+      <thead><tr style="text-align:left;background:#FFF8EE;"><th style="padding:8px;">Member</th><th>Action</th><th>Owner</th><th>Due</th><th>Priority</th><th>Status</th></tr></thead>
+      <tbody>
+      {% for e, a in items %}
+      <tr style="border-bottom:1px solid #F1EAD7;vertical-align:top;">
+        <td style="padding:8px;"><a href="{{ url_for('mentorship.workspace', eid=e.id, tab='actions') }}#a{{ a.id }}"><strong>{{ e.student.name }}</strong></a></td>
+        <td>{{ a.title }}</td>
+        <td><span class="ms-pill">{{ OWNER_LABEL.get(a.owner or 'student', a.owner) }}</span></td>
+        <td style="white-space:nowrap;">{{ a.due_date.strftime('%d %b %Y') if a.due_date else '—' }}</td>
+        <td><span class="ms-pill {{ 'bad' if a.priority == 'High' else '' }}">{{ a.priority }}</span></td>
+        <td>{{ m.state_pill(action_state(a)) }}</td>
+      </tr>
+      {% else %}<tr><td colspan="6" class="ms-empty" style="padding:18px;">No actions match these filters.</td></tr>{% endfor %}
+      </tbody></table></div>
+  </div>
+
+  <div class="ms-card" style="margin-top:16px;">
+    <div class="ms-eyebrow">By member</div>
+    <div class="ms-scroll"><table style="width:100%;border-collapse:collapse;font-size:.88rem;">
+      <thead><tr style="text-align:left;background:#FFF8EE;"><th style="padding:8px;">Member</th>{% for o in OWNERS %}<th>{{ OWNER_LABEL[o] }}</th>{% endfor %}</tr></thead>
+      <tbody>
+      {% for e, p in per_member %}
+      <tr style="border-bottom:1px solid #F1EAD7;"><td style="padding:8px;"><a href="{{ url_for('mentorship.workspace', eid=e.id, tab='actions') }}">{{ e.student.name }}</a></td>
+        {% for o in OWNERS %}<td>{% if p[o].total %}{{ p[o].done }}/{{ p[o].total }} {% if p[o].overdue %}<span class="ms-pill bad">{{ p[o].overdue }} overdue</span>{% endif %}{% else %}—{% endif %}</td>{% endfor %}</tr>
+      {% else %}<tr><td colspan="4" class="ms-empty" style="padding:18px;">No actions recorded yet.</td></tr>{% endfor %}
+      </tbody></table></div>
+  </div>
+</div>
+{% endblock %}
