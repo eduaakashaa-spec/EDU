@@ -47,10 +47,10 @@
   .mh-tile { position:relative; display:block; text-decoration:none; border-radius:16px; padding:18px 18px 16px; border:1px solid transparent;
              transition:transform .15s, box-shadow .15s; color:#222; }
   .mh-tile:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,.12); }
-  /* artwork behind every tile: the same education line-art as the banners at 40% opacity, a different crop per tile; a light shade on the left keeps the text readable */
+  /* artwork behind every tile: the same education line-art as the banners at 70% opacity, a different crop per tile; a light shade on the left keeps the text readable */
   .mh-tile { isolation:isolate; overflow:hidden; }
-  .mh-tile::before { content:''; position:absolute; inset:0; z-index:-2; border-radius:inherit; opacity:.4; background:url('{{ url_for("static", filename="img/art/edu-tile.svg") }}') var(--pos,70% 40%) / 230% auto no-repeat; }
-  .mh-tile::after { content:''; position:absolute; inset:0; z-index:-1; border-radius:inherit; background:linear-gradient(90deg,var(--tint,#fff) 0%,transparent 70%); }
+  .mh-tile::before { content:''; position:absolute; inset:0; z-index:-2; border-radius:inherit; opacity:.7; background:url('{{ url_for("static", filename="img/art/edu-tile.svg") }}') var(--pos,70% 40%) / 230% auto no-repeat; }
+  .mh-tile::after { content:''; position:absolute; inset:0; z-index:-1; border-radius:inherit; background:linear-gradient(90deg,var(--tint,#fff) 0%,transparent 55%); }
   .mh-tile:nth-child(4n+1) { --pos:14% 28%; } .mh-tile:nth-child(4n+2) { --pos:88% 22%; } .mh-tile:nth-child(4n+3) { --pos:52% 88%; } .mh-tile:nth-child(4n+4) { --pos:26% 68%; }
   .mh-tile .ico { font-size:1.7rem; line-height:1; }
   .mh-tile h3 { margin:10px 0 4px; font-size:1.02rem; font-family:'Oswald',sans-serif; letter-spacing:.3px; color:#1A1A2E; }
