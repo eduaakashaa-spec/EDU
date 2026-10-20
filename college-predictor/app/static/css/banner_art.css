@@ -1,0 +1,22 @@
+/* Education artwork behind every banner / hero (instead of a plain colour).
+   One extra background layer is stacked on each banner's own gradient, so text contrast is unchanged.
+   art/edu-dark.svg for dark banners, art/edu-light.svg for light hero sections. Both are original line-art (cap, book, atom, formulas, graphs). */
+body .uc-hero    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, radial-gradient(1200px 500px at 85% -10%, rgba(255,107,10,.22), transparent 60%), linear-gradient(135deg, #071A44 0%, #0E3A8A 70%); }
+body .ms-head    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(120deg, #071A44 0%, #0E3A8A 60%, #FF6B0A 150%); }
+body .xs-hero    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #0E3A8A, #0A2560); }
+body .xs-more    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #0E3A8A, #0A2560); }
+body .fg-hero    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44, #0E3A8A); }
+body .mt-hero    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44, #0E3A8A); }
+body .mp-banner  { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #1A1A2E, #2a2a4e); }
+body .ov-hero    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #0E3A8A 0%, #071A44 62%, #040F2B 100%); }
+body .jr-hero    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44 0%, #0E3A8A 62%, #14498f 100%); }
+body .pl-hero    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(120deg, #071A44, #0E3A8A 65%, #FF6B0A 160%); }
+body .uc-cta, body .jr-cta { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44, #0E3A8A); }
+body .ab-nri     { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44 0%, #0E3A8A 70%); }
+body .ab-statement { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44, #0E3A8A); }
+body .hp-hero    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #0f0f23 0%, #1a1a3e 40%, #1b2a5b 70%, #0f1b35 100%); }
+/* light (cream) hero sections */
+body .hero-editorial { background: url('../img/art/edu-light.svg') right center / cover no-repeat, var(--cream, #FFF8EE); }
+@media (max-width: 640px) {
+  body .uc-hero, body .ms-head, body .xs-hero, body .fg-hero, body .mt-hero, body .jr-hero, body .pl-hero { background-position: 72% center, center, center; }
+}
