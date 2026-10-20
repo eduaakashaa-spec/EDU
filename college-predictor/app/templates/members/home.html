@@ -4,8 +4,12 @@
 {% block head %}
 <style>
   .mh { max-width: 1160px; margin: 0 auto; padding: 32px 20px 70px; }
-  .mh-hero { display:flex; gap:24px; align-items:center; flex-wrap:wrap; padding:26px 28px; border-radius:22px; color:#fff;
+  .mh-hero { position:relative; isolation:isolate; overflow:hidden; display:flex; gap:24px; align-items:center; flex-wrap:wrap; padding:26px 28px; border-radius:22px; color:#fff;
              background:linear-gradient(120deg,#1A1A2E 0%,#2B2F77 55%,#7C3AED 100%); box-shadow:0 14px 34px rgba(26,26,46,.22); }
+  /* banner picture: 40% transparent (60% opaque) behind the details; a left-to-right shade keeps the text readable */
+  .mh-hero::before { content:''; position:absolute; inset:0; z-index:-2; opacity:.6; background:url('{{ url_for("static", filename="img/member-banner.webp") }}') right 28% / cover no-repeat; }
+  .mh-hero::after { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(26,26,46,.88) 0%,rgba(26,26,46,.55) 50%,rgba(26,26,46,0) 100%); }
+  @media (max-width:640px) { .mh-hero::after { background:rgba(26,26,46,.6); } }
   .mh-photo { width:104px; height:104px; border-radius:50%; flex:none; border:4px solid #C9A84C; object-fit:cover; background:#C9A84C;
               display:flex; align-items:center; justify-content:center; font:700 2.4rem 'Oswald',sans-serif; color:#1A1A2E; }
   .mh-id { flex:1; min-width:240px; }
