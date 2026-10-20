@@ -22,7 +22,7 @@
   {% if lst.evidence %}<p class="hint">Recorded reference for official portal entry: {{ lst.evidence }}</p>{% endif %}
 
   <div class="ms-tbl-wrap"><table class="ms-tbl">
-    <thead><tr><th>#</th><th>College / branch</th><th>Route</th><th>Tier</th><th>Interest</th><th>Eligibility</th><th>Data &amp; fee notes</th><th>Mentor</th><th>Parent</th><th></th></tr></thead>
+    <thead><tr><th>#</th><th>College / branch</th><th>Route</th><th>Tier</th><th>Interest</th><th>Eligibility</th><th>Exam &amp; dates</th><th>Data &amp; fee notes</th><th>Mentor</th><th>Parent</th><th></th></tr></thead>
     <tbody>
     {% for x in entries %}
       <tr id="x{{ x.id }}">
@@ -31,6 +31,29 @@
           {% if x.reason %}<div style="font-size:.78rem;">Why: {{ x.reason }}</div>{% endif %}</td>
         <td>{{ x.route or '—' }}</td><td>{{ x.tier or '—' }}</td><td>{{ m.stars(x.interest) }}</td>
         <td><span class="ms-pill {{ 'ok' if x.eligibility == 'Eligible' else ('bad' if x.eligibility == 'Not eligible' else 'warn') }}">{{ x.eligibility }}</span></td>
+        <td style="font-size:.8rem;min-width:170px;">
+          {% set dt = x.dates %}
+          {% if dt and (dt.exam_name or dt.app_open or dt.app_deadline or dt.exam_date) %}
+            {% if dt.exam_name %}<div><strong>{{ dt.exam_name }}</strong></div>{% endif %}
+            {% if dt.app_open %}<div>Applications open: {{ dt.app_open.strftime('%d %b %Y') }}</div>{% endif %}
+            {% if dt.app_deadline %}{% set lbl = deadline_label(dt.app_deadline, today) %}<div>Deadline: <strong>{{ dt.app_deadline.strftime('%d %b %Y') }}</strong> <span class="ms-pill {{ lbl[1] }}">{{ lbl[0] }}</span></div>{% endif %}
+            {% if dt.exam_date %}<div>Exam: {{ dt.exam_date.strftime('%d %b %Y') }}</div>{% endif %}
+            {% if dt.source %}<div style="color:var(--text-dim)">Source: {{ dt.source }}</div>{% endif %}
+          {% else %}<span style="color:#999">Dates not added</span>{% endif %}
+          {% if role != 'parent' %}
+          <details class="ms-fold"><summary>{{ 'Edit dates' if dt else 'Add dates' }}</summary>
+            <form method="post" action="{{ url_for('mentorship.pref_dates_update', eid=e.id, xid=x.id) }}">
+              <label>Entrance exam (from the exams followed)</label>
+              <select name="exam_id" class="pref-exam" data-target="d{{ x.id }}"><option value="">— none / other —</option>{% for fx in followed_exams %}<option value="{{ fx.id }}" data-start="{{ fx.starts_on }}" {{ 'selected' if dt and dt.exam_id == fx.id }}>{{ fx.name }}</option>{% endfor %}</select>
+              <label style="margin-top:4px;">Or type an exam not in the list</label><input type="text" name="exam_label" maxlength="200" value="{{ dt.exam_label if dt and dt.exam_label else '' }}">
+              <label style="margin-top:4px;">Applications open</label><input type="date" name="app_open" value="{{ dt.app_open if dt and dt.app_open else '' }}">
+              <label style="margin-top:4px;">Application deadline</label><input type="date" name="app_deadline" value="{{ dt.app_deadline if dt and dt.app_deadline else '' }}">
+              <label style="margin-top:4px;">Exam date</label><input type="date" name="exam_date" id="d{{ x.id }}" value="{{ dt.exam_date if dt and dt.exam_date else '' }}">
+              <label style="margin-top:4px;">Where these dates were read</label><input type="text" name="dates_source" maxlength="300" value="{{ dt.source if dt and dt.source else '' }}" placeholder="e.g. official brochure, checked 20 Oct 2026">
+              <button class="ms-btn p sm" style="margin-top:6px;">Save dates</button>
+            </form></details>
+          {% endif %}
+        </td>
         <td style="font-size:.8rem;max-width:230px;">{% if x.data_note %}{{ x.data_note }}<div style="color:var(--text-dim)">{{ x.data_year or 'year not stated' }} · {{ x.data_source or 'source not stated' }}</div>{% else %}<span style="color:#999">No data recorded</span>{% endif %}
           {% if x.fee_note %}<div>Fee: {{ x.fee_note }}</div>{% endif %}</td>
         <td style="font-size:.8rem;max-width:170px;">{{ x.mentor_reco or '—' }}<div style="color:var(--text-dim)">{{ x.review_status }}</div></td>
@@ -55,7 +78,7 @@
           </details>
         </td>
       </tr>
-    {% else %}<tr><td colspan="10"><div class="ms-empty">No choices yet — add the first one below.</div></td></tr>{% endfor %}
+    {% else %}<tr><td colspan="11"><div class="ms-empty">No choices yet — add the first one below.</div></td></tr>{% endfor %}
     </tbody></table></div>
 
   {% if role != 'parent' %}
@@ -67,6 +90,19 @@
         <div><label>Tier</label><select name="tier"><option value="">—</option><option>Aspirational</option><option>Target</option><option>Backup</option></select></div>
         <div><label>Location</label><input type="text" name="location"></div><div><label>Fee note (with date)</label><input type="text" name="fee_note"></div>
         <div><label>Eligibility</label><select name="eligibility">{% for el in ELIGIBILITY %}<option>{{ el }}</option>{% endfor %}</select></div>
+      </div>
+      <div class="ms-card" style="background:#FFF8EE;margin:8px 0;padding:10px 12px;">
+        <strong style="font-size:.88rem;">Entrance exam and application dates</strong>
+        <div class="ms-row">
+          <div><label>Entrance exam (from the exams followed)</label><select name="exam_id" class="pref-exam" data-target="new{{ lst.id }}"><option value="">— none / other —</option>{% for fx in followed_exams %}<option value="{{ fx.id }}" data-start="{{ fx.starts_on }}">{{ fx.name }}</option>{% endfor %}</select>
+            {% if not followed_exams %}<div class="hint">No exams followed yet — follow exams on the <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='calendar') }}#exams">Exam Calendar</a>, or type the exam below.</div>{% endif %}</div>
+          <div><label>Or type an exam not in the list</label><input type="text" name="exam_label" maxlength="200"></div>
+          <div><label>Applications open</label><input type="date" name="app_open"></div>
+          <div><label>Application deadline</label><input type="date" name="app_deadline"></div>
+          <div><label>Exam date</label><input type="date" name="exam_date" id="new{{ lst.id }}"></div>
+          <div><label>Where the dates were read</label><input type="text" name="dates_source" maxlength="300" placeholder="e.g. official brochure, 20 Oct 2026"></div>
+        </div>
+        <div class="hint">Choosing an exam fills the exam date from the shared catalogue; check the application dates on the official notice and cite the source.</div>
       </div>
       <label>Historical data (e.g. closing rank)</label><textarea name="data_note" style="min-height:48px;"></textarea>
       <div class="ms-row" style="margin-top:6px;"><div><label>Data year</label><input type="text" name="data_year" placeholder="2025"></div><div><label>Data source</label><input type="text" name="data_source" placeholder="e.g. JoSAA official closing ranks"></div><div><label>Interest (1–5)</label><input type="number" min="1" max="5" name="interest"></div></div>
@@ -92,4 +128,13 @@
 <div class="ms-card"><div class="ms-eyebrow">Change history</div>
   {% for h in hist %}<div style="font-size:.82rem;padding:4px 0;border-bottom:1px solid #F1EAD7;">{{ fmt_dt(h.created_at, e.timezone) }} · <strong>{{ h.role }}</strong> · {{ h.action.replace('pref.', '').replace('_', ' ') }} — {{ h.detail }}</div>{% endfor %}</div>
 {% endif %}
+<script>
+// choosing a followed exam fills the exam date from the shared catalogue (never overwrites a date already typed)
+document.querySelectorAll('.pref-exam').forEach(function (sel) {
+  sel.addEventListener('change', function () {
+    var opt = sel.options[sel.selectedIndex], box = document.getElementById(sel.dataset.target);
+    if (box && opt && opt.dataset.start && !box.value) box.value = opt.dataset.start;
+  });
+});
+</script>
 {% endblock %}

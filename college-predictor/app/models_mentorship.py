@@ -474,3 +474,26 @@ class MsParentAssessment(db.Model):
     submitted_at = db.Column(db.DateTime)
     __table_args__ = (db.UniqueConstraint('enrolment_id', 'parent_id'),)
     parent = db.relationship('User')
+
+
+# --------------------------------------------------------------------------- #
+# College-list entry: the entrance exam it depends on and its application dates
+# (own table, one row per entry — adding columns to existing tables is not possible without a migration)
+# --------------------------------------------------------------------------- #
+class MsPrefDates(db.Model):
+    __tablename__ = 'ms_pref_dates'
+    id = db.Column(db.Integer, primary_key=True)
+    entry_id = db.Column(db.Integer, db.ForeignKey('ms_pref_entries.id', ondelete='CASCADE'), unique=True, index=True, nullable=False)
+    exam_id = db.Column(db.Integer, db.ForeignKey('ms_exams.id', ondelete='SET NULL'))      # chosen from the exams the student follows
+    exam_label = db.Column(db.String(200))                                                 # free text when the exam is not in the catalogue
+    app_open = db.Column(db.Date)
+    app_deadline = db.Column(db.Date)
+    exam_date = db.Column(db.Date)
+    source = db.Column(db.String(300))                                                     # where the dates were read
+    updated_at = db.Column(db.DateTime, default=_utcnow, onupdate=_utcnow)
+    entry = db.relationship('MsPrefEntry', backref=db.backref('dates', uselist=False, cascade='all, delete-orphan'))
+    exam = db.relationship('MsExam')
+
+    @property
+    def exam_name(self):
+        return (self.exam.name if self.exam else None) or self.exam_label

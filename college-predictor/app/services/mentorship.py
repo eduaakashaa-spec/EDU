@@ -534,8 +534,33 @@ def events_for(e, include_all=True):
     for r in e.reviews.filter(MsReview.next_review_date != None).all() if hasattr(e, 'reviews') else []:  # noqa: E711
         items.append({'date': r.next_review_date, 'title': 'Next review after ' + r.label, 'category': 'Quarterly review',
                       'kind': 'review', 'id': r.id})
+    from app.models_mentorship import MsPrefDates, MsPrefEntry, MsPrefList
+    followed = {f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()}
+    for d, x in (db.session.query(MsPrefDates, MsPrefEntry).join(MsPrefEntry, MsPrefEntry.id == MsPrefDates.entry_id)
+                 .join(MsPrefList, MsPrefList.id == MsPrefEntry.list_id).filter(MsPrefList.enrolment_id == e.id).all()):
+        src = d.source or 'recorded by mentor / family'
+        for when, label in ((d.app_open, 'Applications open'), (d.app_deadline, 'Application deadline')):
+            if when:
+                items.append({'date': when, 'title': f'{label}: {x.college}', 'category': 'Admission deadline', 'source': src, 'notes': d.exam_name or '',
+                              'done': False, 'kind': 'event', 'id': None, 'scope': 'College list'})
+        if d.exam_date and (d.exam_id is None or d.exam_id not in followed):
+            items.append({'date': d.exam_date, 'title': f'Exam: {d.exam_name or "entrance exam"} ({x.college})', 'category': 'Admission deadline', 'source': src,
+                          'notes': '', 'done': False, 'kind': 'event', 'id': None, 'scope': 'College list'})
     items.sort(key=lambda i: (i['date'], i['title']))
     return items
+
+
+def deadline_label(d, ref=None):
+    """('Closed 3 days ago' | 'Closes today' | 'Closes in 12 days', css kind) for an application deadline."""
+    if not d:
+        return '', ''
+    ref = ref or today()
+    n = (d - ref).days
+    if n < 0:
+        return f'Closed {-n} day{"s" if n != -1 else ""} ago', 'bad'
+    if n == 0:
+        return 'Closes today', 'bad'
+    return f'Closes in {n} day{"s" if n != 1 else ""}', ('warn' if n <= 14 else 'ok')
 
 
 def attention(e):

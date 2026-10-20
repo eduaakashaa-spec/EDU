@@ -23,7 +23,7 @@ from app.models_membership import Setting
 from app.models_mentorship import (
     ACTION_STATUSES, ADMISSION_ROUTES, ELIGIBILITY, EVENT_CATEGORIES, KPI_DIRECTIONS, PREF_LIST_STATUSES,
     REVIEW_STATUSES, SESSION_STATUSES, MsAction, MsAudit, MsBranch, MsBranchFit, MsBranchRating, MsCheckin,
-    MsEnrolment, MsEvent, MsKpi, MsParentAssessment, MsKpiObs, MsMessage, MsMessageRead, MsParentLink, MsPrefEntry, MsPrefList,
+    MsEnrolment, MsEvent, MsKpi, MsParentAssessment, MsPrefDates, MsKpiObs, MsMessage, MsMessageRead, MsParentLink, MsPrefEntry, MsPrefList,
     EXAM_STATUSES, MsAlert, MsExam, MsExamFocus, MsProgramme, MsReport, MsReview, MsSession, MsSessionTemplate,
 )
 from app.services import exam_calendar as xc
@@ -325,7 +325,8 @@ def _tab_branch(e, role):
 
 def _tab_prefs(e, role):
     lists = MsPrefList.query.filter_by(enrolment_id=e.id).order_by(MsPrefList.id).all()
-    return dict(lists=lists, PREF_LIST_STATUSES=PREF_LIST_STATUSES, ADMISSION_ROUTES=ADMISSION_ROUTES, ELIGIBILITY=ELIGIBILITY,
+    return dict(lists=lists, followed_exams=_followed_exams(e), today=svc.today(), deadline_label=svc.deadline_label,
+                PREF_LIST_STATUSES=PREF_LIST_STATUSES, ADMISSION_ROUTES=ADMISSION_ROUTES, ELIGIBILITY=ELIGIBILITY,
                 allowed_status=_allowed_pref_status(role),
                 hist=MsAudit.query.filter(MsAudit.enrolment_id == e.id, MsAudit.action.like('pref.%')).order_by(MsAudit.id.desc()).limit(25).all())
 
@@ -839,9 +840,47 @@ def pref_entry_add(eid, lid):
                     data_note=_s('data_note'), data_source=_s('data_source', 200), data_year=_s('data_year', 20),
                     fee_note=_s('fee_note', 300), location=_s('location', 160), reason=_s('reason'))
     db.session.add(x)
+    db.session.flush()
+    _save_pref_dates(e, x)
     svc.audit(e, 'pref.entry_added', f'{lst.name}: {college} / {x.branch}', role)
     db.session.commit()
     return _back(e, 'prefs', f'l{lst.id}')
+
+
+def _followed_exams(e):
+    ids = [f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()]
+    return MsExam.query.filter(MsExam.id.in_(ids), MsExam.active == True).order_by(MsExam.starts_on).all() if ids else []  # noqa: E712
+
+
+def _save_pref_dates(e, x):
+    """Create / update the exam + application dates of a list entry from the posted form. Returns True if anything was stored."""
+    exam_id = _int('exam_id')
+    exam = db.session.get(MsExam, exam_id) if exam_id else None
+    if exam is not None and exam.id not in {f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()}:
+        exam = None                                           # only exams this student follows can be linked
+    label = _s('exam_label', 200)
+    d_open, d_dead, d_exam = (svc.parse_date(request.form.get(k)) for k in ('app_open', 'app_deadline', 'exam_date'))
+    src = _s('dates_source', 300)
+    if not (exam or label or d_open or d_dead or d_exam or src):
+        return False
+    row = x.dates or MsPrefDates(entry_id=x.id)
+    row.exam_id, row.exam_label = (exam.id if exam else None), (label if not exam else None)
+    row.app_open, row.app_deadline, row.exam_date, row.source = d_open, d_dead, d_exam or (exam.starts_on if exam and not d_exam else None), src
+    db.session.add(row)
+    return True
+
+
+@mentorship_bp.route('/e/<int:eid>/prefs/entry/<int:xid>/dates', methods=['POST'])
+@login_required
+def pref_dates_update(eid, xid):
+    e, role = _ctx(eid, ('student', 'mentor', 'admin'))
+    x = _entry(e, xid)
+    if not _save_pref_dates(e, x) and x.dates is not None:
+        db.session.delete(x.dates)                            # everything cleared
+    svc.audit(e, 'pref.dates_updated', f'{x.college}', role)
+    db.session.commit()
+    flash('Exam and application dates saved.', 'success')
+    return _back(e, 'prefs', f'x{x.id}')
 
 
 def _entry(e, xid):

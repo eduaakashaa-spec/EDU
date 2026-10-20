@@ -202,3 +202,7 @@ Every member's workspace has an **Action Tracker** tab (students, linked parents
 Test: `tests/test_action_tracker.py`.
 
 **Closing actions.** Owners mark an action *Completed*; the mentor or admin then reviews it and sets *Closed* (with an optional closing note, appended to the mentor feedback). Closed counts as done in progress, owners cannot reopen it, staff can *Reopen*. Filters: Open, Overdue, Needs help, Completed (awaiting close), Closed; the audit log records `action.closed`. No schema change: it is an extra status value.
+
+## College list: exam and application dates
+
+Each choice on the College Preferences tab can carry its **entrance exam and application dates**: an *Entrance exam* drop-down listing only the exams that student follows on the Exam Calendar (or free text for another exam), *Applications open*, *Application deadline*, *Exam date* and *Where the dates were read*. Picking an exam pre-fills the exam date from the shared catalogue (never overwriting a typed date). The list shows the dates with a deadline badge (Closes in N days / today, Closed N days ago); students and mentors can add or edit them, parents see them read-only. Dates also appear on the Exam Calendar as "Applications open / Application deadline: <college>" (and "Exam: …" when the exam is not already followed). Stored in the new `ms_pref_dates` table (one row per choice; no change to existing tables). Application dates are entered by people — they are not scraped — so cite the official source. Test: `tests/test_pref_dates.py`.
