@@ -71,7 +71,7 @@
       {% if a.purpose %}<div class="hint" style="margin:2px 0;">Why: {{ a.purpose }}</div>{% endif %}
       <div style="font-size:.8rem;color:var(--text-dim);">{% if a.due_date %}Due {{ a.due_date.strftime('%d %b') }}{% endif %}{% if a.est_minutes %} · ~{{ a.est_minutes }} min{% endif %} · {{ a.status }}</div>
       {% if a.mentor_feedback %}<div style="font-size:.84rem;margin-top:4px;">💬 Mentor: {{ a.mentor_feedback }}</div>{% endif %}
-      {% if (role == 'student' and a.owner == 'student') and a.status not in ('Completed', 'Cancelled', 'Blocked') %}
+      {% if (role == 'student' and a.owner == 'student') and a.status not in ('Completed', 'Closed', 'Cancelled', 'Blocked') %}
       <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
         <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}"><input type="hidden" name="back" value="home"><input type="hidden" name="status" value="Completed"><button class="ms-btn p sm">✓ Mark complete</button></form>
         <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}"><input type="hidden" name="back" value="home"><input type="hidden" name="status" value="Needs Help"><button class="ms-btn g sm">Request help</button></form>

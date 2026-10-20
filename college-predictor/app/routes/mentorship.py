@@ -241,7 +241,7 @@ def _tab_home(e, role):
     t = svc.today()
     week = (_visible_actions(e, role).filter(MsAction.status != 'Cancelled')
             .filter(db.or_(MsAction.due_date <= t + timedelta(days=7), MsAction.due_date == None))  # noqa: E711
-            .filter(db.or_(MsAction.status != 'Completed', MsAction.completed_at >= svc.utcnow() - timedelta(days=7)))
+            .filter(db.or_(MsAction.status.notin_(['Completed', 'Closed']), MsAction.completed_at >= svc.utcnow() - timedelta(days=7)))
             .order_by(MsAction.due_date).all())
     if role == 'parent':
         week = [a for a in week if a.parent_visible]
@@ -251,7 +251,7 @@ def _tab_home(e, role):
           .order_by(MsCheckin.week_start.desc()).first())
     priority = None
     for a in week:
-        if a.priority == 'High' and a.status != 'Completed':
+        if a.priority == 'High' and a.status not in ('Completed', 'Closed'):
             priority = a
             break
     level, reasons = svc.attention(e) if role in STAFF else (None, [])
@@ -281,7 +281,7 @@ def _tab_weekly(e, role):
     ci = MsCheckin.query.filter_by(enrolment_id=e.id, week_start=wk).first()
     prev = MsCheckin.query.filter(MsCheckin.enrolment_id == e.id, MsCheckin.week_start < wk).order_by(MsCheckin.week_start.desc()).first()
     open_actions = e.actions.filter(MsAction.status.notin_(['Cancelled'])).order_by(MsAction.due_date).all()
-    cur = [a for a in open_actions if a.status != 'Completed' or (a.completed_at and a.completed_at.date() >= wk)]
+    cur = [a for a in open_actions if a.status not in ('Completed', 'Closed') or (a.completed_at and a.completed_at.date() >= wk)]
     history = MsCheckin.query.filter(MsCheckin.enrolment_id == e.id, MsCheckin.status != 'Draft').order_by(MsCheckin.week_start.desc()).limit(12).all()
     return dict(checkin=ci, prev=prev, actions=cur, week=wk, history=history, ACTION_STATUSES=ACTION_STATUSES,
                 STUDENT_ACTION_STATUSES=STUDENT_ACTION_STATUSES, action_state=svc.action_state,
@@ -505,14 +505,21 @@ def action_update(eid, aid):
         a.evidence_url = _s('evidence_url', 500) if 'evidence_url' in request.form else a.evidence_url
         status = request.form.get('status')
         allowed = STUDENT_ACTION_STATUSES
-        if a.status in ('Blocked', 'Cancelled'):
+        if a.status in ('Blocked', 'Cancelled', 'Closed'):
             allowed = ()
     else:
         abort(403)
     if status in allowed:
         a.status = status
-        a.completed_at = svc.utcnow() if status == 'Completed' and old != 'Completed' else (a.completed_at if status == 'Completed' else None)
-    svc.audit(e, 'action.updated', f'{a.title}: {old} → {a.status}', role)
+        if status in ('Completed', 'Closed'):
+            a.completed_at = a.completed_at or svc.utcnow()
+        else:
+            a.completed_at = None
+        if status == 'Closed' and role in STAFF:
+            note = _s('closing_note', 400)
+            if note:
+                a.mentor_feedback = ((a.mentor_feedback + '\n') if a.mentor_feedback else '') + 'Closed: ' + note
+    svc.audit(e, 'action.closed' if (a.status == 'Closed' and old != 'Closed') else 'action.updated', f'{a.title}: {old} → {a.status}', role)
     db.session.commit()
     flash('Action updated.', 'success')
     return _back(e, request.form.get('back') or 'weekly', f'a{a.id}')
@@ -548,7 +555,7 @@ def checkin_save(eid):
         ci.status, ci.submitted_at = 'Submitted', svc.utcnow()
         for aid, v in outcomes.items():                                  # reflect the self-report on the action itself
             a = db.session.get(MsAction, int(aid))
-            if a and a.owner == 'student' and a.status not in ('Cancelled', 'Completed'):
+            if a and a.owner == 'student' and a.status not in ('Cancelled', 'Completed', 'Closed'):
                 if v == 'completed':
                     a.status, a.completed_at = 'Completed', svc.utcnow()
                 elif v == 'blocked':
@@ -1515,7 +1522,7 @@ def action_tracker():
     if request.args.get('format') == 'csv':
         buf = io.StringIO()
         w = csv.writer(buf)
-        w.writerow(['Member', 'Action', 'Owner', 'Priority', 'Due', 'Status', 'Workflow state', 'Completed on'])
+        w.writerow(['Member', 'Action', 'Owner', 'Priority', 'Due', 'Status', 'Workflow state', 'Completed / closed on'])
         for e, a in items:
             w.writerow([e.student.name, a.title, a.owner, a.priority, a.due_date or '', a.status, svc.action_state(a), a.completed_at.date() if a.completed_at else ''])
         return Response(buf.getvalue(), mimetype='text/csv', headers={'Content-Disposition': 'attachment; filename=eduaakashaa-actions.csv'})

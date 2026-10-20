@@ -200,3 +200,5 @@ Every member's workspace has an **Action Tracker** tab (students, linked parents
 - **All members:** `/mentorship/actions` (Mentor dashboard → Action tracker; Member Home tile for staff) lists every action across members, filterable by status, owner and member, with per-member progress and a **CSV export**. Admins see all members; mentors see their own.
 - **Share:** *Email action list* sends a branded table from info@eduaakashaa.com to any of student / linked parents / mentor (parents receive only parent-visible actions; 20 sends per user per hour; audit logged). *WhatsApp* buttons open WhatsApp with the message pre-filled, using the phone saved in the student's profile (otherwise WhatsApp asks for the contact).
 Test: `tests/test_action_tracker.py`.
+
+**Closing actions.** Owners mark an action *Completed*; the mentor or admin then reviews it and sets *Closed* (with an optional closing note, appended to the mentor feedback). Closed counts as done in progress, owners cannot reopen it, staff can *Reopen*. Filters: Open, Overdue, Needs help, Completed (awaiting close), Closed; the audit log records `action.closed`. No schema change: it is an extra status value.

@@ -96,11 +96,33 @@ assert mentor.post(f'/mentorship/e/{E1}/actions/{men_act}/update', data={'status
 with app.app_context():
     rows = MsAction.query.filter_by(enrolment_id=E1).all()
     pr = svc.owner_progress(rows)
-    assert pr['student'] == {'total': 1, 'done': 1, 'open': 0, 'overdue': pr['student']['overdue'], 'help': 0, 'pct': 100}
+    assert pr['student']['total'] == 1 and pr['student']['done'] == 1 and pr['student']['open'] == 0 and pr['student']['closed'] == 0 and pr['student']['pct'] == 100
     assert pr['parent']['done'] == 1 and pr['mentor']['total'] == 2 and pr['mentor']['done'] == 0 and pr['mentor']['pct'] == 0
 body = mentor.get(f'/mentorship/e/{E1}/actions?f=done').get_data(as_text=True)
 assert 'Share recent Allen test reports' in body and 'Prepare NUS' not in body                       # filter works
 assert 'Prepare NUS' in mentor.get(f'/mentorship/e/{E1}/actions?owner=mentor').get_data(as_text=True)
+
+# mentor reviews and closes: closed counts as done, owners cannot reopen, staff can
+assert s1.post(f'/mentorship/e/{E1}/actions/{stu_act}/update', data={'status': 'Closed'}).status_code == 302          # owner cannot set Closed (ignored)
+with app.app_context():
+    assert db.session.get(MsAction, stu_act).status == 'Completed'
+assert b'Action updated' in post(mentor, f'/mentorship/e/{E1}/actions/{stu_act}/update', status='Closed', closing_note='Reports received and reviewed', back='actions').data
+with app.app_context():
+    a = db.session.get(MsAction, stu_act)
+    assert a.status == 'Closed' and a.completed_at and 'Closed: Reports received and reviewed' in a.mentor_feedback
+    pr = svc.owner_progress(MsAction.query.filter_by(enrolment_id=E1).all())
+    assert pr['student']['closed'] == 1 and pr['student']['done'] == 1 and svc.action_state(a) == 'Closed'
+assert s1.post(f'/mentorship/e/{E1}/actions/{stu_act}/update', data={'status': 'Not Started'}).status_code == 302
+with app.app_context():
+    assert db.session.get(MsAction, stu_act).status == 'Closed'                                      # owner cannot reopen a closed action
+assert 'Reports received' in mentor.get(f'/mentorship/e/{E1}/actions?f=closed').get_data(as_text=True) and 'Prepare NUS' not in mentor.get(f'/mentorship/e/{E1}/actions?f=closed').get_data(as_text=True)
+assert 'Prepare NUS' in mentor.get(f'/mentorship/e/{E1}/actions?f=open').get_data(as_text=True) and 'Reports received and reviewed' not in mentor.get(f'/mentorship/e/{E1}/actions?f=open').get_data(as_text=True)
+assert b'Close action' in mentor.get(f'/mentorship/e/{E1}/actions').data and b'Close action' not in s1.get(f'/mentorship/e/{E1}/actions').data
+post(mentor, f'/mentorship/e/{E1}/actions/{stu_act}/update', status='In Progress', back='actions')                  # staff reopen
+with app.app_context():
+    a = db.session.get(MsAction, stu_act)
+    assert a.status == 'In Progress' and a.completed_at is None
+post(mentor, f'/mentorship/e/{E1}/actions/{stu_act}/update', status='Completed', back='actions')
 
 # parents only see parent-visible actions
 with app.app_context():

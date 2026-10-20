@@ -123,7 +123,9 @@ class MsSession(db.Model):
                                 order_by='MsSession.position'))
 
 
-ACTION_STATUSES = ('Not Started', 'In Progress', 'Completed', 'Needs Help', 'Blocked', 'Cancelled')
+# 'Completed' = the owner says it is done; 'Closed' = the mentor has reviewed and signed it off (counts as done, cannot be reopened by the owner)
+ACTION_STATUSES = ('Not Started', 'In Progress', 'Completed', 'Closed', 'Needs Help', 'Blocked', 'Cancelled')
+ACTION_FINISHED = ('Completed', 'Closed')
 
 
 class MsAction(db.Model):

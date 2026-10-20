@@ -442,6 +442,8 @@ def action_state(a, ref=None):
     ref = ref or today()
     if a.status == 'Cancelled':
         return 'Cancelled'
+    if a.status == 'Closed':
+        return 'Closed'
     if a.status == 'Completed':
         if a.due_date and a.completed_at and a.completed_at.date() > a.due_date:
             return 'Completed late'
@@ -465,7 +467,7 @@ def action_stats(e, only_visible_to_parent=False):
     if only_visible_to_parent:
         q = q.filter(MsAction.parent_visible == True)  # noqa: E712
     rows = q.all()
-    done = [a for a in rows if a.status == 'Completed']
+    done = [a for a in rows if a.status in ('Completed', 'Closed')]
     overdue = [a for a in rows if action_state(a) == 'Overdue']
     return {'total': len(rows), 'done': len(done), 'overdue': len(overdue),
             'needs_help': sum(1 for a in rows if a.status in ('Needs Help', 'Blocked')),
@@ -527,7 +529,7 @@ def events_for(e, include_all=True):
         items.append({'date': to_local(s.planned_at, e.timezone).date(), 'title': s.title, 'category': 'Mentorship session',
                       'notes': fmt_dt(s.planned_at, e.timezone), 'done': s.status == 'Completed', 'kind': 'session', 'id': s.id})
     for a in e.actions.filter(MsAction.due_date != None, MsAction.status != 'Cancelled').all():  # noqa: E711
-        items.append({'date': a.due_date, 'title': 'Due: ' + a.title, 'category': 'Action due', 'done': a.status == 'Completed',
+        items.append({'date': a.due_date, 'title': 'Due: ' + a.title, 'category': 'Action due', 'done': a.status in ('Completed', 'Closed'),
                       'notes': action_state(a), 'kind': 'action', 'id': a.id})
     for r in e.reviews.filter(MsReview.next_review_date != None).all() if hasattr(e, 'reviews') else []:  # noqa: E711
         items.append({'date': r.next_review_date, 'title': 'Next review after ' + r.label, 'category': 'Quarterly review',
@@ -621,7 +623,7 @@ def build_snapshot(e):
         'checkins_submitted': len(checkins),
         'confidence': [c.confidence for c in sorted(checkins, key=lambda c: c.week_start) if c.confidence is not None][-8:],
         'kpis': _kpi_rows(e),
-        'open_actions': [a.title for a in e.actions.filter(MsAction.status.notin_(['Completed', 'Cancelled'])).limit(15).all()],
+        'open_actions': [a.title for a in e.actions.filter(MsAction.status.notin_(['Completed', 'Closed', 'Cancelled'])).limit(15).all()],
     }
 
 
@@ -776,7 +778,7 @@ def jload(s, default=None):
 # --------------------------------------------------------------------------- #
 OWNERS = ('student', 'parent', 'mentor')
 OWNER_LABEL = {'student': 'Student', 'parent': 'Parent', 'mentor': 'Mentor'}
-ACTION_FILTERS = (('all', 'All'), ('open', 'Open'), ('overdue', 'Overdue'), ('help', 'Needs help'), ('done', 'Completed'))
+ACTION_FILTERS = (('all', 'All'), ('open', 'Open'), ('overdue', 'Overdue'), ('help', 'Needs help'), ('done', 'Completed, awaiting close'), ('closed', 'Closed'))
 
 
 def visible_actions(e, audience):
@@ -792,8 +794,8 @@ def owner_progress(rows):
     out = {}
     for o in OWNERS:
         mine = [a for a in rows if (a.owner or 'student') == o]
-        done = [a for a in mine if a.status == 'Completed']
-        out[o] = {'total': len(mine), 'done': len(done), 'open': len(mine) - len(done),
+        done = [a for a in mine if a.status in ('Completed', 'Closed')]
+        out[o] = {'total': len(mine), 'done': len(done), 'open': len(mine) - len(done), 'closed': sum(1 for a in mine if a.status == 'Closed'),
                   'overdue': sum(1 for a in mine if action_state(a) == 'Overdue'),
                   'help': sum(1 for a in mine if a.status in ('Needs Help', 'Blocked')),
                   'pct': round(100 * len(done) / len(mine)) if mine else 0}
@@ -802,7 +804,9 @@ def owner_progress(rows):
 
 def action_matches(a, flt):
     if flt == 'open':
-        return a.status not in ('Completed', 'Cancelled')
+        return a.status not in ('Completed', 'Closed', 'Cancelled')
+    if flt == 'closed':
+        return a.status == 'Closed'
     if flt == 'overdue':
         return action_state(a) == 'Overdue'
     if flt == 'help':
@@ -867,9 +871,9 @@ def share_text(e, audience, rows=None):
     """Plain-text action list, formatted for WhatsApp (*bold*) and email. `audience` is student | parent | mentor."""
     rows = rows if rows is not None else visible_actions(e, audience)
     name = e.preferred_name or e.student.name
-    mine = [a for a in rows if (a.owner or 'student') == audience and a.status != 'Completed']
-    others = [a for a in rows if (a.owner or 'student') != audience and a.status != 'Completed']
-    done = [a for a in rows if a.status == 'Completed']
+    mine = [a for a in rows if (a.owner or 'student') == audience and a.status not in ('Completed', 'Closed')]
+    others = [a for a in rows if (a.owner or 'student') != audience and a.status not in ('Completed', 'Closed')]
+    done = [a for a in rows if a.status in ('Completed', 'Closed')]
     lines = [f'*EduAakashaA action list — {name}*', '']
 
     def block(title, items):
@@ -883,7 +887,7 @@ def share_text(e, audience, rows=None):
     block('For you' if audience != 'mentor' else 'Mentor actions', mine)
     block('Other open actions (for information)', others)
     if done:
-        lines.append(f'Completed so far: {len(done)}')
+        lines.append(f'Completed or closed so far: {len(done)}')
         lines.append('')
     if not (mine or others):
         lines.append('No open actions right now.')
@@ -896,7 +900,7 @@ def share_html(e, audience, rows=None, note=''):
     from html import escape
     rows = rows if rows is not None else visible_actions(e, audience)
     name = escape(e.preferred_name or e.student.name)
-    colour = {'Completed': '#1F8B5C', 'Needs Help': '#C23A3A', 'Blocked': '#C23A3A', 'In Progress': '#0E3A8A'}
+    colour = {'Completed': '#1F8B5C', 'Closed': '#1F8B5C', 'Needs Help': '#C23A3A', 'Blocked': '#C23A3A', 'In Progress': '#0E3A8A'}
 
     def table(items):
         if not items:
@@ -911,9 +915,9 @@ def share_html(e, audience, rows=None, note=''):
                 "<tr style='background:#FFF8EE;text-align:left;'><th style='padding:6px 8px;'>Action</th><th style='padding:6px 8px;'>Owner</th><th style='padding:6px 8px;'>Due</th><th style='padding:6px 8px;'>Status</th></tr>"
                 + body + '</table>')
 
-    mine = [a for a in rows if (a.owner or 'student') == audience and a.status != 'Completed']
-    others = [a for a in rows if (a.owner or 'student') != audience and a.status != 'Completed']
-    done = [a for a in rows if a.status == 'Completed']
+    mine = [a for a in rows if (a.owner or 'student') == audience and a.status not in ('Completed', 'Closed')]
+    others = [a for a in rows if (a.owner or 'student') != audience and a.status not in ('Completed', 'Closed')]
+    done = [a for a in rows if a.status in ('Completed', 'Closed')]
     prog = owner_progress(rows)
     summary = ' · '.join(f"{OWNER_LABEL[o]}: {prog[o]['done']}/{prog[o]['total']} done" for o in OWNERS if prog[o]['total'])
     html = (f"<h2 style='margin:0 0 6px;color:#0E3A8A;font-family:Georgia,serif'>Action list for {name}</h2>"
@@ -921,7 +925,7 @@ def share_html(e, audience, rows=None, note=''):
             + (f"<p style='margin:0 0 10px;font-size:12.5px;color:#555'>{escape(summary)}</p>" if summary else '')
             + ("<h3 style='margin:10px 0 0;font-size:14px;'>For you</h3>" + table(mine) if mine else '')
             + ("<h3 style='margin:10px 0 0;font-size:14px;'>Other open actions (for information)</h3>" + table(others) if others else '')
-            + (f"<p style='font-size:13px'>Completed so far: <strong>{len(done)}</strong></p>" if done else '')
+            + (f"<p style='font-size:13px'>Completed or closed so far: <strong>{len(done)}</strong></p>" if done else '')
             + ('' if (mine or others) else "<p>No open actions right now.</p>")
             + "<p style='font-size:13px'>Please update the status in the portal when an action is done.</p>")
     return html
