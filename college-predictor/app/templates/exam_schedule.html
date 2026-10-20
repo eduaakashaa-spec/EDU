@@ -30,7 +30,7 @@
 {% endmacro %}
 
 <div class="xs">
-  <header class="xs-hero"><div class="xs-wrap xs-hero-in">
+  <header class="xs-hero" data-rail aria-label="Exam schedule overview"><div class="xs-wrap xs-hero-in">
     <div>
       <div class="xs-eyebrow">Exam calendar · 2026–27 cycle · updated {{ verified.strftime('%d %b %Y') }}</div>
       <h1>India Entrance Exam Schedule <em>2026–27</em></h1>
@@ -58,7 +58,7 @@
     <a href="https://nta.ac.in" target="_blank" rel="noopener">NTA</a></div></div>
 
   <!-- toolbar: view switch + filters -->
-  <div class="xs-bar"><div class="xs-wrap">
+  <div class="xs-bar" data-rail aria-label="Views and filters"><div class="xs-wrap">
     <div class="xs-row" role="tablist" aria-label="Calendar view">
       <button type="button" class="xs-view on" role="tab" aria-selected="true" data-view="cards">▦ Cards</button>
       <button type="button" class="xs-view" role="tab" aria-selected="false" data-view="gantt">▬ Timeline (Gantt)</button>
@@ -85,7 +85,7 @@
   </div></div>
 
   <div class="xs-wrap xs-layout">
-    <main class="xs-main" id="xs-main">
+    <main class="xs-main" id="xs-main" data-rail aria-label="All exams">
       <div class="xs-count" id="xs-count" aria-live="polite"></div>
 
       <!-- 1. cards (masonry: filtered cards reflow, no empty columns) -->
@@ -142,7 +142,7 @@
     </aside>
   </div>
 
-  <section class="xs-more"><div class="xs-wrap xs-more-in">
+  <section class="xs-more" data-rail aria-label="Help with your exam plan"><div class="xs-wrap xs-more-in">
     <div class="xs-gi"><h3>Exam strategy by profile</h3><p>We shortlist exams from your marks, category, stream and career goal.</p><a href="{{ url_for('main.members_registration') }}">Talk to a mentor →</a></div>
     <div class="xs-gi"><h3>JoSAA choice-filling</h3><p>Prepare your choice list before the counselling window opens.</p><a href="{{ url_for('main.josaa') }}">JoSAA guide →</a></div>
     <div class="xs-gi"><h3>TNEA &amp; state counselling</h3><p>Marks-based rank, certificates and choice order for Tamil Nadu.</p><a href="{{ url_for('main.tnea_expert') }}">TNEA guidance →</a></div>

@@ -1,0 +1,18 @@
+/* Section rail + reading progress on every page (same idea as the homepage chapter rail). Built by js/page_rail.js. */
+.pr-top { position: fixed; left: 0; top: 0; height: 3px; width: 100%; z-index: 1200; pointer-events: none; background: transparent; }
+.pr-top i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #0E3A8A, #FF6B0A); transform-origin: left; transform: scaleX(0); }
+.pr-rail { position: fixed; left: 10px; top: 50%; transform: translateY(-50%); z-index: 900; display: none; flex-direction: column; gap: 14px; align-items: center;
+  padding: 14px 8px; border-radius: 999px; background: rgba(250,246,238,.82); border: 1px solid rgba(14,58,138,.10); box-shadow: 0 8px 24px rgba(7,26,68,.10);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.pr-rail a { font: 500 10.5px 'JetBrains Mono', monospace; letter-spacing: .06em; color: #8A93A8; text-decoration: none; line-height: 1; padding: 2px 3px;
+  transition: color .25s, transform .25s; position: relative; }
+.pr-rail a:hover { color: #0E3A8A; }
+.pr-rail a.on { color: #FF6B0A; transform: scale(1.25); font-weight: 700; }
+.pr-rail a:focus-visible { outline: 2px solid #FF6B0A; outline-offset: 3px; border-radius: 4px; }
+.pr-rail a::after { content: attr(data-label); position: absolute; left: calc(100% + 12px); top: 50%; transform: translateY(-50%); white-space: nowrap; max-width: 260px; overflow: hidden; text-overflow: ellipsis;
+  font: 600 11px 'Plus Jakarta Sans', sans-serif; letter-spacing: 0; color: #fff; background: #0E3A8A; padding: 5px 10px; border-radius: 8px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+.pr-rail a:hover::after, .pr-rail a:focus-visible::after { opacity: 1; }
+.pr-rail .pr-bar { width: 1.5px; height: 56px; background: rgba(14,58,138,.16); position: relative; overflow: hidden; }
+.pr-rail .pr-bar i { position: absolute; inset: 0; background: #FF6B0A; transform-origin: top; transform: scaleY(0); }
+@media (min-width: 1320px) { .pr-rail { display: flex; } }
+@media print { .pr-top, .pr-rail { display: none !important; } }
