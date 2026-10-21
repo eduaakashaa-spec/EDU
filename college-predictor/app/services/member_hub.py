@@ -29,7 +29,6 @@ CATEGORIES = [
      'tiles': [
          {'title': 'DASA 2026 Analytics', 'desc': 'Round-wise closing-rank analytics.', 'icon': '📈', 'endpoint': 'main.dasa_2026_analytics', 'access': 'premium'},
          {'title': 'DASA prediction report', 'desc': 'Personalised DASA / CIWG outlook.', 'icon': '🔮', 'endpoint': 'main.dasa_prediction_report', 'access': 'premium'},
-         {'title': 'DASA expert portal', 'desc': 'Expert guidance for DASA choice filling.', 'icon': '🏛️', 'endpoint': 'main.expert_portal_dasa', 'access': 'premium'},
          {'title': 'JoSAA EA members', 'desc': 'Members-only JoSAA insights.', 'icon': '🇮🇳', 'endpoint': 'main.josaa_ea_members', 'access': 'premium'},
          {'title': 'EduPulse-UCEED', 'desc': 'Chapter-wise MCQ practice with progress reports for you, your parent and mentor.', 'icon': '🎯', 'endpoint': 'pulse.home', 'access': 'premium'},
          {'title': 'EduPulse mentor view', 'desc': 'Progress of students practising UCEED.', 'icon': '📈', 'endpoint': 'pulse.mentor_home', 'access': 'premium', 'staff': True},

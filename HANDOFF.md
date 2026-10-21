@@ -260,7 +260,7 @@ see §6.
 - **Premium content pages** — 8 full ports from the live site, `@premium_required`:
   `/why-cse`, `/best-location`, `/engineering-insights`,
   `/hostel-and-culture-analytics`, `/tnea-expert`, `/josaaea-members`,
-  `/expert-portaldasa`, `/engineering-branch-selection-guide`. Their in-page lead
+  `/engineering-branch-selection-guide` (the `/expert-portaldasa` page was removed in Oct 2026). Their in-page lead
   forms post to `/api/leads`.
 - **Choice Builder PRO** `/choice-builder-pro` (admin) — the team's DASA analyzer
   tool migrated in-app (D3 + Chart.js). (**Counsellor Dashboard**

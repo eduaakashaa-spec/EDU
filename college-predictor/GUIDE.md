@@ -330,7 +330,6 @@ live-site content, no placeholders):
 | Hostel & Culture Analytics | `/hostel-and-culture-analytics` | DASA hostel/campus-culture report with D3 visuals |
 | TNEA Expert | `/tnea-expert` | Full TNEA 2026 guide — college table, cutoff predictor, Leaflet map, Student/Expert modes; expert-review requests land in `/admin/leads` |
 | JOSAA EA Members | `/josaaea-members` | JOSAA 2025 college predictor with choice wizard + XLSX/PDF export; submissions land in `/admin/leads` |
-| Expert Portal — DASA | `/expert-portaldasa` | DASA choice-filling matrix ("Beyond NIRF") |
 | Engineering Branch Selection Guide | `/engineering-branch-selection-guide` | Interactive 12-branch comparison dashboard with fitness quiz + roadmap generator |
 | DASA Prediction Report | `/dasa-prediction-report` | Member-edition prediction report (landing page) |
 | Stream Selection / Members Report | `/stream-selection`, `/members-report` | Member pages (stream-selection psychometric port pending) |

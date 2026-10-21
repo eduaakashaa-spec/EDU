@@ -365,7 +365,7 @@ else:
 
 # ---- 20/21. member hub tile + persistence -------------------------------------------------------------------------------------------------------
 hub = s1.get('/member-home').get_data(as_text=True)
-assert 'Mentorship Portal' in hub and '/mentorship/' in hub and 'img/hub/mentorship.svg' in hub
+assert 'Mentorship Portal' in hub and '/mentorship/' in hub and 'img/hub/mentorship.webp' in hub
 assert b'Mentor dashboard' not in s1.get('/member-home').data and b'Mentor dashboard' in mentor.get('/member-home').data
 assert free.get('/member-home').get_data(as_text=True).count('mh-lock') >= 1
 assert s1.get('/static/css/mentorship.css').status_code == 200

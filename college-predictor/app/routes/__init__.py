@@ -305,12 +305,6 @@ def members_report():
     return render_reference_page('members-report.html', 'members_report.html')
 
 
-@main_bp.route('/expert-portaldasa')
-@premium_required
-def expert_portal_dasa():
-    return render_reference_page('expert-portaldasa.html', 'expert_portal_dasa.html')
-
-
 @main_bp.route('/tnea-expert-guidance')
 def tnea_expert_guidance():
     return render_reference_page('tnea-expert-guidance.html', 'tnea_expert_guidance.html')
@@ -441,7 +435,7 @@ def dasa2026_expert_report():
     return _portal_tool(
         'DASA 2026 Expert Report',
         'Generate the personalised DASA/CIWG decision-matrix report for a student.',
-        url_for('main.expert_portal_dasa'),     # the in-app DASA expert portal
+        url_for('main.dasa_prediction_report'),     # the DASA expert portal page was removed; the prediction report is the nearest tool
         [{'icon': '\U0001F3AF', 'title': 'College predictor', 'text': 'NITs & IIITs decision-matrix tuned to the JEE rank.'},
          {'icon': '\U0001F9ED', 'title': 'Choice strategy', 'text': 'CIWG vs Non-CIWG option analysis and ordering.'},
          {'icon': '\U0001F468‍\U0001F3EB', 'title': 'Expert guidance', 'text': 'Counsellor support through choice filling.'}])
