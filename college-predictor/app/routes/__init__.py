@@ -536,6 +536,27 @@ def ipm_2027_roadmap():
     return render_template('ipm_roadmap.html', cfg=roadmap_cfg.IPM, iims=IPM_IIMS)
 
 
+@main_bp.route('/engineering-in-gulf/caet-iit-delhi-abu-dhabi')
+@premium_required
+def gulf_caet_guide():
+    return render_template('gulf_caet.html')
+
+
+@main_bp.route('/engineering-in-gulf/caet-iit-delhi-abu-dhabi/guide')
+@premium_required
+def gulf_caet_guide_file():
+    """The self-contained CAET guide (bundled page). Served from a members-only route and sandboxed: it runs in its own opaque origin,
+    so its scripts can never read this site's cookies or pages."""
+    import os
+    from flask import current_app, send_file
+    path = os.path.join(current_app.root_path, 'data', 'gulf', 'caet-iitd-abu-dhabi.html')
+    resp = send_file(path, mimetype='text/html', max_age=0)
+    resp.headers['Content-Security-Policy'] = 'sandbox allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads allow-forms'
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    resp.headers['Cache-Control'] = 'private, no-cache'
+    return resp
+
+
 @main_bp.route('/uceed-2027-roadmap')
 @premium_required
 def uceed_2027_roadmap():

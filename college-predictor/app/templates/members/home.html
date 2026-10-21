@@ -127,7 +127,7 @@
   <div class="mh-covers" aria-label="Categories">
     {% for cat in categories %}
     <a class="mh-cover" href="#cat-{{ cat.key }}" style="--c:{{ cat.color }}">
-      <img src="{{ url_for('static', filename='img/hub/' ~ cat.key ~ '.webp') }}" alt="" loading="lazy">
+      <img src="{{ url_for('static', filename='img/hub/' ~ (cat.img or (cat.key ~ '.webp'))) }}" alt="" loading="lazy">
       <span class="mh-cover-body">
         <strong>{{ cat.icon }} {{ cat.title }}</strong>
         <small>{{ cat.open }} of {{ cat.tiles|length }} open</small>

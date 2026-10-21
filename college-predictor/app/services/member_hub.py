@@ -39,6 +39,14 @@ CATEGORIES = [
          {'title': 'TNEA expert', 'desc': 'Tamil Nadu engineering counselling guide.', 'icon': '🎓', 'endpoint': 'main.tnea_expert', 'access': 'premium'},
          {'title': 'Members report', 'desc': 'Reports prepared for members.', 'icon': '📑', 'endpoint': 'main.members_report', 'access': 'premium'},
      ]},
+    {'key': 'gulf', 'title': 'Engineering in Gulf', 'icon': '🌴', 'color': '#0F766E', 'tint': '#E0F5F1', 'img': 'gulf.svg',
+     'blurb': 'Routes, exams and guides for studying engineering in the UAE and the Gulf.',
+     'tiles': [
+         {'title': 'CAET · IIT Delhi – Abu Dhabi guide', 'desc': 'Eligibility checker, deadlines, pattern, practice paper, fees, seats, cut-offs and checklist.', 'icon': '🏛️', 'endpoint': 'main.gulf_caet_guide', 'access': 'premium'},
+         {'title': 'IIT Delhi – Abu Dhabi mentoring', 'desc': 'Ready-made add-on programme: route check, CAET preparation, documents and decision.', 'icon': '🧑‍🏫', 'endpoint': 'mentorship.addons', 'anchor': 'iitd-ad', 'access': 'free'},
+         {'title': 'DASA 2026 Analytics', 'desc': 'Round-wise closing-rank analytics for the DASA / CIWG route.', 'icon': '📈', 'endpoint': 'main.dasa_2026_analytics', 'access': 'premium'},
+         {'title': 'NRI admission guide', 'desc': 'DASA, CIWG and NRI routes.', 'icon': '🌍', 'endpoint': 'main.nri_guide', 'access': 'free'},
+     ]},
     {'key': 'tools', 'title': 'Choice-Filling Tools', 'icon': '🛠️', 'color': '#059669', 'tint': '#E3F7EF',
      'blurb': 'Simulate and personalise your choice list.',
      'tiles': [

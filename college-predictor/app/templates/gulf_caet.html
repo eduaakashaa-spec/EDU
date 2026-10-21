@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}CAET · IIT Delhi – Abu Dhabi Guide | Engineering in Gulf | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Visual guide to the CAET route to IIT Delhi – Abu Dhabi: eligibility checker, deadlines, exam pattern, practice questions, fees, seats, cut-offs and a document checklist. Members only.">{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+<style>
+  .gc { max-width: 1280px; margin: 0 auto; padding: 18px 16px 40px; }
+  .gc-top { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .gc-top h1 { font-family: 'Fraunces', serif; font-size: clamp(1.3rem, 2.6vw, 1.9rem); margin: 0; color: #0E3A8A; }
+  .gc-top p { margin: 2px 0 0; color: #5A6278; font-size: .92rem; }
+  .gc-links { display: flex; gap: 8px; flex-wrap: wrap; }
+  .gc-links a { text-decoration: none; padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: .88rem; border: 1.5px solid #0E3A8A; color: #0E3A8A; background: #fff; }
+  .gc-links a.p { background: #FF6B0A; border-color: #FF6B0A; color: #fff; }
+  .gc-frame { width: 100%; height: calc(100vh - 150px); min-height: 640px; border: 1px solid #E8DFC8; border-radius: 16px; background: #FBF7EE; box-shadow: 0 10px 30px rgba(7,26,68,.10); }
+  .gc-note { font-size: .82rem; color: #5A6278; margin-top: 10px; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="gc" data-no-rail>
+  <div class="gc-top">
+    <div><h1>CAET · IIT Delhi – Abu Dhabi</h1><p>Engineering in Gulf · members&rsquo; visual guide. Dates, fees and rules change every cycle &mdash; confirm on the official admissions site.</p></div>
+    <div class="gc-links">
+      <a class="p" href="{{ url_for('main.gulf_caet_guide_file') }}" target="_blank" rel="noopener">Open full screen ↗</a>
+      <a href="{{ url_for('mentorship.addons') }}#iitd-ad">Mentoring add-on</a>
+      <a href="{{ url_for('memberhub.home') }}#cat-gulf">← Member Home</a>
+    </div>
+  </div>
+  <!-- sandboxing comes from the Content-Security-Policy header on the guide response (opaque origin: no access to this site's cookies or pages) -->
+  <iframe class="gc-frame" src="{{ url_for('main.gulf_caet_guide_file') }}" title="CAET guide for IIT Delhi – Abu Dhabi" loading="eager"></iframe>
+  <p class="gc-note">This guide is a self-contained interactive page prepared by EduAakashaA. It is guidance, not an official notice, and does not guarantee admission.</p>
+</div>
+{% endblock %}
