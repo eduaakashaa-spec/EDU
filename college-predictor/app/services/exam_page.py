@@ -14,7 +14,7 @@ from types import SimpleNamespace
 
 from app.services import exam_calendar as xc
 
-VERIFIED = date(2026, 10, 16)
+VERIFIED = date(2026, 10, 22)
 
 # (id, name, badge, when, status, description, start, end, note)
 _E = 'Expected'
@@ -45,10 +45,10 @@ CATEGORIES = [
          'The sole UG medical admission test (MBBS/BDS/AYUSH). The Government has said NEET moves to computer-based testing from 2027, reportedly over several days; dates and format are not yet official — watch neet.nta.nic.in.', '2027-05-01', '2027-05-31', 'CBT shift announced'),
         ('mcc-aiq', 'MCC AIQ Counselling', 'COUNSELLING', 'Jul–Aug 2027 (expected)', _E,
          'MCC runs the 15% All-India Quota seats; state counselling for state-quota seats runs in parallel.', '2027-07-15', '2027-08-31', None),
-        ('neet-pg', 'NEET PG 2027', 'MEDICINE PG', 'Expected Mar 2027', _E,
-         'Conducted by NBE for MD / MS / diploma / DNB. Check nbe.edu.in.', '2027-03-01', '2027-03-31', None),
-        ('ini-cet', 'INI-CET (AIIMS PG)', 'PG AIIMS', 'Jan & Jul sessions (expected)', _E,
-         'Institute of National Importance PG test — AIIMS, JIPMER, PGIMER, NIMHANS.', '2027-01-15', '2027-01-31', None),
+        ('neet-pg', 'NEET PG 2027', 'MEDICINE PG', 'Expected mid-2027 (not announced)', _E,
+         'Conducted by NBEMS for MD / MS / diploma / DNB. No 2027 date yet; recent cycles ran in the middle of the year. Check nbe.edu.in.', '2027-06-01', '2027-08-31', None),
+        ('ini-cet', 'INI-CET January 2027 session', 'PG AIIMS', 'Sunday 1 Nov 2026, 9 am–12 noon', _T,
+         'Institute of National Importance PG test — AIIMS, JIPMER, PGIMER, NIMHANS. From the AIIMS tentative 2027 calendar: registration closed 13 Oct; admit card 26 Oct; result expected ~7 Nov. The July 2027 session follows. Confirm on aiimsexams.ac.in.', '2026-11-01', '2026-11-01', 'Registration closed'),
         ('neet-mds', 'NEET MDS 2027', 'DENTAL PG', 'Expected early 2027', _E,
          'NBE test for MDS admissions at dental colleges.', '2027-02-01', '2027-02-28', None),
         ('fmge', 'FMGE', 'FOREIGN MED', 'Jun & Dec sessions (expected)', _E,
@@ -75,14 +75,14 @@ CATEGORIES = [
     {'key': 'comm', 'title': 'Commerce / Management', 'col': 'right', 'grad': '#C47A00,#9B5E00', 'dot': '#ffd070', 'exams': [
         ('cat', 'CAT 2026 (IIMs & MBA)', 'MBA', 'Sunday 29 Nov 2026 · 3 sessions', _C,
          'Convened by IIM Indore. Registration has closed. Admit card from about 4 Nov 2026; a CAT score is valid until 31 Dec 2027. See our CAT page for details.', '2026-11-29', '2026-11-29', 'Official: iimcat.ac.in'),
-        ('xat', 'XAT 2027 (XLRI)', 'MBA', 'Early Jan 2027 (expected)', _E,
-         'Held on a Sunday in early January; the official date comes with the XLRI notification.', '2027-01-03', '2027-01-03', None),
-        ('snap', 'SNAP 2026 (Symbiosis)', 'MBA', 'Dec 2026 (3 slots, expected)', _E,
-         'Up to three attempts; best score counts. Apply separately to each Symbiosis institute.', '2026-12-01', '2026-12-31', None),
-        ('nmat', 'NMAT by GMAC 2026–27', 'MBA', 'Oct 2026 – Jan 2027 window', _E,
-         'Multiple attempts within the testing window; you choose the score to send.', '2026-10-01', '2027-01-31', None),
-        ('iift', 'IIFT 2027', 'MBA', 'Expected Nov–Dec 2026', _E,
-         'Foreign-trade MBA entrance conducted by NTA.', '2026-11-25', '2026-12-31', None),
+        ('xat', 'XAT 2027 (XLRI)', 'MBA', 'Sunday 3 Jan 2027, 2–5 pm', _C,
+         'Announced by XLRI (xatonline.in). Computer-based, single session. Registration until 6 Dec 2026; admit card from 20 Dec (tentative).', '2027-01-03', '2027-01-03', 'Register by 6 Dec'),
+        ('snap', 'SNAP 2026 (Symbiosis)', 'MBA', '13, 19 & 26 Dec 2026 (3 tests)', _C,
+         'Test dates per snaptest.org. Up to three attempts; best score counts. Registration reported to close 25 Nov; result reported for 12 Jan 2027. Apply separately to each Symbiosis institute.', '2026-12-13', '2026-12-26', 'Official: snaptest.org'),
+        ('nmat', 'NMAT by GMAC 2026–27', 'MBA', '2 Nov – 20 Dec 2026 window', _T,
+         'Multiple attempts within the testing window; you choose the score to send. Window and deadlines as reported — one report says registration was extended to 25 Oct; confirm on mba.com.', '2026-11-02', '2026-12-20', 'Reported — verify'),
+        ('iift', 'IIFT MBA (IB) 2027–29', 'MBA', 'Via CAT 2026 · apply by 25 Nov 2026', _T,
+         'IIFT is reported to shortlist the 2027–29 MBA (IB) and MBA (BA) intake on CAT 2026 scores rather than a separate NTA test. Applications opened 12 Oct and close 25 Nov 2026; confirm on iift.ac.in.', '2026-11-29', '2026-11-29', 'Uses CAT 2026 score'),
         ('cmat', 'CMAT 2027 (NTA)', 'MBA', '7 Feb 2027', _T,
          'From NTA\'s exam calendar of 16 Sep 2026 (provisional).', '2027-02-07', '2027-02-07', 'NTA calendar · provisional'),
         ('tissnet', 'TISSNET 2027', 'SOCIAL SCIENCE', 'Expected Jan 2027', _E,
@@ -93,12 +93,12 @@ CATEGORIES = [
          'Common entrance for MCA at the NITs; mathematics-heavy.', '2027-05-01', '2027-05-31', None),
     ]},
     {'key': 'sci', 'title': 'Science / Research', 'col': 'right', 'grad': '#0E7C8B,#085F6B', 'dot': '#7de8f0', 'exams': [
-        ('jam', 'JAM 2027 (IIT M.Sc)', 'IIT MSC', 'Expected Feb 2027', _E,
-         'Joint Admission Test for M.Sc programmes at IITs and IISc.', '2027-02-01', '2027-02-28', None),
-        ('jest', 'JEST 2027', 'RESEARCH', 'Expected Feb 2027', _E,
-         'Screening test for PhD programmes in physics and theoretical computer science at leading research institutes.', '2027-02-01', '2027-02-28', None),
-        ('tifr', 'TIFR GS 2027', 'RESEARCH', 'Expected Dec 2026', _E,
-         'Tata Institute of Fundamental Research Graduate School test.', '2026-12-01', '2026-12-31', None),
+        ('jam', 'JAM 2027 (IIT M.Sc)', 'IIT MSC', 'Sunday 14 Feb 2027', _C,
+         'Joint Admission Test for M.Sc programmes at IITs and IISc, organised by IIT Kharagpur (jam.iitkgp.ac.in). Registration (extended) closes 22 Oct 2026; results 18 Mar 2027.', '2027-02-14', '2027-02-14', 'Registration closes 22 Oct'),
+        ('jest', 'JEST 2027', 'RESEARCH', 'Expected Apr 2027', _E,
+         'Screening test for PhD programmes in physics and theoretical computer science at leading research institutes. Applications expected around February 2027 on jest.org.in.', '2027-04-01', '2027-04-30', None),
+        ('tifr', 'TIFR GS 2027', 'RESEARCH', 'Sunday 13 Dec 2026', _C,
+         'Tata Institute of Fundamental Research Graduate School test. Per the TIFR GS-2027 advertisement, applications close 25 Oct 2026, 11 pm; hall tickets around mid-November.', '2026-12-13', '2026-12-13', 'Apply by 25 Oct'),
         ('nest', 'NEST 2027', 'NISER / CEBS', 'First week of Jun 2027', _T,
          'Entrance for NISER and UM-DAE CEBS integrated M.Sc programmes. Tentative calendar; confirm on the official site.', '2027-06-01', '2027-06-07', None),
         ('iat', 'IISER IAT 2027', 'IISER', 'Early Jun 2027 (expected)', _E,
@@ -107,8 +107,8 @@ CATEGORIES = [
          'Indian Statistical Institute entrance (2026 test: 10 May); official notice not yet out.', '2027-05-01', '2027-05-31', None),
         ('ugee', 'UGEE 2027 (IIIT Hyderabad)', 'RESEARCH', 'Expected May 2027', _E,
          'IIIT Hyderabad undergraduate entrance (2026: 2 May).', '2027-05-01', '2027-05-31', None),
-        ('csir-net', 'CSIR-UGC NET', 'JRF / LECTURESHIP', 'Dec 2026 (20–21 Dec, NTA calendar)', _T,
-         'Joint CSIR-UGC NET listed in NTA\'s calendar for 20–21 Dec 2026; science subjects.', '2026-12-20', '2026-12-21', 'NTA calendar · provisional'),
+        ('csir-net', 'CSIR-UGC NET', 'JRF / LECTURESHIP', '19, 22 & 27 Dec 2026 (reported)', _T,
+         'Joint CSIR-UGC NET; science subjects. NTA\'s notification of 7 Oct 2026 is reported to set the test for 19, 22 and 27 Dec (the earlier calendar said 20–21 Dec). Apply by 5 Nov (late fee 6–9 Nov); corrections 10–12 Nov. Confirm on csirnet.nta.nic.in.', '2026-12-19', '2026-12-27', 'Reported — verify'),
     ]},
     {'key': 'design', 'title': 'Design / Architecture', 'col': 'right', 'grad': '#1A6B3A,#104D28', 'dot': '#60d090', 'exams': [
         ('uceed', 'UCEED 2027 (IIT B.Des)', 'DESIGN', 'Sunday 17 Jan 2027, 9 am–12 noon', _C,
@@ -119,8 +119,8 @@ CATEGORIES = [
          'Per the NID Admissions Handbook 2027–28: one application (till 30 Nov 2026) covers Prelims and Mains; Prelims result on 16 Mar 2027. See our NID page.', '2026-12-20', '2026-12-20', 'Apply by 30 Nov'),
         ('nid-mains', 'NID DAT 2027 — Mains', 'DESIGN', 'After 16 Mar 2027 (date awaited)', _E,
          'Studio Sensitivity Test plus In-Person Sensitivity Test for shortlisted candidates; dates not yet announced.', None, None, None),
-        ('nift', 'NIFT 2027', 'FASHION / DESIGN', 'Jan–Feb 2027 (sources differ)', _T,
-         'NTA\'s calendar lists 10 Jan; other reports say the second week of February. Registration expected from December 2026. Confirm on nift.ac.in.', '2027-01-10', '2027-02-14', 'NTA calendar · provisional'),
+        ('nift', 'NIFT 2027', 'FASHION / DESIGN', 'Sunday 10 Jan 2027 (UG & PG)', _T,
+         'NTA opened NIFT 2027 registration on 16 Oct 2026 (exams.nta.nic.in/niftee); one application covers all campuses. Apply by 16 Nov (late fee until 21 Nov); corrections 22–25 Nov; admit card about 4 Jan 2027. Confirm on nift.ac.in.', '2027-01-10', '2027-01-10', 'Apply by 16 Nov'),
     ]},
     {'key': 'state', 'title': 'State-Level Exams', 'col': 'right', 'grad': '#B05A00,#883F00', 'dot': '#ffad60', 'exams': [
         ('tnea', 'TNEA 2027 (Tamil Nadu)', 'STATE · TN', 'Registration ~May 2027 (expected)', _E,
@@ -155,8 +155,8 @@ CATEGORIES = [
          'Announced by Amrita Vishwa Vidyapeetham; registration opens in November 2026. See our AEEE page.', '2027-04-15', '2027-05-07', 'Registration from Nov 2026'),
         ('bitsat', 'BITSAT 2027', 'INSTITUTE', 'Registration from Dec 2026 · sessions Apr–Jun 2027', _E,
          'BITS Pilani has announced a December registration start; session dates are awaited.', '2027-04-01', '2027-06-15', 'Dates awaited'),
-        ('viteee', 'VITEEE 2027', 'INSTITUTE', 'Late Apr – early May 2027 (expected)', _E,
-         'VIT notification not yet published. See our VITEEE page for NRI details.', '2027-04-20', '2027-05-10', None),
+        ('viteee', 'VITEEE 2027', 'INSTITUTE', '27 Apr – 2 May 2027 (tentative)', _T,
+         'Per viteee.vit.ac.in: applications 20 Oct 2026 – 31 Mar 2027; admit card 25–30 Apr; the number of exam days varies by city; results and counselling from the second week of May. VIT marks these dates tentative. See our VITEEE page for NRI details.', '2027-04-27', '2027-05-02', 'Apply by 31 Mar 2027'),
         ('srmjeee', 'SRMJEEE 2027', 'INSTITUTE', 'Apr / Jun / Jul 2027 phases (expected)', _E,
          'Registration expected from November 2026.', '2027-04-01', '2027-07-15', None),
         ('met', 'MET — Manipal 2027', 'INSTITUTE', 'Not announced (2026: Apr & May)', _E,
@@ -167,11 +167,11 @@ CATEGORIES = [
 ]
 
 MILESTONES = [
-    ('OCT 2026', 'JEE Main registration expected · UCEED / CEED registration closes 31 Oct'),
-    ('NOV 2026', 'CAT (29 Nov) · NID registration closes 30 Nov · AEEE & SRMJEEE registration expected'),
-    ('DEC 2026', 'CLAT (6 Dec) · NID DAT Prelims (20 Dec) · BITSAT & NIFT registration expected'),
-    ('JAN 2027', 'UCEED & CEED (17 Jan) · JEE Main Session 1 (22–30 Jan, provisional)'),
-    ('FEB 2027', 'GATE (6, 7, 13, 14, 20, 21 Feb) · CMAT (7 Feb, provisional)'),
+    ('OCT 2026', 'JEE Main registration expected · TIFR GS closes 25 Oct · UCEED / CEED registration closes 31 Oct'),
+    ('NOV 2026', 'INI-CET (1 Nov) · NIFT closes 16 Nov · CAT (29 Nov) · NID registration closes 30 Nov · AEEE & SRMJEEE registration expected'),
+    ('DEC 2026', 'CLAT (6 Dec) · TIFR GS & AILET (13 Dec) · SNAP (13, 19, 26 Dec) · NID DAT Prelims (20 Dec) · BITSAT registration expected'),
+    ('JAN 2027', 'XAT (3 Jan) · NIFT (10 Jan) · UCEED & CEED (17 Jan) · JEE Main Session 1 (22–30 Jan, provisional)'),
+    ('FEB 2027', 'GATE (6, 7, 13, 14, 20, 21 Feb) · CMAT (7 Feb, provisional) · JAM (14 Feb)'),
     ('MAR 2027', 'CUET PG (provisional) · NID Prelims result (16 Mar)'),
     ('APR 2027', 'JEE Main Session 2 · AEEE (from 15 Apr) · state CETs begin'),
     ('MAY 2027', 'JEE Advanced · NEET UG · CUET UG · COMEDK / EAPCET (all expected)'),
@@ -229,7 +229,7 @@ def all_ics():
 
 
 # --------------------------------------------------------------------------- #
-# Application / deadline milestones (checked 17 Oct 2026). kind: open | close | late | admit | result | other
+# Application / deadline milestones (checked 22 Oct 2026). kind: open | close | late | admit | result | other
 # status as above. A date of None means "announced as pending". Expected dates never make an application show as "open now".
 # --------------------------------------------------------------------------- #
 KIND_LABEL = {'open': 'Applications open', 'close': 'Applications close', 'late': 'Last date with late fee', 'admit': 'Admit card',
@@ -241,7 +241,7 @@ DEADLINES = {
               ('result', '2027-03-06', _C, None), ('other', '2027-03-15', _C, 'Separate B.Des application (official)'), ('other', '2027-04-21', _C, 'Admission rounds begin (official)')],
     'ceed': [('open', '2026-10-01', _T, 'Reported with UCEED'), ('close', '2026-10-31', _T, None), ('late', '2026-11-06', _T, 'Reported')],
     'clat': [('open', '2026-08-03', _T, 'Announced by the Consortium (reported)'), ('close', '2026-10-31', _T, 'No extension confirmed'), ('result', None, _E, 'Date awaited')],
-    'ailet': [('open', '2026-08-07', _T, 'Announced by NLU Delhi (reported)'), ('close', '2026-11-10', _E, 'Reported as about 10 Nov — confirm'),
+    'ailet': [('open', '2026-08-07', _T, 'Announced by NLU Delhi (reported)'), ('close', '2026-11-10', _T, 'Reported by several sources — confirm'),
               ('admit', '2026-11-30', _E, 'About this date'), ('result', '2026-12-22', _E, 'Fourth week of December')],
     'slat': [('open', '2026-08-01', _T, 'Opened in August (exact day not stated)'), ('close', '2026-12-04', _T, 'Reported'),
              ('admit', '2026-12-11', _T, 'Test 1 (Test 2: 18 Dec)'), ('result', '2027-01-12', _T, 'Reported')],
@@ -256,7 +256,18 @@ DEADLINES = {
     'aeee': [('open', '2026-11-01', _E, 'Registration opens in November')],
     'bitsat': [('open', '2026-12-01', _T, 'BITS announced December (tentative)')],
     'srmjeee': [('open', '2026-11-01', _E, 'Expected from November')],
-    'nift': [('open', '2026-12-01', _E, 'Expected December'), ('close', None, _E, 'January 2027 — date awaited')],
+    'nift': [('open', '2026-10-16', _T, 'NTA notification (reported)'), ('close', '2026-11-16', _T, None), ('late', '2026-11-21', _T, 'Late fee'),
+             ('admit', '2027-01-04', _T, 'Reported')],
+    'xat': [('close', '2026-12-06', _C, 'xatonline.in'), ('admit', '2026-12-20', _T, 'Tentative per XLRI')],
+    'snap': [('close', '2026-11-25', _T, 'Reported'), ('result', '2027-01-12', _T, 'Reported')],
+    'nmat': [('other', '2026-11-02', _T, 'Testing window opens (reported)')],
+    'iift': [('open', '2026-10-12', _T, 'Reported'), ('close', '2026-11-25', _T, 'Reported — confirm on iift.ac.in')],
+    'ini-cet': [('admit', '2026-10-26', _T, 'AIIMS tentative calendar'), ('result', '2026-11-07', _T, 'Expected')],
+    'jam': [('close', '2026-10-22', _C, 'Extended deadline — jam.iitkgp.ac.in'), ('result', '2027-03-18', _C, None)],
+    'tifr': [('close', '2026-10-25', _C, 'Until 11 pm — TIFR advertisement')],
+    'viteee': [('open', '2026-10-20', _C, 'viteee.vit.ac.in'), ('close', '2027-03-31', _T, 'Tentative per VIT'),
+               ('admit', '2027-04-25', _T, '25–30 Apr, tentative per VIT')],
+    'csir-net': [('open', '2026-10-07', _T, 'Reported'), ('close', '2026-11-05', _T, 'Reported'), ('late', '2026-11-09', _T, 'Reported')],
 }
 
 
