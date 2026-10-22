@@ -132,6 +132,13 @@ table.ms-tbl { width: 100%; border-collapse: collapse; font-size: .88rem; }
 .ms-alert-acts { display: flex; gap: 8px; flex-wrap: wrap; }
 .ms-exam { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid #F1EAD7; }
 .ms-exam.on { background: linear-gradient(90deg, rgba(255,107,10,.07), transparent); }
+.ms-docs { grid-column: 1 / -1; border: 1px solid #F1EAD7; border-radius: 12px; padding: 10px 14px; background: #fff; }
+.ms-docs summary { cursor: pointer; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.ms-doclist { list-style: none; margin: 10px 0; padding: 0; display: grid; gap: 8px; }
+.ms-doclist label { display: flex; gap: 10px; align-items: flex-start; cursor: pointer; font-size: .86rem; }
+.ms-doclist input { margin-top: 3px; width: 18px; height: 18px; flex: none; accent-color: var(--orange, #FF6B0A); }
+.ms-doclist small { display: block; color: var(--text-dim); font-size: .76rem; }
+.ms-doclist em { font-style: normal; font-size: .7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: .4px; }
 @media (max-width: 640px) {
   .ms { padding: 16px 14px 60px; }
   .ms-head { padding: 18px; } .ms-head h1 { font-size: 1.35rem; }

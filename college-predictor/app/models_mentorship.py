@@ -444,6 +444,30 @@ class MsExamFocus(db.Model):
     exam = db.relationship('MsExam')
 
 
+class MsDocCheck(db.Model):
+    """One ticked document on a student's registration checklist for one exam (keys come from services.exam_docs)."""
+    __tablename__ = 'ms_doc_checks'
+    id = db.Column(db.Integer, primary_key=True)
+    enrolment_id = db.Column(db.Integer, db.ForeignKey('ms_enrolments.id', ondelete='CASCADE'), index=True, nullable=False)
+    exam_id = db.Column(db.Integer, db.ForeignKey('ms_exams.id', ondelete='CASCADE'), index=True, nullable=False)
+    item_key = db.Column(db.String(40), nullable=False)
+    ticked_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    ticked_at = db.Column(db.DateTime, default=_utcnow)
+    __table_args__ = (db.UniqueConstraint('enrolment_id', 'exam_id', 'item_key'),)
+
+
+class MsDocConfirm(db.Model):
+    """The student's confirmation that every required document for an exam is verified and ready to register.
+    Cleared automatically when a required item is unticked."""
+    __tablename__ = 'ms_doc_confirms'
+    id = db.Column(db.Integer, primary_key=True)
+    enrolment_id = db.Column(db.Integer, db.ForeignKey('ms_enrolments.id', ondelete='CASCADE'), index=True, nullable=False)
+    exam_id = db.Column(db.Integer, db.ForeignKey('ms_exams.id', ondelete='CASCADE'), index=True, nullable=False)
+    confirmed_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    confirmed_at = db.Column(db.DateTime, default=_utcnow)
+    __table_args__ = (db.UniqueConstraint('enrolment_id', 'exam_id'),)
+
+
 class MsAlert(db.Model):
     __tablename__ = 'ms_alerts'
     id = db.Column(db.Integer, primary_key=True)

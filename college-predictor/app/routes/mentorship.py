@@ -27,6 +27,7 @@ from app.models_mentorship import (
     EXAM_STATUSES, MsAlert, MsExam, MsExamFocus, MsProgramme, MsReport, MsReview, MsSession, MsSessionTemplate,
 )
 from app.services import exam_calendar as xc
+from app.services import exam_docs as xd
 from app.services import mailer
 from app.services import mentorship as svc
 
@@ -351,7 +352,8 @@ def _tab_calendar(e, role):
         exams = [x for x in exams if x.category == xcat]
     if xstatus:
         exams = [x for x in exams if x.status == xstatus]
-    return dict(months=months, cats=cats, cat=cat, EVENT_CATEGORIES=EVENT_CATEGORIES, exams=exams, xcats=xcats,
+    docs = {x.id: xd.checklist(e, x) for x in _focused_exams(e)}
+    return dict(months=months, cats=cats, cat=cat, EVENT_CATEGORIES=EVENT_CATEGORIES, exams=exams, xcats=xcats, docs=docs,
                 xq=q, xcat=xcat, xstatus=xstatus, EXAM_STATUSES=EXAM_STATUSES,
                 mail_ready=mailer.is_configured())
 
@@ -1607,6 +1609,28 @@ def exam_focus(eid, xid):
         xc.mark_read(current_user, [aid])
     db.session.commit()
     return _back(e, 'calendar', 'exams')
+
+
+@mentorship_bp.route('/e/<int:eid>/exams/<int:xid>/docs', methods=['POST'])
+@login_required
+def exam_docs(eid, xid):
+    """The student ticks documents for a followed exam and confirms they are all verified and ready to register."""
+    e, role = _ctx(eid, ('student',))
+    if _premium_gate(role):
+        abort(403)
+    x = db.session.get(MsExam, xid)
+    if not x or not x.active or not MsExamFocus.query.filter_by(enrolment_id=e.id, exam_id=x.id).first():
+        abort(404)
+    res = xd.save(e, x, request.form.getlist('doc'), current_user.id, confirm=request.form.get('confirm') == '1')
+    if res == 'confirmed':
+        svc.audit(e, 'docs.confirmed', x.name, role)
+        flash(f'Confirmed: all required documents for {x.name} are verified and ready for registration.', 'success')
+    elif res == 'incomplete':
+        flash(f'Saved, but not confirmed — tick every required document for {x.name} first.', 'danger')
+    else:
+        flash(f'Document checklist for {x.name} saved.', 'info')
+    db.session.commit()
+    return _back(e, 'calendar', f'docs-{x.id}')
 
 
 @mentorship_bp.route('/e/<int:eid>/calendar.ics')

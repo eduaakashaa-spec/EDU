@@ -31,6 +31,35 @@
       </form>
       {% elif x.id in followed_ids %}<span class="ms-pill ok">Followed</span>{% endif %}
     </div>
+    {% set d = docs.get(x.id) %}
+    {% if d %}
+    <details class="ms-docs" id="docs-{{ x.id }}" {{ 'open' if not d.confirmed }}>
+      <summary>
+        <strong>Registration documents</strong>
+        {% if d.confirmed %}<span class="ms-pill ok">✓ All verified &amp; ready</span>
+        {% else %}<span class="ms-pill {{ 'warn' if d.done else '' }}">{{ d.done }} / {{ d.total }} required ready</span>{% endif %}
+      </summary>
+      {% set editable = role == 'student' %}
+      <form method="post" action="{{ url_for('mentorship.exam_docs', eid=e.id, xid=x.id) }}">
+        <ul class="ms-doclist">
+          {% for i in d['items'] %}
+          <li><label>
+            <input type="checkbox" name="doc" value="{{ i.key }}" {{ 'checked' if i.ticked }} {{ 'disabled' if not editable }}>
+            <span><strong>{{ i.label }}</strong>{% if not i.required %} <em>optional</em>{% endif %}<small>{{ i.hint }}</small></span>
+          </label></li>
+          {% endfor %}
+        </ul>
+        {% if d.confirmed %}<p class="hint">Confirmed on {{ d.confirmed.confirmed_at.strftime('%d %b %Y') }}. Unticking a required document withdraws the confirmation.</p>{% endif %}
+        {% if editable %}
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="ms-btn g sm">Save ticks</button>
+          {% if not d.confirmed %}<button class="ms-btn o sm" name="confirm" value="1">✓ Confirm all documents are verified &amp; ready</button>{% endif %}
+        </div>
+        {% else %}<p class="hint">Only the student can tick and confirm this checklist.</p>{% endif %}
+      </form>
+      <p class="hint">A preparation list — the exam's official information bulletin decides the exact documents, sizes and formats.</p>
+    </details>
+    {% endif %}
   </div>
   {% else %}<div class="ms-empty" style="margin-top:10px;">{% if staff %}No exams in the catalogue match. An administrator can load the starter list under Admin → Mentorship → Exam catalogue.{% else %}No exams match your filters.{% endif %}</div>{% endfor %}
   <p class="hint" style="margin-top:10px;">Statuses: <strong>Confirmed</strong> = announced by the conducting body · <strong>Tentative</strong> = provisional, may change · <strong>Expected</strong> = not announced, window inferred. Always confirm on the official notice.</p>
