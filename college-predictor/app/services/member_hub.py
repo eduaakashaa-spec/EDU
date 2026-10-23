@@ -5,6 +5,8 @@ To add a feature, append a tile dict to a category (or add a category). Fields:
   access: 'free' (any member) | 'premium' | 'soon' (placeholder, not clickable).
 Tiles whose endpoint does not exist are skipped, so a removed page never breaks the hub.
 """
+from datetime import date
+
 from flask import url_for
 
 CATEGORIES = [
@@ -78,7 +80,61 @@ CATEGORIES = [
 ]
 
 
-def build(user):
+# ---- presentation metadata for the dashboard (icons, labels, "New" window). Not business logic: access rules stay in each tile's `access`. ----
+CATEGORY_ICON = {'journey': 'route', 'mentorship': 'cap', 'intel': 'bar', 'gulf': 'globe', 'tools': 'sliders', 'insights': 'bulb', 'free': 'download', 'support': 'life-buoy'}
+TILE_ICON = {
+    'Profile & sessions': 'user', 'Document verification': 'file-check', 'My assessments': 'clipboard', 'Stream selection': 'compass',
+    'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',
+    'DASA 2026 Analytics': 'bar', 'DASA prediction report': 'trend', 'JoSAA EA members': 'users', 'EduPulse-UCEED': 'target', 'EduPulse mentor view': 'dashboard',
+    'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'TNEA expert': 'book', 'Members report': 'file-text',
+    'IIT Delhi – Abu Dhabi mentoring': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
+    'Why CSE?': 'code', 'Best location': 'pin', 'Engineering insights': 'bulb', 'Hostel & culture': 'home', 'Branch selection guide': 'branch',
+    'Free student guides': 'download', 'Exam schedule': 'calendar', 'Contact the team': 'mail', 'Membership plans': 'star', 'More tools coming soon': 'sparkle',
+}
+# tiles added recently show a "New" label for 30 days after this date (real dates, no fabricated badges)
+NEW_SINCE = {'IPM 2027 Roadmap': date(2026, 10, 18), 'Add-on programmes': date(2026, 10, 19), 'Action tracker': date(2026, 10, 20),
+             'IIT Delhi – Abu Dhabi mentoring': date(2026, 10, 21)}
+NEW_DAYS = 30
+
+
+def _norm(x):
+    return x.replace('–', '-').replace('—', '-').replace('�', '-')
+
+
+_ICON_N = {_norm(k): v for k, v in TILE_ICON.items()}
+_NEW_N = {_norm(k): v for k, v in NEW_SINCE.items()}
+
+
+def _decorate(t, today=None):
+    """Icon, type tag, action label and New flag for one resolved tile."""
+    today = today or date.today()
+    title = t['title']
+    low = title.lower()
+    key = _norm(title)
+    t['ic'] = _ICON_N.get(key) or ('cap' if 'mentoring' in low else ('book' if 'guide' in low else 'grid'))
+    if 'CAET' in title:
+        t['ic'] = 'building'
+    t['tag'] = 'roadmap' if 'roadmap' in low else ('report' if ('report' in low or 'assessment' in low) else '')
+    if t['access'] == 'soon':
+        t['action'] = 'Coming soon'
+    elif t.get('locked'):
+        t['action'] = 'Unlock with membership'
+    elif t['tag'] == 'roadmap':
+        t['action'] = 'View roadmap'
+    elif t['tag'] == 'report':
+        t['action'] = 'View report'
+    elif 'guide' in low:
+        t['action'] = 'Open guide'
+    elif t.get('staff') or 'mentor' in low or 'sessions' in low or 'action tracker' in low or 'add-on' in low:
+        t['action'] = 'Open workspace'
+    else:
+        t['action'] = 'Open tool'
+    since = _NEW_N.get(key)
+    t['new'] = bool(since and 0 <= (today - since).days <= NEW_DAYS)
+    return t
+
+
+def build(user, today=None):
     """Resolve URLs and lock state for this user; returns categories with resolved tiles."""
     out = []
     for cat in CATEGORIES:
@@ -98,8 +154,8 @@ def build(user):
                     url += '#' + t['anchor']
                 t['url'] = url
                 t['locked'] = t['access'] == 'premium' and not user.is_premium
-            tiles.append(t)
+            tiles.append(_decorate(t, today))
         if tiles:
-            out.append({**cat, 'tiles': tiles,
+            out.append({**cat, 'ic': CATEGORY_ICON.get(cat['key'], 'grid'), 'tiles': tiles,
                         'open': sum(1 for t in tiles if t['url'] and not t['locked'])})
     return out

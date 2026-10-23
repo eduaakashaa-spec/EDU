@@ -2,7 +2,7 @@
    and scrolls to it on click — the same pattern as the homepage. Sections are discovered automatically, so any page gets it. */
 (function () {
   'use strict';
-  if (document.querySelector('.aw-rail') || document.body.hasAttribute('data-no-rail')) return;     // the homepage has its own rail
+  if (document.querySelector('.aw-rail') || document.querySelector('[data-no-rail]')) return;     // the homepage has its own rail
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // reading progress (all widths)

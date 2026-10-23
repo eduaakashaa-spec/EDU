@@ -44,7 +44,7 @@ assert csp.startswith('sandbox ') and 'allow-scripts' in csp and 'allow-same-ori
 assert f.headers['X-Content-Type-Options'] == 'nosniff' and 'private' in f.headers['Cache-Control']
 
 hub = prem.get('/member-home').get_data(as_text=True)
-assert 'Engineering in Gulf' in hub and 'CAET · IIT Delhi – Abu Dhabi guide' in hub and PAGE in hub and 'img/hub/gulf.svg' in hub
+assert 'Engineering in Gulf' in hub and 'CAET · IIT Delhi – Abu Dhabi guide' in hub and PAGE in hub
 assert prem.get('/static/img/hub/gulf.svg').status_code == 200
 fhub = free.get('/member-home').get_data(as_text=True)
 assert 'Engineering in Gulf' in fhub and 'Premium' in fhub                                              # visible to everyone, locked for free members

@@ -43,15 +43,21 @@ page = c.get('/member-home').get_data(as_text=True)
 for cat in ('My Journey', 'Mentorship Portal', 'Admission Intelligence', 'Choice-Filling Tools', 'Engineering Insights',
             'Free Resources', 'Support &amp; Membership'):
     assert cat in page, cat
-assert 'Premium</span>' in page and 'Free plan' in page          # locks + plan badge for a free member
+assert 'md-b-lock' in page and 'Free plan' in page and 'Unlock with membership' in page       # locks + plan badge for a free member
 assert '/free-guides' in page and '/dasa-2026-analytics' in page
-assert page.count('img/hub/') == 8 and c.get('/static/img/hub/journey.webp').status_code == 200   # one cover image per category
+assert 'Upgrade to premium' in page and 'id="md-q"' in page                                    # search + upgrade call to action
+assert 'data-cat="intel"' in page and page.count('class="md-fchip') == 9                       # All + 8 category filters
 assert '0 of 10 open' in page                                      # intelligence: all premium tiles locked
+assert 'mh-tile' not in page and 'banner_art' in page              # old patterned tiles are gone
+for k in ('journey', 'mentorship', 'intel', 'gulf', 'tools', 'insights', 'free', 'support'):
+    assert f'id="cat-{k}"' in page, k
+# locked cards go to the membership page, open cards go to their real destination
+assert page.count('href="/members-registration"') >= 20
 
 # premium member: unlocked
 pc, _ = client('prem@ex.com')
 ppage = pc.get('/member-home').get_data(as_text=True)
-assert 'Premium member' in ppage and 'mh-lock' not in ppage.split('</style>')[1]
+assert 'Premium member' in ppage and 'md-b-lock' not in ppage and 'Unlock with membership' not in ppage and 'Members only' in ppage
 
 # details + photo
 assert b'not a valid' in c.post('/member-home/details', data={'photo': (io.BytesIO(b'x' * 80), 'a.png')},

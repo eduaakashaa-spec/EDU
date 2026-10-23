@@ -1,164 +1,188 @@
 {% extends "base.html" %}
+{% from "members/_md_icons.html" import icon %}
 {% block title %}Member Home — EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
 
 {% block head %}
-<style>
-  .mh { max-width: 1160px; margin: 0 auto; padding: 32px 20px 70px; }
-  .mh-hero { position:relative; isolation:isolate; overflow:hidden; display:flex; gap:24px; align-items:center; flex-wrap:wrap; padding:26px 28px; border-radius:22px; color:#fff;
-             background:linear-gradient(120deg,#1A1A2E 0%,#2B2F77 55%,#7C3AED 100%); box-shadow:0 14px 34px rgba(26,26,46,.22); }
-  /* banner picture: 40% transparent (60% opaque) behind the details; the picture already has a dark left side for the text */
-  .mh-hero::before { content:''; position:absolute; inset:0; z-index:-2; opacity:.6; background:url('{{ url_for("static", filename="img/member-banner.webp") }}') center 22% / cover no-repeat; }
-  .mh-hero::after { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(90deg,rgba(26,26,46,.35) 0%,rgba(26,26,46,0) 55%); }
-  @media (max-width:640px) { .mh-hero::before { background-position:80% center; } .mh-hero::after { background:rgba(26,26,46,.5); } }
-  .mh-photo { width:104px; height:104px; border-radius:50%; flex:none; border:4px solid #C9A84C; object-fit:cover; background:#C9A84C;
-              display:flex; align-items:center; justify-content:center; font:700 2.4rem 'Oswald',sans-serif; color:#1A1A2E; }
-  .mh-id { flex:1; min-width:240px; }
-  .mh-id h1 { font-family:'Fraunces',serif; font-size:1.9rem; margin:0 0 4px; color:#fff; }
-  .mh-plan { display:inline-block; font-size:.7rem; font-weight:800; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border-radius:999px; background:#C9A84C; color:#1A1A2E; }
-  .mh-plan--free { background:rgba(255,255,255,.18); color:#fff; }
-  .mh-facts { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
-  .mh-fact { background:rgba(255,255,255,.14); border-radius:10px; padding:6px 12px; font-size:.85rem; }
-  .mh-fact b { display:block; font-size:.62rem; letter-spacing:.9px; text-transform:uppercase; opacity:.75; font-weight:700; }
-  .mh-edit { background:#C9A84C; color:#1A1A2E; border:0; border-radius:10px; padding:11px 20px; font-weight:700; cursor:pointer; text-decoration:none; font-size:.92rem; }
-  .mh-details { margin-top:14px; background:var(--white,#fff); border:1px solid var(--border,#e8e0d4); border-radius:18px; padding:0; overflow:hidden; }
-  .mh-details summary { cursor:pointer; padding:16px 22px; font-weight:700; color:var(--dark,#1A1A2E); }
-  .mh-form { padding:4px 22px 22px; display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; }
-  .mh-form label { display:block; font-size:.72rem; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#555; margin-bottom:5px; }
-  .mh-form input { width:100%; box-sizing:border-box; padding:10px 12px; border:1.5px solid #d0c8bb; border-radius:8px; font-size:.95rem; }
-  .mh-form .hint { font-size:.76rem; color:#777; margin-top:4px; }
-  .mh-form .wide { grid-column:1/-1; }
-  .mh-save { background:#1A1A2E; color:#C9A84C; border:0; border-radius:10px; padding:12px 28px; font-weight:700; cursor:pointer; }
-  .mh-nudge { margin-top:14px; background:#FFF3DD; border:1px solid #F3D9A0; color:#8a5a0a; border-radius:12px; padding:10px 16px; font-size:.9rem; }
-  .mh-covers { display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:16px; margin-top:26px; }
-  .mh-cover { display:block; text-decoration:none; border-radius:18px; overflow:hidden; background:#fff; border:2px solid var(--c);
-              box-shadow:0 8px 20px rgba(0,0,0,.08); transition:transform .15s, box-shadow .15s; }
-  .mh-cover:hover { transform:translateY(-4px); box-shadow:0 14px 28px rgba(0,0,0,.16); }
-  .mh-cover img { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; }
-  .mh-cover-body { display:block; padding:12px 14px 14px; }
-  .mh-cover-body strong { display:block; font-family:'Oswald',sans-serif; letter-spacing:.3px; color:var(--c); font-size:1.02rem; }
-  .mh-cover-body small { color:#666; font-size:.8rem; }
-  .mh-cat { margin-top:34px; scroll-margin-top:90px; }
-  .mh-cat-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
-  .mh-cat-ico { width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#fff; }
-  .mh-cat-head h2 { margin:0; font-family:'Fraunces',serif; font-size:1.3rem; color:var(--dark,#1A1A2E); }
-  .mh-cat-head p { margin:0; font-size:.86rem; color:var(--text-dim,#777); }
-  .mh-count { margin-left:auto; font-size:.74rem; font-weight:700; padding:4px 10px; border-radius:999px; }
-  .mh-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; }
-  .mh-tile { position:relative; display:block; text-decoration:none; border-radius:16px; padding:18px 18px 16px; border:1px solid transparent;
-             transition:transform .15s, box-shadow .15s; color:#222; }
-  .mh-tile:hover { transform:translateY(-3px); box-shadow:0 10px 24px rgba(0,0,0,.12); }
-  /* artwork behind every tile: the same education line-art as the banners at 70% opacity, a different crop per tile; a light shade on the left keeps the text readable */
-  .mh-tile { isolation:isolate; overflow:hidden; }
-  .mh-tile::before { content:''; position:absolute; inset:0; z-index:-2; border-radius:inherit; opacity:.7; background:url('{{ url_for("static", filename="img/art/edu-tile.svg") }}') var(--pos,70% 40%) / 230% auto no-repeat; }
-  .mh-tile::after { content:''; position:absolute; inset:0; z-index:-1; border-radius:inherit; background:linear-gradient(90deg,var(--tint,#fff) 0%,transparent 55%); }
-  .mh-tile:nth-child(4n+1) { --pos:14% 28%; } .mh-tile:nth-child(4n+2) { --pos:88% 22%; } .mh-tile:nth-child(4n+3) { --pos:52% 88%; } .mh-tile:nth-child(4n+4) { --pos:26% 68%; }
-  .mh-tile .ico { font-size:1.7rem; line-height:1; }
-  .mh-tile h3 { margin:10px 0 4px; font-size:1.02rem; font-family:'Oswald',sans-serif; letter-spacing:.3px; color:#1A1A2E; }
-  .mh-tile p { margin:0; font-size:.84rem; color:#555; }
-  .mh-tile.locked { opacity:.72; }
-  .mh-tile.soon { border-style:dashed; cursor:default; }
-  .mh-tile.soon:hover { transform:none; box-shadow:none; }
-  .mh-lock { position:absolute; top:12px; right:12px; font-size:.66rem; font-weight:800; letter-spacing:.6px; text-transform:uppercase; padding:3px 9px; border-radius:999px; background:#1A1A2E; color:#C9A84C; }
-  .flash-list{ list-style:none; padding:0; margin:0 0 16px; }
-  .flash-list li{ padding:10px 14px; border-radius:8px; font-size:.9rem; margin-bottom:8px; }
-  .flash-success{ background:#e6f9ed; color:#276738; border:1px solid #b8e6c8; }
-  .flash-danger{ background:#fce4e4; color:#a33; border:1px solid #f0bcbc; }
-  .flash-info{ background:#e4edf9; color:#2c5282; border:1px solid #bcd4f0; }
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/member_home.css') }}">
 {% endblock %}
 
 {% block content %}
 {% set shown_name = (sp.student_name if sp and sp.student_name else current_user.name) %}
-<div class="mh">
-  {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
-  {% endwith %}
+{% set first_name = shown_name.split(' ')[0] %}
+{% set total = categories|sum(attribute='tiles', start=[])|length %}
+<div class="md" id="md-top" data-no-rail>
 
-  <section class="mh-hero">
-    {% if has_photo %}
-      <img class="mh-photo" src="{{ url_for('memberhub.photo', uid=current_user.id) }}?v={{ sp.photo_size }}" alt="{{ shown_name }}">
-    {% else %}
-      <div class="mh-photo" aria-hidden="true">{{ shown_name[:1]|upper }}</div>
-    {% endif %}
-    <div class="mh-id">
-      <h1>{{ shown_name }}</h1>
-      {% if current_user.is_admin %}<span class="mh-plan">Admin</span>
-      {% elif current_user.is_premium %}<span class="mh-plan">Premium member</span>
-      {% else %}<span class="mh-plan mh-plan--free">Free plan</span>{% endif %}
-      <div class="mh-facts">
-        <div class="mh-fact"><b>Email</b>{{ current_user.email }}</div>
-        {% if sp and sp.grade %}<div class="mh-fact"><b>Class</b>{{ sp.grade }}{% if sp.board %} · {{ sp.board }}{% endif %}</div>{% endif %}
-        {% if sp and sp.school %}<div class="mh-fact"><b>School</b>{{ sp.school }}</div>{% endif %}
-        {% if sp and sp.target_exams %}<div class="mh-fact"><b>Targeting</b>{{ sp.target_exams }}{% if sp.target_year %} · {{ sp.target_year }}{% endif %}</div>{% endif %}
-        {% if sp and (sp.city or sp.country) %}<div class="mh-fact"><b>Location</b>{{ [sp.city, sp.country]|select|join(', ') }}</div>{% endif %}
-        {% if sp and sp.parent_name %}<div class="mh-fact"><b>Parent / guardian</b>{{ sp.parent_name }}</div>{% endif %}
-        {% if current_user.is_premium and current_user.tier_expires_at %}<div class="mh-fact"><b>Access until</b>{{ current_user.tier_expires_at.strftime('%d %b %Y') }}</div>{% endif %}
-      </div>
-    </div>
-    <a class="mh-edit" href="#details" onclick="document.getElementById('details').open=true">✎ Edit details &amp; photo</a>
-  </section>
+  <!-- ============ Sidebar ============ -->
+  <aside class="md-side" id="md-side" aria-label="Dashboard navigation">
+    <button type="button" class="md-collapse" id="md-collapse" aria-label="Collapse navigation" aria-expanded="true" aria-controls="md-nav">{{ icon('chevron-left', 18) }}</button>
+    <nav id="md-nav">
+      <ul class="md-nav-list">
+        <li><a class="md-nav on" href="#md-results" data-cat="all" aria-current="page" title="Dashboard">{{ icon('dashboard', 20) }}<span class="md-nav-t">Dashboard</span></a></li>
+        {% for cat in categories %}
+        <li><a class="md-nav" href="#cat-{{ cat.key }}" data-cat="{{ cat.key }}" title="{{ cat.title }}">{{ icon(cat.ic, 20) }}<span class="md-nav-t">{{ cat.title }}</span><span class="md-nav-n" aria-label="{{ cat.open }} of {{ cat.tiles|length }} open">{{ cat.open }}</span></a></li>
+        {% endfor %}
+      </ul>
+      <ul class="md-nav-list md-nav-foot">
+        <li><a class="md-nav" href="#details" data-open-details title="Student details">{{ icon('user', 20) }}<span class="md-nav-t">Student details</span></a></li>
+        <li><a class="md-nav" href="{{ url_for('main.contact_alias') }}" title="Contact the team">{{ icon('mail', 20) }}<span class="md-nav-t">Contact the team</span></a></li>
+      </ul>
+    </nav>
+  </aside>
 
-  {% if not complete %}
-  <div class="mh-nudge">Add your student details and photo so your mentor can recognise and guide you better — it takes a minute.</div>
-  {% endif %}
+  <!-- ============ Main ============ -->
+  <div class="md-main">
 
-  <details class="mh-details" id="details" {% if not complete %}open{% endif %}>
-    <summary>Student details &amp; photo</summary>
-    <form class="mh-form" method="post" action="{{ url_for('memberhub.save_details') }}" enctype="multipart/form-data">
-      <div><label>Student name</label><input name="student_name" maxlength="150" value="{{ sp.student_name or '' if sp }}" placeholder="{{ current_user.name }}"></div>
-      <div><label>Class / status</label><input name="grade" maxlength="60" value="{{ sp.grade or '' if sp }}" placeholder="Class 12, Gap year…"></div>
-      <div><label>Board</label><input name="board" maxlength="60" value="{{ sp.board or '' if sp }}" placeholder="CBSE, IB, State…"></div>
-      <div><label>School</label><input name="school" maxlength="200" value="{{ sp.school or '' if sp }}"></div>
-      <div><label>Target exams</label><input name="target_exams" maxlength="200" value="{{ sp.target_exams or '' if sp }}" placeholder="JEE, DASA, NEET…"></div>
-      <div><label>Target admission year</label><input name="target_year" maxlength="20" value="{{ sp.target_year or '' if sp }}" placeholder="2027"></div>
-      <div><label>City</label><input name="city" maxlength="100" value="{{ sp.city or '' if sp }}"></div>
-      <div><label>Country</label><input name="country" maxlength="80" value="{{ sp.country or '' if sp }}"></div>
-      <div><label>Phone / WhatsApp</label><input name="phone" maxlength="40" value="{{ sp.phone or '' if sp }}"></div>
-      <div><label>Parent / guardian</label><input name="parent_name" maxlength="150" value="{{ sp.parent_name or '' if sp }}"></div>
-      <div class="wide"><label>Student photo</label>
-        <input type="file" name="photo" accept=".jpg,.jpeg,.png,.webp">
-        <div class="hint">Square photo works best (e.g. 400 × 400 px), JPG, PNG or WebP, under 1 MB. Only you and your EduAakashaA mentors can see it.</div>
-        {% if has_photo %}<label style="margin-top:8px;text-transform:none;font-weight:600;"><input type="checkbox" name="remove_photo" value="1" style="width:auto;"> Remove current photo</label>{% endif %}
-      </div>
-      <div class="wide"><button class="mh-save" type="submit">Save details</button></div>
-    </form>
-  </details>
-
-  <div class="mh-covers" aria-label="Categories">
-    {% for cat in categories %}
-    <a class="mh-cover" href="#cat-{{ cat.key }}" style="--c:{{ cat.color }}">
-      <img src="{{ url_for('static', filename='img/hub/' ~ (cat.img or (cat.key ~ '.webp'))) }}" alt="" loading="lazy">
-      <span class="mh-cover-body">
-        <strong>{{ cat.icon }} {{ cat.title }}</strong>
-        <small>{{ cat.open }} of {{ cat.tiles|length }} open</small>
-      </span>
-    </a>
-    {% endfor %}
-  </div>
-
-  {% for cat in categories %}
-  <section class="mh-cat" id="cat-{{ cat.key }}">
-    <div class="mh-cat-head">
-      <div class="mh-cat-ico" style="background:{{ cat.color }}">{{ cat.icon }}</div>
-      <div><h2>{{ cat.title }}</h2><p>{{ cat.blurb }}</p></div>
-      <span class="mh-count" style="background:{{ cat.tint }};color:{{ cat.color }}">{{ cat.open }} of {{ cat.tiles|length }} open</span>
-    </div>
-    <div class="mh-grid" style="--tint:{{ cat.tint }}">
-      {% for t in cat.tiles %}
-      {% if t.access == 'soon' %}
-      <div class="mh-tile soon" style="background:#fff;border-color:{{ cat.color }}55;--tint:#fff;">
-        <div class="ico">{{ t.icon }}</div><h3>{{ t.title }}</h3><p>{{ t.desc }}</p>
-      </div>
-      {% else %}
-      <a class="mh-tile{{ ' locked' if t.locked }}" href="{{ url_for('main.members_registration') if t.locked else t.url }}"
-         style="background:{{ cat.tint }};border-color:{{ cat.color }}33;">
-        {% if t.locked %}<span class="mh-lock">🔒 Premium</span>{% endif %}
-        <div class="ico">{{ t.icon }}</div><h3>{{ t.title }}</h3><p>{{ t.desc }}</p>
+    <!-- top bar: search · notifications · account -->
+    <div class="md-top" role="search">
+      <label class="md-search" for="md-q">
+        <span class="md-search-ic">{{ icon('search', 18) }}</span>
+        <span class="md-sr">Search tools, reports and guides</span>
+        <input id="md-q" type="search" placeholder="Search tools, reports and guides" autocomplete="off" aria-controls="md-results">
+        <kbd aria-hidden="true">/</kbd>
+      </label>
+      <a class="md-iconbtn" href="{{ url_for('mentorship.index') }}" aria-label="Notifications{% if alerts %}: {{ alerts|length }} unread{% endif %}" title="Notifications">
+        {{ icon('bell', 20) }}{% if alerts %}<span class="md-dot" aria-hidden="true">{{ alerts|length if alerts|length < 10 else '9+' }}</span>{% endif %}
       </a>
-      {% endif %}
-      {% endfor %}
+      <details class="md-menu">
+        <summary class="md-account" aria-label="Account menu">
+          {% if has_photo %}<img src="{{ url_for('memberhub.photo', uid=current_user.id) }}?v={{ sp.photo_size }}" alt="" width="34" height="34">{% else %}<span class="md-initial" aria-hidden="true">{{ shown_name[:1]|upper }}</span>{% endif %}
+          <span class="md-account-n">{{ first_name }}</span>{{ icon('chevron-down', 16) }}
+        </summary>
+        <div class="md-menu-pop">
+          <div class="md-menu-head"><strong>{{ shown_name }}</strong><small>{{ current_user.email }}</small></div>
+          <a href="#details" data-open-details>{{ icon('edit', 18) }} Edit details &amp; photo</a>
+          <a href="{{ url_for('members.profile') }}">{{ icon('user', 18) }} Profile &amp; sessions</a>
+          <a href="{{ url_for('main.members_registration') }}">{{ icon('star', 18) }} Membership plans</a>
+          <a href="{{ url_for('auth.logout') }}">{{ icon('logout', 18) }} Log out</a>
+        </div>
+      </details>
     </div>
-  </section>
-  {% endfor %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}<ul class="md-flash" role="status">{% for cat, msg in messages %}<li class="md-flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+    {% endwith %}
+
+    <!-- welcome -->
+    <section class="md-welcome" aria-labelledby="md-hi">
+      {% if has_photo %}<img class="md-avatar-lg" src="{{ url_for('memberhub.photo', uid=current_user.id) }}?v={{ sp.photo_size }}" alt="{{ shown_name }}" width="72" height="72">
+      {% else %}<div class="md-avatar-lg md-initial-lg" aria-hidden="true">{{ shown_name[:1]|upper }}</div>{% endif %}
+      <div class="md-welcome-body">
+        <h1 id="md-hi">Welcome back, {{ first_name }}</h1>
+        <p>Your admission toolkit: analytics, exam roadmaps, mentoring and reports in one place.</p>
+        <div class="md-chips-row">
+          {% if current_user.is_admin %}<span class="md-chip md-chip-plan">Admin</span>
+          {% elif current_user.is_premium %}<span class="md-chip md-chip-plan">Premium member</span>
+          {% else %}<span class="md-chip">Free plan</span>{% endif %}
+          {% if sp and sp.grade %}<span class="md-chip">{{ sp.grade }}{% if sp.board %} · {{ sp.board }}{% endif %}</span>{% endif %}
+          {% if sp and sp.target_exams %}<span class="md-chip">Targeting {{ sp.target_exams }}{% if sp.target_year %} · {{ sp.target_year }}{% endif %}</span>{% endif %}
+          {% if sp and (sp.city or sp.country) %}<span class="md-chip">{{ [sp.city, sp.country]|select|join(', ') }}</span>{% endif %}
+          {% if current_user.is_premium and current_user.tier_expires_at %}<span class="md-chip">Access until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}</span>{% endif %}
+        </div>
+      </div>
+      <div class="md-welcome-actions">
+        {% if not current_user.is_premium and not current_user.is_admin %}<a class="md-btn md-btn-pri" href="{{ url_for('main.members_registration') }}">Upgrade to premium</a>{% endif %}
+        <a class="md-btn" href="#details" data-open-details>{{ icon('edit', 16) }} Edit details &amp; photo</a>
+      </div>
+    </section>
+
+    {% if not complete %}
+    <div class="md-nudge" role="note">Add your student details and photo so your mentor can recognise and guide you better. It takes a minute.</div>
+    {% endif %}
+
+    <details class="md-details" id="details" {% if not complete %}open{% endif %}>
+      <summary>Student details &amp; photo</summary>
+      <form class="md-form" method="post" action="{{ url_for('memberhub.save_details') }}" enctype="multipart/form-data">
+        <div><label for="f-name">Student name</label><input id="f-name" name="student_name" maxlength="150" value="{{ sp.student_name or '' if sp }}" placeholder="{{ current_user.name }}"></div>
+        <div><label for="f-grade">Class / status</label><input id="f-grade" name="grade" maxlength="60" value="{{ sp.grade or '' if sp }}" placeholder="Class 12, Gap year…"></div>
+        <div><label for="f-board">Board</label><input id="f-board" name="board" maxlength="60" value="{{ sp.board or '' if sp }}" placeholder="CBSE, IB, State…"></div>
+        <div><label for="f-school">School</label><input id="f-school" name="school" maxlength="200" value="{{ sp.school or '' if sp }}"></div>
+        <div><label for="f-exams">Target exams</label><input id="f-exams" name="target_exams" maxlength="200" value="{{ sp.target_exams or '' if sp }}" placeholder="JEE, DASA, NEET…"></div>
+        <div><label for="f-year">Target admission year</label><input id="f-year" name="target_year" maxlength="20" value="{{ sp.target_year or '' if sp }}" placeholder="2027"></div>
+        <div><label for="f-city">City</label><input id="f-city" name="city" maxlength="100" value="{{ sp.city or '' if sp }}"></div>
+        <div><label for="f-country">Country</label><input id="f-country" name="country" maxlength="80" value="{{ sp.country or '' if sp }}"></div>
+        <div><label for="f-phone">Phone / WhatsApp</label><input id="f-phone" name="phone" maxlength="40" value="{{ sp.phone or '' if sp }}"></div>
+        <div><label for="f-parent">Parent / guardian</label><input id="f-parent" name="parent_name" maxlength="150" value="{{ sp.parent_name or '' if sp }}"></div>
+        <div class="wide"><label for="f-photo">Student photo</label>
+          <input id="f-photo" type="file" name="photo" accept=".jpg,.jpeg,.png,.webp">
+          <p class="md-hint">Square photo works best (e.g. 400 × 400 px), JPG, PNG or WebP, under 1 MB. Only you and your EduAakashaA mentors can see it.</p>
+          {% if has_photo %}<label class="md-check"><input type="checkbox" name="remove_photo" value="1"> Remove current photo</label>{% endif %}
+        </div>
+        <div class="wide"><button class="md-btn md-btn-pri" type="submit">Save details</button></div>
+      </form>
+    </details>
+
+    <!-- recently opened (stored in this browser only) -->
+    <section class="md-recent" id="md-recent" hidden aria-labelledby="md-recent-h">
+      <h2 id="md-recent-h">Recently opened</h2>
+      <div class="md-grid" id="md-recent-grid"></div>
+    </section>
+
+    <!-- filters -->
+    <div class="md-filters" id="md-results">
+      <div class="md-chiprow" role="group" aria-label="Filter by category">
+        <button type="button" class="md-fchip on" data-cat="all" aria-pressed="true">All <span>{{ total }}</span></button>
+        {% for cat in categories %}<button type="button" class="md-fchip" data-cat="{{ cat.key }}" aria-pressed="false">{{ cat.title }} <span>{{ cat.tiles|length }}</span></button>{% endfor %}
+      </div>
+      <div class="md-typerow" role="group" aria-label="Filter by type">
+        <button type="button" class="md-tchip on" data-type="all" aria-pressed="true">All types</button>
+        <button type="button" class="md-tchip" data-type="roadmap" aria-pressed="false">Roadmaps</button>
+        <button type="button" class="md-tchip" data-type="report" aria-pressed="false">Reports &amp; assessments</button>
+        <button type="button" class="md-tchip" data-type="open" aria-pressed="false">Available to me</button>
+        <button type="button" class="md-tchip" data-type="locked" aria-pressed="false">Members only</button>
+      </div>
+      <p class="md-count" id="md-count" aria-live="polite">Showing {{ total }} resources</p>
+    </div>
+
+    <div class="md-state md-state-error" id="md-error" hidden role="alert">Search and filters could not start in this browser. All resources are still listed below.</div>
+
+    <!-- categories + cards -->
+    {% for cat in categories %}
+    <section class="md-cat" id="cat-{{ cat.key }}" data-cat-section="{{ cat.key }}" aria-labelledby="h-{{ cat.key }}">
+      <header class="md-cat-head">
+        <span class="md-cat-ic">{{ icon(cat.ic, 22) }}</span>
+        <div><h2 id="h-{{ cat.key }}">{{ cat.title }}</h2><p>{{ cat.blurb }}</p></div>
+        <span class="md-cat-count">{{ cat.open }} of {{ cat.tiles|length }} open</span>
+      </header>
+      <div class="md-grid">
+        {% for t in cat.tiles %}
+        {% set cid = cat.key ~ '-' ~ loop.index %}
+        {% if t.access == 'soon' %}
+        <div class="md-card is-soon" data-id="{{ cid }}" data-cat="{{ cat.key }}" data-tag="" data-locked="0" data-text="{{ (t.title ~ ' ' ~ t.desc ~ ' ' ~ cat.title)|lower }}">
+          <span class="md-card-top"><span class="md-card-ic">{{ icon(t.ic) }}</span><span class="md-badges"><b class="md-b">Soon</b></span></span>
+          <span class="md-card-body"><span class="md-card-title">{{ t.title }}</span><span class="md-card-desc">{{ t.desc }}</span></span>
+          <span class="md-card-foot"><span class="md-act">Coming soon</span></span>
+        </div>
+        {% else %}
+        <a class="md-card{{ ' is-locked' if t.locked }}" href="{{ url_for('main.members_registration') if t.locked else t.url }}" data-id="{{ cid }}" data-cat="{{ cat.key }}" data-tag="{{ t.tag }}" data-locked="{{ '1' if t.locked else '0' }}" data-text="{{ (t.title ~ ' ' ~ t.desc ~ ' ' ~ cat.title)|lower }}">
+          <span class="md-card-top">
+            <span class="md-card-ic">{{ icon(t.ic) }}</span>
+            <span class="md-badges">
+              {% if t.new %}<b class="md-b md-b-new">New</b>{% endif %}
+              {% if t.locked %}<b class="md-b md-b-lock">{{ icon('lock', 12) }} Locked</b>
+              {% elif t.access == 'premium' %}<b class="md-b md-b-mem">Members only</b>{% endif %}
+            </span>
+          </span>
+          <span class="md-card-body"><span class="md-card-title">{{ t.title }}</span><span class="md-card-desc">{{ t.desc }}</span></span>
+          <span class="md-card-foot"><span class="md-act">{{ t.action }} {{ icon('arrow', 16) }}</span></span>
+        </a>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+
+    <div class="md-state md-empty" id="md-empty" hidden>
+      <div class="md-empty-ic">{{ icon('search', 28) }}</div>
+      <h2>No resources match</h2>
+      <p>Try a different word, or clear the filters to see everything.</p>
+      <button type="button" class="md-btn md-btn-pri" id="md-clear">Clear search and filters</button>
+    </div>
+    <noscript><p class="md-hint">Search and filters need JavaScript; every resource is listed above.</p></noscript>
+  </div>
 </div>
 {% endblock %}
+
+{% block scripts %}<script src="{{ url_for('static', filename='js/member_home.js') }}" defer></script>{% endblock %}

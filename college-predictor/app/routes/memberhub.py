@@ -40,7 +40,12 @@ def home():
     if current_user.is_mentor:
         return redirect(url_for('alumni.mentor_dashboard'))
     sp = current_user.student_profile
-    return render_template('members/home.html', categories=member_hub.build(current_user), sp=sp,
+    try:                                  # unread schedule alerts for the bell; the dashboard works without them
+        from app.services import exam_calendar as xc
+        alerts = xc.unread_alerts(current_user)
+    except Exception:
+        alerts = []
+    return render_template('members/home.html', categories=member_hub.build(current_user), sp=sp, alerts=alerts,
                            has_photo=bool(sp and sp.photo_size),
                            complete=bool(sp and sp.student_name and sp.grade and sp.target_exams))
 
