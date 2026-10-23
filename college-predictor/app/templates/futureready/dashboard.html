@@ -1,6 +1,6 @@
 {% extends "futureready/base.html" %}
 {% block fr_title %}{{ p.student.name }}{% endblock %}
-{% block fr_h1 %}{{ p.student.name }} <span style="font-size:.6em;opacity:.8">· Grade {{ p.grade }}</span>{% endblock %}
+{% block fr_h1 %}{{ p.student.name }} <span style="font-size:.6em;opacity:.8">· Class {{ p.grade }}</span>{% endblock %}
 {% block fr_lead %}{% if role=='student' %}Your starting point, your plan and your next steps.{% elif role=='parent' %}Progress, reports and ways to support at home.{% else %}Student workspace ({{ role }}).{% endif %}{% endblock %}
 {% block fr_body %}
 {% if flags %}<div class="fr-flags" role="list" aria-label="Needs attention">{% for t,u in flags %}<a role="listitem" href="{{ u }}">⚑ {{ t }}</a>{% endfor %}</div>{% endif %}

@@ -7,12 +7,12 @@
 <form method="post" class="fr-card" style="max-width:760px">
 {% if step==1 %}
   <h2>What FutureReady is</h2>
-  <p>FutureReady helps students in Grades 8 and 9 understand their strengths, build strong foundations and explore engineering through projects, with a mentor and parents alongside.</p>
+  <p>FutureReady helps students in Class 8 and 9 understand their strengths, build strong foundations and explore engineering through projects, with a mentor and parents alongside.</p>
   <ul><li>It shows where you are <em>today</em>; it does not label you.</li><li>It never ranks students or predicts a college or branch.</li><li>You can stop any time, and your mentor explains every result.</li></ul>
   <p class="fr-muted">Please read the <a href="{{ url_for('futureready.privacy') }}" target="_blank" rel="noopener">privacy and child-safety page</a>.</p>
 {% elif step==2 %}
   <h2>About the student</h2>
-  <label for="grade">Grade</label><select id="grade" name="grade"><option value="8" {{ 'selected' if p.grade==8 }}>Grade 8</option><option value="9" {{ 'selected' if p.grade==9 }}>Grade 9</option></select>
+  <label for="grade">Class</label><select id="grade" name="grade"><option value="8" {{ 'selected' if p.grade==8 }}>Class 8</option><option value="9" {{ 'selected' if p.grade==9 }}>Class 9</option></select>
   <label for="cur">Board / curriculum</label><select id="cur" name="curriculum"><option value="">Choose…</option>{% for c in CURRICULA %}<option {{ 'selected' if p.curriculum==c }}>{{ c }}</option>{% endfor %}</select>
   <label for="sch">School (optional)</label><input id="sch" type="text" name="school" maxlength="160" value="{{ p.school or '' }}">
 {% elif step==3 %}
@@ -46,7 +46,7 @@
   <table><tbody>{% for a in plan %}<tr><td>{{ a.number }}</td><td>{{ a.title }}</td><td class="fr-muted">{{ a.minutes }} min</td></tr>{% endfor %}</tbody></table>
 {% elif step==10 %}
   <h2>Review and finish</h2>
-  <ul><li>Grade {{ p.grade }}, {{ p.curriculum or 'board not set' }}{% if p.school %}, {{ p.school }}{% endif %}</li><li>Consent: {% if p.consent_at %}<span class="fr-pill ok">recorded</span>{% else %}<span class="fr-pill bad">still needed (step 3)</span>{% endif %}</li><li>Interests: {{ (p.interests_text or 'not added')[:140] }}</li><li>Programme: {{ p.tier }} · {{ p.meetings_per_month }} meeting(s) a month</li></ul>
+  <ul><li>Class {{ p.grade }}, {{ p.curriculum or 'board not set' }}{% if p.school %}, {{ p.school }}{% endif %}</li><li>Consent: {% if p.consent_at %}<span class="fr-pill ok">recorded</span>{% else %}<span class="fr-pill bad">still needed (step 3)</span>{% endif %}</li><li>Interests: {{ (p.interests_text or 'not added')[:140] }}</li><li>Programme: {{ p.tier }} · {{ p.meetings_per_month }} meeting(s) a month</li></ul>
 {% endif %}
 <p style="margin-top:16px">{% if step>1 %}<a class="fr-btn ghost" href="{{ url_for('futureready.onboarding', pid=p.id, step=step-1) }}">Back</a> {% endif %}<button class="fr-btn">{{ 'Finish onboarding' if step==10 else 'Save and continue' }}</button></p>
 </form>

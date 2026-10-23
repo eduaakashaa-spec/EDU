@@ -1,7 +1,7 @@
 {% extends "futureready/base.html" %}
 {% block fr_title %}Engineering Branch Explorer{% endblock %}
 {% block fr_h1 %}Engineering Branch Explorer{% endblock %}
-{% block fr_lead %}What each branch studies, the problems it solves and what to try now. Explore freely: you are not choosing a branch in Grade 8 or 9.{% endblock %}
+{% block fr_lead %}What each branch studies, the problems it solves and what to try now. Explore freely: you are not choosing a branch in Class 8 or 9.{% endblock %}
 {% block fr_body %}
 <form method="get" action="{{ url_for('futureready.compare') }}" class="fr-card flat" style="margin-bottom:16px">
  {% if p %}<input type="hidden" name="pid" value="{{ p.id }}">{% endif %}

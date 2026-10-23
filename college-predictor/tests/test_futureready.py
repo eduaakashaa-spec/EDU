@@ -1,4 +1,4 @@
-"""FutureReady (Grades 8-9): full student -> report workflow, scoring rules, access control, privacy, content versioning, PDF, demo mode.
+"""FutureReady (Class 8-9): full student -> report workflow, scoring rules, access control, privacy, content versioning, PDF, demo mode.
 Run from college-predictor/:  python tests/test_futureready.py"""
 import json
 import os

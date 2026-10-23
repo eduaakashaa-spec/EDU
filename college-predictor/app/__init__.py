@@ -75,7 +75,7 @@ def create_app():
         from app import models_membership  # noqa: F401 – membership/invoice tables
         from app import models_mentorship  # noqa: F401 – mentorship portal tables
         from app import models_pulse  # noqa: F401 – EduPulse-UCEED question bank + progress
-        from app.futureready import models as _fr_models  # noqa: F401 – FutureReady (Grade 8-9) tables
+        from app.futureready import models as _fr_models  # noqa: F401 – FutureReady (Class 8-9) tables
         db.create_all()
 
     # Load JOSAA + NIRF data into memory once at startup

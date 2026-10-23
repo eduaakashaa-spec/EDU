@@ -1,4 +1,4 @@
-"""FutureReady Mentorship Portal (Grades 8-9): data model. New tables only (db.create_all adds them; nothing existing is altered).
+"""FutureReady Mentorship Portal (Class 8-9): data model. New tables only (db.create_all adds them; nothing existing is altered).
 
 Everything hangs off `FrProfile` (one student). Access is decided server-side in `access.py`: admin | assigned mentor | the student | a linked parent.
 Question banks, branches and admission routes live in the database so administrators can edit and version them without a rebuild.

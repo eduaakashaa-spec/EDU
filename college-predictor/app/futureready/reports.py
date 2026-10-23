@@ -185,7 +185,7 @@ def pdf(report):
         return (str(t) if t is not None else '').replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
     el = [Paragraph('EduAakashaa FutureReady', SM), Paragraph(esc(d['title']), H),
-          Paragraph(f"{esc(d['student'])} · Grade {d['grade']} {('· ' + esc(d['school'])) if d.get('school') else ''} · {esc(d.get('period') or d['generated'])}", P)]
+          Paragraph(f"{esc(d['student'])} · Class {d['grade']} {('· ' + esc(d['school'])) if d.get('school') else ''} · {esc(d.get('period') or d['generated'])}", P)]
     if d.get('demo'):
         el.append(Paragraph('<b>DEMONSTRATION DATA: sample student, not a real child.</b>', P))
     el.append(Spacer(1, 6))

@@ -1,4 +1,4 @@
-# EduAakashaA FutureReady Mentorship Portal (Grades 8–9)
+# EduAakashaA FutureReady Mentorship Portal (Class 8–9)
 
 A module of the existing Flask app (`app/futureready/`, blueprint `/futureready`). It reuses the site's login, roles, database, PDF stack and brand theme. It adds **new tables only** (`fr_*`); nothing existing is altered.
 

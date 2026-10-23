@@ -1,7 +1,7 @@
 {% extends "futureready/base.html" %}
 {% block fr_title %}{{ d.title }}{% endblock %}
 {% block fr_h1 %}{{ d.title }}{% endblock %}
-{% block fr_lead %}{{ d.student }} · Grade {{ d.grade }}{% if d.school %} · {{ d.school }}{% endif %} · {{ d.period or d.generated }}{% endblock %}
+{% block fr_lead %}{{ d.student }} · Class {{ d.grade }}{% if d.school %} · {{ d.school }}{% endif %} · {{ d.period or d.generated }}{% endblock %}
 {% block fr_body %}
 <p><a class="fr-btn sm" href="{{ url_for('futureready.report_pdf', pid=p.id, rid=r.id) }}">Download PDF</a>
 {% if is_staff %}<form method="post" style="display:inline"><span class="fr-pill {{ 'ok' if r.status=='Shared' else 'warn' }}">{{ r.status }}</span> {% if r.status!='Shared' %}<button class="fr-btn sm alt" name="do" value="share">Review done: share with student and parents</button>{% else %}<button class="fr-btn sm ghost" name="do" value="unshare">Withdraw</button>{% endif %}</form>{% endif %}</p>

@@ -29,13 +29,13 @@ TIERS = (PORTAL_TIER, 'Foundation Path', 'Aspirant Path', 'NRI / Global',
 # registration form, the admin pre-fill and the invoice use.
 TIER_PRICES = {
     PORTAL_TIER: 10_000_00,
-    'Foundation Path': 14_999_00,
+    'Foundation Path': 20_000_00,
     'Aspirant Path': 24_999_00,
     'NRI / Global': 39_999_00,
     'NRI · AI Report': 5_000_00,
     'NRI · Expert Guidance': 20_000_00,
     'Elite Mentorship': 74_999_00,
-    'FutureReady Mentorship': 20_000_00,   # Grades 8-9 programme, per year
+    'FutureReady Mentorship': 20_000_00,   # Class 8-9 programme, per year
 }
 
 # Paths whose payment switches on the Premium portal (members-only tools:
