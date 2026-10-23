@@ -1,0 +1,20 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Assessments{% endblock %}
+{% block fr_h1 %}Assessments{% endblock %}
+{% block fr_lead %}Short, friendly check-ins. There is no pass or fail: each one shows where to practise or what to explore.{% endblock %}
+{% block fr_body %}
+{% if locked %}<div class="fr-note"><strong>Assessments are locked</strong> until a parent or guardian records consent. <a href="{{ url_for('futureready.onboarding', pid=p.id, step=3) }}">Open the consent step</a>.</div>{% endif %}
+<div class="fr-grid fr-g2">
+{% for it in items %}{% set a=it.a %}
+<div class="fr-card">
+  <span class="fr-pill">{{ a.number }}</span> <span class="fr-pill">{{ {'objective':'Skills check','self':'Self-reflection','rubric':'Practical task','mixed':'Mixed'}[a.kind] }}</span> <span class="fr-pill">{{ a.minutes }} min</span> <span class="fr-pill">{{ it.count }} items</span>
+  <h3 style="margin-top:8px">{{ a.title }}</h3><p>{{ a.purpose }}</p>
+  <p style="margin:0">
+  {% if it.at and it.at.status=='in_progress' and it.can and not locked %}<a class="fr-btn sm" href="{{ url_for('futureready.take', pid=p.id, key=a.key) }}">Continue</a>
+  {% elif it.can and not locked %}<a class="fr-btn sm" href="{{ url_for('futureready.take', pid=p.id, key=a.key) }}">{{ 'Take again' if it.at else 'Start' }}</a>{% endif %}
+  {% if it.last %}<a class="fr-btn sm ghost" href="{{ url_for('futureready.result', pid=p.id, aid=it.last.id) }}">View result</a>{% if it.last.submitted_at %} <span class="fr-muted">{{ it.last.submitted_at.strftime('%d %b %Y') }}</span>{% endif %}{% endif %}
+  </p>
+</div>{% endfor %}
+</div>
+<p class="fr-muted" style="margin-top:14px">Completed attempts are listed in the checklist on the <a href="{{ url_for('futureready.dashboard', pid=p.id) }}">home page</a>; open one to see its result.</p>
+{% endblock %}

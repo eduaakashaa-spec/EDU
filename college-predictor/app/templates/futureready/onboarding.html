@@ -1,0 +1,53 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Onboarding{% endblock %}
+{% block fr_h1 %}Welcome to FutureReady{% endblock %}
+{% block fr_lead %}Ten short steps. Your progress is saved, so you can stop and continue any time.{% endblock %}
+{% block fr_body %}
+<ol class="fr-steps" aria-label="Onboarding steps">{% for n,t in STEPS %}<li class="{{ 'on' if n==step else 'done' if n<(p.onboarding_step or 1) else '' }}"><a href="{{ url_for('futureready.onboarding', pid=p.id, step=n) }}" style="text-decoration:none;color:inherit">{{ n }}. {{ t }}</a></li>{% endfor %}</ol>
+<form method="post" class="fr-card" style="max-width:760px">
+{% if step==1 %}
+  <h2>What FutureReady is</h2>
+  <p>FutureReady helps students in Grades 8 and 9 understand their strengths, build strong foundations and explore engineering through projects, with a mentor and parents alongside.</p>
+  <ul><li>It shows where you are <em>today</em>; it does not label you.</li><li>It never ranks students or predicts a college or branch.</li><li>You can stop any time, and your mentor explains every result.</li></ul>
+  <p class="fr-muted">Please read the <a href="{{ url_for('futureready.privacy') }}" target="_blank" rel="noopener">privacy and child-safety page</a>.</p>
+{% elif step==2 %}
+  <h2>About the student</h2>
+  <label for="grade">Grade</label><select id="grade" name="grade"><option value="8" {{ 'selected' if p.grade==8 }}>Grade 8</option><option value="9" {{ 'selected' if p.grade==9 }}>Grade 9</option></select>
+  <label for="cur">Board / curriculum</label><select id="cur" name="curriculum"><option value="">Choose…</option>{% for c in CURRICULA %}<option {{ 'selected' if p.curriculum==c }}>{{ c }}</option>{% endfor %}</select>
+  <label for="sch">School (optional)</label><input id="sch" type="text" name="school" maxlength="160" value="{{ p.school or '' }}">
+{% elif step==3 %}
+  <h2>Parent or guardian consent</h2>
+  <p>FutureReady collects a child's learning information. A parent or guardian must agree before assessments open.</p>
+  <ul><li>We store answers, goals, actions and mentor notes only for mentoring this student.</li><li>Private mentor notes are never shown to the student or parent; parents do not see a student's open-text answers.</li><li>Records can be deleted on request (info@eduaakashaa.com).</li><li>Results are snapshots, not predictions.</li></ul>
+  {% if p.consent_at %}<p class="fr-flash ok">Consent recorded {{ p.consent_at.strftime('%d %b %Y') }} by {{ p.consent_by }}.</p>
+  {% elif role in ('parent','admin','mentor') %}
+  <label><input type="checkbox" name="agree" value="1"> I am the parent or legal guardian and I agree to the above for this student.</label>
+  <label for="by">Parent or guardian's full name</label><input id="by" type="text" name="by" maxlength="160">
+  {% if role!='parent' %}<p class="fr-muted">Staff may record consent only after speaking with the parent or guardian.</p>{% endif %}
+  {% else %}<div class="fr-note">A parent or guardian needs to sign in and complete this step (or your mentor can record it after speaking with them). You can continue the other steps meanwhile.</div>{% endif %}
+{% elif step==4 %}
+  <h2>Your interests</h2><label for="int">What do you enjoy doing, in your own words?</label><textarea id="int" name="interests" maxlength="2000">{{ p.interests_text or '' }}</textarea>
+{% elif step==5 %}
+  <h2>How you like to learn</h2>
+  {% for x in LEARNING_PREFS %}<label class="fr-opt"><input type="checkbox" name="prefs" value="{{ x }}" {{ 'checked' if x in prefs }}> {{ x }}</label>{% endfor %}
+{% elif step==6 %}
+  <h2>Your goals</h2><label for="g">What would you like to get better at, or achieve, this year?</label><textarea id="g" name="goals" maxlength="2000">{{ p.student_goals or '' }}</textarea>
+{% elif step==7 %}
+  <h2>Parent goals and expectations</h2>
+  {% if role in ('parent','admin','mentor') %}<label for="pg">What do you hope the student will gain this year? Anything the mentor should know?</label><textarea id="pg" name="goals" maxlength="2000">{{ p.parent_goals or '' }}</textarea>
+  {% else %}<p>{{ p.parent_goals or 'A parent can add their goals here.' }}</p>{% endif %}
+{% elif step==8 %}
+  <h2>Programme</h2>
+  {% if role in ('admin','mentor') %}<label for="tier">Programme tier</label><select id="tier" name="tier">{% for k,v in TIERS.items() %}<option value="{{ k }}" {{ 'selected' if p.tier==k }}>{{ k }} (default {{ v }} meeting(s) a month)</option>{% endfor %}</select>
+    <label for="mt">Live meetings a month (can be changed any time)</label><input id="mt" type="number" min="1" max="8" name="meetings" value="{{ p.meetings_per_month }}">
+  {% else %}<p>Your programme: <strong>{{ p.tier }}</strong> with <strong>{{ p.meetings_per_month }}</strong> live meeting(s) a month. Your mentor can change this.</p>{% endif %}
+{% elif step==9 %}
+  <h2>Your baseline plan</h2><p>These short assessments give your mentor a starting point. Take them over a few days, not all at once.</p>
+  <table><tbody>{% for a in plan %}<tr><td>{{ a.number }}</td><td>{{ a.title }}</td><td class="fr-muted">{{ a.minutes }} min</td></tr>{% endfor %}</tbody></table>
+{% elif step==10 %}
+  <h2>Review and finish</h2>
+  <ul><li>Grade {{ p.grade }}, {{ p.curriculum or 'board not set' }}{% if p.school %}, {{ p.school }}{% endif %}</li><li>Consent: {% if p.consent_at %}<span class="fr-pill ok">recorded</span>{% else %}<span class="fr-pill bad">still needed (step 3)</span>{% endif %}</li><li>Interests: {{ (p.interests_text or 'not added')[:140] }}</li><li>Programme: {{ p.tier }} · {{ p.meetings_per_month }} meeting(s) a month</li></ul>
+{% endif %}
+<p style="margin-top:16px">{% if step>1 %}<a class="fr-btn ghost" href="{{ url_for('futureready.onboarding', pid=p.id, step=step-1) }}">Back</a> {% endif %}<button class="fr-btn">{{ 'Finish onboarding' if step==10 else 'Save and continue' }}</button></p>
+</form>
+{% endblock %}

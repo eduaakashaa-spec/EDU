@@ -1,0 +1,8 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Subject Foundations{% endblock %}
+{% block fr_h1 %}Subject Foundations Explorer{% endblock %}
+{% block fr_lead %}The school subjects and skills that every engineering branch builds on, with short activities to strengthen each one.{% endblock %}
+{% block fr_body %}
+<div class="fr-grid fr-g2">{% for f in items %}<div class="fr-card"><h3>{{ f.title }}</h3><p>{{ f.why }}</p><p class="fr-muted"><strong>Ideas to focus on:</strong> {{ f.topics }}</p>
+ <p><strong>Try:</strong></p><ul>{% for k in f.resources.split(',') %}{% set r = res.get(k) %}{% if r %}<li>{{ r.title }} <span class="fr-muted">({{ r.minutes }} min)</span></li>{% endif %}{% endfor %}</ul></div>{% endfor %}</div>
+{% endblock %}

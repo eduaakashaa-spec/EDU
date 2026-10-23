@@ -1,0 +1,27 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}{{ p.student.name }}{% endblock %}
+{% block fr_h1 %}{{ p.student.name }} <span style="font-size:.6em;opacity:.8">· Grade {{ p.grade }}</span>{% endblock %}
+{% block fr_lead %}{% if role=='student' %}Your starting point, your plan and your next steps.{% elif role=='parent' %}Progress, reports and ways to support at home.{% else %}Student workspace ({{ role }}).{% endif %}{% endblock %}
+{% block fr_body %}
+{% if flags %}<div class="fr-flags" role="list" aria-label="Needs attention">{% for t,u in flags %}<a role="listitem" href="{{ u }}">⚑ {{ t }}</a>{% endfor %}</div>{% endif %}
+<div class="fr-grid fr-g3">
+  <div class="fr-card"><h3>Assessments</h3><p style="font-size:1.8rem;margin:.1em 0;font-weight:700">{{ done }} <span class="fr-muted" style="font-size:.9rem">of {{ total }} completed</span></p>
+    <div class="fr-bar" role="progressbar" aria-valuenow="{{ (100*done/total)|int if total else 0 }}" aria-valuemin="0" aria-valuemax="100"><i style="width:{{ (100*done/total)|int if total else 0 }}%"></i></div>
+    <p><a class="fr-btn sm" href="{{ url_for('futureready.assessments', pid=p.id) }}">{{ 'Open assessments' if role=='student' else 'View assessments' }}</a></p></div>
+  <div class="fr-card"><h3>Action plan</h3><p style="font-size:1.8rem;margin:.1em 0;font-weight:700">{{ acts|selectattr('status','equalto','Done')|list|length }} <span class="fr-muted" style="font-size:.9rem">of {{ acts|length }} actions done</span></p>
+    <ul style="margin:6px 0 0 18px;padding:0">{% for a in open_acts %}<li>{{ a.title }} <span class="fr-muted">({{ a.owner }}{% if a.due_date %}, due {{ a.due_date.strftime('%d %b') }}{% endif %})</span></li>{% endfor %}</ul>
+    <p><a class="fr-btn sm alt" href="{{ url_for('futureready.plan', pid=p.id) }}">Open plan</a></p></div>
+  <div class="fr-card"><h3>Next session</h3>{% if sess %}<p><strong>{{ sess.title or sess.kind|capitalize }}</strong><br>{{ sess.planned_at.strftime('%A %d %b, %I:%M %p') if sess.planned_at else 'Date to be agreed' }}</p>{% if sess.agenda %}<p class="fr-muted">{{ sess.agenda }}</p>{% endif %}{% else %}<p class="fr-muted">No session planned yet.</p>{% endif %}
+    <p class="fr-muted">Programme: {{ p.tier }} · {{ p.meetings_per_month }} live meeting(s) a month</p></div>
+</div>
+<div class="fr-grid fr-g2" style="margin-top:16px">
+  <div class="fr-card"><h3>Assessment checklist</h3><table><tbody>{% for r in rows %}<tr><td>{{ r.number }}</td><td>{{ r.title }}</td><td>{% if r.done %}<span class="fr-pill ok">Done {{ r.when }}</span>{% else %}<span class="fr-pill">To do</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+  <div>
+    <div class="fr-card"><h3>Explore next</h3>{% if branches %}<p class="fr-muted">Engineering areas that match your interests so far (ideas to explore, not a decision):</p><ul>{% for m in branches %}<li><a href="{{ url_for('futureready.branch', key=m.branch.key, pid=p.id) }}">{{ m.branch.name }}</a>{% if m.why %} <span class="fr-muted">· {{ m.why|join(', ') }}</span>{% endif %}</li>{% endfor %}</ul>
+      <p><a href="{{ url_for('futureready.interest_map', pid=p.id) }}">See the full interest map →</a></p>{% else %}<p class="fr-muted">Finish the Interests Explorer and the Engineering Interest Map to see ideas here.</p>{% endif %}</div>
+    <div class="fr-card" style="margin-top:16px"><h3>Goals</h3>{% for g in goals %}<p style="margin:.3em 0">{{ g.title }}{% if g.target is not none and g.baseline is not none and g.target!=g.baseline %}<br><span class="fr-muted">{{ g.baseline|round|int }}{{ g.unit }} → {{ g.current|round|int }}{{ g.unit }} (target {{ g.target|round|int }}{{ g.unit }})</span>{% endif %}</p>{% else %}<p class="fr-muted">No goals set yet.</p>{% endfor %}</div>
+    <div class="fr-card" style="margin-top:16px"><h3>Badges</h3>{% for k,t in badges %}<span class="fr-badge">★ {{ t }}</span>{% else %}<p class="fr-muted">Complete an assessment or an action to earn your first badge.</p>{% endfor %}</div>
+  </div>
+</div>
+{% if recs_n %}<div class="fr-note" style="margin-top:16px">{{ recs_n }} suggestion(s) from your mentor are ready. <a href="{{ url_for('futureready.recs', pid=p.id) }}">Open suggestions</a></div>{% endif %}
+{% endblock %}

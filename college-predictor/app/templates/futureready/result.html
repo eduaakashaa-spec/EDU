@@ -1,0 +1,42 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Result: {{ at.assessment.title }}{% endblock %}
+{% block fr_h1 %}{{ at.assessment.title }}{% endblock %}
+{% block fr_lead %}Attempt {{ at.attempt_no }}{% if at.submitted_at %} · submitted {{ at.submitted_at.strftime('%d %b %Y') }}{% endif %}{% if at.set_key %} · set {{ at.set_key.replace(':', ', level ') }}{% endif %}{% endblock %}
+{% block fr_body %}
+<div class="fr-note"><strong>How to read this.</strong> {{ r.note }}</div>
+{% set skills = r.skills %}
+{% if skills %}
+<div class="fr-card"><h2>By skill</h2>
+<table><thead><tr><th>Skill</th><th>Result</th><th>Reading</th></tr></thead><tbody>
+{% for k,s in skills.items() %}<tr><td>{{ s.label }}</td>
+ <td>{% if s.kind=='objective' %}{{ s.correct }} of {{ s.n }} ({{ s.pct|int }}%)<div class="fr-bar {{ 'ok' if s.pct>=80 else 'or' if s.pct<50 }}" style="margin-top:4px"><i style="width:{{ s.pct|int }}%"></i></div>
+     {% else %}{{ s.mean }} / 5 <span class="fr-muted">(how you see yourself)</span><div class="fr-bar" style="margin-top:4px"><i style="width:{{ ((s.mean-1)/4*100)|int }}%"></i></div>{% endif %}</td>
+ <td><span class="fr-pill {{ 'ok' if s.band in ('Secure','Strong tendency') else 'warn' if s.band in ('Developing','Mixed','Too few items') else 'bad' }}">{{ s.band }}</span></td></tr>{% endfor %}
+</tbody></table>
+<p class="fr-muted">Tested skills use bands: Secure (80%+), Developing (50–79%), Needs reinforcement (below 50%). A skill with fewer than 2 questions is not labelled. Self-reflection answers describe how you see yourself, not what you can do.</p></div>
+{% endif %}
+{% if r.interest_tags %}<div class="fr-card" style="margin-top:16px"><h2>What pulled you in</h2>{% for t,v in r.interest_tags.items()|sort(attribute='1', reverse=True) %}<p style="margin:.3em 0">{{ label(t) }}<div class="fr-bar"><i style="width:{{ (100*v/(r.interest_tags.values()|max))|int }}%"></i></div></p>{% endfor %}
+<p><a href="{{ url_for('futureready.interest_map', pid=p.id) }}">Open your interest map →</a></p></div>{% endif %}
+{% if align %}<div class="fr-card" style="margin-top:16px"><h2>Where student and parent views match or differ</h2>
+{% for s in align.shared %}<p>✔ {{ s }}</p>{% endfor %}{% if align.gaps %}<p><strong>Worth a conversation:</strong></p><ul>{% for g in align.gaps %}<li>{{ g }}</li>{% endfor %}</ul>{% else %}<p>No big differences in the scaled answers.</p>{% endif %}
+<p class="fr-muted">Differences are not mistakes. Neither view is wrong.</p></div>{% endif %}
+{% if r.review %}<div class="fr-card" style="margin-top:16px"><h2>Question review</h2>
+{% for q in r.review %}<div class="fr-rv {{ 'ok' if q.ok else 'no' }}"><strong>{{ q.prompt }}</strong><br>Your answer: {{ q.chosen }} {{ '✔' if q.ok else '✘' }}{% if not q.ok %}<br>Correct answer: {{ q.right }}{% endif %}<br><span class="fr-muted">{{ q.why }}{% if q.hint %} Common slip: {{ q.hint }}{% endif %}</span></div>{% endfor %}</div>{% endif %}
+{% if r.text and role!='parent' %}<div class="fr-card" style="margin-top:16px"><h2>Your written answers</h2>{% for c,t in r.text.items() %}<p><span class="fr-muted">{{ c }}</span><br>{{ t if t is string else t|join('; ') }}</p>{% endfor %}</div>{% endif %}
+{% if at.assessment.kind=='rubric' %}
+<div class="fr-card" style="margin-top:16px"><h2>Mentor rubric</h2>
+ {% set rb = at.rubric %}
+ {% if is_staff %}
+ <form method="post" action="{{ url_for('futureready.rubric', pid=p.id, aid=at.id) }}">
+  <table><thead><tr><th>Criterion</th><th>Rating (1 Beginning to 4 Extending)</th></tr></thead><tbody>
+  {% for k,t in meta.criteria %}<tr><td><strong>{{ t }}</strong><div class="fr-muted">{% for lv in range(1,5) %}{{ lv }}: {{ meta.rubric.descriptors[k][lv] if meta.rubric else '' }}{% if not loop.last %} · {% endif %}{% endfor %}</div></td>
+   <td><select name="{{ k }}" aria-label="{{ t }}"><option value="">–</option>{% for lv in range(1,5) %}<option value="{{ lv }}" {{ 'selected' if rb.ratings and rb.ratings.get(k)==lv }}>{{ lv }}</option>{% endfor %}</select></td></tr>{% endfor %}
+  </tbody></table>
+  <label for="fb">Feedback for the student</label><textarea id="fb" name="feedback">{{ rb.feedback or '' }}</textarea><p><button class="fr-btn">Save rubric</button></p></form>
+ {% elif rb.ratings %}
+  <table><tbody>{% for k,t in meta.criteria %}<tr><td>{{ t }}</td><td>{{ ['','Beginning','Developing','Secure','Extending'][rb.ratings.get(k,0)] if rb.ratings.get(k) else '–' }}</td></tr>{% endfor %}</tbody></table>
+  {% if rb.feedback %}<p><strong>Feedback:</strong> {{ rb.feedback }}</p>{% endif %}
+ {% else %}<p class="fr-muted">Your mentor has not rated this yet. They will use the visible rubric above and write feedback.</p>{% endif %}
+</div>{% endif %}
+<p style="margin-top:16px"><a class="fr-btn ghost" href="{{ url_for('futureready.assessments', pid=p.id) }}">Back to assessments</a></p>
+{% endblock %}

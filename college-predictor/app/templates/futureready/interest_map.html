@@ -1,0 +1,14 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Interest map{% endblock %}
+{% block fr_h1 %}Your interest map{% endblock %}
+{% block fr_lead %}Combines the Interests Explorer and the Engineering Interest Map. A starting point for exploring, never a verdict.{% endblock %}
+{% block fr_body %}
+{% if prof %}
+<div class="fr-grid fr-g2">
+ <div class="fr-card"><h2>What you are drawn to</h2>{% for k,l,v in prof %}<p style="margin:.4em 0">{{ l }} <span class="fr-muted">{{ v }}/100</span></p><div class="fr-bar {{ 'or' if loop.index<=3 }}"><i style="width:{{ v }}%"></i></div>{% endfor %}</div>
+ <div class="fr-card"><h2>Branches to explore next</h2>{% for m in matches %}<p style="margin:.5em 0"><a href="{{ url_for('futureready.branch', key=m.branch.key, pid=p.id) }}"><strong>{{ m.branch.name }}</strong></a><br><span class="fr-muted">{% if m.why %}Links to your interest in {{ m.why|join(', ') }}.{% else %}A smaller overlap with your interests.{% endif %}</span></p>{% endfor %}
+  <div class="fr-note">These are ideas to try with a project. Interests grow with experience, so check again in three months.</div></div>
+</div>
+{% if shortlist %}<div class="fr-card" style="margin-top:16px"><h2>My shortlist</h2>{% for s in shortlist %}<p><a href="{{ url_for('futureready.branch', key=s.branch.key, pid=p.id) }}">{{ s.branch.name }}</a> {% if s.note %}<span class="fr-muted">— {{ s.note }}</span>{% endif %}</p>{% endfor %}</div>{% endif %}
+{% else %}<div class="fr-card"><p>Finish the <strong>Interests and Strengths Explorer</strong> and the <strong>Engineering Branch Interest Map</strong> to see your map.</p><a class="fr-btn" href="{{ url_for('futureready.assessments', pid=p.id) }}">Open assessments</a></div>{% endif %}
+{% endblock %}

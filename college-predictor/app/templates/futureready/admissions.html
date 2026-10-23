@@ -1,0 +1,17 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Entrance System Awareness{% endblock %}
+{% block fr_h1 %}How engineering admission works in India{% endblock %}
+{% block fr_lead %}A plain-language guide for families, years before applications. We explain the system, not the rules for any one year.{% endblock %}
+{% block fr_body %}
+<div class="fr-note"><strong>Always confirm on the official website.</strong> Eligibility, dates, fees and seat rules change every year. Anything marked “Requires verification” has not been checked against the official notice for a specific year, so treat it as general awareness only.</div>
+<div class="fr-card"><h2>The big picture</h2>
+<ul><li><strong>Entrance examination:</strong> a test that produces a score or rank (for example JEE Main).</li><li><strong>Counselling process:</strong> where seats are allotted to candidates using a score, rank or merit list (for example JoSAA).</li><li><strong>Merit-based admission process:</strong> admission using published merit rules, such as Class 12 marks, without a separate entrance exam (for example TNEA in Tamil Nadu).</li><li><strong>Institution exam:</strong> a university's own entrance test.</li></ul>
+<p class="fr-muted">One exam does not decide a career: there are many routes, and several branches lead to similar careers.</p></div>
+<div class="fr-grid fr-g2" style="margin-top:16px">
+{% for a in rows %}<div class="fr-card"><span class="fr-pill">{{ a.classification }}</span> {% if a.status=='verified' %}<span class="fr-pill ok">Verified {{ a.last_verified.strftime('%d %b %Y') }}{% if a.admission_year %} · {{ a.admission_year }}{% endif %}</span>{% else %}<span class="fr-pill warn">Requires verification</span>{% endif %}
+ <h3 style="margin-top:8px">{{ a.name }}</h3><p>{{ a.summary }}</p><p><strong>How it works:</strong> {{ a.how_it_works }}</p>
+ {% if a.status=='verified' and a.eligibility %}<p><strong>Eligibility ({{ a.admission_year }}):</strong> {{ a.eligibility }}</p>{% endif %}
+ {% if a.official_url %}<p class="fr-muted">Official source: <a href="{{ a.official_url }}" target="_blank" rel="noopener noreferrer">{{ a.official_url }}</a>{% if a.reviewer %} · reviewed by {{ a.reviewer }}{% endif %}</p>{% else %}<p class="fr-muted">Check the official admission authority for your state or institution.</p>{% endif %}</div>{% endfor %}
+</div>
+<div class="fr-card" style="margin-top:16px"><h2>Questions to ask at home</h2><ul><li>Which routes are we curious about, and where do we find each official notice?</li><li>Which school subjects matter most for those routes?</li><li>What can we try now (projects, reading, visits) without any pressure?</li></ul></div>
+{% endblock %}

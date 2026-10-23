@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}{% block fr_title %}FutureReady{% endblock %} | EduAakashaA FutureReady{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/futureready.css') }}">{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block content %}
+<div class="fr" data-no-rail>
+<a class="fr-skip" href="#fr-main">Skip to content</a>
+<section class="fr-hero"><div class="fr-wrap">
+  <span class="fr-eyebrow">EduAakashaA FutureReady · Grades 8–9 mentorship</span>
+  <h1>{% block fr_h1 %}FutureReady{% endblock %}</h1>
+  <p>{% block fr_lead %}{% endblock %}</p>
+</div></section>
+{% if p %}
+<nav class="fr-nav" aria-label="FutureReady sections"><div class="fr-wrap">
+  {% set ep = request.endpoint %}
+  <a href="{{ url_for('futureready.dashboard', pid=p.id) }}" class="{{ 'on' if ep=='futureready.dashboard' }}">Home</a>
+  <a href="{{ url_for('futureready.assessments', pid=p.id) }}" class="{{ 'on' if ep in ('futureready.assessments','futureready.take','futureready.result') }}">Assessments</a>
+  <a href="{{ url_for('futureready.sampler', pid=p.id) }}" class="{{ 'on' if ep=='futureready.sampler' }}">Aptitude Sampler</a>
+  <a href="{{ url_for('futureready.branches', pid=p.id) }}" class="{{ 'on' if ep in ('futureready.branches','futureready.branch','futureready.compare','futureready.interest_map') }}">Engineering</a>
+  <a href="{{ url_for('futureready.admissions') }}" class="{{ 'on' if ep=='futureready.admissions' }}">Entrance System</a>
+  <a href="{{ url_for('futureready.foundations') }}" class="{{ 'on' if ep=='futureready.foundations' }}">Foundations</a>
+  <a href="{{ url_for('futureready.recs', pid=p.id) }}" class="{{ 'on' if ep=='futureready.recs' }}">Suggestions</a>
+  <a href="{{ url_for('futureready.plan', pid=p.id) }}" class="{{ 'on' if ep=='futureready.plan' }}">Action Plan</a>
+  <a href="{{ url_for('futureready.mentor_space', pid=p.id) }}" class="{{ 'on' if ep=='futureready.mentor_space' }}">{{ 'Mentor Notes' if is_staff else 'Mentor' }}</a>
+  <a href="{{ url_for('futureready.report_list', pid=p.id) }}" class="{{ 'on' if ep in ('futureready.report_list','futureready.report_view') }}">Reports</a>
+</div></nav>
+{% endif %}
+<main class="fr-main" id="fr-main"><div class="fr-wrap">
+  {% if p and p.demo %}<div class="fr-demo" role="note">DEMONSTRATION: this is a sample student with made-up data. It is not a real child and is excluded from exports.</div>{% endif %}
+  {% if notices %}<div class="fr-card flat" style="margin-bottom:14px"><strong>Notices</strong>
+    <form method="post" action="{{ url_for('futureready.notices_read') }}" style="display:inline;float:right"><button class="fr-btn sm ghost">Mark read</button></form>
+    <ul style="margin:6px 0 0 18px;padding:0">{% for n in notices %}<li>{% if n.url %}<a href="{{ n.url }}">{{ n.text }}</a>{% else %}{{ n.text }}{% endif %} <span class="fr-muted">{{ n.created_at.strftime('%d %b') }}</span></li>{% endfor %}</ul></div>{% endif %}
+  {% block fr_body %}{% endblock %}
+</div></main>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/futureready.js') }}" defer></script>{% block fr_scripts %}{% endblock %}{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Compare branches{% endblock %}
+{% block fr_h1 %}Compare branches{% endblock %}
+{% block fr_lead %}Side by side, so differences are easy to see. None is “better”: they suit different interests.{% endblock %}
+{% block fr_body %}
+<form method="get" class="fr-card flat" style="margin-bottom:14px">{% if p %}<input type="hidden" name="pid" value="{{ p.id }}">{% endif %}
+ <div class="fr-grid fr-g3">{% for i in range(3) %}<div><label for="k{{ i }}">Branch {{ i+1 }}</label><select id="k{{ i }}" name="k"><option value="">–</option>{% for b in allb %}<option value="{{ b.key }}" {{ 'selected' if keys|length>i and keys[i]==b.key }}>{{ b.name }}</option>{% endfor %}</select></div>{% endfor %}</div>
+ <p><button class="fr-btn sm">Compare</button></p></form>
+{% if items %}<div class="fr-card" style="overflow-x:auto"><table><thead><tr><th></th>{% for b in items %}<th>{{ b.name }}</th>{% endfor %}</tr></thead><tbody>
+{% for lbl,fld in [('Studies','studies'),('Problems it solves','problems'),('Sample projects','projects'),('Foundations','foundations'),('Skills','skills'),('Try now','activities'),('Work environment','environment')] %}
+<tr><th scope="row" style="background:var(--cream2);color:var(--navy3)">{{ lbl }}</th>{% for b in items %}<td>{{ b[fld] }}</td>{% endfor %}</tr>{% endfor %}
+</tbody></table></div>{% endif %}
+{% endblock %}

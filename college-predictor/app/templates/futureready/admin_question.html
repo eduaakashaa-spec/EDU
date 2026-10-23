@@ -1,0 +1,12 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Edit question{% endblock %}
+{% block fr_h1 %}Edit {{ q.code }} <span style="font-size:.6em">(currently v{{ q.version }})</span>{% endblock %}
+{% block fr_lead %}Saving creates a new version. Earlier attempts keep the wording they were answered with.{% endblock %}
+{% block fr_body %}
+<form method="post" class="fr-card" style="max-width:760px">
+ <label for="pr">Question</label><textarea id="pr" name="prompt" required>{{ q.prompt }}</textarea>
+ {% if q.qtype in ('mcq','multi') %}<label for="op">Options (one per line)</label><textarea id="op" name="options">{{ q.options|join('\n') }}</textarea>{% endif %}
+ {% if q.qtype=='mcq' %}<label for="an">Correct option number (first option = 0)</label><input id="an" type="number" name="answer" min="0" value="{{ q.answer }}">{% endif %}
+ <label for="ex">Explanation shown after submission</label><textarea id="ex" name="explanation">{{ q.explanation or '' }}</textarea>
+ <p><button class="fr-btn">Save as new version</button> <a class="fr-btn ghost" href="{{ url_for('futureready.admin_home') }}">Cancel</a></p></form>
+{% endblock %}

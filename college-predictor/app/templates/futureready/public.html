@@ -1,0 +1,14 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Mentorship for Grades 8–9{% endblock %}
+{% block fr_h1 %}Discover strengths early. Explore engineering with confidence.{% endblock %}
+{% block fr_lead %}A guided mentorship portal for students in Grades 8 and 9, their parents and EduAakashaA mentors: assessments, hands-on projects, engineering exploration and honest, evidence-based reports.{% endblock %}
+{% block fr_body %}
+<div class="fr-grid fr-g3">
+  <div class="fr-card"><h3>For students</h3><p>Twelve short assessments, a practice sampler, project ideas and an action plan you own. No marks, no ranks: just your starting point and your growth.</p></div>
+  <div class="fr-card"><h3>For parents</h3><p>See strengths, focus areas and the engineering routes explained in plain language, and understand how entrance exams and counselling really work.</p></div>
+  <div class="fr-card"><h3>For mentors</h3><p>One workspace for results, rubrics, goals, sessions and reports, with private notes that families never see.</p></div>
+</div>
+<div class="fr-card" style="margin-top:16px"><h2>Learn about the entrance system now</h2><p>Open to everyone: <a href="{{ url_for('futureready.admissions') }}">how engineering admission works in India</a>, with the source and last-verified date for each route.</p>
+<p><a class="fr-btn" href="{{ url_for('auth.login', next=url_for('futureready.index')) }}">Sign in to open your workspace</a> <a class="fr-btn ghost" href="{{ url_for('futureready.privacy') }}">Privacy and child safety</a></p></div>
+<div class="fr-note">FutureReady shows where a student is today and where to practise next. It never predicts a rank, a branch or an admission.</div>
+{% endblock %}

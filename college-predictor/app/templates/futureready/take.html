@@ -1,0 +1,32 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}{{ a.title }}{% endblock %}
+{% block fr_h1 %}{{ a.title }}{% endblock %}
+{% block fr_lead %}{{ a.purpose }}{% endblock %}
+{% block fr_body %}
+<div class="fr-card flat" style="margin-bottom:14px"><strong>Before you start</strong><p style="margin:.3em 0">{{ a.instructions }}</p>
+<p class="fr-muted" style="margin:0">About {{ a.minutes }} minutes. {{ a.accessibility }} Your answers save automatically; you can stop and come back.</p></div>
+<div class="fr-bar" aria-hidden="true" style="margin-bottom:14px"><i id="fr-progress" role="progressbar" aria-label="Questions answered" aria-valuemin="0" aria-valuemax="100" style="width:0"></i></div>
+<form method="post" id="fr-form" data-save="{{ url_for('futureready.autosave', pid=p.id, key=a.key) }}{{ '?set=' ~ set_key if set_key }}">
+{% if set_key %}<input type="hidden" name="set" value="{{ set_key }}">{% endif %}
+{% set ns = namespace(passage='') %}
+{% for q in qs %}
+  {% if q.meta.passage and q.meta.passage != ns.passage %}{% set ns.passage = q.meta.passage %}<div class="fr-passage"><strong>Read this passage</strong><br>{{ q.meta.passage }}</div>{% endif %}
+  <fieldset class="fr-q" style="min-inline-size:0;border:1px solid var(--line)">
+    <legend class="n" style="padding:0 6px">Question {{ loop.index }} of {{ qs|length }}</legend>
+    <p class="t">{{ q.prompt }}</p>
+    {% set cur = resp.get(q.code) %}
+    {% if q.qtype in ('mcq','choice') %}
+      {% for o in q.options %}<label class="fr-opt"><input type="radio" name="{{ q.code }}" value="{{ loop.index0 }}" {{ 'checked' if cur is not none and cur==loop.index0 }}> {{ o.t if o is mapping else o }}</label>{% endfor %}
+    {% elif q.qtype=='multi' %}
+      {% if q.meta.pick %}<p class="fr-muted">Choose {{ q.meta.pick }}.</p>{% endif %}
+      {% for o in q.options %}<label class="fr-opt"><input type="checkbox" name="{{ q.code }}" value="{{ loop.index0 }}" {{ 'checked' if cur and loop.index0 in cur }}> {{ o }}</label>{% endfor %}
+    {% elif q.qtype=='likert' %}
+      <div class="fr-likert" role="radiogroup" aria-label="{{ q.prompt }}">{% for lbl in ['Not like me','A little like me','Sometimes like me','Mostly like me','Very much like me'] %}<label class="fr-opt"><input type="radio" name="{{ q.code }}" value="{{ loop.index }}" {{ 'checked' if cur is not none and cur==loop.index }}> {{ lbl }}</label>{% endfor %}</div>
+    {% else %}
+      <label class="fr-skip" for="t-{{ q.code }}">Your answer</label><textarea id="t-{{ q.code }}" name="{{ q.code }}" maxlength="3000" placeholder="Write in your own words">{{ cur or '' }}</textarea>
+    {% endif %}
+  </fieldset>
+{% endfor %}
+<div class="fr-save"><button class="fr-btn ghost" name="action" value="save">Save and finish later</button><button class="fr-btn" name="action" value="submit">Submit</button><span id="fr-saved" class="fr-muted" aria-live="polite"></span></div>
+</form>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Reports{% endblock %}
+{% block fr_h1 %}Reports{% endblock %}
+{% block fr_lead %}Frozen snapshots a mentor has reviewed. What you read is exactly what was shared.{% endblock %}
+{% block fr_body %}
+{% if is_staff %}<form method="post" class="fr-card flat" style="margin-bottom:14px"><label for="rk">Create a report from the latest data</label>
+ <select id="rk" name="kind" style="max-width:340px;display:inline-block">{% for k,t in KINDS.items() %}<option value="{{ k }}">{{ t }}</option>{% endfor %}</select> <button class="fr-btn sm">Create draft</button>
+ <span class="fr-muted">Drafts are visible only to staff until you share them.</span></form>{% endif %}
+<div class="fr-card"><table><thead><tr><th>Report</th><th>Period</th><th>Created</th><th>Status</th><th></th></tr></thead><tbody>
+{% for r in items %}<tr><td>{{ r.title }}</td><td>{{ r.period or '' }}</td><td>{{ r.created_at.strftime('%d %b %Y') }}</td><td><span class="fr-pill {{ 'ok' if r.status=='Shared' else 'warn' }}">{{ r.status }}</span></td>
+ <td><a href="{{ url_for('futureready.report_view', pid=p.id, rid=r.id) }}">Open</a> · <a href="{{ url_for('futureready.report_pdf', pid=p.id, rid=r.id) }}">PDF</a></td></tr>{% else %}<tr><td colspan="5" class="fr-muted">No reports yet.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Your workspaces{% endblock %}
+{% block fr_h1 %}FutureReady workspaces{% endblock %}
+{% block fr_lead %}Choose a student to open. You only see students you are connected to.{% endblock %}
+{% block fr_body %}
+{% if can_admin %}<p><a class="fr-btn alt" href="{{ url_for('futureready.admin_home') }}">Administration</a></p>{% endif %}
+{% if rows %}<div class="fr-grid fr-g3">{% for pr, r in rows %}
+ <a class="fr-card" href="{{ url_for('futureready.dashboard', pid=pr.id) }}" style="text-decoration:none;color:inherit">
+  <span class="fr-pill">{{ r|capitalize }}</span>{% if pr.demo %} <span class="fr-pill warn">Demo</span>{% endif %}
+  <h3 style="margin-top:8px">{{ pr.student.name }}</h3><p class="fr-muted">Grade {{ pr.grade }}{% if pr.school %} · {{ pr.school }}{% endif %}<br>{% if not pr.onboarding_done_at %}Onboarding step {{ pr.onboarding_step }} of 10{% else %}Active{% endif %}</p></a>
+{% endfor %}</div>
+{% else %}<div class="fr-card"><p>You are not connected to a FutureReady student yet. Ask EduAakashaA to enrol the student and link the parent account to the e-mail you registered with.</p><p><a href="/contact">Contact EduAakashaA</a></p></div>{% endif %}
+{% endblock %}

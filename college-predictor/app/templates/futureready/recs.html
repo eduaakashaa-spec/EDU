@@ -1,0 +1,21 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Suggestions{% endblock %}
+{% block fr_h1 %}Suggested next steps{% endblock %}
+{% block fr_lead %}Each suggestion shows why it was made, what you will learn, how long it takes and how it will be checked.{% endblock %}
+{% block fr_body %}
+{% if is_staff %}<form method="post" class="fr-card flat" style="margin-bottom:14px"><input type="hidden" name="do" value="generate"><button class="fr-btn">Generate suggestions from latest results</button>
+ <span class="fr-muted">Families only see a suggestion after you approve it. Rules are explainable: the same results always give the same suggestions.</span></form>{% endif %}
+{% for r in items %}
+<div class="fr-card" style="margin-bottom:14px">
+ <span class="fr-pill {{ 'ok' if r.approved else 'warn' }}">{{ 'Approved' if r.approved else 'Awaiting mentor review' }}</span> <span class="fr-pill">{{ r.status }}</span>
+ <h3 style="margin-top:8px">{{ r.title }}</h3>
+ <p><strong>Why:</strong> {{ r.why }}</p>
+ {% if r.learn %}<p><strong>What you will do and learn:</strong> {{ r.learn }}</p>{% endif %}
+ <p class="fr-muted">{% if r.minutes %}About {{ r.minutes }} minutes · {% endif %}{% if r.materials %}You need: {{ r.materials }} · {% endif %}How it is checked: {{ r.assessed_by }}</p>
+ {% if r.ev %}<details><summary class="fr-muted">Evidence behind this suggestion</summary><p class="fr-muted">{{ r.ev }}</p></details>{% endif %}
+ <form method="post" style="margin-top:8px"><input type="hidden" name="rid" value="{{ r.id }}">
+  {% if is_staff %}{% if not r.approved %}<button class="fr-btn sm" name="do" value="approve">Approve and share</button>{% endif %} <button class="fr-btn sm ghost" name="do" value="dismiss">Dismiss</button>
+  {% elif r.status=='Suggested' and role=='student' %}<button class="fr-btn sm" name="do" value="accept">Add to my action plan</button>{% endif %}</form>
+</div>
+{% else %}<div class="fr-card"><p class="fr-muted">No suggestions yet. They appear after assessments are completed and your mentor has reviewed them.</p></div>{% endfor %}
+{% endblock %}

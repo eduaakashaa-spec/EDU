@@ -23,6 +23,7 @@ CATEGORIES = [
      'tiles': [
          {'title': 'My Mentorship', 'desc': 'Your journey, weekly plan, KPIs, reviews and reports (students and parents).', 'icon': '🧑\u200d🏫', 'endpoint': 'mentorship.index', 'access': 'premium'},
          {'title': 'Add-on programmes', 'desc': 'Ready-made mentoring for UCEED, NID, NIFT, IIT Delhi–Abu Dhabi, TNEA, state colleges, SRM, Amrita and VIT.', 'icon': '🧩', 'endpoint': 'mentorship.addons', 'access': 'free'},
+         {'title': 'FutureReady (Grades 8–9)', 'desc': 'Mentorship for Grade 8–9 students: assessments, engineering exploration, action plan and reports.', 'icon': '🚀', 'endpoint': 'futureready.index', 'access': 'free'},
          {'title': 'Action tracker', 'desc': 'Meeting actions for every member: owner, due date, completion — share by email or WhatsApp.', 'icon': '📌', 'endpoint': 'mentorship.action_tracker', 'access': 'premium', 'staff': True},
          {'title': 'Mentor dashboard', 'desc': 'Assigned students, sessions, follow-ups and interventions.', 'icon': '📋', 'endpoint': 'mentorship.mentor_home', 'access': 'premium', 'staff': True},
      ]},
@@ -84,7 +85,7 @@ CATEGORIES = [
 CATEGORY_ICON = {'journey': 'route', 'mentorship': 'cap', 'intel': 'bar', 'gulf': 'globe', 'tools': 'sliders', 'insights': 'bulb', 'free': 'download', 'support': 'life-buoy'}
 TILE_ICON = {
     'Profile & sessions': 'user', 'Document verification': 'file-check', 'My assessments': 'clipboard', 'Stream selection': 'compass',
-    'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',
+    'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'FutureReady (Grades 8–9)': 'compass', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',
     'DASA 2026 Analytics': 'bar', 'DASA prediction report': 'trend', 'JoSAA EA members': 'users', 'EduPulse-UCEED': 'target', 'EduPulse mentor view': 'dashboard',
     'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'TNEA expert': 'book', 'Members report': 'file-text',
     'IIT Delhi – Abu Dhabi mentoring': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
@@ -93,7 +94,7 @@ TILE_ICON = {
 }
 # tiles added recently show a "New" label for 30 days after this date (real dates, no fabricated badges)
 NEW_SINCE = {'IPM 2027 Roadmap': date(2026, 10, 18), 'Add-on programmes': date(2026, 10, 19), 'Action tracker': date(2026, 10, 20),
-             'IIT Delhi – Abu Dhabi mentoring': date(2026, 10, 21)}
+             'IIT Delhi – Abu Dhabi mentoring': date(2026, 10, 21), 'FutureReady (Grades 8–9)': date(2026, 10, 23)}
 NEW_DAYS = 30
 
 

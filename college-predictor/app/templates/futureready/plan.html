@@ -1,0 +1,47 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Action plan{% endblock %}
+{% block fr_h1 %}Goals and action plan{% endblock %}
+{% block fr_lead %}Goals say where we are heading. Actions are the small steps this week. Each shows who owns it and what evidence shows it is done.{% endblock %}
+{% block fr_body %}
+<div class="fr-grid fr-g2">
+<div>
+ <div class="fr-card"><h2>Actions</h2>
+ {% for a in acts %}<div class="fr-rv {{ 'ok' if a.status=='Done' }}" style="margin:10px 0">
+  <strong>{{ a.title }}</strong> <span class="fr-pill">{{ a.owner }}</span> <span class="fr-pill {{ 'ok' if a.status=='Done' else 'warn' if a.due_date and a.due_date<today and a.status!='Skipped' }}">{{ a.status }}</span>{% if a.due_date %} <span class="fr-muted">due {{ a.due_date.strftime('%d %b') }}</span>{% endif %}
+  {% if a.why %}<div class="fr-muted">Why: {{ a.why }}</div>{% endif %}{% if a.resource_key and res.get(a.resource_key) %}<div class="fr-muted">How: {{ res[a.resource_key].body }}</div>{% endif %}
+  {% if a.mentor_feedback %}<div class="fr-note"><strong>Mentor feedback:</strong> {{ a.mentor_feedback }}</div>{% endif %}
+  {% if is_staff or a.owner==role %}<form method="post" style="margin-top:6px"><input type="hidden" name="do" value="action_update"><input type="hidden" name="aid" value="{{ a.id }}">
+   <select name="status" aria-label="Status">{% for s in ['Not started','In progress','Done','Skipped'] %}<option {{ 'selected' if a.status==s }}>{{ s }}</option>{% endfor %}</select>
+   <input type="text" name="evidence" placeholder="What did you do or learn? (evidence)" value="{{ a.evidence or '' }}" style="margin-top:5px">
+   {% if role=='student' %}<input type="text" name="reflection" placeholder="One reflection: what was hard or surprising?" value="{{ a.reflection or '' }}" style="margin-top:5px">{% endif %}
+   {% if is_staff %}<input type="text" name="feedback" placeholder="Mentor feedback" style="margin-top:5px">{% endif %}
+   <button class="fr-btn sm" style="margin-top:6px">Update</button></form>{% elif a.evidence %}<div class="fr-muted">Evidence: {{ a.evidence }}</div>{% endif %}
+ </div>{% else %}<p class="fr-muted">No actions yet.</p>{% endfor %}
+ </div>
+ <form method="post" class="fr-card flat" style="margin-top:14px"><h3>Add an action</h3><input type="hidden" name="do" value="action">
+  <label for="at">Action</label><input id="at" type="text" name="title" maxlength="240" required>
+  <label for="aw">Why does it matter?</label><input id="aw" type="text" name="why" maxlength="300">
+  <div class="fr-grid fr-g2"><div><label for="ao">Owner</label><select id="ao" name="owner" {{ 'disabled' if not is_staff }}><option value="student">Student</option><option value="parent">Parent</option><option value="mentor">Mentor</option></select></div>
+  <div><label for="ad">Due</label><input id="ad" type="date" name="due"></div></div>
+  {% if not is_staff %}<input type="hidden" name="owner" value="{{ role }}">{% endif %}
+  <p><button class="fr-btn sm">Add action</button></p></form>
+</div>
+<div>
+ <div class="fr-card"><h2>Goals</h2>
+ {% for g in goals %}<div style="margin:10px 0"><strong>{{ g.title }}</strong> <span class="fr-pill">{{ g.status }}</span>
+  {% if g.metric %}<div class="fr-muted">Measured by: {{ g.metric }}</div>{% endif %}
+  {% if g.target is not none and g.baseline is not none and g.target!=g.baseline %}{% set pct = ((g.current-g.baseline)/(g.target-g.baseline)*100)|round|int %}<div class="fr-bar ok"><i style="width:{{ [[pct,0]|max,100]|min }}%"></i></div><div class="fr-muted">{{ g.baseline|round|int }}{{ g.unit }} → now {{ g.current|round|int }}{{ g.unit }} → target {{ g.target|round|int }}{{ g.unit }}{% if g.due_date %} by {{ g.due_date.strftime('%d %b %Y') }}{% endif %}</div>{% endif %}
+  {% if is_staff %}<form method="post" style="margin-top:4px"><input type="hidden" name="do" value="goal_update"><input type="hidden" name="gid" value="{{ g.id }}"><input type="number" step="any" name="current" placeholder="Current value" style="width:130px;display:inline-block"> <select name="status" style="width:auto;display:inline-block">{% for s in ['Active','Achieved','Revised','Dropped'] %}<option {{ 'selected' if g.status==s }}>{{ s }}</option>{% endfor %}</select> <button class="fr-btn sm ghost">Update</button></form>{% endif %}</div>{% else %}<p class="fr-muted">No goals yet.</p>{% endfor %}
+ </div>
+ <form method="post" class="fr-card flat" style="margin-top:14px"><h3>Set a goal</h3><input type="hidden" name="do" value="goal">
+  <label for="gt">Goal</label><input id="gt" type="text" name="title" maxlength="200" required>
+  <label for="gm">How will we know? (a measure)</label><input id="gm" type="text" name="metric" maxlength="120">
+  <div class="fr-grid fr-g3"><div><label for="gb">Start</label><input id="gb" type="number" step="any" name="baseline"></div><div><label for="gtg">Target</label><input id="gtg" type="number" step="any" name="target"></div><div><label for="gu">Unit</label><input id="gu" type="text" name="unit" maxlength="30" placeholder="% or books"></div></div>
+  <label for="gd">Review by</label><input id="gd" type="date" name="due"><p><button class="fr-btn sm">Add goal</button></p></form>
+ <div class="fr-card" style="margin-top:14px"><h2>Projects</h2>
+ {% for pr in projects %}<div style="margin:10px 0"><strong>{{ pr.title }}</strong> <span class="fr-pill">{{ pr.status }}</span><div class="fr-muted">{{ pr.description }}</div>{% if pr.mentor_feedback %}<div class="fr-note">{{ pr.mentor_feedback }}</div>{% endif %}
+  {% if role in ('student','admin') or is_staff %}<form method="post"><input type="hidden" name="do" value="project_update"><input type="hidden" name="prid" value="{{ pr.id }}">{% if role in ('student','admin') %}<select name="status" style="width:auto;display:inline-block">{% for s in ['Planned','In progress','Completed'] %}<option {{ 'selected' if pr.status==s }}>{{ s }}</option>{% endfor %}</select> <input type="text" name="reflection" placeholder="What I learned" value="{{ pr.reflection or '' }}" style="margin-top:4px">{% endif %}{% if is_staff %}<input type="text" name="feedback" placeholder="Mentor feedback" style="margin-top:4px">{% endif %}<button class="fr-btn sm ghost" style="margin-top:4px">Save</button></form>{% endif %}</div>{% else %}<p class="fr-muted">No projects yet.</p>{% endfor %}
+ {% if role in ('student','admin') %}<form method="post"><input type="hidden" name="do" value="project"><label for="pt">Start a project</label><input id="pt" type="text" name="title" maxlength="200"><input type="text" name="description" placeholder="One line: what will you make or find out?" style="margin-top:5px"><p><button class="fr-btn sm">Add project</button></p></form>{% endif %}
+ </div>
+</div></div>
+{% endblock %}

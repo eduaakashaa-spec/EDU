@@ -1,0 +1,15 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}{{ b.name }}{% endblock %}
+{% block fr_h1 %}{{ b.name }}{% endblock %}
+{% block fr_lead %}{{ b.family }}{% endblock %}
+{% block fr_body %}
+<div class="fr-grid fr-g2">
+ <div class="fr-card"><h3>What it studies</h3><p>{{ b.studies }}</p><h3>Problems it helps solve</h3><p>{{ b.problems }}</p><h3>Work styles and environments</h3><p>{{ b.environment }}</p></div>
+ <div class="fr-card"><h3>Try this now</h3><p><strong>Sample projects:</strong> {{ b.projects }}</p><p><strong>Activities:</strong> {{ b.activities }}</p><h3>School foundations that help</h3><p>{{ b.foundations }}</p><h3>Skills used</h3><p>{{ b.skills }}</p></div>
+</div>
+{% if tags %}<div class="fr-card" style="margin-top:16px"><h3>Kinds of activity in this branch</h3>{% for t,v in tags.items()|sort(attribute='1', reverse=True) %}<p style="margin:.25em 0">{{ label(t) }} <span class="fr-muted">{{ ['','some','strong','very strong'][v] }}</span></p>{% endfor %}</div>{% endif %}
+{% if rel %}<div class="fr-card" style="margin-top:16px"><h3>Related branches</h3>{% for r in rel %}<a class="fr-pill" href="{{ url_for('futureready.branch', key=r.key, pid=p.id if p else None) }}">{{ r.name }}</a> {% endfor %}</div>{% endif %}
+{% if p and role in ('student','admin') %}<form method="post" action="{{ url_for('futureready.shortlist', pid=p.id, key=b.key) }}" class="fr-card flat" style="margin-top:16px">
+ {% if on %}<p>This is on your shortlist.</p><button class="fr-btn ghost">Remove from shortlist</button>{% else %}<label for="nt">What attracts you to it? (optional)</label><input id="nt" type="text" name="note" maxlength="400"><p><button class="fr-btn">Add to my shortlist</button></p>{% endif %}</form>{% endif %}
+<p class="fr-muted">Last reviewed {{ b.last_reviewed.strftime('%d %b %Y') if b.last_reviewed else 'not recorded' }}.</p>
+{% endblock %}

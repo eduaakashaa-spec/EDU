@@ -1,0 +1,15 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Aptitude Sampler{% endblock %}
+{% block fr_h1 %}Aptitude Sampler{% endblock %}
+{% block fr_lead %}Ten skills, three levels. Practise at your own pace. There is no pass mark, no cut-off, and nothing here predicts a rank or an admission.{% endblock %}
+{% block fr_body %}
+{% if locked %}<div class="fr-note">Practice sets open after parent consent is recorded. <a href="{{ url_for('futureready.onboarding', pid=p.id, step=3) }}">Open the consent step</a>.</div>{% endif %}
+<div class="fr-card"><table><thead><tr><th>Skill</th><th>Level 1 · Warm-up</th><th>Level 2 · Building</th><th>Level 3 · Stretch</th></tr></thead><tbody>
+{% for k,t in skills %}<tr><th scope="row" style="background:var(--cream2);color:var(--navy3)">{{ t }}</th>
+ {% for lv in (1,2,3) %}{% set key = k ~ ':' ~ lv %}<td>
+  {% if key in done %}<span class="fr-pill ok">{{ done[key]|int }}% last time</span>{% endif %}
+  {% if can and not locked %}<a class="fr-btn sm {{ 'ghost' if key in done }}" href="{{ url_for('futureready.take', pid=p.id, key='sampler', set=key) }}">{{ 'Again' if key in done else 'Start' }}</a>{% endif %}
+ </td>{% endfor %}</tr>{% endfor %}
+</tbody></table></div>
+<div class="fr-note">Each set has 3 questions, so it shows how that handful went today. It is for practice: do not use it to choose a branch, a school or a college.</div>
+{% endblock %}

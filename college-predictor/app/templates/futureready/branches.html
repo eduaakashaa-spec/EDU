@@ -1,0 +1,20 @@
+{% extends "futureready/base.html" %}
+{% block fr_title %}Engineering Branch Explorer{% endblock %}
+{% block fr_h1 %}Engineering Branch Explorer{% endblock %}
+{% block fr_lead %}What each branch studies, the problems it solves and what to try now. Explore freely: you are not choosing a branch in Grade 8 or 9.{% endblock %}
+{% block fr_body %}
+<form method="get" action="{{ url_for('futureready.compare') }}" class="fr-card flat" style="margin-bottom:16px">
+ {% if p %}<input type="hidden" name="pid" value="{{ p.id }}">{% endif %}
+ <strong>Compare up to three branches</strong> <span class="fr-muted">(tick, then press Compare)</span>
+ <p style="margin:.4em 0 0"><button class="fr-btn sm alt">Compare ticked</button> {% if p %}<a class="fr-btn sm ghost" href="{{ url_for('futureready.interest_map', pid=p.id) }}">My interest map</a>{% endif %}</p>
+{% for fam, items in fam.items() %}
+<h2 style="margin-top:18px">{{ fam }}</h2>
+<div class="fr-grid fr-g3">{% for b in items %}
+ <div class="fr-card" style="background:#fff">
+  <label style="margin:0;font-weight:400"><input type="checkbox" name="k" value="{{ b.key }}" aria-label="Compare {{ b.name }}"> <a href="{{ url_for('futureready.branch', key=b.key, pid=p.id if p else None) }}"><strong>{{ b.name }}</strong></a></label>
+  <p class="fr-muted" style="margin:.4em 0 0">{{ b.studies[:130] }}…</p>
+  {% if b.id in shortlist %}<span class="fr-pill ok">On my shortlist</span>{% endif %}
+ </div>{% endfor %}</div>{% endfor %}
+</form>
+<div class="fr-note">Branch descriptions are for exploration. They do not say which branch is “best”, and they do not predict admission to any institution.</div>
+{% endblock %}
