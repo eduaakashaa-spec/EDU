@@ -5,6 +5,7 @@
 {% block body_class %}is-home{% endblock %}
 
 {% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/home_carousel.css') }}">
 <style>
 /* ═══════════════════════════════════════════════════════════════════
    EDUAAKASHAA HOMEPAGE — "NIGHT INSTRUMENT"
@@ -259,6 +260,37 @@
   <div class="aw-grain" aria-hidden="true"></div>
   <div class="aw-cur" aria-hidden="true"></div><div class="aw-ring" aria-hidden="true"></div>
 
+  <!-- top banner carousel -->
+  <section class="hc" role="region" aria-roledescription="carousel" aria-label="EduAakashaa highlights">
+    <div class="hc-view">
+      <div class="hc-track">
+      <a class="hc-slide" href="{{ url_for('main.tnea2026') }}" role="group" aria-roledescription="slide" aria-label="1 of 6">
+        <img src="{{ url_for('static', filename='img/carousel/slide-1.webp') }}" width="1600" height="900" alt="Choose colleges with real cutoff data: TNEA college explorer, JoSAA guidance and JoSAA assessment. See TNEA and JoSAA." fetchpriority="high" decoding="async">
+      </a>
+      <a class="hc-slide" href="{{ url_for('main.enggcolleges_india') }}" role="group" aria-roledescription="slide" aria-label="2 of 6">
+        <img src="{{ url_for('static', filename='img/carousel/slide-2.webp') }}" width="1600" height="900" alt="Know the college before you commit: engineering colleges across India, NIRF rankings and analytics, NATA and NID. Compare colleges." loading="lazy" decoding="async">
+      </a>
+      <a class="hc-slide" href="{{ url_for('main.exam_schedule') }}" role="group" aria-roledescription="slide" aria-label="3 of 6">
+        <img src="{{ url_for('static', filename='img/carousel/slide-3.webp') }}" width="1600" height="900" alt="Plan the exam calendar early: CAT and MBA or MCA guidance, the Indian exam schedule at a glance, professional exams. View the exam schedule." loading="lazy" decoding="async">
+      </a>
+      <a class="hc-slide" href="{{ url_for('main.student_assessment') }}" role="group" aria-roledescription="slide" aria-label="4 of 6">
+        <img src="{{ url_for('static', filename='img/carousel/slide-4.webp') }}" width="1600" height="900" alt="A stream and career that actually fits you: student assessment, stream selection, PER and conflict assessment, career path. Take an assessment." loading="lazy" decoding="async">
+      </a>
+      <a class="hc-slide" href="{{ url_for('main.contact_alias') }}" role="group" aria-roledescription="slide" aria-label="5 of 6">
+        <img src="{{ url_for('static', filename='img/carousel/slide-5.webp') }}" width="1600" height="900" alt="Questions? Let us guide you: videos library, counsellor sessions, internships. Book a counselling call." loading="lazy" decoding="async">
+      </a>
+      <a class="hc-slide" href="{{ url_for('main.members_registration') }}" role="group" aria-roledescription="slide" aria-label="6 of 6">
+        <img src="{{ url_for('static', filename='img/carousel/slide-6.webp') }}" width="1600" height="900" alt="Expert tools for the big decisions: DASA prediction report, Choice Builder PRO, hostel and culture analytics, expert portal and members report. Join as a member." loading="lazy" decoding="async">
+      </a>
+      </div>
+      <button type="button" class="hc-arrow hc-prev" aria-label="Previous slide">&#8249;</button>
+      <button type="button" class="hc-arrow hc-next" aria-label="Next slide">&#8250;</button>
+      <span class="hc-count" aria-hidden="true">1 / 6</span>
+      <div class="hc-bar"><button type="button" class="hc-pp" aria-label="Pause slideshow">&#10074;&#10074;</button></div>
+    </div>
+    <p class="hc-live" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);"></p>
+  </section>
+
   <!-- progress rail -->
   <nav class="aw-rail" aria-label="Page chapters">
     <a href="#awHero" class="on" data-ch="awHero" title="Thesis" aria-label="Chapter 1 — Thesis">01</a>
@@ -468,6 +500,7 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{{ url_for('static', filename='js/home_carousel.js') }}" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>

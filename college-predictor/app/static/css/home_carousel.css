@@ -1,0 +1,24 @@
+/* Homepage banner carousel (top of the page) */
+.hc { max-width: 1360px; margin: 16px auto 0; padding: 0 20px; position: relative; z-index: 3; }
+.hc-view { position: relative; overflow: hidden; border-radius: 22px; aspect-ratio: 16 / 9; width: 100%; max-width: calc((100vh - 130px) * 16 / 9); min-width: min(100%, 320px); margin: 0 auto;
+  background: #0E1B3D; box-shadow: 0 18px 44px rgba(7,26,68,.20); touch-action: pan-y; }
+.hc-track { display: flex; height: 100%; transition: transform .7s cubic-bezier(.22,.8,.24,1); will-change: transform; }
+.hc-slide { flex: 0 0 100%; width: 100%; height: 100%; display: block; position: relative; }
+.hc-slide img { display: block; width: 100%; height: 100%; object-fit: cover; user-select: none; -webkit-user-drag: none; }
+.hc-slide:focus-visible { outline: 3px solid #FF6B0A; outline-offset: -3px; }
+.hc-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 0; cursor: pointer; z-index: 4;
+  background: rgba(255,255,255,.88); color: #0E3A8A; font-size: 20px; line-height: 1; box-shadow: 0 6px 18px rgba(0,0,0,.22); opacity: 0; transition: opacity .2s, transform .2s; }
+.hc-view:hover .hc-arrow, .hc-arrow:focus-visible { opacity: 1; }
+.hc-arrow:hover { transform: translateY(-50%) scale(1.08); }
+.hc-prev { left: 14px; } .hc-next { right: 14px; }
+.hc-bar { position: absolute; left: 0; right: 0; bottom: 12px; display: flex; gap: 8px; align-items: center; justify-content: center; z-index: 4; pointer-events: none; }
+.hc-bar > * { pointer-events: auto; }
+.hc-dot { width: 34px; height: 5px; border-radius: 99px; border: 0; padding: 0; cursor: pointer; background: rgba(255,255,255,.5); position: relative; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+.hc-dot::after { content: ''; position: absolute; inset: 0; background: #FF6B0A; transform: scaleX(0); transform-origin: left; }
+.hc-dot.on::after { transform: scaleX(1); }
+.hc.playing .hc-dot.on::after { animation: hcfill var(--hc-ms, 5500ms) linear forwards; }
+@keyframes hcfill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.hc-pp { width: 30px; height: 30px; border-radius: 50%; border: 0; cursor: pointer; background: rgba(255,255,255,.85); color: #0E3A8A; font-size: 12px; margin-left: 6px; box-shadow: 0 1px 4px rgba(0,0,0,.3); }
+.hc-count { position: absolute; top: 12px; right: 14px; z-index: 4; font: 600 11px 'JetBrains Mono', monospace; letter-spacing: .08em; color: #fff; background: rgba(7,26,68,.55); padding: 4px 10px; border-radius: 999px; }
+@media (max-width: 640px) { .hc { padding: 0 10px; margin-top: 10px; } .hc-view { border-radius: 14px; } .hc-arrow { display: none; } .hc-dot { width: 22px; } }
+@media (prefers-reduced-motion: reduce) { .hc-track { transition: none; } .hc.playing .hc-dot.on::after { animation: none; transform: scaleX(1); } }
