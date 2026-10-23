@@ -23,7 +23,7 @@ def _utcnow():
 # Membership paths offered on the premium-membership / members-registration page.
 PORTAL_TIER = 'Premium Portal Access'
 TIERS = (PORTAL_TIER, 'Foundation Path', 'Aspirant Path', 'NRI / Global',
-         'NRI · AI Report', 'NRI · Expert Guidance', 'Elite Mentorship')
+         'NRI · AI Report', 'NRI · Expert Guidance', 'Elite Mentorship', 'FutureReady Mentorship')
 
 # Published list price per path, GST-inclusive, in PAISE — the single source the
 # registration form, the admin pre-fill and the invoice use.
@@ -35,6 +35,7 @@ TIER_PRICES = {
     'NRI · AI Report': 5_000_00,
     'NRI · Expert Guidance': 20_000_00,
     'Elite Mentorship': 74_999_00,
+    'FutureReady Mentorship': 20_000_00,   # Grades 8-9 programme, per year
 }
 
 # Paths whose payment switches on the Premium portal (members-only tools:
