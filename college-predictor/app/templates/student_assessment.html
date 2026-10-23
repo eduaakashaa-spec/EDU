@@ -4,8 +4,25 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/student_assessment.css') }}">
 {% endblock %}
 
+{% block premium_notice %}{% endblock %}
 {% block content %}
-<div class="ported ported-student_assessment">
+<section class="sa-hero" aria-label="Student assessment">
+  <div class="sa-wrap sa-hero-in">
+    <div>
+      <span class="sa-eyebrow">Student &amp; parent assessment · TNEA 2026</span>
+      <h1>Find the engineering branch that <em>actually fits you</em></h1>
+      <p class="sa-sub">A structured assessment of your interests, skills, personality and goals &mdash; with a parent section so the whole family sees the same picture. You get a branch-fit report you can download.</p>
+      <ul class="sa-points"><li>Interests (RIASEC)</li><li>Skills &amp; aptitude</li><li>SWOT</li><li>Branch knowledge</li><li>Career goals</li><li>Parent view</li></ul>
+      <div class="sa-btns">
+        <a class="sa-btn o" href="#sa-start">Start the assessment ↓</a>
+        <a class="sa-btn w" href="{{ url_for('main.members_registration') }}">Join EduAakashaa for membership →</a>
+      </div>
+    </div>
+    <div class="sa-pic"><img src="{{ url_for('static', filename='img/hub/journey.webp') }}" width="1200" height="675" alt="A student on the path from books and applications to a college campus" fetchpriority="high"></div>
+  </div>
+</section>
+
+<div class="ported ported-student_assessment" id="sa-start">
 {% raw %}
 
 
@@ -83,11 +100,12 @@
 
 {% endraw %}
 
-<div style="background:#071A44;color:#fff;border-radius:20px;padding:48px 32px;text-align:center;margin:48px auto;max-width:1100px;">
-  <h2 style="font-family:'Fraunces',serif;font-size:clamp(1.5rem,3vw,2.2rem);font-weight:600;margin-bottom:12px;">Same data, very different outcomes. A mentor turns it into your decision.</h2>
-  <p style="color:rgba(255,255,255,.72);max-width:560px;margin:0 auto 24px;">Get a written, year-long admission plan built around the student &mdash; no upfront fee.</p>
+<div class="sa-cta">
+  <h2>Join EduAakashaa. Let a mentor turn this report into your decision.</h2>
+  <p>Same data, very different outcomes. Members get their assessment reviewed by a mentor, a written admission plan built around the student, parent updates and the full set of members&rsquo; tools.</p>
+  <ul><li>Mentor-reviewed branch-fit report</li><li>Year-long admission plan</li><li>Exam &amp; deadline tracker</li><li>Premium analytics &amp; reports</li></ul>
   <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
-    <a href="{{ url_for('main.members_registration') }}" style="background:#FF6B0A;color:#fff;font-weight:700;padding:14px 28px;border-radius:999px;text-decoration:none;">Talk to a Mentor &rarr;</a>
+    <a href="{{ url_for('main.members_registration') }}" style="background:#FF6B0A;color:#fff;font-weight:700;padding:14px 28px;border-radius:999px;text-decoration:none;">Join EduAakashaa for membership &rarr;</a>
     <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" style="border:1.5px solid rgba(255,255,255,.5);color:#fff;font-weight:700;padding:13px 26px;border-radius:999px;text-decoration:none;">Chat on WhatsApp</a>
   </div>
 </div>

@@ -14,6 +14,7 @@ body .pl-hero    { background: url('../img/art/edu-dark.svg') right center / cov
 body .uc-cta, body .jr-cta { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44, #0E3A8A); }
 body .ab-nri     { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44 0%, #0E3A8A 70%); }
 body .ab-statement { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44, #0E3A8A); }
+body .sa-hero, body .sa-cta { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #071A44 0%, #0E3A8A 70%); }
 body .hp-hero    { background: url('../img/art/edu-dark.svg') right center / cover no-repeat, linear-gradient(135deg, #0f0f23 0%, #1a1a3e 40%, #1b2a5b 70%, #0f1b35 100%); }
 /* light (cream) hero sections */
 body .hero-editorial { background: url('../img/art/edu-light.svg') right center / cover no-repeat, var(--cream, #FFF8EE); }
