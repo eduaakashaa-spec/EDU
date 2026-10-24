@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}UCEED Mock Test Centre | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('pulse.home') }}">EduPulse-UCEED</a> › Mock Test Centre</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">UCEED Part A · previous-year papers + EduAakashaA mocks</span><h1>UCEED Mock Test Centre</h1>
+      <p>Take the official papers from 2018 to 2026 or an EduAakashaA practice paper, timed or untimed. Rate your confidence on every answer, then get a report on scores, topics and where you were sure but wrong.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ sm.attempts }}</b><span>mocks saved</span></div>
+      <div class="pl-kpi"><b>{{ sm.avg_pct ~ '%' if sm.avg_pct is not none else '—' }}</b><span>average score</span></div>
+      <div class="pl-kpi"><b>{{ ((100 * sm.best.score / sm.best.max_score)|round|int) ~ '%' if sm.best else '—' }}</b><span>best score</span></div>
+      <div class="pl-kpi"><b>{{ sm.sure_wrong_rate ~ '%' if sm.sure_wrong_rate is not none else '—' }}</b><span>sure but wrong</span></div>
+    </div>
+  </section>
+
+  <div class="pl-note">Mock scores are practice guidance only: they do not predict your UCEED score, rank or admission. The previous-year papers are IIT Bombay material used for practice; the explanations and the EduAakashaA practice papers are our own.</div>
+
+  <div class="pl-card" style="margin-top:16px;padding:0;overflow:hidden;">
+    <iframe src="{{ url_for('pulse.mock_app') }}" title="UCEED mock tests" style="width:100%;height:92vh;min-height:640px;border:0;display:block;background:var(--bg,#FBF7EE)" allow="fullscreen"></iframe>
+  </div>
+  <p class="pl-muted" style="margin:8px 0 0;">Your progress is kept in this browser while you work. A finished test is saved to your account and appears below. <a href="{{ url_for('pulse.mock_app') }}" target="_blank" rel="noopener">Open full screen ↗</a></p>
+
+  <div class="pl-grid pl-g2" style="margin-top:20px;">
+    <div class="pl-card"><span class="pl-eyebrow">Confidence check</span><h3>How well does your confidence match your answers?</h3>
+      {% if sm.an.rated %}
+      <table class="pl-tbl"><thead><tr><th>You said</th><th>Answers</th><th>Right</th><th>Wrong</th><th>Right %</th></tr></thead><tbody>
+      {% for c, label in CONF %}{% set x = sm.an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.wrong }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}
+      </tbody></table>
+      <ul style="margin:10px 0 0;padding-left:18px;line-height:1.65;">{% for n in sm.an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+      {% else %}<p class="pl-muted">Finish a mock and rate your answers (Guess, Low, Medium, High). Your calibration appears here.</p>{% endif %}
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Risk flags</span><h3>Sure but wrong, by topic</h3>
+      {% if sm.an.risky_topics %}<ul style="margin:6px 0 0;padding-left:18px;line-height:1.7;">{% for k, label, n in sm.an.risky_topics %}<li><strong>{{ label }}</strong>: {{ n }} confident mistake{{ '' if n == 1 else 's' }}</li>{% endfor %}</ul>
+      <p class="pl-muted">A confident mistake means a method or belief to fix, not just a slip. Review these first.</p>
+      {% elif sm.attempts %}<p class="pl-muted">No confident mistakes recorded yet.</p>{% else %}<p class="pl-muted">Nothing yet.</p>{% endif %}
+      {% if sm.an.weak_topics %}<p style="margin:10px 0 0;"><strong>Weakest topics:</strong> {{ sm.an.weak_topics|join(', ') }}</p>{% endif %}
+    </div>
+  </div>
+
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>My mock history</h3>
+    {% if sm.rows %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Paper</th><th>Mode</th><th>Score</th><th>Right / wrong</th><th>Sure but wrong</th><th></th></tr></thead><tbody>
+    {% for r in sm.rows[:20] %}<tr><td>{{ r.finished_at.strftime('%d %b %Y') }}</td><td>{{ r.paper_title }}</td><td>{{ 'Timed mock' if r.mode == 'mock' else 'Practice' }}{{ ' · auto-submitted' if r.auto_submitted }}</td>
+      <td>{{ r.score }} / {{ r.max_score|int }}</td><td>{{ r.right }} / {{ r.wrong }}</td><td>{{ r.sure_wrong }}{% if r.rated %} of {{ r.rated }} rated{% endif %}</td>
+      <td><a href="{{ url_for('pulse.mock_report', rid=r.id) }}">Report</a> · <a href="{{ url_for('pulse.mock_report_pdf', rid=r.id) }}">PDF</a></td></tr>{% endfor %}</tbody></table>
+    {% else %}<p class="pl-muted">No saved mocks yet. Finish a test in the centre above and it appears here.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

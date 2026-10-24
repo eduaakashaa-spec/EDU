@@ -45,3 +45,13 @@ table.pl-tbl { width: 100%; border-collapse: collapse; font-size: .88rem; } .pl-
 html[data-theme="dark"] .pl-card, html[data-theme="dark"] .pl-q, html[data-theme="dark"] .pl-opt { background: #121c3a; border-color: #26325a; color: #E6E9F2; }
 html[data-theme="dark"] .pl h1, html[data-theme="dark"] .pl h2, html[data-theme="dark"] .pl h3 { color: #fff; } html[data-theme="dark"] .pl-card p { color: #dfe4f2; }
 html[data-theme="dark"] .pl input, html[data-theme="dark"] .pl select, html[data-theme="dark"] .pl textarea { background: #0c1530; color: #E6E9F2; border-color: #26325a; }
+
+/* UCEED Mock Test Centre: confidence pills */
+.pl .pl-muted{color:var(--muted);font-size:.88rem}
+.pl .pl-pill.cf-H{background:#DDF1E6;color:#14603F}
+.pl .pl-pill.cf-M{background:#E8EEFB;color:#0E3A8A}
+.pl .pl-pill.cf-L{background:#F7EBCB;color:#8A5A00}
+.pl .pl-pill.cf-G{background:#F8E0DE;color:#8E2525}
+.pl .pl-cta{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,#0A2560,#0E3A8A);color:#fff;border-radius:14px;padding:16px 20px;margin:16px 0}
+.pl .pl-cta h3,.pl .pl-cta p{color:#fff;margin:0}.pl .pl-cta p{opacity:.9;font-size:.92rem}
+.pl .pl-cta a.btn{background:#FF6B0A;color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none}

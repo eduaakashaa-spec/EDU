@@ -168,7 +168,8 @@ def mentor_home():
     for p in _my_students():
         ov = svc.overall(p.user_id)
         ch = svc.chapter_stats(p.user_id)
-        rows.append({'p': p, 'ov': ov, 'weak': [r for r in ch if r['level'] == 'weak'], 'streak': svc.streak(p.user_id)})
+        from app.services import pulse_mock as pm
+        rows.append({'p': p, 'ov': ov, 'weak': [r for r in ch if r['level'] == 'weak'], 'streak': svc.streak(p.user_id), 'mock': pm.summary(p.user_id)})
     rows.sort(key=lambda r: (r['ov']['last'] is None, r['ov']['last'] and -r['ov']['last'].timestamp()))
     return render_template('pulse/mentor.html', rows=rows)
 
@@ -180,7 +181,8 @@ def mentor_student(uid):
     if not current_user.is_admin and p.mentor_id != current_user.id:
         abort(404)
     rows, ov = svc.chapter_stats(uid), svc.overall(uid)
-    return render_template('pulse/mentor_student.html', p=p, rows=rows, ov=ov, streak=svc.streak(uid), tips=svc.advice(rows, ov),
+    from app.services import pulse_mock as pm
+    return render_template('pulse/mentor_student.html', mock=pm.summary(uid), CONF=pm.CONF, p=p, rows=rows, ov=ov, streak=svc.streak(uid), tips=svc.advice(rows, ov),
                            recent=list(reversed(ov['list']))[:15], practice_score=svc.practice_score)
 
 
@@ -338,3 +340,109 @@ def cron_reports():
     if not mailer.is_configured():
         return {'ok': False, 'sent': 0, 'note': 'mail transport not configured'}, 200
     return {'ok': True, 'sent': svc.send_due_reports()}
+
+
+# --------------------------------------------------------------------------- #
+# UCEED Mock Test Centre (previous-year papers + EduAakashaa practice papers, confidence check, reports)
+# --------------------------------------------------------------------------- #
+_MOCK_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'uceed_mock')
+_mock_html = {}
+
+
+def _can_see_mock(r):
+    if r.user_id == current_user.id or current_user.is_admin:
+        return True
+    prof = db.session.get(PulseProfile, r.user_id)
+    return bool(current_user.is_staff and prof and prof.mentor_id == current_user.id)
+
+
+def _ensure_profile():
+    """Taking a mock makes the student visible to their mentor, without turning on any e-mail digests they did not ask for."""
+    prof = db.session.get(PulseProfile, current_user.id)
+    if prof is None:
+        prof = PulseProfile(user_id=current_user.id, frequency='off', email_results=False, parent_consent=False)
+        try:
+            from app.models_mentorship import MsEnrolment
+            e = MsEnrolment.query.filter_by(student_id=current_user.id, status='Active').first()
+            if e and e.mentor_id:
+                prof.mentor_id = e.mentor_id
+        except Exception:
+            pass
+        db.session.add(prof)
+        db.session.commit()
+    return prof
+
+
+@pulse_bp.route('/mock')
+@premium_required
+def mock_home():
+    from app.services import pulse_mock as pm
+    sm = pm.summary(current_user.id)
+    return render_template('pulse/mock.html', sm=sm, CONF=pm.CONF, CONF_LABEL=pm.CONF_LABEL)
+
+
+@pulse_bp.route('/mock/app')
+@premium_required
+def mock_app():
+    """The Mock Test Centre page (one HTML file). The member name and the results endpoint are injected so every attempt is saved to the account."""
+    import json
+    if 'html' not in _mock_html:
+        with open(os.path.join(_MOCK_DIR, 'app.html'), encoding='utf-8') as f:
+            _mock_html['html'] = f.read()
+    cfg = {'memberName': current_user.name or '', 'memberId': 'EA%d' % current_user.id, 'resultsEndpoint': url_for('pulse.mock_results'),
+           'dataPath': url_for('pulse.mock_data', name='x.json').rsplit('/', 1)[0] + '/'}
+    tag = '<script>window.EA_CONFIG = window.EA_CONFIG || {};</script>'
+    inject = '<script>window.EA_CONFIG = ' + json.dumps(cfg).replace('</', '<\/') + ';</script>'
+    html = _mock_html['html'].replace(tag, inject, 1)
+    resp = Response(html, mimetype='text/html')
+    resp.headers['Cache-Control'] = 'private, no-store'
+    return resp
+
+
+@pulse_bp.route('/mock/data/<name>')
+@premium_required
+def mock_data(name):
+    import re
+    from flask import send_from_directory
+    if not re.fullmatch(r'(20(1[89]|2[0-6])|M[1-5])\.json', name):
+        abort(404)
+    resp = send_from_directory(os.path.join(_MOCK_DIR, 'data'), name, mimetype='application/json', max_age=3600)
+    resp.headers['Cache-Control'] = 'private, max-age=3600'
+    return resp
+
+
+@pulse_bp.route('/mock/results', methods=['POST'])
+@premium_required
+def mock_results():
+    from flask import jsonify
+    from app.services import pulse_mock as pm
+    if (request.content_length or 0) > pm.MAX_BODY:
+        return jsonify(ok=False, error='too large'), 413
+    _ensure_profile()
+    r, err = pm.save_result(current_user.id, request.get_json(silent=True))
+    if err:
+        return jsonify(ok=False, error=err), 400
+    return jsonify(ok=True, id=r.id)
+
+
+@pulse_bp.route('/mock/result/<int:rid>')
+@login_required
+def mock_report(rid):
+    from app.models_pulse import PulseMockResult
+    from app.services import pulse_mock as pm
+    r = db.session.get(PulseMockResult, rid) or abort(404)
+    if not _can_see_mock(r):
+        abort(404)
+    import json
+    return render_template('pulse/mock_report.html', r=r, p=json.loads(r.payload_json or '{}'), an=pm.analyse([r]), CONF=pm.CONF, own=r.user_id == current_user.id)
+
+
+@pulse_bp.route('/mock/result/<int:rid>.pdf')
+@login_required
+def mock_report_pdf(rid):
+    from app.models_pulse import PulseMockResult
+    from app.services import pulse_mock as pm
+    r = db.session.get(PulseMockResult, rid) or abort(404)
+    if not _can_see_mock(r):
+        abort(404)
+    return Response(pm.pdf(r, r.user.name), mimetype='application/pdf', headers={'Content-Disposition': 'inline; filename=uceed-mock-%s-%d.pdf' % (r.paper, r.id)})

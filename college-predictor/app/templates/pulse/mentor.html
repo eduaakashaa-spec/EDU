@@ -8,9 +8,10 @@
   <h1>Students practising UCEED</h1>
   <p style="color:var(--muted);">{{ 'All registered students.' if current_user.is_admin else 'Students who linked you as their mentor.' }} Progress comes from their answered practice questions.</p>
   <div class="pl-card pl-scroll">
-    {% if rows %}<table class="pl-tbl"><thead><tr><th>Student</th><th>Sets</th><th>Answered</th><th>Accuracy</th><th>Streak</th><th>Last active</th><th>Needs work</th></tr></thead><tbody>
+    {% if rows %}<table class="pl-tbl"><thead><tr><th>Student</th><th>Sets</th><th>Answered</th><th>Accuracy</th><th>Streak</th><th>Mocks</th><th>Sure but wrong</th><th>Last active</th><th>Needs work</th></tr></thead><tbody>
     {% for r in rows %}<tr><td><a href="{{ url_for('pulse.mentor_student', uid=r.p.user_id) }}"><strong>{{ r.p.user.name }}</strong></a><div style="font-size:.76rem;color:var(--muted)">{{ r.p.user.email }} · {{ r.p.student_class or '' }}</div></td>
       <td>{{ r.ov.attempts }}</td><td>{{ r.ov.answered }}</td><td>{{ r.ov.accuracy ~ '%' if r.ov.accuracy is not none else '—' }}</td><td>{{ r.streak }}</td>
+      <td>{{ r.mock.attempts or '—' }}{% if r.mock.avg_pct is not none %} <span style="font-size:.76rem;color:var(--muted)">avg {{ r.mock.avg_pct }}%</span>{% endif %}</td><td>{{ r.mock.sure_wrong_rate ~ '%' if r.mock.sure_wrong_rate is not none else '—' }}</td>
       <td>{{ r.ov.last.strftime('%d %b %Y') if r.ov.last else 'Not started' }}</td><td>{% for w in r.weak %}<span class="pl-pill weak">{{ w.chapter.title[:22] }} {{ w.accuracy }}%</span> {% else %}—{% endfor %}</td></tr>{% endfor %}
     </tbody></table>{% else %}<p style="margin:0;">No students are linked to you yet. Students link a mentor automatically from their Mentorship record, or an administrator assigns one in EduPulse → Admin.</p>{% endif %}
   </div>

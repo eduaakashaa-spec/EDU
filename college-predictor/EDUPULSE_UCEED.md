@@ -66,3 +66,16 @@ Student progress is visible to the student, their linked mentor and admins only.
 * No NAT/MSQ types, no drawing evaluation, no adaptive difficulty beyond "unseen first, then wrong".
 * Reports need email sending to be configured and the weekly trigger set up (above).
 * Mentor linking relies on the Mentorship record or an admin assignment.
+
+## UCEED Mock Test Centre (previous-year papers + EduAakashaa mocks)
+
+`/edupulse-uceed/mock` (Premium members; Member Home tile "UCEED Mock Test Centre"). The page is the supplied single-file portal (`app/data/uceed_mock/app.html`) inside a site page, so it keeps the EduAakashaa theme and navigation.
+
+* **Papers:** official UCEED Part A papers 2018–2026 (613 questions, with official answers and EduAakashaa step-by-step explanations) and five original EduAakashaa practice papers (M1–M5). Timed mock (the year's real marking scheme, partial marks for MSQ) or untimed practice.
+* **Confidence check:** each answer is rated Guess / Low / Medium / High. Reports show right/wrong by confidence, **sure but wrong** (High and wrong: a belief or method to fix), **unsure but right** (knowledge not yet trusted), topic tables and written pointers. With fewer than 8 rated answers the report says calibration cannot be judged.
+* **Members-only files:** the papers live in `app/data/uceed_mock/data/` (not under `static/`) and are served through a login-checked route, so they are never public.
+* **Saved results:** every finished test posts to `/edupulse-uceed/mock/results` (table `pulse_mock_results`, created automatically). Students see history, averages and a report/PDF per attempt on the mock page; the mentor view (`/edupulse-uceed/mentor`) shows mocks, average and sure-but-wrong rate per student, and each report. Taking a mock creates the student's EduPulse profile with e-mail digests **off** and links their mentor from the Mentorship record.
+* **Adding or changing papers:** replace the JSON in `app/data/uceed_mock/data/` and the `YEARS`/`MOCKS` lists in `app.html` (see `app/data/uceed_mock/README.md`). Check every answer against the IIT Bombay answer key before publishing.
+* **Change from the supplied file:** answers typed with the on-screen NAT keypad now enable the confidence buttons (they stayed disabled before, so keypad users could not rate).
+* **Rights:** the official papers are IIT Bombay material; make sure your use is covered before opening the centre to members.
+* Scores are practice guidance only and do not predict a UCEED score, rank or admission.

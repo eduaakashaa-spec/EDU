@@ -108,6 +108,29 @@ class PulseAnswer(db.Model):
     question = db.relationship('PulseQuestion')
 
 
+class PulseMockResult(db.Model):
+    """One finished UCEED mock-test attempt (a previous-year paper or an EduAakashaa practice paper), posted by the Mock Test Centre.
+    `payload_json` keeps the per-question rows (answer, status, marks, confidence) so reports can be rebuilt without the paper."""
+    __tablename__ = 'pulse_mock_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    paper = db.Column(db.String(10), index=True)                  # 2018..2026 or M1..M5
+    paper_title = db.Column(db.String(80))
+    mode = db.Column(db.String(12))                               # mock (timed) | practice
+    score = db.Column(db.Float)
+    max_score = db.Column(db.Float)
+    answered = db.Column(db.Integer, default=0)
+    right = db.Column(db.Integer, default=0)
+    wrong = db.Column(db.Integer, default=0)
+    sure_wrong = db.Column(db.Integer, default=0)                 # High confidence but wrong/partly wrong
+    rated = db.Column(db.Integer, default=0)                      # answers carrying a confidence rating
+    auto_submitted = db.Column(db.Boolean, default=False)
+    started_at = db.Column(db.DateTime)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
+    user = db.relationship('User', foreign_keys=[user_id])
+
+
 class PulseReport(db.Model):
     """Log of progress digests sent, so a period is never mailed twice."""
     __tablename__ = 'pulse_reports'

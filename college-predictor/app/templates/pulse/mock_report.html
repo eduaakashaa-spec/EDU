@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}{{ r.paper_title }} mock report | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb">{% if own %}<a href="{{ url_for('pulse.mock_home') }}">Mock Test Centre</a>{% else %}<a href="{{ url_for('pulse.mentor_student', uid=r.user_id) }}">{{ r.user.name }}</a>{% endif %} › {{ r.paper_title }} report</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">{{ 'Timed mock' if r.mode == 'mock' else 'Practice' }} · {{ r.finished_at.strftime('%d %b %Y') }}{{ ' · auto-submitted at time-up' if r.auto_submitted }}</span><h1>{{ r.paper_title }}</h1>
+      <p>{{ r.user.name }} · <a href="{{ url_for('pulse.mock_report_pdf', rid=r.id) }}" style="color:#fff;text-decoration:underline">Download PDF</a></p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ r.score }}</b><span>of {{ r.max_score|int }}</span></div>
+      <div class="pl-kpi"><b>{{ r.right }}</b><span>right</span></div>
+      <div class="pl-kpi"><b>{{ r.wrong }}</b><span>wrong / partly</span></div>
+      <div class="pl-kpi"><b>{{ r.sure_wrong }}</b><span>sure but wrong</span></div>
+    </div>
+  </section>
+
+  {% if p.sections %}<div class="pl-card pl-scroll" style="margin-top:16px;"><h3>By section</h3><table class="pl-tbl"><thead><tr><th>Section</th><th>Score</th><th>Right</th><th>Partial</th><th>Wrong</th><th>Blank</th></tr></thead><tbody>
+    {% for s in p.sections %}<tr><td>{{ s.type }}</td><td>{{ s.score }} / {{ s.max|int }}</td><td>{{ s.right }}</td><td>{{ s.partial }}</td><td>{{ s.wrong }}</td><td>{{ s.blank }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+
+  <div class="pl-grid pl-g2" style="margin-top:16px;">
+    <div class="pl-card"><span class="pl-eyebrow">Confidence check</span><h3>Confidence vs results</h3>
+      <table class="pl-tbl"><thead><tr><th>Rated</th><th>Answers</th><th>Right</th><th>Wrong</th><th>Right %</th></tr></thead><tbody>
+      {% for c, label in CONF %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.wrong }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}</tbody></table>
+      {% if an.unrated %}<p class="pl-muted">{{ an.unrated }} answered question{{ '' if an.unrated == 1 else 's' }} had no confidence rating.</p>{% endif %}
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul></div>
+    <div class="pl-card"><span class="pl-eyebrow">By topic</span><h3>Where the marks came from</h3>
+      {% if an.topics %}<table class="pl-tbl"><thead><tr><th>Topic</th><th>Answered</th><th>Right %</th><th>Sure but wrong</th><th>Unsure but right</th></tr></thead><tbody>
+      {% for k, t in an.topics.items()|sort(attribute='1.pct') %}<tr><td>{{ t.label }}</td><td>{{ t.n }}</td><td>{{ t.pct }}%</td><td>{{ t.sure_wrong or '—' }}</td><td>{{ t.unsure_right or '—' }}</td></tr>{% endfor %}</tbody></table>
+      {% else %}<p class="pl-muted">Topic data is not available for this paper.</p>{% endif %}</div>
+  </div>
+
+  {% set risky = [] %}{% for n, q in p.questions.items() if q.confidence == 'H' and q.status in ('wrong', 'part') %}{% if risky.append(n) %}{% endif %}{% endfor %}
+  {% if risky %}<div class="pl-card" style="margin-top:16px;"><span class="pl-eyebrow">Review first</span><h3>Confident answers that were wrong</h3>
+    <p>Question numbers: {% for n in risky %}<span class="pl-pill cf-H">Q{{ n }}</span> {% endfor %}</p>
+    <p class="pl-muted">Open the paper in the Mock Test Centre and read the step-by-step explanation for each one. Write down what you believed and what is actually true.</p></div>{% endif %}
+
+  <div class="pl-note" style="margin-top:16px;">Mock scores are practice guidance only. They do not predict the UCEED score, rank or admission, and a single mock is a snapshot, not a measure of ability.</div>
+</div>
+{% endblock %}
