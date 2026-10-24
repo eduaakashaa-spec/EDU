@@ -13,6 +13,28 @@
   .ma .tpl{ display:grid; grid-template-columns:34px 1fr auto; gap:10px; align-items:start; padding:8px 0; border-bottom:1px solid #F1EAD7; }
   .ma .n{ background:var(--navy); color:#fff; border-radius:50%; width:28px; height:28px; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800; }
   .ma .off{ opacity:.5; }
+
+  .ma .tabs{ display:flex; gap:4px; flex-wrap:wrap; border-bottom:1.5px solid var(--hairline); margin:4px 0 16px; position:sticky; top:0; background:var(--paper,#fff); z-index:5; padding-top:6px; }
+  .ma .tabs a{ padding:9px 14px; font-weight:700; font-size:13.5px; color:#4a5470; text-decoration:none; border-bottom:3px solid transparent; margin-bottom:-1.5px; white-space:nowrap; }
+  .ma .tabs a.on{ color:var(--navy); border-bottom-color:#FF6B0A; }
+  .ma .tabs a small{ background:#EDF1FA; color:var(--navy); border-radius:999px; padding:1px 8px; margin-left:6px; font-size:11px; }
+  .ma.js section[data-tab]{ display:none; } .ma.js section[data-tab].on{ display:block; }
+  .ma .stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:10px; margin-bottom:14px; }
+  .ma .stat{ background:var(--paper); border:1px solid var(--hairline); border-radius:12px; padding:10px 14px; } .ma .stat b{ display:block; font-size:1.4rem; font-family:'Fraunces',serif; color:var(--navy-ink); } .ma .stat span{ font-size:12px; color:var(--muted); }
+  .ma .toolbar{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px; } .ma .toolbar input[type=search]{ flex:1 1 240px; padding:8px 12px; border:1.5px solid var(--hairline); border-radius:9px; font:inherit; font-size:13.5px; } .ma .toolbar select{ width:auto; }
+  .ma .ehead, .ma .esum{ display:grid; grid-template-columns:2.2fr 1.8fr 1.3fr 90px 24px; gap:10px; align-items:center; }
+  .ma .ehead{ font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:#4a5470; padding:6px 12px; border-bottom:1.5px solid var(--hairline); }
+  .ma details.erow{ border:1px solid var(--hairline); border-radius:10px; padding:2px 12px; margin:6px 0; background:#fff; }
+  .ma details.erow[open]{ border-color:var(--navy); box-shadow:0 2px 10px rgba(14,58,138,.08); }
+  .ma .esum{ list-style:none; font-weight:500; padding:8px 0; } .ma .esum::-webkit-details-marker, .ma .psum::-webkit-details-marker{ display:none; }
+  .ma .esum::after{ content:"\25BE"; color:#8a93ab; justify-self:end; } .ma details[open] > .esum::after{ transform:rotate(180deg); }
+  .ma .en strong{ display:block; } .ma .en small{ color:var(--muted); font-size:12px; }
+  .ma .pill{ display:inline-block; padding:2px 10px; border-radius:999px; font-size:11.5px; font-weight:700; background:#EDF1FA; color:var(--navy); }
+  .ma .pill.st-Active{ background:#E3F4EB; color:#14603F; } .ma .pill.st-Paused{ background:#FFF0D6; color:#8A5A00; } .ma .pill.st-Completed{ background:#EEE; color:#555; }
+  .ma details.pcard, .ma details.enrol-card{ padding:6px 18px; border:1px solid var(--hairline); border-style:solid; margin-bottom:12px; }
+  .ma .psum{ list-style:none; display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:pointer; padding:8px 0; } .ma .psum h2{ margin:0; }
+  .ma .chev{ color:#8a93ab; transition:transform .15s; } .ma details[open] > .psum .chev{ transform:rotate(180deg); }
+  @media(max-width:760px){ .ma .ehead{ display:none; } .ma .esum{ grid-template-columns:1fr auto; } .ma .esum > span:nth-child(2), .ma .esum > span:nth-child(3){ grid-column:1 / -1; font-size:12.5px; color:var(--muted); } }
 </style>{% endblock %}
 {% block content %}
 <div class="adm ma"><div class="adm-wrap">
@@ -21,14 +43,70 @@
   {% include "admin/_nav.html" %}
   {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<ul style="list-style:none;padding:0;margin:0 0 14px;">{% for cat, msg in messages %}<li style="padding:10px 14px;border-radius:9px;margin-bottom:6px;background:{{ '#e6f9ed' if cat == 'success' else ('#fce4e4' if cat == 'danger' else '#e4edf9') }};">{{ msg }}</li>{% endfor %}</ul>{% endif %}{% endwith %}
 
+  <nav class="tabs" id="ma-tabs" aria-label="Mentorship admin sections">
+    <a href="#students" data-t="students">Students<small>{{ enrolments|length }}</small></a>
+    <a href="#programmes" data-t="programmes">Programmes<small>{{ programmes|length }}</small></a>
+    <a href="#exams" data-t="exams">Exams</a>
+    <a href="#calendar" data-t="calendar">Calendar</a>
+    <a href="#rules" data-t="rules">Rules</a>
+    <a href="#branches" data-t="branches">Branches</a>
+  </nav>
+
+  <section data-tab="students" id="students">
+    <div class="stats">
+      <div class="stat"><b>{{ enrolments|length }}</b><span>Enrolments</span></div>
+      <div class="stat"><b>{{ enrolments|selectattr('status','equalto','Active')|list|length }}</b><span>Active</span></div>
+      <div class="stat"><b>{{ enrolments|rejectattr('mentor_id')|list|length }}</b><span>Without a mentor</span></div>
+      <div class="stat"><b>{{ programmes|length }}</b><span>Programmes</span></div>
+    </div>
+  <details class="card enrol-card" id="enrol"><summary class="psum"><h2>&#xFF0B; Enrol a student</h2><span class="chev" aria-hidden="true">&#9662;</span></summary>
+    <p class="hint">The student (and mentor) must already have an account. The student gets all programme sessions as planned records. Mentors must hold the EA Mentor role. The student needs Premium access to open the portal.</p>
+    <form method="post" action="{{ url_for('mentorship.admin_enrol') }}">
+      <div class="row"><div><label>Student email</label><input type="email" name="student_email" required></div>
+        <div><label>Programme</label><select name="programme_id">{% for p in programmes %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}</select></div>
+        <div><label>Mentor email</label><select name="mentor_email"><option value="">— assign later —</option>{% for u in mentors %}<option value="{{ u.email }}">{{ u.name }} ({{ u.email }})</option>{% endfor %}</select></div>
+        <div><label>Grade</label><input type="text" name="grade" value="Grade 12"></div>
+        <div><label>Start</label><input type="date" name="start_date" value="{{ today }}"></div><div><label>End</label><input type="date" name="end_date"></div>
+        <div><label>Extra sessions included</label><input type="number" name="extra_quota" value="0" min="0"></div></div>
+      <button class="btn btn-navy">Enrol student</button></form></details>
+
+  <div class="card" id="students-list">
+    <div class="toolbar">
+      <input type="search" id="en-q" placeholder="Search student, email, programme or mentor" aria-label="Search enrolments">
+      <select id="en-status" aria-label="Filter by status"><option value="">All statuses</option><option>Active</option><option>Paused</option><option>Completed</option></select>
+      <select id="en-prog" aria-label="Filter by programme"><option value="">All programmes</option>{% for p in programmes %}<option>{{ p.name }}</option>{% endfor %}</select>
+      <span class="hint" id="en-count" style="margin:0">{{ enrolments|length }} shown</span>
+    </div>
+    <div class="ehead"><span>Student</span><span>Programme</span><span>Mentor</span><span>Status</span></div>
+    {% for e in enrolments %}
+    <details id="e{{ e.id }}" class="erow" data-q="{{ (e.student.name ~ ' ' ~ e.student.email ~ ' ' ~ e.programme.name ~ ' ' ~ (e.mentor.name if e.mentor else 'unassigned'))|lower }}" data-status="{{ e.status }}" data-prog="{{ e.programme.name }}" {{ 'open' if loop.first and enrolments|length == 1 }}><summary class="esum"><span class="en"><strong>{{ e.student.name }}</strong><small>{{ e.student.email }}</small></span><span>{{ e.programme.name }}</span><span>{{ e.mentor.name if e.mentor else 'unassigned' }}</span><span><span class="pill st-{{ e.status }}">{{ e.status }}</span></span></summary>
+      <form method="post" action="{{ url_for('mentorship.admin_enrolment_update', eid=e.id) }}">
+        <div class="row"><div><label>Mentor</label><select name="mentor_email"><option value="">— keep —</option>{% for u in mentors %}<option value="{{ u.email }}" {{ 'selected' if e.mentor_id == u.id }}>{{ u.name }}</option>{% endfor %}</select></div>
+          <div><label>Status</label><select name="status">{% for st in ('Active', 'Paused', 'Completed') %}<option {{ 'selected' if st == e.status }}>{{ st }}</option>{% endfor %}</select></div>
+          <div><label>Extra sessions included</label><input type="number" name="extra_quota" min="0" value="{{ e.extra_quota or 0 }}"></div>
+          <div><label>Start</label><input type="date" name="start_date" value="{{ e.start_date or '' }}"></div><div><label>End</label><input type="date" name="end_date" value="{{ e.end_date or '' }}"></div>
+          <div><label>Time zone</label><input type="text" name="timezone" value="{{ e.timezone }}"></div></div>
+        <button class="btn btn-navy">Save</button> <a class="btn btn-ghost" href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}">Open record</a></form>
+      <div style="margin-top:8px;font-size:13px;"><strong>Linked parents:</strong>
+        {% for l in links if l.enrolment_id == e.id %}{{ l.parent.name }} ({{ l.parent.email }}) <span class="hint">{{ 'assessment submitted' if pa_done.get((l.enrolment_id, l.parent_id)) else 'assessment pending' }}</span> <form method="post" action="{{ url_for('mentorship.admin_parent_invite', lid=l.id) }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">resend invite</button></form> <form method="post" action="{{ url_for('mentorship.admin_parent_unlink', lid=l.id) }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">remove</button></form> {% else %}none{% endfor %}</div>
+      <form method="post" action="{{ url_for('mentorship.admin_parent_link') }}" style="margin-top:8px;"><input type="hidden" name="enrolment_id" value="{{ e.id }}">
+        <div class="row"><div><label>Parent email</label><input type="email" name="parent_email" required></div><div><label>Parent name (for a new account)</label><input type="text" name="parent_name"></div><div><label>Relation</label><input type="text" name="relation" value="Parent"></div></div>
+        <label style="text-transform:none;display:flex;gap:6px;align-items:center;"><input type="checkbox" name="create" value="1" checked style="width:auto;"> Create the parent&rsquo;s account if they don&rsquo;t have one (login details are emailed)</label>
+        <button class="btn btn-ghost" style="margin-top:6px;">Link parent</button></form>
+    </details>
+    {% else %}<p class="hint">No students enrolled yet.</p>{% endfor %}</div>
+
+  </section>
+
+  <section data-tab="programmes" id="programmes">
   {% if not programmes %}
   <div class="card"><h2>Start with the standard programme</h2><p class="hint">Creates “Grade 12 Engineering Mentorship” with the 10 core sessions and the branch catalogue. Everything stays editable.</p>
     <form method="post" action="{{ url_for('mentorship.admin_load_default') }}"><button class="btn btn-navy">Load standard 10-session programme</button></form></div>
   {% endif %}
 
   {% for p in programmes %}
-  <div class="card" id="p{{ p.id }}">
-    <h2>{{ p.name }} <span style="font-size:12px;color:var(--muted)">· {{ p.templates.filter_by(active=True).count() }} core sessions · tier: {{ p.tier or '—' }}</span></h2>
+  <details class="card pcard" id="p{{ p.id }}">
+    <summary class="psum"><h2>{{ p.name }} <span style="font-size:12px;color:var(--muted)">· {{ p.templates.filter_by(active=True).count() }} core sessions · tier: {{ p.tier or '—' }}</span></h2><span class="chev" aria-hidden="true">&#9662;</span></summary>
     <p class="hint">{{ p.description }} Changing the session list applies to <strong>newly enrolled</strong> students; existing students keep their own session records.</p>
     {% for t in p.templates %}
     <div class="tpl {{ 'off' if not t.active }}">
@@ -51,46 +129,19 @@
         <div class="row"><div><label>Title</label><input type="text" name="title" required></div><div><label>Deliverable</label><input type="text" name="deliverable"></div><div><label>Minutes</label><input type="number" name="duration_min" value="60"></div></div>
         <label>Topics (one per line)</label><textarea name="topics" rows="3"></textarea>
         <button class="btn btn-navy" style="margin-top:8px;">Add session</button></form></details>
-  </div>
+  </details>
   {% endfor %}
 
   <div class="card"><h2>Ready-made add-on programmes</h2><p class="hint">UCEED, NID, NIFT, IIT Delhi–Abu Dhabi, TNEA, State-specific, SRM, Amrita and VIT. Creates any that are missing (existing ones and your edits are kept); then enrol a student into one like any programme. Members see the catalogue at <a href="{{ url_for('mentorship.addons') }}">/mentorship/addons</a>.</p>
     <form method="post" action="{{ url_for('mentorship.admin_addons_load') }}"><button class="btn btn-navy">Load add-on programmes</button></form></div>
 
-  <div class="card"><h2>New programme</h2><p class="hint">For another grade, exam pathway or membership tier.</p>
+  <div class="card" id="newprog"><h2>New programme</h2><p class="hint">For another grade, exam pathway or membership tier.</p>
     <form method="post" action="{{ url_for('mentorship.admin_programme_new') }}"><div class="row"><div><label>Name</label><input type="text" name="name" required></div><div><label>Membership tier</label><input type="text" name="tier" placeholder="e.g. Elite Mentorship"></div></div>
       <label>Description</label><textarea name="description" rows="2"></textarea><button class="btn btn-navy" style="margin-top:8px;">Create programme</button></form></div>
 
-  <div class="card"><h2>Enrol a student</h2>
-    <p class="hint">The student (and mentor) must already have an account. The student gets all programme sessions as planned records. Mentors must hold the EA Mentor role. The student needs Premium access to open the portal.</p>
-    <form method="post" action="{{ url_for('mentorship.admin_enrol') }}">
-      <div class="row"><div><label>Student email</label><input type="email" name="student_email" required></div>
-        <div><label>Programme</label><select name="programme_id">{% for p in programmes %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}</select></div>
-        <div><label>Mentor email</label><select name="mentor_email"><option value="">— assign later —</option>{% for u in mentors %}<option value="{{ u.email }}">{{ u.name }} ({{ u.email }})</option>{% endfor %}</select></div>
-        <div><label>Grade</label><input type="text" name="grade" value="Grade 12"></div>
-        <div><label>Start</label><input type="date" name="start_date" value="{{ today }}"></div><div><label>End</label><input type="date" name="end_date"></div>
-        <div><label>Extra sessions included</label><input type="number" name="extra_quota" value="0" min="0"></div></div>
-      <button class="btn btn-navy">Enrol student</button></form></div>
+  </section>
 
-  <div class="card"><h2>Enrolments ({{ enrolments|length }})</h2>
-    {% for e in enrolments %}
-    <details id="e{{ e.id }}" {{ 'open' if loop.first and enrolments|length == 1 }}><summary>{{ e.student.name }} — {{ e.programme.name }} · {{ e.status }} · mentor {{ e.mentor.name if e.mentor else 'unassigned' }}</summary>
-      <form method="post" action="{{ url_for('mentorship.admin_enrolment_update', eid=e.id) }}">
-        <div class="row"><div><label>Mentor</label><select name="mentor_email"><option value="">— keep —</option>{% for u in mentors %}<option value="{{ u.email }}" {{ 'selected' if e.mentor_id == u.id }}>{{ u.name }}</option>{% endfor %}</select></div>
-          <div><label>Status</label><select name="status">{% for st in ('Active', 'Paused', 'Completed') %}<option {{ 'selected' if st == e.status }}>{{ st }}</option>{% endfor %}</select></div>
-          <div><label>Extra sessions included</label><input type="number" name="extra_quota" min="0" value="{{ e.extra_quota or 0 }}"></div>
-          <div><label>Start</label><input type="date" name="start_date" value="{{ e.start_date or '' }}"></div><div><label>End</label><input type="date" name="end_date" value="{{ e.end_date or '' }}"></div>
-          <div><label>Time zone</label><input type="text" name="timezone" value="{{ e.timezone }}"></div></div>
-        <button class="btn btn-navy">Save</button> <a class="btn btn-ghost" href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}">Open record</a></form>
-      <div style="margin-top:8px;font-size:13px;"><strong>Linked parents:</strong>
-        {% for l in links if l.enrolment_id == e.id %}{{ l.parent.name }} ({{ l.parent.email }}) <span class="hint">{{ 'assessment submitted' if pa_done.get((l.enrolment_id, l.parent_id)) else 'assessment pending' }}</span> <form method="post" action="{{ url_for('mentorship.admin_parent_invite', lid=l.id) }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">resend invite</button></form> <form method="post" action="{{ url_for('mentorship.admin_parent_unlink', lid=l.id) }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">remove</button></form> {% else %}none{% endfor %}</div>
-      <form method="post" action="{{ url_for('mentorship.admin_parent_link') }}" style="margin-top:8px;"><input type="hidden" name="enrolment_id" value="{{ e.id }}">
-        <div class="row"><div><label>Parent email</label><input type="email" name="parent_email" required></div><div><label>Parent name (for a new account)</label><input type="text" name="parent_name"></div><div><label>Relation</label><input type="text" name="relation" value="Parent"></div></div>
-        <label style="text-transform:none;display:flex;gap:6px;align-items:center;"><input type="checkbox" name="create" value="1" checked style="width:auto;"> Create the parent&rsquo;s account if they don&rsquo;t have one (login details are emailed)</label>
-        <button class="btn btn-ghost" style="margin-top:6px;">Link parent</button></form>
-    </details>
-    {% else %}<p class="hint">No students enrolled yet.</p>{% endfor %}</div>
-
+  <section data-tab="exams">
   <div class="card" id="exams"><h2>Exam catalogue ({{ exams|selectattr('active')|list|length }} active)</h2>
     <p class="hint">The list students and mentors pick from on the calendar page. <strong>Adding an exam, or changing its dates, status, name or source, alerts every student, parent and mentor in the portal</strong> (and emails them from info@ when email sending is configured). Removing an exam alerts them too. Use <em>Confirmed</em> only for dates announced by the conducting body.</p>
     {% if not exams %}<form method="post" action="{{ url_for('mentorship.admin_exams_default') }}"><button class="btn btn-navy">Load starter list (from the public exam schedule)</button></form>{% endif %}
@@ -117,6 +168,9 @@
         <button class="btn btn-navy">Add exam &amp; alert members</button></form></details>
   </div>
 
+  </section>
+
+  <section data-tab="calendar">
   <div class="card" id="calendar"><h2>Programme calendar</h2>
     <p class="hint">Exam / counselling / deadline events shown to every enrolled student. Always record the official source and the date you last verified it — nothing is pre-loaded because dates change every year.</p>
     {% for ev in prog_events %}<div style="font-size:13px;padding:4px 0;border-bottom:1px solid #F1EAD7;">{{ ev.starts_on }} · <strong>{{ ev.title }}</strong> ({{ ev.category }}) · {{ ev.source or 'no source' }} · {{ 'verified ' ~ ev.verified_on if ev.verified_on else 'UNVERIFIED' }}
@@ -129,11 +183,17 @@
         <div><label>Official source</label><input type="text" name="source"></div><div><label>Last verified</label><input type="date" name="verified_on"></div></div>
       <button class="btn btn-navy">Add event</button></form></div>
 
+  </section>
+
+  <section data-tab="rules">
   <div class="card" id="rules"><h2>Attention rules</h2><p class="hint">Thresholds that flag a student for mentor attention. Workflow indicators only.</p>
     <form method="post" action="{{ url_for('mentorship.admin_rules') }}"><div class="row">
       {% for k, v, help in rules %}<div><label>{{ k.replace('_', ' ') }}</label><input type="number" name="{{ k }}" value="{{ v }}" min="0"><div style="font-size:11.5px;color:var(--muted)">{{ help }}</div></div>{% endfor %}</div>
       <button class="btn btn-navy">Save rules</button></form></div>
 
+  </section>
+
+  <section data-tab="branches">
   <div class="card" id="branches"><h2>Branch catalogue</h2>
     {% if not branches %}<p class="hint">Empty — loads automatically the first time a branch-fit tab opens, or use “Load standard programme”.</p>{% endif %}
     {% for b in branches %}<details><summary>{{ b.name }}{% if not b.active %} (inactive){% endif %}</summary>
@@ -145,5 +205,38 @@
       <form method="post" action="{{ url_for('mentorship.admin_branch') }}"><label>Name</label><input type="text" name="name" required>
         {% for f, lbl in (('studies', 'What students study'), ('subjects', 'Core subjects'), ('skills', 'Useful skills'), ('projects', 'Example projects'), ('careers', 'Career directions'), ('questions', 'Questions to ask')) %}<label style="margin-top:6px;">{{ lbl }}</label><input type="text" name="{{ f }}">{% endfor %}
         <button class="btn btn-navy" style="margin-top:8px;">Add branch</button></form></details></div>
+  </section>
 </div></div>
+
+<script>
+(function () {
+  var root = document.querySelector('.ma'); if (!root) return; root.classList.add('js');
+  var secs = {}; root.querySelectorAll('section[data-tab]').forEach(function (s) { secs[s.getAttribute('data-tab')] = s; });
+  var links = root.querySelectorAll('#ma-tabs a');
+  function show(name, focusEl) {
+    if (!secs[name]) name = 'students';
+    Object.keys(secs).forEach(function (k) { secs[k].classList.toggle('on', k === name); });
+    links.forEach(function (a) { a.classList.toggle('on', a.getAttribute('data-t') === name); });
+    if (focusEl) { focusEl.scrollIntoView({ block: 'start' }); }
+  }
+  function route() {
+    var h = (location.hash || '#students').slice(1), el = document.getElementById(h);
+    if (secs[h]) return show(h);
+    if (!el) return show('students');
+    var sec = el.closest('section[data-tab]'); show(sec ? sec.getAttribute('data-tab') : 'students');
+    if (el.tagName === 'DETAILS') el.open = true; el.scrollIntoView({ block: 'start' });
+  }
+  window.addEventListener('hashchange', route); route();
+  var q = document.getElementById('en-q'), st = document.getElementById('en-status'), pg = document.getElementById('en-prog'), ct = document.getElementById('en-count');
+  function filt() {
+    var n = 0, t = (q.value || '').toLowerCase().trim();
+    document.querySelectorAll('details.erow').forEach(function (d) {
+      var ok = (!t || d.dataset.q.indexOf(t) > -1) && (!st.value || d.dataset.status === st.value) && (!pg.value || d.dataset.prog === pg.value);
+      d.style.display = ok ? '' : 'none'; if (ok) n++;
+    });
+    ct.textContent = n + ' shown';
+  }
+  if (q) { q.addEventListener('input', filt); st.addEventListener('change', filt); pg.addEventListener('change', filt); }
+})();
+</script>
 {% endblock %}
