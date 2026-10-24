@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% import "mentorship/_macros.html" as m %}
+{% import "_wagroup.html" as wag %}
 {% block title %}{{ e.preferred_name or e.student.name }} — Mentorship Portal | EduAakashaA{% endblock %}
 {# a members-only workspace: the generic "data not updated" notice does not apply #}
 {% block premium_notice %}{% endblock %}
@@ -32,6 +33,8 @@
       <div class="sub" style="font-size:.78rem;">{{ ss.core_done }} of {{ ss.core_total }} core sessions complete</div>
     </div>
   </section>
+
+  {% if staff %}{{ wag.wa_group_card(e.student_id, e.preferred_name or e.student.name) }}{% endif %}
 
   <nav class="ms-tabs" aria-label="Mentorship sections">
     {% for key, label, icon, _r in tabs %}

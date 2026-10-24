@@ -1,0 +1,30 @@
+{# WhatsApp group macros. wa_group_card: details + edit form (staff). wa_group_btn: send-to-group button.
+   WhatsApp cannot post into a group from a website, so the button copies the message and opens the group. #}
+{% macro wa_group_card(user_id, member_name) %}
+{% set g = wa_group(user_id) %}
+{% set can = wa_group_can_edit(user_id) %}
+<div class="wag-card" style="border:1px solid #E8DFC8;border-radius:12px;padding:12px 14px;background:#FFFDF7;margin:10px 0;">
+  <strong>💬 WhatsApp group</strong>
+  {% if g and (g.group_name or g.invite_link) %}
+    <div>{{ g.group_name or 'Group' }}{% if g.invite_link %} · <a href="{{ g.invite_link }}" target="_blank" rel="noopener noreferrer">Open group</a>{% endif %}</div>
+    {% if g.note %}<div style="font-size:.85rem;color:#5A6278;">{{ g.note }}</div>{% endif %}
+  {% else %}<div style="font-size:.88rem;color:#5A6278;">No group saved for {{ member_name }} yet.</div>{% endif %}
+  {% if can %}
+  <details style="margin-top:6px;"><summary style="cursor:pointer;font-weight:600;color:#0E3A8A;">{{ 'Edit group details' if g else 'Add group details' }}</summary>
+    <form method="post" action="{{ url_for('wagroup.save', user_id=user_id) }}" style="margin-top:6px;">
+      <input type="hidden" name="next" value="{{ request.full_path.rstrip('?') }}">
+      <label style="display:block;font-size:.8rem;font-weight:600;">Group name</label><input type="text" name="group_name" maxlength="120" value="{{ g.group_name if g and g.group_name else '' }}" style="width:100%;" placeholder="e.g. Darsh · EduAakashaa mentoring">
+      <label style="display:block;font-size:.8rem;font-weight:600;margin-top:6px;">Invite link</label><input type="text" name="invite_link" maxlength="200" value="{{ g.invite_link if g and g.invite_link else '' }}" style="width:100%;" placeholder="https://chat.whatsapp.com/…">
+      <label style="display:block;font-size:.8rem;font-weight:600;margin-top:6px;">Note (who is in the group)</label><input type="text" name="note" maxlength="300" value="{{ g.note if g and g.note else '' }}" style="width:100%;">
+      <button type="submit" style="margin-top:8px;padding:6px 14px;border:0;border-radius:8px;background:#FF6B0A;color:#fff;font-weight:700;cursor:pointer;">Save</button>
+    </form>
+  </details>
+  {% endif %}
+</div>
+{% endmacro %}
+
+{% macro wa_group_btn(user_id, text='', source='', label='💬 Send to WhatsApp group', cls='ms-btn g sm') %}
+{# text: the message (static); source: CSS selector of a textarea/input whose live value is used instead #}
+{% set g = wa_group(user_id) %}
+<button type="button" class="wag-send {{ cls }}" data-wag-link="{{ g.invite_link if g and g.invite_link else '' }}" data-wag-name="{{ g.group_name if g and g.group_name else '' }}" data-wag-text="{{ text }}" data-wag-source="{{ source }}" title="Copies the message, then opens the member's WhatsApp group so you can paste and send">{{ label }}</button>
+{% endmacro %}

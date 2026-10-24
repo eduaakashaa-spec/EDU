@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "_wagroup.html" as wag %}
 {% block title %}Messages — Admin · EduAakashaa{% endblock %}
 
 {% block head %}
@@ -67,6 +68,8 @@
                href="mailto:{{ u.email }}?subject={{ p.subject|urlencode }}&body={{ p.body|urlencode }}">✉ Email draft</a>
             <a class="btn btn-ghost btn-sm" target="_blank" rel="noopener"
                href="https://wa.me/?text={{ p.body|urlencode }}">💬 WhatsApp</a>
+            {{ wag.wa_group_btn(u.id, text=p.body, label='💬 To group', cls='btn btn-ghost btn-sm') }}
+            <details style="margin-top:4px;"><summary style="cursor:pointer;font-size:12px;color:var(--muted);">{{ (wa_group(u.id).group_name or 'Group saved') if wa_group(u.id) and wa_group(u.id).invite_link else 'Add WhatsApp group' }}</summary>{{ wag.wa_group_card(u.id, u.name) }}</details>
           </td>
         </tr>
         {% else %}

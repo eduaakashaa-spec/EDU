@@ -1,15 +1,17 @@
 {% extends "futureready/base.html" %}
+{% import "_wagroup.html" as wag %}
 {% block fr_title %}{{ 'Mentor workspace' if is_staff else 'Mentor' }}{% endblock %}
 {% block fr_h1 %}{{ 'Mentor workspace' if is_staff else 'Your mentor' }}{% endblock %}
 {% block fr_lead %}{% if is_staff %}Sessions and notes. Private notes are never shown to the student or parent.{% else %}Sessions, shared notes and a way to message your mentor.{% endif %}{% endblock %}
 {% block fr_body %}
+{% if is_staff %}{{ wag.wa_group_card(p.user_id, p.student.name) }}{% endif %}
 <p class="fr-muted">Mentor: <strong>{{ p.mentor.name if p.mentor else 'not yet assigned' }}</strong></p>
 <div class="fr-grid fr-g2">
 <div>
  <div class="fr-card"><h2>Sessions</h2>
  {% for s in sessions %}<div class="fr-rv" style="margin:10px 0"><strong>{{ s.title or s.kind|capitalize }}</strong> <span class="fr-pill {{ 'ok' if s.status=='Held' }}">{{ s.status }}</span>
    <div class="fr-muted">{{ (s.held_at or s.planned_at).strftime('%d %b %Y, %I:%M %p') if (s.held_at or s.planned_at) else 'Date to be agreed' }}</div>
-   {% if s.agenda %}<div>Agenda: {{ s.agenda }}</div>{% endif %}{% if s.summary %}<div><strong>Summary:</strong> {{ s.summary }}</div>{% endif %}
+   {% if s.agenda %}<div>Agenda: {{ s.agenda }}</div>{% endif %}{% if s.summary %}<div><strong>Summary:</strong> {{ s.summary }}</div>{% if is_staff %}{{ wag.wa_group_btn(p.user_id, text=(s.title or s.kind|capitalize) ~ ': ' ~ s.summary, label='💬 Summary to group', cls='fr-btn sm ghost') }}{% endif %}{% endif %}
    {% if is_staff %}<form method="post"><input type="hidden" name="do" value="session_update"><input type="hidden" name="sid" value="{{ s.id }}"><select name="status" style="width:auto;display:inline-block">{% for x in ['Planned','Held','Missed','Cancelled'] %}<option {{ 'selected' if s.status==x }}>{{ x }}</option>{% endfor %}</select><textarea name="summary" placeholder="Shared summary of what was discussed and agreed" style="margin-top:4px">{{ s.summary or '' }}</textarea><button class="fr-btn sm ghost" style="margin-top:4px">Save</button></form>{% endif %}</div>{% else %}<p class="fr-muted">No sessions yet.</p>{% endfor %}</div>
  {% if is_staff %}<form method="post" class="fr-card flat" style="margin-top:14px"><h3>Schedule a session</h3><input type="hidden" name="do" value="session">
   <label for="st">Title</label><input id="st" type="text" name="title" maxlength="200"><div class="fr-grid fr-g2"><div><label for="sk">Type</label><select id="sk" name="kind">{% for k in ['initial','monthly','quarterly','adhoc','transition'] %}<option>{{ k }}</option>{% endfor %}</select></div><div><label for="sw">When</label><input id="sw" type="datetime-local" name="when"></div></div>
@@ -18,13 +20,13 @@
 </div>
 <div>
  <div class="fr-card"><h2>{{ 'Notes' if is_staff else 'Shared notes' }}</h2>
- {% for n in notes %}<div class="fr-rv" style="margin:10px 0"><span class="fr-pill {{ 'warn' if n.visibility=='mentor' }}">{{ 'Private to mentors' if n.visibility=='mentor' else 'Shared' }}</span> <span class="fr-pill">{{ n.kind }}</span> <span class="fr-pill">basis: {{ n.basis|replace('_',' ') }}</span> <span class="fr-muted">{{ n.created_at.strftime('%d %b %Y') }}{% if n.author %} · {{ n.author.name }}{% endif %}</span><div>{{ n.body }}</div></div>{% else %}<p class="fr-muted">No notes yet.</p>{% endfor %}</div>
+ {% for n in notes %}<div class="fr-rv" style="margin:10px 0"><span class="fr-pill {{ 'warn' if n.visibility=='mentor' }}">{{ 'Private to mentors' if n.visibility=='mentor' else 'Shared' }}</span> <span class="fr-pill">{{ n.kind }}</span> <span class="fr-pill">basis: {{ n.basis|replace('_',' ') }}</span> <span class="fr-muted">{{ n.created_at.strftime('%d %b %Y') }}{% if n.author %} · {{ n.author.name }}{% endif %}</span><div>{{ n.body }}</div>{% if is_staff and n.visibility=='shared' %}{{ wag.wa_group_btn(p.user_id, text=n.body, label='💬 To group', cls='fr-btn sm ghost') }}{% endif %}</div>{% else %}<p class="fr-muted">No notes yet.</p>{% endfor %}</div>
  {% if is_staff %}<form method="post" class="fr-card flat" style="margin-top:14px"><h3>Add a note</h3><input type="hidden" name="do" value="note">
   <label for="nb">Note</label><textarea id="nb" name="body" required></textarea>
   <div class="fr-grid fr-g3"><div><label for="nk">Type</label><select id="nk" name="kind">{% for k in ['observation','session','parent','escalation','message'] %}<option>{{ k }}</option>{% endfor %}</select></div>
   <div><label for="nbs">Evidence basis</label><select id="nbs" name="basis"><option value="mentor">Mentor judgement</option><option value="assessment">Assessment result</option><option value="self_report">Student self-report</option><option value="parent">Parent observation</option></select></div>
   <div><label for="nv">Visible to</label><select id="nv" name="visibility"><option value="mentor">Mentors only (private)</option><option value="shared">Student and parent</option></select></div></div>
-  <p><button class="fr-btn sm">Save note</button></p></form>
+  <p><button class="fr-btn sm">Save note</button> {{ wag.wa_group_btn(p.user_id, source='#nb', cls='fr-btn sm alt') }}</p></form>
  {% elif role=='parent' %}<form method="post" class="fr-card flat" style="margin-top:14px"><h3>Send a note to the mentor</h3><input type="hidden" name="do" value="note"><label for="pn">What would you like the mentor to know?</label><textarea id="pn" name="body" required></textarea><p class="fr-muted">Visible to the mentor only, not to your child.</p><p><button class="fr-btn sm">Send</button></p></form>{% endif %}
 </div></div>
 {% endblock %}

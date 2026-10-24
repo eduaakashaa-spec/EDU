@@ -46,6 +46,8 @@ def login(email):
 
 
 admin, mentor, mentor2, s1, p1, p2 = (login(x) for x in ('a@x.com', 'm@x.com', 'm2@x.com', 's1@x.com', 'p1@x.com', 'p2@x.com'))
+import re
+nowag = lambda h: re.sub(r'data-wag-text="[^"]*"', '', h)   # the WhatsApp-group button carries the full family-visible list
 post = lambda c, url, **d: c.post(url, data=d, follow_redirects=True)
 
 # parser
@@ -98,7 +100,7 @@ with app.app_context():
     pr = svc.owner_progress(rows)
     assert pr['student']['total'] == 1 and pr['student']['done'] == 1 and pr['student']['open'] == 0 and pr['student']['closed'] == 0 and pr['student']['pct'] == 100
     assert pr['parent']['done'] == 1 and pr['mentor']['total'] == 2 and pr['mentor']['done'] == 0 and pr['mentor']['pct'] == 0
-body = mentor.get(f'/mentorship/e/{E1}/actions?f=done').get_data(as_text=True)
+body = nowag(mentor.get(f'/mentorship/e/{E1}/actions?f=done').get_data(as_text=True))
 assert 'Share recent Allen test reports' in body and 'Prepare NUS' not in body                       # filter works
 assert 'Prepare NUS' in mentor.get(f'/mentorship/e/{E1}/actions?owner=mentor').get_data(as_text=True)
 
@@ -115,8 +117,8 @@ with app.app_context():
 assert s1.post(f'/mentorship/e/{E1}/actions/{stu_act}/update', data={'status': 'Not Started'}).status_code == 302
 with app.app_context():
     assert db.session.get(MsAction, stu_act).status == 'Closed'                                      # owner cannot reopen a closed action
-assert 'Reports received' in mentor.get(f'/mentorship/e/{E1}/actions?f=closed').get_data(as_text=True) and 'Prepare NUS' not in mentor.get(f'/mentorship/e/{E1}/actions?f=closed').get_data(as_text=True)
-assert 'Prepare NUS' in mentor.get(f'/mentorship/e/{E1}/actions?f=open').get_data(as_text=True) and 'Reports received and reviewed' not in mentor.get(f'/mentorship/e/{E1}/actions?f=open').get_data(as_text=True)
+assert 'Reports received' in nowag(mentor.get(f'/mentorship/e/{E1}/actions?f=closed').get_data(as_text=True)) and 'Prepare NUS' not in nowag(mentor.get(f'/mentorship/e/{E1}/actions?f=closed').get_data(as_text=True))
+assert 'Prepare NUS' in nowag(mentor.get(f'/mentorship/e/{E1}/actions?f=open').get_data(as_text=True)) and 'Reports received and reviewed' not in nowag(mentor.get(f'/mentorship/e/{E1}/actions?f=open').get_data(as_text=True))
 assert b'Close action' in mentor.get(f'/mentorship/e/{E1}/actions').data and b'Close action' not in s1.get(f'/mentorship/e/{E1}/actions').data
 post(mentor, f'/mentorship/e/{E1}/actions/{stu_act}/update', status='In Progress', back='actions')                  # staff reopen
 with app.app_context():

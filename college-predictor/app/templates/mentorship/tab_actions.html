@@ -1,5 +1,6 @@
 {% extends "mentorship/ws.html" %}
 {% import "mentorship/_macros.html" as m %}
+{% import "_wagroup.html" as wag %}
 {% block body %}
 
 <div class="ms-grid ms-g3" style="margin-bottom:16px;">
@@ -91,6 +92,7 @@
     <label>WhatsApp (opens WhatsApp with the message ready)</label>
     <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
       {% for aud in ('student', 'parent', 'mentor') %}<a class="ms-btn g sm" target="_blank" rel="noopener" href="{{ wa_links[aud] }}">WhatsApp {{ aud }}</a>{% endfor %}
+      {{ wag.wa_group_btn(e.student_id, text=group_text) }}
     </div>
     <p class="hint" style="margin-top:6px;">{% if wa_links.student.startswith('https://wa.me/?') %}No saved phone number for this family, so WhatsApp will ask you to pick the contact.{% else %}Uses the phone number saved in the student&rsquo;s profile.{% endif %}</p>
   </div>

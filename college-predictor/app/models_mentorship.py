@@ -521,3 +521,19 @@ class MsPrefDates(db.Model):
     @property
     def exam_name(self):
         return (self.exam.name if self.exam else None) or self.exam_label
+
+
+# --------------------------------------------------------------------------- #
+# WhatsApp group per member (one row per student account)
+# --------------------------------------------------------------------------- #
+class MemberWaGroup(db.Model):
+    """The WhatsApp group a member's family and mentor use. WhatsApp offers no way to post into a group from a website, so we keep the
+    group name and invite link, and the 'send to group' buttons copy the message and open the group."""
+    __tablename__ = 'member_wa_groups'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), unique=True, nullable=False, index=True)
+    group_name = db.Column(db.String(120))
+    invite_link = db.Column(db.String(200))
+    note = db.Column(db.String(300))                  # e.g. who is in the group
+    updated_by = db.Column(db.Integer)
+    updated_at = db.Column(db.DateTime, default=_utcnow, onupdate=_utcnow)

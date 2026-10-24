@@ -1464,13 +1464,15 @@ def _tab_actions(e, role):
     owner = request.args.get('owner', '')
     shown = [a for a in rows if svc.action_matches(a, flt) and (owner not in svc.OWNERS or (a.owner or 'student') == owner)]
     links = {}
+    group_text = ''
     if role in STAFF:
+        group_text = svc.share_text(e, 'parent', svc.visible_actions(e, 'parent'))   # the group includes the family, so only family-visible actions
         phone = _family_phone(e)
         for aud in ('student', 'parent', 'mentor'):
             links[aud] = svc.wa_link(phone if aud != 'mentor' else '', svc.share_text(e, aud, svc.visible_actions(e, 'parent' if aud == 'parent' else 'student')))
     parents = [l.parent for l in MsParentLink.query.filter_by(enrolment_id=e.id).all()]
     return dict(rows=shown, all_rows=rows, progress=svc.owner_progress(rows), flt=flt, owner_f=owner, ACTION_FILTERS=svc.ACTION_FILTERS,
-                OWNERS=svc.OWNERS, OWNER_LABEL=svc.OWNER_LABEL, wa_links=links, parents=parents, audience=audience,
+                OWNERS=svc.OWNERS, OWNER_LABEL=svc.OWNER_LABEL, wa_links=links, group_text=group_text, parents=parents, audience=audience,
                 ACTION_STATUSES=ACTION_STATUSES, STUDENT_ACTION_STATUSES=STUDENT_ACTION_STATUSES, PRIORITIES=PRIORITIES,
                 action_state=svc.action_state, sessions_for_link=e.sessions.order_by(MsSession.position).all())
 
