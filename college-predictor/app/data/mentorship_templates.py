@@ -326,7 +326,7 @@ OUT OF SCOPE
 Anything beyond this scope (for example, admission support for named institutions) is agreed per family and written into the engagement document with its price.
 
 PROGRAMME FEE
-₹74,999 including GST (Grade 12 track). Payment schedule: 50% on enrolment, 25% at Month 4, 25% at Month 8 or at counselling/admission. Any early-bird or sibling concession is written into your engagement document.
+₹75,000 including GST (Grade 12 track). Payment schedule: 50% on enrolment, 25% at Month 4, 25% at Month 8 or at counselling/admission. Any early-bird or sibling concession is written into your engagement document.
 
 NEXT STEPS
 1. Reply "Proceed" and I will send the engagement agreement
@@ -357,7 +357,7 @@ EduAakashaa guides the process; admission and seat allotment are decided by the 
 ✘ Guaranteed rank or seat
 ✘ Visa / immigration / loans
 
-*Fee:* ₹74,999 incl. GST — 50% / 25% / 25%
+*Fee:* ₹75,000 incl. GST — 50% / 25% / 25%
 
 Full details sent by email. Shall I send the agreement? """ + SIG_WA,
                     },
@@ -1259,6 +1259,6 @@ GUIDELINES = [
     "Quote DASA/JoSAA rules as '2026 rules' until the 2027 brochure is published; mark dates Confirmed vs Expected.",
     "Marketing emails must carry the opt-out line; send WhatsApp promotions only to people who have opted in.",
     "Keep student dashboards and reports private to student, parents and mentor — never in groups, never compared.",
-    "Keep fee and scope figures in step with the current engagement document (₹74,999 incl. GST, 50/25/25 in the 2027 Grade 12 track).",
+    "Keep fee and scope figures in step with the current engagement document (₹75,000 incl. GST, 50/25/25 in the 2027 Grade 12 track).",
     "Replace every [Square Bracket] before sending. Time zones: say both IST and Gulf time.",
 ]

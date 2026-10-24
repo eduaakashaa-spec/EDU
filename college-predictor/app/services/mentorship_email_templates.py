@@ -251,7 +251,7 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
 
     add('mp_scope', '📋', 'Scope of the mentorship', C,
         'Sent after the discovery call: what is in scope, out of scope, fee and next steps.', [
-        {'fields': [PARENT, STUDENT, _f('fee', 'Programme fee', '₹74,999 incl. GST'),
+        {'fields': [PARENT, STUDENT, _f('fee', 'Programme fee', '₹75,000 incl. GST'),
                     _f('schedule', 'Payment schedule', '50% on enrolment · 25% at Month 4 · 25% at Month 8 or at counselling')],
          'subject': 'Scope of Elite Mentorship for {student} — what is included (and what is not)',
          'blocks': [
