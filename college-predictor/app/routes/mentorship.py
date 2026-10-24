@@ -1073,6 +1073,7 @@ def report_pdf(eid, rid):
 @mentorship_bp.route('/admin')
 @admin_required
 def admin_home():
+    svc.ensure_futureready_programme()
     progs = MsProgramme.query.order_by(MsProgramme.id).all()
     return render_template('admin/mentorship_admin.html', admin_tab='mentorship', programmes=progs,
                            enrolments=MsEnrolment.query.order_by(MsEnrolment.id.desc()).all(),
@@ -1217,8 +1218,31 @@ def admin_enrol():
                   end=svc.parse_date(request.form.get('end_date')), extra_quota=_int('extra_quota', 0, 99) or 0)
     e.grade = _s('grade', 40) or e.grade
     db.session.commit()
-    flash(f'{student.name} enrolled with {prog.templates.filter_by(active=True).count()} core sessions.', 'success')
+    fr_note = ''
+    if prog.tier == svc.FR_TIER:
+        fr_note = _open_futureready(student, mentor, e)
+    flash(f'{student.name} enrolled with {prog.templates.filter_by(active=True).count()} core sessions.{fr_note}', 'success')
     return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
+
+
+def _open_futureready(student, mentor, e):
+    """A FutureReady enrolment also opens the student's FutureReady workspace (profile, mentor, and any linked parents)."""
+    from app.futureready import engine as fr_engine
+    from app.futureready.models import FrParentLink, FrProfile
+    fr_engine.seed_content()
+    pr = FrProfile.query.filter_by(user_id=student.id).first()
+    if pr is None:
+        grade = 9 if '9' in (e.grade or '') else 8
+        pr = FrProfile(user_id=student.id, mentor_id=mentor.id if mentor and mentor.is_ea_mentor else None, grade=grade)
+        db.session.add(pr)
+        db.session.flush()
+    elif mentor and mentor.is_ea_mentor and not pr.mentor_id:
+        pr.mentor_id = mentor.id
+    for l in MsParentLink.query.filter_by(enrolment_id=e.id).all():
+        if not FrParentLink.query.filter_by(profile_id=pr.id, parent_id=l.parent_id).first():
+            db.session.add(FrParentLink(profile_id=pr.id, parent_id=l.parent_id))
+    db.session.commit()
+    return ' FutureReady workspace opened (Class 8-9): parents linked here are added to it too.'
 
 
 @mentorship_bp.route('/admin/enrolment/<int:eid>/update', methods=['POST'])
@@ -1274,6 +1298,10 @@ def admin_parent_link():
         flash('That parent is already linked.', 'info')
     else:
         db.session.add(MsParentLink(enrolment_id=e.id, parent_id=parent.id, relation=_s('relation', 40) or 'Parent'))
+        from app.futureready.models import FrParentLink, FrProfile
+        frp = FrProfile.query.filter_by(user_id=e.student_id).first()
+        if frp and not FrParentLink.query.filter_by(profile_id=frp.id, parent_id=parent.id).first():
+            db.session.add(FrParentLink(profile_id=frp.id, parent_id=parent.id, relation=_s('relation', 40) or 'Parent'))
         svc.audit(e, 'parent.linked', parent.email + (' (account created)' if created_pw else ''), 'admin')
         db.session.commit()
         msg = 'Parent linked to the student record.'

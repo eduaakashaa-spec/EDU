@@ -240,9 +240,42 @@ PRESET_KPIS = [
 OUTCOME_HINT = '(outcome)'
 
 
+FR_TIER = 'FutureReady Mentorship'
+FR_PROGRAMME = 'FutureReady Mentorship (Class 8–9)'
+FR_SESSIONS = [
+    ('Kick-off and baseline', 'Meet the student and parent\nOnboarding and consent\nBaseline assessments plan', 'Agreed 30-day goals'),
+    ('Strengths and study habits', 'Review Academic Foundations and Study Habits results\nOne habit to build', 'Habit action plan'),
+    ('Reasoning and problem-solving', 'Aptitude sampler review\nPractice plan for the weakest skill', 'Practice plan'),
+    ('Interests and engineering exploration', 'Interests Explorer and Engineering Interest Map\nBranch explorer and shortlist', 'Interest map and shortlist'),
+    ('Hands-on project kick-off', 'Choose a project\nMaterials and steps\nHow it will be checked', 'Project plan'),
+    ('Quarterly review 1', 'Progress against goals\nGrowth report\nParent conversation', 'Quarterly report'),
+    ('Entrance-system awareness', 'How engineering admission works in India\nWhat to check on official sites', 'Awareness notes'),
+    ('Foundations: maths and science', 'Subject Foundations Explorer\nTargeted practice', 'Foundation practice log'),
+    ('Digital and responsible AI skills', 'AI literacy review\nChecking AI answers', 'Verification task'),
+    ('Project showcase', 'Present the project\nReflection and feedback', 'Project reflection'),
+    ('Quarterly review 2', 'Growth compared with the baseline\nUpdate goals', 'Quarterly report'),
+    ('Year-end review and next steps', 'Annual summary\nPlan for the next year', 'Year-end report'),
+]
+
+
+def ensure_futureready_programme():
+    """The Class 8-9 FutureReady programme, so it can be chosen in Admin -> Enrolment. Idempotent; admin edits are kept."""
+    prog = MsProgramme.query.filter_by(name=FR_PROGRAMME).first()
+    if prog:
+        return prog
+    prog = MsProgramme(name=FR_PROGRAMME, tier=FR_TIER, active=True,
+                       description='Mentorship for Class 8-9 students: assessments, aptitude practice, engineering exploration, action plan, monthly sessions and reports. Enrolling here also opens the FutureReady workspace.')
+    db.session.add(prog)
+    db.session.flush()
+    for i, (title, topics, deliverable) in enumerate(FR_SESSIONS, 1):
+        db.session.add(MsSessionTemplate(programme_id=prog.id, position=i, title=title, topics=topics, deliverable=deliverable, duration_min=60))
+    db.session.commit()
+    return prog
+
+
 def ensure_default_programme():
     """Create the standard 10-session programme if none exists. Returns the first programme."""
-    prog = MsProgramme.query.filter(db.or_(MsProgramme.tier == None, MsProgramme.tier != 'Add-on')).first()  # noqa: E711
+    prog = MsProgramme.query.filter(db.or_(MsProgramme.tier == None, ~MsProgramme.tier.in_(['Add-on', FR_TIER]))).first()  # noqa: E711
     if prog:
         return prog
     prog = MsProgramme(name='Grade 12 Engineering Mentorship',

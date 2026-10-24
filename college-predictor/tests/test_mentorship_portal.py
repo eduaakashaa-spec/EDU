@@ -80,7 +80,7 @@ r = post(admin, '/mentorship/admin/load-default')
 assert b'10-session' in r.data
 with app.app_context():
     from app.models_mentorship import MsProgramme
-    prog = MsProgramme.query.one()
+    prog = MsProgramme.query.filter_by(name='Grade 12 Engineering Mentorship').one()
     assert prog.templates.count() == 10 and prog.templates[0].title.startswith('Onboarding')
     pid = prog.id
 r = post(admin, '/mentorship/admin/enrol', student_email='s1@demo.test', programme_id=pid, mentor_email='mentor@demo.test',

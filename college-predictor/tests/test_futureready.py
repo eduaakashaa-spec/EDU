@@ -350,4 +350,29 @@ with app.app_context():
     assert FrProfile.query.get(P2) is not None
 with app.app_context():
     assert FrNote.query.filter_by(profile_id=P1).count() >= 2
+
+# ---- Mentorship admin: FutureReady programme in the enrolment dropdown; enrolling opens the workspace ---------------------------------------
+with app.app_context():
+    db.session.add(User(name='Stu Three', email='s3@x.com', tier='free', password_hash=pw()))
+    db.session.add(User(name='Par Three', email='p3@x.com', tier='free', password_hash=pw()))
+    db.session.commit()
+page = admin.get('/mentorship/admin').get_data(as_text=True)
+assert 'FutureReady Mentorship (Class 8' in page
+from app.models_mentorship import MsProgramme
+with app.app_context():
+    FRP = MsProgramme.query.filter_by(tier='FutureReady Mentorship').one().id
+    assert MsProgramme.query.filter_by(tier='FutureReady Mentorship').count() == 1
+r = post(admin, '/mentorship/admin/enrol', student_email='s3@x.com', programme_id=str(FRP), mentor_email='m@x.com', grade='Class 9')
+assert b'FutureReady workspace opened' in r.data
+with app.app_context():
+    pr3 = FrProfile.query.filter_by(user_id=u('s3@x.com').id).one()
+    assert pr3.grade == 9 and pr3.mentor_id == u('m@x.com').id
+    from app.models_mentorship import MsEnrolment
+    E3 = MsEnrolment.query.filter_by(student_id=u('s3@x.com').id).one().id
+post(admin, '/mentorship/admin/parent', enrolment_id=str(E3), parent_email='p3@x.com')
+with app.app_context():
+    assert FrParentLink.query.filter_by(profile_id=pr3.id, parent_id=u('p3@x.com').id).count() == 1
+from app.services import mentorship as _svc
+with app.app_context():
+    assert _svc.ensure_default_programme().tier != 'FutureReady Mentorship'          # default programme is never the FutureReady one
 print('FutureReady tests passed')
