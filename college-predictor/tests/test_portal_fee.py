@@ -14,7 +14,7 @@ from app.extensions import db, bcrypt
 from app.models import User
 from app.models_membership import MembershipApplication, PORTAL_TIER, TIER_PRICES, TIERS
 
-assert PORTAL_TIER in TIERS and TIER_PRICES[PORTAL_TIER] == 10_000_00
+assert PORTAL_TIER in TIERS and TIER_PRICES[PORTAL_TIER] == 15_000_00
 
 app = create_app(); app.config['TESTING'] = True
 with app.app_context():
@@ -28,16 +28,16 @@ with app.app_context():
 pub = app.test_client()
 # the public page lists the path and its price
 page = pub.get('/members-registration').get_data(as_text=True)
-assert 'Premium Portal Access' in page and '10,000' in page
+assert 'Premium Portal Access' in page and '15,000' in page
 
-# 1) applying pre-fills the list price (GST inclusive) -> total ₹10,000
+# 1) applying pre-fills the list price (GST inclusive) -> total ₹15,000
 r = pub.post('/membership/apply', json={'name': 'Asha', 'email': 'asha@ex.com',
                                         'tier': 'Premium Portal Access', 'state': 'Kerala'})
 assert r.status_code == 200 and r.get_json()['ok']
 with app.app_context():
     a = MembershipApplication.query.filter_by(email='asha@ex.com').one()
     app_id = a.id
-    assert a.tier_price == 10_000_00 and a.final_total == 10_000_00, (a.tier_price, a.final_total)
+    assert a.tier_price == 15_000_00 and a.final_total == 15_000_00, (a.tier_price, a.final_total)
     assert a.taxable_value + a.total_gst == a.final_total and a.igst == a.total_gst  # inter-state
 
 ac = app.test_client(); ac.post('/login', data={'email': 'admin@ea.com', 'password': 'x'})
@@ -49,7 +49,7 @@ with app.app_context():
     assert db.session.query(User).filter_by(email='asha@ex.com').one().tier == 'free'
 
 # 3) the balance clears the invoice -> portal access switches on for 12 months
-ac.post(f'/admin/membership/{app_id}/payment', data={'amount': '6000', 'payment_mode': 'UPI', 'payment_ref': 'a2'})
+ac.post(f'/admin/membership/{app_id}/payment', data={'amount': '11000', 'payment_mode': 'UPI', 'payment_ref': 'a2'})
 with app.app_context():
     u = User.query.filter_by(email='asha@ex.com').one()
     assert u.tier == 'premium' and u.is_premium, u.tier
@@ -60,11 +60,11 @@ with app.app_context():
 r = pub.post('/membership/apply', json={'name': 'Ravi', 'email': 'ravi@ex.com', 'tier': 'Aspirant Path'})
 with app.app_context():
     rid = MembershipApplication.query.filter_by(email='ravi@ex.com').one().id
-    assert MembershipApplication.query.get(rid).tier_price == 24_999_00
+    assert MembershipApplication.query.get(rid).tier_price == 30_000_00
 ac.post(f'/admin/membership/{rid}/update', data={'name': 'Ravi', 'tier': 'Premium Portal Access',
-                                                 'tier_price': '24999', 'status': 'New'})
+                                                 'tier_price': '30000', 'status': 'New'})
 with app.app_context():
-    assert MembershipApplication.query.get(rid).tier_price == 10_000_00
+    assert MembershipApplication.query.get(rid).tier_price == 15_000_00
 ac.post(f'/admin/membership/{rid}/update', data={'name': 'Ravi', 'tier': 'Elite Mentorship',
                                                  'tier_price': '8000', 'status': 'New'})   # custom -> kept
 with app.app_context():
