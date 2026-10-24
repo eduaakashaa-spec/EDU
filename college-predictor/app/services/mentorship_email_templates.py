@@ -252,6 +252,9 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
     add('mp_scope', '📋', 'Scope of the mentorship', C,
         'Sent after the discovery call: what is in scope, out of scope, fee and next steps.', [
         {'fields': [PARENT, STUDENT, _f('fee', 'Programme fee', '₹75,000'),
+                    _f('bank_ac_name', 'Bank: account name', '[Account name]'), _f('bank_name', 'Bank: name', '[Bank name]'),
+                    _f('bank_branch', 'Bank: branch', '[Branch]'), _f('bank_ac_no', 'Bank: account number', '[Account number]'),
+                    _f('bank_ifsc', 'Bank: IFSC', '[IFSC]'),
                     _f('schedule', 'Payment schedule', 'Option A: 50% on enrolment · 25% at Month 4 · 25% at Month 8 or at counselling. Option B: 25% every 2 months, 4 instalments (enrolment, Month 2, Month 4, Month 6)')],
          'subject': 'Scope of Elite Mentorship for {student} — what is included (and what is not)',
          'blocks': [
@@ -283,6 +286,10 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
                     'Financial, loan or forex advice']),
             ('h', 'Fee'),
             ('kv', [('Programme fee', '{fee}'), ('Payment schedule', '{schedule}')]),
+            ('h', 'Bank transfer details'),
+            ('kv', [('Account name', '{bank_ac_name}'), ('Bank', '{bank_name}'), ('Branch', '{bank_branch}'),
+                    ('Account number', '{bank_ac_no}'), ('IFSC', '{bank_ifsc}'), ('Payment reference', '{student}')]),
+            ('p', 'Please use the student name as the payment reference and reply with the transaction (UTR) number or a screenshot, so we can confirm receipt and issue the receipt. Please pay only to the account shown here and confirm any change of bank details with us by phone first.'),
             ('p', 'Anything beyond this scope (for example, support for named institutions) is agreed per family and written '
                   'into the engagement document with its price. If you would like to proceed, reply **"Proceed"** and we will '
                   'send the engagement agreement.'),
@@ -290,6 +297,7 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
          'wa': ('Hi {name}, summary of *Elite Mentorship* for {student}: ✔ dedicated senior mentor ✔ 10+ 1:1 sessions '
                 '✔ 9 strategy deliverables ✔ portal + simulator + analytics (1 yr) ✔ parent briefings. '
                 '✘ Not included: tuition/coaching, guaranteed rank/seat, visa/loans. Fee: {fee} — {schedule}. '
+                'Bank transfer: {bank_ac_name}, {bank_name} ({bank_branch}), A/C {bank_ac_no}, IFSC {bank_ifsc}. Please quote the name {student} as the reference and send the UTR. '
                 'Full details by email. Shall I send the agreement?')}])
 
     add('mp_meeting_confirm', '📅', 'Initial discussion — confirmation', C,

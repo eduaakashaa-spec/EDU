@@ -63,3 +63,32 @@ def save_company_profile(form):
         else:
             row.value = value
     db.session.commit()
+
+
+# --- bank details for message templates ------------------------------------------------------------------------------------
+_BANK_FIELDS = {'bank_ac_name': '[Account Name]', 'bank_name': '[Bank Name]', 'bank_branch': '[Branch]', 'bank_ac_no': '[Account Number]', 'bank_ifsc': '[IFSC]'}
+
+
+def fill_bank_details(obj):
+    """Return a copy of a template structure with the bank placeholders replaced by the saved company bank details (Admin -> Invoice settings).
+    Placeholders stay visible for any detail that has not been saved yet, so nothing is invented."""
+    prof = company_profile()
+    vals = {k: (prof.get(k) or '').strip() for k in _BANK_FIELDS}
+
+    def walk(x):
+        if isinstance(x, str):
+            for k, tok in _BANK_FIELDS.items():
+                if vals[k]:
+                    x = x.replace(tok, vals[k])
+            return x
+        if isinstance(x, dict):
+            out = {k: walk(v) for k, v in x.items()}
+            if x.get('key') in _BANK_FIELDS and vals.get(x['key']):
+                out['default'] = vals[x['key']]
+            return out
+        if isinstance(x, list):
+            return [walk(i) for i in x]
+        if isinstance(x, tuple):
+            return tuple(walk(i) for i in x)
+        return x
+    return walk(obj)

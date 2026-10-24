@@ -464,7 +464,8 @@ def dasa_prediction_report():
 @admin_required
 def mentorship_templates():
     from app.data.mentorship_templates import GROUPS, GUIDELINES
-    return render_template('mentorship_templates.html', groups=GROUPS, guidelines=GUIDELINES)
+    from app.services.company import fill_bank_details
+    return render_template('mentorship_templates.html', groups=fill_bank_details(GROUPS), guidelines=GUIDELINES)
 
 
 # Legacy eduaakashaa.in paths (printed QR codes, old links) that now live elsewhere

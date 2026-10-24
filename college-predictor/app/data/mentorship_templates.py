@@ -331,6 +331,14 @@ Option A: 50% on enrolment, 25% at Month 4, 25% at Month 8 or at counselling/adm
 Option B: 25% every 2 months, in 4 instalments (on enrolment, Month 2, Month 4 and Month 6).
 Any early-bird or sibling concession is written into your engagement document.
 
+BANK TRANSFER DETAILS
+Account name: [Account Name]
+Bank: [Bank Name], [Branch]
+Account number: [Account Number]
+IFSC: [IFSC]
+Payment reference: [Student Name]
+Please reply with the transaction (UTR) number or a screenshot so we can confirm receipt. Pay only to this account, and confirm any change of bank details with us by phone first.
+
 NEXT STEPS
 1. Reply "Proceed" and I will send the engagement agreement
 2. Sign (parent, student and counsellor) and make the front payment
@@ -361,6 +369,13 @@ EduAakashaa guides the process; admission and seat allotment are decided by the 
 ✘ Visa / immigration / loans
 
 *Fee:* ₹75,000 — Option A: 50% / 25% / 25%, or Option B: 25% every 2 months (4 instalments)
+
+*Bank transfer*
+A/C name: [Account Name]
+Bank: [Bank Name], [Branch]
+A/C no.: [Account Number]
+IFSC: [IFSC]
+Reference: [Student Name] — please send the UTR
 
 Full details sent by email. Shall I send the agreement? """ + SIG_WA,
                     },

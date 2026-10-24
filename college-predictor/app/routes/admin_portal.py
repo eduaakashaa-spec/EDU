@@ -844,6 +844,7 @@ def _recipient_directory():
 @admin_portal_bp.route('/admin/templates')
 @admin_required
 def templates():
+    from app.services.company import fill_bank_details
     categories = []
     for t in EMAIL_TEMPLATES:
         if t['category'] not in categories:
@@ -853,7 +854,7 @@ def templates():
     st = mailer.config_status()
     mail_from = st['mail_from'] if st['transport'] == 'resend' else st['from']
     return render_template('admin/templates.html', admin_tab='templates',
-                           email_templates=EMAIL_TEMPLATES, categories=categories,
+                           email_templates=fill_bank_details(EMAIL_TEMPLATES), categories=categories,
                            recipients=_recipient_directory(), sender=SENDER_EMAIL,
                            footer_email=FOOTER_EMAIL,
                            logo_url=LOGO_URL, site=SITE,
