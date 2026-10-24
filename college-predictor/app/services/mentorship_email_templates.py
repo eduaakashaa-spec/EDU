@@ -251,8 +251,8 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
 
     add('mp_scope', '📋', 'Scope of the mentorship', C,
         'Sent after the discovery call: what is in scope, out of scope, fee and next steps.', [
-        {'fields': [PARENT, STUDENT, _f('fee', 'Programme fee', '₹75,000 incl. GST'),
-                    _f('schedule', 'Payment schedule', '50% on enrolment · 25% at Month 4 · 25% at Month 8 or at counselling')],
+        {'fields': [PARENT, STUDENT, _f('fee', 'Programme fee', '₹75,000'),
+                    _f('schedule', 'Payment schedule', 'Option A: 50% on enrolment · 25% at Month 4 · 25% at Month 8 or at counselling. Option B: 25% every 2 months, 4 instalments (enrolment, Month 2, Month 4, Month 6)')],
          'subject': 'Scope of Elite Mentorship for {student} — what is included (and what is not)',
          'blocks': [
             ('p', 'Dear {name},'),
@@ -308,9 +308,9 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
 
     add('mp_enrol_confirm', '✅', 'Enrolment & payment confirmation', C,
         'On receipt of the front payment and signed engagement document.', [
-        {'fields': [PARENT, STUDENT, MENTOR, _f('amount', 'Amount received', '₹37,500'),
+        {'fields': [PARENT, STUDENT, MENTOR, _f('amount', 'Amount received', '₹37,500 (Option A) / ₹18,750 (Option B)'),
                     _f('date', 'Date', '[Date]'), _f('receipt', 'Receipt no.', '[____]'),
-                    _f('next2', 'Next instalment', '25% at Month 4 (~[Month Year])')],
+                    _f('next2', 'Next instalment', 'Option A: 25% at Month 4 (~[Month Year]) · Option B: 25% at Month 2 (~[Month Year])')],
          'subject': 'Enrolment confirmed — {student}, Elite Mentorship (Class of 2027)',
          'blocks': [
             ('p', 'Dear {name},'),
