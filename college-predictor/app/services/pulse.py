@@ -13,7 +13,7 @@ from sqlalchemy import func
 
 from app.extensions import db
 from app.models import User
-from app.models_pulse import (PulseAnswer, PulseAttempt, PulseChapter, PulseProfile, PulseQuestion, PulseReport)
+from app.models_pulse import (PulseAnswer, PulseAnswerConf, PulseAttempt, PulseChapter, PulseProfile, PulseQuestion, PulseReport)
 from app.services import mailer
 from app.services.email_templates import SITE, branded_shell
 
@@ -197,6 +197,23 @@ def start_attempt(user, chapter, n, mode='practice', difficulty=None):
     return att
 
 
+CONF_LEVELS = ('G', 'L', 'M', 'H')
+CONF_NAMES = {'G': 'Guess', 'L': 'Low', 'M': 'Medium', 'H': 'High'}
+
+
+def missing_confidence(att, form):
+    """Question numbers that were answered without a confidence level (confidence is required for every answered question)."""
+    out = []
+    for i, a in enumerate(att.answers.order_by(PulseAnswer.position).all(), 1):
+        if (form.get(f'q{a.id}') or '').strip().upper() in ('A', 'B', 'C', 'D') and (form.get(f'c{a.id}') or '').strip().upper() not in CONF_LEVELS:
+            out.append(i)
+    return out
+
+
+def confidence_map(att):
+    return {r.answer_id: r.confidence for r in PulseAnswerConf.query.filter(PulseAnswerConf.answer_id.in_([a.id for a in att.answers.all()] or [0])).all()}
+
+
 def submit_attempt(att, form):
     """Record answers once. `form` maps 'q<answer_id>' -> 'A'..'D'. Returns the attempt."""
     if att.submitted_at:
@@ -205,6 +222,11 @@ def submit_attempt(att, form):
     for a in att.answers.all():
         v = (form.get(f'q{a.id}') or '').strip().upper()
         if v in ('A', 'B', 'C', 'D'):
+            conf = (form.get(f'c{a.id}') or '').strip().upper()
+            if conf in CONF_LEVELS:
+                row = db.session.get(PulseAnswerConf, a.id) or PulseAnswerConf(answer_id=a.id, confidence=conf)
+                row.confidence = conf
+                db.session.add(row)
             a.chosen = v
             a.is_correct = (v == a.question.correct)
             correct += a.is_correct

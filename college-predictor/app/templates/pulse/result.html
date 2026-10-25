@@ -21,6 +21,7 @@
     {% for letter, text in q.options() %}
     <div class="pl-opt {{ 'right' if letter == q.correct else ('wrong' if letter == a.chosen else '') }}"><b>{{ letter }}</b><span>{{ text }}{% if letter == a.chosen %} <em>(your answer)</em>{% endif %}{% if letter == q.correct %} ✓{% endif %}</span></div>
     {% endfor %}
+    {% if confs.get(a.id) %}<div class="pl-yconf">Your confidence: <b>{{ CONF[confs[a.id]] }}</b>{% if a.chosen and confs[a.id] == 'H' and not a.is_correct %} &middot; sure but wrong: worth a closer look{% elif a.is_correct and confs[a.id] in ('G','L') %} &middot; correct but unsure: good to revise once more{% endif %}</div>{% endif %}
     {% if q.explanation %}<div class="pl-expl"><strong>Why:</strong> {{ q.explanation }}</div>{% endif %}
     <div style="font-size:.76rem;color:var(--muted);margin-top:6px;">Source: {{ q.source }}{% if q.year %} ({{ q.year }}){% endif %}</div>
   </div>

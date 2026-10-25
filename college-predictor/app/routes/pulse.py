@@ -110,7 +110,7 @@ def attempt(aid):
     if att.submitted_at:
         return redirect(url_for('pulse.result', aid=att.id))
     items = att.answers.order_by(PulseAnswer.position).all()            # the correct answers are NOT rendered in this page
-    return render_template('pulse/attempt.html', att=att, items=items)
+    return render_template('pulse/attempt.html', att=att, items=items, CONF=svc.CONF_NAMES)
 
 
 @pulse_bp.route('/attempt/<int:aid>/submit', methods=['POST'])
@@ -119,6 +119,10 @@ def submit(aid):
     att = _own_attempt(aid)
     if att.submitted_at:
         return redirect(url_for('pulse.result', aid=att.id))
+    gaps = svc.missing_confidence(att, request.form)
+    if gaps:                                    # server-side rule: every answered question needs a confidence level
+        flash('Choose how confident you are (Guess, Low, Medium or High) for question%s %s.' % ('' if len(gaps) == 1 else 's', ', '.join(map(str, gaps))), 'danger')
+        return redirect(url_for('pulse.attempt', aid=att.id))
     svc.submit_attempt(att, request.form)
     svc.send_result_email(att)
     return redirect(url_for('pulse.result', aid=att.id))
@@ -136,7 +140,7 @@ def result(aid):
         d = by_ch.setdefault(a.question.chapter.title, [0, 0])
         d[1] += 1
         d[0] += 1 if a.is_correct else 0
-    return render_template('pulse/result.html', att=att, items=items, by_ch=by_ch, score=svc.practice_score(att))
+    return render_template('pulse/result.html', att=att, items=items, by_ch=by_ch, score=svc.practice_score(att), confs=svc.confidence_map(att), CONF=svc.CONF_NAMES)
 
 
 @pulse_bp.route('/q/<int:qid>/image')
@@ -199,14 +203,26 @@ def admin_home():
     ch = request.args.get('chapter')
     status = request.args.get('status')
     q = PulseQuestion.query
+    term = (request.args.get('q') or '').strip()
+    level = request.args.get('level') if request.args.get('level') in ('Easy', 'Medium', 'Hard') else ''
     if ch:
         q = q.filter(PulseQuestion.chapter_id == int(ch)) if ch.isdigit() else q
     if status in ('draft', 'published'):
         q = q.filter(PulseQuestion.status == status)
+    if level:
+        q = q.filter(PulseQuestion.difficulty == level)
+    if term:
+        like = '%' + term + '%'
+        q = q.filter(db.or_(PulseQuestion.stem.ilike(like), PulseQuestion.source.ilike(like), db.cast(PulseQuestion.id, db.String).ilike(like)))
+    total = q.count()
+    per = 25
+    pages = max(1, -(-total // per))
+    page = min(max(1, request.args.get('page', 1, type=int)), pages)
     counts = {c.id: (c.questions.filter_by(status='published').count(), c.questions.count()) for c in chapters}
     students = PulseProfile.query.all()
     mentors = User.query.filter(User.tier.in_(['ea_mentor', 'admin'])).order_by(User.name).all()
-    return render_template('admin/pulse_admin.html', admin_tab='pulse', chapters=chapters, counts=counts, questions=q.order_by(PulseQuestion.id.desc()).limit(200).all(),
+    return render_template('admin/pulse_admin.html', admin_tab='pulse', chapters=chapters, counts=counts, questions=q.order_by(PulseQuestion.id.desc()).offset((page - 1) * per).limit(per).all(),
+                           total=total, page=page, pages=pages, term=term, level=level, filtered=bool(ch or status or level or term),
                            ch=ch, status=status, students=students, mentors=mentors, mail_ready=mailer.is_configured(), csv_cols=svc.CSV_COLUMNS,
                            starter=len(svc.STARTER))
 

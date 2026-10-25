@@ -8,6 +8,22 @@
   .pa h2{ font-family:'Fraunces',serif; color:var(--navy-ink); font-size:1.2rem; margin:0 0 4px; } .pa .hint{ color:var(--muted); font-size:13px; margin:0 0 12px; }
   .pa .row{ display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:10px; margin-bottom:10px; }
   .pa .pill{ font-size:11px; font-weight:800; padding:2px 9px; border-radius:999px; background:#EEF0F5; } .pa .pill.pub{ background:rgba(31,139,92,.14); color:#1F8B5C; }
+  .ql-bar{ display:grid; grid-template-columns:minmax(180px,2fr) repeat(3,minmax(110px,1fr)) auto; gap:8px; margin:8px 0 12px; align-items:center; }
+  .ql-bar input, .ql-bar select{ margin:0; }
+  @media (max-width:760px){ .ql-bar{ grid-template-columns:1fr 1fr; } .ql-bar input{ grid-column:1/-1; } }
+  .ql{ list-style:none; margin:0; padding:0; border:1px solid var(--hairline); border-radius:12px; overflow:hidden; background:#fff; }
+  .ql-row{ display:grid; grid-template-columns:48px 1fr auto auto; gap:6px 12px; align-items:center; padding:10px 14px; border-bottom:1px solid #f1ead7; }
+  .ql-row:last-child{ border-bottom:none; } .ql-row:hover{ background:#FFFAF0; }
+  .ql-id{ font:700 12px 'JetBrains Mono',monospace; color:var(--muted); }
+  .ql-main{ min-width:0; }
+  .ql-stem{ font-size:14px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; overflow-wrap:anywhere; }
+  .ql-meta{ display:flex; flex-wrap:wrap; gap:4px 10px; margin-top:3px; font-size:12px; color:var(--muted); }
+  .ql-meta .ql-ch{ background:#EEF0F5; color:#0E3A8A; font-weight:700; padding:0 8px; border-radius:999px; }
+  .ql-act{ display:flex; gap:6px; align-items:center; font-size:13px; } .ql-act form{ margin:0; }
+  .ql-act .btn{ padding:2px 10px; font-size:12px; }
+  .ql-empty{ padding:26px; text-align:center; color:var(--muted); }
+  .ql-pager{ display:flex; justify-content:center; align-items:center; gap:18px; margin-top:12px; font-size:13px; }
+  @media (max-width:760px){ .ql-row{ grid-template-columns:40px 1fr auto; } .ql-act{ grid-column:2/-1; } }
   .pa code{ background:#F1EAD7; padding:1px 6px; border-radius:5px; font-size:12px; }
 </style>{% endblock %}
 {% block content %}
@@ -30,16 +46,29 @@
     <form method="post" action="{{ url_for('pulse.admin_import') }}" enctype="multipart/form-data" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;">
       <div style="flex:1;min-width:220px;"><label>CSV file</label><input type="file" name="file" accept=".csv" required></div><button class="btn btn-navy">Import as drafts</button></form></div>
 
-  <div class="card"><h2>Questions {% if ch %}<span style="font-size:13px;color:var(--muted)">· filtered · <a href="{{ url_for('pulse.admin_home') }}">clear</a></span>{% endif %}</h2>
-    <form method="get" style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;"><select name="chapter" style="width:auto;"><option value="">All chapters</option>{% for c in chapters %}<option value="{{ c.id }}" {{ 'selected' if ch == c.id|string }}>{{ c.title }}</option>{% endfor %}</select>
-      <select name="status" style="width:auto;"><option value="">Any status</option><option {{ 'selected' if status == 'published' }}>published</option><option {{ 'selected' if status == 'draft' }}>draft</option></select><button class="btn btn-ghost">Filter</button></form>
-    <div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>#</th><th>Question</th><th>Chapter</th><th>Level</th><th>Ans</th><th>Source</th><th>Status</th><th></th></tr></thead><tbody>
-    {% for q in questions %}<tr><td>{{ q.id }}</td><td style="max-width:380px;">{{ q.stem[:140] }}{{ '…' if q.stem|length > 140 }}{% if q.has_image %} 🖼{% endif %}</td><td>{{ q.chapter.title }}</td><td>{{ q.difficulty }}</td><td>{{ q.correct }}</td><td style="font-size:12px;">{{ q.source }}{% if q.year %} ({{ q.year }}){% endif %}</td>
-      <td><span class="pill {{ 'pub' if q.status == 'published' }}">{{ q.status }}</span></td>
-      <td style="white-space:nowrap;"><a href="{{ url_for('pulse.admin_question', qid=q.id) }}">Edit</a>
-        <form method="post" action="{{ url_for('pulse.admin_question_op', qid=q.id, op='toggle') }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">{{ 'Unpublish' if q.status == 'published' else 'Publish' }}</button></form>
-        <form method="post" action="{{ url_for('pulse.admin_question_op', qid=q.id, op='delete') }}" style="display:inline" onsubmit="return confirm('Delete this question?')"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">Delete</button></form></td></tr>
-    {% else %}<tr><td colspan="8" style="text-align:center;padding:26px;color:var(--muted);">No questions match. Load the starter bank or add one.</td></tr>{% endfor %}</tbody></table></div></div>
+  <div class="card" id="questions"><h2>Questions <span style="font-size:13px;font-weight:400;color:var(--muted)">&middot; {{ total }} {{ 'match' if filtered else 'in the bank' }}{% if filtered %} &middot; <a href="{{ url_for('pulse.admin_home') }}#questions">clear filters</a>{% endif %}</span></h2>
+    <form method="get" action="#questions" class="ql-bar">
+      <input type="text" name="q" value="{{ term }}" placeholder="Search question text, source or id" aria-label="Search questions">
+      <select name="chapter" aria-label="Chapter"><option value="">All chapters</option>{% for c in chapters %}<option value="{{ c.id }}" {{ 'selected' if ch == c.id|string }}>{{ c.title }} ({{ counts[c.id][1] }})</option>{% endfor %}</select>
+      <select name="level" aria-label="Level"><option value="">Any level</option>{% for l in ('Easy','Medium','Hard') %}<option {{ 'selected' if level == l }}>{{ l }}</option>{% endfor %}</select>
+      <select name="status" aria-label="Status"><option value="">Any status</option><option {{ 'selected' if status == 'published' }}>published</option><option {{ 'selected' if status == 'draft' }}>draft</option></select>
+      <button class="btn btn-navy">Filter</button></form>
+    <ul class="ql">
+    {% for q in questions %}<li class="ql-row">
+      <span class="ql-id">#{{ q.id }}</span>
+      <div class="ql-main"><div class="ql-stem">{{ q.stem }}{% if q.has_image %} <span title="Has a figure">🖼</span>{% endif %}</div>
+        <div class="ql-meta"><span class="ql-ch">{{ q.chapter.title }}</span><span>{{ q.difficulty }}</span><span>Answer {{ q.correct }}</span>{% if q.source %}<span title="{{ q.source }}">{{ q.source[:34] }}{{ '…' if q.source|length > 34 }}{% if q.year %} ({{ q.year }}){% endif %}</span>{% endif %}</div></div>
+      <span class="pill {{ 'pub' if q.status == 'published' }}">{{ q.status }}</span>
+      <div class="ql-act"><a href="{{ url_for('pulse.admin_question', qid=q.id) }}">Edit</a>
+        <form method="post" action="{{ url_for('pulse.admin_question_op', qid=q.id, op='toggle') }}"><button class="btn btn-ghost">{{ 'Unpublish' if q.status == 'published' else 'Publish' }}</button></form>
+        <form method="post" action="{{ url_for('pulse.admin_question_op', qid=q.id, op='delete') }}" onsubmit="return confirm('Delete this question?')"><button class="btn btn-ghost">Delete</button></form></div>
+    </li>{% else %}<li class="ql-empty">No questions match. Clear the filters, load the starter bank or add one.</li>{% endfor %}
+    </ul>
+    {% if pages > 1 %}<nav class="ql-pager" aria-label="Question pages">
+      {% if page > 1 %}<a href="{{ url_for('pulse.admin_home', page=page-1, q=term or None, chapter=ch or None, level=level or None, status=status or None) }}#questions">&larr; Previous</a>{% endif %}
+      <span>Page {{ page }} of {{ pages }}</span>
+      {% if page < pages %}<a href="{{ url_for('pulse.admin_home', page=page+1, q=term or None, chapter=ch or None, level=level or None, status=status or None) }}#questions">Next &rarr;</a>{% endif %}</nav>{% endif %}
+  </div>
 
   <div class="card" id="students"><h2>Registered students &amp; reports</h2>
     <p class="hint">Digests go to the student, the parent (only with consent) and the linked mentor, from info@eduaakashaa.com. {% if not mail_ready %}<strong>Email sending is not configured on this server — nothing can be sent yet.</strong>{% endif %}</p>

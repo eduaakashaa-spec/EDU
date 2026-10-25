@@ -55,3 +55,21 @@ html[data-theme="dark"] .pl input, html[data-theme="dark"] .pl select, html[data
 .pl .pl-cta{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,#0A2560,#0E3A8A);color:#fff;border-radius:14px;padding:16px 20px;margin:16px 0}
 .pl .pl-cta h3,.pl .pl-cta p{color:#fff;margin:0}.pl .pl-cta p{opacity:.9;font-size:.92rem}
 .pl .pl-cta a.btn{background:#FF6B0A;color:#fff;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none}
+
+
+/* confidence level for practice answers */
+.pl-conf { margin: 12px 0 10px; padding: 12px 14px; border: 1px dashed var(--hl); border-radius: 14px; background: rgba(255,107,10,.04); }
+.pl-conf__t { font: 700 .86rem 'Plus Jakarta Sans', sans-serif; margin-bottom: 8px; }
+.pl-conf__g { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.pl-cf { display: block; cursor: pointer; }
+.pl-cf input { position: absolute; opacity: 0; pointer-events: none; }
+.pl-cf span { display: flex; flex-direction: column; gap: 1px; padding: 8px 10px; border: 1.5px solid var(--hl); border-radius: 12px; background: #fff; transition: border-color .15s, background .15s; }
+.pl-cf b { font-size: .88rem; color: var(--navy); } .pl-cf i { font-style: normal; font-size: .72rem; color: var(--muted); line-height: 1.3; }
+.pl-cf input:checked + span { border-color: var(--or); background: #FFF1E6; box-shadow: 0 0 0 2px rgba(255,107,10,.18); }
+.pl-cf input:focus-visible + span { outline: 2px solid var(--navy); outline-offset: 2px; }
+.pl-cf input:disabled + span { opacity: .45; cursor: not-allowed; }
+.pl-conf.on .pl-conf__n { display: none; } .pl-conf__n { font-size: .74rem; color: var(--muted); margin-top: 6px; }
+.pl-conf.need { border-color: var(--red); background: rgba(194,58,58,.06); }
+.pl-yconf { font-size: .8rem; margin-top: 8px; color: var(--navy); }
+@media (max-width: 640px) { .pl-conf__g { grid-template-columns: 1fr 1fr; } }
+html[data-theme="dark"] .pl-cf span { background: #121c3a; border-color: #26325a; } html[data-theme="dark"] .pl-cf b, html[data-theme="dark"] .pl-yconf { color: #E6E9F2; } html[data-theme="dark"] .pl-cf input:checked + span { background: #2A1E14; }

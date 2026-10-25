@@ -134,8 +134,17 @@ for n, (aid, corr, _e, _s) in enumerate(items):
         form[f'q{aid}'] = corr                              # 3 correct
     elif n == 3:
         form[f'q{aid}'] = wrongs[corr]                      # 1 wrong; the 5th is skipped
+# confidence is required for every answered question (server-side) and the practice page offers Guess / Low / Medium / High
+assert all(w in page for w in ('Guess', 'Low', 'Medium', 'High')) and 'name="c%d"' % items[0][0] in page
+r0 = s1.post(f'/edupulse-uceed/attempt/{AID}/submit', data=form, follow_redirects=True)
+assert 'Choose how confident you are' in r0.get_data(as_text=True)
+with app.app_context():
+    assert PulseAttempt.query.get(AID).submitted_at is None                         # nothing recorded until every answer has a confidence level
+for n, (aid, corr, _e, _s) in enumerate(items[:4]):
+    form[f'c{aid}'] = 'HHLG'[n]
 r = s1.post(f'/edupulse-uceed/attempt/{AID}/submit', data=form, follow_redirects=True)
 rp = r.get_data(as_text=True)
+assert 'Your confidence: <b>High</b>' in rp and 'Your confidence: <b>Guess</b>' in rp
 assert '3 of 5 correct' in rp and 'Why:' in rp and 'skipped 1' in rp and 'Accuracy on answered questions: <strong>75%' in rp
 with app.app_context():
     a = db.session.get(PulseAttempt, AID)
@@ -165,7 +174,7 @@ def do_set(client, chapter, correct_all, n=5):
     aid = int(r.headers['Location'].rstrip('/').split('/attempt/')[1])
     with app.app_context():
         rows = [(a.id, a.question.correct) for a in PulseAnswer.query.filter_by(attempt_id=aid)]
-    client.post(f'/edupulse-uceed/attempt/{aid}/submit', data={f'q{i}': (c if correct_all else wrongs[c]) for i, c in rows})
+    client.post(f'/edupulse-uceed/attempt/{aid}/submit', data={**{f'q{i}': (c if correct_all else wrongs[c]) for i, c in rows}, **{f'c{i}': 'M' for i, c in rows}})
     return aid
 do_set(s1, 'logic', False)                                   # 5 wrong in Logic → weak
 do_set(s1, 'awareness', True)                                # 5 right → strong

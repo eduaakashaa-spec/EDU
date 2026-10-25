@@ -108,6 +108,13 @@ class PulseAnswer(db.Model):
     question = db.relationship('PulseQuestion')
 
 
+class PulseAnswerConf(db.Model):
+    """How sure the student was about one practice answer: G guess, L low, M medium, H high. A separate table so existing databases need no migration."""
+    __tablename__ = 'pulse_answer_conf'
+    answer_id = db.Column(db.Integer, db.ForeignKey('pulse_answers.id', ondelete='CASCADE'), primary_key=True)
+    confidence = db.Column(db.String(1), nullable=False)
+
+
 class PulseMockResult(db.Model):
     """One finished UCEED mock-test attempt (a previous-year paper or an EduAakashaa practice paper), posted by the Mock Test Centre.
     `payload_json` keeps the per-question rows (answer, status, marks, confidence) so reports can be rebuilt without the paper."""

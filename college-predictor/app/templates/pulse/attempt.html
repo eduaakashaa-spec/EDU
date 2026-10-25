@@ -16,6 +16,15 @@
       {% for letter, text in q.options() %}
       <label class="pl-opt"><input type="radio" name="q{{ a.id }}" value="{{ letter }}"><b>{{ letter }}</b><span>{{ text }}</span></label>
       {% endfor %}
+      <div class="pl-conf" data-for="q{{ a.id }}" aria-live="polite">
+        <div class="pl-conf__t">How confident are you in this answer?</div>
+        <div class="pl-conf__g" role="radiogroup" aria-label="Confidence for question {{ loop.index }}">
+          {% for k, name, hint in (('G','Guess','I am guessing.'),('L','Low','I might be wrong.'),('M','Medium','Fairly sure.'),('H','High','I know this well.')) %}
+          <label class="pl-cf pl-cf-{{ k }}"><input type="radio" name="c{{ a.id }}" value="{{ k }}" disabled><span><b>{{ name }}</b><i>{{ hint }}</i></span></label>
+          {% endfor %}
+        </div>
+        <div class="pl-conf__n">Choose an answer first, then your confidence. Skip the question if you prefer; no confidence is needed then.</div>
+      </div>
       <button type="button" class="pl-btn g sm" data-clear="q{{ a.id }}">Clear answer</button>
     </div>
     {% endfor %}
@@ -23,6 +32,27 @@
   </form>
 </div>
 <script>
+(function () {
+  function sync(box) {
+    var name = box.dataset.for, answered = !!document.querySelector('input[name="' + name + '"]:checked');
+    box.querySelectorAll('input').forEach(function (i) { i.disabled = !answered; if (!answered) i.checked = false; });
+    box.classList.toggle('on', answered);
+  }
+  document.querySelectorAll('.pl-conf').forEach(function (box) {
+    sync(box);
+    document.querySelectorAll('input[name="' + box.dataset.for + '"]').forEach(function (i) { i.addEventListener('change', function () { sync(box); }); });
+  });
+  document.querySelectorAll('[data-clear]').forEach(function (b) { b.addEventListener('click', function () { var box = document.querySelector('.pl-conf[data-for="' + b.dataset.clear + '"]'); if (box) sync(box); }); });
+  document.getElementById('pl-form').addEventListener('submit', function (e) {
+    var bad = null;
+    document.querySelectorAll('.pl-conf').forEach(function (box) {
+      var answered = document.querySelector('input[name="' + box.dataset.for + '"]:checked'), c = box.querySelector('input:checked');
+      box.classList.toggle('need', !!answered && !c);
+      if (answered && !c && !bad) bad = box;
+    });
+    if (bad) { e.preventDefault(); bad.scrollIntoView({ behavior: 'smooth', block: 'center' }); alert('Please choose your confidence level (Guess, Low, Medium or High) for every question you answered.'); }
+  });
+})();
 document.querySelectorAll('[data-clear]').forEach(function (b) { b.addEventListener('click', function () { document.querySelectorAll('input[name="' + b.dataset.clear + '"]').forEach(function (i) { i.checked = false; }); }); });
 (function () {
   var t = document.getElementById('pl-timer'); if (!t) return;
