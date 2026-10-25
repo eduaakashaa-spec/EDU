@@ -321,21 +321,21 @@
       </div>
     </div>
 
-    <p class="content-text">Enter your HSC (+2) marks out of 200 each. Formula: <strong>Cutoff = (Mathematics ÷ 2) + (Physics ÷ 4) + (Chemistry ÷ 4)</strong>. Max = 200.</p>
+    <p class="content-text">Enter your HSC (+2) marks out of 100 in each subject. Formula: <strong>Cutoff = Mathematics + (Physics ÷ 2) + (Chemistry ÷ 2)</strong>. Max = 200 (Maths 100 + Physics 50 + Chemistry 50).</p>
 
     <div class="anna-calc">
       <div class="calc-inputs">
         <div class="form-group">
-          <label for="annaMaths">Mathematics (out of 200)</label>
-          <input type="number" id="annaMaths" min="0" max="200" value="180">
+          <label for="annaMaths">Mathematics (out of 100)</label>
+          <input type="number" id="annaMaths" min="0" max="100" step="0.01" value="90">
         </div>
         <div class="form-group">
-          <label for="annaPhysics">Physics (out of 200)</label>
-          <input type="number" id="annaPhysics" min="0" max="200" value="170">
+          <label for="annaPhysics">Physics (out of 100)</label>
+          <input type="number" id="annaPhysics" min="0" max="100" step="0.01" value="85">
         </div>
         <div class="form-group">
-          <label for="annaChemistry">Chemistry (out of 200)</label>
-          <input type="number" id="annaChemistry" min="0" max="200" value="160">
+          <label for="annaChemistry">Chemistry (out of 100)</label>
+          <input type="number" id="annaChemistry" min="0" max="100" step="0.01" value="80">
         </div>
       </div>
       <div class="calc-result" id="annaCalcResult">
@@ -389,10 +389,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const result = document.getElementById('annaCutoffValue');
 
   function calc() {
-    const m = Math.min(200, Math.max(0, parseFloat(maths.value) || 0));
-    const p = Math.min(200, Math.max(0, parseFloat(physics.value) || 0));
-    const c = Math.min(200, Math.max(0, parseFloat(chemistry.value) || 0));
-    const cutoff = (m / 2) + (p / 4) + (c / 4);
+    // HSC marks are out of 100 per subject; official normalisation: Maths 100 + Physics 50 + Chemistry 50 = 200
+    const clamp = el => Math.min(100, Math.max(0, parseFloat(el.value) || 0));
+    const cutoff = clamp(maths) + clamp(physics) / 2 + clamp(chemistry) / 2;
     result.textContent = cutoff.toFixed(2);
   }
 
