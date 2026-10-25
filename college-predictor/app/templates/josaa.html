@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Josaa | EduAakashaA{% endblock %}
+{% block title %}JoSAA College Predictor &amp; Analytics | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/josaa.css') }}">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
@@ -7,13 +7,22 @@
 
 {% block content %}
 <div class="ported ported-josaa">
+<div class="dg-alert" role="note">
+  <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+  <div class="dg-alert__body">
+    <strong>This page uses JoSAA 2025 data.</strong>
+    For the latest 2026&ndash;27 admission data and analytics, join Premium Membership.
+    {% if current_user.is_authenticated and current_user.is_premium %}
+    <br><a class="dg-alert__cta" href="{{ url_for('main.josaa_ea_members') }}">Open JoSAA members insights &rarr;</a>
+    {% else %}
+    <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+    {% endif %}
+  </div>
+</div>
 {% raw %}
 
 
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>EduAakashaa — JOSAA 2025 College Predictor</title>
 
 
 
