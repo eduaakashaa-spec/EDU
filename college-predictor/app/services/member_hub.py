@@ -33,18 +33,22 @@ CATEGORIES = [
          {'title': 'DASA 2026 Analytics', 'desc': 'Round-wise closing-rank analytics.', 'icon': '📈', 'endpoint': 'main.dasa_2026_analytics', 'access': 'premium'},
          {'title': 'DASA prediction report', 'desc': 'Personalised DASA / CIWG outlook.', 'icon': '🔮', 'endpoint': 'main.dasa_prediction_report', 'access': 'premium'},
          {'title': 'JoSAA EA members', 'desc': 'Members-only JoSAA insights.', 'icon': '🇮🇳', 'endpoint': 'main.josaa_ea_members', 'access': 'premium'},
-         {'title': 'EduPulse-UCEED', 'desc': 'Chapter-wise MCQ practice with progress reports for you, your parent and mentor.', 'icon': '🎯', 'endpoint': 'pulse.home', 'access': 'premium'},
-         {'title': 'EduPulse mentor view', 'desc': 'Progress of students practising UCEED.', 'icon': '📈', 'endpoint': 'pulse.mentor_home', 'access': 'premium', 'staff': True},
-         {'title': 'EduPulse – Reinforcement', 'desc': 'Short daily practice from your mentor with a confidence check on every answer.', 'icon': '🔁', 'endpoint': 'reinforce.home', 'access': 'premium'},
-         {'title': 'Reinforcement mentor view', 'desc': 'Assign daily practice, see chapter-wise strengths and confidence patterns, approve next steps.', 'icon': '🧭', 'endpoint': 'reinforce.mentor_home', 'access': 'premium', 'staff': True},
-         {'title': 'EduPulse-JEE Mock Test Centre', 'desc': 'JEE Main mocks in the 2027 pattern with a confidence check, negative-marking tracker and reports.', 'icon': '🧮', 'endpoint': 'pulse_jee.home', 'access': 'premium'},
-         {'title': 'UCEED Mock Test Centre', 'desc': 'Previous-year papers 2018–2026 and EduAakashaA mocks, timed or practice, with a confidence check and reports.', 'icon': '📝', 'endpoint': 'pulse.mock_home', 'access': 'premium'},
          {'title': 'UCEED 2027 Roadmap', 'desc': 'Design-entrance plan, planner and B.Des admission guide.', 'icon': '✏️', 'endpoint': 'main.uceed_2027_roadmap', 'access': 'premium'},
          {'title': 'Law Entrance 2027 Roadmap', 'desc': 'CLAT, AILET and SLAT plan, planner and law-school guide.', 'icon': '⚖️', 'endpoint': 'main.law_2027_roadmap', 'access': 'premium'},
          {'title': 'IPM 2027 Roadmap', 'desc': 'IIM five-year IPM: IPMAT, JIPMAT, planner and admission steps.', 'icon': '🏫', 'endpoint': 'main.ipm_2027_roadmap', 'access': 'premium'},
          {'title': 'JEE 2027 Roadmap', 'desc': 'The exam process, mapped step by step.', 'icon': '🗺️', 'endpoint': 'main.jee_2027_roadmap', 'access': 'premium'},
          {'title': 'TNEA expert', 'desc': 'Tamil Nadu engineering counselling guide.', 'icon': '🎓', 'endpoint': 'main.tnea_expert', 'access': 'premium'},
          {'title': 'Members report', 'desc': 'Reports prepared for members.', 'icon': '📑', 'endpoint': 'main.members_report', 'access': 'premium'},
+     ]},
+    {'key': 'edupulse', 'title': 'EduPulse AI Tools', 'icon': '🧠', 'color': '#EA580C', 'tint': '#FFEBDD',
+     'blurb': 'Daily reinforcement, mock tests and previous-year papers with a confidence check on every answer.',
+     'tiles': [
+         {'title': 'EduPulse – Reinforcement', 'desc': 'Short daily practice from your mentor with a confidence check on every answer.', 'icon': '🔁', 'endpoint': 'reinforce.home', 'access': 'premium'},
+         {'title': 'EduPulse-UCEED', 'desc': 'Chapter-wise MCQ practice with progress reports for you, your parent and mentor.', 'icon': '🎯', 'endpoint': 'pulse.home', 'access': 'premium'},
+         {'title': 'UCEED Mock Test Centre', 'desc': 'Previous-year papers 2018–2026 and EduAakashaA mocks, timed or practice, with a confidence check and reports.', 'icon': '📝', 'endpoint': 'pulse.mock_home', 'access': 'premium'},
+         {'title': 'EduPulse-JEE Mock Test Centre', 'desc': 'JEE Main mocks in the 2027 pattern with a confidence check, negative-marking tracker and reports.', 'icon': '🧮', 'endpoint': 'pulse_jee.home', 'access': 'premium'},
+         {'title': 'Reinforcement mentor view', 'desc': 'Assign daily practice, see chapter-wise strengths and confidence patterns, approve next steps.', 'icon': '🧭', 'endpoint': 'reinforce.mentor_home', 'access': 'premium', 'staff': True},
+         {'title': 'EduPulse mentor view', 'desc': 'Progress of students practising UCEED.', 'icon': '📈', 'endpoint': 'pulse.mentor_home', 'access': 'premium', 'staff': True},
      ]},
     {'key': 'gulf', 'title': 'Engineering in Gulf', 'icon': '🌴', 'color': '#0F766E', 'tint': '#E0F5F1', 'img': 'gulf.svg',
      'blurb': 'Routes, exams and guides for studying engineering in the UAE and the Gulf.',
@@ -86,7 +90,7 @@ CATEGORIES = [
 
 
 # ---- presentation metadata for the dashboard (icons, labels, "New" window). Not business logic: access rules stay in each tile's `access`. ----
-CATEGORY_ICON = {'journey': 'route', 'mentorship': 'cap', 'intel': 'bar', 'gulf': 'globe', 'tools': 'sliders', 'insights': 'bulb', 'free': 'download', 'support': 'life-buoy'}
+CATEGORY_ICON = {'journey': 'route', 'mentorship': 'cap', 'intel': 'bar', 'edupulse': 'target', 'gulf': 'globe', 'tools': 'sliders', 'insights': 'bulb', 'free': 'download', 'support': 'life-buoy'}
 TILE_ICON = {
     'Profile & sessions': 'user', 'Document verification': 'file-check', 'My assessments': 'clipboard', 'Stream selection': 'compass',
     'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'FutureReady (Class 8–9)': 'compass', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',
