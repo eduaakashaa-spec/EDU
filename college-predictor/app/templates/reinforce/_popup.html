@@ -1,0 +1,26 @@
+{# EduPulse daily reinforcement popup, included on Member Home. Shows only for pending, un-snoozed assignments; nothing for completed work. #}
+{% set pp = rf_popup() %}
+{% if pp %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/reinforce.css') }}">
+<div class="rf-modal" id="rf-popup" role="dialog" aria-modal="true" aria-labelledby="rf-pop-t">
+  <div class="rf-pop">
+    <span class="tag">EduPulse · Daily Reinforcement</span>
+    <h2 id="rf-pop-t">Small steps today. Stronger concepts tomorrow.</h2>
+    <ul>
+      <li><span>Today's questions</span><b>{{ pp.questions }}</b></li>
+      <li><span>Estimated time</span><b>about {{ pp.minutes }} min</b></li>
+      <li><span>Focus</span><b>{{ pp.focus }}</b></li>
+      <li><span>Assigned by</span><b>{{ pp.mentor }}</b></li>
+      {% if pp.a.due_at %}<li><span>Due</span><b>{{ pp.a.due_at|ist }}</b></li>{% endif %}
+      <li><span>Progress</span><b>{{ 'Not started' if pp.status == 'not_started' else 'In progress' }}</b></li>
+    </ul>
+    {% if pp.count > 1 %}<p class="rf-muted">You have {{ pp.count }} assignments waiting. This is the first one.</p>{% endif %}
+    <div class="acts">
+      <a class="rf-btn" href="{{ url_for('reinforce.do', asid=pp.asg.id) }}">{{ 'Start Today\'s Practice' if pp.status == 'not_started' else 'Continue practice' }}</a>
+      {% if pp.dismissible %}<form method="post" action="{{ url_for('reinforce.remind', asid=pp.asg.id) }}" style="display:inline"><input type="hidden" name="next" value="{{ request.path }}"><button class="rf-btn ghost">Remind me later</button></form>
+      {% else %}<button type="button" class="rf-btn ghost" onclick="document.getElementById('rf-popup').hidden=true">Close for now</button>{% endif %}
+    </div>
+    <p class="rf-muted" style="margin:12px 0 0">If you close this, your pending practice stays on your dashboard.</p>
+  </div>
+</div>
+{% endif %}

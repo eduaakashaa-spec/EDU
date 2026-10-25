@@ -1,0 +1,25 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}Students{% endblock %}
+{% block rf_body %}
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2 style="margin:0">Student overview</h2><a class="rf-btn" href="{{ url_for('reinforce.assign') }}">＋ Assign practice</a></div>
+{% if notices %}<div style="margin-top:12px">{% for n in notices %}<div class="rf-notice">🔔 <span>{% if n.url %}<a href="{{ n.url }}">{{ n.text }}</a>{% else %}{{ n.text }}{% endif %} <span class="rf-muted">{{ n.created_at|ist }}</span></span></div>{% endfor %}
+  <form method="post" action="{{ url_for('reinforce.notices_read') }}"><button class="rf-btn sm ghost">Mark read</button></form></div>{% endif %}
+<form method="get" class="rf-form pl-card" style="margin-top:14px;padding:12px 16px"><div class="row" style="align-items:end">
+  <div><label for="q">Search</label><input id="q" type="text" name="q" value="{{ f.q }}" placeholder="Name, email or member ID (EA…)"></div>
+  <div><label for="exam">Exam</label><select id="exam" name="exam"><option value="">All</option><option {{ 'selected' if f.exam=='UCEED' }}>UCEED</option><option {{ 'selected' if f.exam=='JEE' }}>JEE</option></select></div>
+  <div><label for="grp">Group</label><select id="grp" name="group"><option value="">All</option>{% for g in groups %}<option {{ 'selected' if f.group==g }}>{{ g }}</option>{% endfor %}</select></div>
+  <div><label for="st">Assignment status</label><select id="st" name="status"><option value="">All</option>{% for k,l in (('overdue','Overdue'),('pending','Pending'),('clear','Nothing pending')) %}<option value="{{ k }}" {{ 'selected' if f.status==k }}>{{ l }}</option>{% endfor %}</select></div>
+  {% if current_user.is_admin %}<div><label for="mn">Mentor</label><select id="mn" name="mentor"><option value="">All</option>{% for m in mentors %}<option value="{{ m.id }}" {{ 'selected' if f.mentor==m.id }}>{{ m.name }}</option>{% endfor %}</select></div>{% endif %}
+  <div><button class="rf-btn alt">Filter</button></div></div></form>
+<div class="pl-card rf-scroll" style="margin-top:14px">
+{% if rows %}<table class="pl-tbl"><thead><tr><th>Student</th><th>Track</th><th>Status</th><th>Answered</th><th>Accuracy</th><th>Trend</th><th>Needs attention</th><th>Last active</th></tr></thead><tbody>
+{% for r in rows %}{% set s = r.rs %}<tr>
+  <td><a href="{{ url_for('reinforce.mentor_student', rsid=s.id) }}"><strong>{{ s.user.name }}</strong></a>{% if s.demo %} <span class="rf-pill pending">Demo</span>{% endif %}<div class="rf-muted">EA{{ s.user_id }} · {{ s.grade or '' }}{{ ' · ' ~ s.group_name if s.group_name }}{% if current_user.is_admin and s.mentor %} · {{ s.mentor.name }}{% endif %}</div></td>
+  <td>{{ s.exam }}</td>
+  <td><span class="rf-pill {{ r.status }}">{{ {'overdue':'Overdue','pending':'Pending','clear':'Nothing pending'}[r.status] }}</span>{% if r.pend %}<div class="rf-muted">{{ r.pend[0].assignment.title[:30] }}</div>{% endif %}</td>
+  <td>{{ r.sm.n }}</td><td>{{ r.sm.accuracy ~ '%' if r.sm.accuracy is not none else '—' }}</td>
+  <td>{% if r.sm.trend %}<div class="rf-spark" style="height:28px;width:70px">{% for v in r.sm.trend %}<i style="height:{{ [3, (v or 0) * 0.28]|max }}px"></i>{% endfor %}</div>{% else %}—{% endif %}</td>
+  <td>{% for c in r.sm.revisit[:2] %}<span class="rf-pill {{ c.status }}" title="{{ rf_mlabel[c.status] }}">{{ c.chapter[:22] }}</span> {% else %}—{% endfor %}</td>
+  <td>{{ r.sm.last|ist('%d %b') if r.sm.last else 'Not started' }}</td></tr>{% endfor %}</tbody></table>
+{% else %}<p style="margin:0">No students match. Add students on the <a href="{{ url_for('reinforce.mentor_students') }}">Roster</a> page.</p>{% endif %}</div>
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}Not set up yet{% endblock %}
+{% block rf_body %}
+<div class="pl-card" style="margin-top:14px"><h3>EduPulse – Reinforcement is not set up for you yet</h3>
+<p>Your EduAakashaA mentor chooses who receives daily reinforcement practice and assigns the first set. Ask your mentor to add you, or write to <a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a>.</p>
+{% if parent_view %}{% endif %}
+<p><a class="rf-btn ghost" href="{{ url_for('reinforce.parent_list') }}">I am a parent: open my child's report</a></p></div>
+{% endblock %}

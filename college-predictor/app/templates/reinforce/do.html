@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ a.title }} | EduPulse – Reinforcement{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='css/reinforce.css') }}">{% endblock %}
+{% block content %}
+<div class="rf-do">
+  <p class="rf-muted" style="margin:0 0 6px"><a href="{{ url_for('reinforce.home') }}">&larr; My reinforcement</a> · {{ a.title }}</p>
+  <div id="rf-app" data-api="{{ url_for('reinforce.api_asg', asid=x.id) }}" data-home="{{ url_for('reinforce.home') }}" data-conf='{{ CONF|tojson }}'><p class="rf-muted">Loading your questions…</p></div>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/reinforce.js') }}"></script>{% endblock %}

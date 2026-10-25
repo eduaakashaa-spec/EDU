@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{% block rf_title %}Reinforcement{% endblock %} | EduPulse – Reinforcement | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}"><link rel="stylesheet" href="{{ url_for('static', filename='css/reinforce.css') }}">{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('reinforce.home') }}">EduPulse – Reinforcement</a>{% block rf_crumb %}{% endblock %}</div>
+  {% if current_user.is_staff %}
+  {% set ep = request.endpoint %}
+  <nav class="rf-nav" aria-label="Reinforcement sections">
+    <a href="{{ url_for('reinforce.mentor_home') }}" class="{{ 'on' if ep in ('reinforce.mentor_home','reinforce.mentor_student') }}">Students</a>
+    <a href="{{ url_for('reinforce.assign') }}" class="{{ 'on' if ep=='reinforce.assign' }}">Assign practice</a>
+    <a href="{{ url_for('reinforce.assignments') }}" class="{{ 'on' if ep in ('reinforce.assignments','reinforce.assignment') }}">Assignments</a>
+    <a href="{{ url_for('reinforce.bank') }}" class="{{ 'on' if ep in ('reinforce.bank','reinforce.bank_edit') }}">Question bank</a>
+    <a href="{{ url_for('reinforce.mentor_students') }}" class="{{ 'on' if ep=='reinforce.mentor_students' }}">Roster</a>
+    {% if current_user.is_admin %}<a href="{{ url_for('reinforce.admin') }}" class="{{ 'on' if ep=='reinforce.admin' }}">Admin</a>{% endif %}
+  </nav>
+  {% endif %}
+  {% block rf_body %}{% endblock %}
+</div>
+{% endblock %}

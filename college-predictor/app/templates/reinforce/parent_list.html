@@ -1,0 +1,7 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}Progress reports{% endblock %}
+{% block rf_body %}
+<div class="pl-card" style="margin-top:14px"><h3>Progress reports</h3>
+{% if rows %}<ul>{% for s in rows %}<li><a href="{{ url_for('reinforce.parent', rsid=s.id) }}">{{ s.user.name }}</a></li>{% endfor %}</ul>
+{% else %}<p>No reports are shared with this account. Reports appear here when your child's mentor has switched parent reports on and your account is linked to your child's record.</p>{% endif %}</div>
+{% endblock %}

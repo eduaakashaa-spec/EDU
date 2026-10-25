@@ -1,0 +1,18 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}Report: {{ rs.user.name }}{% endblock %}
+{% block rf_body %}
+{% if rs.demo %}<div class="rf-demo" role="note">DEMONSTRATION: sample student and sample data.</div>{% endif %}
+<section class="pl-hero"><div><span class="pl-chip">{{ 'Monthly' if r.days > 7 else 'Weekly' }} report · EduPulse – Reinforcement</span><h1>{{ rs.user.name }}</h1>
+  <p>Short daily practice with a confidence check on each answer. This report shows effort, progress and what the mentor is working on, in plain language.</p>
+  <p><a class="rf-btn ghost" style="color:#fff!important;border-color:#fff" href="{{ url_for('reinforce.parent', rsid=rs.id, period='week') }}">Last 7 days</a> <a class="rf-btn ghost" style="color:#fff!important;border-color:#fff" href="{{ url_for('reinforce.parent', rsid=rs.id, period='month') }}">Last 30 days</a></p></div>
+  <div class="pl-kpis"><div class="pl-kpi"><b>{{ r.questions }}</b><span>questions practised{{ ' (previous: ' ~ r.prev_questions ~ ')' }}</span></div>
+    <div class="pl-kpi"><b>{{ r.days_active }}</b><span>days practised</span></div>
+    <div class="pl-kpi"><b>{{ r.accuracy ~ '%' if r.accuracy is not none else '—' }}</b><span>accuracy{{ ' (previous: ' ~ r.prev_accuracy ~ '%)' if r.prev_accuracy is not none }}</span></div></div></section>
+<div class="pl-grid pl-g2">
+  <div class="pl-card"><h3>Strengths building</h3>{% for c in r.strengths %}<p><b>{{ c.chapter }}</b> <span class="rf-pill {{ c.status }}">{{ rf.STATUS_LABEL[c.status] }}</span></p>{% else %}<p class="rf-muted">Not enough practice yet to show strengths with confidence.</p>{% endfor %}</div>
+  <div class="pl-card"><h3>Being worked on</h3>{% for c in r.gaps %}<p><b>{{ c.chapter }}</b> <span class="rf-pill {{ c.status }}">{{ rf.STATUS_LABEL[c.status] }}</span></p>{% else %}<p class="rf-muted">No chapter currently flagged.</p>{% endfor %}</div>
+</div>
+{% if r.lines %}<div class="pl-card" style="margin-top:12px"><h3>In plain words</h3><ul>{% for l in r.lines %}<li>{{ l }}</li>{% endfor %}</ul></div>{% endif %}
+{% if r.notes %}<div class="pl-card" style="margin-top:12px"><h3>Notes from the mentor</h3>{% for o in r.notes %}<p>{{ o.body }}<br><span class="rf-muted">{{ o.created_at|ist('%d %b') }}</span></p>{% endfor %}</div>{% endif %}
+<p class="rf-muted" style="margin-top:12px">These figures describe practice answers over a short period. They are signals for the mentor's planning, not a prediction of exam results.</p>
+{% endblock %}

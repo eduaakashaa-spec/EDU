@@ -1,0 +1,15 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}{{ a.title }}{% endblock %}
+{% block rf_crumb %} › <a href="{{ url_for('reinforce.assignments') }}">Assignments</a> › {{ a.title }}{% endblock %}
+{% block rf_body %}
+<h2 style="margin:0 0 4px">{{ a.title }}</h2>
+<p class="rf-muted" style="margin:0 0 10px">{{ a.exam }} · {{ a.subject or 'Any subject' }}{{ ' · ' ~ a.chapter if a.chapter }} · {{ a.n_questions }} questions · popup {{ a.popup }} · answers released {{ a.release.replace('_', ' ') }}{{ ' (' ~ a.release_at|ist ~ ')' if a.release_at }} · status {{ a.status }}{% if a.due_at %} · due {{ a.due_at|ist }}{% endif %}</p>
+{% if a.objective %}<p>{{ a.objective }}</p>{% endif %}
+<form method="post" style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0">
+  <button class="rf-btn sm" name="do" value="release">Release answers now</button>
+  <button class="rf-btn sm ghost" name="do" value="close">Close</button>
+  <button class="rf-btn sm ghost" name="do" value="cancel">Cancel</button>
+  <a class="rf-btn sm ghost" href="{{ url_for('reinforce.assign', **{'from': a.id}) }}">Duplicate</a></form>
+<div class="pl-card rf-scroll"><table class="pl-tbl"><thead><tr><th>Student</th><th>Status</th><th>Answered</th><th>Correct</th><th>High-confidence wrong</th></tr></thead><tbody>
+{% for s in st %}{% set k = stats[s.id] %}<tr><td><a href="{{ url_for('reinforce.mentor_student', rsid=s.student_id) }}">{{ s.student.user.name }}</a></td><td><span class="rf-pill {{ 'strong' if s.status=='completed' else 'pending' }}">{{ s.status.replace('_', ' ') }}</span></td><td>{{ k.n }}</td><td>{{ k.right }}</td><td>{{ k.high_wrong or '—' }}</td></tr>{% else %}<tr><td colspan="5" class="rf-muted">No students.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

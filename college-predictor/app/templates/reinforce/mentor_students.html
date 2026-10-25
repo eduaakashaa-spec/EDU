@@ -1,0 +1,23 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}Roster{% endblock %}
+{% block rf_body %}
+<h2 style="margin:0 0 10px">Roster</h2>
+<div class="pl-grid pl-g2">
+  <form method="post" class="pl-card rf-form"><input type="hidden" name="do" value="add"><h3>Add a student</h3><p>The student must already have an account.</p>
+    <label for="em">Student email</label><input id="em" type="email" name="email" required>
+    <div class="row"><div><label>Exam track</label><select name="exam"><option>JEE</option><option>UCEED</option></select></div><div><label>Grade</label><input type="text" name="grade" maxlength="20" placeholder="Class 12"></div><div><label>Group (optional)</label><input type="text" name="group" maxlength="60"></div></div>
+    {% if current_user.is_admin %}<label>Mentor</label><select name="mentor_id">{% for m in mentors %}<option value="{{ m.id }}" {{ 'selected' if m.id == current_user.id }}>{{ m.name }}</option>{% endfor %}</select>{% endif %}
+    <p><button class="rf-btn">Add student</button></p></form>
+  <form method="post" class="pl-card"><input type="hidden" name="do" value="import"><h3>Import my students</h3><p>Brings in students already linked to you in the Mentorship Portal and EduPulse-UCEED, without creating duplicate accounts.</p><button class="rf-btn alt">Import</button></form>
+</div>
+<div class="pl-card rf-scroll" style="margin-top:16px"><h3>Students on the roster ({{ students|length }})</h3>
+{% for s in students %}<form method="post" class="rf-form" style="border-top:1px solid #E8DFC8;padding:8px 0"><input type="hidden" name="do" value="update"><input type="hidden" name="id" value="{{ s.id }}">
+  <div class="row" style="align-items:end"><div><strong>{{ s.user.name }}</strong>{% if s.demo %} <span class="rf-pill pending">Demo</span>{% endif %}<div class="rf-muted">{{ s.user.email }}</div></div>
+    <div><label>Exam</label><select name="exam"><option {{ 'selected' if s.exam=='JEE' }}>JEE</option><option {{ 'selected' if s.exam=='UCEED' }}>UCEED</option></select></div>
+    <div><label>Grade</label><input type="text" name="grade" maxlength="20" value="{{ s.grade or '' }}"></div>
+    <div><label>Group</label><input type="text" name="group" maxlength="60" value="{{ s.group_name or '' }}"></div>
+    {% if current_user.is_admin %}<div><label>Mentor</label><select name="mentor_id">{% for m in mentors %}<option value="{{ m.id }}" {{ 'selected' if m.id == s.mentor_id }}>{{ m.name }}</option>{% endfor %}</select></div>{% endif %}
+    <div><label class="chk"><input type="checkbox" name="parent_report" {{ 'checked' if s.parent_report }}> Parent report on</label><label class="chk"><input type="checkbox" name="remove"> Remove</label></div>
+    <div><button class="rf-btn sm">Save</button></div></div></form>{% else %}<p>No students yet.</p>{% endfor %}
+<p class="rf-muted">A parent can read the weekly report only when "Parent report on" is ticked and their account is linked to the student in the Mentorship Portal or FutureReady.</p></div>
+{% endblock %}

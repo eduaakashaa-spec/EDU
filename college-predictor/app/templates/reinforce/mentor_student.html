@@ -1,0 +1,61 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}{{ rs.user.name }}{% endblock %}
+{% block rf_crumb %} › <a href="{{ url_for('reinforce.mentor_home') }}">Students</a> › {{ rs.user.name }}{% endblock %}
+{% block rf_body %}
+{% if rs.demo %}<div class="rf-demo" role="note">DEMONSTRATION: sample student and sample data.</div>{% endif %}
+<section class="pl-hero">
+  <div><span class="pl-chip">{{ rs.exam }} · {{ rs.grade or 'Student' }}{{ ' · ' ~ rs.group_name if rs.group_name }}</span><h1>{{ rs.user.name }}</h1><p>EA{{ rs.user_id }} · mentor {{ rs.mentor.name if rs.mentor else '—' }} · last activity {{ sm.last|ist('%d %b %Y') if sm.last else 'none yet' }}.</p>
+    <p style="margin-top:10px"><a class="rf-btn" href="{{ url_for('reinforce.assign', student=rs.id) }}">Assign practice</a> <a class="rf-btn ghost" style="color:#fff!important;border-color:#fff" href="{{ url_for('reinforce.parent', rsid=rs.id) }}">Parent report preview</a></p></div>
+  <div class="pl-kpis"><div class="pl-kpi"><b>{{ sm.n }}</b><span>answers (all time)</span></div><div class="pl-kpi"><b>{{ sm.accuracy ~ '%' if sm.accuracy is not none else '—' }}</b><span>accuracy</span></div>
+    <div class="pl-kpi"><b>{{ sm.streak }}</b><span>day streak</span></div><div class="pl-kpi"><b>{{ sm.pending }}</b><span>pending</span></div></div>
+</section>
+
+<h2 style="margin:22px 0 4px">Chapter-wise performance</h2>
+<p class="rf-muted" style="margin:0 0 8px">Status rules: at least {{ settings.min_distinct|int }} different questions before any judgement (otherwise "Insufficient data"); "strong" also needs {{ settings.min_sessions|int }}+ sessions, ≥{{ settings.strong_accuracy|int }}% accuracy and a correct re-check after {{ settings.retention_days|int }}+ days. Thresholds are set by the administrator. Percentages show their sample size.</p>
+<div class="pl-card rf-scroll"><table class="pl-tbl"><thead><tr><th>Chapter</th><th>Attempted</th><th>Accuracy</th><th>Confidence pattern (G / L / M / H)</th><th>High-conf. error rate</th><th>Status</th><th></th></tr></thead><tbody>
+{% for c in sm.chapters %}{% set m = c.conf.m %}<tr><td><a href="{{ url_for('reinforce.mentor_student', rsid=rs.id, subject=c.subject, chapter=c.chapter) }}#drill"><strong>{{ c.chapter }}</strong></a><div class="rf-muted">{{ c.subject }}</div></td>
+  <td>{{ c.attempted }} <span class="rf-muted">({{ c.facts.distinct }} distinct)</span></td>
+  <td>{% if c.facts.accuracy is not none %}{{ c.facts.accuracy }}% <span class="rf-muted">n={{ c.facts.n }}</span>{% endif %}{% if c.facts.recent_acc is not none and c.facts.earlier_acc is not none %}<div class="rf-muted">recent {{ c.facts.recent_acc }}% vs earlier {{ c.facts.earlier_acc }}%</div>{% endif %}</td>
+  <td>{{ m.G.right + m.G.wrong }} / {{ m.L.right + m.L.wrong }} / {{ m.M.right + m.M.wrong }} / {{ m.H.right + m.H.wrong }}</td>
+  <td>{{ c.conf.high_error_rate ~ '%' if c.conf.high_error_rate is not none else '—' }} <span class="rf-muted">of {{ c.conf.high_n }} High</span></td>
+  <td><span class="rf-pill {{ c.status }}">{{ rf_mlabel[c.status] }}</span></td>
+  <td><a class="rf-btn sm ghost" href="{{ url_for('reinforce.mentor_student', rsid=rs.id, subject=c.subject, chapter=c.chapter) }}#drill">Drill down</a></td></tr>
+{% else %}<tr><td colspan="7" class="rf-muted">Not assessed yet: no answers recorded.</td></tr>{% endfor %}</tbody></table></div>
+
+<div class="pl-grid pl-g2">
+  <div class="pl-card"><span class="pl-eyebrow">EduPulse Intelligence</span><h3>Four learning patterns (all answers)</h3>
+    <div class="rf-quad">{% for k in ('P1','P2','P3','P4') %}<div><b>{{ sm.conf.pattern[k] }}</b><strong>{{ PATTERNS[k][0] }}</strong><div class="rf-muted" style="font-size:.8rem">{{ PATTERNS[k][1] }}</div></div>{% endfor %}</div>
+    <p class="rf-muted" style="margin-top:8px">Medium confidence: {{ sm.conf.pattern.M_right }} right, {{ sm.conf.pattern.M_wrong }} wrong (kept as an intermediate band). Rates: high-confidence error rate = wrong High ÷ all High answers ({{ sm.conf.high_error_rate ~ '%' if sm.conf.high_error_rate is not none else '—' }}, n={{ sm.conf.high_n }}); share of correct answers rated Guess/Low = {{ sm.conf.low_correct_share ~ '%' if sm.conf.low_correct_share is not none else '—' }}. These are signals over repeated answers, not definitive judgments.</p></div>
+  <div class="pl-card"><span class="pl-eyebrow">Existing mock tests</span><h3>Evidence from the mock centres</h3>
+    {% if mocks and (mocks.jee.attempts or mocks.uceed.attempts) %}<p>JEE mocks: {{ mocks.jee.attempts }}{% if mocks.jee.avg_pct is not none %} (average {{ mocks.jee.avg_pct }}%, avoidable attempts {{ mocks.jee.avoidable_rate }}%){% endif %}.</p>
+      <p>UCEED mocks: {{ mocks.uceed.attempts }}{% if mocks.uceed.avg_pct is not none %} (average {{ mocks.uceed.avg_pct }}%, sure-but-wrong {{ mocks.uceed.sure_wrong_rate }}%){% endif %}.</p>
+      <p class="rf-muted">Open the <a href="{{ url_for('pulse.mentor_student', uid=rs.user_id) }}">EduPulse mentor view</a> for the mock reports. Mock results are shown beside, not mixed into, reinforcement statistics.</p>
+    {% else %}<p>No mock tests recorded yet.</p>{% endif %}</div>
+</div>
+
+{% if chapter %}<div class="pl-card" id="drill" style="margin-top:16px"><span class="pl-eyebrow">Drill-down</span><h3>{{ subject }} › {{ chapter }}{{ ' › ' ~ topic if topic }}</h3>
+  {% if topics %}<p>Topics: {% for t, v in topics.items() %}<a class="rf-pill {{ 'strong' if v[1]/v[0] >= 0.8 else 'revise' if v[1]/v[0] < 0.5 else 'developing' }}" href="{{ url_for('reinforce.mentor_student', rsid=rs.id, subject=subject, chapter=chapter, topic=t) }}#drill">{{ t }}: {{ v[1] }}/{{ v[0] }}</a> {% endfor %}</p>{% endif %}
+  <div class="rf-scroll"><table class="pl-tbl"><thead><tr><th>When</th><th>Question</th><th>Result</th><th>Confidence</th><th>Pattern</th><th>Time</th></tr></thead><tbody>
+  {% for a in drill %}{% set p = pattern_of(a.correct, a.confidence) %}<tr><td>{{ a.answered_at|ist('%d %b') }}</td><td>{{ a.qid }} <span class="rf-muted">{{ a.topic }} · {{ rf.DIFF_LABEL.get(a.difficulty, '') }}</span></td><td>{{ '✔ correct' if a.correct else '✘ wrong' }}</td>
+    <td>{% if a.confidence %}<span class="rf-pill {{ a.confidence }}">{{ rf.CONF_LABEL[a.confidence] }}</span>{% endif %}</td><td>{% if p %}<span title="{{ PATTERNS[p][1] }}">{{ PATTERNS[p][0] }}</span>{% else %}Medium{% endif %}</td><td>{{ a.seconds }}s</td></tr>{% endfor %}</tbody></table></div>
+  <p><a href="{{ url_for('reinforce.mentor_student', rsid=rs.id) }}">Back to all chapters</a></p></div>{% endif %}
+
+<div class="pl-card" id="recs" style="margin-top:16px"><span class="pl-eyebrow">Adaptive reinforcement</span><h3>Suggested next steps (you decide)</h3>
+  <form method="post" action="{{ url_for('reinforce.mentor_recs', rsid=rs.id) }}" style="margin-bottom:10px"><button class="rf-btn sm alt">Generate suggestions from this student's data</button> <span class="rf-muted">Rule-based and explainable. Nothing is assigned until you approve it.</span></form>
+  {% for r in recs %}<div class="rf-cell" style="margin-bottom:10px"><b>{{ r.title }}</b><div>{{ r.why }}</div>
+    <div class="rf-muted">{{ r.qs|length }} suggested questions · follow-up in {{ r.follow_up_days }} days: {% for q in r.qs[:5] %}{{ q.qid }}{{ ', ' if not loop.last }}{% endfor %}</div>
+    <form method="post" style="display:inline" action="{{ url_for('reinforce.mentor_rec', rid=r.id, action='approve') }}"><button class="rf-btn sm">Approve and assign</button></form>
+    <form method="post" style="display:inline" action="{{ url_for('reinforce.mentor_rec', rid=r.id, action='modify') }}"><button class="rf-btn sm ghost">Modify</button></form>
+    <form method="post" style="display:inline" action="{{ url_for('reinforce.mentor_rec', rid=r.id, action='reject') }}"><button class="rf-btn sm ghost">Reject</button></form></div>
+  {% else %}<p class="rf-muted">No open suggestions.</p>{% endfor %}</div>
+
+<div class="pl-grid pl-g2" id="notes">
+  <form method="post" action="{{ url_for('reinforce.mentor_obs', rsid=rs.id) }}" class="pl-card rf-form"><h3>Add an observation or follow-up</h3>
+    <label for="ob">Observation</label><textarea id="ob" name="body" required></textarea>
+    <div class="row"><div><label>Chapter (optional)</label><input type="text" name="chapter" maxlength="80" value="{{ chapter }}"></div><div><label>Follow-up date</label><input type="date" name="follow_up"></div></div>
+    <label class="chk"><input type="checkbox" name="for_parent"> Include in the parent report</label><p><button class="rf-btn sm">Save</button></p></form>
+  <div class="pl-card"><h3>Observations</h3>{% for o in obs %}<p><span class="rf-muted">{{ o.created_at|ist('%d %b') }} · {{ o.author.name if o.author }}{{ ' · ' ~ o.chapter if o.chapter }}{{ ' · follow up ' ~ o.follow_up_on.strftime('%d %b') if o.follow_up_on }}{{ ' · parent-visible' if o.for_parent }}</span><br>{{ o.body }}</p>{% else %}<p>None yet.</p>{% endfor %}</div>
+</div>
+
+<div class="pl-card rf-scroll" style="margin-top:16px"><h3>Recent assignments</h3><table class="pl-tbl"><thead><tr><th>Assignment</th><th>Status</th><th>Due</th></tr></thead><tbody>{% for x in asgs %}<tr><td><a href="{{ url_for('reinforce.assignment', aid=x.assignment_id) }}">{{ x.assignment.title }}</a></td><td>{{ x.status.replace('_', ' ') }}</td><td>{{ x.assignment.due_at|ist if x.assignment.due_at else '—' }}</td></tr>{% else %}<tr><td colspan="3" class="rf-muted">None.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

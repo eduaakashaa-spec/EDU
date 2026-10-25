@@ -1,0 +1,59 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}My reinforcement{% endblock %}
+{% block rf_body %}
+{% if rs.demo %}<div class="rf-demo" role="note">DEMONSTRATION: sample student and sample data. Not a real child; excluded from exports.</div>{% endif %}
+<section class="pl-hero">
+  <div><span class="pl-chip">EduPulse – Reinforcement · {{ rs.exam }}</span><h1>Small steps today. Stronger concepts tomorrow.</h1>
+    <p>Short daily practice from your mentor, with a confidence check on every answer, so you and your mentor can see what you know, what to revisit and how you are improving.</p></div>
+  <div class="pl-kpis">
+    <div class="pl-kpi"><b>{{ sm.streak }}</b><span>day practice streak</span></div>
+    <div class="pl-kpi"><b>{{ sm.week_n }}</b><span>questions this week</span></div>
+    <div class="pl-kpi"><b>{{ sm.accuracy ~ '%' if sm.accuracy is not none else '—' }}</b><span>overall accuracy ({{ sm.n }} answered)</span></div>
+    <div class="pl-kpi"><b>{{ pend|length }}</b><span>pending</span></div>
+  </div>
+</section>
+
+{% if notices %}<div style="margin-top:14px">{% for n in notices %}<div class="rf-notice">🔔 <span>{% if n.url %}<a href="{{ n.url }}">{{ n.text }}</a>{% else %}{{ n.text }}{% endif %} <span class="rf-muted">{{ n.created_at|ist }}</span></span></div>{% endfor %}
+  <form method="post" action="{{ url_for('reinforce.notices_read') }}"><button class="rf-btn sm ghost">Mark notices read</button></form></div>{% endif %}
+
+<h2 style="margin:22px 0 8px">Today's practice</h2>
+{% if pend %}<div class="pl-grid pl-g2">{% for x in pend %}{% set a = x.assignment %}
+  <div class="pl-card"><span class="pl-eyebrow">{{ a.exam }} · {{ a.subject or '' }}{{ ' · ' ~ a.chapter if a.chapter }}</span><h3>{{ a.title }}</h3>
+    <p>{{ x.items.count() }} questions · about {{ [1, ((x.items.all()|sum(attribute='question.est_sec'))/60)|round|int]|max }} minutes{% if a.due_at %} · due {{ a.due_at|ist }}{% if rf.is_overdue(a) %} <span class="rf-pill overdue">overdue</span>{% endif %}{% endif %}</p>
+    <p><span class="rf-pill {{ 'pending' if x.status=='not_started' else 'developing' }}">{{ 'Not started' if x.status=='not_started' else 'In progress' }}</span></p>
+    <a class="rf-btn" href="{{ url_for('reinforce.do', asid=x.id) }}">{{ 'Start today\'s practice' if x.status=='not_started' else 'Resume' }}</a></div>{% endfor %}</div>
+{% else %}<div class="pl-card"><p style="margin:0">Nothing is pending. Your mentor will assign the next set here.</p></div>{% endif %}
+
+<div class="pl-grid pl-g2">
+  <div class="pl-card"><span class="pl-eyebrow">Accuracy trend</span><h3>Last {{ sm.trend|length }} practice sets</h3>
+    {% if sm.trend %}<div class="rf-spark" role="img" aria-label="Accuracy per practice set">{% for v in sm.trend %}<i style="height:{{ [6, (v or 0) * 0.6]|max }}px" title="{{ v }}%"></i>{% endfor %}</div>
+    <p class="rf-muted" style="margin-top:6px">Latest sets: {{ sm.trend|join('% · ') }}%. Each bar is one set of questions.</p>{% else %}<p>Finish your first practice set and your trend appears here.</p>{% endif %}</div>
+  <div class="pl-card"><span class="pl-eyebrow">Confidence and correctness</span><h3>How your answers and confidence line up</h3>
+    {% if sm.n %}<div class="rf-quad">
+      <div><b>{{ sm.conf.pattern.P1 }}</b>Right and sure<br><span class="rf-muted">secure for now</span></div>
+      <div><b>{{ sm.conf.pattern.P2 }}</b>Right but unsure<br><span class="rf-muted">you know more than you trust</span></div>
+      <div><b>{{ sm.conf.pattern.P3 }}</b>Wrong and unsure<br><span class="rf-muted">a gap you can see</span></div>
+      <div><b>{{ sm.conf.pattern.P4 }}</b>Wrong but sure<br><span class="rf-muted">worth a closer look</span></div></div>
+    <p class="rf-muted" style="margin-top:8px">Medium confidence is counted separately ({{ sm.conf.pattern.M_right }} right, {{ sm.conf.pattern.M_wrong }} wrong). These are signals to talk through with your mentor, not a judgement of you.</p>
+    {% else %}<p>This appears after your first practice set.</p>{% endif %}</div>
+</div>
+
+<h2 style="margin:22px 0 8px">Chapter map</h2>
+{% if sm.chapters %}<div class="rf-heat">{% for c in sm.chapters %}
+  <div class="rf-cell s-{{ c.status }}"><b>{{ c.chapter }}</b><span class="rf-pill {{ c.status }}">{{ rf_label[c.status] }}</span>
+    <div style="margin-top:6px"><small>{{ c.facts.n }} answers · {{ c.facts.distinct }} different questions{% if c.facts.accuracy is not none and c.status != 'insufficient' %} · {{ c.facts.accuracy }}% correct{% endif %}</small></div></div>{% endfor %}</div>
+<p class="rf-muted" style="margin-top:8px">A chapter needs enough different questions over more than one session before it can be called strong. Chapters with few answers show as "Building understanding".</p>
+{% else %}<div class="pl-card"><p style="margin:0">Your chapters appear here as you practise. Nothing has been assessed yet.</p></div>{% endif %}
+
+<div class="pl-grid pl-g2">
+  <div class="pl-card"><span class="pl-eyebrow">Concepts to revisit</span><h3>Worth another look</h3>
+    {% if sm.revisit %}<ul style="margin:6px 0 0;padding-left:18px;line-height:1.7">{% for c in sm.revisit %}<li>{{ c.chapter }} <span class="rf-muted">({{ rf_label[c.status] }})</span></li>{% endfor %}</ul>{% else %}<p>Nothing flagged right now.</p>{% endif %}</div>
+  <div class="pl-card"><span class="pl-eyebrow">By subject</span><h3>Subject-wise</h3>
+    {% for k, v in sm.subjects.items() %}<p style="margin:4px 0">{{ k }}: {{ v.acc }}% correct <span class="rf-muted">({{ v.n }} answers)</span></p><div class="rf-bar"><i style="width:{{ v.acc or 0 }}%"></i></div>{% else %}<p>No answers yet.</p>{% endfor %}</div>
+</div>
+
+{% if recs %}<div class="pl-card" style="margin-top:16px"><span class="pl-eyebrow">Recommended next practice</span><h3>Chosen by your mentor</h3><ul style="margin:6px 0 0;padding-left:18px">{% for r in recs %}<li>{{ r.title }}</li>{% endfor %}</ul></div>{% endif %}
+
+<div class="pl-card pl-scroll" style="margin-top:16px"><h3>Completed practice</h3>
+  {% if done %}<table class="pl-tbl"><thead><tr><th>When</th><th>Practice</th><th></th></tr></thead><tbody>{% for x in done %}<tr><td>{{ x.completed_at|ist('%d %b') }}</td><td>{{ x.assignment.title }}</td><td><a href="{{ url_for('reinforce.do', asid=x.id) }}">Review</a></td></tr>{% endfor %}</tbody></table>{% else %}<p>Nothing completed yet.</p>{% endif %}</div>
+{% endblock %}

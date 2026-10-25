@@ -1,0 +1,18 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}Admin{% endblock %}
+{% block rf_body %}
+<h2 style="margin:0 0 8px">Administration</h2>
+<p class="rf-muted">{{ n_students }} students on rosters · {{ n_attempts }} recorded answers · questions: {% for k in ('draft','in_review','approved','retired') %}{{ k.replace('_',' ') }} {{ counts.get(k, 0) }}{{ ' · ' if not loop.last }}{% endfor %}</p>
+<div class="pl-grid pl-g2">
+  <form method="post" class="pl-card"><input type="hidden" name="do" value="seed"><h3>Load starter question bank</h3><p>Adds the original JEE and UCEED mock-centre questions as approved practice questions. Existing questions are kept. Safe to run again.</p><button class="rf-btn alt">Load starter bank</button></form>
+  <form method="post" class="pl-card"><input type="hidden" name="do" value="demo"><h3>Create demonstration workspace</h3><p>Creates a clearly labelled demo student with three weeks of sample practice, so the dashboards can be shown. Demo students are excluded from exports.</p><button class="rf-btn alt">Create demo</button></form>
+</div>
+<form method="post" class="pl-card rf-form" style="margin-top:12px"><input type="hidden" name="do" value="settings"><h3>Analytics thresholds</h3>
+  <p class="rf-muted">These control when the system will say anything about a chapter. Changes apply to the next report; stored answers are never altered.</p>
+  <div class="row">{% for k, v in settings.items() %}<div><label for="s-{{ k }}">{{ help.get(k, k) }}</label><input id="s-{{ k }}" type="text" name="{{ k }}" value="{{ v|int if v == v|int else v }}"></div>{% endfor %}</div>
+  <p><button class="rf-btn">Save thresholds</button></p></form>
+<div class="pl-card rf-scroll" style="margin-top:12px"><h3>Questions waiting for review ({{ review|length }})</h3>
+  {% for q in review %}<p><a href="{{ url_for('reinforce.bank_edit', qid=q.id) }}">{{ q.qid }} v{{ q.version }}</a> · {{ q.chapter }} · {{ (q.stem|striptags)[:80] }}</p>{% else %}<p class="rf-muted">None.</p>{% endfor %}</div>
+<p style="margin-top:12px"><a class="rf-btn ghost" href="{{ url_for('reinforce.admin_attempts') }}">Export all attempts (CSV, excludes demo)</a></p>
+<div class="pl-card rf-scroll" style="margin-top:12px"><h3>Recent audit log</h3><table class="pl-tbl"><thead><tr><th>When</th><th>User</th><th>Action</th><th>Detail</th></tr></thead><tbody>{% for a in audit %}<tr><td>{{ a.created_at|ist }}</td><td>{{ a.user_id }}</td><td>{{ a.action }}</td><td>{{ a.detail or '' }}</td></tr>{% else %}<tr><td colspan="4" class="rf-muted">Nothing yet.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

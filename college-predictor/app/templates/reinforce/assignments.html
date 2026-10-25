@@ -1,0 +1,10 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}Assignments{% endblock %}
+{% block rf_body %}
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2 style="margin:0">Assignments</h2><a class="rf-btn" href="{{ url_for('reinforce.assign') }}">＋ New assignment</a></div>
+<div class="pl-card rf-scroll" style="margin-top:12px">
+{% if rows %}<table class="pl-tbl"><thead><tr><th>Assignment</th><th>Track</th><th>Chapter</th><th>Students</th><th>Completed</th><th>Overdue</th><th>Due</th><th>Status</th><th></th></tr></thead><tbody>
+{% for r in rows %}{% set a = r.a %}<tr><td><a href="{{ url_for('reinforce.assignment', aid=a.id) }}"><strong>{{ a.title }}</strong></a></td><td>{{ a.exam }}</td><td>{{ a.chapter or '—' }}</td><td>{{ r.n }}</td><td>{{ r.done }} / {{ r.n }}</td><td>{{ r.late or '—' }}</td><td>{{ a.due_at|ist if a.due_at else '—' }}</td><td>{{ a.status }}</td>
+  <td><a class="rf-btn sm ghost" href="{{ url_for('reinforce.assign', **{'from': a.id}) }}">Duplicate</a></td></tr>{% endfor %}</tbody></table>
+{% else %}<p style="margin:0">No assignments yet.</p>{% endif %}</div>
+{% endblock %}

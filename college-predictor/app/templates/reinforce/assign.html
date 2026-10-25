@@ -1,0 +1,52 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}Assign practice{% endblock %}
+{% block rf_body %}
+{% set p = pre %}
+<h2 style="margin:0 0 4px">Assign practice</h2>
+<p class="rf-muted" style="margin:0 0 10px">5 to 10 questions per assignment, chosen from approved questions only. Each student gets a mandatory confidence rating on every answer.</p>
+<form method="post" class="rf-form">
+<div class="pl-grid pl-g2">
+  <div class="pl-card"><h3>1. Who</h3>
+    <label>Exam track</label>
+    <select name="exam" id="a-exam">{% for e in ('JEE','UCEED') %}<option {{ 'selected' if p.exam==e }}>{{ e }}</option>{% endfor %}</select>
+    <label>Students (same exam track as above)</label>
+    <div style="max-height:200px;overflow:auto;border:1px solid #E8DFC8;border-radius:8px;padding:6px 10px">
+    {% for s in students %}<label class="chk"><input type="checkbox" name="students" value="{{ s.id }}" {{ 'checked' if p.students and s.id in p.students }}> {{ s.user.name }} <span class="rf-muted">{{ s.exam }}{{ ' · ' ~ s.group_name if s.group_name }}</span></label>{% else %}<p class="rf-muted">No students on your roster yet.</p>{% endfor %}</div>
+    {% if groups %}<label>Or a whole group</label><select name="group"><option value="">None</option>{% for g in groups %}<option>{{ g }}</option>{% endfor %}</select>{% endif %}</div>
+  <div class="pl-card"><h3>2. What</h3>
+    <label for="a-title">Title</label><input id="a-title" type="text" name="title" maxlength="160" required value="{{ p.title or '' }}" placeholder="e.g. Kinematics: daily practice">
+    <div class="row"><div><label>Subject</label><select name="subject" id="a-subj"><option value="">Any</option>{% for s in tax|map(attribute='subject')|unique %}<option {{ 'selected' if p.subject==s }}>{{ s }}</option>{% endfor %}</select></div>
+      <div><label>Chapter</label><select name="chapter" id="a-chap"><option value="">Any</option>{% for t in tax %}<option data-exam="{{ t.exam }}" data-subj="{{ t.subject }}" {{ 'selected' if p.chapter==t.chapter }}>{{ t.chapter }}</option>{% endfor %}</select></div></div>
+    <label>Topic (optional)</label><input type="text" name="topic" maxlength="120" value="{{ p.topic or '' }}">
+    <label>Learning objective</label><input type="text" name="objective" maxlength="300" value="{{ p.objective or '' }}">
+    <label>Instructions to the student (optional)</label><textarea name="instructions" maxlength="1000">{{ p.instructions or '' }}</textarea></div>
+</div>
+<div class="pl-grid pl-g2">
+  <div class="pl-card"><h3>3. Questions</h3>
+    <label>How to choose</label>
+    <select name="selection"><option value="filter" {{ 'selected' if p.selection!='manual' and not p.manual_ids }}>Automatic from the filter above</option><option value="manual" {{ 'selected' if p.manual_ids }}>I will pick (enter bank ids)</option></select>
+    <div class="row"><div><label>Number (5 to 10)</label><input type="number" name="n" min="5" max="10" value="{{ p.n or 8 }}"></div>
+      <div><label>Easy</label><input type="number" name="mix1" min="0" max="10" value="{{ p.mix1 or 0 }}"></div><div><label>Medium</label><input type="number" name="mix2" min="0" max="10" value="{{ p.mix2 or 0 }}"></div><div><label>Challenging</label><input type="number" name="mix3" min="0" max="10" value="{{ p.mix3 or 0 }}"></div></div>
+    <p class="rf-muted" style="margin:0">Leave the difficulty mix at 0 for a balanced pick.</p>
+    <label>Manual question ids (comma-separated database ids, 5 to 10)</label><input type="text" name="manual_ids" value="{{ p.manual_ids or '' }}" placeholder="12, 15, 21, 30, 31">
+    <label class="chk"><input type="checkbox" name="distinct" {{ 'checked' if p.distinct or not p }}> Different questions for each student (same topic and difficulty)</label></div>
+  <div class="pl-card"><h3>4. When</h3>
+    <div class="row"><div><label>Start (IST)</label><input type="datetime-local" name="start_at" value="{{ p.start_at or ist_now }}"></div><div><label>Due (IST, optional)</label><input type="datetime-local" name="due_at" value="{{ p.due_at or '' }}"></div></div>
+    <label>Popup behaviour</label>
+    <select name="popup"><option value="dismissible" {{ 'selected' if p.popup=='dismissible' }}>Dismissible: student may snooze</option><option value="mandatory" {{ 'selected' if p.popup=='mandatory' }}>Mandatory: shown until done</option><option value="time_limited" {{ 'selected' if p.popup=='time_limited' }}>Time-limited: shown for a number of hours</option></select>
+    <div class="row"><div><label>Time-limited: hours</label><input type="number" name="popup_hours" min="1" max="168" value="{{ p.popup_hours or 24 }}"></div><div><label>Snooze: hours</label><input type="number" name="remind_hours" min="1" max="72" value="{{ p.remind_hours or 6 }}"></div></div>
+    <label class="chk"><input type="checkbox" name="allow_remind" {{ 'checked' if p.allow_remind or not p }}> Allow "Remind me later"</label>
+    <label class="chk"><input type="checkbox" name="allow_back" {{ 'checked' if p.allow_back }}> Allow going back to earlier questions</label>
+    <label class="chk"><input type="checkbox" name="timed" {{ 'checked' if p.timed }}> Show a timer</label>
+    <label>Answers and explanations released</label>
+    <select name="release"><option value="after_submit" {{ 'selected' if p.release=='after_submit' or not p.release }}>After the student submits</option><option value="immediate" {{ 'selected' if p.release=='immediate' }}>Immediately</option><option value="scheduled" {{ 'selected' if p.release=='scheduled' }}>At a scheduled time</option><option value="manual" {{ 'selected' if p.release=='manual' }}>When I release them</option></select>
+    <label>Scheduled release (IST)</label><input type="datetime-local" name="release_at" value="{{ p.release_at or '' }}"></div>
+</div>
+<p><button class="rf-btn">Assign</button> <a class="rf-btn ghost" href="{{ url_for('reinforce.assignments') }}">Cancel</a></p>
+</form>
+<script>
+(function(){var e=document.getElementById('a-exam'),c=document.getElementById('a-chap'),s=document.getElementById('a-subj');
+function f(){Array.prototype.forEach.call(c.options,function(o){if(!o.dataset.exam){return;}var ok=o.dataset.exam===e.value&&(!s.value||o.dataset.subj===s.value);o.hidden=!ok;o.disabled=!ok;});}
+e.addEventListener('change',f);s.addEventListener('change',f);f();})();
+</script>
+{% endblock %}

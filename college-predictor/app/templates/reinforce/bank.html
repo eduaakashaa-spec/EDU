@@ -1,0 +1,20 @@
+{% extends "reinforce/base.html" %}
+{% block rf_title %}Question bank{% endblock %}
+{% block rf_body %}
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2 style="margin:0">Question bank <span class="rf-muted" style="font-weight:400">({{ total }})</span></h2>
+  <span><a class="rf-btn" href="{{ url_for('reinforce.bank_edit') }}">＋ New question</a> <a class="rf-btn ghost" href="{{ url_for('reinforce.bank_export') }}">Export CSV</a></span></div>
+<p class="rf-muted">{% for k in ('draft','in_review','approved','retired') %}{{ k.replace('_',' ') }}: {{ counts.get(k, 0) }}{{ ' · ' if not loop.last }}{% endfor %}. Only approved questions can be assigned.</p>
+<form method="get" class="rf-form pl-card" style="padding:12px 16px"><div class="row" style="align-items:end">
+  <div><label>Search</label><input type="text" name="q" value="{{ f.q }}"></div>
+  <div><label>Exam</label><select name="exam"><option value="">All</option>{% for e in ('JEE','UCEED') %}<option {{ 'selected' if f.exam==e }}>{{ e }}</option>{% endfor %}</select></div>
+  <div><label>Subject</label><select name="subject"><option value="">All</option>{% for s in tax|map(attribute='subject')|unique %}<option {{ 'selected' if f.subject==s }}>{{ s }}</option>{% endfor %}</select></div>
+  <div><label>Status</label><select name="status"><option value="">All</option>{% for k in ('draft','in_review','approved','retired') %}<option value="{{ k }}" {{ 'selected' if f.status==k }}>{{ k.replace('_',' ') }}</option>{% endfor %}</select></div>
+  <div><label>Difficulty</label><select name="diff"><option value="">All</option>{% for k,l in rf.DIFF_LABEL.items() %}<option value="{{ k }}" {{ 'selected' if f.diff==k|string }}>{{ l }}</option>{% endfor %}</select></div>
+  <div><button class="rf-btn alt">Filter</button></div></div></form>
+<div class="pl-card rf-scroll" style="margin-top:12px"><table class="pl-tbl"><thead><tr><th>ID</th><th>Chapter</th><th>Question</th><th>Type</th><th>Level</th><th>Status</th></tr></thead><tbody>
+{% for q in rows %}<tr><td><a href="{{ url_for('reinforce.bank_edit', qid=q.id) }}">{{ q.qid }}</a> <span class="rf-muted">v{{ q.version }}</span></td><td>{{ q.chapter }}<div class="rf-muted">{{ q.subject }}</div></td><td>{{ (q.stem|striptags)[:90] }}</td><td>{{ q.qtype }}</td><td>{{ rf.DIFF_LABEL.get(q.difficulty, '') }}</td><td><span class="rf-pill {{ 'strong' if q.status=='approved' else 'pending' }}">{{ q.status.replace('_',' ') }}</span></td></tr>{% else %}<tr><td colspan="6" class="rf-muted">No questions match.</td></tr>{% endfor %}</tbody></table>
+{% if total > 40 %}<p>{% if page > 1 %}<a href="{{ url_for('reinforce.bank', page=page-1, **f) }}">&larr; Previous</a>{% endif %} Page {{ page }} {% if page * 40 < total %}<a href="{{ url_for('reinforce.bank', page=page+1, **f) }}">Next &rarr;</a>{% endif %}</p>{% endif %}</div>
+<form method="post" action="{{ url_for('reinforce.bank_import') }}" enctype="multipart/form-data" class="pl-card rf-form" style="margin-top:12px"><h3>Bulk import (CSV)</h3>
+  <p class="rf-muted">Columns: {{ rf.CSV_COLS|join(', ') }}. The whole file is validated first; if any row is wrong nothing is imported. Imported questions arrive as drafts.</p>
+  <input type="file" name="file" accept=".csv,text/csv" required> <button class="rf-btn sm">Import</button></form>
+{% endblock %}
