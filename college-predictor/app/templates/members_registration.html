@@ -25,6 +25,21 @@
     text-transform: uppercase; color: var(--text-dim);
   }
 
+  .mem-gets{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:8px 22px}
+  .mem-gets li{display:flex;flex-direction:column;gap:1px;padding:8px 0 8px 12px;border-left:3px solid var(--gold)}
+  .mem-gets b{font-size:.95rem}
+  .mem-gets span{font-size:.84rem;color:var(--text-dim);line-height:1.4}
+  @media (max-width:700px){.mem-gets{grid-template-columns:1fr}}
+  .mem-pulse{margin-top:22px;border:1px solid var(--border);border-radius:14px;background:var(--white);padding:20px 22px}
+  .mem-pulse__head h3{margin:4px 0 6px;font-size:1.2rem;line-height:1.3}
+  .mem-pulse__head p{margin:0;color:var(--text-dim);font-size:.92rem}
+  .mem-pulse__grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:14px}
+  .mem-pulse__item{background:#faf6ea;border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:3px}
+  .mem-pulse__item b{font-size:.95rem}
+  .mem-pulse__item span{font-size:.83rem;color:var(--text-dim);line-height:1.45}
+  .mem-pulse__note{margin:14px 0 0;font-size:.88rem}
+  @media (max-width:700px){.mem-pulse__grid{grid-template-columns:1fr}}
+
   .tier-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -158,54 +173,37 @@
         <span class="eyebrow">What a member gets</span>
         <h2 class="section__title">Not a chat group. A structured counselling relationship.</h2>
       </div>
-      <div class="info-cards info-cards--4">
-        <div class="info-card">
-          <div class="info-card__icon">{{ ea_icon('file') }}</div>
-          <div class="info-card__title">Written Stream &amp; College-Fit Report</div>
-          <p class="info-card__text">Evidence, not opinions &mdash; a clear written plan you can act on.</p>
+      <ul class="mem-gets">
+        <li><b>Written stream &amp; college-fit report</b><span>Evidence, not opinions: a clear plan you can act on.</span></li>
+        <li><b>12+ exam pathways</b><span>JoSAA, TNEA, DASA, UCEED, NID, NIFT and more under one mentor.</span></li>
+        <li><b>Exam calendar &amp; deadlines</b><span>Registration, exam dates and document checklists.</span></li>
+        <li><b>Action tracker</b><span>Every session ends with owned actions, tracked and emailed.</span></li>
+        <li><b>College preference lists</b><span>Shortlists with exams and deadlines, refined after each meeting.</span></li>
+        <li><b>KPIs &amp; quarterly reviews</b><span>Progress against agreed targets, with downloadable reports.</span></li>
+        <li><b>Parent &amp; student alignment</b><span>Plain-language plans and a parent view of every report.</span></li>
+        <li><b>Family WhatsApp group</b><span>Quick updates; the plan itself lives in the portal.</span></li>
+      </ul>
+
+      <div class="mem-pulse">
+        <div class="mem-pulse__head">
+          <span class="eyebrow">EduPulse &middot; practice that shows what you really know</span>
+          <h3>Mock tests, previous years&rsquo; papers and daily reinforcement, with a confidence check on every answer.</h3>
+          <p>Most practice tells you what you got wrong. EduPulse also asks <em>how sure you were</em>, so your mentor can tell a lucky guess from real understanding, and an overconfident mistake from a known gap.</p>
         </div>
-        <div class="info-card">
-          <div class="info-card__icon">&#x1F9ED;</div>
-          <div class="info-card__title">12+ Exam Pathways</div>
-          <p class="info-card__text">JOSAA, TNEA, DASA, UCEED, NID, NIFT and more &mdash; all under one mentor, so you never juggle consultants.</p>
+        <div class="mem-pulse__grid">
+          <div class="mem-pulse__item"><b>&#x1F501; Reinforcement</b><span>Short daily practice set by your mentor. Rate each answer Guess, Low, Medium or High. A chapter is judged only after enough evidence, and revisited after a few days to check retention. Mentors approve every next step.</span></div>
+          <div class="mem-pulse__item"><b>&#x1F4DD; Mock tests</b><span>Timed mocks in the exam pattern (JEE Main 2027 with +4/&minus;1 marking; UCEED with its own sections), saved results, a negative-marking tracker and a PDF report for you, your parent and your mentor.</span></div>
+          <div class="mem-pulse__item"><b>&#x1F4DA; Previous years&rsquo; papers &amp; answers</b><span>UCEED papers 2018&ndash;2026 with answers. JEE Main papers are released with answers as the official answer keys are published, never with an unverified key.</span></div>
+          <div class="mem-pulse__item"><b>&#x1F9ED; Mentor insight</b><span>Chapter-wise strengths, four learning patterns and a weekly parent report in plain language.</span></div>
         </div>
-        <div class="info-card">
-          <div class="info-card__icon">&#x23F0;</div>
-          <div class="info-card__title">Exam calendar &amp; deadlines</div>
-          <p class="info-card__text">Registration dates, exam dates and a document checklist for every exam you follow &mdash; nothing slips through the cracks.</p>
-        </div>
-        <div class="info-card">
-          <div class="info-card__icon">&#x2705;</div>
-          <div class="info-card__title">Action tracker</div>
-          <p class="info-card__text">Every session ends with actions owned by the student, parent or mentor &mdash; tracked to completion and shared by email.</p>
-        </div>
-        <div class="info-card">
-          <div class="info-card__icon">&#x1F3EB;</div>
-          <div class="info-card__title">College preference lists</div>
-          <p class="info-card__text">Shortlists with exam, application dates and deadlines for each college, refined after every meeting.</p>
-        </div>
-        <div class="info-card">
-          <div class="info-card__icon">&#x1F4C8;</div>
-          <div class="info-card__title">KPIs &amp; quarterly reviews</div>
-          <p class="info-card__text">Progress measured against agreed targets and reviewed with parents, with written reports you can download.</p>
-        </div>
-        <div class="info-card">
-          <div class="info-card__icon">{{ ea_icon('users') }}</div>
-          <div class="info-card__title">Parent &amp; Student Alignment</div>
-          <p class="info-card__text">Decisions explained in plain language, with a parent view of every plan and progress report.</p>
-        </div>
-        <div class="info-card">
-          <div class="info-card__icon">&#x1F4AC;</div>
-          <div class="info-card__title">Family WhatsApp group</div>
-          <p class="info-card__text">Quick updates and reminders with your mentor. The plan itself lives in the portal, so nothing important is lost in a chat.</p>
-        </div>
+        <p class="mem-pulse__note"><b>EduPulse &ndash; UCEED</b> and <b>EduPulse &ndash; JEE</b> are each &#8377;5,000 per year as a stand-alone path (see below).</p>
       </div>
     </section>
 
     <!-- ======== SIX PATHS ======== -->
     <section class="section" id="paths">
       <div class="section__header">
-        <span class="eyebrow">Eight paths &middot; Pick yours</span>
+        <span class="eyebrow">Ten paths &middot; Pick yours</span>
         <h2 class="section__title">Built around your year, not your wallet.</h2>
         <p class="section__desc">Choose the path that matches where the student is right now. Tap a card to select it &mdash; it will carry into the application form below. All prices are per year.</p>
       </div>
@@ -284,6 +282,36 @@
             <li>Time-zone-friendly mentoring</li>
           </ul>
           <button type="button" class="tier-card__btn" data-tier="NRI / Global">Select this path</button>
+        </div>
+
+        <!-- EduPulse &ndash; UCEED -->
+        <div class="tier-card">
+          <div class="tier-card__eyebrow">Class 11&ndash;12 &middot; Design entrance practice</div>
+          <div class="tier-card__name">EduPulse &ndash; UCEED</div>
+          <div class="tier-card__price">&#8377;5,000</div>
+          <div class="tier-card__per">Per year</div>
+          <ul class="tier-card__list">
+            <li>UCEED mock tests &amp; papers 2018&ndash;2026</li>
+            <li>Confidence check &amp; saved results</li>
+            <li>Chapter practice &amp; daily reinforcement</li>
+            <li>Student, parent &amp; mentor reports</li>
+          </ul>
+          <button type="button" class="tier-card__btn" data-tier="EduPulse &ndash; UCEED">Select this path</button>
+        </div>
+
+        <!-- EduPulse &ndash; JEE -->
+        <div class="tier-card">
+          <div class="tier-card__eyebrow">Class 11&ndash;12 &middot; JEE Main 2027 pattern</div>
+          <div class="tier-card__name">EduPulse &ndash; JEE</div>
+          <div class="tier-card__price">&#8377;5,000</div>
+          <div class="tier-card__per">Per year</div>
+          <ul class="tier-card__list">
+            <li>5 JEE Main 2027-pattern mocks, +4/&minus;1</li>
+            <li>Negative-marking &amp; confidence tracker</li>
+            <li>Previous-year papers once official keys are out</li>
+            <li>Daily reinforcement &amp; mentor reports</li>
+          </ul>
+          <button type="button" class="tier-card__btn" data-tier="EduPulse &ndash; JEE">Select this path</button>
         </div>
 
         <!-- NRI · Prediction Report -->
@@ -432,6 +460,8 @@
                 <option value="NRI / Global">NRI / Global &mdash; &#8377;40,000</option>
                 <option value="NRI &middot; Prediction Report">NRI &middot; Prediction Report (DASA) &mdash; &#8377;5,000</option>
                 <option value="NRI &middot; Expert Guidance">NRI &middot; Expert Guidance (DASA) &mdash; &#8377;20,000</option>
+                <option value="EduPulse &ndash; UCEED">EduPulse &ndash; UCEED &mdash; &#8377;5,000</option>
+                <option value="EduPulse &ndash; JEE">EduPulse &ndash; JEE &mdash; &#8377;5,000</option>
                 <option value="Elite Mentorship">Elite Mentorship &mdash; &#8377;75,000</option>
               </select>
             </div>

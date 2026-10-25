@@ -23,7 +23,8 @@ def _utcnow():
 # Membership paths offered on the premium-membership / members-registration page.
 PORTAL_TIER = 'Premium Portal Access'
 TIERS = (PORTAL_TIER, 'Foundation Path', 'Aspirant Path', 'NRI / Global',
-         'NRI · AI Report', 'NRI · Prediction Report', 'NRI · Expert Guidance', 'Elite Mentorship', 'FutureReady Mentorship')
+         'NRI · AI Report', 'NRI · Prediction Report', 'NRI · Expert Guidance', 'Elite Mentorship', 'FutureReady Mentorship',
+         'EduPulse – UCEED', 'EduPulse – JEE')
 
 # Published list price per path, GST-inclusive, in PAISE — the single source the
 # registration form, the admin pre-fill and the invoice use.
@@ -37,11 +38,13 @@ TIER_PRICES = {
     'NRI · Expert Guidance': 20_000_00,
     'Elite Mentorship': 75_000_00,
     'FutureReady Mentorship': 20_000_00,   # Class 8-9 programme, per year
+    'EduPulse – UCEED': 5_000_00,        # mocks, papers and reinforcement for UCEED, per year
+    'EduPulse – JEE': 5_000_00,          # mocks, papers and reinforcement for JEE Main, per year
 }
 
 # Paths whose payment switches on the Premium portal (members-only tools:
 # DASA insights & analytics, Choice Builder simulator, personalised reports).
-PORTAL_ACCESS_TIERS = {PORTAL_TIER}
+PORTAL_ACCESS_TIERS = {PORTAL_TIER, 'EduPulse – UCEED', 'EduPulse – JEE'}   # EduPulse needs the premium portal
 PORTAL_ACCESS_DAYS = 365
 
 # Application lifecycle
