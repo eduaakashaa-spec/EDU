@@ -51,7 +51,7 @@
     <div class="section__header">
       <span class="eyebrow">STEP 1</span>
       <h2 class="section__title">Calculate Your TNEA Cutoff</h2>
-      <p class="section__desc">Enter your +2 marks below. Cutoff = (Maths ÷ 2) + (Physics ÷ 4) + (Chemistry ÷ 4)</p>
+      <p class="section__desc">Enter your +2 marks below. Cutoff = Maths + (Physics ÷ 2) + (Chemistry ÷ 2), out of 200</p>
     </div>
 
     <div class="anna-calc">
@@ -212,16 +212,16 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    const mC = m / 2;
-    const pC = p / 4;
-    const cC = c / 4;
+    const mC = m;          // marks are out of 100: Maths 100 + Physics 50 + Chemistry 50 = 200
+    const pC = p / 2;
+    const cC = c / 2;
     const total = mC + pC + cC;
 
     cutoffVal.textContent = total.toFixed(2);
     breakdown.innerHTML =
-      '<p>Maths: ' + m + ' ÷ 2 = <strong>' + mC.toFixed(2) + '</strong></p>' +
-      '<p>Physics: ' + p + ' ÷ 4 = <strong>' + pC.toFixed(2) + '</strong></p>' +
-      '<p>Chemistry: ' + c + ' ÷ 4 = <strong>' + cC.toFixed(2) + '</strong></p>';
+      '<p>Maths: ' + m + ' × 1 = <strong>' + mC.toFixed(2) + '</strong></p>' +
+      '<p>Physics: ' + p + ' ÷ 2 = <strong>' + pC.toFixed(2) + '</strong></p>' +
+      '<p>Chemistry: ' + c + ' ÷ 2 = <strong>' + cC.toFixed(2) + '</strong></p>';
     resultDiv.style.display = 'block';
 
     // Auto-fill Step 2
