@@ -718,12 +718,12 @@ Next session: [Date/Time]. You've got this 💪""",
 Here is the current admissions calendar for the Class of 2027. We have marked what is officially confirmed and what is expected from past cycles.
 
 ✅ CONFIRMED / LISTED
-• JEE Main Session 1 — 22–24 and 28–30 January 2027 (buffer day 31 Jan), computer-based test; subject to the NTA notification
+• JEE Main Session 1 registration — 24 October to 22 November 2026 (late fee window 23–26 Nov; corrections 27–29 Nov) at jeemain.nta.nic.in
+• JEE Main Session 1 — 20, 21, 22, 23, 24 and 28 January 2027, computer-based test (city slip 30 Dec; admit card 13 Jan)
+• JEE Main Session 2 — 2–7 April 2027; registration 5 January–3 February (from the NTA Information Bulletin; NTA will confirm by notice)
 
 🟠 EXPECTED (based on past cycles — to be confirmed)
-• JEE Main Session 1 registration — late October to late November 2026 (jeemain.nta.nic.in)
 • Session 1 result — February 2027
-• JEE Main Session 2 — registration February, exam early April 2027
 • Final NTA score and All India Rank — late April 2027
 • JEE Advanced (IIT route) — registration late April–early May, exam mid-May, result early June 2027
 • JoSAA counselling — June–July 2027
@@ -746,9 +746,9 @@ Please verify each date on the official site before acting: nta.ac.in, jeeadv.ac
                         "subject": "",
                         "body": """📅 *Class of 2027 key dates* (as of [Date])
 
-✅ JEE Main Session 1: 22–30 Jan 2027 (subject to NTA notice)
-🟠 Registration: late Oct–Nov 2026 (expected)
-🟠 Session 2: April 2027 (expected)
+✅ JEE Main registration: 24 Oct–22 Nov 2026
+✅ JEE Main Session 1: 20–24 and 28 Jan 2027
+🟠 Session 2: 2–7 Apr 2027 (registration 5 Jan–3 Feb; per NTA bulletin)
 🟠 JEE Advanced: mid-May 2027 (expected)
 🟠 JoSAA: Jun–Jul 2027 (expected)
 🟠 DASA/CSAB: late Jul–Aug 2027 (2027 brochure awaited)

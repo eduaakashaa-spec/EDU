@@ -456,12 +456,11 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
             ('p', 'Here is the current admissions calendar for {student}\'s Class of 2027, as of **{asof}**. We have marked what '
                   'is listed as confirmed and what is expected from past cycles.'),
             ('h', '✅ Confirmed / listed'),
-            ('ul', ['**JEE Main Session 1** — 22–24 and 28–30 January 2027 (buffer day 31 Jan), computer-based test; '
-                    'subject to the NTA notification']),
+            ('ul', ['**JEE Main Session 1 registration** — open 24 October to 22 November 2026 (late fee window 23–26 Nov, corrections 27–29 Nov)',
+                    '**JEE Main Session 1** — 20, 21, 22, 23, 24 and 28 January 2027, computer-based test (city slip 30 Dec, admit card 13 Jan)',
+                    'JEE Main Session 2 — 2–7 April 2027 (registration 5 January–3 February); dates from the NTA Information Bulletin']),
             ('h', '🟠 Expected — to be confirmed'),
-            ('ul', ['JEE Main Session 1 registration — late October to late November 2026',
-                    'Session 1 result — February 2027',
-                    'Session 2 — registration February, exam early April 2027',
+            ('ul', ['Session 1 result — February 2027',
                     'Final NTA score and All India Rank — late April 2027',
                     'JEE Advanced (IIT route) — registration late April–early May, exam mid-May, result early June 2027',
                     'JoSAA counselling — June–July 2027',
@@ -473,8 +472,8 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
             ('p', '{todo}'),
             ('note', 'Please verify each date on the official sites before acting: nta.ac.in, jeeadv.ac.in, josaa.nic.in, '
                      'csab.nic.in. We re-check every date for you and will alert you the day a notification is published.')],
-         'wa': ('📅 Class of 2027 key dates (as of {asof}): ✅ JEE Main S1: 22–30 Jan 2027 (subject to NTA notice) · '
-                '🟠 Registration: late Oct–Nov 2026 · 🟠 S2: April · 🟠 Advanced: mid-May · 🟠 JoSAA: Jun–Jul · '
+         'wa': ('📅 Class of 2027 key dates (as of {asof}): ✅ JEE Main registration 24 Oct–22 Nov 2026 · ✅ S1: 20–24 & 28 Jan 2027 · '
+                '🟠 S2: 2–7 Apr 2027 (registration 5 Jan–3 Feb) · 🟠 Advanced: mid-May · 🟠 JoSAA: Jun–Jul · '
                 '🟠 DASA/CSAB: late Jul–Aug (2027 brochure awaited). Always verify on official sites.')}])
 
     add('mp_newsletter', '🌟', 'Motivational newsletter — students', C,

@@ -46,7 +46,7 @@ admin, mentor, mentor2, s1, s2, p1 = (login(e) for e in ('admin@demo.test', 'men
                                                          's1@demo.test', 's2@demo.test', 'p1@demo.test'))
 post(admin, '/mentorship/admin/load-default')
 with app.app_context():
-    pid = MsProgramme.query.one().id
+    pid = MsProgramme.query.filter_by(name='Grade 12 Engineering Mentorship').one().id
 post(admin, '/mentorship/admin/enrol', student_email='s1@demo.test', programme_id=pid, mentor_email='mentor@demo.test')
 post(admin, '/mentorship/admin/enrol', student_email='s2@demo.test', programme_id=pid, mentor_email='mentor2@demo.test')
 post(admin, '/mentorship/admin/exams/load-default')

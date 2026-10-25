@@ -20,10 +20,12 @@ CATEGORIES_BY_NAME = {'JEE Main': 'JEE Main', 'JEE Advanced': 'JEE Advanced'}
 D = date
 DEFAULT_EXAMS = [
     # (name, category, stream, starts_on, ends_on, status, window_note, source)
-    ('JEE Main 2027 — Session 1', 'JEE Main', 'B.Tech/B.E.', D(2027, 1, 22), D(2027, 1, 30), 'Tentative',
-     '22–24 & 28–30 Jan (buffer 31 Jan); provisional NTA calendar', 'NTA exam calendar, published 16 Sep 2026 (nta.ac.in)'),
-    ('JEE Main 2027 — Session 2', 'JEE Main', 'B.Tech/B.E.', D(2027, 4, 1), D(2027, 4, 30), 'Expected',
-     'Window only — April 2027, dates awaited', 'Not announced; inferred from earlier cycles'),
+    ('JEE Main 2027 — Session 1 registration', 'JEE Main', 'B.Tech/B.E.', D(2026, 10, 24), D(2026, 11, 22), 'Confirmed',
+     'Apply and pay by 22 Nov 2026, 11:50 pm; late fee window 23–26 Nov; corrections 27–29 Nov', 'NTA public notice, 24 Oct 2026 (jeemain.nta.nic.in)'),
+    ('JEE Main 2027 — Session 1', 'JEE Main', 'B.Tech/B.E.', D(2027, 1, 20), D(2027, 1, 28), 'Confirmed',
+     '20, 21, 22, 23, 24 & 28 Jan 2027; city slip 30 Dec, admit card 13 Jan', 'NTA public notice, 24 Oct 2026 (jeemain.nta.nic.in)'),
+    ('JEE Main 2027 — Session 2', 'JEE Main', 'B.Tech/B.E.', D(2027, 4, 2), D(2027, 4, 7), 'Tentative',
+     '2–7 Apr 2027; registration 5 Jan – 3 Feb; admit card 25 Mar', 'JEE Main 2027 Information Bulletin (jeemain.nta.nic.in)'),
     ('JEE Advanced 2027', 'JEE Advanced', 'B.Tech/B.E.', D(2027, 5, 10), D(2027, 5, 24), 'Expected',
      'Window only — mid-May 2027, JAB notice awaited', 'Not announced; see jeeadv.ac.in'),
     ('UCEED 2027', 'Admission deadline', 'B.Des', D(2027, 1, 17), None, 'Confirmed',

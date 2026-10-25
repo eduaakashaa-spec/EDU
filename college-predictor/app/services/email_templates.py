@@ -34,14 +34,14 @@ def _f(key, label, default=''):
 # --------------------------------------------------------------------------- #
 ANNOUNCEMENT_TEMPLATES = [
     {'key': 'jee_main_reg', 'icon': '📝', 'label': 'JEE Main 2027 registration',
-     'title': 'JEE Main 2027: Session 1 registration expected from late October',
-     'body': ('NTA has not opened JEE Main 2027 registration yet, and the Information Bulletin is '
-              'awaited. It is expected in the last week of October 2026 at jeemain.nta.nic.in. '
-              'Session 1 is listed for 22–24 and 28–30 January 2027 (31 January is the buffer day); '
-              'Session 2 is expected in April 2027. Keep a photograph, signature, Class 10 '
-              'certificate and any category / PwD certificate scanned and ready. Apply only on '
-              'the official NTA site. We will post here the day registration opens. Please confirm '
-              'all dates on jeemain.nta.nic.in.')},
+     'title': 'JEE Main 2027: Session 1 registration is open until 22 November',
+     'body': ('NTA opened JEE Main 2027 Session 1 registration on 24 October 2026. Apply online only at '
+              'jeemain.nta.nic.in; the form and the fee are due by 22 November 2026, 11:50 pm (late submission '
+              'with an extra Rs 500: 23 to 26 November; corrections: 27 to 29 November). Session 1 exams are on '
+              '20, 21, 22, 23, 24 and 28 January 2027, with the city slip on 30 December and admit cards on '
+              '13 January. Session 2 is planned for 2 to 7 April 2027 (registration 5 January to 3 February). '
+              'Keep a photograph, signature, Class 10 certificate and any category / PwD certificate scanned '
+              'and ready. Please confirm all dates on jeemain.nta.nic.in.')},
     {'key': 'results', 'icon': '📢', 'label': 'Results / list out',
      'title': 'DASA Round-1 results are out',
      'body': ('Round-1 seat allotment results have been published. Log in to the official '

@@ -14,7 +14,7 @@ from types import SimpleNamespace
 
 from app.services import exam_calendar as xc
 
-VERIFIED = date(2026, 10, 22)
+VERIFIED = date(2026, 10, 25)
 
 # (id, name, badge, when, status, description, start, end, note)
 _E = 'Expected'
@@ -23,12 +23,12 @@ _C = 'Confirmed'
 
 CATEGORIES = [
     {'key': 'eng', 'title': 'National Engineering', 'col': 'left', 'grad': '#0E3A8A,#0A2560', 'dot': '#60a0ff', 'exams': [
-        ('jee-main-reg', 'JEE Main 2027 — Registration', 'ENGINEERING', 'Expected late Oct 2026', _E,
-         'NTA has not yet opened registration or published the Information Bulletin. Apply only at jeemain.nta.nic.in; a correction window follows.', '2026-10-25', '2026-11-25', 'Bulletin awaited'),
-        ('jee-main-s1', 'JEE Main 2027 — Session 1', 'ENGINEERING', '22–24 & 28–30 Jan 2027 (buffer 31 Jan)', _T,
-         'From NTA\'s exam calendar published 16 Sep 2026, which NTA describes as provisional. B.Tech / B.Arch / B.Planning for NITs, IIITs and GFTIs. Your better session counts.', '2027-01-22', '2027-01-30', 'NTA calendar · provisional'),
-        ('jee-main-s2', 'JEE Main 2027 — Session 2', 'ENGINEERING', 'April 2027 (dates awaited)', _E,
-         'Final session. Registration is expected around early February. The better of your two sessions is used for ranking and JEE Advanced eligibility.', '2027-04-01', '2027-04-30', None),
+        ('jee-main-reg', 'JEE Main 2027 — Session 1 registration', 'ENGINEERING', '24 Oct – 22 Nov 2026 (till 11:50 pm)', _C,
+         'Open now. Apply online only at jeemain.nta.nic.in; the fee must be paid by 22 Nov. Late submission with an extra ₹500: 23–26 Nov. Correction window 27–29 Nov. City slip 30 Dec; admit card 13 Jan 2027.', '2026-10-24', '2026-11-22', 'NTA public notice, 24 Oct 2026'),
+        ('jee-main-s1', 'JEE Main 2027 — Session 1', 'ENGINEERING', '20, 21, 22, 23, 24 & 28 Jan 2027', _C,
+         'Computer-based test in two shifts (9 am–12 noon and 3–6 pm; B.Arch and B.Planning papers run 3½ hours). Paper 1 for B.E./B.Tech, Paper 2A B.Arch, Paper 2B B.Planning, in 13 languages. If you sit both sessions, the better total NTA score counts.', '2027-01-20', '2027-01-28', 'NTA public notice, 24 Oct 2026'),
+        ('jee-main-s2', 'JEE Main 2027 — Session 2', 'ENGINEERING', '2–7 Apr 2027 (registration 5 Jan – 3 Feb)', _T,
+         'Dates from the JEE Main 2027 Information Bulletin; NTA will confirm them by a separate notice. Registration 5 Jan – 3 Feb 2027 (late fee window 4–7 Feb, corrections 8–10 Feb), city slip 12 Mar, admit card 25 Mar. The better of your two sessions is used for ranking and JEE Advanced eligibility.', '2027-04-02', '2027-04-07', 'Information Bulletin · session 2 tentative'),
         ('jee-adv', 'JEE Advanced 2027', 'IIT GATEWAY', 'Mid-May 2027 (JAB notice awaited)', _E,
          'Gateway to the IITs. The organising IIT and exact dates are not yet announced by the Joint Admission Board (jeeadv.ac.in). Must qualify JEE Main first.', '2027-05-10', '2027-05-24', 'Must qualify JEE Main first'),
         ('josaa', 'JoSAA 2027 Counselling', 'COUNSELLING', 'Jun–Aug 2027 (expected)', _E,
@@ -167,13 +167,13 @@ CATEGORIES = [
 ]
 
 MILESTONES = [
-    ('OCT 2026', 'JEE Main registration expected · TIFR GS closes 25 Oct · UCEED / CEED registration closes 31 Oct'),
+    ('OCT 2026', 'JEE Main Session 1 registration opens 24 Oct (till 22 Nov) · TIFR GS closes 25 Oct · UCEED / CEED registration closes 31 Oct'),
     ('NOV 2026', 'INI-CET (1 Nov) · NIFT closes 16 Nov · CAT (29 Nov) · NID registration closes 30 Nov · AEEE & SRMJEEE registration expected'),
     ('DEC 2026', 'CLAT (6 Dec) · TIFR GS & AILET (13 Dec) · SNAP (13, 19, 26 Dec) · NID DAT Prelims (20 Dec) · BITSAT registration expected'),
-    ('JAN 2027', 'XAT (3 Jan) · NIFT (10 Jan) · UCEED & CEED (17 Jan) · JEE Main Session 1 (22–30 Jan, provisional)'),
+    ('JAN 2027', 'XAT (3 Jan) · NIFT (10 Jan) · UCEED & CEED (17 Jan) · JEE Main Session 1 (20–24 & 28 Jan)'),
     ('FEB 2027', 'GATE (6, 7, 13, 14, 20, 21 Feb) · CMAT (7 Feb, provisional) · JAM (14 Feb)'),
     ('MAR 2027', 'CUET PG (provisional) · NID Prelims result (16 Mar)'),
-    ('APR 2027', 'JEE Main Session 2 · AEEE (from 15 Apr) · state CETs begin'),
+    ('APR 2027', 'JEE Main Session 2 (2–7 Apr) · AEEE (from 15 Apr) · state CETs begin'),
     ('MAY 2027', 'JEE Advanced · NEET UG · CUET UG · COMEDK / EAPCET (all expected)'),
     ('JUN–AUG', 'JoSAA · MCC · TNEA · DASA / CIWG counselling (expected)'),
 ]
@@ -251,7 +251,9 @@ DEADLINES = {
             ('result', None, _E, 'Date awaited — reports differ (late Dec to Jan)')],
     'gate': [('open', '2026-09-02', _T, 'Reported'), ('close', '2026-09-27', _T, 'Regular deadline'), ('late', '2026-10-05', _T, 'Reported'),
              ('result', '2027-03-19', _T, 'Reported by IIT Madras coverage')],
-    'jee-main-s1': [('open', '2026-10-25', _E, 'Expected late October'), ('close', '2026-11-25', _E, 'About a month later'), ('result', '2027-02-12', _E, 'About 12 Feb')],
+    'jee-main-s1': [('open', '2026-10-24', _C, 'NTA public notice'), ('close', '2026-11-22', _C, 'Fee also due by 22 Nov, 11:50 pm'), ('late', '2026-11-26', _C, 'Late fee ₹500 extra, 23–26 Nov'),
+                    ('admit', '2027-01-13', _C, 'City slip 30 Dec 2026'), ('result', '2027-02-12', _E, 'About 12 Feb')],
+    'jee-main-s2': [('open', '2027-01-05', _T, 'Information Bulletin'), ('close', '2027-02-03', _T, 'Late fee till 7 Feb'), ('admit', '2027-03-25', _T, 'City slip 12 Mar')],
     'cuet-ug': [('open', '2027-01-15', _E, 'Notification expected ~January')],
     'aeee': [('open', '2026-11-01', _E, 'Registration opens in November')],
     'bitsat': [('open', '2026-12-01', _T, 'BITS announced December (tentative)')],

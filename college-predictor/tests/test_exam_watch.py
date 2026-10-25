@@ -41,7 +41,7 @@ assert ch == [] and len(er) == 1 and st4['a'] == st3['a']        # unreachable: 
 
 # internal checks against the real data
 notes, ok = ew.internal_checks(date(2027, 1, 20))
-assert ok and any('verified' in n for n in notes) and any('JEE Main' in n for n in notes)
+assert ok and any('verified' in n for n in notes) and any('jee-main' in n for n in notes)
 quiet, ok = ew.internal_checks(date(2026, 10, 17))
 assert ok and not any('verified' in n for n in quiet)
 
