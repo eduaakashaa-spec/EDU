@@ -47,7 +47,7 @@ assert 'md-b-lock' in page and 'Free plan' in page and 'Unlock with membership' 
 assert '/free-guides' in page and '/dasa-2026-analytics' in page
 assert 'Upgrade to premium' in page and 'id="md-q"' in page                                    # search + upgrade call to action
 assert 'data-cat="intel"' in page and page.count('class="md-fchip') == 9                       # All + 8 category filters
-assert '0 of 11 open' in page                                      # intelligence: all premium tiles locked
+assert '0 of 12 open' in page                                      # intelligence: all premium tiles locked
 assert 'mh-tile' not in page and 'banner_art' in page              # old patterned tiles are gone
 for k in ('journey', 'mentorship', 'intel', 'gulf', 'tools', 'insights', 'free', 'support'):
     assert f'id="cat-{k}"' in page, k

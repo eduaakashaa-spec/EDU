@@ -35,6 +35,7 @@ CATEGORIES = [
          {'title': 'JoSAA EA members', 'desc': 'Members-only JoSAA insights.', 'icon': '🇮🇳', 'endpoint': 'main.josaa_ea_members', 'access': 'premium'},
          {'title': 'EduPulse-UCEED', 'desc': 'Chapter-wise MCQ practice with progress reports for you, your parent and mentor.', 'icon': '🎯', 'endpoint': 'pulse.home', 'access': 'premium'},
          {'title': 'EduPulse mentor view', 'desc': 'Progress of students practising UCEED.', 'icon': '📈', 'endpoint': 'pulse.mentor_home', 'access': 'premium', 'staff': True},
+         {'title': 'EduPulse-JEE Mock Test Centre', 'desc': 'JEE Main mocks in the 2027 pattern with a confidence check, negative-marking tracker and reports.', 'icon': '🧮', 'endpoint': 'pulse_jee.home', 'access': 'premium'},
          {'title': 'UCEED Mock Test Centre', 'desc': 'Previous-year papers 2018–2026 and EduAakashaA mocks, timed or practice, with a confidence check and reports.', 'icon': '📝', 'endpoint': 'pulse.mock_home', 'access': 'premium'},
          {'title': 'UCEED 2027 Roadmap', 'desc': 'Design-entrance plan, planner and B.Des admission guide.', 'icon': '✏️', 'endpoint': 'main.uceed_2027_roadmap', 'access': 'premium'},
          {'title': 'Law Entrance 2027 Roadmap', 'desc': 'CLAT, AILET and SLAT plan, planner and law-school guide.', 'icon': '⚖️', 'endpoint': 'main.law_2027_roadmap', 'access': 'premium'},
@@ -88,14 +89,14 @@ TILE_ICON = {
     'Profile & sessions': 'user', 'Document verification': 'file-check', 'My assessments': 'clipboard', 'Stream selection': 'compass',
     'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'FutureReady (Class 8–9)': 'compass', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',
     'DASA 2026 Analytics': 'bar', 'DASA prediction report': 'trend', 'JoSAA EA members': 'users', 'EduPulse-UCEED': 'target', 'EduPulse mentor view': 'dashboard',
-    'UCEED Mock Test Centre': 'clipboard', 'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'TNEA expert': 'book', 'Members report': 'file-text',
+    'EduPulse-JEE Mock Test Centre': 'calculator', 'UCEED Mock Test Centre': 'clipboard', 'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'TNEA expert': 'book', 'Members report': 'file-text',
     'IIT Delhi – Abu Dhabi mentoring': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
     'Why CSE?': 'code', 'Best location': 'pin', 'Engineering insights': 'bulb', 'Hostel & culture': 'home', 'Branch selection guide': 'branch',
     'Free student guides': 'download', 'Exam schedule': 'calendar', 'Contact the team': 'mail', 'Membership plans': 'star', 'More tools coming soon': 'sparkle',
 }
 # tiles added recently show a "New" label for 30 days after this date (real dates, no fabricated badges)
 NEW_SINCE = {'IPM 2027 Roadmap': date(2026, 10, 18), 'Add-on programmes': date(2026, 10, 19), 'Action tracker': date(2026, 10, 20),
-             'IIT Delhi – Abu Dhabi mentoring': date(2026, 10, 21), 'FutureReady (Class 8–9)': date(2026, 10, 23), 'UCEED Mock Test Centre': date(2026, 10, 24)}
+             'IIT Delhi – Abu Dhabi mentoring': date(2026, 10, 21), 'FutureReady (Class 8–9)': date(2026, 10, 23), 'UCEED Mock Test Centre': date(2026, 10, 24), 'EduPulse-JEE Mock Test Centre': date(2026, 10, 25)}
 NEW_DAYS = 30
 
 

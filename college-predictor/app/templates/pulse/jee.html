@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}EduPulse-JEE Main Mock Test Centre | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">{% endblock %}
+{% block content %}
+{% set an = sm.an %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('pulse.home') }}">EduPulse-UCEED</a> › EduPulse-JEE</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">JEE Main · Paper 1 · 2027 pattern · +4 / −1</span><h1>EduPulse-JEE Mock Test Centre</h1>
+      <p>Full 75-question, 3-hour mocks in Mathematics, Physics and Chemistry. Rate your confidence on every answer, then see exactly what negative marking cost you, which losses were avoidable and where you were sure but wrong.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ sm.attempts }}</b><span>mocks saved</span></div>
+      <div class="pl-kpi"><b>{{ sm.best.score|round|int if sm.best else '—' }}</b><span>best score / 300</span></div>
+      <div class="pl-kpi"><b>{{ '−' ~ sm.loss_total|round|int if sm.attempts else '—' }}</b><span>marks lost to negatives</span></div>
+      <div class="pl-kpi"><b>{{ sm.avoidable_rate ~ '%' if sm.avoidable_rate is not none else '—' }}</b><span>attempts avoidable</span></div>
+    </div>
+  </section>
+
+  <div class="pl-note">Mock scores are practice guidance only: they do not predict your JEE Main score, percentile or rank. The EduAakashaA mocks are original questions with computed answers. Previous-year NTA papers appear here once their official answer keys have been added.</div>
+
+  <div class="pl-card" style="margin-top:16px;padding:0;overflow:hidden;">
+    <iframe src="{{ url_for('pulse_jee.app_page') }}" title="JEE Main mock tests" style="width:100%;height:92vh;min-height:640px;border:0;display:block;background:var(--bg,#FBF7EE)" allow="fullscreen"></iframe>
+  </div>
+  <p class="pl-muted" style="margin:8px 0 0;">Your progress is kept in this browser while you work. A finished test is saved to your account and appears below. <a href="{{ url_for('pulse_jee.app_page') }}" target="_blank" rel="noopener">Open full screen ↗</a></p>
+
+  <div class="pl-grid pl-g2" style="margin-top:20px;">
+    <div class="pl-card"><span class="pl-eyebrow">Negative marking</span><h3>Is attempting worth it?</h3>
+      {% if an.rated %}
+      <table class="pl-tbl"><thead><tr><th>You said</th><th>Attempted</th><th>Right</th><th>Accuracy</th><th>Avg per answer</th><th>Net</th></tr></thead><tbody>
+      {% for c, label in CONF %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td><td>{{ ('%+.2f'|format(x.ev)) if x.ev is not none else '—' }}</td><td>{{ ('%+g'|format(x.net)) if x.n else '—' }}</td></tr>{% endfor %}
+      </tbody></table>
+      <p class="pl-muted">Average per answer = 4 × accuracy − 1 × (1 − accuracy). It is positive only when accuracy is above {{ BREAK_EVEN }}%.</p>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+      {% else %}<p class="pl-muted">Finish a mock and rate your answers (Guess, Low, Medium, High). Your negative-marking and confidence picture appears here.</p>{% endif %}
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">By subject</span><h3>Where marks were gained and lost</h3>
+      {% if sm.attempts %}<table class="pl-tbl"><thead><tr><th>Subject</th><th>Attempted</th><th>Accuracy</th><th>Gained</th><th>Lost</th><th>Net</th></tr></thead><tbody>
+      {% for k, a in an.subj.items() %}<tr><td>{{ SUBJ[k] }}</td><td>{{ a.att }}</td><td>{{ a.acc ~ '%' if a.acc is not none else '—' }}</td><td>+{{ a.gain|round|int }}</td><td>−{{ a.loss|round|int }}</td><td>{{ '%+d'|format((a.gain - a.loss)|round|int) }}</td></tr>{% endfor %}</tbody></table>
+      {% if an.sure_wrong %}<p style="margin:10px 0 0;"><strong>{{ an.sure_wrong }}</strong> confident answer{{ '' if an.sure_wrong == 1 else 's' }} were wrong. Review these first.</p>{% endif %}
+      {% else %}<p class="pl-muted">Nothing yet.</p>{% endif %}
+    </div>
+  </div>
+
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>My mock history</h3>
+    {% if sm.rows %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Paper</th><th>Mode</th><th>Score</th><th>Right / wrong / blank</th><th>Lost</th><th>Avoidable</th><th></th></tr></thead><tbody>
+    {% for r in sm.rows[:20] %}<tr><td>{{ r.finished_at.strftime('%d %b %Y') }}</td><td>{{ r.paper_title }}</td><td>{{ 'Timed mock' if r.mode == 'mock' else 'Practice' }}{{ ' · auto-submitted' if r.auto_submitted }}</td>
+      <td>{{ r.score|round(1) }} / {{ r.max_score|int }}</td><td>{{ r.right }} / {{ r.wrong }} / {{ r.blank }}</td><td>−{{ r.lost|round|int }}</td><td>{{ r.avoidable }}</td>
+      <td><a href="{{ url_for('pulse_jee.report', rid=r.id) }}">Report</a> · <a href="{{ url_for('pulse_jee.report_pdf', rid=r.id) }}">PDF</a></td></tr>{% endfor %}</tbody></table>
+    {% else %}<p class="pl-muted">No saved mocks yet. Finish a test in the centre above and it appears here.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -168,8 +168,9 @@ def mentor_home():
     for p in _my_students():
         ov = svc.overall(p.user_id)
         ch = svc.chapter_stats(p.user_id)
+        from app.services import pulse_jee as pj
         from app.services import pulse_mock as pm
-        rows.append({'p': p, 'ov': ov, 'weak': [r for r in ch if r['level'] == 'weak'], 'streak': svc.streak(p.user_id), 'mock': pm.summary(p.user_id)})
+        rows.append({'p': p, 'ov': ov, 'weak': [r for r in ch if r['level'] == 'weak'], 'streak': svc.streak(p.user_id), 'mock': pm.summary(p.user_id), 'jee': pj.summary(p.user_id)})
     rows.sort(key=lambda r: (r['ov']['last'] is None, r['ov']['last'] and -r['ov']['last'].timestamp()))
     return render_template('pulse/mentor.html', rows=rows)
 
@@ -181,8 +182,9 @@ def mentor_student(uid):
     if not current_user.is_admin and p.mentor_id != current_user.id:
         abort(404)
     rows, ov = svc.chapter_stats(uid), svc.overall(uid)
+    from app.services import pulse_jee as pj
     from app.services import pulse_mock as pm
-    return render_template('pulse/mentor_student.html', mock=pm.summary(uid), CONF=pm.CONF, p=p, rows=rows, ov=ov, streak=svc.streak(uid), tips=svc.advice(rows, ov),
+    return render_template('pulse/mentor_student.html', mock=pm.summary(uid), jee=pj.summary(uid), CONF=pm.CONF, p=p, rows=rows, ov=ov, streak=svc.streak(uid), tips=svc.advice(rows, ov),
                            recent=list(reversed(ov['list']))[:15], practice_score=svc.practice_score)
 
 

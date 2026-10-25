@@ -114,7 +114,7 @@ with app.app_context():
 assert mentor.get(f'{BASE}/result/{RID}').status_code == 200 and mentor2.get(f'{BASE}/result/{RID}').status_code == 404
 ms = mentor.get(f'/edupulse-uceed/mentor/{S1}').get_data(as_text=True)
 assert 'UCEED mock tests' in ms and 'UCEED 2026' in ms
-assert 'Mocks' in mentor.get('/edupulse-uceed/mentor').get_data(as_text=True)
+assert 'UCEED mocks' in mentor.get('/edupulse-uceed/mentor').get_data(as_text=True)
 
 # second attempt: history, averages and trend
 s1.post(f'{BASE}/results', json=attempt('M2', 'practice', 150))

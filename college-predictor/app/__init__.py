@@ -52,7 +52,7 @@ def create_app():
     # public information pages. Hidden on membership / account / admin pages, on
     # contact pages, and for members who already have Premium.
     NOTICE_SKIP_BLUEPRINTS = {'membership', 'admin_portal', 'auth', 'members', 'invoices',
-                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup'}
+                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup', 'pulse_jee'}
     NOTICE_SKIP_ENDPOINTS = {'main.members_registration', 'main.premium_membership',
                              'main.members_login', 'main.contact', 'main.contact_alias',
                              'main.contactus_alias', 'static'}
@@ -120,6 +120,9 @@ def create_app():
 
     from app.futureready.routes import fr_bp
     app.register_blueprint(fr_bp)
+
+    from app.routes.pulse_jee import pulse_jee_bp
+    app.register_blueprint(pulse_jee_bp)
 
     from app.routes.wagroup import wagroup_bp
     app.register_blueprint(wagroup_bp)

@@ -79,3 +79,15 @@ Student progress is visible to the student, their linked mentor and admins only.
 * **Change from the supplied file:** answers typed with the on-screen NAT keypad now enable the confidence buttons (they stayed disabled before, so keypad users could not rate).
 * **Rights:** the official papers are IIT Bombay material; make sure your use is covered before opening the centre to members.
 * Scores are practice guidance only and do not predict a UCEED score, rank or admission.
+
+## EduPulse-JEE Mock Test Centre (JEE Main)
+
+`/edupulse-jee/` (Premium members; Member Home tile "EduPulse-JEE Mock Test Centre"; button on the EduPulse page). Same engine and theme as the UCEED centre, built for JEE Main Paper 1 (B.E./B.Tech.) in the 2027 pattern.
+
+* **Pattern:** 75 questions, 180 minutes, Mathematics / Physics / Chemistry, each 20 MCQ + 5 numerical; **+4 correct, −1 wrong, 0 blank in both sections** (NTA Information Bulletin 2027). Timed mock (3 h, free movement between subjects) and untimed practice.
+* **Confidence + negative-marking tracker:** every answer is rated Guess / Low / Medium / High. The report shows marks gained and lost by subject and by MCQ vs numerical, the *avoidable loss* (wrong answers rated Guess or Low), *sure but wrong* answers, and for each confidence level the accuracy and the average marks per answer (4p − (1 − p); break-even accuracy is 20%) with the net marks of your Guess/Low answers, so students can see whether guessing helped. Reports are rule-based and explain themselves; fewer than 10 rated answers is called out rather than judged.
+* **Papers:**
+  * **EduAakashaa Mocks 1–5** (original, 375 questions, 40 chapters). Every answer is computed by the template that wrote the question (`tools/jee_mock/`); `python tools/jee_mock/build.py` regenerates a set (change `SEED_BASE` for new questions), `make_app.py` rebuilds the page and `make_index.py` the paper list.
+  * **NTA previous-year papers (2026 B.Tech, 9 shifts):** the PDFs supplied are exam-engine exports with the questions as images and **no answer key** (the "possible answers" values are placeholders). `tools/jee_mock/extract_pyq.py` turns a PDF into a paper (75 questions as images with options labelled A–D) and `apply_key.py` applies the official key (CSV: `n` or `qid`, `answer` as A–D, an NTA option id, or the numeric value; `|` for two accepted answers; `BONUS`). A paper stays "not yet available" and is never served until every question has a key.
+* **Saved results:** table `pulse_jee_results` (created automatically); posts to `/edupulse-jee/results`. Students see history and a report/PDF per attempt; mentors see JEE mocks, average and marks lost to negatives in `/edupulse-uceed/mentor` and per student. Taking a mock creates the student's EduPulse profile with e-mail digests off and links their mentor from the Mentorship record.
+* Scores are practice guidance only and do not predict a JEE Main score, percentile or rank.

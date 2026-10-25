@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ r.paper_title }} mock report | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb">{% if own %}<a href="{{ url_for('pulse_jee.home') }}">JEE Mock Test Centre</a>{% else %}<a href="{{ url_for('pulse.mentor_student', uid=r.user_id) }}">{{ r.user.name }}</a>{% endif %} › {{ r.paper_title }} report</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">{{ 'Timed mock' if r.mode == 'mock' else 'Practice' }} · {{ r.finished_at.strftime('%d %b %Y') }}{{ ' · auto-submitted at time-up' if r.auto_submitted }}</span><h1>{{ r.paper_title }}</h1>
+      <p>{{ r.user.name }} · <a href="{{ url_for('pulse_jee.report_pdf', rid=r.id) }}" style="color:#fff;text-decoration:underline">Download PDF</a></p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ r.score|round(1) }}</b><span>of {{ r.max_score|int }}</span></div>
+      <div class="pl-kpi"><b>+{{ r.gained|round|int }}</b><span>gained ({{ r.right }} right)</span></div>
+      <div class="pl-kpi"><b>−{{ r.lost|round|int }}</b><span>lost ({{ r.wrong }} wrong)</span></div>
+      <div class="pl-kpi"><b>{{ r.avoidable }}</b><span>avoidable (Guess/Low wrong)</span></div>
+    </div>
+  </section>
+
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>By subject: gains and negative marks</h3><table class="pl-tbl"><thead><tr><th>Subject</th><th>Attempted</th><th>Right</th><th>Wrong</th><th>Accuracy</th><th>Gained</th><th>Lost</th><th>Net</th></tr></thead><tbody>
+    {% for k, a in an.subj.items() %}<tr><td>{{ SUBJ[k] }}</td><td>{{ a.att }}</td><td>{{ a.right }}</td><td>{{ a.wrong }}</td><td>{{ a.acc ~ '%' if a.acc is not none else '—' }}</td><td>+{{ a.gain|round|int }}</td><td>−{{ a.loss|round|int }}</td><td><strong>{{ '%+d'|format((a.gain - a.loss)|round|int) }}</strong></td></tr>{% endfor %}</tbody></table>
+    <p class="pl-muted">Multiple-choice: {{ an.kind.MCQ.wrong }} wrong of {{ an.kind.MCQ.att }} attempted (−{{ an.kind.MCQ.loss|round|int }}). Numerical: {{ an.kind.NAT.wrong }} wrong of {{ an.kind.NAT.att }} attempted (−{{ an.kind.NAT.loss|round|int }}).</p></div>
+
+  <div class="pl-grid pl-g2" style="margin-top:16px;">
+    <div class="pl-card"><span class="pl-eyebrow">Confidence check</span><h3>Was attempting worth it?</h3>
+      <table class="pl-tbl"><thead><tr><th>Rated</th><th>Attempted</th><th>Right</th><th>Accuracy</th><th>Avg per answer</th><th>Net marks</th></tr></thead><tbody>
+      {% for c, label in CONF %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td><td>{{ ('%+.2f'|format(x.ev)) if x.ev is not none else '—' }}</td><td>{{ ('%+g'|format(x.net)) if x.n else '—' }}</td></tr>{% endfor %}</tbody></table>
+      <p class="pl-muted">Average per answer is positive only above {{ BREAK_EVEN }}% accuracy (+4 right, −1 wrong).{% if an.unrated_wrong %} {{ an.unrated_wrong }} wrong answer{{ '' if an.unrated_wrong == 1 else 's' }} had no confidence rating.{% endif %}</p>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul></div>
+    <div class="pl-card"><span class="pl-eyebrow">By chapter</span><h3>Where the marks came from</h3>
+      {% if an.chap %}<table class="pl-tbl"><thead><tr><th>Chapter</th><th>Q</th><th>Wrong</th><th>Sure but wrong</th><th>Marks</th></tr></thead><tbody>
+      {% for k, t in an.chap.items()|sort(attribute='1.score') %}<tr><td>{{ k }} <span class="pl-muted">{{ SUBJ.get(t.subj, '') }}</span></td><td>{{ t.n }}</td><td>{{ t.wrong or '—' }}</td><td>{{ t.sure_wrong or '—' }}</td><td>{{ '%+g'|format(t.score) }}</td></tr>{% endfor %}</tbody></table>
+      {% else %}<p class="pl-muted">Chapter data is not available for this paper.</p>{% endif %}</div>
+  </div>
+
+  {% set risky = [] %}{% for n, q in p.questions.items() if q.confidence == 'H' and q.status == 'wrong' %}{% if risky.append(n) %}{% endif %}{% endfor %}
+  {% if risky %}<div class="pl-card" style="margin-top:16px;"><span class="pl-eyebrow">Review first</span><h3>Confident answers that were wrong</h3>
+    <p>Question numbers: {% for n in risky %}<span class="pl-pill cf-H">Q{{ n }}</span> {% endfor %}</p>
+    <p class="pl-muted">Open the paper in the centre and read the working for each one. Write down what you believed and what is actually true.</p></div>{% endif %}
+
+  <div class="pl-note" style="margin-top:16px;">Mock scores are practice guidance only. They do not predict the JEE Main score, percentile or rank, and a single mock is a snapshot, not a measure of ability.</div>
+</div>
+{% endblock %}

@@ -131,6 +131,37 @@ class PulseMockResult(db.Model):
     user = db.relationship('User', foreign_keys=[user_id])
 
 
+class PulseJeeResult(db.Model):
+    """One finished JEE Main mock (EduAakashaa practice paper or an NTA previous-year paper) posted by the JEE Mock Test Centre.
+    Marking is +4 / -1 (MCQ and numerical). `payload_json` keeps the per-question rows (answer, status, marks, confidence, seconds)."""
+    __tablename__ = 'pulse_jee_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    paper = db.Column(db.String(12), index=True)
+    paper_title = db.Column(db.String(80))
+    mode = db.Column(db.String(12))                               # mock (timed) | practice
+    score = db.Column(db.Float)
+    max_score = db.Column(db.Float)
+    attempted = db.Column(db.Integer, default=0)
+    right = db.Column(db.Integer, default=0)
+    wrong = db.Column(db.Integer, default=0)
+    blank = db.Column(db.Integer, default=0)
+    gained = db.Column(db.Float, default=0)                       # marks from correct answers
+    lost = db.Column(db.Float, default=0)                         # marks deducted for wrong answers (positive number)
+    avoidable = db.Column(db.Integer, default=0)                  # wrong answers rated Guess or Low
+    sure_wrong = db.Column(db.Integer, default=0)                 # wrong answers rated High
+    rated = db.Column(db.Integer, default=0)
+    math_score = db.Column(db.Float, default=0)
+    phy_score = db.Column(db.Float, default=0)
+    chem_score = db.Column(db.Float, default=0)
+    duration_sec = db.Column(db.Integer)
+    auto_submitted = db.Column(db.Boolean, default=False)
+    started_at = db.Column(db.DateTime)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
+    user = db.relationship('User', foreign_keys=[user_id])
+
+
 class PulseReport(db.Model):
     """Log of progress digests sent, so a period is never mailed twice."""
     __tablename__ = 'pulse_reports'
