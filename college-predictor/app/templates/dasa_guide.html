@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Dasa Guide | EduAakashaA{% endblock %}
+{% block title %}DASA &amp; CIWG Admissions Guide | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dasa_guide.css') }}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
@@ -7,15 +7,23 @@
 
 {% block content %}
 <div class="ported ported-dasa_guide">
+<div class="dg-alert" role="note">
+  <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+  <div class="dg-alert__body">
+    <strong>This page uses DASA 2025 data.</strong>
+    For the latest 2026&ndash;27 admission data and analytics, join Premium Membership.
+    {% if current_user.is_authenticated and current_user.is_premium %}
+    <br><a class="dg-alert__cta" href="{{ url_for('main.dasa_2026_analytics') }}">Open DASA 2026 analytics &rarr;</a>
+    {% else %}
+    <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+    <a class="dg-alert__link" href="{{ url_for('main.dasa_2026') }}">See the free DASA 2026 overview</a>
+    {% endif %}
+  </div>
+</div>
 {% raw %}
 
 
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DASA &amp; CIWG 2025 College Predictor | EduAakashaa</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;600&amp;display=swap" rel="stylesheet">
 
 
 
