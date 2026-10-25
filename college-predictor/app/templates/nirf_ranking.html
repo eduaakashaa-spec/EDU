@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Nirf Ranking | EduAakashaA{% endblock %}
+{% block title %}NIRF 2026 Engineering Rankings | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/nirf_ranking.css') }}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" defer></script>
@@ -7,13 +7,28 @@
 
 {% block content %}
 <div class="ported ported-nirf_ranking">
+<div class="nr-hero">
+  <span class="nr-chip">NIRF 2026</span>
+  <h1>NIRF 2026 <span>Engineering Rankings</span></h1>
+  <p>300 institutions in 4 bands &middot; Source: MoE India, nirfindia.org &middot; Analytics by EduAakashaA</p>
+</div>
+<div class="dg-alert" role="note">
+  <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+  <div class="dg-alert__body">
+    <strong>Rankings alone do not decide admission.</strong>
+    For the latest 2026&ndash;27 admission data and analytics, join Premium Membership.
+    {% if current_user.is_authenticated and current_user.is_premium %}
+    <br><a class="dg-alert__cta" href="{{ url_for('main.dasa_2026_analytics') }}">Open DASA 2026 analytics &rarr;</a>
+    {% else %}
+    <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+    <a class="dg-alert__link" href="{{ url_for('main.josaa') }}">See the free JoSAA guide</a>
+    {% endif %}
+  </div>
+</div>
 {% raw %}
 
 
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>EduaakashaA — NIRF 2026 Engineering Rankings</title>
 
 
 

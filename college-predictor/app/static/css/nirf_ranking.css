@@ -10,11 +10,12 @@
  		max-width: 100%;
  	}
 .ported * {margin:0;padding:0;box-sizing:border-box;}
-:root {
-  --orange:#FF6B00;--orange2:#FF8C38;--blue:#1A4FAA;--blue2:#2563EB;
-  --dark:#0D0F18;--dark2:#131825;--dark3:#1A2035;--card:#1E2640;
-  --border:rgba(255,107,0,0.2);--text:#E8EDF8;--muted:#8892A8;
-  --green:#22D3A0;--red:#F43F5E;--yellow:#FBBF24;--purple:#A78BFA;
+.ported-nirf_ranking {
+  /* EduAakashaA palette: deep navy dashboard with orange accents */
+  --orange:#FF6B0A;--orange2:#FF8A3D;--blue:#0E3A8A;--blue2:#7FA8FF;
+  --dark:#071A44;--dark2:#0A2560;--dark3:#102C6E;--card:#0C2152;
+  --border:rgba(255,138,61,0.28);--text:#F5EFDF;--muted:#A9B2CC;
+  --green:#3ECF8E;--red:#FF7A8A;--yellow:#FFC24B;--purple:#B7A5FF;
 }
 .ported {background:var(--dark);color:var(--text);font-family:Arial,sans-serif;min-height:100vh;overflow-x:hidden;}
 .ported body::before {content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 20% 20%,rgba(255,107,0,0.04),transparent 60%),radial-gradient(ellipse at 80% 80%,rgba(26,79,170,0.05),transparent 60%);pointer-events:none;z-index:0;}
@@ -172,6 +173,33 @@
 .ported .stat-num {font-size:1.5rem;}
 .ported .sd-grid {grid-template-columns:repeat(2,1fr);}
 }
-/* hide frame's own chrome; base.html provides nav+footer */
-.ported > header, .ported > nav, .ported > footer, .ported header, .ported footer,.ported .site-header, .ported .site-footer, .ported #mobileMenu, .ported #hamburger { display:none !important; }
+/* base.html provides the site navigation and footer; this page keeps its tabs, and the intro below replaces its own logo bar */
+.ported .header, .ported .site-header, .ported .site-footer, .ported #mobileMenu, .ported #hamburger { display:none !important; }
 .ported { padding-top:0 !important; }
+
+
+/* ---------- EduAakashaA theme ---------- */
+.ported-nirf_ranking { font-family:'Plus Jakarta Sans',Arial,sans-serif; }
+.ported-nirf_ranking .nr-hero { padding:30px 24px 22px; text-align:center; background:linear-gradient(140deg,#071A44 0%,#0A2560 60%,#0E3A8A 100%); border-bottom:1px solid rgba(255,138,61,.3); position:relative; }
+.ported-nirf_ranking .nr-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 70% at 85% -10%,rgba(255,107,10,.28) 0%,transparent 60%); pointer-events:none; }
+.ported-nirf_ranking .nr-hero > * { position:relative; }
+.ported-nirf_ranking .nr-hero .nr-chip { display:inline-block; background:#FF6B0A; color:#fff; font-size:.68rem; font-weight:700; letter-spacing:1px; padding:4px 12px; border-radius:20px; }
+.ported-nirf_ranking .nr-hero h1 { font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:clamp(1.6rem,3.4vw,2.4rem); color:#fff; margin:10px 0 6px; letter-spacing:-.4px; line-height:1.15; }
+.ported-nirf_ranking .nr-hero h1 span { color:#FF8A3D; }
+.ported-nirf_ranking .nr-hero p { color:rgba(255,255,255,.75); font-size:.95rem; margin:0; }
+.ported-nirf_ranking .nav-wrap { position:static; background:#071A44; border-bottom:3px solid #FF6B0A; }
+.ported-nirf_ranking .sec-title { font-family:'Fraunces',Georgia,serif; font-weight:600; }
+.ported-nirf_ranking .stat-num, .ported-nirf_ranking .tc-score { color:#FF8A3D; }
+.ported-nirf_ranking .note-bar { background:rgba(255,107,10,.08); border-color:rgba(255,138,61,.3); }
+.ported-nirf_ranking .note-bar a { color:#FF8A3D; }
+.ported-nirf_ranking th { color:#FF8A3D; }
+
+/* premium alert */
+.dg-alert { display:flex; gap:14px; align-items:flex-start; max-width:1340px; margin:18px auto 0; padding:14px 18px; border:1px solid #F5CBA7; border-left:5px solid #FF6B0A; border-radius:12px; background:#FFF1E6; color:#0E1B3D; position:relative; z-index:1; }
+.dg-alert__icon { font-size:1.4rem; line-height:1.2; }
+.dg-alert__body { flex:1; font-size:.95rem; line-height:1.5; }
+.dg-alert__body strong { font-family:'Fraunces',Georgia,serif; font-size:1.05rem; display:block; margin-bottom:2px; }
+.dg-alert__cta { display:inline-block; margin-top:8px; background:#FF6B0A; color:#fff !important; font-weight:700; padding:8px 18px; border-radius:999px; text-decoration:none; }
+.dg-alert__cta:hover { background:#D4560A; }
+.dg-alert__link { margin-left:12px; color:#0E3A8A; font-weight:600; }
+@media (max-width:700px){ .dg-alert { margin:12px 16px 0; } .dg-alert__link { display:block; margin:8px 0 0; } }
