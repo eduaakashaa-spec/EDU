@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Nirf Analytic | EduAakashaA{% endblock %}
+{% block title %}NIRF Engineering 3-Year Movement | EduAakashaA{% endblock %}
 {% block meta_description %}<meta name="description" content="Three years of NIRF Engineering rankings (2023, 2024, 2025) placed side-by-side. See which colleges climbed, which fell, and what the patterns mean for students choosing where to apply.">{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/nirf_analytic.css') }}">
@@ -8,13 +8,24 @@
 
 {% block content %}
 <div class="ported ported-nirf_analytic">
+<div class="container">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>This analysis covers NIRF 2023&ndash;2025.</strong>
+      For the latest 2026&ndash;27 admission data and analytics, join Premium Membership.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.dasa_2026_analytics') }}">Open DASA 2026 analytics &rarr;</a>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
 {% raw %}
 
 
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NIRF Engineering: 3-Year Movement Matrix — EduAakashaa</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
