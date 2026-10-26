@@ -421,6 +421,12 @@ def ea_admin_portal():
     return redirect(url_for('admin_portal.home'))
 
 
+@main_bp.route('/choice-builder')
+def choice_builder_alias():
+    # short URL for the Choice Builder PRO tool (which itself requires Premium access)
+    return redirect(url_for('main.choice_builder_pro'), code=301)
+
+
 @main_bp.route('/choice-builder-pro')
 @premium_required        # included in Premium Portal Access (admins pass too)
 def choice_builder_pro():
