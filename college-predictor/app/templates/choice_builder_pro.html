@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Choice Builder PRO | EA Team Portal{% endblock %}
+{% block title %}Choice Builder PRO and Allotment Analyzer | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/choice_builder_pro.css') }}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
@@ -8,6 +8,18 @@
 
 {% block content %}
 <div class="ported ported-choice_builder_pro">
+<div class="dg-alert noprint" role="note">
+  <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+  <div class="dg-alert__body">
+    <strong>Choice-filling guidance, not an allotment guarantee.</strong>
+    Latest 2026&ndash;27 admission data and analytics are part of Premium Membership.
+    {% if current_user.is_authenticated and current_user.is_premium %}
+    <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier == 'premium' and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+    {% else %}
+    <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+    {% endif %}
+  </div>
+</div>
 {% raw %}
 <div id="repHead">
   <div class="cover-bar">
