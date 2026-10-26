@@ -25,6 +25,7 @@
   <a href="{{ url_for('members.admin_doc_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'documents' }}">Document Verify</a>
   <a href="{{ url_for('onboarding.admin_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'onboarding' }}">Onboarding Assessments</a>
   <a href="{{ url_for('mentorship.mentor_home') }}" class="adm-navlink {{ 'on' if admin_tab == 'mentorship' }}">Mentorship</a>
+  <a href="{{ url_for('portal_guide.index') }}" class="adm-navlink">Guide</a>
 </nav>
 {% else %}
 <nav class="adm-nav" aria-label="Admin sections">
@@ -79,5 +80,6 @@
       <a href="{{ url_for('invoices.admin_settings') }}">Invoice Settings</a>
     </div>
   </div>
+  <a href="{{ url_for('portal_guide.index') }}" class="adm-navlink {{ 'on' if admin_tab == 'guide' }}">Guide</a>
 </nav>
 {% endif %}

@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Portal guide | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+<style>
+  .pgd{max-width:1080px;margin:0 auto;padding:22px 16px 60px;color:var(--ink,#0E1B3D)}
+  .pgd h1{font-family:'Fraunces',Georgia,serif;font-weight:600;font-size:clamp(1.7rem,4vw,2.4rem);margin:4px 0 6px;color:var(--navy-ink,#071A44)}
+  .pgd .eyebrow{font:700 .72rem 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#FF6B0A}
+  .pgd .sub{color:var(--muted,#5A6278);margin:0 0 14px;font-size:.95rem}
+  .pgd .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 12px}
+  .pgd .tabs a{font:700 .74rem 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:8px 16px;border-radius:999px;border:1.5px solid var(--hairline,#E8DFC8);background:var(--paper,#FFFDF7);color:inherit}
+  .pgd .tabs a.on{background:#0E3A8A;border-color:#0E3A8A;color:#fff}
+  .pgd .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 16px}
+  .pgd .bar input{flex:1;min-width:200px;padding:10px 14px;border:1.5px solid var(--hairline,#E8DFC8);border-radius:10px;font:inherit;background:var(--paper,#FFFDF7);color:inherit}
+  .pgd .bar button{font:700 .8rem 'Plus Jakarta Sans',sans-serif;padding:9px 14px;border-radius:999px;border:1.5px solid var(--hairline,#E8DFC8);background:var(--paper,#FFFDF7);cursor:pointer;color:inherit}
+  .pgd .layout{display:grid;grid-template-columns:210px 1fr;gap:22px;align-items:start}
+  .pgd .toc{position:sticky;top:76px;font-size:.86rem;max-height:calc(100vh - 100px);overflow:auto}
+  .pgd .toc b{display:block;font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.12em;text-transform:uppercase;color:#5A6278;margin:12px 0 4px}
+  .pgd .toc a{display:block;padding:3px 0;text-decoration:none;color:inherit;line-height:1.35}
+  .pgd .toc a:hover{color:#0E3A8A;text-decoration:underline}
+  .pgd .grp{font:700 .72rem 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#0E3A8A;margin:22px 0 8px}
+  .pgd details{background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:14px;margin:0 0 8px;overflow:hidden}
+  .pgd summary{cursor:pointer;list-style:none;padding:12px 44px 12px 16px;position:relative;display:block}
+  .pgd summary::-webkit-details-marker{display:none}
+  .pgd summary:after{content:"+";position:absolute;right:16px;top:10px;font-weight:700;color:#FF6B0A;font-size:1.3rem}
+  .pgd details[open] summary:after{content:"\2212"}
+  .pgd summary strong{font-family:'Fraunces',Georgia,serif;font-size:1.06rem;font-weight:600;color:var(--navy-ink,#071A44)}
+  .pgd summary span{display:block;color:var(--muted,#5A6278);font-size:.86rem;margin-top:2px}
+  .pgd summary .badge{margin-left:8px;vertical-align:middle}
+  .pgd .badge{font:700 .62rem 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;background:#FF6B0A;color:#fff;padding:2px 8px;border-radius:999px}
+  .pgd .body{padding:2px 18px 16px;border-top:1px dashed var(--hairline,#E8DFC8)}
+  .pgd ol{margin:12px 0 0;padding-left:0;list-style:none;counter-reset:s}
+  .pgd ol li{counter-increment:s;position:relative;padding:6px 0 6px 34px;line-height:1.5;font-size:.94rem}
+  .pgd ol li:before{content:counter(s);position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;background:#0E3A8A;color:#fff;font:700 .74rem 'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center}
+  .pgd .tip{margin:10px 0 0;padding:9px 12px;border-left:4px solid #FF6B0A;background:#FFF1E6;border-radius:8px;font-size:.88rem;color:#0E1B3D}
+  .pgd .go{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .pgd .go a{font:700 .8rem 'Plus Jakarta Sans',sans-serif;background:#0E3A8A;color:#fff;text-decoration:none;padding:7px 14px;border-radius:999px}
+  .pgd .meta{margin-top:10px;font-size:.74rem;color:#5A6278}
+  .pgd .log{margin-top:30px;padding:14px 18px;border:1px solid var(--hairline,#E8DFC8);border-radius:14px;background:var(--paper,#FFFDF7)}
+  .pgd .log h2{font-family:'Fraunces',Georgia,serif;font-size:1.15rem;margin:0 0 8px}
+  .pgd .log li{margin:4px 0;font-size:.88rem}
+  .pgd .warn{padding:10px 14px;border:1px solid #F5CBA7;border-left:5px solid #C23A3A;background:#FDECEC;border-radius:10px;margin-bottom:14px;font-size:.9rem}
+  .pgd .none{display:none;padding:18px;text-align:center;color:#5A6278}
+  @media (max-width:820px){.pgd .layout{grid-template-columns:1fr}.pgd .toc{display:none}}
+  @media print{.pgd .tabs,.pgd .bar,.pgd .toc,.pgd .go{display:none}.pgd details{break-inside:avoid}.pgd details>*{display:block}}
+  html[data-theme="dark"] .pgd .tip{background:#2A1E14;color:#EEE9DA}html[data-theme="dark"] .pgd .warn{background:#2D1618}
+</style>
+{% endblock %}
+{% block content %}
+<div class="pgd">
+  <div class="eyebrow">EduAakashaA · Portal guide</div>
+  <h1>How to use the portal</h1>
+  <p class="sub">Step-by-step instructions for each role. Last updated {{ pg.UPDATED }}. Open a topic to see its steps; use the search box to find one quickly.</p>
+
+  {% if missing %}<div class="warn" role="alert"><b>Needs documenting:</b> these Member Home tiles have no guide entry yet: {{ missing|join(', ') }}. Add them in <code>app/services/portal_guide.py</code>.</div>{% endif %}
+
+  <nav class="tabs" aria-label="Guide sections">
+    {% for r in roles %}<a href="{{ url_for('portal_guide.index', role=r) }}" class="{{ 'on' if r == role }}">{{ pg.ROLE_LABEL[r] }}</a>{% endfor %}
+  </nav>
+  <p class="sub" style="margin-top:0">{{ pg.ROLE_BLURB[role] }}</p>
+
+  <div class="bar">
+    <input type="search" id="pg-q" placeholder="Search this section, e.g. invoice, confidence, roster" aria-label="Search the guide">
+    <button type="button" id="pg-open">Expand all</button><button type="button" id="pg-close">Collapse all</button><button type="button" onclick="window.print()">Print</button>
+  </div>
+
+  {% set groups = [] %}
+  {% for e in everyone + entries %}{% if e.group not in groups %}{% set _ = groups.append(e.group) %}{% endif %}{% endfor %}
+  <div class="layout">
+    <aside class="toc" aria-label="Topics">
+      {% for g in groups %}<b>{{ g }}</b>{% for e in everyone + entries if e.group == g %}<a href="#{{ e.id }}">{{ e.title }}</a>{% endfor %}{% endfor %}
+    </aside>
+    <div id="pg-list">
+      {% for g in groups %}
+      <div class="grp" data-grp>{{ g }}</div>
+      {% for e in everyone + entries if e.group == g %}
+      <details id="{{ e.id }}" data-text="{{ (e.title ~ ' ' ~ e.summary ~ ' ' ~ e.steps|join(' ') ~ ' ' ~ (e.tips or [])|join(' '))|lower|e }}">
+        <summary><strong>{{ e.title }}</strong>{% if is_new(e) %}<em class="badge">New</em>{% endif %}<span>{{ e.summary }}</span></summary>
+        <div class="body">
+          <ol>{% for s in e.steps %}<li>{{ s }}</li>{% endfor %}</ol>
+          {% for t in e.tips or [] %}<p class="tip"><b>Tip.</b> {{ t }}</p>{% endfor %}
+          {% if e.links %}<div class="go">{% for label, href in e.links %}<a href="{{ href }}">{{ label }} &rarr;</a>{% endfor %}</div>{% endif %}
+          <p class="meta">Updated {{ e.updated }}{% if e.role == 'all' %} · for everyone{% endif %}</p>
+        </div>
+      </details>
+      {% endfor %}
+      {% endfor %}
+      <div class="none" id="pg-none">Nothing matches. Try another word.</div>
+    </div>
+  </div>
+
+  <section class="log" aria-label="Change log"><h2>What changed recently</h2>
+    <ul>{% for d, t in pg.CHANGELOG[:8] %}<li><b>{{ d }}</b> &middot; {{ t }}</li>{% endfor %}</ul></section>
+</div>
+<script>
+(function () {
+  var q = document.getElementById('pg-q'), items = [].slice.call(document.querySelectorAll('#pg-list details')), none = document.getElementById('pg-none');
+  function run() {
+    var t = q.value.trim().toLowerCase(), shown = 0;
+    items.forEach(function (d) { var ok = !t || d.dataset.text.indexOf(t) > -1; d.style.display = ok ? '' : 'none'; if (ok) shown++; if (t && ok) d.open = true; });
+    [].forEach.call(document.querySelectorAll('[data-grp]'), function (g) { var n = g.nextElementSibling, any = false; while (n && !n.hasAttribute('data-grp') && n.id !== 'pg-none') { if (n.style.display !== 'none') any = true; n = n.nextElementSibling; } g.style.display = any ? '' : 'none'; });
+    none.style.display = shown ? 'none' : 'block';
+  }
+  q.addEventListener('input', run);
+  document.getElementById('pg-open').onclick = function () { items.forEach(function (d) { d.open = true; }); };
+  document.getElementById('pg-close').onclick = function () { items.forEach(function (d) { d.open = false; }); };
+  if (location.hash) { var t = document.querySelector(location.hash); if (t && t.tagName === 'DETAILS') t.open = true; }
+  window.addEventListener('hashchange', function () { var t = document.querySelector(location.hash); if (t && t.tagName === 'DETAILS') t.open = true; });
+})();
+</script>
+{% endblock %}

@@ -52,7 +52,7 @@ def create_app():
     # public information pages. Hidden on membership / account / admin pages, on
     # contact pages, and for members who already have Premium.
     NOTICE_SKIP_BLUEPRINTS = {'membership', 'admin_portal', 'auth', 'members', 'invoices',
-                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup', 'pulse_jee', 'reinforce'}
+                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup', 'pulse_jee', 'reinforce', 'portal_guide'}
     NOTICE_SKIP_ENDPOINTS = {'main.members_registration', 'main.premium_membership',
                              'main.members_login', 'main.contact', 'main.contact_alias',
                              'main.contactus_alias', 'main.dasa_guide', 'main.nirf_ranking', 'main.josaa', 'main.iiits', 'main.annanri', 'main.nirf_analytic', 'main.tnea_colleges', 'main.dasa_2026', 'main.dasa_2026_analytics', 'main.josaa_ea_members', 'main.josaa_assessment', 'main.choice_builder_pro', 'static'}
@@ -127,6 +127,9 @@ def create_app():
 
     from app.routes.reinforce import reinforce_bp
     app.register_blueprint(reinforce_bp)
+
+    from app.routes.portal_guide import portal_guide_bp
+    app.register_blueprint(portal_guide_bp)
 
     from app.routes.wagroup import wagroup_bp
     app.register_blueprint(wagroup_bp)

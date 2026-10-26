@@ -82,6 +82,7 @@ CATEGORIES = [
     {'key': 'support', 'title': 'Support & Membership', 'icon': '🤝', 'color': '#DB2777', 'tint': '#FDE8F2',
      'blurb': 'Talk to us or manage your plan.',
      'tiles': [
+         {'title': 'Portal guide', 'desc': 'Step-by-step instructions for members, parents, mentors and admins.', 'icon': '📖', 'endpoint': 'portal_guide.index', 'access': 'free'},
          {'title': 'Contact the team', 'desc': 'info@eduaakashaa.com · +91-80157 22706', 'icon': '✉️', 'endpoint': 'main.contact_alias', 'access': 'free'},
          {'title': 'Membership plans', 'desc': 'Upgrade or renew your access.', 'icon': '★', 'endpoint': 'main.members_registration', 'access': 'free'},
          {'title': 'More tools coming soon', 'desc': 'New member features land here.', 'icon': '✨', 'endpoint': None, 'access': 'soon'},
@@ -98,7 +99,7 @@ TILE_ICON = {
     'EduPulse-JEE Mock Test Centre': 'calculator', 'UCEED Mock Test Centre': 'clipboard', 'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'TNEA expert': 'book', 'Members report': 'file-text',
     'IIT Delhi – Abu Dhabi mentoring': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
     'Why CSE?': 'code', 'Best location': 'pin', 'Engineering insights': 'bulb', 'Hostel & culture': 'home', 'Branch selection guide': 'branch',
-    'Free student guides': 'download', 'Exam schedule': 'calendar', 'Contact the team': 'mail', 'Membership plans': 'star', 'More tools coming soon': 'sparkle',
+    'Free student guides': 'download', 'Exam schedule': 'calendar', 'Contact the team': 'mail', 'Membership plans': 'star', 'Portal guide': 'book', 'More tools coming soon': 'sparkle',
 }
 # tiles added recently show a "New" label for 30 days after this date (real dates, no fabricated badges)
 NEW_SINCE = {'IPM 2027 Roadmap': date(2026, 10, 18), 'Add-on programmes': date(2026, 10, 19), 'Action tracker': date(2026, 10, 20),
