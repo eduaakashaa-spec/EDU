@@ -1030,7 +1030,7 @@ function showSubmitSuccess(name, email, id, url) {
     '<a href="mailto:contact@eduaakashaa.com" style="background:#163896;color:#fff;padding:9px 18px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none">&#128231; Contact Us</a>' +
     '<a href="https://www.eduaakashaa.com" target="_blank" style="background:#F97316;color:#fff;padding:9px 18px;border-radius:8px;font-weight:700;font-size:12px;text-decoration:none">&#127760; Visit Website</a>' +
     '</div>' +
-    '<div style="margin-top:14px"><button onclick="this.closest('div[style*=fixed]').remove()" style="background:#E2E8F0;border:none;padding:8px 20px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600">Close</button></div>' +
+    '<div style="margin-top:14px"><button onclick="this.closest(\'div[style*=fixed]\').remove()" style="background:#E2E8F0;border:none;padding:8px 20px;border-radius:7px;cursor:pointer;font-size:12px;font-weight:600">Close</button></div>' +
     '</div>';
   document.body.appendChild(box);
 }

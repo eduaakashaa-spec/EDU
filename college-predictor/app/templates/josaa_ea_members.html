@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}JOSAA EA Members | EduAakashaA{% endblock %}
+{% block title %}JoSAA Members Predictor &amp; Planning | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/josaa_ea_members.css') }}">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -7,9 +7,19 @@
 
 {% block content %}
 <div class="ported ported-josaa_ea_members">
+<div class="dg-alert" role="note">
+  <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+  <div class="dg-alert__body">
+    <strong>Members edition: JoSAA predictor and planning tools.</strong>
+    Latest 2026&ndash;27 admission data and analytics are part of Premium Membership.
+    {% if current_user.is_authenticated and current_user.is_premium %}
+    <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier == 'premium' and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+    {% else %}
+    <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+    {% endif %}
+  </div>
+</div>
 {% raw %}
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>EduAakashaa - JOSAA College Predictor | 2027 Admission Planning</title>
 
 
 

@@ -156,3 +156,52 @@
 .ported > footer, .ported footer { display: none !important; }
 .ported { padding-top: 0 !important; padding-bottom: 0 !important; }
 .ported > header { position: static !important; z-index: auto !important; }
+
+
+.ported-josaa_ea_members {
+  /* EduAakashaA palette: deep navy + orange on warm cream paper */
+  --blue:#0E3A8A;--bd:#071A44;--bl:#2A5CC4;--org:#FF6B0A;--od:#D4560A;--ol:#FF8A3D;
+  --bg:#FBF7EE;--card:#FFFDF7;--bdr:#E8DFC8;--txt:#0E1B3D;--muted:#5A6278;
+  --shd:0 1px 2px rgba(14,27,61,.05),0 4px 12px rgba(14,27,61,.05);--rad:14px;
+}
+:root[data-theme="dark"] .ported-josaa_ea_members {
+  --bd:#050B1E;--bg:#0A1228;--card:#111C3E;--bdr:#24305A;--txt:#EEE9DA;--muted:#A9B2CC;--blue:#1A4FAA;
+}
+/* ---------- EduAakashaA theme ---------- */
+.ported-josaa_ea_members { font-family:'Plus Jakarta Sans',Arial,sans-serif; background:var(--bg); color:var(--txt); }
+.ported-josaa_ea_members .hdr { position:static; background:#071A44; border-bottom:3px solid #FF6B0A; box-shadow:none; }
+.ported-josaa_ea_members .hdr-in { height:auto; min-height:54px; flex-wrap:wrap; gap:6px 12px; padding:6px 18px; }
+.ported-josaa_ea_members .nb { font-family:inherit; }
+.ported-josaa_ea_members .nb.active { background:#FF6B0A; }
+.ported-josaa_ea_members .ticker { background:#0A2560; border-bottom:1px solid rgba(255,138,61,.3); }
+.ported-josaa_ea_members .ticker-lbl { background:#FF6B0A; }
+.ported-josaa_ea_members .hero { background:linear-gradient(140deg,#071A44 0%,#0A2560 60%,#0E3A8A 100%); padding:34px 20px 40px; }
+.ported-josaa_ea_members .hero::before { background:radial-gradient(ellipse 60% 70% at 85% -10%,rgba(255,107,10,.28) 0%,transparent 60%); }
+.ported-josaa_ea_members .hero h1 { font-family:'Fraunces',Georgia,serif; font-weight:600; letter-spacing:-.4px; }
+.ported-josaa_ea_members .hero h1 span, .ported-josaa_ea_members .stat .n { color:#FF8A3D; }
+.ported-josaa_ea_members .st { font-family:'Fraunces',Georgia,serif; font-weight:600; font-size:20px; color:var(--bd); }
+:root[data-theme="dark"] .ported-josaa_ea_members .st, :root[data-theme="dark"] .ported-josaa_ea_members .kpi .v, :root[data-theme="dark"] .ported-josaa_ea_members .fg label { color:#F5EFDF; }
+.ported-josaa_ea_members .card-hdr { background:linear-gradient(135deg,#071A44,#0E3A8A); }
+.ported-josaa_ea_members .card-hdr h2 { font-family:'Fraunces',Georgia,serif; font-weight:600; }
+.ported-josaa_ea_members .fg select, .ported-josaa_ea_members .fg input { background-color:var(--card); color:var(--txt); font-family:inherit; }
+.ported-josaa_ea_members .fg select:focus, .ported-josaa_ea_members .fg input:focus { border-color:#FF6B0A; box-shadow:0 0 0 3px rgba(255,107,10,.14); }
+.ported-josaa_ea_members tbody tr:hover { background:rgba(255,107,10,.06); }
+
+/* premium alert */
+.dg-alert { display:flex; gap:14px; align-items:flex-start; max-width:1340px; margin:18px auto 0; padding:14px 18px; border:1px solid #F5CBA7; border-left:5px solid #FF6B0A; border-radius:12px; background:#FFF1E6; color:#0E1B3D; }
+.dg-alert__icon { font-size:1.4rem; line-height:1.2; }
+.dg-alert__body { flex:1; font-size:.95rem; line-height:1.5; }
+.dg-alert__body strong { font-family:'Fraunces',Georgia,serif; font-size:1.05rem; display:block; margin-bottom:2px; }
+.dg-alert__cta { display:inline-block; margin-top:8px; background:#FF6B0A; color:#fff !important; font-weight:700; padding:8px 18px; border-radius:999px; text-decoration:none; }
+.dg-alert__cta:hover { background:#D4560A; }
+.dg-alert__link { margin-left:12px; color:#0E3A8A; font-weight:600; }
+:root[data-theme="dark"] .dg-alert { background:#2A1E14; border-color:#7A4A22; color:#EEE9DA; }
+@media (max-width:1380px){ .dg-alert { margin-left:16px; margin-right:16px; } }
+@media (max-width:768px){
+  .ported-josaa_ea_members .hdr-in { padding:6px 10px; }
+  .ported-josaa_ea_members .nav { display:flex; flex-wrap:nowrap; overflow-x:auto; width:100%; order:2; -webkit-overflow-scrolling:touch; }
+  .ported-josaa_ea_members .nb { white-space:nowrap; flex-shrink:0; }
+}
+
+.ported-josaa_ea_members .logo-img, .ported-josaa_ea_members .hero-logo { display:none !important; }
+.ported-josaa_ea_members .dg-alert__ok { display:inline-block; margin-top:6px; font-weight:600; color:#1F8B5C; }
