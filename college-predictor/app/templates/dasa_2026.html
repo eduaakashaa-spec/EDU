@@ -6,6 +6,20 @@
 {% endblock %}
 
 {% block content %}
+<div class="container">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>This page is built on the official DASA 2026 brochure.</strong>
+      For the latest 2026&ndash;27 admission data and analytics, join Premium Membership.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.dasa_2026_analytics') }}">Open DASA 2026 analytics &rarr;</a>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
 <!-- Hero — editorial split (copy + summary card) -->
 <section class="hero-editorial">
   <div class="hero__glow"></div>
