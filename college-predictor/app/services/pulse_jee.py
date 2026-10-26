@@ -204,39 +204,76 @@ def summary(user_id):
 
 
 def pdf(result, student_name):
-    from reportlab.lib import colors
-    from reportlab.lib.pagesizes import A4
-    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+    """EduAakashaA report template (see app/services/ea_pdf.py)."""
     from reportlab.lib.units import mm
-    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+    from reportlab.platypus import PageBreak, Spacer
+
+    from app.services import ea_pdf as E
 
     an = analyse([result])
-    ss = getSampleStyleSheet()
-    H = ParagraphStyle('h', parent=ss['Heading1'], textColor=colors.HexColor('#0E3A8A'), fontSize=19, spaceAfter=4)
-    H2 = ParagraphStyle('h2', parent=ss['Heading2'], textColor=colors.HexColor('#0E3A8A'), fontSize=12.5, spaceBefore=10, spaceAfter=4)
-    P = ParagraphStyle('p', parent=ss['BodyText'], fontSize=9.5, leading=13, textColor=colors.HexColor('#0E1B3D'))
-    SM = ParagraphStyle('sm', parent=P, fontSize=8, textColor=colors.HexColor('#5A6278'))
-    esc = lambda t: str(t).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+    att = (result.right or 0) + (result.wrong or 0)
+    acc = round(100 * (result.right or 0) / att) if att else 0
+    when = (result.finished_at or datetime.utcnow()).strftime('%d %b %Y')
+    mode = 'timed mock' if result.mode == 'mock' else 'practice set'
+    meta = {'eyebrow': 'EduPulse-JEE Mock Test Centre', 'title_lines': [('JEE Main mock', False), ('report', True)], 'title': 'JEE Main mock report',
+            'subtitle': [result.paper_title or 'JEE Main mock', '%s  \u00b7  %s  \u00b7  %s' % (student_name, mode, when)],
+            'cover_stats': [('Score', '%g / %g' % (result.score, result.max_score)), ('Accuracy', '%d%%' % acc), ('Right / wrong', '%d / %d' % (result.right or 0, result.wrong or 0)),
+                            ('Lost to negatives', '%g' % (result.lost or 0))],
+            'footer_left': 'EduPulse-JEE Mock Test Centre', 'running_head': 'JEE Main mock report \u00b7 ' + (result.paper_title or '')}
 
-    def table(rows, widths, head):
-        t = Table([head] + rows, colWidths=widths, repeatRows=1)
-        t.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#0E3A8A')), ('TEXTCOLOR', (0, 0), (-1, 0), colors.white), ('FONTSIZE', (0, 0), (-1, -1), 8.5),
-                               ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#F5EFDF')]), ('GRID', (0, 0), (-1, -1), 0.25, colors.HexColor('#E8DFC8'))]))
-        return t
+    el = E.heading('Your result', 'How this <i>mock</i> went')
+    el += [E.P('%s took <b>%s</b> as a %s on %s. Marking is +4 for a correct answer, \u22121 for a wrong one and 0 for a blank, in both the multiple-choice and numerical sections. '
+               'Accuracy is measured on the questions attempted.' % (E.esc(student_name), E.esc(result.paper_title or 'the paper'), mode, when)), Spacer(1, 4),
+           E.kpis([('Score', '%g' % result.score, 'navy'), ('Accuracy', '%d%%' % acc, 'orange'), ('Right', result.right or 0, 'green'), ('Wrong', result.wrong or 0, 'red'),
+                   ('Blank', result.blank or 0, 'navy'), ('Lost to negatives', '%g' % (result.lost or 0), 'red')]),
+           E.P('By subject', 'h2'),
+           E.data_table(['Subject', 'Attempted', 'Right', 'Wrong', 'Accuracy', 'Gained', 'Lost', 'Net'],
+                        [[SUBJ[k], a['att'], a['right'], a['wrong'], ('%d%%' % a['acc']) if a['acc'] is not None else '-', '+%g' % a['gain'], '-%g' % a['loss'], '%+g' % (a['gain'] - a['loss'])]
+                         for k, a in an['subj'].items()], [34 * mm, 24 * mm, 20 * mm, 20 * mm, 24 * mm, 20 * mm, 20 * mm, 20 * mm]), Spacer(1, 6)]
+    top = max((a['gain'] for a in an['subj'].values()), default=0) or 1
+    el.append(E.Bars([(SUBJ[k], max(0, round(100 * (a['gain'] - a['loss']) / top)), '%+g net' % (a['gain'] - a['loss']), E.NAVY) for k, a in an['subj'].items()], label_w=36 * mm))
+    el += [Spacer(1, 4), E.P('Bars show net marks per subject (gained minus lost to negative marking), scaled to the highest gain.', 'small'), Spacer(1, 6),
+           E.callout('<b>Read this score as practice guidance.</b> A mock score does not predict the JEE Main score, percentile or rank. Use it to see where marks were gained, and where they leaked.', 'navy'),
+           PageBreak()]
 
-    el = [Paragraph('EduAakashaa · EduPulse-JEE Mock Test Centre', SM), Paragraph(esc(result.paper_title) + ' · mock report', H),
-          Paragraph('%s · %s · %s' % (esc(student_name), 'timed mock' if result.mode == 'mock' else 'practice', (result.finished_at or datetime.utcnow()).strftime('%d %b %Y')), P), Spacer(1, 6),
-          Paragraph('<b>Score: %g / %g</b> · %d right · %d wrong · %d blank · marks gained %g, marks lost to negative marking %g' %
-                    (result.score, result.max_score, result.right, result.wrong, result.blank, result.gained or 0, result.lost or 0), P)]
-    el += [Paragraph('By subject', H2), table([[SUBJ[k], a['att'], a['right'], a['wrong'], ('%d%%' % a['acc']) if a['acc'] is not None else '-', '+%g' % a['gain'], '-%g' % a['loss'], '%+g' % (a['gain'] - a['loss'])] for k, a in an['subj'].items()],
-                                              [32 * mm, 22 * mm, 18 * mm, 18 * mm, 22 * mm, 20 * mm, 20 * mm, 20 * mm], ['Subject', 'Attempted', 'Right', 'Wrong', 'Accuracy', 'Gained', 'Lost', 'Net'])]
-    el += [Paragraph('Confidence and negative marking', H2),
-           table([[CONF_LABEL[c], an['conf'][c]['n'], an['conf'][c]['right'], an['conf'][c]['wrong'], ('%d%%' % an['conf'][c]['pct']) if an['conf'][c]['pct'] is not None else '-', ('%+g' % an['conf'][c]['ev']) if an['conf'][c]['ev'] is not None else '-', '%+g' % an['conf'][c]['net']]
-                  for c, _ in CONF], [32 * mm, 24 * mm, 22 * mm, 22 * mm, 24 * mm, 30 * mm, 24 * mm], ['Rated', 'Attempted', 'Right', 'Wrong', 'Accuracy', 'Average per answer', 'Net marks'])]
+    el += E.heading('Negative marking and confidence', 'Where the marks <i>leaked</i>')
+    el += [E.P('Every answer was rated Guess, Low, Medium or High. With +4/\u22121 marking an attempt pays off on average only if it is right more than %d%% of the time, '
+               'so confidence ratings show which attempts were worth making.' % BREAK_EVEN), Spacer(1, 4)]
+    tone = {'H': E.NAVY, 'M': E.NAVY, 'L': E.ORANGE, 'G': E.ORANGE}
+    el.append(E.Bars([(CONF_LABEL[c], an['conf'][c]['pct'], ('%d%%  (%d of %d)' % (an['conf'][c]['pct'], an['conf'][c]['right'], an['conf'][c]['n'])) if an['conf'][c]['pct'] is not None else 'no answers', tone[c])
+                      for c, _ in CONF], row_h=9 * mm))
+    el += [Spacer(1, 4), E.P('Bars show the share of answers that were right at each confidence level. Break-even for +4/\u22121 marking is %d%%.' % BREAK_EVEN, 'small'), Spacer(1, 6),
+           E.data_table(['Rated', 'Attempted', 'Right', 'Wrong', 'Accuracy', 'Average per answer', 'Net marks'],
+                        [[CONF_LABEL[c], an['conf'][c]['n'], an['conf'][c]['right'], an['conf'][c]['wrong'], ('%d%%' % an['conf'][c]['pct']) if an['conf'][c]['pct'] is not None else '-',
+                          ('%+g' % an['conf'][c]['ev']) if an['conf'][c]['ev'] is not None else '-', '%+g' % an['conf'][c]['net']] for c, _ in CONF],
+                        [28 * mm, 24 * mm, 20 * mm, 20 * mm, 24 * mm, 36 * mm, 24 * mm]),
+           E.P('Average per answer = 4 \u00d7 accuracy \u2212 1 \u00d7 (1 \u2212 accuracy); positive only above %d%% accuracy.' % BREAK_EVEN, 'small'), Spacer(1, 6)]
     for n in an['notes']:
-        el.append(Paragraph('• ' + esc(n), P))
-    el.append(Paragraph('Average per answer = 4 × accuracy − 1 × (1 − accuracy); positive only above %d%% accuracy.' % BREAK_EVEN, SM))
-    el += [Spacer(1, 8), Paragraph('Mock scores are practice guidance only. They do not predict the JEE Main score, percentile or rank. EduAakashaa · info@eduaakashaa.com · +91-80157 22706 · www.eduaakashaa.com', SM)]
-    buf = BytesIO()
-    SimpleDocTemplate(buf, pagesize=A4, leftMargin=18 * mm, rightMargin=18 * mm, topMargin=16 * mm, bottomMargin=16 * mm, title='JEE Main mock report').build(el)
-    return buf.getvalue()
+        el += [E.callout(E.esc(n)), Spacer(1, 4)]
+    chap = sorted(an['chap'].items(), key=lambda kv: (kv[1]['right'] / kv[1]['n']) if kv[1]['n'] else 1)[:8]
+    if chap:
+        el += [E.P('Chapters to look at first', 'h2'),
+               E.Bars([(str(k)[:34], round(100 * t['right'] / t['n']), '%d%%  (%d)' % (round(100 * t['right'] / t['n']), t['n']),
+                        E.GREEN if t['right'] / t['n'] >= .7 else (E.ORANGE if t['right'] / t['n'] >= .5 else E.RED)) for k, t in chap], label_w=52 * mm, row_h=7.4 * mm)]
+    el.append(PageBreak())
+
+    el += E.heading('Next steps', 'What to do <i>this week</i>')
+    nxt = []
+    if an['sure_wrong']:
+        nxt.append(('Re-solve the confident mistakes first', '%d wrong answers were given with High confidence. They usually point to a wrong method or concept, not bad luck.' % an['sure_wrong']))
+    if an['avoidable']:
+        nxt.append(('Decide your guessing rule', '%d wrong answers were rated Guess or Low. Attempt such a question only if you can rule out at least two options; otherwise leave it blank.' % an['avoidable']))
+    if an['kind']['NAT']['wrong'] >= 2:
+        nxt.append(('Check numerical answers before moving on', '%d wrong numerical answers cost %g marks. There is no lucky guess in a numerical question, so verify the working.' %
+                    (an['kind']['NAT']['wrong'], an['kind']['NAT']['loss'])))
+    if an['weak']:
+        nxt.append(('Give short, regular sessions to weaker chapters', '%s earned little. Two or three 25-minute sessions through the week work better than one long one.' % ', '.join(str(w) for w in an['weak'])))
+    nxt += [('Rate every answer in the next mock', 'Confidence ratings are what make this report useful. Answers without a rating are left out of the calibration.'),
+            ('Repeat after 7 to 10 days', 'Take another paper, or practise the same chapters through EduPulse Reinforcement daily sets, and compare the two reports.'),
+            ('Share this report with your mentor', 'Your EduAakashaA mentor can turn these patterns into a plan for the weeks ahead.')]
+    el += [E.steps(nxt), Spacer(1, 10),
+           E.callout('<b>Please note.</b> This report is generated automatically from your recorded mock attempt. Scores and percentages are practice guidance and depend on how many questions were attempted; '
+                     'they are not a prediction of the JEE Main score, percentile, rank or admission, and are not a guarantee of any outcome. Questions in the EduAakashaA mocks are original; '
+                     'official papers are NTA material used for practice.', 'orange')]
+    return E.build_report(meta, el)
+
