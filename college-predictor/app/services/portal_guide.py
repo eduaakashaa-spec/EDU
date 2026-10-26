@@ -49,6 +49,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-26', 'TNEA Expert page shows the premium alert for 2026-27 data (all guide and analytics pages now carry it).'),
     ('2026-10-26', 'Added the portal guide itself, with a section for each role, and the rule that keeps it up to date.'),
     ('2026-10-26', 'JEE Main 2024 (1 Feb, Shift 1) solved paper added to EduPulse-JEE and to the Reinforcement question bank.'),
     ('2026-10-26', 'EduPulse-UCEED practice now asks for a confidence level on every answered question; the admin question list is searchable and paged.'),
