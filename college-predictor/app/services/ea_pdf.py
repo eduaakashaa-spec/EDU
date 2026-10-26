@@ -236,8 +236,8 @@ def draw_contact(c, meta):
     c.setFont(SERIF_I, 30)
     c.setFillColor(ORANGE_SOFT)
     c.drawString(MX, H * .70 - 26 * mm, 'No upfront fee.')
-    rows = [('INDIA', '+91 80157 22706'), ('UAE', '+971 50 516 8081'), ('EMAIL', 'info@eduaakashaa.com'), ('WEB', 'www.eduaakashaa.com'),
-            ('OFFICES', 'Coimbatore, Tamil Nadu  ·  Dubai, UAE'), ('HOURS', 'Mon–Fri 9:00–22:00  ·  Sat & Sun 9:00–16:00')]
+    rows = [('PHONE', '+91 80157 22706'), ('EMAIL', 'info@eduaakashaa.com'), ('WEB', 'www.eduaakashaa.com'),
+            ('OFFICE', 'Coimbatore, Tamil Nadu'), ('HOURS', 'Mon–Fri 9:00–22:00  ·  Sat & Sun 9:00–16:00')]
     y = H * .70 - 48 * mm
     for k, v in rows:
         c.setFont(MONO, 7.4)
