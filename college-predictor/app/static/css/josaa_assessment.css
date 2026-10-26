@@ -9,7 +9,14 @@
 .ported iframe {
  		max-width: 100%;
  	}
-:root {--bg:#ffffff;--surface:#f8f9fb;--card:#ffffff;--card2:#f1f5f9;--accent:#ea7c0e;--accent-glow:rgba(234,124,14,.1);--accent2:#1d4ed8;--accent3:#059669;--accent4:#7c3aed;--danger:#dc2626;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--border2:#cbd5e1}
+.ported-josaa_assessment {
+  /* EduAakashaA palette: navy + orange on warm cream paper */
+  --bg:#FBF7EE;--surface:#F5EFDF;--card:#FFFDF7;--card2:#F5EFDF;--accent:#FF6B0A;--accent-glow:rgba(255,107,10,.1);--accent2:#0E3A8A;--accent3:#1F8B5C;--accent4:#7C3AED;
+  --danger:#C23A3A;--text:#0E1B3D;--muted:#5A6278;--border:#E8DFC8;--border2:#D9CCAA;
+}
+:root[data-theme="dark"] .ported-josaa_assessment {
+  --bg:#0A1228;--surface:#111C3E;--card:#111C3E;--card2:#14224A;--accent2:#7FA8FF;--text:#EEE9DA;--muted:#A9B2CC;--border:#24305A;--border2:#33427A;
+}
 .ported * {margin:0;padding:0;box-sizing:border-box}
 .ported {font-family:'DM Sans','Noto Sans Tamil',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 .ported body::before {content:'';position:fixed;inset:0;background:radial-gradient(ellipse 600px 400px at 15% 10%,rgba(29,78,216,.04),transparent),radial-gradient(ellipse 500px 500px at 85% 85%,rgba(234,124,14,.04),transparent);pointer-events:none;z-index:0}
@@ -166,5 +173,31 @@
 .ported .skill-gap-card .sg-bar-need {position:absolute;height:100%;border-left:2px dashed rgba(0,0,0,.3);top:0}
 .ported .skill-gap-card .sg-tip {font-size:11px;color:var(--muted);margin-top:6px;line-height:1.5;font-style:italic}
 /* hide frame's own chrome; base.html provides nav+footer */
-.ported > header, .ported > nav, .ported > footer, .ported header, .ported footer,.ported .site-header, .ported .site-footer, .ported #mobileMenu, .ported #hamburger { display:none !important; }
+/* base.html provides the site navigation and footer */
+.ported .site-header, .ported .site-footer, .ported #mobileMenu, .ported #hamburger { display:none !important; }
 .ported { padding-top:0 !important; }
+
+
+/* ---------- EduAakashaA theme ---------- */
+.ported-josaa_assessment { background:var(--bg); }
+.ported-josaa_assessment .header h1 { font-family:'Fraunces',Georgia,serif; font-weight:600; letter-spacing:-.4px; background:linear-gradient(135deg,#071A44 30%,#0E3A8A); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+:root[data-theme="dark"] .ported-josaa_assessment .header h1 { background:linear-gradient(135deg,#F5EFDF,#7FA8FF); -webkit-background-clip:text; }
+.ported-josaa_assessment .badge { background:#FF6B0A; }
+.ported-josaa_assessment .sec-card { border-radius:18px; box-shadow:0 1px 2px rgba(14,27,61,.05),0 4px 12px rgba(14,27,61,.05); }
+.ported-josaa_assessment .sec-card h2 { font-family:'Fraunces',Georgia,serif; font-weight:600; color:var(--text); }
+.ported-josaa_assessment .btn-pri { background:linear-gradient(135deg,#0E3A8A,#0A2560); }
+.ported-josaa_assessment .btn-pri:hover { box-shadow:0 5px 18px rgba(14,58,138,.3); }
+.ported-josaa_assessment .btn-dl { background:linear-gradient(135deg,#FF6B0A,#D4560A); }
+.ported-josaa_assessment .form-input { background:var(--card); color:var(--text); }
+.ported-josaa_assessment .form-input:focus { border-color:#FF6B0A; box-shadow:0 0 0 3px rgba(255,107,10,.14); outline:none; }
+
+/* premium alert */
+.ported-josaa_assessment .dg-alert { display:flex; gap:14px; align-items:flex-start; max-width:900px; margin:18px auto 0; padding:14px 18px; border:1px solid #F5CBA7; border-left:5px solid #FF6B0A; border-radius:12px; background:#FFF1E6; color:#0E1B3D; }
+.ported-josaa_assessment .dg-alert__icon { font-size:1.4rem; line-height:1.2; }
+.ported-josaa_assessment .dg-alert__body { flex:1; font-size:.95rem; line-height:1.5; }
+.ported-josaa_assessment .dg-alert__body strong { font-family:'Fraunces',Georgia,serif; font-size:1.05rem; display:block; margin-bottom:2px; }
+.ported-josaa_assessment .dg-alert__cta { display:inline-block; margin-top:8px; background:#FF6B0A; color:#fff !important; font-weight:700; padding:8px 18px; border-radius:999px; text-decoration:none; }
+.ported-josaa_assessment .dg-alert__cta:hover { background:#D4560A; }
+.ported-josaa_assessment .dg-alert__ok { display:inline-block; margin-top:6px; font-weight:600; color:#1F8B5C; }
+:root[data-theme="dark"] .ported-josaa_assessment .dg-alert { background:#2A1E14; border-color:#7A4A22; color:#EEE9DA; }
+@media (max-width:940px){ .ported-josaa_assessment .dg-alert { margin-left:14px; margin-right:14px; } }

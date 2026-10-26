@@ -1,18 +1,27 @@
 {% extends "base.html" %}
-{% block title %}Josaa Assessment | EduAakashaA{% endblock %}
+{% block title %}JoSAA Engineering Aptitude Assessment | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/josaa_assessment.css') }}">
 {% endblock %}
 
 {% block content %}
 <div class="ported ported-josaa_assessment">
+<div class="dg-alert" role="note">
+  <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+  <div class="dg-alert__body">
+    <strong>This assessment helps you choose a branch. It does not predict a seat.</strong>
+    For the latest 2026&ndash;27 admission data and analytics, join Premium Membership.
+    {% if current_user.is_authenticated and current_user.is_premium %}
+    <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier == 'premium' and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+    {% else %}
+    <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+    {% endif %}
+  </div>
+</div>
 {% raw %}
 
 
 
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JoSAA 2026 — Complete Engineering Aptitude Assessment</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;500;600;700;800&amp;family=DM+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
 
 
