@@ -157,46 +157,63 @@ def summary(user_id):
             'trend': pct[-10:], 'an': analyse(rows), 'sure_wrong_rate': round(100 * sum(r.sure_wrong or 0 for r in rows) / rated) if rated else None}
 
 
-# ---- PDF -----------------------------------------------------------------------------------------------------------------------
+# ---- PDF (EduAakashaA report template, see app/services/ea_pdf.py) --------------------------------------------------------------------
 def pdf(result, student_name):
-    from reportlab.lib import colors
-    from reportlab.lib.pagesizes import A4
-    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
     from reportlab.lib.units import mm
-    from reportlab.platypus import Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
+    from reportlab.platypus import PageBreak, Spacer
+
+    from app.services import ea_pdf as E
 
     an = analyse([result])
-    ss = getSampleStyleSheet()
-    H = ParagraphStyle('h', parent=ss['Heading1'], textColor=colors.HexColor('#0E3A8A'), fontSize=19, spaceAfter=4)
-    H2 = ParagraphStyle('h2', parent=ss['Heading2'], textColor=colors.HexColor('#0E3A8A'), fontSize=12.5, spaceBefore=10, spaceAfter=4)
-    P = ParagraphStyle('p', parent=ss['BodyText'], fontSize=9.5, leading=13, textColor=colors.HexColor('#0E1B3D'))
-    SM = ParagraphStyle('sm', parent=P, fontSize=8, textColor=colors.HexColor('#5A6278'))
-    esc = lambda t: str(t).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-
-    def table(rows, widths, head):
-        t = Table([head] + rows, colWidths=widths, repeatRows=1)
-        t.setStyle(TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#0E3A8A')), ('TEXTCOLOR', (0, 0), (-1, 0), colors.white), ('FONTSIZE', (0, 0), (-1, -1), 8.5),
-                               ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#F5EFDF')]), ('GRID', (0, 0), (-1, -1), 0.25, colors.HexColor('#E8DFC8'))]))
-        return t
-
-    el = [Paragraph('EduAakashaa · UCEED Mock Test Centre', SM), Paragraph(esc(result.paper_title) + ' · mock report', H),
-          Paragraph('%s · %s · %s' % (esc(student_name), 'timed mock' if result.mode == 'mock' else 'practice', (result.finished_at or datetime.utcnow()).strftime('%d %b %Y')), P),
-          Spacer(1, 6), Paragraph('<b>Score: %s / %s</b> (%d%%) · %d right · %d wrong or partly wrong · %d with a High confidence rating that were wrong' %
-                                  (result.score, result.max_score, round(100 * result.score / result.max_score) if result.max_score else 0, result.right, result.wrong, result.sure_wrong), P)]
     p = json.loads(result.payload_json or '{}')
+    pct = round(100 * result.score / result.max_score) if result.max_score else 0
+    when = (result.finished_at or datetime.utcnow()).strftime('%d %b %Y')
+    meta = {'eyebrow': 'UCEED Mock Test Centre', 'title_lines': [('Mock test', False), ('report', True)], 'title': 'UCEED mock report',
+            'subtitle': [result.paper_title or 'UCEED mock', '%s  ·  %s  ·  %s' % (student_name, 'timed mock' if result.mode == 'mock' else 'practice', when)],
+            'cover_stats': [('Score', '%g / %g' % (result.score, result.max_score)), ('Accuracy', '%d%%' % pct), ('Right', result.right), ('Confident mistakes', result.sure_wrong)],
+            'footer_left': 'UCEED Mock Test Centre', 'running_head': 'UCEED mock report · ' + (result.paper_title or '')}
+    el = E.heading('Your result', 'How this <i>mock</i> went')
+    el += [E.P('%s took <b>%s</b> as a %s on %s. The score is out of %g. Sections below show where the marks came from; the next page shows how well the confidence ratings matched the results.' %
+               (E.esc(student_name), E.esc(result.paper_title or 'the paper'), 'timed mock' if result.mode == 'mock' else 'practice set', when, result.max_score)), Spacer(1, 4),
+           E.kpis([('Score', '%g' % result.score, 'navy'), ('Accuracy', '%d%%' % pct, 'orange'), ('Right', result.right, 'green'), ('Wrong or partly wrong', result.wrong, 'red'),
+                   ('High confidence, wrong', result.sure_wrong, 'red')])]
     if p.get('sections'):
-        el += [Paragraph('By section', H2), table([[s['type'], '%s / %s' % (s['score'], s['max']), s['right'], s['partial'], s['wrong'], s['blank']] for s in p['sections']],
-                                                  [30 * mm, 40 * mm, 25 * mm, 25 * mm, 25 * mm, 25 * mm], ['Section', 'Score', 'Right', 'Partial', 'Wrong', 'Blank'])]
-    el += [Paragraph('Confidence check', H2),
-           table([[CONF_LABEL[c], an['conf'][c]['n'], an['conf'][c]['right'], an['conf'][c]['wrong'], ('%d%%' % an['conf'][c]['pct']) if an['conf'][c]['pct'] is not None else '–'] for c, _ in CONF],
-                 [45 * mm, 30 * mm, 30 * mm, 30 * mm, 35 * mm], ['Confidence', 'Answers', 'Right', 'Wrong', 'Right %'])]
+        el += [E.P('By section', 'h2'), E.data_table(['Section', 'Score', 'Right', 'Partial', 'Wrong', 'Blank'],
+                                                   [[s['type'], '%s / %s' % (s['score'], s['max']), s['right'], s['partial'], s['wrong'], s['blank']] for s in p['sections']],
+                                                   [38 * mm, 40 * mm, 24 * mm, 24 * mm, 24 * mm, 24 * mm]), Spacer(1, 6),
+               E.Bars([(s['type'], round(100 * s['score'] / s['max']) if s['max'] else 0, '%g / %g' % (s['score'], s['max']), E.NAVY) for s in p['sections']])]
+    el += [Spacer(1, 8), E.callout('<b>Read this score as practice guidance.</b> A mock score does not predict the UCEED score, rank or admission. Use it to see which sections and topics to work on next.', 'navy'),
+           PageBreak()]
+
+    el += E.heading('Confidence check', 'Did your confidence <i>match</i> your results?')
+    el += [E.P('Every answer was rated Guess, Low, Medium or High. A well-calibrated student is right more often when more confident. Gaps between the two are where the useful learning is.'), Spacer(1, 4)]
+    tone = {'H': E.NAVY, 'M': E.NAVY, 'L': E.ORANGE, 'G': E.ORANGE}
+    el.append(E.Bars([(CONF_LABEL[c], an['conf'][c]['pct'], ('%d%%  (%d of %d)' % (an['conf'][c]['pct'], an['conf'][c]['right'], an['conf'][c]['n'])) if an['conf'][c]['pct'] is not None else 'no answers', tone[c])
+                      for c, _ in CONF], row_h=9 * mm))
+    el += [Spacer(1, 4), E.P('Bars show the share of answers that were right at each confidence level.', 'small'), Spacer(1, 4)]
     for n in an['notes']:
-        el.append(Paragraph('• ' + esc(n), P))
+        el.append(E.callout(E.esc(n)))
+        el.append(Spacer(1, 4))
     if an['topics']:
-        el += [Paragraph('By topic', H2), table([[t['label'], t['n'], '%d%%' % t['pct'], t['sure_wrong'], t['unsure_right']] for t in sorted(an['topics'].values(), key=lambda t: t['pct'])],
-                                                 [55 * mm, 25 * mm, 30 * mm, 35 * mm, 35 * mm], ['Topic', 'Answered', 'Right %', 'Sure but wrong', 'Unsure but right'])]
-    el += [Spacer(1, 8), Paragraph('Mock scores are practice guidance only. They do not predict the UCEED score, rank or admission. Official papers are IIT Bombay material used for practice; '
-                                   'explanations are EduAakashaa\'s own. EduAakashaa · info@eduaakashaa.com · +91-80157 22706 · www.eduaakashaa.com', SM)]
-    buf = BytesIO()
-    SimpleDocTemplate(buf, pagesize=A4, leftMargin=18 * mm, rightMargin=18 * mm, topMargin=16 * mm, bottomMargin=16 * mm, title='UCEED mock report').build(el)
-    return buf.getvalue()
+        rows = sorted(an['topics'].values(), key=lambda t: t['pct'] if t['pct'] is not None else 101)
+        el += [E.P('By topic', 'h2'),
+               E.Bars([(t['label'], t['pct'], '%d%%  (%d)' % (t['pct'], t['n']), E.GREEN if t['pct'] >= 70 else (E.ORANGE if t['pct'] >= 50 else E.RED)) for t in rows], label_w=44 * mm),
+               Spacer(1, 6), E.data_table(['Topic', 'Answered', 'Right %', 'Sure but wrong', 'Unsure but right'], [[t['label'], t['n'], '%d%%' % t['pct'], t['sure_wrong'], t['unsure_right']] for t in rows],
+                                           [52 * mm, 26 * mm, 26 * mm, 36 * mm, 34 * mm])]
+    el.append(PageBreak())
+
+    el += E.heading('Next steps', 'What to do <i>this week</i>')
+    nxt = []
+    if an['risky_topics']:
+        nxt.append(('Re-solve the confident mistakes first', 'Start with %s. Wrong answers given with High confidence usually point to a method or belief to correct, not a slip.' % ', '.join(t[1] for t in an['risky_topics'][:3])))
+    if an['weak_topics']:
+        nxt.append(('Give short, regular sessions to weaker topics', '%s scored under 50%%. Two or three 25-minute sessions through the week work better than one long one.' % ', '.join(an['weak_topics'])))
+    if an['unsure_right']:
+        nxt.append(('Trust what you know', '%d answers were right but rated Guess or Low. Write one line on why each is right before moving on.' % an['unsure_right']))
+    nxt += [('Rate every answer in the next mock', 'Confidence ratings are what make this report useful. Answers without a rating are left out of the calibration.'),
+            ('Repeat after 7 to 10 days', 'Take another paper, or retry the same topics through EduPulse Reinforcement daily practice, and compare the two reports.'),
+            ('Share this report with your mentor', 'Your EduAakashaa mentor can turn these patterns into a plan for the weeks ahead.')]
+    el += [E.steps(nxt), Spacer(1, 10),
+           E.callout('<b>Please note.</b> This report is generated automatically from your recorded mock attempt. Scores and topic percentages are practice guidance and depend on how many questions were answered; '
+                     'they are not a prediction of the UCEED score, rank or admission, and are not a guarantee of any outcome. Official papers are IIT Bombay material used for practice; explanations are written by EduAakashaA.', 'orange')]
+    return E.build_report(meta, el)
