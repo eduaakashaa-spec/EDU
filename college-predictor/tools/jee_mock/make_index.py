@@ -15,6 +15,6 @@ if os.path.exists(pyq_file):
         if os.path.exists(f):
             d = json.load(open(f, encoding='utf-8'))
             ready = all(q.get('acc') for q in d['qs'])
-        papers.append(dict(p, kind='pyq', n=75, mins=180, max=300, ready=ready))
+        papers.append(dict({'n': 75, 'mins': 180, 'max': 300}, **p, kind='pyq', ready=ready))
 json.dump({'papers': papers}, open(os.path.join(DATA, 'index.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 print(len(papers), 'papers;', sum(1 for p in papers if p['ready']), 'ready')

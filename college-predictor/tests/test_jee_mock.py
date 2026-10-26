@@ -131,7 +131,17 @@ for u in (B + '/', B + '/app', B + '/data/M1.json', B + '/data/index.json'):
     assert r.status_code != 200 or b'JEE Main' not in r.data, u                      # a free account gets neither the centre nor the papers
 assert s1.get(B + '/data/M1.json').status_code == 200 and s1.get(B + '/data/index.json').status_code == 200
 idx = s1.get(B + '/data/index.json').get_json()['papers']
-assert [p['y'] for p in idx if p['ready']] == ['M1', 'M2', 'M3', 'M4', 'M5'] and sum(1 for p in idx if p['kind'] == 'pyq') == 9 and all(not p['ready'] for p in idx if p['kind'] == 'pyq')
+assert [p['y'] for p in idx if p['ready']] == ['M1', 'M2', 'M3', 'M4', 'M5', 'J2401S1'] and sum(1 for p in idx if p['kind'] == 'pyq') == 10 and all(not p['ready'] for p in idx if p['kind'] == 'pyq' and p['y'] != 'J2401S1')
+# the solved 2024 paper: 90 image questions, key present, "attempt any 5" numerical sections, a worked-solution image for every question
+r24 = s1.get(B + '/data/J2401S1.json')
+assert r24.status_code == 200
+g = r24.get_json()
+assert len(g['qs']) == 90 and g['lab'] == '1234' and g['max'] == 300
+assert [s.get('choose') for s in g['sections']] == [None, 5, None, 5, None, 5]
+assert all(q.get('acc') and q['img'].startswith('data:image/webp') and q['sol'].startswith('data:image/webp') and q.get('qid') and q.get('cat') for q in g['qs'])
+assert g['qs'][47]['acc'] == {'bonus': True}                                      # Q48: no printed option is correct
+assert g['qs'][0]['acc'] == {'sets': ['B']} and g['qs'][20]['acc']['ranges'] == [[46, 46]]
+
 for bad in ('P0402S1.json', 'M9.json', '..%2fapp.html', 'x.json', 'app.html'):
     assert s1.get(B + '/data/' + bad).status_code == 404, bad                         # papers awaiting an answer key are never served
 html = s1.get(B + '/app').get_data(as_text=True)

@@ -20,7 +20,7 @@ from html.parser import HTMLParser
 from sqlalchemy import func
 
 from app.extensions import db
-from app.models_reinforce import (RfAssignment, RfAssignmentStudent, RfAttempt, RfAudit, RfDraft, RfItem, RfNotice, RfObservation, RfQuestion, RfRecommendation, RfSetting, RfStudent, RfTaxonomy, jl)
+from app.models_reinforce import (RfQuestionImage, RfAssignment, RfAssignmentStudent, RfAttempt, RfAudit, RfDraft, RfItem, RfNotice, RfObservation, RfQuestion, RfRecommendation, RfSetting, RfStudent, RfTaxonomy, jl)
 
 CONF = (('G', 'Guess'), ('L', 'Low'), ('M', 'Medium'), ('H', 'High'))
 CONF_LABEL = dict(CONF)
@@ -95,7 +95,7 @@ class _Clean(HTMLParser):
         for k, v in attrs:
             if k in _OK_ATTRS.get(tag, ()):
                 v = v or ''
-                if k == 'src' and not re.match(r'^(data:image/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+|/static/[\w./-]+)$', v):
+                if k == 'src' and not re.match(r'^(data:image/(png|jpeg|webp|gif);base64,[A-Za-z0-9+/=]+|/static/[\w./-]+|/edupulse-reinforce/qimg/[\w.-]+/[qs])$', v):
                     continue
                 keep.append(' %s="%s"' % (k, _html.escape(v, quote=True)))
         if tag == 'img' and not any(a.startswith(' src=') for a in keep):
@@ -219,6 +219,48 @@ def _seed_from(path, exam, tag, subj_of):
     return n
 
 
+def seed_guides():
+    """Solved previous-year papers from the JEE mock centre (question and worked solution as images, EduAakashaA answers). Idempotent by qid.
+    Questions with no valid printed option (key 'bonus') are left out: there is nothing to grade them against."""
+    import base64
+    data_dir = os.path.join(_MOCK, 'jee_mock', 'data')
+    try:
+        papers = json.load(open(os.path.join(data_dir, 'index.json'), encoding='utf-8'))['papers']
+    except (OSError, ValueError):
+        return 0
+    n = 0
+    for meta in papers:
+        if not (meta.get('solved') and meta.get('ready')):
+            continue
+        try:
+            d = json.load(open(os.path.join(data_dir, meta['y'] + '.json'), encoding='utf-8'))
+        except (OSError, ValueError):
+            continue
+        for q in d['qs']:
+            qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
+            if RfQuestion.query.filter_by(qid=qid).first() or (q.get('acc') or {}).get('bonus'):
+                continue
+            tx = RfTaxonomy.query.filter_by(exam='JEE', code=q.get('cat')).first()
+            if not tx:
+                continue
+            if q['t'] == 'NAT':
+                qt, opts, ans = 'nat', [], q['acc']['ranges']
+            else:
+                qt, opts, ans = 'mcq', ['1', '2', '3', '4'], q['acc']['sets'][0]          # options are printed as 1-4 inside the image
+            for kind, key in (('q', 'img'), ('s', 'sol')):
+                if q.get(key):
+                    db.session.add(RfQuestionImage(qid=qid, kind=kind, data=base64.b64decode(q[key].split(',', 1)[1])))
+            stem = '<img class="rf-qimg" src="/edupulse-reinforce/qimg/%s/q" alt="Question as printed in the paper">' % qid
+            expl = '<img class="rf-qimg" src="/edupulse-reinforce/qimg/%s/s" alt="Worked solution">' % qid
+            note = '; '.join((d.get('notes') or [])[:1])
+            db.session.add(RfQuestion(qid=qid, exam='JEE', subject=tx.subject, chapter=tx.chapter, topic=q.get('chapter') or tx.chapter, concept=tx.chapter, difficulty=2, qtype=qt, stem=stem,
+                                      options_json=json.dumps(opts), answer_json=json.dumps(ans), explanation=expl, misconception='', marks=4, neg_marks=1, est_sec=150 if qt == 'nat' else 100,
+                                      source='%s, question %d (NTA ID %s). %s' % (meta['title'], q['n'], q.get('qid') or '-', note), status='approved'))
+            n += 1
+    db.session.commit()
+    return n
+
+
 def seed_bank():
     """Idempotent: loads the original EduAakashaa mock questions (JEE M1-M5, UCEED M1-M5) into the bank as approved questions."""
     seed_taxonomy()
@@ -227,6 +269,7 @@ def seed_bank():
         n += _seed_from(os.path.join(_MOCK, 'jee_mock', 'data', 'M%d.json' % i), 'JEE', 'M%d' % i, None)
         n += _seed_from(os.path.join(_MOCK, 'uceed_mock', 'data', 'M%d.json' % i), 'UCEED', 'M%d' % i, None)
     db.session.commit()
+    n += seed_guides()
     return n
 
 

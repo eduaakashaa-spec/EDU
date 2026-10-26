@@ -319,4 +319,37 @@ assert s1.get(B + '/admin/attempts.csv').status_code in (302, 403)
 for u in ('/edupulse-jee/', '/edupulse-uceed/'):
     assert s1.get(u).status_code in (200, 302), u
 
+# ---- solved previous-year paper in the bank: image questions, access to the images -----------------------------------------------------
+from app.models_reinforce import RfQuestionImage  # noqa: E402
+with app.app_context():
+    gq = RfQuestion.query.filter(RfQuestion.qid.like('JEE-J2401S1-%')).all()
+    assert len(gq) == 89 and not RfQuestion.query.filter_by(qid='JEE-J2401S1-048').first()          # Q48 has no valid option, so it is not in the bank
+    assert all(q.status == 'approved' and 'NTA ID' in q.source and '/edupulse-reinforce/qimg/%s/q' % q.qid in q.stem for q in gq)
+    assert RfQuestionImage.query.filter(RfQuestionImage.qid.like('JEE-J2401S1-%')).count() == 178
+    m1 = RfQuestion.query.filter_by(qid='JEE-J2401S1-001').one()
+    assert m1.qtype == 'mcq' and m1.answer == 'B' and m1.options == ['1', '2', '3', '4']
+    n21 = RfQuestion.query.filter_by(qid='JEE-J2401S1-021').one()
+    assert n21.qtype == 'nat' and n21.answer == [[46, 46]]
+    assert RfQuestion.query.filter_by(qid='JEE-J2401S1-085').one().answer == [[0.895, 0.905]]
+    picks = [m1] + [RfQuestion.query.filter_by(qid='JEE-J2401S1-%03d' % i).one() for i in (2, 3, 4, 5)]
+    ga = rf.create_assignment(db.session.get(User, uid['m@x.com']), {'title': 'Solved paper set', 'exam': 'JEE', 'n': 5, 'release': 'after_submit', 'popup': 'dismissible'}, [RS1], {RS1: picks})
+    GA = ga.id
+    GX = RfAssignmentStudent.query.filter_by(assignment_id=GA, student_id=RS1).one().id
+Q = B + '/qimg/JEE-J2401S1-001/'
+assert anon.get(Q + 'q').status_code in (302, 401)
+assert s1.get(Q + 'q').status_code == 200 and s1.get(Q + 'q').mimetype == 'image/webp'               # assigned to this student
+assert s1.get(Q + 's').status_code == 404                                                            # explanation image withheld until released
+assert s2.get(Q + 'q').status_code == 404 and s2.get(Q + 's').status_code == 404                     # another student
+assert s1.get(B + '/qimg/JEE-J2401S1-006/q').status_code == 404                                       # not assigned to anyone
+assert mentor.get(Q + 's').status_code == 200 and s1.get(Q + 'x').status_code == 404
+dd = s1.get(B + '/api/asg/%d' % GX).get_json()
+assert dd['ok'] and dd['items'][0]['labels'] == '1234' and dd['items'][0]['stem'].count('<img') == 1
+for it in dd['items']:
+    assert s1.post(B + '/api/asg/%d/save' % GX, json={'item_id': it['id'], 'answer': 'B', 'confidence': 'M', 'seconds': 40}).get_json()['ok']
+assert s1.post(B + '/api/asg/%d/submit' % GX).get_json()['ok']
+assert s1.get(Q + 's').status_code == 200                                                            # released after submitting
+assert s1.get(B + '/api/asg/%d/review' % GX).get_json()['items'][0]['labels'] == '1234'
+with app.app_context():
+    assert rf.seed_bank() == 0                                                                       # still idempotent with the solved paper loaded
+
 print('all reinforcement checks passed')

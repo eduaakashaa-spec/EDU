@@ -41,17 +41,22 @@ function evaluate(D,q,a){
   return q.acc.sets.includes(a)?{st:'right',m:s.right}:{st:'wrong',m:s.wrong};
 }
 function results(D,ans){
-  const per={},secs=D.sections.map(s=>({type:s.type,subj:s.subj,lo:s.lo,hi:s.hi,score:0,max:0,right:0,wrong:0,blank:0,gain:0,loss:0}));
+  const per={};
+  for(const q of D.qs) per[q.n]=evaluate(D,q,ans[q.n]);
+  /* "attempt any N" sections (JEE Main Section B): only the first N answered questions are marked, the rest score nothing */
+  for(const s of D.sections){if(!s.choose)continue;let c=0;for(let n=s.lo;n<=s.hi;n++){const r=per[n];if(r&&(r.st==='right'||r.st==='wrong')&&++c>s.choose)per[n]={st:'blank',m:0,extra:true};}}
+  const secs=D.sections.map(s=>({type:s.type,subj:s.subj,lo:s.lo,hi:s.hi,score:0,max:s.choose?s.right*s.choose:0,right:0,wrong:0,blank:0,gain:0,loss:0}));
   let total=0;
   for(const q of D.qs){
-    const r=evaluate(D,q,ans[q.n]);per[q.n]=r;total+=r.m;
-    const sc=secs.find(s=>q.n>=s.lo&&q.n<=s.hi);sc.score+=r.m;sc.max+=secOf(D,q.n).right;
+    const r=per[q.n];total+=r.m;
+    const sc=secs.find(s=>q.n>=s.lo&&q.n<=s.hi),sd=secOf(D,q.n);sc.score+=r.m;if(!sd.choose)sc.max+=sd.right;
     if(r.m>0)sc.gain+=r.m;else if(r.m<0)sc.loss+=-r.m;
     if(r.st==='right'||r.st==='bonus')sc.right++;else if(r.st==='wrong')sc.wrong++;else sc.blank++;
   }
   return {per,secs,total};
 }
-const showAns=(q,a)=>(a==null||a==='')?'—':String(a);
+const labOf=c=>{const L=S.att&&D().lab;return L?(L['ABCD'.indexOf(c)]||c):c;};
+const showAns=(q,a)=>(a==null||a==='')?'—':(q.t==='MCQ'?String(a).split('').map(labOf).join(', '):String(a));
 const officialAns=q=>q.acc&&q.acc.bonus?'Full marks to all':q.disp;
 const keyReady=D=>D.qs.every(q=>q.acc);
 
@@ -76,12 +81,13 @@ function footer(){
 }
 function paperCard(o){
   const b=S.best[o.y];const pct=b?Math.max(0,Math.min(100,b.score/o.max*100)):0;
-  const chips=['MATH','PHY','CHEM'].map(k=>`<span class="chip mcq">${SUBJ_SHORT[k]} · 20 + 5</span>`).join('');
+  const chips=['MATH','PHY','CHEM'].map(k=>`<span class="chip mcq">${SUBJ_SHORT[k]} · ${o.numnote||'20 + 5'}</span>`).join('');
+  const qtxt=o.total?`${o.total} questions<br>attempt ${o.n} · ${hm(o.mins)} · ${o.max} marks`:`${o.n} questions<br>${hm(o.mins)} · ${o.max} marks`;
   if(!o.ready) return `<article class="yr pend"><div class="top"><span class="y">${esc(o.short||o.title)}</span><span class="fmt">${o.n} questions<br>${hm(o.mins)} · ${o.max} marks</span></div><div class="chips"><span class="chip">NTA paper</span></div><div class="best">Opens when the official answer key is added.</div><div class="acts"><button class="btn sec" disabled>Not yet available</button></div></article>`;
-  return `<article class="yr"><div class="top"><span class="y">${esc(o.short||o.title)}</span><span class="fmt">${o.n} questions<br>${hm(o.mins)} · ${o.max} marks</span></div>
-    <div class="chips">${o.kind==='mock'?'<span class="chip new">Original · 2027 pattern</span>':'<span class="chip new">NTA paper</span>'}${chips}<span class="chip">+4 / −1</span></div>
+  return `<article class="yr"><div class="top"><span class="y">${esc(o.short||o.title)}</span><span class="fmt">${qtxt}</span></div>
+    <div class="chips">${o.kind==='mock'?'<span class="chip new">Original · 2027 pattern</span>':(o.solved?'<span class="chip new">NTA paper · solved</span>':'<span class="chip new">NTA paper</span>')}${chips}<span class="chip">+4 / −1</span></div>
     <div><div class="best">${b?`Best timed mock: <b>${fmt(b.score)} / ${o.max}</b>`:'No timed mock yet'}</div><div class="bar" style="margin-top:6px"><i style="width:${pct}%"></i></div></div>
-    <div class="acts"><button class="btn pri" data-act="start" data-y="${o.y}" data-mode="mock">Timed mock</button><button class="btn sec" data-act="start" data-y="${o.y}" data-mode="practice">Practise</button></div></article>`;
+    ${o.note?`<div class="best" style="font-size:12.5px">${esc(o.note)}</div>`:''}<div class="acts"><button class="btn pri" data-act="start" data-y="${o.y}" data-mode="mock">Timed mock</button><button class="btn sec" data-act="start" data-y="${o.y}" data-mode="practice">Practise</button></div></article>`;
 }
 function renderHome(){
   S.view='home';
@@ -98,7 +104,7 @@ function renderHome(){
   <div class="modes"><div><h3>Timed mock</h3><p>Exam conditions: 3 hours, answers stay hidden, marked +4 / −1 when you submit. Move between subjects freely.</p></div><div><h3>Practice</h3><p>No clock. Check each answer as you go and read the working straight away.</p></div><div><h3>Review</h3><p>Rate your confidence on every answer. The report shows negative marks, avoidable losses on guesses and answers you were sure of but got wrong.</p></div></div>
   <div class="secthead"><h2>EduAakashaa practice mocks</h2><span>Five original papers, 75 questions each</span></div>
   <div class="years">${mocks.map(paperCard).join('')}</div>
-  ${pyq.length?`<div class="secthead"><h2>Previous-year papers</h2><span>NTA JEE Main B.Tech papers, official answer keys</span></div><div class="years">${pyq.map(paperCard).join('')}</div>`:''}
+  ${pyq.length?`<div class="secthead"><h2>Previous-year papers</h2><span>NTA JEE Main B.Tech papers with answer keys and worked solutions</span></div><div class="years">${pyq.map(paperCard).join('')}</div>`:''}
   <div class="secthead"><h2>How negative marking works</h2><span>+4 for right, −1 for wrong, 0 for blank</span></div>
   <div class="pattern"><div class="insights" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
    <div><b>Break-even is 1 in 5</b><p>An answer that is right more than 20% of the time adds marks on average. A blind guess in a 4-option question is right 25% of the time, so it is worth about +0.25 marks; a numerical guess is almost never right, so it costs about −1.</p></div>
@@ -144,7 +150,7 @@ function renderTest(){
   renderQ();renderPal();tick();
 }
 const markLabel=s=>`+${s.right} · −${Math.abs(s.wrong)}`;
-const secName=s=>`${SUBJ_SHORT[s.subj]} · ${s.type==='MCQ'?'Section A (MCQ)':'Section B (numerical)'}`;
+const secName=s=>`${SUBJ_SHORT[s.subj]} · ${s.type==='MCQ'?'Section A (MCQ)':(s.choose?`Section B (numerical, any ${s.choose} of ${s.hi-s.lo+1})`:'Section B (numerical)')}`;
 function renderQ(){
   const a=S.att,d=D(),q=curQ(),sec=secOf(d,q.n),val=a.ans[q.n];
   const practice=a.mode==='practice',checked=practice&&a.chk[q.n];
@@ -157,7 +163,7 @@ function renderQ(){
     input=`<div class="lab">Select one option.</div><div class="opts" role="radiogroup">${'ABCD'.split('').map(c=>{
       const on=val&&val.includes(c);let cls='opt';
       if(checked){if(right.includes(c))cls+=' right';else if(on)cls+=' wrong';}
-      return `<button class="${cls}" role="radio" aria-checked="${!!on}" data-act="opt" data-c="${c}" ${checked?'disabled':''}><span class="box"></span>${c}</button>`;}).join('')}</div>`;
+      return `<button class="${cls}" role="radio" aria-checked="${!!on}" data-act="opt" data-c="${c}" ${checked?'disabled':''}><span class="box"></span>${labOf(c)}</button>`;}).join('')}</div>`;
   }
   let fb='',exp='';
   if(checked){
@@ -174,7 +180,7 @@ function renderQ(){
   a.conf=a.conf||{};
   const hasAns=val!=null&&val!=='';const cv=a.conf[q.n];
   const conf=`<div class="confrow" role="group" aria-label="How sure are you?"><span class="cl">How sure are you?<small>${hasAns?(cv?'You can change this any time before submitting.':'Pick one so your report can track it.'):'Answer first, then rate your confidence.'}</small></span>${CONF.map(([k,l,c])=>`<button class="cf" data-act="conf" data-v="${k}" aria-pressed="${cv===k}" ${(!hasAns||checked)?'disabled':''}><span class="d" style="background:${c}"></span>${l}</button>`).join('')}</div>`;
-  const warn=(!practice&&q.t==='NAT')?`<p class="negnote">A wrong numerical answer loses 1 mark. Leave it blank if you are not sure.</p>`:'';
+  const warn=(!practice&&q.t==='NAT')?`<p class="negnote">A wrong numerical answer loses 1 mark. Leave it blank if you are not sure.${sec.choose?` Attempt any ${sec.choose} of these ${sec.hi-sec.lo+1}: only the first ${sec.choose} you answer are marked.`:''}</p>`:'';
   $('#qpane').innerHTML=`<div class="qhead"><h2>Question ${q.n}</h2><span class="chip ${q.t==='NAT'?'nat':'mcq'}">${secName(sec)}</span><span class="chip">${markLabel(sec)}</span>${a.mark[q.n]&&!practice?'<span class="chip" style="color:var(--mark)">Marked for review</span>':''}</div>
   ${qsheet(q,a.y,false)}
   <div class="ansbox">${input}${q.acc&&q.acc.bonus&&checked?'':conf}${fb}</div>${warn}${exp}<div class="qacts">${acts}</div>`;
@@ -190,6 +196,7 @@ function qsheet(q,y,lazy){
   return h+`</div>`;
 }
 function explain(q){
+  if(q.sol) return `<div class="exp"><div class="h">Worked solution</div><div class="sheet"><img loading="lazy" src="${q.sol}" width="${q.sw}" height="${q.sh}" style="width:${Math.round(q.sw*0.8)}px;max-width:100%" alt="Worked solution for question ${q.n}"></div></div>`;
   if(!q.steps||!q.steps.length) return '';
   let h=`<div class="exp"><div class="h">How to solve it</div><ol>${q.steps.map(s=>`<li><span>${s}</span></li>`).join('')}</ol>`;
   if(q.note) h+=`<p>${q.note}</p>`;
@@ -393,7 +400,7 @@ function renderReview(r){
   const list=d.qs.filter(q=>{const s=r.per[q.n].st;return f==='all'||(f==='risk'?isRisk(q):f==='right'?(s==='right'||s==='bonus'):s===f);});
   $('#rlist').innerHTML=list.length?list.map(q=>{const x=r.per[q.n];const cls=x.m>0?'pos':x.m<0?'neg':'zero';const tsec=(a.tm||{})[q.n];
     return `<details class="ritem${isRisk(q)?' risk':''}" id="rq${q.n}"><summary><span class="qn">Q${q.n}${C[q.n]?`<span class="cchip ${C[q.n]}" title="Your confidence">${CNAME[C[q.n]]}</span>`:''}</span><span class="chip ${q.t==='NAT'?'nat':'mcq'} ty">${q.t==='NAT'?'NUM':'MCQ'}</span><span class="val"><span class="lbl">You</span>${esc(showAns(q,ans[q.n]))}</span><span class="val"><span class="lbl">Official</span>${esc(officialAns(q))}</span><span class="mk ${cls}">${x.st==='blank'?'0':sign(x.m)}</span></summary>
-    <div class="body"><p class="rcat">${SUBJ[q.subj||secOf(d,q.n).subj]}${q.cat?' · '+(CATS[q.cat]||q.cat):''}${tsec?` · ${Math.round(tsec/6)/10} min spent`:''}</p>${qsheet(q,a.y,true)}${explain(q)}</div></details>`;}).join(''):`<div class="empty">No questions in this group.</div>`;
+    <div class="body"><p class="rcat">${SUBJ[q.subj||secOf(d,q.n).subj]}${q.cat?' · '+(CATS[q.cat]||q.cat):''}${tsec?` · ${Math.round(tsec/6)/10} min spent`:''}</p>${x.extra?'<p class="negnote">Not marked: only the first '+secOf(d,q.n).choose+' numerical answers in this section count.</p>':''}${qsheet(q,a.y,true)}${explain(q)}</div></details>`;}).join(''):`<div class="empty">No questions in this group.</div>`;
 }
 
 /* ---------- events ---------- */

@@ -24,5 +24,9 @@ with app.app_context():
     demo = User.query.filter(User.email.like('demo.reinforce%')).one()
     demo.password_hash = pw
     db.session.commit()
+    from app.models_reinforce import RfQuestion, RfStudent
+    qs = [RfQuestion.query.filter_by(qid='JEE-J2401S1-%03d' % i).one() for i in (1, 3, 21, 22, 24)]
+    rs = RfStudent.query.filter_by(demo=True).one()
+    rf.create_assignment(admin, {'title': 'JEE Main 2024 solved paper: sample set', 'exam': 'JEE', 'n': 5, 'release': 'after_submit', 'popup': 'dismissible'}, [rs.id], {rs.id: qs})
     print('admin@edupulse.test / demo1234 ;', demo.email, '/ demo1234', flush=True)
 app.run(port=5077, use_reloader=False)

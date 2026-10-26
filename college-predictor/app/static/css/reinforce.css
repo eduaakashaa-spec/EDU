@@ -61,3 +61,6 @@
 @media(max-width:640px){.rf-conf .grid{grid-template-columns:1fr}.rf-quad{grid-template-columns:1fr}.rf-q{padding:16px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
 @media print{.rf-nav,.rf-btn{display:none!important}}
+
+/* question and solution images (solved previous-year papers) */
+.rf-q img, .rf-rev img { max-width: 100%; height: auto; border-radius: 10px; border: 1px solid #E8DFC8; background: #fff; display: block; margin: 6px 0; }

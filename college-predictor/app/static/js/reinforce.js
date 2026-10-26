@@ -37,9 +37,9 @@
     } else {
       h += '<div class="rf-opts" role="' + (it.qtype === 'msq' ? 'group' : 'radiogroup') + '">';
       it.options.forEach(function (o, k) {
-        var L = 'ABCD'[k]; if (!o) return;
+        var L = 'ABCD'[k]; if (!o) return; var T = it.labels ? it.labels[k] : L;
         var on = it.qtype === 'msq' ? (it.answer || []).indexOf(L) > -1 : it.answer === L;
-        h += '<label class="rf-opt' + (on ? ' on' : '') + '"><input type="' + (it.qtype === 'msq' ? 'checkbox' : 'radio') + '" name="o" value="' + L + '"' + (on ? ' checked' : '') + '><b>' + L + '</b><span>' + o + '</span></label>';
+        h += '<label class="rf-opt' + (on ? ' on' : '') + '"><input type="' + (it.qtype === 'msq' ? 'checkbox' : 'radio') + '" name="o" value="' + L + '"' + (on ? ' checked' : '') + '><b>' + T + '</b><span>' + (it.labels ? '' : o) + '</span></label>';
       });
       h += '</div>';
     }
@@ -97,8 +97,9 @@
     if (j.released) { fetch(REVIEW, { credentials: 'same-origin' }).then(function (r) { return r.json(); }).then(function (r) {
       if (!r.ok) return; var out = '<h3 style="text-align:left;font-family:Fraunces,serif">Answers and explanations</h3>';
       r.items.forEach(function (q) {
-        var ans = q.answer; var show = q.qtype === 'nat' ? (ans && ans[0] ? ans[0][0] : '') : (Array.isArray(ans) ? ans.join(', ') : ans);
-        var yours = q.yours == null ? 'not answered' : (Array.isArray(q.yours) ? q.yours.join(', ') : q.yours);
+        var ans = q.answer; var dg = function (x) { return q.labels && typeof x === 'string' ? x.split('').map(function (c) { return q.labels['ABCD'.indexOf(c)] || c; }).join(', ') : x; };
+        var show = q.qtype === 'nat' ? (ans && ans[0] ? ans[0][0] : '') : (Array.isArray(ans) ? ans.join(', ') : dg(ans));
+        var yours = q.yours == null ? 'not answered' : (Array.isArray(q.yours) ? q.yours.join(', ') : dg(String(q.yours)));
         out += '<div class="rf-rev ' + (q.correct ? 'ok' : 'no') + '"><div class="rf-muted">Question ' + q.pos + ' · your answer: ' + esc(yours) + (q.confidence ? ' (' + esc(CTITLE[q.confidence]) + ')' : '') + ' · correct: ' + esc(show) + '</div><div>' + q.stem + '</div>' +
           '<div style="margin-top:8px">' + (q.explanation || '') + '</div>' + (q.misconception ? '<div class="rf-note"><b>Common mistake.</b> ' + q.misconception + '</div>' : '') + '</div>';
       });

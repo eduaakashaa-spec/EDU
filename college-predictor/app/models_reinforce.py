@@ -36,6 +36,18 @@ class RfTaxonomy(db.Model):
     __table_args__ = (db.UniqueConstraint('exam', 'subject', 'chapter'),)
 
 
+class RfQuestionImage(db.Model):
+    """Image parts of a question, keyed by the stable qid so every version keeps working: kind 'q' = the question (stem and options as printed), 's' = the worked solution.
+    A separate table so existing databases need no migration."""
+    __tablename__ = 'rf_question_images'
+    id = db.Column(db.Integer, primary_key=True)
+    qid = db.Column(db.String(40), nullable=False, index=True)
+    kind = db.Column(db.String(1), nullable=False)
+    mime = db.Column(db.String(30), default='image/webp')
+    data = db.Column(db.LargeBinary, nullable=False)
+    __table_args__ = (db.UniqueConstraint('qid', 'kind', name='uq_rf_qimg'),)
+
+
 class RfQuestion(db.Model):
     __tablename__ = 'rf_questions'
     id = db.Column(db.Integer, primary_key=True)

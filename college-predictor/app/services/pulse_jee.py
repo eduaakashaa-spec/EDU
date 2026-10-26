@@ -62,7 +62,7 @@ def clean_payload(d):
     if not meta:
         return None, 'unknown paper'
     qs = d.get('questions') or {}
-    if not isinstance(qs, dict) or len(qs) > 80:
+    if not isinstance(qs, dict) or len(qs) > 100:
         return None, 'bad questions'
     out = {}
     for k, q in qs.items():

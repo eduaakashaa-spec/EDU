@@ -16,7 +16,7 @@ from flask_login import current_user, login_required
 from app.decorators import admin_required, premium_required, staff_required
 from app.extensions import db
 from app.models import User
-from app.models_reinforce import (RfAssignment, RfAssignmentStudent, RfAttempt, RfAudit, RfDraft, RfItem, RfNotice, RfObservation, RfQuestion, RfRecommendation, RfSetting, RfStudent, RfTaxonomy, jl)
+from app.models_reinforce import (RfQuestionImage, RfAssignment, RfAssignmentStudent, RfAttempt, RfAudit, RfDraft, RfItem, RfNotice, RfObservation, RfQuestion, RfRecommendation, RfSetting, RfStudent, RfTaxonomy, jl)
 from app.services import reinforce as rf
 
 reinforce_bp = Blueprint('reinforce', __name__, url_prefix='/edupulse-reinforce')
@@ -147,9 +147,14 @@ def do(asid):
     return render_template('reinforce/do.html', x=x, a=x.assignment, rs=rs, CONF=rf.CONF)
 
 
+def _labels(q):
+    """Questions whose four options are printed as 1-4 inside the question image are answered with the digits."""
+    return '1234' if q.qtype == 'mcq' and q.options == ['1', '2', '3', '4'] else None
+
+
 def _item_payload(it):
     q = it.question
-    return {'id': it.id, 'pos': it.position, 'qtype': q.qtype, 'stem': q.stem, 'options': q.options if q.qtype != 'nat' else [], 'chapter': q.chapter, 'topic': q.topic, 'subject': q.subject,
+    return {'labels': _labels(q), 'id': it.id, 'pos': it.position, 'qtype': q.qtype, 'stem': q.stem, 'options': q.options if q.qtype != 'nat' else [], 'chapter': q.chapter, 'topic': q.topic, 'subject': q.subject,
             'exam': q.exam, 'difficulty': rf.DIFF_LABEL.get(q.difficulty, ''), 'est_sec': q.est_sec}
 
 
@@ -222,6 +227,31 @@ def api_submit(asid):
                                  'manual': 'Your mentor will release the explanations.'}[x.assignment.release])
 
 
+@reinforce_bp.route('/qimg/<qid>/<kind>')
+@login_required
+def qimg(qid, kind):
+    """Question and worked-solution images. Students get a question image only for questions assigned to them, and a solution image only after the
+    assignment's release rule lets them see explanations; staff can see both."""
+    if kind not in ('q', 's'):
+        abort(404)
+    row = RfQuestionImage.query.filter_by(qid=qid, kind=kind).first()
+    if not row:
+        abort(404)
+    if not current_user.is_staff:
+        rs = _my_student()
+        ids = [i for (i,) in db.session.query(RfQuestion.id).filter_by(qid=qid).all()]
+        if not rs or not ids:
+            abort(404)
+        mine = (RfAssignmentStudent.query.join(RfItem, RfItem.asg_student_id == RfAssignmentStudent.id)
+                .filter(RfAssignmentStudent.student_id == rs.id, RfItem.question_id.in_(ids)).all())
+        if not mine or (kind == 's' and not any(rf.released(x) for x in mine)):
+            abort(404)
+    resp = Response(row.data, mimetype=row.mime or 'image/webp')
+    resp.headers['Cache-Control'] = 'private, max-age=600'
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    return resp
+
+
 @reinforce_bp.route('/api/asg/<int:asid>/review')
 @premium_required
 def api_review(asid):
@@ -234,7 +264,7 @@ def api_review(asid):
         q = it.question
         att = RfAttempt.query.filter_by(student_id=rs.id, assignment_id=x.assignment_id, question_id=q.id).order_by(RfAttempt.id.desc()).first()
         d = RfDraft.query.filter_by(item_id=it.id).first()
-        out.append({'pos': it.position, 'stem': q.stem, 'options': q.options, 'qtype': q.qtype, 'answer': q.answer, 'explanation': q.explanation, 'misconception': q.misconception if att and att.confidence == 'H' and not att.correct else '',
+        out.append({'labels': _labels(q), 'pos': it.position, 'stem': q.stem, 'options': q.options, 'qtype': q.qtype, 'answer': q.answer, 'explanation': q.explanation, 'misconception': q.misconception if att and att.confidence == 'H' and not att.correct else '',
                     'yours': jl(att.answer_json, None) if att else (jl(d.answer_json, None) if d and d.answer_json else None), 'correct': att.correct if att else None, 'confidence': att.confidence if att else None})
     return jsonify(ok=True, items=out)
 
