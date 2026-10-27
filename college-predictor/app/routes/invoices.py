@@ -66,6 +66,34 @@ def _next_invoice_no(width=4):
     return f'{seq.prefix}{str(seq.value).zfill(width)}'
 
 
+_BANK_KEYS = ('bank_ac_name', 'bank_name', 'bank_branch', 'bank_ac_no', 'bank_ifsc')
+
+
+def _seller_for_display(snapshot):
+    """The seller snapshot stored on a document, with today's saved bank details filled in when the snapshot has none (documents issued before the bank details
+    were entered in Invoice Settings, for example)."""
+    seller = dict(snapshot or {})
+    if not seller.get('bank_ac_no'):
+        try:
+            cur = company_profile()
+            for k in _BANK_KEYS:
+                if cur.get(k):
+                    seller[k] = cur[k]
+        except Exception:
+            pass
+    return seller
+
+
+def _bank_html(s):
+    """Bank details block for e-mails ('' when none are saved)."""
+    if not s.get('bank_ac_no'):
+        return ''
+    rows = [('Account name', s.get('bank_ac_name') or s.get('legal_name')), ('Bank', ', '.join(x for x in (s.get('bank_name'), s.get('bank_branch')) if x)),
+            ('Account number', s.get('bank_ac_no')), ('IFSC', s.get('bank_ifsc'))]
+    cells = ''.join(f"<tr><td style='padding:3px 10px 3px 0;color:#5A6278'>{escape(k)}</td><td style='padding:3px 0;font-weight:600'>{escape(v)}</td></tr>" for k, v in rows if v)
+    return f"<p style='margin:22px 0 6px;font-weight:700'>Bank details for payment</p><table role='presentation' style='font-size:13.5px'>{cells}</table>"
+
+
 def _next_receipt_no(width=4):
     """Next receipt number (RCPT/NNNN) from the same gap-free 'receipt' series membership receipts use. Row-locked."""
     seq = db.session.query(DocSequence).filter_by(name='receipt').with_for_update().first()
@@ -274,7 +302,7 @@ def admin_new():
 @admin_required
 def admin_detail(inv_id):
     inv = db.session.get(Invoice, inv_id) or abort(404)
-    return render_template('invoice_view.html', inv=inv, seller=inv.seller,
+    return render_template('invoice_view.html', inv=inv, seller=_seller_for_display(inv.seller),
                            show_actions=True, modes=PAYMENT_MODES,
                            statuses=PAYMENT_STATUSES, admin_tab='invoices',
                            public_url=SITE + url_for('invoices.public_view', token=inv.public_token))
@@ -283,7 +311,7 @@ def admin_detail(inv_id):
 def _invoice_email(inv):
     """(subject, text, html) for the customer — inline HTML + a link to the
     printable copy. Uses the seller snapshot stored on the invoice."""
-    s = inv.seller
+    s = _seller_for_display(inv.seller)
     view = SITE + url_for('invoices.public_view', token=inv.public_token)
     money = lambda p: f'₹{int(p or 0) / 100:,.2f}'
     first = (inv.customer_name or '').strip().split(' ')[0] or 'there'
@@ -350,6 +378,7 @@ def _invoice_email(inv):
         "font-size:14px;display:inline-block'>View / download invoice →</a></p>"
         "<p style='margin:14px 0 0;font-size:12.5px;color:#5A6278'>"
         "Open the link above to print or save this invoice as a PDF.</p>"
+        + ('' if inv.payment_status == 'Paid' else _bank_html(s))
         + (f"<p style='margin:10px 0 0;font-size:12.5px;color:#5A6278'>GSTIN "
            f"{escape(s.get('gstin'))}</p>" if (s.get('gstin') and not inv.no_gst) else ''))
 
@@ -529,7 +558,7 @@ def admin_delete(inv_id):
 @invoices_bp.route('/invoice/<token>')
 def public_view(token):
     inv = Invoice.query.filter_by(public_token=token).first() or abort(404)
-    return render_template('invoice_view.html', inv=inv, seller=inv.seller,
+    return render_template('invoice_view.html', inv=inv, seller=_seller_for_display(inv.seller),
                            show_actions=False)
 
 

@@ -182,7 +182,7 @@
     <div class="inv-foot">
       {% if seller.bank_ac_no %}
       <div>
-        <h4>Bank details</h4>
+        <h4>Bank details for payment</h4>
         {{ seller.bank_ac_name or seller.legal_name }}<br>
         {% if seller.bank_name %}{{ seller.bank_name }}{% if seller.bank_branch %}, {{ seller.bank_branch }}{% endif %}<br>{% endif %}
         A/C: {{ seller.bank_ac_no }}{% if seller.bank_ifsc %} · IFSC: {{ seller.bank_ifsc }}{% endif %}
@@ -194,7 +194,7 @@
       </div>
     </div>
 
-    {% if inv.no_gst %}<div class="inv-note" style="text-align:left;color:#555;margin-top:14px;">GST is not charged on this invoice.</div>{% endif %}
+    {% if show_actions and not seller.bank_ac_no %}<div class="inv-note no-print" style="color:#C23A3A;">Bank details are not saved yet, so they do not appear on this invoice. Add them in Finance &rarr; Invoice Settings.</div>{% endif %}
     <div class="inv-note">This is a computer-generated invoice{% if seller.website %} · {{ seller.website }}{% endif %}.</div>
   </div>
 </div>

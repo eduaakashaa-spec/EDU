@@ -66,7 +66,7 @@ with app.app_context():
     assert n.gst_rate == 0 and n.no_gst and n.total_gst == 0 and n.cgst == n.sgst == n.igst == 0 and n.total == 450000 and n.customer_gstin == ''   # 5000 - 500, nothing added
     NTOKEN = n.public_token
 nh = admin.get('/admin/invoices/%d' % nid).get_data(as_text=True)
-assert 'Tax Invoice' not in nh and 'Taxable value' not in nh and 'CGST' not in nh and 'IGST' not in nh and 'GST is not charged on this invoice' in nh and '33ABCDE1234F1Z5' not in nh
+assert 'Tax Invoice' not in nh and 'Taxable value' not in nh and 'CGST' not in nh and 'IGST' not in nh and 'GST is not charged' not in nh and '33ABCDE1234F1Z5' not in nh
 assert 'GSTIN' not in anon.get('/invoice/' + NTOKEN).get_data(as_text=True).split('Bill to')[0] and anon.get('/invoice/' + NTOKEN).status_code == 200
 from app.routes.invoices import _invoice_email  # noqa: E402
 with app.test_request_context():
@@ -75,6 +75,18 @@ with app.test_request_context():
     assert 'GST (' not in html and 'Subtotal' in html
     with app.app_context():
         assert 'GST (18' in _invoice_email(db.session.get(Invoice, gid))[2]
+
+# ---- bank details: shown on invoices once saved, including invoices issued before they were entered ---------------------------------------------------
+assert 'Bank details are not saved yet' in nh and 'A/C:' not in nh
+admin.post('/admin/invoice-settings', data={'gst_pct': '18', 'legal_name': 'EduAakashaA', 'bank_ac_name': 'EduAakashaA', 'bank_name': 'Test Bank', 'bank_branch': 'Coimbatore', 'bank_ac_no': '1234567890123', 'bank_ifsc': 'TEST0001234'})
+nh2 = admin.get('/admin/invoices/%d' % nid).get_data(as_text=True)
+assert 'Bank details for payment' in nh2 and 'A/C: 1234567890123' in nh2 and 'IFSC: TEST0001234' in nh2 and 'Bank details are not saved yet' not in nh2 and 'GST is not charged' not in nh2
+assert 'A/C: 1234567890123' in anon.get('/invoice/' + NTOKEN).get_data(as_text=True)                  # the customer's copy too
+with app.app_context():
+    from app.routes.invoices import _invoice_email as _ie  # noqa: E402
+    with app.test_request_context():
+        em = _ie(db.session.get(Invoice, nid))[2]
+        assert '1234567890123' in em and 'Bank details for payment' in em                                # unpaid invoice e-mail carries the bank details
 
 # ---- receipts: every payment gets its own, numbered in one series ----------------------------------------------------------------------------------
 assert b'none yet' in admin.get('/admin/invoices/%d' % nid).data

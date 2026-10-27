@@ -50,6 +50,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-27', 'Invoices show the saved bank details for payment (also on invoices issued earlier and in the invoice e-mail); the "GST is not charged" line is removed from invoices.'),
     ('2026-10-27', 'Invoices can be created without GST, and payment receipts (with or without GST) are issued for every payment or on their own: Admin > Finance > Payment receipts / New receipt.'),
     ('2026-10-27', 'Every Member Home tile now has a banner illustration (static/img/tiles); the Smart Study Planner tile keeps its own picture.'),
     ('2026-10-27', 'Smart Study Planner added: beginner, average and top-scorer plans, dashboards for students, mentors and admins, reports, EduPulse links, PDF templates and a daily motivational thought.'),
@@ -343,12 +344,12 @@ GUIDE = [
          where=[('Invoice Settings', 'invoices.admin_settings')],
          steps=['Open Finance > Invoice Settings.',
                 'Fill the business names, GSTIN, PAN, default GST rate, home state, address, phone, e-mail and website.',
-                'Fill the bank details (account name, bank, account number, IFSC, branch). The e-mail templates and invoices pick them up automatically.',
+                'Fill the bank details (account name, bank, account number, IFSC, branch). Invoices print them under "Bank details for payment" (also on invoices issued before you entered them), unpaid-invoice e-mails include them, and the e-mail templates pick them up automatically. If they are empty, the invoice page shows a reminder to admins.',
                 'Add the invoice footer and terms, then Save settings.'],
          added='2026-10-26', updated='2026-10-26'),
     dict(id='a-receipts', role='admin', group='Finance', title='Invoices and payment receipts, with or without GST', summary='Create plain invoices, record payments and give customers receipts.',
          where=[('New invoice', 'invoices.admin_new'), ('Payment receipts', 'invoices.admin_receipts'), ('New receipt', 'invoices.admin_receipt_new')],
-         steps=['Finance > New invoice: fill in the customer and the items. In "Adjustments & tax" choose the invoice type: "With GST (tax invoice)" adds GST on top of the rates; "Without GST (plain invoice)" adds nothing, hides the GST fields and prints the document as "Invoice" with the note that GST is not charged.',
+         steps=['Finance > New invoice: fill in the customer and the items. In "Adjustments & tax" choose the invoice type: "With GST (tax invoice)" adds GST on top of the rates; "Without GST (plain invoice)" adds nothing, hides the GST fields and prints the document as "Invoice".',
                 'Payment on the invoice page: enter the amount you just received (and mode and reference) and press "Record payment / issue receipt". Part payments are fine: each one gets its own receipt, and the invoice moves to Partially Paid, then Paid. Choosing Paid with no amount receipts the whole balance.',
                 'A receipt (RCPT/0001 and so on) shows the amount received, mode, reference, the invoice it is against and the balance still due. If the invoice has GST, the receipt shows the GST inside the amount; if not, it says GST is not charged.',
                 'Money received with no invoice: Finance > New receipt. Choose "Without GST" or "With GST (amount includes GST)", enter the payer, what it is for and the amount.',
