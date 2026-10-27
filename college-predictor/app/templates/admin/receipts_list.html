@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Payment receipts — Admin · EduAakashaa{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  <div class="adm-top">
+    <div><div class="adm-eyebrow">Admin · Finance</div><h1>Payment receipts</h1></div>
+    <div><a class="btn btn-navy" href="{{ url_for('invoices.admin_receipt_new') }}">+ New receipt</a></div>
+  </div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  {% include "admin/_nav.html" %}
+  <p style="color:var(--muted); font-size:13.5px; margin:-6px 0 14px;">A receipt is issued for every payment recorded against an invoice, and you can also issue one on its own. Each can be with or without GST.</p>
+  <form class="adm-bar" method="get" action="{{ url_for('invoices.admin_receipts') }}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search receipt no, invoice no, name or email…" style="flex:1; min-width:200px;">
+    <button class="btn btn-navy" type="submit">Search</button><a class="btn btn-ghost" href="{{ url_for('invoices.admin_receipts') }}">Reset</a>
+  </form>
+  <div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>Receipt</th><th>Date</th><th>Received from</th><th>Invoice</th><th>GST</th><th>Mode</th><th style="text-align:right">Amount</th></tr></thead><tbody>
+  {% for r in rows %}<tr>
+    <td><a href="{{ url_for('invoices.admin_receipt', rid=r.id) }}"><b>{{ r.receipt_no }}</b></a></td>
+    <td>{{ r.receipt_date.strftime('%d %b %Y') if r.receipt_date }}</td>
+    <td>{{ r.customer_name }}<div style="color:var(--muted);font-size:12px">{{ r.customer_email or '' }}</div></td>
+    <td>{{ r.invoice_no or '—' }}</td>
+    <td>{{ 'No GST' if r.no_gst else ('%g%%'|format(r.gst_rate * 100)) }}</td>
+    <td>{{ r.payment_mode or '—' }}</td>
+    <td style="text-align:right">₹{{ r.amount|inr }}</td></tr>
+  {% else %}<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">No receipts yet.</td></tr>{% endfor %}</tbody></table></div>
+  <p style="margin-top:10px;color:var(--muted)">Total shown: <b>₹{{ total|inr }}</b></p>
+</div></div>
+{% endblock %}

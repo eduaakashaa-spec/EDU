@@ -27,7 +27,7 @@ from flask import (Blueprint, abort, current_app, flash, redirect,
 
 from app.decorators import admin_required
 from app.extensions import db
-from app.models_membership import DocSequence, Invoice, MembershipInvoice
+from app.models_membership import DocSequence, Invoice, InvoiceReceipt, MembershipInvoice
 from app.services.company import (EDITABLE_KEYS, company_profile,
                                   save_company_profile)
 from markupsafe import escape
@@ -64,6 +64,41 @@ def _next_invoice_no(width=4):
         db.session.flush()
     seq.value += 1
     return f'{seq.prefix}{str(seq.value).zfill(width)}'
+
+
+def _next_receipt_no(width=4):
+    """Next receipt number (RCPT/NNNN) from the same gap-free 'receipt' series membership receipts use. Row-locked."""
+    seq = db.session.query(DocSequence).filter_by(name='receipt').with_for_update().first()
+    if seq is None:
+        seq = DocSequence(name='receipt', prefix='RCPT/', value=0)
+        db.session.add(seq)
+        db.session.flush()
+    seq.value += 1
+    return f'{seq.prefix}{str(seq.value).zfill(width)}'
+
+
+def _gst_split(amount, rate, intra):
+    """GST inside a GST-inclusive amount: (taxable, gst, cgst, sgst, igst). A rate of 0 means no GST."""
+    if not rate or amount <= 0:
+        return amount, 0, 0, 0, 0
+    taxable = round(amount / (1 + rate))
+    gst = amount - taxable
+    if intra:
+        c = gst // 2
+        return taxable, gst, c, gst - c, 0
+    return taxable, gst, 0, 0, gst
+
+
+def _issue_receipt(inv, amount, mode='', ref='', notes=''):
+    """One receipt for a payment of `amount` paise against invoice `inv` (call after inv.amount_paid is updated)."""
+    taxable, gst, c, s_, i_ = _gst_split(amount, inv.gst_rate or 0, bool(inv.cgst))
+    r = InvoiceReceipt(receipt_no=_next_receipt_no(), invoice_id=inv.id, invoice_no=inv.invoice_no, customer_name=inv.customer_name, customer_email=inv.customer_email,
+                       customer_address=inv.customer_address, description='Payment against invoice %s' % inv.invoice_no, amount=amount, gst_rate=inv.gst_rate or 0,
+                       taxable_value=taxable, total_gst=gst, cgst=c, sgst=s_, igst=i_, balance_after=max((inv.total or 0) - (inv.amount_paid or 0), 0),
+                       payment_mode=(mode or inv.payment_mode or '')[:60], payment_ref=(ref or inv.payment_ref or '')[:120], notes=notes[:4000],
+                       seller_json=inv.seller_json, public_token=secrets.token_urlsafe(24))
+    db.session.add(r)
+    return r
 
 
 def _parse_items(form):
@@ -197,12 +232,15 @@ def admin_new():
     except ValueError:
         gst_pct = profile['gst_rate_f'] * 100
     gst_rate = max(gst_pct, 0) / 100.0
+    no_gst = f.get('gst_mode') == 'none'                                  # an invoice without GST: rate 0, no tax lines, no GSTIN
+    if no_gst:
+        gst_rate = 0.0
 
     inv = Invoice(
         invoice_no=_next_invoice_no(),
         customer_name=name,
         customer_email=(f.get('customer_email') or '').strip()[:200],
-        customer_gstin=(f.get('customer_gstin') or '').strip()[:20],
+        customer_gstin='' if no_gst else (f.get('customer_gstin') or '').strip()[:20],
         customer_address=(f.get('customer_address') or '').strip()[:1000],
         customer_state=(f.get('customer_state') or '').strip()[:120],
         items_json=json.dumps(items),
@@ -221,8 +259,11 @@ def admin_new():
     if inv.payment_status == 'Paid':
         inv.amount_paid = inv.total
     db.session.add(inv)
+    db.session.flush()
+    if inv.amount_paid:                                                      # created already paid: issue its receipt now
+        _issue_receipt(inv, inv.amount_paid)
     db.session.commit()
-    flash(f'Invoice {inv.invoice_no} created.', 'success')
+    flash(f'Invoice {inv.invoice_no} created{" without GST" if no_gst else ""}.' + (' Payment receipt issued.' if inv.amount_paid else ''), 'success')
     return redirect(url_for('invoices.admin_detail', inv_id=inv.id))
 
 
@@ -263,13 +304,14 @@ def _invoice_email(inv):
                 f"color:#5A6278;{size}'>{label}</td>"
                 f"<td style='padding:4px 10px;text-align:right;{weight}{colour}{size}'>{value}</td></tr>")
 
-    totals = total_row('Taxable value', money(inv.taxable_value))
+    totals = total_row('Subtotal' if inv.no_gst else 'Taxable value', money(inv.taxable_value))
     if inv.discount:
         totals += total_row('Discount', '−' + money(inv.discount))
     if inv.additional_fee:
         totals += total_row(escape(inv.additional_fee_label or 'Additional fee'),
                             money(inv.additional_fee))
-    totals += total_row(f'GST ({round(inv.gst_rate * 100, 2)}%)', money(inv.total_gst))
+    if not inv.no_gst:
+        totals += total_row(f'GST ({round(inv.gst_rate * 100, 2)}%)', money(inv.total_gst))
     totals += ("<tr><td colspan='4' style='padding:0 10px'>"
                "<div style='border-top:2px solid #0E3A8A;margin-top:6px'></div></td></tr>")
     totals += total_row('Total', money(inv.total), strong=True, accent=True)
@@ -309,7 +351,7 @@ def _invoice_email(inv):
         "<p style='margin:14px 0 0;font-size:12.5px;color:#5A6278'>"
         "Open the link above to print or save this invoice as a PDF.</p>"
         + (f"<p style='margin:10px 0 0;font-size:12.5px;color:#5A6278'>GSTIN "
-           f"{escape(s.get('gstin'))}</p>" if s.get('gstin') else ''))
+           f"{escape(s.get('gstin'))}</p>" if (s.get('gstin') and not inv.no_gst) else ''))
 
     return subject, text, branded_shell(body)
 
@@ -337,17 +379,137 @@ def admin_email(inv_id):
 def admin_payment(inv_id):
     inv = db.session.get(Invoice, inv_id) or abort(404)
     status = request.form.get('payment_status')
-    if status in PAYMENT_STATUSES:
-        inv.payment_status = status
     inv.payment_mode = (request.form.get('payment_mode') or '').strip()[:60]
     inv.payment_ref = (request.form.get('payment_ref') or '').strip()[:120]
-    if inv.payment_status == 'Paid':
+    before = inv.amount_paid or 0
+    received = to_paise(request.form.get('amount_received'))
+    if received > 0:                                                         # an amount received now: add it
+        inv.amount_paid = min(before + received, inv.total or 0) if (inv.total or 0) else before + received
+    elif status == 'Paid':
         inv.amount_paid = inv.total
-    else:
-        inv.amount_paid = to_paise(request.form.get('amount_paid'))
+    elif status == 'Unpaid':
+        inv.amount_paid = 0
+    if received > 0 or status == 'Paid':                                     # status follows the money
+        inv.payment_status = 'Paid' if inv.amount_paid >= (inv.total or 0) > 0 else ('Partially Paid' if inv.amount_paid > 0 else 'Unpaid')
+    elif status in PAYMENT_STATUSES:
+        inv.payment_status = status
+    delta = (inv.amount_paid or 0) - before
+    msg = 'Payment updated.'
+    if delta > 0:                                                            # every payment received gets its own receipt
+        db.session.flush()
+        r = _issue_receipt(inv, delta, inv.payment_mode, inv.payment_ref)
+        msg = 'Payment recorded. Receipt %s issued.' % r.receipt_no
     db.session.commit()
-    flash('Payment updated.', 'success')
+    flash(msg, 'success')
     return redirect(url_for('invoices.admin_detail', inv_id=inv.id))
+
+
+# --------------------------------------------------------------------------- #
+# Payment receipts (with or without GST)
+# --------------------------------------------------------------------------- #
+def _receipt_email(r):
+    s = r.seller
+    view = SITE + url_for('invoices.public_receipt', token=r.public_token)
+    money = lambda p: f'₹{int(p or 0) / 100:,.2f}'
+    first = (r.customer_name or '').strip().split(' ')[0] or 'there'
+    subject = f"Payment receipt {r.receipt_no} from {s.get('brand_name', 'EduAakashaa')}"
+    text = f"Hi {first},\n\nThank you. We received {money(r.amount)}. Your receipt is {r.receipt_no}.\n\nView / download: {view}\n\n— Team EduAakashaa"
+    gst_line = '' if r.no_gst else f"<p style='margin:0 0 6px;color:#5A6278'>Includes GST of {money(r.total_gst)} ({round(r.gst_rate * 100, 2)}%).</p>"
+    body = (f"<p style='margin:0 0 6px'>Hi {escape(first)},</p>"
+            f"<p style='margin:0 0 14px'>Thank you. We have received <strong>{money(r.amount)}</strong>"
+            f"{' against invoice <strong>' + escape(r.invoice_no) + '</strong>' if r.invoice_no else ''}. Your payment receipt is <strong>{r.receipt_no}</strong>.</p>"
+            + gst_line + ('' if r.balance_after is None else f"<p style='margin:0 0 6px;color:#5A6278'>Balance due on the invoice: {money(r.balance_after)}.</p>")
+            + f"<p style='margin:20px 0 8px'><a href='{view}' style='background:#FF6B0A;color:#ffffff;text-decoration:none;padding:12px 28px;border-radius:999px;font-weight:700;font-size:14px;display:inline-block'>View / download receipt →</a></p>")
+    return subject, text, branded_shell(body)
+
+
+@invoices_bp.route('/admin/receipts')
+@admin_required
+def admin_receipts():
+    q = (request.args.get('q') or '').strip()
+    query = InvoiceReceipt.query
+    if q:
+        like = f'%{q}%'
+        query = query.filter(db.or_(InvoiceReceipt.customer_name.ilike(like), InvoiceReceipt.receipt_no.ilike(like), InvoiceReceipt.invoice_no.ilike(like), InvoiceReceipt.customer_email.ilike(like)))
+    rows = query.order_by(InvoiceReceipt.id.desc()).limit(300).all()
+    return render_template('admin/receipts_list.html', admin_tab='invoices', rows=rows, q=q, total=sum(r.amount or 0 for r in rows))
+
+
+@invoices_bp.route('/admin/receipts/new', methods=['GET', 'POST'])
+@admin_required
+def admin_receipt_new():
+    """A payment receipt on its own (no invoice), with or without GST."""
+    profile = company_profile()
+    if request.method == 'GET':
+        return render_template('admin/receipt_form.html', admin_tab='invoices', profile=profile, modes=PAYMENT_MODES, form=None)
+    f = request.form
+    name = (f.get('customer_name') or '').strip()[:160]
+    amount = to_paise(f.get('amount'))
+    if not name or amount <= 0:
+        flash('Enter the payer\'s name and an amount greater than zero.', 'danger')
+        return render_template('admin/receipt_form.html', admin_tab='invoices', profile=profile, modes=PAYMENT_MODES, form=f)
+    rate = 0.0
+    if f.get('gst_mode') == 'with':
+        try:
+            rate = max(float(f.get('gst_pct') or profile['gst_rate_f'] * 100), 0) / 100.0
+        except ValueError:
+            rate = profile['gst_rate_f']
+    state = (f.get('customer_state') or '').strip()
+    intra = bool(state) and state.lower() == (profile['home_state'] or '').strip().lower()
+    taxable, gst, c, s_, i_ = _gst_split(amount, rate, intra)
+    r = InvoiceReceipt(receipt_no=_next_receipt_no(), customer_name=name, customer_email=(f.get('customer_email') or '').strip()[:200], customer_address=(f.get('customer_address') or '').strip()[:1000],
+                       description=(f.get('description') or 'Payment received').strip()[:300], amount=amount, gst_rate=rate, taxable_value=taxable, total_gst=gst, cgst=c, sgst=s_, igst=i_,
+                       payment_mode=(f.get('payment_mode') or '').strip()[:60], payment_ref=(f.get('payment_ref') or '').strip()[:120], notes=(f.get('notes') or '').strip()[:4000],
+                       seller_json=json.dumps(profile), public_token=secrets.token_urlsafe(24))
+    d = f.get('receipt_date')
+    if d:
+        try:
+            r.receipt_date = datetime.strptime(d, '%Y-%m-%d')
+        except ValueError:
+            pass
+    db.session.add(r)
+    db.session.commit()
+    flash(f'Receipt {r.receipt_no} created{" without GST" if not rate else ""}.', 'success')
+    return redirect(url_for('invoices.admin_receipt', rid=r.id))
+
+
+@invoices_bp.route('/admin/receipts/<int:rid>')
+@admin_required
+def admin_receipt(rid):
+    r = db.session.get(InvoiceReceipt, rid) or abort(404)
+    return render_template('receipt_view.html', r=r, seller=r.seller, show_actions=True, admin_tab='invoices', public_url=SITE + url_for('invoices.public_receipt', token=r.public_token))
+
+
+@invoices_bp.route('/admin/receipts/<int:rid>/email', methods=['POST'])
+@admin_required
+def admin_receipt_email(rid):
+    r = db.session.get(InvoiceReceipt, rid) or abort(404)
+    if not r.customer_email:
+        flash('Add a customer email to this receipt before sending.', 'danger')
+        return redirect(url_for('invoices.admin_receipt', rid=r.id))
+    subject, text, html = _receipt_email(r)
+    send_async(r.customer_email, subject, text, html)
+    r.emailed_at = _now()
+    db.session.commit()
+    flash(f'Receipt emailed to {r.customer_email}.' if mail_configured() else 'Email is not configured (SMTP_* env vars): receipt marked sent but no email left the server.', 'success' if mail_configured() else 'info')
+    return redirect(url_for('invoices.admin_receipt', rid=r.id))
+
+
+@invoices_bp.route('/admin/receipts/<int:rid>/delete', methods=['POST'])
+@admin_required
+def admin_receipt_delete(rid):
+    r = db.session.get(InvoiceReceipt, rid) or abort(404)
+    no = r.receipt_no
+    db.session.delete(r)
+    db.session.commit()
+    flash(f'Receipt {no} deleted.', 'info')
+    return redirect(url_for('invoices.admin_receipts'))
+
+
+@invoices_bp.route('/receipt/<token>')
+def public_receipt(token):
+    r = InvoiceReceipt.query.filter_by(public_token=token).first() or abort(404)
+    return render_template('receipt_view.html', r=r, seller=r.seller, show_actions=False)
 
 
 @invoices_bp.route('/admin/invoices/<int:inv_id>/delete', methods=['POST'])

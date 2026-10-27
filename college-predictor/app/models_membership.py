@@ -184,12 +184,65 @@ class Invoice(db.Model):
         return f'<Invoice {self.invoice_no} {self.payment_status}>'
 
     @property
+    def no_gst(self):
+        """True for an invoice issued without GST (rate 0): shown as a plain Invoice, with no tax lines."""
+        return not (self.gst_rate or 0)
+
+    @property
     def items(self):
         import json
         try:
             return json.loads(self.items_json) if self.items_json else []
         except (ValueError, TypeError):
             return []
+
+    @property
+    def seller(self):
+        import json
+        try:
+            return json.loads(self.seller_json) if self.seller_json else {}
+        except (ValueError, TypeError):
+            return {}
+
+
+class InvoiceReceipt(db.Model):
+    """A payment receipt. One is issued for every payment recorded against a standalone invoice (so part payments each get their own), or on its own for money
+    received with no invoice. `gst_rate` 0 means a receipt without GST. Customer and seller details are snapshotted at issue."""
+    __tablename__ = 'invoice_receipts'
+
+    id = db.Column(db.Integer, primary_key=True)
+    receipt_no = db.Column(db.String(40), unique=True, index=True)          # RCPT/NNNN, shares the 'receipt' sequence
+    receipt_date = db.Column(db.DateTime, default=_utcnow)
+    invoice_id = db.Column(db.Integer, db.ForeignKey('invoices.id', ondelete='SET NULL'), index=True, nullable=True)
+    invoice_no = db.Column(db.String(40))                                    # kept even if the invoice is later deleted
+
+    customer_name = db.Column(db.String(160), nullable=False)
+    customer_email = db.Column(db.String(200), index=True)
+    customer_address = db.Column(db.Text)
+    description = db.Column(db.String(300))                                  # what the payment is for
+
+    amount = db.Column(db.Integer, default=0)                                # paise received (GST-inclusive when GST applies)
+    gst_rate = db.Column(db.Float, default=0.0)
+    taxable_value = db.Column(db.Integer, default=0)
+    cgst = db.Column(db.Integer, default=0)
+    sgst = db.Column(db.Integer, default=0)
+    igst = db.Column(db.Integer, default=0)
+    total_gst = db.Column(db.Integer, default=0)
+    balance_after = db.Column(db.Integer)                                    # invoice balance after this payment (linked receipts only)
+
+    payment_mode = db.Column(db.String(60))
+    payment_ref = db.Column(db.String(120))
+    notes = db.Column(db.Text)
+    seller_json = db.Column(db.Text)
+    public_token = db.Column(db.String(48), unique=True, index=True)
+    emailed_at = db.Column(db.DateTime, nullable=True)
+    created_at = db.Column(db.DateTime, default=_utcnow)
+
+    invoice = db.relationship('Invoice', backref=db.backref('receipts', lazy='dynamic', order_by='InvoiceReceipt.id'))
+
+    @property
+    def no_gst(self):
+        return not (self.gst_rate or 0)
 
     @property
     def seller(self):

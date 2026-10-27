@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}New receipt — Admin · EduAakashaa{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  <div class="adm-top"><div><div class="adm-eyebrow"><a href="{{ url_for('invoices.admin_receipts') }}" style="color:var(--navy);text-decoration:none;">← Receipts</a></div><h1>New payment receipt</h1></div></div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  {% include "admin/_nav.html" %}
+  <p style="color:var(--muted);font-size:13.5px;margin:-6px 0 14px;">Use this for money received that has no invoice. To receive a payment against an invoice, open the invoice and use "Record payment / issue receipt" instead.</p>
+  <form method="post" action="{{ url_for('invoices.admin_receipt_new') }}" id="rcForm">
+    <div class="adm-card" style="margin-bottom:18px;"><h2>Received from</h2>
+      <div class="adm-form">
+        <div><label>Name *</label><input name="customer_name" required maxlength="160" value="{{ (form.customer_name if form) or '' }}"></div>
+        <div><label>Email</label><input type="email" name="customer_email" maxlength="200" value="{{ (form.customer_email if form) or '' }}"></div>
+        <div class="gst-only"><label>State (place of supply)</label><input name="customer_state" maxlength="120" placeholder="{{ profile.home_state }}" value="{{ (form.customer_state if form) or '' }}"></div>
+        <div class="full"><label>Address</label><textarea name="customer_address" rows="2" maxlength="1000">{{ (form.customer_address if form) or '' }}</textarea></div>
+      </div></div>
+    <div class="adm-card" style="margin-bottom:18px;"><h2>Payment</h2>
+      <div class="adm-form">
+        <div class="full"><label>Receipt type</label><select name="gst_mode" id="rcMode"><option value="none" {{ 'selected' if not (form and form.gst_mode == 'with') }}>Without GST</option><option value="with" {{ 'selected' if form and form.gst_mode == 'with' }}>With GST (amount includes GST)</option></select></div>
+        <div class="full"><label>For</label><input name="description" maxlength="300" placeholder="e.g. Counselling fee, Premium membership" value="{{ (form.description if form) or '' }}"></div>
+        <div><label>Amount received (₹) *</label><input name="amount" type="number" min="0.01" step="0.01" required id="rcAmt" value="{{ (form.amount if form) or '' }}"></div>
+        <div class="gst-only"><label>GST rate (%) included</label><input name="gst_pct" type="number" min="0" step="0.01" id="rcRate" value="{{ '%.2f'|format(profile.gst_rate_f * 100) }}"></div>
+        <div><label>Date</label><input type="date" name="receipt_date" value="{{ (form.receipt_date if form) or '' }}"></div>
+        <div><label>Mode</label><select name="payment_mode"><option value="">—</option>{% for m in modes %}<option value="{{ m }}">{{ m }}</option>{% endfor %}</select></div>
+        <div><label>Reference no.</label><input name="payment_ref" maxlength="120" placeholder="UTR / txn / cheque no."></div>
+        <div class="full"><label>Notes (shown on receipt)</label><textarea name="notes" rows="2" maxlength="4000"></textarea></div>
+      </div></div>
+    <div style="display:flex;gap:10px;"><button class="btn btn-navy" type="submit">Create receipt</button><a class="btn btn-ghost" href="{{ url_for('invoices.admin_receipts') }}">Cancel</a></div>
+  </form>
+</div></div>
+{% endblock %}
+{% block scripts %}
+<script>(function(){var m=document.getElementById('rcMode');function f(){document.querySelectorAll('.gst-only').forEach(function(e){e.style.display=m.value==='none'?'none':'';});}m.addEventListener('change',f);f();})();</script>
+{% endblock %}
