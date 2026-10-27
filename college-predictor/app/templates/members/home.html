@@ -159,7 +159,8 @@
           <span class="md-card-foot"><span class="md-act">Coming soon</span></span>
         </div>
         {% else %}
-        <a class="md-card{{ ' is-locked' if t.locked }}" href="{{ url_for('main.members_registration') if t.locked else t.url }}" data-id="{{ cid }}" data-cat="{{ cat.key }}" data-tag="{{ t.tag }}" data-locked="{{ '1' if t.locked else '0' }}" data-text="{{ (t.title ~ ' ' ~ t.desc ~ ' ' ~ cat.title)|lower }}">
+        <a class="md-card{{ ' is-locked' if t.locked }}{{ ' md-card--banner' if t.banner }}" href="{{ url_for('main.members_registration') if t.locked else t.url }}" data-id="{{ cid }}" data-cat="{{ cat.key }}" data-tag="{{ t.tag }}" data-locked="{{ '1' if t.locked else '0' }}" data-text="{{ (t.title ~ ' ' ~ t.desc ~ ' ' ~ cat.title)|lower }}">
+          {% if t.banner %}<span class="md-card-art" style="background-image:url('{{ url_for('static', filename='img/' ~ t.banner) }}')" aria-hidden="true"></span>{% endif %}
           <span class="md-card-top">
             <span class="md-card-ic">{{ icon(t.ic) }}</span>
             <span class="md-badges">
