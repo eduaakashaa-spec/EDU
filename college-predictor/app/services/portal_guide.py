@@ -49,6 +49,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-27', 'NEET 2027 guide page added (public, with the premium alert); it states clearly what NTA has not announced yet.'),
     ('2026-10-27', 'Sign-up form now blocks bots (hidden field, form timer, per-address limit, name and disposable-e-mail checks); Admin > Members can select accounts, flag suspected bots and delete them in bulk.'),
     ('2026-10-26', 'TNEA Expert page shows the premium alert for 2026-27 data (all guide and analytics pages now carry it).'),
     ('2026-10-26', 'Added the portal guide itself, with a section for each role, and the rule that keeps it up to date.'),
@@ -186,10 +187,11 @@ GUIDE = [
                 'Members report', 'CAET · IIT Delhi – Abu Dhabi guide', 'NRI admission guide', 'Choice Builder Simulator', 'Why CSE?', 'Best location', 'Engineering insights', 'Hostel & culture',
                 'Branch selection guide'], added='2026-10-26', updated='2026-10-26'),
     dict(id='s-free', role='student', group='Free resources', title='Free guides and the exam schedule', summary='Open to every member.',
-         where=[('Free guides', 'guides.library'), ('Exam schedule', 'main.exam_schedule')],
+         where=[('Free guides', 'guides.library'), ('Exam schedule', 'main.exam_schedule'), ('NEET 2027 guide', 'main.neet_2027')],
          steps=['Open "Free student guides", choose a guide and enter your e-mail to receive it.',
-                'Open "Exam schedule" for registration, exam and counselling dates. Admins keep it current.'],
-         tiles=['Free student guides', 'Exam schedule'], added='2026-10-26', updated='2026-10-26'),
+                'Open "Exam schedule" for registration, exam and counselling dates. Admins keep it current.',
+                'Open "NEET 2027 guide" for medical-entrance planning: what NTA has and has not announced, recent exam dates, pattern, eligibility, counselling and a month-by-month plan.'],
+         tiles=['Free student guides', 'Exam schedule', 'NEET 2027 guide'], added='2026-10-26', updated='2026-10-27'),
 
     # ------------------------------------------------------------------ parents
     dict(id='p-access', role='parent', group='Access', title='Getting access as a parent', summary='How a parent account is linked to a child.',
@@ -380,7 +382,8 @@ GUIDE = [
          added='2026-10-26', updated='2026-10-26'),
     dict(id='a-pages', role='admin', group='Content', title='Keeping page content and data current', summary='Pages carry a note about which year their data covers.',
          where=[('DASA admissions guide', 'main.dasa_guide')],
-         steps=['Guide pages (DASA, JoSAA, NIRF, TNEA, IIITs, Anna University) show an alert saying the page uses earlier data and that the latest 2026-27 data and analytics are part of Premium Membership.',
+         steps=['The NEET 2027 page (app/templates/neet_2027.html) says "last checked" and separates confirmed, expected and not-announced items. When NTA publishes the NEET UG 2027 notice, replace the expected dates, pattern and eligibility with the official ones and update the "last checked" date.',
+                'Guide pages (DASA, JoSAA, NIRF, TNEA, IIITs, Anna University) show an alert saying the page uses earlier data and that the latest 2026-27 data and analytics are part of Premium Membership.',
                 'When you refresh a page with new data, update its heading text so it states the year correctly.',
                 'Premium-only pages tell active members that their access is active instead of showing a Join button.',
                 'Keep the exam schedule and the exam catalogue in Mentorship admin current; changes there can alert members.'],

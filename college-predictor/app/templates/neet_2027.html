@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% block title %}NEET UG 2027: What We Know, Dates, Pattern and Preparation Plan | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="NEET UG 2027 guide: what NTA has and has not announced yet, recent exam dates, the latest confirmed pattern and eligibility, counselling basics and a month-by-month preparation plan. Last checked 27 October 2026.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .neet-status{display:inline-flex;align-items:center;gap:8px;background:#FFF1E6;border:1px solid #F5CBA7;color:#8A4B00;font:700 .72rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:999px;margin-top:14px}
+  .neet-status i{width:8px;height:8px;border-radius:50%;background:#FF6B0A;display:inline-block}
+  .neet-pill{display:inline-block;font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:2px 9px;border-radius:999px;white-space:nowrap}
+  .neet-pill.ok{background:rgba(31,139,92,.14);color:#1F8B5C}.neet-pill.tbd{background:#FFF1E6;color:#8A4B00}.neet-pill.est{background:#E1E9F7;color:#0E3A8A}
+  .neet-plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:14px}
+  .neet-plan > div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:16px;padding:16px 18px}
+  .neet-plan b{display:block;font-family:'Fraunces',Georgia,serif;font-size:1.08rem;color:var(--navy-ink,#071A44)}
+  .neet-plan em{display:block;font:700 .68rem 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#FF6B0A;font-style:normal;margin:2px 0 6px}
+  .neet-plan ul{margin:6px 0 0;padding-left:18px;font-size:.92rem;line-height:1.5}
+  .neet-faq details{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;margin-bottom:8px;padding:0}
+  .neet-faq summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none}
+  .neet-faq summary::-webkit-details-marker{display:none}
+  .neet-faq summary:after{content:"+";float:right;color:#FF6B0A;font-weight:700}
+  .neet-faq details[open] summary:after{content:"\2212"}
+  .neet-faq details p{margin:0;padding:0 16px 14px;line-height:1.55}
+  .neet-src{font-size:.82rem;color:var(--text-dim,#5A6278);line-height:1.6}
+  .neet-src a{color:inherit}
+  .dg-alert{display:flex;gap:14px;align-items:flex-start;margin:18px 0 0;padding:14px 18px;border:1px solid #F5CBA7;border-left:5px solid #FF6B0A;border-radius:12px;background:#FFF1E6;color:#0E1B3D}
+  .dg-alert__icon{font-size:1.4rem;line-height:1.2}.dg-alert__body{flex:1;font-size:.95rem;line-height:1.5}
+  .dg-alert__body strong{font-family:'Fraunces',Georgia,serif;font-size:1.05rem;display:block;margin-bottom:2px}
+  .dg-alert__cta{display:inline-block;margin-top:8px;background:#FF6B0A;color:#fff !important;font-weight:700;padding:8px 18px;border-radius:999px;text-decoration:none}
+  .dg-alert__ok{display:inline-block;margin-top:6px;font-weight:600;color:#1F8B5C}
+  :root[data-theme="dark"] .dg-alert{background:#2A1E14;border-color:#7A4A22;color:#EEE9DA}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>NEET UG 2027 has not been officially announced yet.</strong>
+      Dates below marked &ldquo;expected&rdquo; are estimates from earlier years. For the latest 2026&ndash;27 admission data and analytics, join Premium Membership.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier == 'premium' and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<section class="hero-editorial">
+  <div class="hero__glow"></div>
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow">NEET UG 2027 &middot; MBBS, BDS, AYUSH, B.Sc. Nursing</span>
+        <h1 style="margin-top:22px;">NEET UG 2027: <span class="accent">what we know, and how to prepare now</span></h1>
+        <p class="hero-sub">The official notice is not out yet. Here is what is confirmed from earlier cycles, what is still to be announced, and a month-by-month plan that works whichever way the details land.</p>
+        <span class="neet-status"><i></i> Last checked 27 Oct 2026 &middot; no NTA notice yet</span>
+        <div class="hero-ctas">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-ghost">Chat on WhatsApp</a>
+        </div>
+      </div>
+      <aside class="hero-card">
+        <div class="hero-card-eyebrow">At a glance</div>
+        <div class="hero-card-title">NEET UG 2027</div>
+        <div class="hero-card-rows">
+          <div class="hero-card-row"><span class="hcr-label">Conducted by</span><span class="hcr-value">NTA (neet.nta.nic.in)</span></div>
+          <div class="hero-card-row"><span class="hcr-label">Exam month</span><span class="hcr-value">Expected early May 2027</span></div>
+          <div class="hero-card-row"><span class="hcr-label">Registration</span><span class="hcr-value">Expected Feb&ndash;Mar 2027</span></div>
+          <div class="hero-card-row"><span class="hcr-label">Last pattern</span><span class="hcr-value">180 Qs &middot; 720 marks</span></div>
+          <div class="hero-card-row"><span class="hcr-label">Marking</span><span class="hcr-value">+4 / &minus;1</span></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<div class="main-content">
+
+  <section class="section" id="status">
+    <div class="section__header">
+      <span class="eyebrow">WHERE THINGS STAND</span>
+      <h2 class="section__title">Confirmed, expected and not yet announced</h2>
+      <p class="section__desc">We separate facts from estimates so you can plan without being misled by exam-date rumours.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Item</th><th>Status</th><th>What we can say</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Official NEET UG 2027 notice and information bulletin</strong></td><td><span class="neet-pill tbd">Not released</span></td><td>NTA has not published the 2027 bulletin. Everything below about 2027 is an expectation until it appears on neet.nta.nic.in.</td></tr>
+          <tr><td><strong>Exam date</strong></td><td><span class="neet-pill est">Expected</span></td><td>NEET UG has been held on a Sunday in the first week of May in recent years (see the table below). Several education sites estimate Sunday 2 May 2027. Treat it as a planning date only.</td></tr>
+          <tr><td><strong>Registration window</strong></td><td><span class="neet-pill est">Expected</span></td><td>Usually opens a few months before the exam: expect the notice and online form around February&ndash;March 2027.</td></tr>
+          <tr><td><strong>Exam mode</strong></td><td><span class="neet-pill tbd">To be confirmed</span></td><td>The 2026 exam was pen-and-paper. A move to computer-based testing has been reported but is not confirmed until the bulletin says so.</td></tr>
+          <tr><td><strong>Pattern, syllabus and eligibility</strong></td><td><span class="neet-pill ok">Latest cycle known</span></td><td>The latest pattern and rules are below. NTA can change them, so re-check them in the 2027 bulletin.</td></tr>
+          <tr><td><strong>Counselling schedule and seat matrix</strong></td><td><span class="neet-pill tbd">Not announced</span></td><td>Published by MCC and the state authorities after the result.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="dates">
+    <div class="section__header">
+      <span class="eyebrow">RECENT EXAM DATES</span>
+      <h2 class="section__title">When NEET UG was held</h2>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Year</th><th>Exam date</th><th>Day</th></tr></thead>
+        <tbody>
+          <tr><td><strong>2026</strong></td><td>3 May 2026</td><td>Sunday</td></tr>
+          <tr><td><strong>2025</strong></td><td>4 May 2025</td><td>Sunday</td></tr>
+          <tr><td><strong>2024</strong></td><td>5 May 2024</td><td>Sunday</td></tr>
+          <tr><td><strong>2023</strong></td><td>7 May 2023</td><td>Sunday</td></tr>
+          <tr><td><strong>2027</strong></td><td><span class="neet-pill tbd">To be announced</span></td><td>First Sunday of May would be 2 May 2027 (estimate)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout callout--info">
+      <div class="callout__icon">{{ ea_icon('calendar') }}</div>
+      <div>
+        <span class="callout__label">HOW TO USE THIS</span>
+        <span class="callout__text">Plan to be fully prepared by the last week of April 2027. If NTA announces a different date, only the last few weeks of the plan shift; the foundation months stay the same.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pattern">
+    <div class="section__header">
+      <span class="eyebrow">EXAM PATTERN</span>
+      <h2 class="section__title">The pattern in the latest cycle</h2>
+      <p class="section__desc">Based on the NEET UG 2026 bulletin as reported by education sites; we could not open the NTA document itself. Confirm every row in the 2027 bulletin.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Parameter</th><th>Latest cycle (2026)</th><th>For 2027</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Mode</strong></td><td>Pen and paper (OMR)</td><td><span class="neet-pill tbd">Unconfirmed</span> computer-based test has been discussed</td></tr>
+          <tr><td><strong>Subjects</strong></td><td>Physics, Chemistry, Biology (Botany and Zoology)</td><td>Expected unchanged</td></tr>
+          <tr><td><strong>Questions</strong></td><td>180 multiple-choice questions, all compulsory (the optional Section B was dropped)</td><td>Expected unchanged</td></tr>
+          <tr><td><strong>Split</strong></td><td>Physics 45, Chemistry 45, Biology 90, as in recent cycles</td><td>Expected unchanged</td></tr>
+          <tr><td><strong>Marks</strong></td><td>720 in total</td><td>Expected unchanged</td></tr>
+          <tr><td><strong>Marking</strong></td><td>+4 for a correct answer, &minus;1 for a wrong answer, 0 for unattempted</td><td>Expected unchanged</td></tr>
+          <tr><td><strong>Duration</strong></td><td>About 3 hours (one source quotes 3 h 20 min: check the bulletin)</td><td><span class="neet-pill tbd">Check bulletin</span></td></tr>
+          <tr><td><strong>Language</strong></td><td>English, Hindi and several regional languages including Tamil</td><td>Check bulletin for the language list</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="eligibility">
+    <div class="section__header">
+      <span class="eyebrow">ELIGIBILITY</span>
+      <h2 class="section__title">Who can appear</h2>
+      <p class="section__desc">Conditions in recent bulletins. Re-check the 2027 bulletin, especially anything marked &ldquo;confirm&rdquo;.</p>
+    </div>
+    <div class="info-cards">
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('user') }}</div><div class="info-card__title">Age</div><p class="info-card__text">At least 17 years old on 31 December of the year of admission. Confirm in the bulletin whether any upper age limit applies; we did not find one stated in the sources we checked.</p></div>
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('file') }}</div><div class="info-card__title">Qualification</div><p class="info-card__text">Class 12 (or equivalent) with Physics, Chemistry, Biology or Biotechnology and English. Students appearing in 2027 are eligible to apply, subject to the result.</p></div>
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('chart') }}</div><div class="info-card__title">Minimum marks</div><p class="info-card__text">In recent bulletins: 50% in the PCB subjects for the General category, 45% for PwD and 40% for SC, ST and OBC candidates. Confirm the exact wording in the 2027 bulletin.</p></div>
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('award') }}</div><div class="info-card__title">Attempts</div><p class="info-card__text">No attempt limit was stated in the sources we checked. Confirm in the bulletin before relying on it.</p></div>
+    </div>
+  </section>
+
+  <section class="section" id="syllabus">
+    <div class="section__header">
+      <span class="eyebrow">SYLLABUS</span>
+      <h2 class="section__title">What the paper covers</h2>
+      <p class="section__desc">An indicative map by subject. The official syllabus is published by NMC and NTA with the bulletin; always study from that list.</p>
+    </div>
+    <div class="info-cards">
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('chart') }}</div><div class="info-card__title">Physics (45 questions)</div><p class="info-card__text">Mechanics and properties of matter, heat and thermodynamics, waves and oscillations, electrostatics and current electricity, magnetism and EMI, optics, modern physics, semiconductors and units and measurement. Numerical, formula-based questions reward speed.</p></div>
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('file') }}</div><div class="info-card__title">Chemistry (45 questions)</div><p class="info-card__text">Physical (mole concept, equilibrium, thermodynamics, electrochemistry, kinetics), inorganic (periodic table, bonding, coordination compounds, p-, d- and f-block) and organic (named reactions, mechanisms, biomolecules). Inorganic is largely NCERT-based.</p></div>
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('star') }}</div><div class="info-card__title">Biology (90 questions)</div><p class="info-card__text">Botany and Zoology together carry half of the marks: diversity of life, cell and molecular biology, genetics and evolution, plant and human physiology, reproduction, ecology and biotechnology. The paper follows NCERT closely.</p></div>
+    </div>
+    <div class="callout callout--ok">
+      <div class="callout__icon">{{ ea_icon('award') }}</div>
+      <div>
+        <span class="callout__label">WHERE MARKS COME FROM</span>
+        <span class="callout__text">Biology is 360 of the 720 marks. A student who knows NCERT Biology line by line starts with a large, dependable block of marks, and many students build their cushion there.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="plan">
+    <div class="section__header">
+      <span class="eyebrow">PREPARATION PLAN</span>
+      <h2 class="section__title">October 2026 to the exam, month by month</h2>
+      <p class="section__desc">Built for an exam in early May 2027. Adjust the last two phases if NTA announces a different date.</p>
+    </div>
+    <div class="neet-plan">
+      <div><em>Oct &ndash; Nov 2026</em><b>Foundation</b><ul><li>Read NCERT Biology cover to cover, with diagrams.</li><li>Rebuild Class 11 Physics and Chemistry basics.</li><li>Fix a daily routine: 6&ndash;8 focused hours plus school.</li></ul></div>
+      <div><em>Dec 2026 &ndash; Jan 2027</em><b>First full pass</b><ul><li>Finish the whole syllabus once, chapter by chapter.</li><li>Solve topic-wise questions after every chapter.</li><li>Start an error log: topic, mistake, fix.</li></ul></div>
+      <div><em>Feb 2027</em><b>Apply and consolidate</b><ul><li>Watch neet.nta.nic.in; keep documents ready for the form.</li><li>Take a mock every week and review it fully.</li><li>Second pass on Biology.</li></ul></div>
+      <div><em>Mar 2027</em><b>Revision and speed</b><ul><li>Second pass on Chemistry and Physics.</li><li>Solve previous-year papers under timed conditions.</li><li>Rate your confidence on each answer to spot lucky guesses.</li></ul></div>
+      <div><em>Apr 2027</em><b>Mock-heavy</b><ul><li>Two to three full mocks a week at the exam time of day.</li><li>Work the error log; revise only weak chapters.</li><li>Practise the OMR or on-screen routine you expect.</li></ul></div>
+      <div><em>Last 2 weeks</em><b>Light and steady</b><ul><li>Short revision of formulas, reactions and diagrams.</li><li>Sleep on schedule; no new topics.</li><li>Check the admit card, centre and travel the day before.</li></ul></div>
+    </div>
+  </section>
+
+  <section class="section" id="counselling">
+    <div class="section__header">
+      <span class="eyebrow">AFTER THE RESULT</span>
+      <h2 class="section__title">How counselling works</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="step__num">01</span><div><div class="step__title">Result and rank</div><div class="step__text">NTA publishes the result with the all-India rank. Category ranks and state ranks follow where applicable.</div></div></div>
+      <div class="step"><span class="step__num">02</span><div><div class="step__title">All India Quota (15%) through MCC</div><div class="step__text">The Medical Counselling Committee (mcc.nic.in) runs counselling for the 15% all-India quota of government colleges, plus central and deemed universities and other institutions, in several rounds.</div></div></div>
+      <div class="step"><span class="step__num">03</span><div><div class="step__title">State quota (85%) through state authorities</div><div class="step__text">Each state runs its own counselling for the state quota and private colleges, with its own domicile rules, fees and schedule. Tamil Nadu students follow the Tamil Nadu medical selection process.</div></div></div>
+      <div class="step"><span class="step__num">04</span><div><div class="step__title">Choice filling, allotment and reporting</div><div class="step__text">Fill college and course choices in the order you prefer, accept the seat, pay the fee and report with original documents before the deadline.</div></div></div>
+    </div>
+    <div class="callout callout--info">
+      <div class="callout__icon">{{ ea_icon('institution') }}</div>
+      <div>
+        <span class="callout__label">NRI AND OTHER QUOTAS</span>
+        <span class="callout__text">NRI, management and other quotas have their own eligibility and fee rules. Read the current state and MCC notices, and speak to a mentor before choosing a route.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="section__header">
+      <span class="eyebrow">BE READY</span>
+      <h2 class="section__title">Documents and habits to prepare now</h2>
+    </div>
+    <div class="info-cards">
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('file') }}</div><div class="info-card__title">Documents</div><p class="info-card__text">Class 10 certificate (date of birth), Class 12 marksheet or school bonafide, recent photograph, signature, photo ID, and category or PwD certificate if applicable. The bulletin lists the exact formats and sizes.</p></div>
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('link') }}</div><div class="info-card__title">Official sites only</div><p class="info-card__text">Apply only on neet.nta.nic.in and follow counselling on mcc.nic.in and your state site. NTA does not ask for money through calls or messages.</p></div>
+      <div class="info-card"><div class="info-card__icon">{{ ea_icon('chart') }}</div><div class="info-card__title">Error log</div><p class="info-card__text">Write every wrong answer with the reason: concept gap, careless slip or guess. Review it weekly; this is the quickest way to add marks.</p></div>
+    </div>
+  </section>
+
+  <section class="section neet-faq" id="faq">
+    <div class="section__header">
+      <span class="eyebrow">QUESTIONS</span>
+      <h2 class="section__title">Frequently asked</h2>
+    </div>
+    <details><summary>When is NEET UG 2027?</summary><p>NTA has not announced it. Recent exams were held on the first Sunday of May, so early May 2027 is the planning assumption. The official date will be in the information bulletin on neet.nta.nic.in.</p></details>
+    <details><summary>When will registration open?</summary><p>Not announced. In recent cycles the notice and form came a few months before the exam, so February to March 2027 is a reasonable expectation. Keep your documents ready.</p></details>
+    <details><summary>Will NEET 2027 be computer-based?</summary><p>The 2026 exam was pen-and-paper. A change to computer-based testing has been reported, but it is not confirmed until NTA states it in the bulletin. Practise with both OMR-style and on-screen mocks.</p></details>
+    <details><summary>Is there negative marking?</summary><p>Yes, in the latest pattern: +4 for a correct answer and &minus;1 for a wrong one. Unattempted questions score zero. Confirm in the 2027 bulletin.</p></details>
+    <details><summary>Which books should I use?</summary><p>NCERT first, especially for Biology and Inorganic Chemistry, then one problem book per subject and previous-year papers. Avoid collecting many books; finish a few.</p></details>
+    <details><summary>Can I appear if I am in Class 12 now?</summary><p>Yes. Students appearing in the Class 12 board exam in 2027 have been eligible to apply, subject to meeting the minimum marks after the board result. Check the bulletin.</p></details>
+    <details><summary>How does a mentor help?</summary><p>A mentor builds a weekly plan around your school schedule, reviews your mocks and error log, and helps with the counselling choices later: state quota, all-India quota and the colleges that fit your rank.</p></details>
+  </section>
+
+  <section class="section">
+    <div class="neet-src">
+      <strong>Sources and how this page is kept current.</strong> Last checked 27 October 2026. Dates of earlier exams and the pattern come from published coverage and the official NTA site, which we could not open directly: <a href="https://medicine.careers360.com/articles/neet-2027-exam-date" target="_blank" rel="noopener">Careers360 NEET 2027</a>, <a href="https://www.vedantu.com/neet/about-neet-2027" target="_blank" rel="noopener">Vedantu NEET 2027</a>, <a href="https://neet.nta.nic.in" target="_blank" rel="noopener">neet.nta.nic.in</a>, <a href="https://mcc.nic.in" target="_blank" rel="noopener">mcc.nic.in</a>. This page will be updated when NTA publishes the 2027 notice. It is guidance, not an official publication; the NTA bulletin is always the authority.
+    </div>
+  </section>
+
+  <div class="final-cta">
+    <h2>Make the next six months count for NEET 2027</h2>
+    <p>A mentor turns this plan into weekly targets around your school schedule, and later into the right counselling choices.</p>
+    <div class="final-cta__btns">
+      <a href="{{ url_for('main.members_registration') }}" class="btn-main">Talk to a Mentor →</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Chat on WhatsApp</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

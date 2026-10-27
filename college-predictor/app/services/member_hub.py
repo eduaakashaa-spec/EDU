@@ -75,6 +75,7 @@ CATEGORIES = [
     {'key': 'free', 'title': 'Free Resources', 'icon': '🎁', 'color': '#0891B2', 'tint': '#E0F5FA',
      'blurb': 'Open to every member.',
      'tiles': [
+         {'title': 'NEET 2027 guide', 'desc': 'What NTA has announced, pattern, eligibility, counselling and a preparation plan.', 'icon': '🩺', 'endpoint': 'main.neet_2027', 'access': 'free'},
          {'title': 'Free student guides', 'desc': 'Download guides by email.', 'icon': '📥', 'endpoint': 'guides.library', 'access': 'free'},
          {'title': 'Exam schedule', 'desc': 'Key exam and counselling dates.', 'icon': '🗓️', 'endpoint': 'main.exam_schedule', 'access': 'free'},
          {'title': 'NRI admission guide', 'desc': 'DASA, CIWG and NRI routes.', 'icon': '🌍', 'endpoint': 'main.nri_guide', 'access': 'free'},
@@ -99,7 +100,7 @@ TILE_ICON = {
     'EduPulse-JEE Mock Test Centre': 'calculator', 'UCEED Mock Test Centre': 'clipboard', 'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'TNEA expert': 'book', 'Members report': 'file-text',
     'IIT Delhi – Abu Dhabi mentoring': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
     'Why CSE?': 'code', 'Best location': 'pin', 'Engineering insights': 'bulb', 'Hostel & culture': 'home', 'Branch selection guide': 'branch',
-    'Free student guides': 'download', 'Exam schedule': 'calendar', 'Contact the team': 'mail', 'Membership plans': 'star', 'Portal guide': 'book', 'More tools coming soon': 'sparkle',
+    'Free student guides': 'download', 'NEET 2027 guide': 'cap', 'Exam schedule': 'calendar', 'Contact the team': 'mail', 'Membership plans': 'star', 'Portal guide': 'book', 'More tools coming soon': 'sparkle',
 }
 # tiles added recently show a "New" label for 30 days after this date (real dates, no fabricated badges)
 NEW_SINCE = {'IPM 2027 Roadmap': date(2026, 10, 18), 'Add-on programmes': date(2026, 10, 19), 'Action tracker': date(2026, 10, 20),

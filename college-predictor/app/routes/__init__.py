@@ -496,6 +496,13 @@ def dasa_2026_analytics():
     return render_template('dasa_2026_analytics.html')
 
 
+@main_bp.route('/neet-2027')
+@main_bp.route('/neet-ug-2027')
+def neet_2027():
+    # public page: what is and is not announced for NEET UG 2027, pattern, eligibility, counselling and a preparation plan (keep dates in step with the NTA notice)
+    return render_template('neet_2027.html')
+
+
 @main_bp.route('/jee-2027-roadmap')
 @premium_required
 def jee_2027_roadmap():
