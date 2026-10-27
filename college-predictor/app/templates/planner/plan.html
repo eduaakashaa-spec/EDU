@@ -1,0 +1,12 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}My plan{% endblock %}
+{% block sp_crumb %} › Plan{% endblock %}
+{% block sp_body %}
+<div class="sp-row"><h2 style="margin:0">{{ plan.title }}</h2>
+  <span><a class="sp-btn ghost sm" href="{{ url_for('planner.plan_view', week=prev) }}">← Previous</a> <b>Week of {{ w0.strftime('%d %b %Y') }}</b> <a class="sp-btn ghost sm" href="{{ url_for('planner.plan_view', week=nxt) }}">Next →</a>
+    <a class="sp-btn sm" href="{{ url_for('planner.dl_week', week=w0) }}">Download this week (PDF)</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_plan_csv') }}">Whole plan (CSV)</a></span></div>
+<div class="sp-week">
+  {% for d in days %}<section class="sp-day {{ 'today' if d == today }}"><h3>{{ d.strftime('%A') }} <small>{{ d.strftime('%d %b') }}</small></h3>
+    {% for t in tasks[d] %}{% include "planner/_task.html" %}{% else %}<p class="sp-muted">Nothing planned.</p>{% endfor %}</section>{% endfor %}
+</div>
+{% endblock %}

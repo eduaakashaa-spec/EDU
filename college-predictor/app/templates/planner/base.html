@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{% block sp_title %}Study planner{% endblock %} | Smart Study Planner | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/planner.css') }}">{% endblock %}
+{% block content %}
+<div class="sp">
+  <div class="sp-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('planner.home') }}">Smart Study Planner</a>{% block sp_crumb %}{% endblock %}</div>
+  {% set ep = request.endpoint %}
+  <nav class="sp-nav" aria-label="Study planner sections">
+    <a href="{{ url_for('planner.home') }}" class="{{ 'on' if ep == 'planner.home' }}">My dashboard</a>
+    <a href="{{ url_for('planner.plan_view') }}" class="{{ 'on' if ep == 'planner.plan_view' }}">My plan</a>
+    <a href="{{ url_for('planner.reports') }}" class="{{ 'on' if ep == 'planner.reports' }}">Reports</a>
+    <a href="{{ url_for('planner.templates') }}" class="{{ 'on' if ep == 'planner.templates' }}">Templates (PDF)</a>
+    <a href="{{ url_for('planner.levels') }}" class="{{ 'on' if ep == 'planner.levels' }}">How it works</a>
+    {% if current_user.is_staff %}<a href="{{ url_for('planner.mentor_home') }}" class="{{ 'on' if ep and ep.startswith('planner.mentor') }}">Mentor view</a>{% endif %}
+    {% if current_user.is_admin %}<a href="{{ url_for('planner.admin') }}" class="{{ 'on' if ep == 'planner.admin' }}">Admin</a>{% endif %}
+  </nav>
+  {% block sp_body %}{% endblock %}
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/planner.js') }}" defer></script>{% endblock %}

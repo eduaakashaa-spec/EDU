@@ -1,0 +1,29 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}Build a plan{% endblock %}
+{% block sp_crumb %} › New plan{% endblock %}
+{% block sp_body %}
+<h1 style="margin:6px 0">{{ 'Build a plan for ' ~ student.name if mentor_view else 'Build my plan' }}</h1>
+<p class="sp-muted">Choose the exam and the level. You can see exactly what each level means on the <a href="{{ url_for('planner.levels') }}">How it works</a> page. Starting a new plan archives the current one.</p>
+<form method="post" class="sp-card sp-form" id="newplan">
+  <div class="row"><div><label for="exam">Exam</label><select id="exam" name="exam">{% for k, v in exams.items() %}<option value="{{ k }}" {{ 'selected' if k == pre_exam }}>{{ v }}</option>{% endfor %}</select></div>
+    <div><label for="level">Level</label><select id="level" name="level">{% for k, v in sp_levels.items() %}<option value="{{ k }}" {{ 'selected' if k == (pre_level or 'average') }}>{{ v.label }}: {{ v.tagline }}</option>{% endfor %}</select></div></div>
+  <div id="level-help" class="sp-hint"></div>
+  <div class="row"><div><label for="start">Start date (a Monday works best)</label><input type="date" id="start" name="start" value="{{ default_start }}"></div>
+    <div><label for="weeks">Weeks</label><input type="number" id="weeks" name="weeks" value="8" min="2" max="26"></div>
+    <div><label for="exam_date">Exam date (optional)</label><input type="date" id="exam_date" name="exam_date"><small class="sp-muted">If set, the plan ends on it and the last two weeks lean on mock tests.</small></div></div>
+  <div class="row"><div><label for="hours">Study hours a day (leave blank for the level's usual)</label><input type="number" step="0.5" min="1" max="10" id="hours" name="hours" placeholder="{{ sp_levels['average'].hours }}"></div></div>
+  <details><summary><b>Chapters I want to stress (optional)</b></summary>
+    {% for e, subs in chapters.items() %}<div class="sp-focus" data-exam="{{ e }}">{% for s, chs in subs.items() %}<p><b>{{ s }}</b></p><div class="sp-opts">{% for c in chs %}<label><input type="checkbox" name="focus" value="{{ c }}"> {{ c }}</label>{% endfor %}</div>{% endfor %}</div>{% endfor %}</details>
+  <p><button class="sp-btn">Create the plan</button></p>
+</form>
+<h2>Not sure which level?</h2>
+<p><a href="{{ url_for('planner.levels') }}#quiz">Take the 1-minute check</a> on the How it works page.</p>
+<script>
+(function(){
+  var info = {{ sp_levels|tojson }}, lv = document.getElementById('level'), hp = document.getElementById('level-help'), ex = document.getElementById('exam'), hrs = document.getElementById('hours');
+  function show(){ var v = info[lv.value]; hp.textContent = v.who + ' ' + v.how; hrs.placeholder = v.hours;
+    document.querySelectorAll('.sp-focus').forEach(function(d){ d.hidden = d.dataset.exam !== ex.value; }); }
+  lv.addEventListener('change', show); ex.addEventListener('change', show); show();
+})();
+</script>
+{% endblock %}

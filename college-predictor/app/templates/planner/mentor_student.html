@@ -1,0 +1,32 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}{{ u.name }}{% endblock %}
+{% block sp_crumb %} › <a href="{{ url_for('planner.mentor_home') }}">Mentor view</a> › {{ u.name }}{% endblock %}
+{% block sp_body %}
+<h1 style="margin:6px 0">{{ u.name }}</h1>
+{% if not plan %}<div class="sp-card"><p>No active plan yet.</p><a class="sp-btn" href="{{ url_for('planner.mentor_new', uid=u.id) }}">Build a plan for {{ u.name }}</a></div>
+{% else %}
+<div class="sp-kpis flat">
+  <div class="sp-kpi"><b>{{ sp_levels[plan.level].label }}</b><span>{{ plan.exam }} plan</span></div>
+  <div class="sp-kpi"><b>{{ st.pct_due if st.pct_due is not none else '—' }}{{ '%' if st.pct_due is not none }}</b><span>done to date</span></div>
+  <div class="sp-kpi"><b>{{ st.streak }}</b><span>day streak</span></div>
+  <div class="sp-kpi"><b>{{ st.overdue|length }}</b><span>overdue</span></div>
+  <div class="sp-kpi"><b>{{ act.questions }}</b><span>EduPulse Qs this week</span></div>
+  <div class="sp-kpi"><b>{{ act.mocks }}</b><span>mocks this week</span></div>
+</div>
+<p><span class="sp-pill {{ 'ok' if st.on_track else 'late' }}">{{ 'On track' if st.on_track else 'Behind plan' }}</span>
+  <a class="sp-btn sm" href="{{ url_for('planner.dl_progress', uid=u.id) }}">Progress report (PDF)</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_plan_csv', uid=u.id) }}">Plan (CSV)</a>
+  <a class="sp-btn ghost sm" href="{{ url_for('planner.mentor_new', uid=u.id) }}">Change level or rebuild</a></p>
+<div class="sp-two">
+  <section><h2>Recent and coming tasks</h2>{% for t in recent %}<div class="sp-muted" style="margin-top:8px"><b>{{ t.day.strftime('%a %d %b') }}</b></div>{% include "planner/_task.html" %}{% else %}<div class="sp-card">No tasks in this window.</div>{% endfor %}</section>
+  <aside>
+    <h2>Adjust the plan</h2>
+    <form method="post" action="{{ url_for('planner.task_add') }}" class="sp-card sp-form"><input type="hidden" name="plan_id" value="{{ plan.id }}">
+      <label>Add a task for {{ u.name.split(' ')[0] }}</label><input name="title" maxlength="200" required placeholder="e.g. Redo the 6 questions marked Guess"><div class="row"><div><input type="date" name="day" value="{{ today }}"></div><div><select name="task_type">{% for k, v in sp_types.items() %}{% if k != 'rest' %}<option value="{{ k }}">{{ v.label }}</option>{% endif %}{% endfor %}</select></div></div>
+      <input type="number" name="minutes" value="30" min="5" max="480"> <button class="sp-btn sm">Add</button></form>
+    <div class="sp-card"><b>EduPulse flags as weak:</b> {{ weak[:4]|map(attribute=1)|join(', ') if weak else 'nothing yet' }}
+      {% if weak %}<form method="post" action="{{ url_for('planner.suggest', pid=plan.id) }}"><button class="sp-btn sm">Add revision tasks</button></form>{% endif %}</div>
+    <form method="post" action="{{ url_for('planner.archive', pid=plan.id) }}" onsubmit="return confirm('Archive this plan?');"><button class="sp-btn ghost sm">Archive this plan</button></form>
+  </aside>
+</div>
+{% endif %}
+{% endblock %}

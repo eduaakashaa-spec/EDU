@@ -1,0 +1,43 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}My dashboard{% endblock %}
+{% block sp_body %}
+{% set lv = sp_levels[plan.level] %}
+<section class="sp-hero">
+  <div><span class="sp-chip">{{ lv.label }} · {{ lv.tagline }} · {{ plan.exam }}</span><h1>{{ plan.title }}</h1>
+    <p>Week of {{ today.strftime('%d %b') }} · {{ 'You are on track. Keep going.' if st.on_track else 'A little behind. Finish one task today and the rest follows.' }}</p>
+    <p><a class="sp-btn" href="{{ url_for('planner.plan_view') }}">Open my plan</a> <a class="sp-btn ghost" href="{{ url_for('planner.new') }}">Change level or start again</a></p></div>
+  <div class="sp-kpis">
+    <div class="sp-kpi"><b>{{ st.pct_due if st.pct_due is not none else '—' }}{{ '%' if st.pct_due is not none }}</b><span>done so far</span></div>
+    <div class="sp-kpi"><b>{{ st.week_pct if st.week_pct is not none else '—' }}{{ '%' if st.week_pct is not none }}</b><span>this week</span></div>
+    <div class="sp-kpi"><b>{{ st.streak }}</b><span>day streak</span></div>
+    <div class="sp-kpi"><b>{{ (st.done_min / 60)|round(1) }}h</b><span>studied of {{ (st.planned_min / 60)|round(1) }}h planned</span></div>
+  </div>
+</section>
+{% include "planner/_quote.html" %}
+
+<div class="sp-two">
+  <section>
+    <h2>Today</h2>
+    {% if st.today %}{% for t in st.today %}{% include "planner/_task.html" %}{% endfor %}{% else %}<div class="sp-card">Nothing planned for today. <a href="{{ url_for('planner.plan_view') }}">Open the plan</a>.</div>{% endif %}
+    {% if st.overdue %}<h2>Overdue <span class="sp-muted">({{ st.overdue|length }})</span></h2>
+      {% for t in st.overdue[-5:] %}{% include "planner/_task.html" %}{% endfor %}{% if st.overdue|length > 5 %}<p class="sp-muted">{{ st.overdue|length - 5 }} older tasks are in your plan.</p>{% endif %}{% endif %}
+    <details class="sp-card" style="margin-top:12px"><summary><b>Add my own task</b></summary>
+      <form method="post" action="{{ url_for('planner.task_add') }}" class="sp-form"><input type="hidden" name="plan_id" value="{{ plan.id }}">
+        <div class="row"><div><label>Task</label><input name="title" maxlength="200" required placeholder="e.g. Solve 10 questions on Kinematics"></div><div><label>Day</label><input type="date" name="day" value="{{ today }}"></div></div>
+        <div class="row"><div><label>Type</label><select name="task_type">{% for k, v in sp_types.items() %}{% if k != 'rest' %}<option value="{{ k }}">{{ v.label }}</option>{% endif %}{% endfor %}</select></div><div><label>Minutes</label><input type="number" name="minutes" value="30" min="5" max="480"></div></div>
+        <button class="sp-btn sm">Add</button></form></details>
+  </section>
+  <aside>
+    <h2>Last 4 weeks</h2>
+    <div class="sp-card"><div class="sp-heat" aria-label="Tasks completed per day">{% for d, n in st.heat.items() %}<i class="h{{ [n, 4]|min }}" title="{{ d.strftime('%d %b') }}: {{ n }} done"></i>{% endfor %}</div><p class="sp-muted">Each square is a day: darker means more tasks finished.</p></div>
+    <h2>By subject</h2>
+    <div class="sp-card">{% for k, v in st.by_subject.items() %}<div class="sp-bar"><span>{{ k }}</span><div><i style="width:{{ (100 * v.done / v.planned)|round if v.planned else 0 }}%"></i></div><em>{{ v.done }}/{{ v.planned }} min</em></div>{% else %}<p class="sp-muted">Appears once you complete tasks.</p>{% endfor %}</div>
+    <h2>EduPulse this week</h2>
+    <div class="sp-card"><p><b>{{ act.questions }}</b> questions answered · <b>{{ act.mocks }}</b> mock{{ '' if act.mocks == 1 else 's' }}</p>
+      <p class="sp-muted">Practice tasks open EduPulse; answers you give there are counted here automatically.</p>
+      {% if weak %}<p>EduPulse flags these chapters as weak: <b>{{ weak[:3]|map(attribute=1)|join(', ') }}</b>.</p>
+        <form method="post" action="{{ url_for('planner.suggest', pid=plan.id) }}"><button class="sp-btn sm">Add revision tasks for them</button></form>
+      {% elif plan.exam in ('JEE', 'UCEED') %}<p class="sp-muted">No weak chapters flagged yet. Do a Reinforcement or practice set and they will show here.</p>{% else %}<p class="sp-muted">EduPulse has no question bank for {{ plan.exam }} yet; use your own practice sets and tick the tasks.</p>{% endif %}</div>
+  </aside>
+</div>
+{% endblock %}

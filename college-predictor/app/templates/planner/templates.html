@@ -1,0 +1,13 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}Templates{% endblock %}
+{% block sp_crumb %} › Templates{% endblock %}
+{% block sp_body %}
+<h1 style="margin:6px 0">Printable planner templates</h1>
+<p class="sp-muted">Each PDF has the level explained with an example day, a blank weekly planner and an error-log sheet, in the EduAakashaA report style. Print it, or use it on a tablet.</p>
+<div class="sp-grid3">
+  {% for k, v in sp_levels.items() %}<div class="sp-card"><span class="sp-eyebrow">{{ v.label }}</span><h3>{{ v.tagline }}</h3><p class="sp-muted">About {{ v.hours }} hours a day</p>
+    <p>{% for e in ['JEE', 'UCEED', 'NEET'] %}<a class="sp-btn {{ '' if loop.first else 'ghost' }} sm" href="{{ url_for('planner.dl_template', level=k, exam=e) }}">{{ e }} (PDF)</a> {% endfor %}</p></div>{% endfor %}
+</div>
+<h2>Your own plan as a PDF</h2>
+<p>Premium members can also download <a href="{{ url_for('planner.dl_week') }}">this week's plan</a> and a <a href="{{ url_for('planner.dl_progress') }}">progress report</a> from their dashboard.</p>
+{% endblock %}

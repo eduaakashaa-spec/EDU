@@ -1,0 +1,20 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}Admin{% endblock %}
+{% block sp_crumb %} › Admin{% endblock %}
+{% block sp_body %}
+<div class="sp-row"><h2 style="margin:0">Planner overview</h2><a class="sp-btn ghost sm" href="{{ url_for('planner.admin_export') }}">Export all plans (CSV)</a></div>
+<div class="sp-kpis flat">
+  <div class="sp-kpi"><b>{{ stats.plans }}</b><span>active plans</span></div><div class="sp-kpi"><b>{{ stats.on_track }}</b><span>on track</span></div>
+  <div class="sp-kpi"><b>{{ stats.inactive|length }}</b><span>no activity for 7 days</span></div><div class="sp-kpi"><b>{{ stats.questions }}</b><span>EduPulse Qs this week</span></div>
+  <div class="sp-kpi"><b>{{ stats.archived }}</b><span>archived plans</span></div>
+</div>
+<div class="sp-two">
+  <section><h2>By level</h2><div class="sp-card"><table class="sp-tbl"><thead><tr><th>Level</th><th>Plans</th><th>Average done</th><th>Hours studied</th></tr></thead><tbody>
+    {% for k, v in stats.level.items() %}<tr><td>{{ sp_levels[k].label }}</td><td>{{ v.n }}</td><td>{{ v.avg ~ '%' if v.avg is not none else '—' }}</td><td>{{ v.hours }}</td></tr>{% endfor %}</tbody></table></div></section>
+  <section><h2>By exam</h2><div class="sp-card">{% for e, n in stats.exam.items() %}<div class="sp-bar"><span>{{ e }}</span><div><i style="width:{{ (100 * n / stats.plans)|round if stats.plans else 0 }}%"></i></div><em>{{ n }}</em></div>{% endfor %}</div></section>
+</div>
+<h2>All active plans</h2>
+<div class="sp-card sp-scroll"><table class="sp-tbl"><thead><tr><th>Student</th><th>Plan</th><th>Done</th><th>Week</th><th>Streak</th><th>Overdue</th><th>Hours</th><th>EduPulse Qs</th><th>Last activity</th><th>Status</th></tr></thead><tbody>
+{% for r in rows %}<tr><td><a href="{{ url_for('planner.mentor_student', uid=r.plan.user_id) }}">{{ r.name }}</a></td><td>{{ r.exam }} · {{ sp_levels[r.level].label }}</td><td>{{ r.pct_due ~ '%' if r.pct_due is not none else '—' }}</td><td>{{ r.week_pct ~ '%' if r.week_pct is not none else '—' }}</td><td>{{ r.streak }}</td><td>{{ r.overdue }}</td><td>{{ r.hours_done }}/{{ r.hours_planned }}</td><td>{{ r.questions_week }}</td><td>{{ r.last_done.strftime('%d %b') if r.last_done else '—' }}</td><td><span class="sp-pill {{ 'ok' if r.on_track else 'late' }}">{{ 'On track' if r.on_track else 'Behind' }}</span></td></tr>
+{% else %}<tr><td colspan="10" class="sp-muted">No plans yet.</td></tr>{% endfor %}</tbody></table></div>
+{% endblock %}

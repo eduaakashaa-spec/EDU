@@ -120,6 +120,9 @@
       <div class="md-grid" id="md-recent-grid"></div>
     </section>
 
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/planner.css') }}">
+    <div class="sp" style="padding:0 0 4px">{% include "planner/_quote.html" %}</div>
+
     <!-- filters -->
     <div class="md-filters" id="md-results">
       <div class="md-chiprow" role="group" aria-label="Filter by category">

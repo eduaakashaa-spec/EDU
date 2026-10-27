@@ -1,0 +1,16 @@
+{# One task row: checkbox, title, time, EduPulse link and a "how to do this" explanation with an example. Needs `t`, optional `editable`. #}
+{% set ty = sp_types[t.task_type] %}
+{% set lk = sp_link(t.link_kind) if t.link_kind else None %}
+<div class="sp-task {{ t.status }}" data-id="{{ t.id }}">
+  <div class="sp-task__main">
+    {% if t.task_type != 'rest' %}<button type="button" class="sp-check" data-toggle="{{ url_for('planner.task_toggle', tid=t.id) }}" aria-pressed="{{ 'true' if t.status == 'done' else 'false' }}" aria-label="Mark done: {{ t.title }}"></button>{% else %}<span class="sp-rest">☾</span>{% endif %}
+    <div class="sp-task__body">
+      <span class="sp-tag" style="background:{{ ty.colour }}">{{ ty.label }}</span>
+      <span class="sp-task__title">{{ t.title }}</span>
+      <span class="sp-task__meta">{% if t.minutes %}{{ t.minutes }} min{% endif %}{% if t.added_by in ('suggestion', 'mentor') %} · {{ 'suggested from your EduPulse practice' if t.added_by == 'suggestion' else 'added by your mentor' }}{% endif %}</span>
+      {% if t.note %}<span class="sp-task__note">{{ t.note }}</span>{% endif %}
+    </div>
+    {% if lk %}<a class="sp-btn sm" href="{{ lk[1] }}" title="Open in EduPulse">{{ lk[0] }} →</a>{% endif %}
+  </div>
+  <details class="sp-how"><summary>How to do this</summary><p>{{ ty.how }}</p><p class="ex">{{ ty.example }}</p></details>
+</div>

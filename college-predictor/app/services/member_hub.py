@@ -43,6 +43,8 @@ CATEGORIES = [
     {'key': 'edupulse', 'title': 'EduPulse AI Tools', 'icon': '🧠', 'color': '#EA580C', 'tint': '#FFEBDD',
      'blurb': 'Daily reinforcement, mock tests and previous-year papers with a confidence check on every answer.',
      'tiles': [
+         {'title': 'Smart Study Planner', 'desc': 'A day-by-day plan for beginner, average or top-scorer level, linked to EduPulse practice, with reports and PDF templates.', 'icon': '🗓️', 'endpoint': 'planner.home', 'access': 'premium'},
+         {'title': 'Study planner mentor view', 'desc': 'Students\' plans, progress, streaks and EduPulse activity, with CSV export.', 'icon': '📊', 'endpoint': 'planner.mentor_home', 'access': 'premium', 'staff': True},
          {'title': 'EduPulse – Reinforcement', 'desc': 'Short daily practice from your mentor with a confidence check on every answer.', 'icon': '🔁', 'endpoint': 'reinforce.home', 'access': 'premium'},
          {'title': 'EduPulse-UCEED', 'desc': 'Chapter-wise MCQ practice with progress reports for you, your parent and mentor.', 'icon': '🎯', 'endpoint': 'pulse.home', 'access': 'premium'},
          {'title': 'UCEED Mock Test Centre', 'desc': 'Previous-year papers 2018–2026 and EduAakashaA mocks, timed or practice, with a confidence check and reports.', 'icon': '📝', 'endpoint': 'pulse.mock_home', 'access': 'premium'},
@@ -101,7 +103,7 @@ CATEGORY_ICON = {'journey': 'route', 'mentorship': 'cap', 'intel': 'bar', 'edupu
 TILE_ICON = {
     'Profile & sessions': 'user', 'Document verification': 'file-check', 'My assessments': 'clipboard', 'Stream selection': 'compass',
     'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'FutureReady (Class 8–9)': 'compass', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',
-    'DASA 2026 Analytics': 'bar', 'DASA prediction report': 'trend', 'JoSAA EA members': 'users', 'EduPulse-UCEED': 'target', 'EduPulse mentor view': 'dashboard', 'EduPulse – Reinforcement': 'target', 'Reinforcement mentor view': 'dashboard',
+    'DASA 2026 Analytics': 'bar', 'DASA prediction report': 'trend', 'JoSAA EA members': 'users', 'EduPulse-UCEED': 'target', 'EduPulse mentor view': 'dashboard', 'EduPulse – Reinforcement': 'target', 'Reinforcement mentor view': 'dashboard', 'Smart Study Planner': 'calendar', 'Study planner mentor view': 'dashboard',
     'EduPulse-JEE Mock Test Centre': 'calculator', 'UCEED Mock Test Centre': 'clipboard', 'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'TNEA expert': 'book', 'Members report': 'file-text',
     'IIT Delhi – Abu Dhabi mentoring': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
     'Why CSE?': 'code', 'Best location': 'pin', 'Engineering insights': 'bulb', 'Hostel & culture': 'home', 'Branch selection guide': 'branch',

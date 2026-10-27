@@ -25,6 +25,7 @@
   <a href="{{ url_for('members.admin_doc_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'documents' }}">Document Verify</a>
   <a href="{{ url_for('onboarding.admin_list') }}" class="adm-navlink {{ 'on' if admin_tab == 'onboarding' }}">Onboarding Assessments</a>
   <a href="{{ url_for('mentorship.mentor_home') }}" class="adm-navlink {{ 'on' if admin_tab == 'mentorship' }}">Mentorship</a>
+  <a href="{{ url_for('planner.mentor_home') }}" class="adm-navlink">Study planner</a>
   <a href="{{ url_for('portal_guide.index') }}" class="adm-navlink">Guide</a>
 </nav>
 {% else %}
@@ -32,6 +33,7 @@
   <a href="{{ url_for('admin_portal.home') }}" class="adm-navlink {{ 'on' if admin_tab == 'overview' }}">Overview</a>
   <a href="{{ url_for('mentorship.admin_home') }}" class="adm-navlink {{ 'on' if admin_tab == 'mentorship' }}">Mentorship</a>
   <a href="{{ url_for('pulse.admin_home') }}" class="adm-navlink {{ 'on' if admin_tab == 'pulse' }}">EduPulse</a>
+  <a href="{{ url_for('planner.admin') }}" class="adm-navlink {{ 'on' if admin_tab == 'planner' }}">Study planner</a>
 
   <div class="adm-navgrp {{ 'on' if admin_tab in ['users', 'memberships', 'onboarding', 'documents', 'assessments'] }}">
     <button type="button" class="adm-navtop" aria-haspopup="true">People ▾</button>

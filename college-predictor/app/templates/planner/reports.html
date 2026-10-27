@@ -1,0 +1,23 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}Reports{% endblock %}
+{% block sp_crumb %} › Reports{% endblock %}
+{% block sp_body %}
+<div class="sp-row"><h2 style="margin:0">My progress reports</h2>
+  <span><a class="sp-btn ghost sm" href="{{ url_for('planner.reports', period='week') }}">Last 7 days</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.reports', period='month') }}">Last 30 days</a>
+    <a class="sp-btn sm" href="{{ url_for('planner.dl_progress') }}">Progress report (PDF)</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_plan_csv') }}">Plan and status (CSV)</a></span></div>
+<div class="sp-kpis flat">
+  <div class="sp-kpi"><b>{{ st.pct_due if st.pct_due is not none else '—' }}{{ '%' if st.pct_due is not none }}</b><span>of tasks due so far are done</span></div>
+  <div class="sp-kpi"><b>{{ st.streak }}</b><span>day streak</span></div>
+  <div class="sp-kpi"><b>{{ st.overdue|length }}</b><span>overdue tasks</span></div>
+  <div class="sp-kpi"><b>{{ (st.done_min / 60)|round(1) }}h</b><span>studied of {{ (st.planned_min / 60)|round(1) }}h planned</span></div>
+  <div class="sp-kpi"><b>{{ act.questions }}</b><span>EduPulse questions ({{ days }} days)</span></div>
+  <div class="sp-kpi"><b>{{ act.mocks }}</b><span>mock tests ({{ days }} days)</span></div>
+</div>
+<div class="sp-two">
+  <section><h2>By subject</h2><div class="sp-card">{% for k, v in st.by_subject.items() %}<div class="sp-bar"><span>{{ k }}</span><div><i style="width:{{ (100 * v.done / v.planned)|round if v.planned else 0 }}%"></i></div><em>{{ v.completed }}/{{ v.tasks }} tasks</em></div>{% else %}<p class="sp-muted">No data yet.</p>{% endfor %}</div></section>
+  <section><h2>By kind of work</h2><div class="sp-card"><table class="sp-tbl"><thead><tr><th>Type</th><th>Done</th><th>Minutes</th></tr></thead><tbody>{% for k, v in st.by_type.items() %}<tr><td>{{ sp_types[k].label }}</td><td>{{ v.completed }} of {{ v.tasks }}</td><td>{{ v.done }} / {{ v.planned }}</td></tr>{% else %}<tr><td colspan="3" class="sp-muted">No data yet.</td></tr>{% endfor %}</tbody></table></div></section>
+</div>
+<h2>Consistency (last 4 weeks)</h2>
+<div class="sp-card"><div class="sp-heat">{% for d, n in st.heat.items() %}<i class="h{{ [n, 4]|min }}" title="{{ d.strftime('%d %b') }}: {{ n }} done"></i>{% endfor %}</div></div>
+{% if past %}<h2>Earlier plans</h2><div class="sp-card">{% for p in past %}<p>{{ p.title }} · {{ p.start_date.strftime('%d %b %Y') }}</p>{% endfor %}</div>{% endif %}
+{% endblock %}

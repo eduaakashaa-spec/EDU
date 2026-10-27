@@ -1,0 +1,15 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}Mentor view{% endblock %}
+{% block sp_crumb %} › Mentor view{% endblock %}
+{% block sp_body %}
+<div class="sp-row"><h2 style="margin:0">Students and their plans</h2><a class="sp-btn ghost sm" href="{{ url_for('planner.mentor_export', level=f.level, exam=f.exam, status=f.status) }}">Export CSV</a></div>
+<form method="get" class="sp-card sp-form sp-filter"><div class="row">
+  <div><label>Level</label><select name="level"><option value="">All</option>{% for k, v in sp_levels.items() %}<option value="{{ k }}" {{ 'selected' if f.level == k }}>{{ v.label }}</option>{% endfor %}</select></div>
+  <div><label>Exam</label><select name="exam"><option value="">All</option>{% for e in ['JEE', 'UCEED', 'NEET'] %}<option {{ 'selected' if f.exam == e }}>{{ e }}</option>{% endfor %}</select></div>
+  <div><label>Show</label><select name="status"><option value="">Everyone</option><option value="behind" {{ 'selected' if f.status == 'behind' }}>Behind plan</option><option value="inactive" {{ 'selected' if f.status == 'inactive' }}>No activity for 7 days</option></select></div>
+  <div><button class="sp-btn sm">Filter</button></div></div></form>
+<div class="sp-card sp-scroll">{% if rows %}<table class="sp-tbl"><thead><tr><th>Student</th><th>Plan</th><th>Done to date</th><th>This week</th><th>Streak</th><th>Overdue</th><th>Hours</th><th>EduPulse (week)</th><th>Status</th></tr></thead><tbody>
+{% for r in rows %}<tr><td><a href="{{ url_for('planner.mentor_student', uid=r.plan.user_id) }}"><b>{{ r.name }}</b></a></td><td>{{ r.exam }} · {{ sp_levels[r.level].label }}</td><td>{{ r.pct_due ~ '%' if r.pct_due is not none else '—' }}</td><td>{{ r.week_pct ~ '%' if r.week_pct is not none else '—' }}</td><td>{{ r.streak }}</td><td>{{ r.overdue }}</td><td>{{ r.hours_done }} / {{ r.hours_planned }}</td><td>{{ r.questions_week }} Qs · {{ r.mocks_week }} mock{{ '' if r.mocks_week == 1 else 's' }}</td><td><span class="sp-pill {{ 'ok' if r.on_track else 'late' }}">{{ 'On track' if r.on_track else 'Behind' }}</span></td></tr>{% endfor %}</tbody></table>
+{% else %}<p>No active plans match. Choose a student below to build one.</p>{% endif %}</div>
+{% if unplanned %}<h2>Students without a plan</h2><div class="sp-card">{% for u in unplanned %}<p><b>{{ u.name }}</b> <span class="sp-muted">{{ u.email }}</span> <a class="sp-btn sm" href="{{ url_for('planner.mentor_new', uid=u.id) }}">Build a plan</a></p>{% endfor %}</div>{% endif %}
+{% endblock %}

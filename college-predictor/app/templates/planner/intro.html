@@ -1,0 +1,23 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}Welcome{% endblock %}
+{% block sp_body %}
+<section class="sp-hero">
+  <div><span class="sp-chip">Smart Study Planner</span><h1>A study plan that fits <em>where you are</em> today.</h1>
+    <p>Pick the level that matches you: Beginner, Average or Top scorer. The planner builds a day-by-day plan, explains every task with an example, links practice to EduPulse questions, and shows you, your mentor and your parents how you are doing.</p>
+    <p><a class="sp-btn" href="{{ url_for('planner.new') }}">Build my plan</a> <a class="sp-btn ghost" href="{{ url_for('planner.levels') }}">See how it works</a></p></div>
+</section>
+{% include "planner/_quote.html" %}
+<h2>Three levels, one idea</h2>
+<div class="sp-grid3">
+  {% for k, v in sp_levels.items() %}<div class="sp-card"><span class="sp-eyebrow">{{ v.label }}</span><h3>{{ v.tagline }}</h3><p>{{ v.who }}</p><p class="sp-muted">About {{ v.hours }} hours a day · {{ 'a mock every 2 weeks' if v.mocks_per_week == 0 else (v.mocks_per_week|string ~ (' mock a week' if v.mocks_per_week == 1 else ' mocks a week')) }}</p>
+    <a class="sp-btn ghost sm" href="{{ url_for('planner.new', level=k) }}">Start as {{ v.label }}</a></div>{% endfor %}
+</div>
+<h2>What you get</h2>
+<ul class="sp-list">
+  <li><b>Self-explaining tasks.</b> Every task has a "How to do this" box with a worked example.</li>
+  <li><b>EduPulse links.</b> Practice tasks open EduPulse practice and mocks, and your answers there count toward your week.</li>
+  <li><b>Dashboards and reports.</b> Weekly and monthly progress for you, your mentor and the admin team, with CSV and PDF downloads.</li>
+  <li><b>Printable templates.</b> Blank weekly planner and error-log sheets for each level.</li>
+  <li><b>A thought for the day</b> to keep you going, and a weekly note in your notices.</li>
+</ul>
+{% endblock %}

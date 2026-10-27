@@ -1,0 +1,28 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}How it works{% endblock %}
+{% block sp_crumb %} › How it works{% endblock %}
+{% block sp_body %}
+<h1 style="margin:6px 0">How the planner works</h1>
+<p class="sp-muted">Read this once. Every plan is built from the same simple ideas, and every task explains itself.</p>
+<ol class="sp-steps">
+  <li><b>Choose your exam and level.</b> Not sure? Take the 1-minute check below.</li>
+  <li><b>Get a day-by-day plan.</b> One subject a day in rotation, one chapter at a time, a rest day on Sunday and a mock test on Saturday.</li>
+  <li><b>Tick tasks when they are finished.</b> The dashboard shows your streak, progress and hours.</li>
+  <li><b>Practise in EduPulse.</b> Practice tasks open EduPulse; your answers there count toward your week, and weak chapters turn into revision tasks.</li>
+  <li><b>Review every week.</b> Reports show what to change. Your mentor sees the same numbers and can adjust the plan.</li>
+</ol>
+<h2>The three levels, with an example day</h2>
+{% for k, v in sp_levels.items() %}
+<section class="sp-card"><span class="sp-eyebrow">{{ v.label }} · {{ v.tagline }}</span><p><b>Who it is for:</b> {{ v.who }}</p><p><b>How it works:</b> {{ v.how }}</p>
+  <table class="sp-tbl"><thead><tr><th>Time</th><th>Block</th><th>What to do</th></tr></thead><tbody>{% for a, b, c in v.example_day %}<tr><td>{{ a }}</td><td>{{ b }}</td><td>{{ c }}</td></tr>{% endfor %}</tbody></table>
+  <p><a class="sp-btn sm" href="{{ url_for('planner.new', level=k) }}">Start as {{ v.label }}</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_template', level=k) }}">Download the {{ v.label }} template (PDF)</a></p></section>
+{% endfor %}
+<h2>The six kinds of task</h2>
+<div class="sp-grid3">{% for k, v in sp_types.items() %}<div class="sp-card"><span class="sp-tag" style="background:{{ v.colour }}">{{ v.label }}</span><p>{{ v.how }}</p><p class="ex">{{ v.example }}</p></div>{% endfor %}</div>
+<h2>Which level am I?</h2>
+<form class="sp-card sp-form" id="quiz">{% for q, opts in quiz %}{% set i = loop.index0 %}<p><b>{{ loop.index }}. {{ q }}</b></p><div class="sp-opts">{% for o in opts %}<label><input type="radio" name="q{{ i }}" value="{{ loop.index0 }}"> {{ o }}</label>{% endfor %}</div>{% endfor %}
+  <p><button type="button" class="sp-btn" id="quiz-go">Show my level</button> <span id="quiz-out" class="sp-muted"></span></p></form>
+<h2>Using EduPulse questions with the planner</h2>
+<ul class="sp-list"><li>For <b>JEE</b>, practice tasks open EduPulse Reinforcement (if your mentor has added you) or the JEE mock centre.</li><li>For <b>UCEED</b>, practice tasks open EduPulse-UCEED chapter practice and mocks open the UCEED mock centre.</li>
+  <li>Questions you answer in EduPulse are counted automatically on your dashboard and in reports. For <b>NEET</b> there is no EduPulse bank yet, so tick tasks yourself.</li><li>When EduPulse marks a chapter as weak, press <i>Add revision tasks</i> on the dashboard.</li></ul>
+{% endblock %}
