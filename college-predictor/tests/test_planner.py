@@ -100,6 +100,10 @@ assert free.get(B + '/').status_code in (302, 403) and free.get(B + '/mentor').s
 assert free.get(B + '/templates').status_code == 200 and free.get(B + '/how-it-works').status_code == 200        # explanations and templates are open to every member
 assert s1.get(B + '/mentor').status_code in (302, 403) and mentor.get(B + '/admin').status_code in (302, 403)
 assert b'Build my plan' in s1.get(B + '/').data                                         # no plan yet: the welcome page
+for u in (B + '/plan', B + '/download/week.pdf', B + '/download/progress.pdf', B + '/download/plan.csv', B + '/reports'):
+    r = s1.get(u)
+    assert r.status_code == 302, u                                                      # no plan yet: a friendly redirect, never "Not Found"
+assert s1.get(B + '/plan', follow_redirects=True).status_code == 200
 
 # ---- build a plan through the form ---------------------------------------------------------------------------------------------------------------------
 r = s1.post(B + '/new', data={'exam': 'JEE', 'level': 'average', 'start': '2026-11-02', 'weeks': '4', 'hours': '4', 'focus': ['Kinematics']})

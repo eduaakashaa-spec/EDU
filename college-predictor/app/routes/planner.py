@@ -122,7 +122,10 @@ def _new_plan(student, mentor_view):
 @planner_bp.route('/plan')
 @premium_required
 def plan_view():
-    plan = P.active_plan(current_user.id) or abort(404)
+    plan = P.active_plan(current_user.id)
+    if not plan:                                              # no plan yet: send the student to the welcome page instead of an error
+        flash('Build your plan first, then it will appear here.', 'info')
+        return redirect(url_for('planner.new'))
     w0 = P.week_start(_date(request.args.get('week'), P.today()))
     days = [w0 + timedelta(days=i) for i in range(7)]
     tasks = {d: [] for d in days}
@@ -233,7 +236,10 @@ def dl_template(level):
 @premium_required
 def dl_week():
     from app.services import planner_pdf
-    plan = P.active_plan(current_user.id) or abort(404)
+    plan = P.active_plan(current_user.id)
+    if not plan:
+        flash('Build your plan first, then you can download it.', 'info')
+        return redirect(url_for('planner.new'))
     return _pdf(planner_pdf.week_pdf(plan, current_user.name, _date(request.args.get('week'))), 'weekly-study-plan.pdf')
 
 
@@ -244,7 +250,10 @@ def dl_progress():
     uid = request.args.get('uid', type=int) or current_user.id
     if not _can_see(uid):
         abort(404)
-    plan = P.active_plan(uid) or abort(404)
+    plan = P.active_plan(uid)
+    if not plan:
+        flash('No active plan yet, so there is no progress report to download.', 'info')
+        return redirect(url_for('planner.home') if uid == current_user.id else url_for('planner.mentor_student', uid=uid))
     since = datetime.combine(P.today() - timedelta(days=6), datetime.min.time())
     return _pdf(planner_pdf.progress_pdf(P.plan_stats(plan), plan.user.name, P.edupulse_activity(uid, since)), 'study-progress-report.pdf')
 
@@ -255,7 +264,10 @@ def dl_plan_csv():
     uid = request.args.get('uid', type=int) or current_user.id
     if not _can_see(uid):
         abort(404)
-    plan = P.active_plan(uid) or abort(404)
+    plan = P.active_plan(uid)
+    if not plan:
+        flash('No active plan yet.', 'info')
+        return redirect(url_for('planner.home') if uid == current_user.id else url_for('planner.mentor_student', uid=uid))
     return Response(P.tasks_csv(plan), mimetype='text/csv', headers={'Content-Disposition': 'attachment; filename=study-plan.csv'})
 
 
