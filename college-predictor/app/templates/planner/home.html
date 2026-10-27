@@ -6,13 +6,13 @@
   <div><span class="sp-chip">{{ lv.label }} · {{ lv.tagline }} · {{ plan.exam }}</span><h1>{{ plan.title }}</h1>
     <p>Week of {{ today.strftime('%d %b') }} · {{ 'You are on track. Keep going.' if st.on_track else 'A little behind. Finish one task today and the rest follows.' }}</p>
     <p><a class="sp-btn" href="{{ url_for('planner.plan_view') }}">Open my plan</a> <a class="sp-btn ghost" href="{{ url_for('planner.new') }}">Change level or start again</a></p></div>
-  <div class="sp-kpis">
+</section>
+<div class="sp-kpis flat">
     <div class="sp-kpi"><b>{{ st.pct_due if st.pct_due is not none else '—' }}{{ '%' if st.pct_due is not none }}</b><span>done so far</span></div>
     <div class="sp-kpi"><b>{{ st.week_pct if st.week_pct is not none else '—' }}{{ '%' if st.week_pct is not none }}</b><span>this week</span></div>
     <div class="sp-kpi"><b>{{ st.streak }}</b><span>day streak</span></div>
     <div class="sp-kpi"><b>{{ (st.done_min / 60)|round(1) }}h</b><span>studied of {{ (st.planned_min / 60)|round(1) }}h planned</span></div>
-  </div>
-</section>
+</div>
 {% include "planner/_quote.html" %}
 
 <div class="sp-two">
