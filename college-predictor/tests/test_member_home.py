@@ -46,7 +46,7 @@ for cat in ('My Journey', 'Mentorship Portal', 'Admission Intelligence', 'Choice
 assert 'md-b-lock' in page and 'Free plan' in page and 'Unlock with membership' in page       # locks + plan badge for a free member
 assert '/free-guides' in page and '/dasa-2026-analytics' in page
 assert 'Upgrade to premium' in page and 'id="md-q"' in page                                    # search + upgrade call to action
-assert 'data-cat="intel"' in page and page.count('class="md-fchip') == 10                       # All + 9 category filters
+assert 'data-cat="intel"' in page and page.count('class="md-fchip') == 11                       # All + 10 category filters
 assert '0 of 9 open' in page and '0 of 4 open' in page and 'EduPulse AI Tools' in page                                    # intelligence: all premium tiles locked
 assert 'mh-tile' not in page and 'banner_art' in page              # old patterned tiles are gone
 for k in ('journey', 'mentorship', 'intel', 'gulf', 'tools', 'insights', 'free', 'support'):

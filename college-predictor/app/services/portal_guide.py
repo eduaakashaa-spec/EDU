@@ -49,6 +49,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-27', 'New "Medicine" tab in the site menu, a /medicine overview page and a Medicine group on Member Home; all medicine exam pages are kept there (list: services/medicine_hub.py).'),
     ('2026-10-27', 'NEET 2027 guide page added (public, with the premium alert); it states clearly what NTA has not announced yet.'),
     ('2026-10-27', 'Sign-up form now blocks bots (hidden field, form timer, per-address limit, name and disposable-e-mail checks); Admin > Members can select accounts, flag suspected bots and delete them in bulk.'),
     ('2026-10-26', 'TNEA Expert page shows the premium alert for 2026-27 data (all guide and analytics pages now carry it).'),
@@ -187,11 +188,17 @@ GUIDE = [
                 'Members report', 'CAET · IIT Delhi – Abu Dhabi guide', 'NRI admission guide', 'Choice Builder Simulator', 'Why CSE?', 'Best location', 'Engineering insights', 'Hostel & culture',
                 'Branch selection guide'], added='2026-10-26', updated='2026-10-26'),
     dict(id='s-free', role='student', group='Free resources', title='Free guides and the exam schedule', summary='Open to every member.',
-         where=[('Free guides', 'guides.library'), ('Exam schedule', 'main.exam_schedule'), ('NEET 2027 guide', 'main.neet_2027')],
+         where=[('Free guides', 'guides.library'), ('Exam schedule', 'main.exam_schedule')],
          steps=['Open "Free student guides", choose a guide and enter your e-mail to receive it.',
                 'Open "Exam schedule" for registration, exam and counselling dates. Admins keep it current.',
-                'Open "NEET 2027 guide" for medical-entrance planning: what NTA has and has not announced, recent exam dates, pattern, eligibility, counselling and a month-by-month plan.'],
-         tiles=['Free student guides', 'Exam schedule', 'NEET 2027 guide'], added='2026-10-26', updated='2026-10-27'),
+                'Medicine entrance exams (NEET and others) have their own Medicine tab; see "Medicine exam guides".'],
+         tiles=['Free student guides', 'Exam schedule'], added='2026-10-26', updated='2026-10-27'),
+    dict(id='s-medicine', role='student', group='Free resources', title='Medicine exam guides', summary='NEET UG 2027 and every other medicine entrance-exam page, grouped under one tab.',
+         where=[('Medicine exams', 'main.medicine'), ('NEET 2027 guide', 'main.neet_2027')],
+         steps=['Open the Medicine tab in the site menu (or the Medicine group on Member Home) and choose "All medicine exams".',
+                'Pick an exam guide, for example NEET UG 2027. Each guide says what is officially announced, what is expected and what is still to be announced.',
+                'Use the preparation plan and the counselling steps; check neet.nta.nic.in for the official notice.'],
+         tiles=['Medicine exams', 'NEET 2027 guide'], added='2026-10-27', updated='2026-10-27'),
 
     # ------------------------------------------------------------------ parents
     dict(id='p-access', role='parent', group='Access', title='Getting access as a parent', summary='How a parent account is linked to a child.',
@@ -382,7 +389,8 @@ GUIDE = [
          added='2026-10-26', updated='2026-10-26'),
     dict(id='a-pages', role='admin', group='Content', title='Keeping page content and data current', summary='Pages carry a note about which year their data covers.',
          where=[('DASA admissions guide', 'main.dasa_guide')],
-         steps=['The NEET 2027 page (app/templates/neet_2027.html) says "last checked" and separates confirmed, expected and not-announced items. When NTA publishes the NEET UG 2027 notice, replace the expected dates, pattern and eligibility with the official ones and update the "last checked" date.',
+         steps=['To add another medicine exam page: build the page, add one entry to PAGES in app/services/medicine_hub.py (the Medicine menu tab and the /medicine page update themselves), add a Member Home tile in the Medicine group and describe it in this guide.',
+                'The NEET 2027 page (app/templates/neet_2027.html) says "last checked" and separates confirmed, expected and not-announced items. When NTA publishes the NEET UG 2027 notice, replace the expected dates, pattern and eligibility with the official ones and update the "last checked" date.',
                 'Guide pages (DASA, JoSAA, NIRF, TNEA, IIITs, Anna University) show an alert saying the page uses earlier data and that the latest 2026-27 data and analytics are part of Premium Membership.',
                 'When you refresh a page with new data, update its heading text so it states the year correctly.',
                 'Premium-only pages tell active members that their access is active instead of showing a Join button.',

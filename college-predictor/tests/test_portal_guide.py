@@ -25,6 +25,9 @@ missing = sorted(tiles - pg.covered_tiles())
 assert not missing, 'Member Home tiles with no entry in app/services/portal_guide.py (add them to an entry\'s `tiles`): %s' % missing
 unknown = sorted(set(app.blueprints) - set(pg.COVERED_BLUEPRINTS))
 assert not unknown, 'blueprints not listed in portal_guide.COVERED_BLUEPRINTS (document the feature and add the blueprint): %s' % unknown
+from app.services import medicine_hub  # noqa: E402
+med_tiles = {t['endpoint'] for c in member_hub.CATEGORIES if c['key'] == 'medicine' for t in c['tiles']}
+assert {p['endpoint'] for p in medicine_hub.PAGES} <= med_tiles, 'every page in services/medicine_hub.PAGES needs a tile in the Member Home "Medicine" group'
 assert pg.CHANGELOG and pg.CHANGELOG[0][0] == pg.UPDATED, 'add a line at the top of CHANGELOG and set UPDATED to its date whenever the guide changes'
 
 # ---- content sanity -----------------------------------------------------------------------------------------------------------------------------

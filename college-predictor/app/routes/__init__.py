@@ -496,6 +496,13 @@ def dasa_2026_analytics():
     return render_template('dasa_2026_analytics.html')
 
 
+@main_bp.route('/medicine')
+def medicine():
+    # overview of every medicine entrance-exam page (the list lives in services/medicine_hub.py)
+    from app.services import medicine_hub
+    return render_template('medicine_hub.html', pages=medicine_hub.PAGES)
+
+
 @main_bp.route('/neet-2027')
 @main_bp.route('/neet-ug-2027')
 def neet_2027():

@@ -111,6 +111,14 @@
           </li>
 
           <li class="nav__item nav__item--dropdown">
+            <a href="{{ url_for('main.medicine') }}" class="nav__link">Medicine</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.medicine') }}">All medicine exams</a></li>
+              {% for p in MEDICINE_PAGES %}<li><a href="{{ url_for(p.endpoint) }}">{{ p.title }}</a></li>{% endfor %}
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
             <a href="#" class="nav__link">More</a>
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.student_assessment') }}">Student Assessment</a></li>

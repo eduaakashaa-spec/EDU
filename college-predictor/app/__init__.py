@@ -55,7 +55,7 @@ def create_app():
                               'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup', 'pulse_jee', 'reinforce', 'portal_guide'}
     NOTICE_SKIP_ENDPOINTS = {'main.members_registration', 'main.premium_membership',
                              'main.members_login', 'main.contact', 'main.contact_alias',
-                             'main.contactus_alias', 'main.dasa_guide', 'main.nirf_ranking', 'main.josaa', 'main.iiits', 'main.annanri', 'main.nirf_analytic', 'main.tnea_colleges', 'main.dasa_2026', 'main.dasa_2026_analytics', 'main.josaa_ea_members', 'main.josaa_assessment', 'main.choice_builder_pro', 'main.tnea_expert', 'main.neet_2027', 'static'}
+                             'main.contactus_alias', 'main.dasa_guide', 'main.nirf_ranking', 'main.josaa', 'main.iiits', 'main.annanri', 'main.nirf_analytic', 'main.tnea_colleges', 'main.dasa_2026', 'main.dasa_2026_analytics', 'main.josaa_ea_members', 'main.josaa_assessment', 'main.choice_builder_pro', 'main.tnea_expert', 'main.neet_2027', 'main.medicine', 'static'}
 
     @app.context_processor
     def inject_premium_notice():
@@ -136,6 +136,8 @@ def create_app():
     app.register_blueprint(wagroup_bp)
     from app.services import wagroup as _wg
     app.jinja_env.globals['wa_group'] = _wg.get
+    from app.services import medicine_hub as _med
+    app.jinja_env.globals['MEDICINE_PAGES'] = _med.PAGES
     app.jinja_env.globals['wa_group_can_edit'] = _wg.can_manage
 
     # The legacy eduaakashaa.in domain forwards to eduaakashaa.com (path and query
