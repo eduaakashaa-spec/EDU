@@ -62,9 +62,10 @@
             {% if r.source == 'Membership' %}<span class="pill s-New">Membership</span>
             {% else %}<span class="pill pill-admin">Standalone</span>{% endif %}
           </td>
-          <td>₹{{ r.total|inr }}</td>
+          <td{% if r.status == 'Cancelled' %} style="text-decoration:line-through;color:var(--muted)"{% endif %}>₹{{ r.total|inr }}</td>
           <td>
-            {% if r.status == 'Paid' %}<span class="pill pill-premium">Paid</span>
+            {% if r.status == 'Cancelled' %}<span class="pill" style="background:#EEE;color:#555;">Cancelled</span>
+            {% elif r.status == 'Paid' %}<span class="pill pill-premium">Paid</span>
             {% elif r.status == 'Partially Paid' %}<span class="pill s-Approved">Partial</span>
             {% else %}<span class="pill pill-expired">Unpaid</span>{% endif %}
           </td>

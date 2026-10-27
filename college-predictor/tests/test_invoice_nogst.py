@@ -150,4 +150,80 @@ with app.app_context():
     assert InvoiceReceipt.query.filter_by(invoice_no=PNO).count() == 1                                  # the receipt is kept as a record
 assert admin.post('/admin/receipts/%d/delete' % GID, follow_redirects=True).status_code == 200
 
+# ---- cancelling an invoice --------------------------------------------------------------------------------------------------------------------------
+from app.models_membership import InvoiceCancel  # noqa: E402
+import re as _re  # noqa: E402
+
+
+def _kpi(html, label):
+    return _re.search(r'<div class="n">([^<]*)</div><div class="l">%s</div>' % label, html).group(1)
+
+
+_kpi_live = lambda html: _kpi(html, 'Total billed')
+before = admin.get('/admin/invoices').get_data(as_text=True)
+cid = new_invoice(gst_mode='none', item_rate=['800'])
+assert b'Reason for cancelling' in admin.get('/admin/invoices/%d' % cid).data
+assert _kpi_live(admin.get('/admin/invoices').get_data(as_text=True)) != _kpi_live(before)                # while live it counts
+r = admin.post('/admin/invoices/%d/cancel' % cid, data={'reason': ''}, follow_redirects=True)
+assert b'Give a reason' in r.data
+with app.app_context():
+    assert db.session.get(Invoice, cid).payment_status == 'Unpaid'                                    # nothing without a reason
+r = admin.post('/admin/invoices/%d/cancel' % cid, data={'reason': 'Raised in error'}, follow_redirects=True)
+assert b'cancelled' in r.data
+with app.app_context():
+    c = db.session.get(Invoice, cid)
+    assert c.cancelled and c.cancel_info.reason == 'Raised in error' and c.cancel_info.prev_status == 'Unpaid' and c.invoice_no
+ch = admin.get('/admin/invoices/%d' % cid).get_data(as_text=True)
+assert 'is-cancelled' in ch and 'Reinstate invoice' in ch and 'Raised in error' in ch and 'Email to customer' not in ch
+with app.app_context():
+    TOK = db.session.get(Invoice, cid).public_token
+assert b'Cancelled' in anon.get('/invoice/' + TOK).data and b'is-cancelled' in anon.get('/invoice/' + TOK).data
+assert b'cancelled' in admin.post('/admin/invoices/%d/payment' % cid, data={'payment_status': 'Paid', 'amount_received': '800'}, follow_redirects=True).data   # no payments
+assert b'cancelled' in admin.post('/admin/invoices/%d/email' % cid, follow_redirects=True).data
+with app.app_context():
+    assert db.session.get(Invoice, cid).receipts.count() == 0
+lst = admin.get('/admin/invoices').get_data(as_text=True)
+assert 'Cancelled' in lst and admin.get('/admin/invoices?status=Cancelled').get_data(as_text=True).count('line-through') >= 1
+assert _kpi(lst, 'Total billed') == _kpi(before, 'Total billed')                                       # a cancelled invoice is not counted as billed
+admin.post('/admin/invoices/%d/reinstate' % cid)
+with app.app_context():
+    r_ = db.session.get(Invoice, cid)
+    assert not r_.cancelled and r_.payment_status == 'Unpaid' and r_.cancel_info is None
+assert student.post('/admin/invoices/%d/cancel' % cid, data={'reason': 'x'}).status_code in (302, 403)
+# cancelling an invoice with a payment keeps the receipts and tells the admin
+admin.post('/admin/invoices/%d/payment' % cid, data={'payment_status': 'Partially Paid', 'amount_received': '300'})
+r = admin.post('/admin/invoices/%d/cancel' % cid, data={'reason': 'Customer withdrew'}, follow_redirects=True)
+assert b'refund or adjust' in r.data
+with app.app_context():
+    assert db.session.get(Invoice, cid).receipts.count() == 1
+    admin.post('/admin/invoices/%d/reinstate' % cid)
+    assert db.session.get(Invoice, cid).payment_status == 'Partially Paid'
+
+# ---- item catalogue in the invoice form ----------------------------------------------------------------------------------------------------------------
+from app.services import invoice_catalog  # noqa: E402
+with app.app_context():
+    d = invoice_catalog.load()
+    assert any(i['name'] == 'Elite Mentorship membership' and i['price'] == 75000 for i in d) and any(i['price'] == 5000 and 'EduPulse' in i['name'] for i in d) and len(d) >= 10
+fh = admin.get('/admin/invoices/new').get_data(as_text=True)
+assert 'Choose an item' in fh and 'Elite Mentorship membership' in fh and 'data-price="75000.00"' in fh and 'EduAakashaA membership' in fh and '+ Add item' in fh
+sh = admin.get('/admin/invoice-settings').get_data(as_text=True)
+assert 'Item catalogue' in sh and 'Elite Mentorship membership' in sh
+names = ['Elite Mentorship membership', 'Foundation Path membership', 'Registration fee', '']
+admin.post('/admin/invoice-settings/catalog', data={'cat_name': names, 'cat_price': ['70000', '25000', '1500', ''], 'cat_group': ['Membership', 'Membership', 'Other', 'Other']})
+with app.app_context():
+    d = invoice_catalog.load()
+    assert [(i['name'], i['price'], i['group']) for i in d] == [('Elite Mentorship membership', 70000, 'Membership'), ('Foundation Path membership', 25000, 'Membership'), ('Registration fee', 1500, 'Other')]
+fh = admin.get('/admin/invoices/new').get_data(as_text=True)
+assert 'data-price="70000.00"' in fh and 'Registration fee' in fh and 'Other items' in fh and 'Aspirant Path' not in fh
+admin.post('/admin/invoice-settings/catalog', data={'cat_name': ['Elite Mentorship membership', 'Foundation Path membership', 'Registration fee'], 'cat_price': ['70000', '25000', '1500'], 'cat_group': ['Membership', 'Membership', 'Other'], 'cat_remove': ['1']})
+with app.app_context():
+    assert [i['name'] for i in invoice_catalog.load()] == ['Elite Mentorship membership', 'Registration fee']
+admin.post('/admin/invoice-settings/catalog', data={'reset': '1'})
+with app.app_context():
+    assert len(invoice_catalog.load()) >= 10
+# an invoice written from catalogue picks keeps whatever price was typed (the price is editable per row)
+eid = new_invoice(gst_mode='none', item_desc=['Elite Mentorship membership', 'Registration fee'], item_qty=['1', '1'], item_rate=['70000', '1500'])
+with app.app_context():
+    assert db.session.get(Invoice, eid).total == 7150000
+
 print('invoice and receipt checks passed')

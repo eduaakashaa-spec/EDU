@@ -65,5 +65,17 @@
     <button class="btn btn-navy" type="submit">Save settings</button>
   </form>
 
+
+  <form method="post" action="{{ url_for('invoices.admin_catalog') }}" class="adm-card" id="catalog" style="margin-top:18px;">
+    <h2>Item catalogue</h2>
+    <p class="sub">These items appear in the "Choose an item" drop-down when you write an invoice. Edit a price here to change the starting price (you can still change the rate on each invoice). Tick Remove to drop an item; use the last row to add one.</p>
+    <table class="adm-table"><thead><tr><th>Item</th><th style="width:160px">Price (₹)</th><th style="width:130px">Group</th><th style="width:80px">Remove</th></tr></thead><tbody>
+    {% for it in catalog %}<tr><td><input name="cat_name" value="{{ it.name }}" maxlength="200" style="width:100%"></td><td><input name="cat_price" type="number" min="0" step="0.01" value="{{ '%.2f'|format(it.price) }}" style="width:100%"></td>
+      <td><select name="cat_group"><option value="Membership" {{ 'selected' if it.group == 'Membership' }}>Membership</option><option value="Other" {{ 'selected' if it.group != 'Membership' }}>Other</option></select></td>
+      <td><input type="checkbox" name="cat_remove" value="{{ loop.index0 }}"></td></tr>{% endfor %}
+    <tr><td><input name="cat_name" placeholder="New item name" maxlength="200" style="width:100%"></td><td><input name="cat_price" type="number" min="0" step="0.01" placeholder="0.00" style="width:100%"></td>
+      <td><select name="cat_group"><option value="Other">Other</option><option value="Membership">Membership</option></select></td><td></td></tr></tbody></table>
+    <p style="margin-top:12px;display:flex;gap:10px;"><button class="btn btn-navy" type="submit">Save catalogue</button><button class="btn btn-ghost" type="submit" name="reset" value="1" onclick="return confirm('Reset the catalogue to the EduAakashaA membership paths and their listed prices?');">Reset to membership prices</button></p>
+  </form>
 </div></div>
 {% endblock %}

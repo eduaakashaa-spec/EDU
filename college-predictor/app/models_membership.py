@@ -184,6 +184,10 @@ class Invoice(db.Model):
         return f'<Invoice {self.invoice_no} {self.payment_status}>'
 
     @property
+    def cancelled(self):
+        return self.payment_status == 'Cancelled'
+
+    @property
     def no_gst(self):
         """True for an invoice issued without GST (rate 0): shown as a plain Invoice, with no tax lines."""
         return not (self.gst_rate or 0)
@@ -203,6 +207,18 @@ class Invoice(db.Model):
             return json.loads(self.seller_json) if self.seller_json else {}
         except (ValueError, TypeError):
             return {}
+
+
+class InvoiceCancel(db.Model):
+    """Why and when an invoice was cancelled (voided). The invoice row stays, with its number, and shows as Cancelled; `prev_status` lets it be reinstated."""
+    __tablename__ = 'invoice_cancellations'
+    id = db.Column(db.Integer, primary_key=True)
+    invoice_id = db.Column(db.Integer, db.ForeignKey('invoices.id', ondelete='CASCADE'), unique=True, index=True, nullable=False)
+    reason = db.Column(db.String(300))
+    prev_status = db.Column(db.String(30))
+    cancelled_at = db.Column(db.DateTime, default=_utcnow)
+    cancelled_by = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'))
+    invoice = db.relationship('Invoice', backref=db.backref('cancel_info', uselist=False, cascade='all, delete-orphan'))
 
 
 class InvoiceReceipt(db.Model):

@@ -17,6 +17,9 @@
   .inv-pill{ display:inline-block; font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; padding:3px 10px; border-radius:999px; margin-top:6px; }
   .inv-pill.paid{ background:rgba(31,139,92,.14); color:#1f8b5c; }
   .inv-pill.unpaid{ background:rgba(194,58,58,.12); color:#c23a3a; }
+  .inv-pill.cancelled{ background:#555; color:#fff; }
+  .inv-paper.is-cancelled{ position:relative; }
+  .inv-paper.is-cancelled:after{ content:'CANCELLED'; position:absolute; left:50%; top:42%; transform:translate(-50%,-50%) rotate(-24deg); font:800 84px 'Fraunces',serif; letter-spacing:.08em; color:rgba(194,58,58,.16); border:8px solid rgba(194,58,58,.16); padding:6px 28px; border-radius:14px; pointer-events:none; }
   .inv-pill.partial{ background:rgba(232,154,28,.16); color:#9a6a10; }
   .inv-parties{ display:flex; justify-content:space-between; gap:24px; flex-wrap:wrap; margin:22px 0 8px; }
   .inv-parties h4{ font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:#888; margin-bottom:5px; }
@@ -77,6 +80,11 @@
   <a class="btn btn-ghost btn-sm" href="{{ public_url }}" target="_blank" rel="noopener">Customer link ↗</a>
 </div>
 <div class="inv-actbar no-print">
+  {% if inv.cancelled %}
+  <div style="flex-basis:100%;margin-bottom:8px;"><b style="color:#C23A3A;">This invoice is cancelled</b>{% if inv.cancel_info %} on {{ inv.cancel_info.cancelled_at.strftime('%d %b %Y') }}: {{ inv.cancel_info.reason }}{% endif %}.
+    It is left out of the totals and takes no payments. Receipts already issued stay on record.</div>
+  <form method="post" action="{{ url_for('invoices.admin_reinstate', inv_id=inv.id) }}"><button class="btn btn-navy btn-sm" type="submit">Reinstate invoice</button></form>
+  {% else %}
   <form method="post" action="{{ url_for('invoices.admin_email', inv_id=inv.id) }}" style="margin-right:14px;">
     <button class="btn btn-navy btn-sm" type="submit">✉ Email to customer</button>
     <span style="font-size:12px; color:var(--muted);">{{ inv.customer_email or 'no email on file' }}{% if inv.emailed_at %} · last sent {{ inv.emailed_at.strftime('%d %b %H:%M') }}{% endif %}</span>
@@ -93,6 +101,11 @@
     {% for r in inv.receipts %}<a href="{{ url_for('invoices.admin_receipt', rid=r.id) }}">{{ r.receipt_no }} · ₹{{ r.amount|inr }}</a>{{ ', ' if not loop.last }}{% else %}<span style="color:var(--muted)">none yet. Enter the amount received and press the button to issue one.</span>{% endfor %}
     · Paid ₹{{ inv.amount_paid|inr }} of ₹{{ inv.total|inr }}
   </div>
+  <form method="post" action="{{ url_for('invoices.admin_cancel', inv_id=inv.id) }}" onsubmit="return confirm('Cancel invoice {{ inv.invoice_no }}? It stays on record as Cancelled and can be reinstated.');" style="flex-basis:100%;margin-top:8px;">
+    <input name="reason" required maxlength="300" placeholder="Reason for cancelling (required)" style="min-width:260px;flex:1">
+    <button class="btn btn-ghost btn-sm" type="submit">Cancel invoice</button>
+  </form>
+  {% endif %}
   <form method="post" action="{{ url_for('invoices.admin_delete', inv_id=inv.id) }}" onsubmit="return confirm('Delete invoice {{ inv.invoice_no }}? This cannot be undone.');" style="margin-left:auto;">
     <button class="btn btn-red btn-sm" type="submit">Delete</button>
   </form>
@@ -100,7 +113,7 @@
 {% endif %}
 
 <div class="inv-wrap">
-  <div class="inv-paper">
+  <div class="inv-paper{{ ' is-cancelled' if inv.cancelled }}">
     <div class="inv-top">
       <div class="inv-seller">
         {# the snapshot's logo_url wins so reissued invoices keep their original
@@ -121,7 +134,8 @@
         <div class="t">{{ 'Invoice' if inv.no_gst else 'Tax Invoice' }}</div>
         <div class="no">{{ inv.invoice_no }}</div>
         <div class="d">{{ inv.invoice_date.strftime('%d %b %Y') if inv.invoice_date }}</div>
-        {% if inv.payment_status == 'Paid' %}<div class="inv-pill paid">Paid</div>
+        {% if inv.cancelled %}<div class="inv-pill cancelled">Cancelled</div>
+        {% elif inv.payment_status == 'Paid' %}<div class="inv-pill paid">Paid</div>
         {% elif inv.payment_status == 'Partially Paid' %}<div class="inv-pill partial">Partially paid</div>
         {% else %}<div class="inv-pill unpaid">Unpaid</div>{% endif %}
       </div>
@@ -195,6 +209,7 @@
     </div>
 
     {% if show_actions and not seller.bank_ac_no %}<div class="inv-note no-print" style="color:#C23A3A;">Bank details are not saved yet, so they do not appear on this invoice. Add them in Finance &rarr; Invoice Settings.</div>{% endif %}
+    {% if inv.cancelled and inv.cancel_info %}<div class="inv-note" style="text-align:left;color:#C23A3A;">Cancelled: {{ inv.cancel_info.reason }}</div>{% endif %}
     <div class="inv-note">This is a computer-generated invoice{% if seller.website %} · {{ seller.website }}{% endif %}.</div>
   </div>
 </div>

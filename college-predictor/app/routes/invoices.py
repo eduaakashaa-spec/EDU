@@ -27,7 +27,9 @@ from flask import (Blueprint, abort, current_app, flash, redirect,
 
 from app.decorators import admin_required
 from app.extensions import db
-from app.models_membership import DocSequence, Invoice, InvoiceReceipt, MembershipInvoice
+from app.models_membership import DocSequence, Invoice, InvoiceCancel, InvoiceReceipt, MembershipInvoice
+from app.services import invoice_catalog
+from flask_login import current_user
 from app.services.company import (EDITABLE_KEYS, company_profile,
                                   save_company_profile)
 from markupsafe import escape
@@ -207,16 +209,17 @@ def admin_list():
 
     everything = _all_invoices()
     # stats always describe the whole book, not the current filter
-    billed = sum(r['total'] for r in everything)
-    collected = sum(r['paid'] for r in everything)
-    stats = {'count': len(everything), 'billed': billed, 'collected': collected,
-             'due': billed - collected}
+    live = [r for r in everything if r['status'] != 'Cancelled']
+    billed = sum(r['total'] for r in live)
+    collected = sum(r['paid'] for r in live)
+    stats = {'count': len(live), 'billed': billed, 'collected': collected,
+             'due': billed - collected, 'cancelled': len(everything) - len(live)}
 
     rows = everything
     if q:
         rows = [r for r in rows if q in (r['no'] or '').lower()
                 or q in (r['customer'] or '').lower() or q in (r['email'] or '').lower()]
-    if status in PAYMENT_STATUSES:
+    if status in PAYMENT_STATUSES + ('Cancelled',):
         rows = [r for r in rows if r['status'] == status]
     if source in ('Invoice', 'Membership'):
         rows = [r for r in rows if r['source'] == source]
@@ -231,7 +234,7 @@ def admin_list():
 
     return render_template('admin/invoices_list.html', admin_tab='invoices',
                            rows=window, pager=pager, stats=stats, q=q,
-                           status=status, source=source, statuses=PAYMENT_STATUSES)
+                           status=status, source=source, statuses=PAYMENT_STATUSES + ('Cancelled',))
 
 
 @invoices_bp.route('/admin/invoices/new', methods=['GET', 'POST'])
@@ -240,20 +243,20 @@ def admin_new():
     profile = company_profile()
     if request.method == 'GET':
         return render_template('admin/invoice_form.html', admin_tab='invoices',
-                               profile=profile, modes=PAYMENT_MODES)
+                               profile=profile, modes=PAYMENT_MODES, catalog=invoice_catalog.load())
 
     f = request.form
     name = (f.get('customer_name') or '').strip()[:160]
     if not name:
         flash('Customer name is required.', 'danger')
         return render_template('admin/invoice_form.html', admin_tab='invoices',
-                               profile=profile, modes=PAYMENT_MODES, form=f)
+                               profile=profile, modes=PAYMENT_MODES, form=f, catalog=invoice_catalog.load())
 
     items = _parse_items(f)
     if not items:
         flash('Add at least one line item with a description.', 'danger')
         return render_template('admin/invoice_form.html', admin_tab='invoices',
-                               profile=profile, modes=PAYMENT_MODES, form=f)
+                               profile=profile, modes=PAYMENT_MODES, form=f, catalog=invoice_catalog.load())
 
     try:
         gst_pct = float(f.get('gst_pct') or (profile['gst_rate_f'] * 100))
@@ -389,6 +392,9 @@ def _invoice_email(inv):
 @admin_required
 def admin_email(inv_id):
     inv = db.session.get(Invoice, inv_id) or abort(404)
+    if inv.cancelled:
+        flash('This invoice is cancelled. Reinstate it before sending.', 'danger')
+        return redirect(url_for('invoices.admin_detail', inv_id=inv.id))
     if not inv.customer_email:
         flash('Add a customer email to this invoice before sending.', 'danger')
         return redirect(url_for('invoices.admin_detail', inv_id=inv.id))
@@ -407,6 +413,9 @@ def admin_email(inv_id):
 @admin_required
 def admin_payment(inv_id):
     inv = db.session.get(Invoice, inv_id) or abort(404)
+    if inv.cancelled:
+        flash('This invoice is cancelled. Reinstate it before recording a payment.', 'danger')
+        return redirect(url_for('invoices.admin_detail', inv_id=inv.id))
     status = request.form.get('payment_status')
     inv.payment_mode = (request.form.get('payment_mode') or '').strip()[:60]
     inv.payment_ref = (request.form.get('payment_ref') or '').strip()[:120]
@@ -541,6 +550,55 @@ def public_receipt(token):
     return render_template('receipt_view.html', r=r, seller=r.seller, show_actions=False)
 
 
+@invoices_bp.route('/admin/invoices/<int:inv_id>/cancel', methods=['POST'])
+@admin_required
+def admin_cancel(inv_id):
+    """Cancel (void) an invoice: it keeps its number and stays on record as Cancelled, is left out of the totals and takes no further payments."""
+    inv = db.session.get(Invoice, inv_id) or abort(404)
+    if inv.cancelled:
+        return redirect(url_for('invoices.admin_detail', inv_id=inv.id))
+    reason = (request.form.get('reason') or '').strip()[:300]
+    if not reason:
+        flash('Give a reason for cancelling the invoice.', 'danger')
+        return redirect(url_for('invoices.admin_detail', inv_id=inv.id))
+    db.session.add(InvoiceCancel(invoice_id=inv.id, reason=reason, prev_status=inv.payment_status, cancelled_by=current_user.id))
+    inv.payment_status = 'Cancelled'
+    db.session.commit()
+    paid = inv.amount_paid or 0
+    flash(f'Invoice {inv.invoice_no} cancelled.' + (f' ₹{paid / 100:,.2f} had been received against it; its receipts stay on record, so refund or adjust that amount separately.' if paid else ''), 'success')
+    return redirect(url_for('invoices.admin_detail', inv_id=inv.id))
+
+
+@invoices_bp.route('/admin/invoices/<int:inv_id>/reinstate', methods=['POST'])
+@admin_required
+def admin_reinstate(inv_id):
+    inv = db.session.get(Invoice, inv_id) or abort(404)
+    if inv.cancelled:
+        c = inv.cancel_info
+        inv.payment_status = ('Paid' if (inv.amount_paid or 0) >= (inv.total or 0) > 0 else 'Partially Paid' if (inv.amount_paid or 0) > 0 else 'Unpaid')
+        if c:
+            db.session.delete(c)
+        db.session.commit()
+        flash(f'Invoice {inv.invoice_no} reinstated.', 'success')
+    return redirect(url_for('invoices.admin_detail', inv_id=inv.id))
+
+
+@invoices_bp.route('/admin/invoice-settings/catalog', methods=['POST'])
+@admin_required
+def admin_catalog():
+    """Save the item catalogue offered in the invoice form (names and prices), or reset it to the membership paths."""
+    if request.form.get('reset'):
+        invoice_catalog.reset()
+        flash('Item catalogue reset to the EduAakashaA membership paths.', 'info')
+        return redirect(url_for('invoices.admin_settings') + '#catalog')
+    names, prices, groups = request.form.getlist('cat_name'), request.form.getlist('cat_price'), request.form.getlist('cat_group')
+    drop = set(request.form.getlist('cat_remove'))
+    items = [{'name': n, 'price': p, 'group': (groups[i] if i < len(groups) else 'Other')} for i, (n, p) in enumerate(zip(names, prices)) if str(i) not in drop]
+    invoice_catalog.save(items)
+    flash('Item catalogue saved.', 'success')
+    return redirect(url_for('invoices.admin_settings') + '#catalog')
+
+
 @invoices_bp.route('/admin/invoices/<int:inv_id>/delete', methods=['POST'])
 @admin_required
 def admin_delete(inv_id):
@@ -580,4 +638,4 @@ def admin_settings():
         flash('Invoice settings saved.', 'success')
         return redirect(url_for('invoices.admin_settings'))
     return render_template('admin/invoice_settings.html', admin_tab='invoices',
-                           profile=company_profile())
+                           profile=company_profile(), catalog=invoice_catalog.load())

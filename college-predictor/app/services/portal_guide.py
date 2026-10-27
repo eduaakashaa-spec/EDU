@@ -50,6 +50,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-27', 'Invoices can be cancelled (with a reason, reinstatable) and the invoice form has a drop-down of EduAakashaA membership items with editable prices and an item catalogue in Invoice Settings.'),
     ('2026-10-27', 'Invoices show the saved bank details for payment (also on invoices issued earlier and in the invoice e-mail); the "GST is not charged" line is removed from invoices.'),
     ('2026-10-27', 'Invoices can be created without GST, and payment receipts (with or without GST) are issued for every payment or on their own: Admin > Finance > Payment receipts / New receipt.'),
     ('2026-10-27', 'Every Member Home tile now has a banner illustration (static/img/tiles); the Smart Study Planner tile keeps its own picture.'),
@@ -353,6 +354,8 @@ GUIDE = [
                 'Payment on the invoice page: enter the amount you just received (and mode and reference) and press "Record payment / issue receipt". Part payments are fine: each one gets its own receipt, and the invoice moves to Partially Paid, then Paid. Choosing Paid with no amount receipts the whole balance.',
                 'A receipt (RCPT/0001 and so on) shows the amount received, mode, reference, the invoice it is against and the balance still due. If the invoice has GST, the receipt shows the GST inside the amount; if not, it says GST is not charged.',
                 'Money received with no invoice: Finance > New receipt. Choose "Without GST" or "With GST (amount includes GST)", enter the payer, what it is for and the amount.',
+                'Writing an invoice: in each row open "Choose an item" and pick an EduAakashaA membership path (or any item you added); its name and listed price fill the row, and you can still edit the description and the rate. Press "+ Add item" for more rows. To change the items or their starting prices, use the Item catalogue in Finance > Invoice Settings (add, edit, remove, or reset to the membership prices).',
+                'Cancelling: open the invoice, type the reason and press "Cancel invoice". It keeps its number and shows as Cancelled (watermark, grey status), is left out of Total billed and Outstanding, and takes no payments or e-mails. If money had already been received, the receipts stay and you refund or adjust outside the system. "Reinstate invoice" brings it back.',
                 'Open any invoice or receipt to print or save it as PDF, copy the customer link, or e-mail it to the customer. Finance > Payment receipts lists and searches every receipt.'],
          tips=['Membership-application invoices are recorded separately and are unchanged by this.', 'Deleting an invoice keeps the receipts already issued for it.'],
          added='2026-10-27', updated='2026-10-27'),
