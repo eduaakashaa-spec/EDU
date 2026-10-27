@@ -43,7 +43,7 @@ CATEGORIES = [
     {'key': 'edupulse', 'title': 'EduPulse AI Tools', 'icon': '🧠', 'color': '#EA580C', 'tint': '#FFEBDD',
      'blurb': 'Daily reinforcement, mock tests and previous-year papers with a confidence check on every answer.',
      'tiles': [
-         {'title': 'Smart Study Planner', 'desc': 'A day-by-day plan for beginner, average or top-scorer level, linked to EduPulse practice, with reports and PDF templates.', 'icon': '🗓️', 'endpoint': 'planner.home', 'access': 'premium', 'banner': 'planner-banner.webp', 'banner_pos': '40% 82%'},
+         {'title': 'Smart Study Planner', 'desc': 'A day-by-day plan for beginner, average or top-scorer level, linked to EduPulse practice, with reports and PDF templates.', 'icon': '🗓️', 'endpoint': 'planner.home', 'access': 'premium'},
          {'title': 'Study planner mentor view', 'desc': 'Students\' plans, progress, streaks and EduPulse activity, with CSV export.', 'icon': '📊', 'endpoint': 'planner.mentor_home', 'access': 'premium', 'staff': True},
          {'title': 'EduPulse – Reinforcement', 'desc': 'Short daily practice from your mentor with a confidence check on every answer.', 'icon': '🔁', 'endpoint': 'reinforce.home', 'access': 'premium'},
          {'title': 'EduPulse-UCEED', 'desc': 'Chapter-wise MCQ practice with progress reports for you, your parent and mentor.', 'icon': '🎯', 'endpoint': 'pulse.home', 'access': 'premium'},
