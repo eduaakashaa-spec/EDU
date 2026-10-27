@@ -4,6 +4,8 @@
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
 <style>
+  body .hero-editorial.neet-hero{background:url('{{ url_for("static", filename="img/art/med-light.svg") }}') right center / cover no-repeat, var(--cream,#FFF8EE)}
+  @media (max-width:640px){body .hero-editorial.neet-hero{background-position:72% center,center}}
   .neet-status{display:inline-flex;align-items:center;gap:8px;background:#FFF1E6;border:1px solid #F5CBA7;color:#8A4B00;font:700 .72rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:6px 12px;border-radius:999px;margin-top:14px}
   .neet-status i{width:8px;height:8px;border-radius:50%;background:#FF6B0A;display:inline-block}
   .neet-pill{display:inline-block;font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:2px 9px;border-radius:999px;white-space:nowrap}
@@ -46,7 +48,7 @@
   </div>
 </div>
 
-<section class="hero-editorial">
+<section class="hero-editorial neet-hero">
   <div class="hero__glow"></div>
   <div class="container">
     <div class="hero-grid">

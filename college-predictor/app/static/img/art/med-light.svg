@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 620" preserveAspectRatio="xMaxYMid slice" aria-hidden="true">
+<defs>
+<radialGradient id="b1"><stop offset="0" stop-color="#FF6B0A" stop-opacity="0.16"/><stop offset="1" stop-color="#FF6B0A" stop-opacity="0"/></radialGradient>
+<radialGradient id="b2"><stop offset="0" stop-color="#1F8B5C" stop-opacity="0.12"/><stop offset="1" stop-color="#1F8B5C" stop-opacity="0"/></radialGradient>
+<linearGradient id="fade" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".32" stop-color="#fff" stop-opacity=".25"/><stop offset=".6" stop-color="#fff" stop-opacity="1"/></linearGradient>
+<mask id="m"><rect width="1600" height="620" fill="url(#fade)"/></mask>
+<style>
+.l{fill:none;stroke:#0E3A8A;stroke-opacity:0.2;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.l .a{stroke:#FF6B0A;stroke-opacity:0.38}
+.l .g{stroke:#1F8B5C;stroke-opacity:0.34}
+.l .t{stroke-width:2;stroke-opacity:0.15}
+.f{fill:#0E3A8A;fill-opacity:0.16;stroke:none}
+.fa{fill:#FF6B0A;fill-opacity:0.34;stroke:none}
+.d circle{fill:#FF6B0A;fill-opacity:0.24}
+</style>
+</defs>
+<circle cx="1420" cy="90" r="420" fill="url(#b1)"/>
+<circle cx="900" cy="560" r="460" fill="url(#b2)"/>
+<g mask="url(#m)">
+<!-- dot grid -->
+<g class="d"><circle cx="1000" cy="200" r="2.2"/><circle cx="1000" cy="222" r="2.2"/><circle cx="1000" cy="244" r="2.2"/><circle cx="1022" cy="200" r="2.2"/><circle cx="1022" cy="222" r="2.2"/><circle cx="1022" cy="244" r="2.2"/><circle cx="1044" cy="200" r="2.2"/><circle cx="1044" cy="222" r="2.2"/><circle cx="1044" cy="244" r="2.2"/></g>
+
+<g class="l">
+  <!-- medical cross in a rounded square -->
+  <rect x="900" y="70" width="104" height="104" rx="22"/>
+  <path class="a" d="M952 92v60M922 122h60"/>
+
+  <!-- stethoscope -->
+  <circle class="a" cx="1118" cy="86" r="8"/><circle class="a" cx="1218" cy="86" r="8"/>
+  <path d="M1118 94c0 90 18 140 50 158M1218 94c0 90-18 140-50 158"/>
+  <path d="M1168 252c0 130 150 130 150 30"/>
+  <circle cx="1318" cy="248" r="30"/><circle class="a" cx="1318" cy="248" r="13"/>
+
+  <!-- DNA double helix -->
+  <path d="M1470 40c62 52 62 104 0 156s-62 104 0 156 62 104 0 156"/>
+  <path d="M1470 40c-62 52-62 104 0 156s62 104 0 156-62 104 0 156"/>
+  <path class="t" d="M1442 80h56M1432 124h76M1432 168h76M1442 212h56M1432 256h76M1432 300h76M1442 344h56M1432 388h76M1432 432h76M1442 476h56"/>
+  <circle class="a" cx="1470" cy="196" r="5"/><circle class="a" cx="1470" cy="352" r="5"/>
+
+  <!-- capsule -->
+  <g transform="rotate(-35 1030 330)"><rect x="965" y="305" width="130" height="50" rx="25"/><path d="M1030 305v50"/><path class="f" d="M1030 305h40a25 25 0 0 1 0 50h-40z"/></g>
+
+  <!-- heart with pulse -->
+  <path class="g" d="M1330 470c-62-40-52-92-16-92 17 0 16 16 16 16s-1-16 16-16c36 0 46 52-16 92z" transform="translate(0 20)"/>
+
+  <!-- ECG heartbeat line -->
+  <path class="a" d="M820 560h120l26-36 28 74 34-122 32 100 26-16h260"/>
+
+  <!-- molecule ring -->
+  <path class="t" d="M1210 380l26-15 26 15v30l-26 15-26-15z"/>
+  <circle class="a" cx="1236" cy="365" r="4"/><circle cx="1262" cy="380" r="4"/><circle cx="1262" cy="410" r="4"/>
+  <path class="t" d="M1262 380l30-18M1262 410l30 18"/><circle cx="1294" cy="360" r="5"/><circle class="a" cx="1294" cy="430" r="5"/>
+
+  <!-- small plus signs -->
+  <path class="a t" d="M1110 400v24M1098 412h24M1390 120v24M1378 132h24"/>
+</g>
+</g>
+</svg>
