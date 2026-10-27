@@ -43,7 +43,7 @@ CATEGORIES = [
     {'key': 'edupulse', 'title': 'EduPulse AI Tools', 'icon': '🧠', 'color': '#EA580C', 'tint': '#FFEBDD',
      'blurb': 'Daily reinforcement, mock tests and previous-year papers with a confidence check on every answer.',
      'tiles': [
-         {'title': 'Smart Study Planner', 'desc': 'A day-by-day plan for beginner, average or top-scorer level, linked to EduPulse practice, with reports and PDF templates.', 'icon': '🗓️', 'endpoint': 'planner.home', 'access': 'premium', 'banner': 'planner-banner.webp'},
+         {'title': 'Smart Study Planner', 'desc': 'A day-by-day plan for beginner, average or top-scorer level, linked to EduPulse practice, with reports and PDF templates.', 'icon': '🗓️', 'endpoint': 'planner.home', 'access': 'premium', 'banner': 'planner-banner.webp', 'banner_pos': '40% 82%'},
          {'title': 'Study planner mentor view', 'desc': 'Students\' plans, progress, streaks and EduPulse activity, with CSV export.', 'icon': '📊', 'endpoint': 'planner.mentor_home', 'access': 'premium', 'staff': True},
          {'title': 'EduPulse – Reinforcement', 'desc': 'Short daily practice from your mentor with a confidence check on every answer.', 'icon': '🔁', 'endpoint': 'reinforce.home', 'access': 'premium'},
          {'title': 'EduPulse-UCEED', 'desc': 'Chapter-wise MCQ practice with progress reports for you, your parent and mentor.', 'icon': '🎯', 'endpoint': 'pulse.home', 'access': 'premium'},
@@ -123,12 +123,27 @@ _ICON_N = {_norm(k): v for k, v in TILE_ICON.items()}
 _NEW_N = {_norm(k): v for k, v in NEW_SINCE.items()}
 
 
+def slugify(title):
+    import re
+    return re.sub(r'[^a-z0-9]+', '-', _norm(title).lower()).strip('-')
+
+
+_TILE_ART = set()
+try:
+    import os as _os
+    _TILE_ART = {f[:-4] for f in _os.listdir(_os.path.join(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))), 'static', 'img', 'tiles')) if f.endswith('.svg')}
+except OSError:
+    pass
+
+
 def _decorate(t, today=None):
     """Icon, type tag, action label and New flag for one resolved tile."""
     today = today or date.today()
     title = t['title']
     low = title.lower()
     key = _norm(title)
+    if not t.get('banner') and slugify(title) in _TILE_ART:          # banner picture: static/img/tiles/<slug>.svg (made by tools/make_tile_banners.py, or replaced by hand)
+        t['banner'] = 'tiles/%s.svg' % slugify(title)
     t['ic'] = _ICON_N.get(key) or ('cap' if 'mentoring' in low else ('book' if 'guide' in low else 'grid'))
     if 'CAET' in title:
         t['ic'] = 'building'

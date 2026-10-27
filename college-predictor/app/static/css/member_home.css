@@ -175,5 +175,5 @@ a.md-card:hover .md-act svg { transform:translateX(3px); }
 
 /* tiles with a banner picture (e.g. Smart Study Planner) */
 .md-card--banner { padding-top:0; overflow:hidden; }
-.md-card-art { display:block; margin:0 -18px 0; height:150px; background-size:cover; background-position:40% 82%; background-color:#3a4fe0; }
+.md-card-art { display:block; margin:0 -18px 0; height:130px; background-size:cover; background-position:center; background-color:#3a4fe0; }
 .md-card--banner.is-locked .md-card-art { filter:saturate(.7) brightness(.95); }

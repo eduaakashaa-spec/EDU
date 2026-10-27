@@ -50,6 +50,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-27', 'Every Member Home tile now has a banner illustration (static/img/tiles); the Smart Study Planner tile keeps its own picture.'),
     ('2026-10-27', 'Smart Study Planner added: beginner, average and top-scorer plans, dashboards for students, mentors and admins, reports, EduPulse links, PDF templates and a daily motivational thought.'),
     ('2026-10-27', 'New "Medicine" tab in the site menu, a /medicine overview page and a Medicine group on Member Home; all medicine exam pages are kept there (list: services/medicine_hub.py).'),
     ('2026-10-27', 'NEET 2027 guide page added (public, with the premium alert); it states clearly what NTA has not announced yet.'),
@@ -427,6 +428,7 @@ GUIDE = [
          steps=['The guide is written in app/services/portal_guide.py. It is not a separate document, so it ships with every deploy.',
                 'Whenever a portal feature is added, changed or removed, edit the matching entry there and add a line at the top of the change log.',
                 'The automated test fails if a Member Home tile or a blueprint has no guide entry, so a new feature cannot go live undocumented.',
+                'New Member Home tile: run python tools/make_tile_banners.py to draw its banner (static/img/tiles/<tile-name>.svg). To use artwork made in a design tool such as Canva, save it over that file name (SVG, PNG or WebP renamed to .svg is not valid: export SVG, or tell the developer to switch the extension).',
                 'The "Updated" date at the top of this page and the "New" labels come from the dates in the file.'],
          added='2026-10-26', updated='2026-10-26'),
 ]
