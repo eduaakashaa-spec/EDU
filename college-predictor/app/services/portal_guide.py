@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-10-26'
+UPDATED = '2026-10-27'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -49,6 +49,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-27', 'Sign-up form now blocks bots (hidden field, form timer, per-address limit, name and disposable-e-mail checks); Admin > Members can select accounts, flag suspected bots and delete them in bulk.'),
     ('2026-10-26', 'TNEA Expert page shows the premium alert for 2026-27 data (all guide and analytics pages now carry it).'),
     ('2026-10-26', 'Added the portal guide itself, with a section for each role, and the rule that keeps it up to date.'),
     ('2026-10-26', 'JEE Main 2024 (1 Feb, Shift 1) solved paper added to EduPulse-JEE and to the Reinforcement question bank.'),
@@ -293,8 +294,11 @@ GUIDE = [
          steps=['Open People > Members. Search by name or e-mail.',
                 '+ Add member creates an account (the login details are e-mailed).',
                 'Choose the plan (free, premium, mentor, ea_mentor, admin) and an end date, then Save plan. Premium gives access to every premium tool until the end date.',
-                'Use Change e-mail or Reset password when a member asks.'],
-         tips=['Give EduAakashaA mentors the "ea_mentor" plan; they then see the mentor menu and tools.'],
+                'Use Change e-mail or Reset password when a member asks.',
+                'Clean-up of fake sign-ups: accounts that look automated carry a red "suspect" label. Tick "Suspected bots only" to list them, tick rows (or "Select all on this page") and press "Delete selected", or press "Delete all suspected bots".',
+                'Only free accounts with no activity at all are deleted. Premium, mentor, admin and any account with predictions, payments, profiles, attempts or enrolments are skipped and listed in the result message.'],
+         tips=['Give EduAakashaA mentors the "ea_mentor" plan; they then see the mentor menu and tools.',
+                'The sign-up form refuses bots (a hidden field, a form timer, three accounts per address per hour, random-looking names and disposable e-mail domains). Refusals are kept in the sign-up log table with the reason.'],
          added='2026-10-26', updated='2026-10-26'),
     dict(id='a-apps', role='admin', group='People', title='Membership applications, invoices and payment', summary='From "Register your interest" to active Premium.',
          where=[('Applications', 'membership.admin_list'), ('Invoices', 'invoices.admin_list')],

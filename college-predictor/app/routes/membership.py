@@ -496,6 +496,18 @@ def admin_users():
         query = query.filter(db.or_(User.name.ilike(like), User.email.ilike(like)))
     if tier_filter in ('free', 'premium', 'ea_mentor', 'admin'):
         query = query.filter(User.tier == tier_filter)
+    from app.services import signup_guard
+    suspects_only = request.args.get('suspect') == '1'
+    all_suspects = [u.id for u in User.query.filter(User.tier == 'free').all() if signup_guard.suspect_reason(u)]
+    if suspects_only:
+        query = query.filter(User.id.in_(all_suspects or [0]))
+    day = (request.args.get('joined') or '').strip()
+    if day:
+        try:
+            d0 = datetime.strptime(day, '%Y-%m-%d')
+            query = query.filter(User.created_at >= d0, User.created_at < d0 + timedelta(days=1))
+        except ValueError:
+            day = ''
 
     pagination = (query.order_by(User.created_at.desc())
                   .paginate(page=page, per_page=25, error_out=False))
@@ -509,6 +521,8 @@ def admin_users():
                          User.tier_expires_at <= now))).one()
     stats = {'total': total, 'premium': premium, 'admin': admin,
              'expired': expired}
+    from app.services.signup_guard import suspect_reason
     return render_template('admin/users_list.html', admin_tab='users',
                            pagination=pagination, rows=pagination.items,
-                           stats=stats, q=q, tier_filter=tier_filter)
+                           stats=stats, q=q, tier_filter=tier_filter, suspects_only=suspects_only, n_suspects=len(all_suspects), joined=day,
+                           suspect_of=suspect_reason)

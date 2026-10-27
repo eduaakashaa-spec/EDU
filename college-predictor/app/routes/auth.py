@@ -4,6 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.decorators import safe_next
 from app.extensions import db, bcrypt
 from app.models import User, ContactInquiry
+from app.services import signup_guard
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -73,6 +74,17 @@ def register():
         password = request.form.get('password') or ''
         confirm = request.form.get('confirm') or ''
 
+        ip = signup_guard.client_ip(request)
+        why = signup_guard.blocked_reason(request.form, ip)
+        if why:
+            signup_guard.log(ip, email, why)
+            if why == 'honeypot':                                  # a bot: look like it worked, create nothing
+                return redirect(url_for('auth.login'))
+            msg = {'rate_limited': 'Too many sign-up attempts from this connection. Please try again later or contact us.',
+                   'bad_name': 'Please enter your real full name.', 'disposable': 'Please use a permanent e-mail address.'}.get(why, 'Please check your details and try again.')
+            flash(msg, 'danger')
+            return render_template('auth/register.html', form_token=signup_guard.form_token())
+
         errors = []
         if not name:
             errors.append('Name is required.')
@@ -88,18 +100,20 @@ def register():
         if errors:
             for e in errors:
                 flash(e, 'danger')
-            return render_template('auth/register.html')
+            signup_guard.log(ip, email, 'duplicate' if any('already exists' in e for e in errors) else 'invalid')
+            return render_template('auth/register.html', form_token=signup_guard.form_token())
 
         pw_hash = bcrypt.generate_password_hash(password).decode('utf-8')
         user = User(name=name, email=email, password_hash=pw_hash, tier='free')
         db.session.add(user)
         db.session.commit()
+        signup_guard.log(ip, email, 'created')
 
         login_user(user)
         flash('Account created! Welcome to EduAakashaA.', 'success')
         return redirect(url_for('main.home'))
 
-    return render_template('auth/register.html')
+    return render_template('auth/register.html', form_token=signup_guard.form_token())
 
 
 @auth_bp.route('/logout')

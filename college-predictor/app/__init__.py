@@ -76,6 +76,7 @@ def create_app():
         from app import models_mentorship  # noqa: F401 – mentorship portal tables
         from app import models_pulse  # noqa: F401 – EduPulse-UCEED question bank + progress
         from app import models_reinforce  # noqa: F401 – EduPulse-Reinforcement tables
+        from app import models_security  # noqa: F401 – sign-up log
         from app.futureready import models as _fr_models  # noqa: F401 – FutureReady (Class 8-9) tables
         db.create_all()
 

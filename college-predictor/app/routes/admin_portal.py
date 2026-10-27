@@ -546,6 +546,27 @@ def user_password(user_id):
     return redirect(_users_url())
 
 
+@admin_portal_bp.route('/admin/users/bulk-delete', methods=['POST'])
+@admin_required
+def users_bulk_delete():
+    """Delete several free accounts at once. Only free accounts that nothing else points at are removed; everything else is skipped and reported.
+    mode=selected deletes the ticked rows; mode=suspects deletes every free account that looks automated (random-looking name, disposable domain, many-dot e-mail)."""
+    from app.services import signup_guard
+    if request.form.get('mode') == 'suspects':
+        ids = [u.id for u in User.query.filter(User.tier == 'free').all() if signup_guard.suspect_reason(u)]
+    else:
+        ids = [int(x) for x in request.form.getlist('ids') if x.isdigit()]
+    if not ids:
+        flash('Nothing selected.', 'info')
+        return redirect(_users_url())
+    deleted, skipped = signup_guard.delete_unused(ids, current_user.id)
+    msg = 'Deleted %d account(s).' % len(deleted)
+    if skipped:
+        msg += ' Skipped %d: %s.' % (len(skipped), '; '.join('%s (%s)' % s for s in skipped[:5]) + (' ...' if len(skipped) > 5 else ''))
+    flash(msg, 'success' if deleted else 'info')
+    return redirect(_users_url())
+
+
 @admin_portal_bp.route('/admin/users/<int:user_id>/delete', methods=['POST'])
 @admin_required
 def user_delete(user_id):

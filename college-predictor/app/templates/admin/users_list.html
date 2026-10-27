@@ -58,20 +58,38 @@
       <option value="{{ t }}" {{ 'selected' if tier_filter == t }}>{{ t }}</option>
       {% endfor %}
     </select>
+    <input type="date" name="joined" value="{{ joined }}" title="Joined on" style="width:auto;">
+    <label style="display:flex;align-items:center;gap:6px;margin:0;text-transform:none;letter-spacing:0;font-size:13px;"><input type="checkbox" name="suspect" value="1" {{ 'checked' if suspects_only }}> Suspected bots only</label>
     <button class="btn btn-navy" type="submit">Search</button>
     <a class="btn btn-ghost" href="{{ url_for('membership.admin_users') }}">Reset</a>
   </form>
 
+  <form id="bulkForm" method="post" action="{{ url_for('admin_portal.users_bulk_delete') }}" class="adm-bar" style="margin-top:-6px;align-items:center;">
+    <input type="hidden" name="next" value="{{ request.full_path.rstrip('?') }}">
+    <label style="display:flex;align-items:center;gap:6px;margin:0;text-transform:none;letter-spacing:0;font-size:13px;"><input type="checkbox" id="selAll"> Select all on this page</label>
+    <button class="btn btn-red btn-sm" type="submit" name="mode" value="selected" onclick="return bulkConfirm(this)">Delete selected</button>
+    <button class="btn btn-ghost btn-sm" type="submit" name="mode" value="suspects" {{ 'disabled' if not n_suspects }}
+            onclick="return confirm('Delete ALL {{ n_suspects }} suspected bot accounts? Only free accounts with no activity are removed; this cannot be undone.');">
+      Delete all suspected bots ({{ n_suspects }})</button>
+    <span style="color:var(--muted);font-size:12.5px;">Only free accounts with no activity are deleted; paid, mentor, admin and linked accounts are skipped.</span>
+  </form>
+  <script>
+    function bulkConfirm(b){var n=document.querySelectorAll('input[name="ids"]:checked').length;if(!n){alert('Tick at least one member first.');return false;}return confirm('Delete '+n+' selected account(s)? Only free accounts with no activity are removed; this cannot be undone.');}
+    document.addEventListener('DOMContentLoaded',function(){var a=document.getElementById('selAll');if(a)a.addEventListener('change',function(){document.querySelectorAll('input[name="ids"]').forEach(function(c){if(!c.disabled)c.checked=a.checked;});});});
+  </script>
+
   <div class="adm-table-wrap">
     <table class="adm-table">
       <thead><tr>
-        <th>Joined</th><th>Member</th><th>Plan</th><th>Valid until</th><th>Status</th><th>Manage</th>
+        <th></th><th>Joined</th><th>Member</th><th>Plan</th><th>Valid until</th><th>Status</th><th>Manage</th>
       </tr></thead>
       <tbody>
         {% for u in rows %}
+        {% set sus = suspect_of(u) %}
         <tr>
+          <td><input type="checkbox" name="ids" value="{{ u.id }}" form="bulkForm" aria-label="Select {{ u.email }}" {{ 'disabled' if u.tier != 'free' or u.id == current_user.id }}></td>
           <td>{{ u.created_at.strftime('%d %b %Y') if u.created_at }}</td>
-          <td>{{ u.name }}<div style="color:var(--muted); font-size:12px;">{{ u.email }}</div></td>
+          <td>{{ u.name }}{% if sus %} <span class="pill" style="background:#FDECEC;color:#C23A3A;" title="{{ sus }}">suspect</span>{% endif %}<div style="color:var(--muted); font-size:12px;">{{ u.email }}</div></td>
           <td><span class="pill pill-{{ u.tier }}">{{ u.tier }}</span></td>
           <td>{{ u.tier_expires_at.strftime('%d %b %Y') if u.tier_expires_at else '—' }}</td>
           <td>
@@ -136,7 +154,7 @@
           </td>
         </tr>
         {% else %}
-        <tr><td colspan="6" style="text-align:center; padding:40px; color:var(--muted);">No users match.</td></tr>
+        <tr><td colspan="7" style="text-align:center; padding:40px; color:var(--muted);">No users match.</td></tr>
         {% endfor %}
       </tbody>
     </table>
@@ -144,14 +162,14 @@
 
   {% if pagination.pages > 1 %}
   <div class="adm-pager">
-    {% if pagination.has_prev %}<a href="{{ url_for('membership.admin_users', page=pagination.prev_num, q=q, tier=tier_filter) }}">‹ Prev</a>{% endif %}
+    {% if pagination.has_prev %}<a href="{{ url_for('membership.admin_users', page=pagination.prev_num, q=q, tier=tier_filter, suspect=('1' if suspects_only else None), joined=joined or None) }}">‹ Prev</a>{% endif %}
     {% for p in pagination.iter_pages() %}
       {% if p %}
         {% if p == pagination.page %}<span class="cur">{{ p }}</span>
-        {% else %}<a href="{{ url_for('membership.admin_users', page=p, q=q, tier=tier_filter) }}">{{ p }}</a>{% endif %}
+        {% else %}<a href="{{ url_for('membership.admin_users', page=p, q=q, tier=tier_filter, suspect=('1' if suspects_only else None), joined=joined or None) }}">{{ p }}</a>{% endif %}
       {% else %}<span>…</span>{% endif %}
     {% endfor %}
-    {% if pagination.has_next %}<a href="{{ url_for('membership.admin_users', page=pagination.next_num, q=q, tier=tier_filter) }}">Next ›</a>{% endif %}
+    {% if pagination.has_next %}<a href="{{ url_for('membership.admin_users', page=pagination.next_num, q=q, tier=tier_filter, suspect=('1' if suspects_only else None), joined=joined or None) }}">Next ›</a>{% endif %}
   </div>
   {% endif %}
 
