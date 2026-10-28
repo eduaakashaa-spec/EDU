@@ -336,7 +336,7 @@ def mentor_desk():
     since = datetime.now(timezone.utc).replace(tzinfo=None) - timedelta(days=30)
     awaiting = (DocVerification.query.filter(DocVerification.status == 'Submitted').count())
     stats = {
-        'members': User.query.filter(User.tier == 'premium').count(),
+        'members': User.query.filter(User.tier.in_(('premium', 'elite'))).count(),
         'docs_waiting': awaiting,
         'assessments_30d': AssessmentResult.query.filter(AssessmentResult.created_at >= since).count(),
         'assessments_total': AssessmentResult.query.count(),
@@ -354,7 +354,7 @@ def admin_doc_list():
     page = request.args.get('page', 1, type=int)
 
     # premium members (admins can request docs from paying members)
-    query = User.query.filter(User.tier == 'premium')
+    query = User.query.filter(User.tier.in_(('premium', 'elite')))
     if q:
         like = f'%{q}%'
         query = query.filter(db.or_(User.name.ilike(like), User.email.ilike(like)))

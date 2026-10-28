@@ -18,6 +18,8 @@ from app.services.email_templates import EMAIL_TEMPLATES
 
 app = create_app()
 app.config['TESTING'] = True
+for _k in ('BANK_AC_NAME', 'BANK_AC_NO', 'BANK_IFSC', 'BANK_NAME', 'BANK_BRANCH'):
+    app.config['COMPANY'][_k] = ''          # the shipped defaults carry the real account; this test starts with none saved
 with app.app_context():
     db.create_all()
     db.session.add(User(name='Admin', email='a@x.com', tier='admin', password_hash=bcrypt.generate_password_hash('x').decode()))

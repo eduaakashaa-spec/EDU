@@ -14,7 +14,7 @@
     <strong>Choice-filling guidance, not an allotment guarantee.</strong>
     Latest 2026&ndash;27 admission data and analytics are part of Premium Membership.
     {% if current_user.is_authenticated and current_user.is_premium %}
-    <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier == 'premium' and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+    <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
     {% else %}
     <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
     {% endif %}

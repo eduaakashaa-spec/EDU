@@ -20,7 +20,7 @@
 
   <div class="adm-kpis">
     <div class="adm-kpi"><div class="n">{{ stats.total }}</div><div class="l">Total Users</div></div>
-    <div class="adm-kpi"><div class="n">{{ stats.premium }}</div><div class="l">Premium</div></div>
+    <div class="adm-kpi"><div class="n">{{ stats.premium }}</div><div class="l">Premium + Elite</div></div>
     <div class="adm-kpi"><div class="n">{{ stats.admin }}</div><div class="l">Admins</div></div>
     <div class="adm-kpi"><div class="n">{{ stats.expired }}</div><div class="l">Expired premium</div></div>
   </div>
@@ -36,6 +36,7 @@
         <select name="tier">
           <option value="free">free</option>
           <option value="premium" selected>premium</option>
+          <option value="elite">elite (Elite Mentorship — premium tools + mentorship portal)</option>
           <option value="ea_mentor">ea_mentor (EA mentor — student records)</option>
           <option value="admin">admin</option>
         </select>
@@ -54,7 +55,7 @@
     <input type="text" name="q" value="{{ q }}" placeholder="Search name or email…" style="flex:1; min-width:200px;">
     <select name="tier">
       <option value="">All tiers</option>
-      {% for t in ['free','premium','ea_mentor','admin'] %}
+      {% for t in ['free','premium','elite','ea_mentor','admin'] %}
       <option value="{{ t }}" {{ 'selected' if tier_filter == t }}>{{ t }}</option>
       {% endfor %}
     </select>
@@ -90,11 +91,11 @@
           <td><input type="checkbox" name="ids" value="{{ u.id }}" form="bulkForm" aria-label="Select {{ u.email }}" {{ 'disabled' if u.tier != 'free' or u.id == current_user.id }}></td>
           <td>{{ u.created_at.strftime('%d %b %Y') if u.created_at }}</td>
           <td>{{ u.name }}{% if sus %} <span class="pill" style="background:#FDECEC;color:#C23A3A;" title="{{ sus }}">suspect</span>{% endif %}<div style="color:var(--muted); font-size:12px;">{{ u.email }}</div></td>
-          <td><span class="pill pill-{{ u.tier }}">{{ u.tier }}</span></td>
+          <td><span class="pill pill-{{ u.tier }}">{{ u.tier }}</span>{% if n_access.get(u.id) %} <a class="pill" style="background:#E1E9F7;color:#0E3A8A;text-decoration:none;" href="{{ url_for('admin_portal.user_access', user_id=u.id) }}" title="Custom tool access">{{ n_access[u.id] }} custom</a>{% endif %}</td>
           <td>{{ u.tier_expires_at.strftime('%d %b %Y') if u.tier_expires_at else '—' }}</td>
           <td>
             {% if u.is_premium %}<span class="pill pill-premium">active</span>
-            {% elif u.tier == 'premium' %}<span class="pill pill-expired">expired</span>
+            {% elif u.tier in ('premium', 'elite') %}<span class="pill pill-expired">expired</span>
             {% else %}<span class="pill pill-free">free</span>{% endif %}
           </td>
           <td style="white-space:normal; min-width:340px;">
@@ -106,7 +107,7 @@
                   <div>
                     <label>Plan</label>
                     <select name="tier">
-                      {% for t in ['free','premium','ea_mentor','admin'] %}
+                      {% for t in ['free','premium','elite','ea_mentor','admin'] %}
                       <option value="{{ t }}" {{ 'selected' if u.tier == t }}>{{ t }}</option>
                       {% endfor %}
                     </select>
@@ -121,6 +122,8 @@
                   </label>
                   <button class="btn btn-navy btn-sm" type="submit">Save plan</button>
                 </form>
+
+                <div style="align-self:end;"><a class="btn btn-ghost btn-sm" href="{{ url_for('admin_portal.user_access', user_id=u.id) }}">Tool access →</a></div>
 
                 <form method="post" action="{{ url_for('admin_portal.user_email', user_id=u.id) }}">
                   <div>

@@ -44,7 +44,8 @@ TIER_PRICES = {
 
 # Paths whose payment switches on the Premium portal (members-only tools:
 # DASA insights & analytics, Choice Builder simulator, personalised reports).
-PORTAL_ACCESS_TIERS = {PORTAL_TIER, 'EduPulse – UCEED', 'EduPulse – JEE'}   # EduPulse needs the premium portal
+ELITE_TIERS = {'Elite Mentorship'}                  # payment switches on the Elite role: premium tools plus the mentorship portal
+PORTAL_ACCESS_TIERS = {PORTAL_TIER, 'EduPulse – UCEED', 'EduPulse – JEE'} | ELITE_TIERS   # EduPulse needs the premium portal
 PORTAL_ACCESS_DAYS = 365
 
 # Application lifecycle
@@ -301,3 +302,19 @@ class DocSequence(db.Model):
     def next_formatted(self, width=4):
         self.value += 1
         return f'{self.prefix}{str(self.value).zfill(width)}'
+
+
+class UserToolAccess(db.Model):
+    """A per-person exception to the tier rules for one portal tool (Admin -> Users -> Tool access).
+
+    mode 'allow' opens a premium tool for someone without it (or the mentorship portal for a premium member); 'deny' switches a tool off for someone who would
+    normally have it. No row means "follow the tier". tool_key is the Member Home tile slug (services/tool_access.py)."""
+    __tablename__ = 'user_tool_access'
+    __table_args__ = (db.UniqueConstraint('user_id', 'tool_key', name='uq_user_tool'),)
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False, index=True)
+    tool_key = db.Column(db.String(80), nullable=False)
+    mode = db.Column(db.String(8), nullable=False)               # 'allow' | 'deny'
+    updated_by = db.Column(db.String(200), default='')
+    updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None))

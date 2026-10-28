@@ -4,7 +4,7 @@ Two tiers gate the member-facing and staff-facing areas migrated from the
 legacy Hostinger site, which used a separate password on every page. Here that
 is replaced by our own RBAC:
 
-    premium_required  — Premium Membership pages (member perks / tools)
+    premium_required  — Premium Membership pages (member perks / tools); an admin's per-person allow/deny exception can open or close one tool
     admin_required    — EA Team / Counsellor Portal (internal staff tools)
 
 `is_premium` already returns True for admins (see app.models.User), so admins
@@ -38,6 +38,12 @@ def safe_next(target):
     return None
 
 
+def _tool_off(staff_gate=False):
+    """True when an admin has switched this page's tool off for the signed-in person (Admin -> Users -> Tool access)."""
+    from app.services import tool_access
+    return tool_access.request_mode(current_user, staff_gate) == 'deny'
+
+
 def admin_required(f):
     """Allow only logged-in users with the 'admin' tier."""
     @wraps(f)
@@ -64,6 +70,8 @@ def staff_required(f):
             return redirect(url_for('auth.login', next=request.path))
         if not current_user.is_staff:
             abort(403)
+        if _tool_off(staff_gate=True):
+            return render_template('tool_blocked.html'), 403
         return f(*args, **kwargs)
     return wrapped
 
@@ -77,6 +85,8 @@ def mentor_required(f):
             return redirect(url_for('auth.login', next=request.path))
         if not current_user.is_mentor:
             abort(403)
+        if _tool_off(staff_gate=True):
+            return render_template('tool_blocked.html'), 403
         return f(*args, **kwargs)
     return wrapped
 
@@ -93,7 +103,11 @@ def premium_required(f):
         if not current_user.is_authenticated:
             flash('Please log in to access premium member tools.', 'info')
             return redirect(url_for('auth.login', next=request.path))
-        if not current_user.is_premium:
+        from app.services import tool_access
+        mode = tool_access.request_mode(current_user)
+        if mode == 'deny':
+            return render_template('tool_blocked.html'), 403
+        if not (current_user.is_premium or mode == 'allow'):
             return render_template('premium_locked.html'), 403
         return f(*args, **kwargs)
     return wrapped

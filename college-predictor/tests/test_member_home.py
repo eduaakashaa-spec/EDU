@@ -57,7 +57,8 @@ assert page.count('href="/members-registration"') >= 20
 # premium member: unlocked
 pc, _ = client('prem@ex.com')
 ppage = pc.get('/member-home').get_data(as_text=True)
-assert 'Premium member' in ppage and 'md-b-lock' not in ppage and 'Unlock with membership' not in ppage and 'Members only' in ppage
+assert 'Premium member' in ppage and 'Unlock with membership' not in ppage and 'Members only' in ppage
+assert ppage.count('md-b-lock') == 1 and 'Elite Mentorship members' in ppage            # premium opens every premium tool except the mentorship portal (Elite)
 
 # details + photo
 assert b'not a valid' in c.post('/member-home/details', data={'photo': (io.BytesIO(b'x' * 80), 'a.png')},

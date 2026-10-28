@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Elite Mentorship Members Only | EduAakashaA{% endblock %}
+{# this page is itself the upsell — no extra notice #}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">🔒 Elite Mentorship</span>
+    <h1>The mentorship portal is for <span>Elite members</span></h1>
+    <p>Your Premium membership opens every premium tool, but the mentorship portal &mdash; sessions, weekly plan, KPIs, reviews and your progress report &mdash; belongs to Elite Mentorship. Talk to us to move to Elite and we will switch it on.</p>
+    <div class="final-cta__btns" style="margin-top:26px;">
+      <a href="{{ url_for('mentorship.addons') }}" class="btn-main">See mentoring programmes</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Talk to us on WhatsApp</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

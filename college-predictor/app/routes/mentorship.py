@@ -65,13 +65,15 @@ def _float(name):
         return None
 
 
-def _ctx(eid, need=None):
-    """Load an enrolment and the caller's role, or 404/403. Students must hold Premium."""
+def _ctx(eid, need=None, gate=True):
+    """Load an enrolment and the caller's role, or 404/403. Students need Elite Mentorship access (Premium alone is not enough); the workspace page passes gate=False to show its own explanation."""
     e = db.session.get(MsEnrolment, eid) or abort(404)
     role = svc.role_for(e, current_user)
     if role is None:
         abort(404)
     if need and role not in need:
+        abort(403)
+    if gate and _premium_gate(role):
         abort(403)
     return e, role
 
@@ -84,8 +86,9 @@ STAFF = ('mentor', 'admin')
 
 
 def _premium_gate(role):
-    """A student's access depends on live Premium status; parents/staff are not gated by it."""
-    return role == 'student' and not current_user.is_premium
+    """A student's access depends on live Elite status (or an admin's allow exception); parents/staff are not gated by it."""
+    from app.services import tool_access
+    return role == 'student' and not tool_access.has_mentorship(current_user)
 
 
 # --------------------------------------------------------------------------- #
@@ -102,8 +105,8 @@ def index():
     mine = as_student + [e for e in as_parent if e not in as_student]
     if not mine:
         return render_template('mentorship/not_enrolled.html')
-    if as_student and not as_parent and not current_user.is_premium:
-        return render_template('premium_locked.html'), 403
+    if as_student and not as_parent and _premium_gate('student'):
+        return render_template('elite_locked.html'), 403
     if len(mine) == 1:
         return redirect(url_for('mentorship.workspace', eid=mine[0].id, tab='home'))
     return render_template('mentorship/choose.html', enrolments=mine)
@@ -212,9 +215,9 @@ def mentor_home():
 @mentorship_bp.route('/e/<int:eid>/<tab>')
 @login_required
 def workspace(eid, tab):
-    e, role = _ctx(eid)
+    e, role = _ctx(eid, gate=False)
     if _premium_gate(role):
-        return render_template('premium_locked.html'), 403
+        return render_template('elite_locked.html'), 403
     tabs = svc.tabs_for(role)
     if tab not in {t[0] for t in tabs}:
         abort(404)

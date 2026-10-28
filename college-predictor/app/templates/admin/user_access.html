@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Tool access — {{ u.name }} — Admin · EduAakashaa{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .ta-grp{margin:0 0 14px}.ta-grp h2{font-size:1rem;margin:0 0 6px}
+  .ta-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 14px;align-items:center;padding:8px 0;border-top:1px solid var(--hairline,#E8DFC8)}
+  .ta-row:first-of-type{border-top:0}
+  .ta-t{font-weight:700;font-size:.92rem}.ta-t small{font-weight:500;color:var(--muted);margin-left:6px}
+  .ta-d{grid-column:1;color:var(--muted);font-size:.8rem;line-height:1.4}
+  .ta-opts{display:inline-flex;border:1px solid var(--hairline,#E8DFC8);border-radius:10px;overflow:hidden;grid-row:1 / span 2;grid-column:2}
+  .ta-opts label{margin:0;padding:6px 12px;font-size:.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;background:var(--paper,#FFFDF7)}
+  .ta-opts label+label{border-left:1px solid var(--hairline,#E8DFC8)}
+  .ta-opts input{width:auto;margin:0}
+  .ta-opts label.is-allow:has(input:checked){background:rgba(31,139,92,.16);color:#1F8B5C}
+  .ta-opts label.is-deny:has(input:checked){background:rgba(194,58,58,.14);color:#C23A3A}
+  .ta-opts label.is-off{opacity:.45;cursor:not-allowed}
+  .ta-def{font:700 .62rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-left:8px}
+  .ta-def.open{background:rgba(31,139,92,.15);color:#1F8B5C}.ta-def.closed{background:#EEE;color:#666}
+  @media (max-width:640px){.ta-row{grid-template-columns:1fr}.ta-opts{grid-row:auto;grid-column:1}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  <div class="adm-top"><div>
+    <div class="adm-eyebrow"><a href="{{ url_for('membership.admin_users') }}" style="color:var(--navy);text-decoration:none;">← Members</a></div>
+    <h1>Tool access: {{ u.name }}</h1>
+  </div></div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-card" style="margin-bottom:16px;">
+    <p style="margin:0 0 6px;"><b>{{ u.email }}</b> &middot; plan <span class="pill pill-{{ u.tier }}">{{ u.tier }}</span>
+      {% if u.tier_expires_at %}until {{ u.tier_expires_at.strftime('%d %b %Y') }}{% endif %}
+      {% if n_custom %}&middot; <b>{{ n_custom }}</b> custom setting{{ '' if n_custom == 1 else 's' }}{% endif %}</p>
+    <p style="color:var(--muted);font-size:.86rem;margin:0;max-width:820px;line-height:1.5">By default the plan decides: <b>Premium</b> opens the premium tools, <b>Elite</b> adds the mentorship portal, and the team opens its own tools. Use <b>Allow</b> to open one tool for this person, or <b>Block</b> to switch one off. Allow works for premium tools and the mentorship portal; team-only tools can only be blocked. Changes apply the next time the person opens the page.</p>
+  </div>
+
+  {% if u.is_admin %}
+  <div class="adm-card"><p style="margin:0">Admins always have every tool, so there is nothing to customise here.</p></div>
+  {% else %}
+  <form method="post" action="{{ url_for('admin_portal.user_access', user_id=u.id) }}">
+    {% for g in groups %}
+    <div class="adm-card ta-grp"><h2>{{ g.title }}</h2>
+      {% for t in g.tools %}
+      <div class="ta-row">
+        <div class="ta-t">{{ t.title }}{% if t.staff %}<small>team tool</small>{% elif t.access == 'elite' %}<small>Elite</small>{% endif %}<span class="ta-def {{ t.default }}" title="What this person's plan gives without a custom setting">plan: {{ t.default }}</span></div>
+        <div class="ta-opts" role="radiogroup" aria-label="{{ t.title }}">
+          <label><input type="radio" name="m_{{ t.key }}" value="" {{ 'checked' if not t.mode }}> Follow plan</label>
+          <label class="is-allow {{ 'is-off' if t.staff }}"><input type="radio" name="m_{{ t.key }}" value="allow" {{ 'checked' if t.mode == 'allow' }} {{ 'disabled' if t.staff }}> Allow</label>
+          <label class="is-deny"><input type="radio" name="m_{{ t.key }}" value="deny" {{ 'checked' if t.mode == 'deny' }}> Block</label>
+        </div>
+        <div class="ta-d">{{ t.desc }}</div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+    <div style="display:flex;gap:10px;position:sticky;bottom:10px;">
+      <button class="btn btn-navy" type="submit">Save tool access</button>
+      <button class="btn btn-ghost" type="submit" name="reset" value="1" onclick="return confirm('Remove every custom setting for this person?')">Reset to plan rules</button>
+    </div>
+  </form>
+  {% endif %}
+</div></div>
+{% endblock %}

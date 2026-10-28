@@ -28,7 +28,7 @@ from app.extensions import db
 from app.decorators import admin_required
 from app.models_membership import (MembershipApplication, MembershipInvoice,
                                    DocSequence, TIERS, APP_STATUSES, TIER_PRICES,
-                                   PORTAL_ACCESS_TIERS, PORTAL_ACCESS_DAYS)
+                                   PORTAL_ACCESS_TIERS, PORTAL_ACCESS_DAYS, ELITE_TIERS)
 from app.services.pricing import compute_totals, rupees, to_paise
 from app.services.queries import count_if
 
@@ -75,11 +75,13 @@ def _grant_portal_access(app_row):
     if user.tier == 'admin':
         return True, f'{user.email} is an admin — already has full access.'
     now = datetime.now(timezone.utc).replace(tzinfo=None)
-    base = user.tier_expires_at if (user.tier == 'premium' and user.tier_expires_at
+    target = 'elite' if (app_row.tier in ELITE_TIERS or user.tier == 'elite') else 'premium'      # never move an Elite member down to Premium
+    base = user.tier_expires_at if (user.tier in ('premium', 'elite') and user.tier_expires_at
                                     and user.tier_expires_at > now) else now
-    user.tier = 'premium'
+    user.tier = target
     user.tier_expires_at = base + timedelta(days=PORTAL_ACCESS_DAYS)
-    return True, (f'Premium portal access active for {user.email} until '
+    label = 'Elite Mentorship (premium tools and the mentorship portal)' if target == 'elite' else 'Premium portal'
+    return True, (f'{label} access active for {user.email} until '
                   f'{user.tier_expires_at.strftime("%d %b %Y")}.')
 
 
@@ -494,7 +496,7 @@ def admin_users():
     if q:
         like = f'%{q}%'
         query = query.filter(db.or_(User.name.ilike(like), User.email.ilike(like)))
-    if tier_filter in ('free', 'premium', 'ea_mentor', 'admin'):
+    if tier_filter in ('free', 'premium', 'elite', 'ea_mentor', 'admin'):
         query = query.filter(User.tier == tier_filter)
     from app.services import signup_guard
     suspects_only = request.args.get('suspect') == '1'
@@ -514,15 +516,18 @@ def admin_users():
     now = datetime.now(timezone.utc).replace(tzinfo=None)
     total, premium, admin, expired = db.session.query(
         db.func.count(User.id),
-        count_if(User.tier == 'premium'),
+        count_if(User.tier.in_(('premium', 'elite'))),
         count_if(User.tier == 'admin'),
-        count_if(db.and_(User.tier == 'premium',
+        count_if(db.and_(User.tier.in_(('premium', 'elite')),
                          User.tier_expires_at.isnot(None),
                          User.tier_expires_at <= now))).one()
     stats = {'total': total, 'premium': premium, 'admin': admin,
              'expired': expired}
     from app.services.signup_guard import suspect_reason
-    return render_template('admin/users_list.html', admin_tab='users',
+    from app.models_membership import UserToolAccess
+    ids = [u.id for u in pagination.items]
+    n_access = dict(db.session.query(UserToolAccess.user_id, db.func.count(UserToolAccess.id)).filter(UserToolAccess.user_id.in_(ids or [0])).group_by(UserToolAccess.user_id).all())
+    return render_template('admin/users_list.html', admin_tab='users', n_access=n_access,
                            pagination=pagination, rows=pagination.items,
                            stats=stats, q=q, tier_filter=tier_filter, suspects_only=suspects_only, n_suspects=len(all_suspects), joined=day,
                            suspect_of=suspect_reason)

@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(120), nullable=False)
     email = db.Column(db.String(200), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(256), nullable=False)
-    tier = db.Column(db.String(20), nullable=False, default='free')  # free | premium | admin | mentor (alumni College Guide) | ea_mentor (EduAakashaa staff mentor)
+    tier = db.Column(db.String(20), nullable=False, default='free')  # free | premium | elite (Elite Mentorship member: premium tools + mentorship portal) | admin | mentor (alumni College Guide) | ea_mentor (EduAakashaa staff mentor)
     tier_expires_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
@@ -23,7 +23,7 @@ class User(UserMixin, db.Model):
     def is_premium(self):
         if self.tier in ('admin', 'ea_mentor'):      # staff can open every member tool
             return True
-        if self.tier != 'premium':
+        if self.tier not in ('premium', 'elite'):          # elite includes every premium tool
             return False
         if self.tier_expires_at is None:
             return True
@@ -33,6 +33,13 @@ class User(UserMixin, db.Model):
         if expires.tzinfo is None:
             expires = expires.replace(tzinfo=timezone.utc)
         return expires > datetime.now(timezone.utc)
+
+    @property
+    def is_elite(self):
+        """Elite Mentorship member (live, not expired) or staff: the only members who get the mentorship portal. Premium alone does not."""
+        if self.tier in ('admin', 'ea_mentor'):
+            return True
+        return self.tier == 'elite' and self.is_premium
 
     @property
     def is_admin(self):

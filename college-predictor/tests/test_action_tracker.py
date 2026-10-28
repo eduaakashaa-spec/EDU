@@ -24,7 +24,7 @@ pw = lambda: bcrypt.generate_password_hash('x').decode()
 with app.app_context():
     db.create_all()
     for n, e, t in (('Admin', 'a@x.com', 'admin'), ('Mentor', 'm@x.com', 'ea_mentor'), ('Other Mentor', 'm2@x.com', 'ea_mentor'),
-                    ('Stu One', 's1@x.com', 'premium'), ('Stu Two', 's2@x.com', 'premium'), ('Par One', 'p1@x.com', 'free'), ('Par Two', 'p2@x.com', 'free')):
+                    ('Stu One', 's1@x.com', 'elite'), ('Stu Two', 's2@x.com', 'elite'), ('Par One', 'p1@x.com', 'free'), ('Par Two', 'p2@x.com', 'free')):
         db.session.add(User(name=n, email=e, tier=t, password_hash=pw()))
     db.session.commit()
     svc.ensure_default_programme()

@@ -26,8 +26,8 @@ with app.app_context():
     db.create_all()
     pw = bcrypt.generate_password_hash('x').decode()
     for name, email, tier in (('DEMO Admin', 'admin@demo.test', 'admin'), ('DEMO Mentor', 'mentor@demo.test', 'ea_mentor'),
-                              ('DEMO Mentor Two', 'mentor2@demo.test', 'ea_mentor'), ('DEMO Student One', 's1@demo.test', 'premium'),
-                              ('DEMO Student Two', 's2@demo.test', 'premium'), ('DEMO Parent', 'p1@demo.test', 'free')):
+                              ('DEMO Mentor Two', 'mentor2@demo.test', 'ea_mentor'), ('DEMO Student One', 's1@demo.test', 'elite'),
+                              ('DEMO Student Two', 's2@demo.test', 'elite'), ('DEMO Parent', 'p1@demo.test', 'free')):
         db.session.add(User(name=name, email=email, tier=tier, password_hash=pw))
     db.session.commit()
 

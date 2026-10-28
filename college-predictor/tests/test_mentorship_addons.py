@@ -23,7 +23,7 @@ pw = lambda: bcrypt.generate_password_hash('x').decode()
 with app.app_context():
     db.create_all()
     db.session.add_all([User(name='Admin', email='a@x.com', tier='admin', password_hash=pw()),
-                        User(name='Stu', email='s@x.com', tier='premium', password_hash=pw()),
+                        User(name='Stu', email='s@x.com', tier='elite', password_hash=pw()),
                         User(name='Free', email='f@x.com', tier='free', password_hash=pw())])
     db.session.commit()
 

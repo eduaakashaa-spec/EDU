@@ -2,7 +2,7 @@
 
 To add a feature, append a tile dict to a category (or add a category). Fields:
   title, desc, icon (emoji), endpoint (+ optional anchor),
-  access: 'free' (any member) | 'premium' | 'soon' (placeholder, not clickable).
+  access: 'free' (any member) | 'premium' | 'elite' (Elite Mentorship members) | 'soon' (placeholder, not clickable).
 Tiles whose endpoint does not exist are skipped, so a removed page never breaks the hub.
 """
 from datetime import date
@@ -21,7 +21,7 @@ CATEGORIES = [
     {'key': 'mentorship', 'title': 'Mentorship Portal', 'icon': '🎯', 'color': '#EA580C', 'tint': '#FFEBDD',
      'blurb': 'Sessions, weekly plan, KPIs, branch fit, college preferences and your progress report.',
      'tiles': [
-         {'title': 'My Mentorship', 'desc': 'Your journey, weekly plan, KPIs, reviews and reports (students and parents).', 'icon': '🧑\u200d🏫', 'endpoint': 'mentorship.index', 'access': 'premium'},
+         {'title': 'My Mentorship', 'desc': 'Your journey, weekly plan, KPIs, reviews and reports (students and parents).', 'icon': '🧑\u200d🏫', 'endpoint': 'mentorship.index', 'access': 'elite'},
          {'title': 'Add-on programmes', 'desc': 'Ready-made mentoring for UCEED, NID, NIFT, IIT Delhi–Abu Dhabi, TNEA, state colleges, SRM, Amrita and VIT.', 'icon': '🧩', 'endpoint': 'mentorship.addons', 'access': 'free'},
          {'title': 'FutureReady (Class 8–9)', 'desc': 'Mentorship for Class 8–9 students: assessments, engineering exploration, action plan and reports.', 'icon': '🚀', 'endpoint': 'futureready.index', 'access': 'free'},
          {'title': 'Action tracker', 'desc': 'Meeting actions for every member: owner, due date, completion — share by email or WhatsApp.', 'icon': '📌', 'endpoint': 'mentorship.action_tracker', 'access': 'premium', 'staff': True},
@@ -152,7 +152,7 @@ def _decorate(t, today=None):
     if t['access'] == 'soon':
         t['action'] = 'Coming soon'
     elif t.get('locked'):
-        t['action'] = 'Unlock with membership'
+        t['action'] = 'Elite Mentorship members' if t['access'] == 'elite' else 'Unlock with membership'
     elif t['tag'] == 'roadmap':
         t['action'] = 'View roadmap'
     elif t['tag'] == 'report':
@@ -169,13 +169,14 @@ def _decorate(t, today=None):
 
 
 def build(user, today=None):
+    from app.services import tool_access
     """Resolve URLs and lock state for this user; returns categories with resolved tiles."""
     out = []
     for cat in CATEGORIES:
         tiles = []
         for t in cat['tiles']:
             t = dict(t)
-            if t.get('staff') and not user.is_staff:
+            if t.get('staff') and (not user.is_staff or tool_access.mode_for(user, slugify(t['title'])) == 'deny'):
                 continue
             if t['access'] == 'soon':
                 t['url'], t['locked'] = None, False
@@ -187,7 +188,7 @@ def build(user, today=None):
                 if t.get('anchor'):
                     url += '#' + t['anchor']
                 t['url'] = url
-                t['locked'] = t['access'] == 'premium' and not user.is_premium
+                t['locked'] = not tool_access.can_open(user, t)
             tiles.append(_decorate(t, today))
         if tiles:
             out.append({**cat, 'ic': CATEGORY_ICON.get(cat['key'], 'grid'), 'tiles': tiles,

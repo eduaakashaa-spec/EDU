@@ -22,7 +22,7 @@ app.config['TESTING'] = True
 pw = lambda: bcrypt.generate_password_hash('x').decode()
 with app.app_context():
     db.create_all()
-    for n, e, t in (('Admin', 'a@x.com', 'admin'), ('Mentor', 'm@x.com', 'ea_mentor'), ('Stu', 's@x.com', 'premium'), ('Par', 'p@x.com', 'free'), ('Other', 'o@x.com', 'premium')):
+    for n, e, t in (('Admin', 'a@x.com', 'admin'), ('Mentor', 'm@x.com', 'ea_mentor'), ('Stu', 's@x.com', 'elite'), ('Par', 'p@x.com', 'free'), ('Other', 'o@x.com', 'elite')):
         db.session.add(User(name=n, email=e, tier=t, password_hash=pw()))
     db.session.commit()
     prog = svc.ensure_default_programme()

@@ -39,8 +39,8 @@ with app.app_context():
     mk('DEMO Admin', 'admin@demo.test', 'admin')
     mk('DEMO Mentor', 'mentor@demo.test', 'ea_mentor')
     mk('DEMO Other Mentor', 'mentor2@demo.test', 'ea_mentor')
-    mk('DEMO Student One', 's1@demo.test', 'premium')
-    mk('DEMO Student Two', 's2@demo.test', 'premium')
+    mk('DEMO Student One', 's1@demo.test', 'elite')
+    mk('DEMO Student Two', 's2@demo.test', 'elite')
     mk('DEMO Free Student', 'free@demo.test', 'free')
     mk('DEMO Parent One', 'p1@demo.test', 'free')
     mk('DEMO Parent Two', 'p2@demo.test', 'free')
@@ -338,7 +338,7 @@ with app.app_context():
 assert s2.get(f'/mentorship/e/{E2}/home').status_code == 403
 with app.app_context():
     u = User.query.filter_by(email='s2@demo.test').one()
-    u.tier = 'premium'
+    u.tier = 'elite'
     db.session.commit()
 
 # ---- 18. report: missing data labelled, review → approve → share, PDF ----------------------------------------------------------------------------
@@ -365,9 +365,9 @@ else:
 
 # ---- 20/21. member hub tile + persistence -------------------------------------------------------------------------------------------------------
 hub = s1.get('/member-home').get_data(as_text=True)
-assert 'Mentorship Portal' in hub and '/mentorship/' in hub and 'img/hub/mentorship.webp' in hub
+assert 'Mentorship Portal' in hub and '/mentorship/' in hub
 assert b'Mentor dashboard' not in s1.get('/member-home').data and b'Mentor dashboard' in mentor.get('/member-home').data
-assert free.get('/member-home').get_data(as_text=True).count('mh-lock') >= 1
+assert free.get('/member-home').get_data(as_text=True).count('is-locked') >= 1
 assert s1.get('/static/css/mentorship.css').status_code == 200
 with app.app_context():
     db.session.remove()

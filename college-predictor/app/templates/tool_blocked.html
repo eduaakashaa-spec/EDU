@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Tool switched off | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__glow"></div>
+  <div class="hero__content">
+    <span class="badge">🔒 Access switched off</span>
+    <h1>This tool is <span>not available</span> on your account</h1>
+    <p>The EduAakashaA team has turned this tool off for your account. If you think this is a mistake, message your mentor or us and we will check.</p>
+    <div class="final-cta__btns" style="margin-top:26px;">
+      <a href="{{ url_for('memberhub.home') }}" class="btn-main">Back to Member Home</a>
+      <a href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener" class="btn-out">Talk to us on WhatsApp</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

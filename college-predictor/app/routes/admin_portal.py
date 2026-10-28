@@ -43,7 +43,7 @@ from app.services.queries import count_if as _n, sum_if as _sum_if
 
 admin_portal_bp = Blueprint('admin_portal', __name__)
 
-TIERS = ('free', 'premium', 'ea_mentor', 'admin')
+TIERS = ('free', 'premium', 'elite', 'ea_mentor', 'admin')
 AUDIENCES = ('all', 'students', 'parents')
 EVENT_TYPES = ('Exam', 'Counselling', 'Deadline', 'Webinar', 'Other')
 
@@ -97,12 +97,12 @@ def home():
      premium_active, premium_expired, users_new_7d, users_new_30d) = db.session.query(
         db.func.count(User.id),
         _n(User.tier == 'free'),
-        _n(User.tier == 'premium'),
+        _n(User.tier.in_(('premium', 'elite'))),
         _n(User.tier == 'admin'),
         _n(User.tier == 'mentor'),
-        _n(db.and_(User.tier == 'premium',
+        _n(db.and_(User.tier.in_(('premium', 'elite')),
                    db.or_(User.tier_expires_at.is_(None), User.tier_expires_at > now))),
-        _n(db.and_(User.tier == 'premium', User.tier_expires_at.isnot(None),
+        _n(db.and_(User.tier.in_(('premium', 'elite')), User.tier_expires_at.isnot(None),
                    User.tier_expires_at <= now)),
         _n(User.created_at >= d7),
         _n(User.created_at >= d30),
@@ -527,6 +527,42 @@ def _email_changed(user, old, new):
         send_async(to, 'Your EduAakashaA account email was changed', text, html, from_addr=mailer.INFO_FROM, reply_to=mailer.INFO_FROM)
 
 
+@admin_portal_bp.route('/admin/users/<int:user_id>/access', methods=['GET', 'POST'])
+@admin_required
+def user_access(user_id):
+    """Per-person tool access: follow the tier, or allow / block individual tools (members and mentors)."""
+    from app.models_membership import UserToolAccess
+    from app.services import tool_access
+    user = db.session.get(User, user_id)
+    if user is None:
+        flash('User not found.', 'danger')
+        return redirect(_users_url())
+    catalog = tool_access.tools()
+    if request.method == 'POST':
+        if user.is_admin:
+            flash('Admins always have every tool; there is nothing to customise.', 'info')
+            return redirect(url_for('admin_portal.user_access', user_id=user.id))
+        modes = {} if request.form.get('reset') == '1' else {t['key']: request.form.get('m_' + t['key'], '') for t in catalog}
+        n = tool_access.save(user, modes, current_user.email)
+        flash(f'Tool access saved for {user.email}: {n} custom setting{"" if n == 1 else "s"}.' if n else f'{user.email} now follows the plan rules for every tool.', 'success')
+        return redirect(url_for('admin_portal.user_access', user_id=user.id))
+    current = {r.tool_key: r.mode for r in UserToolAccess.query.filter_by(user_id=user.id).all()}
+    groups = []
+    for t in catalog:
+        if not groups or groups[-1]['title'] != t['category']:
+            groups.append({'title': t['category'], 'tools': []})
+        t = dict(t)
+        t['mode'] = current.get(t['key'], '')
+        if t['access'] == 'elite':
+            t['default'] = 'open' if user.is_elite else 'closed'
+        elif t['staff']:
+            t['default'] = 'open' if user.is_staff else 'closed'
+        else:
+            t['default'] = 'open' if user.is_premium else 'closed'
+        groups[-1]['tools'].append(t)
+    return render_template('admin/user_access.html', admin_tab='users', u=user, groups=groups, n_custom=len(current))
+
+
 @admin_portal_bp.route('/admin/users/<int:user_id>/password', methods=['POST'])
 @admin_required
 def user_password(user_id):
@@ -601,7 +637,7 @@ def _announcement_recipients(scope):
     now = _utcnow_naive()
     q = User.query.filter(User.tier.notin_(('mentor', 'ea_mentor')))   # members only — not staff or College Guides
     if scope == 'premium':
-        q = q.filter(User.tier == 'premium',
+        q = q.filter(User.tier.in_(('premium', 'elite')),
                      db.or_(User.tier_expires_at.is_(None), User.tier_expires_at > now))
     return [e for (e,) in q.with_entities(User.email).all() if e]
 
@@ -796,9 +832,9 @@ def messages():
     now = _utcnow_naive()
     query = User.query
     if group == 'premium':
-        query = query.filter(User.tier == 'premium')
+        query = query.filter(User.tier.in_(('premium', 'elite')))
     elif group == 'expired':
-        query = query.filter(User.tier == 'premium',
+        query = query.filter(User.tier.in_(('premium', 'elite')),
                              User.tier_expires_at.isnot(None),
                              User.tier_expires_at <= now)
     elif group == 'free':
