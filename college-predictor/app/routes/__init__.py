@@ -1,3 +1,7 @@
+import json
+import os
+from functools import lru_cache
+
 from flask import Blueprint, redirect, render_template, url_for, Response
 
 from app.decorators import admin_required, premium_required
@@ -514,6 +518,28 @@ def neet_2027():
 @premium_required
 def jee_2027_roadmap():
     return render_template('jee_2027_roadmap.html')
+
+
+@lru_cache(maxsize=1)
+def _jee_syllabus_data():
+    # chapter weightage from the 19 JEE Main 2026 shifts (app/data/jee_syllabus_2026.json) joined to the formula sheet (app/data/jee_formulas.py)
+    from app.data.jee_formulas import FORMULAS
+    with open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'jee_syllabus_2026.json'), encoding='utf-8') as f:
+        data = json.load(f)
+    for c in data['chs']:
+        c['tier_n'] = int(c['tier'][-1]) if c['tier'].startswith('Tier') else 0
+        c['formulas'] = FORMULAS.get(c['ch'], [])
+        c['search'] = ' '.join([c['nat'], c.get('pre', ''), c.get('feed', '')] + c.get('topics', []) + [lbl for lbl, _ in c['formulas']]).lower()
+    return data
+
+
+@main_bp.route('/jee-main-2026-syllabus-map')
+@premium_required
+def jee_syllabus_map():
+    data = _jee_syllabus_data()
+    class11 = sum(c['n'] for c in data['chs'] if c['cls'] == 11)
+    return render_template('jee_syllabus_map.html', chapters=sorted(data['chs'], key=lambda c: -c['n']), stats=data['stats'], papers=data['papers'], nj=data['nj'],
+                           subjects=('Mathematics', 'Physics', 'Chemistry'), class11_pct=round(100 * class11 / data['stats']['NQ']))
 
 
 # Institutes listed on the official UCEED 2027 site (uceed.iitb.ac.in/2027, checked 17 Oct 2026)

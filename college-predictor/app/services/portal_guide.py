@@ -50,6 +50,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-28', 'New members page "JEE Main syllabus map & formulas": all 92 chapters ranked by 2026 questions with compact, typeset key formulas for Maths, Physics and Chemistry.'),
     ('2026-10-28', 'New e-mail and WhatsApp template "Payment details — mentorship fee & instalments" (fee, four 25% instalments every 2 months, bank details); the company bank details are now pre-filled.'),
     ('2026-10-27', 'Invoices can be cancelled (with a reason, reinstatable) and the invoice form has a drop-down of EduAakashaA membership items with editable prices and an item catalogue in Invoice Settings.'),
     ('2026-10-27', 'Invoices show the saved bank details for payment (also on invoices issued earlier and in the invoice e-mail); the "GST is not charged" line is removed from invoices.'),
@@ -199,11 +200,12 @@ GUIDE = [
                 'Each page opens with a note saying which year its data covers. Latest 2026-27 data and analytics are a Premium benefit.',
                 'DASA analytics: compare DASA 2025 and 2026 closing ranks. Choice Builder PRO: enter your rank, build and test your choice order, then export CSV or print the PDF report.',
                 'JoSAA predictor and members edition: enter your JEE rank and filters to see colleges, and use the tabs for matrix, analytics and process.',
-                'Roadmap pages (UCEED, Law, IPM, JEE 2027) give the exam process step by step.'],
+                'Roadmap pages (UCEED, Law, IPM, JEE 2027) give the exam process step by step.',
+                'JEE Main syllabus map & formulas: every chapter ranked by its 2026 questions (Tier 1, 2 or 3), filtered by subject, class or search. Tap a chapter for its key formulas and the question types seen in 2026; Expand all or Print gives a formula sheet.'],
          tips=['Predictions are planning aids, not seat guarantees.'],
-         tiles=['DASA 2026 Analytics', 'DASA prediction report', 'JoSAA EA members', 'UCEED 2027 Roadmap', 'Law Entrance 2027 Roadmap', 'IPM 2027 Roadmap', 'JEE 2027 Roadmap', 'TNEA expert',
+         tiles=['DASA 2026 Analytics', 'DASA prediction report', 'JoSAA EA members', 'UCEED 2027 Roadmap', 'Law Entrance 2027 Roadmap', 'IPM 2027 Roadmap', 'JEE 2027 Roadmap', 'JEE Main syllabus map & formulas', 'TNEA expert',
                 'Members report', 'CAET · IIT Delhi – Abu Dhabi guide', 'NRI admission guide', 'Choice Builder Simulator', 'Why CSE?', 'Best location', 'Engineering insights', 'Hostel & culture',
-                'Branch selection guide'], added='2026-10-26', updated='2026-10-26'),
+                'Branch selection guide'], added='2026-10-26', updated='2026-10-28'),
     dict(id='s-free', role='student', group='Free resources', title='Free guides and the exam schedule', summary='Open to every member.',
          where=[('Free guides', 'guides.library'), ('Exam schedule', 'main.exam_schedule')],
          steps=['Open "Free student guides", choose a guide and enter your e-mail to receive it.',

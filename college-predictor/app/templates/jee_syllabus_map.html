@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}JEE Main 2026 Syllabus Map and Formula Sheet | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Members edition: every JEE Main chapter ranked by how many questions it carried in all 19 shifts of 2026, with the key formulas for each chapter in one compact sheet.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<style>
+  .jsm{max-width:1180px;margin:0 auto;padding:14px 16px 56px;color:var(--ink,#0E1B3D)}
+  .jsm h1{font-family:'Fraunces',Georgia,serif;font-size:clamp(1.55rem,3.2vw,2.15rem);line-height:1.15;margin:14px 0 4px;color:var(--navy-ink,#071A44)}
+  .jsm h1 em{color:#FF6B0A;font-style:italic}
+  .jsm .sub{margin:0 0 12px;color:var(--text-dim,#5A6278);font-size:.95rem;max-width:760px;line-height:1.5}
+  .jsm-stats{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+  .jsm-stats span{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:999px;padding:4px 12px;font-size:.82rem;color:var(--text-dim,#5A6278)}
+  .jsm-stats b{color:var(--navy,#0E3A8A);font-family:'JetBrains Mono',monospace;font-size:.86rem;margin-right:4px}
+  .jsm-bar{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:10px 0;background:var(--cream,#FBF7EE);border-bottom:1px solid var(--border,#E8DFC8);margin-bottom:12px}
+  .jsm-seg{display:inline-flex;border:1px solid var(--border,#E8DFC8);border-radius:10px;overflow:hidden;background:var(--paper,#FFFDF7)}
+  .jsm-seg button{border:0;background:none;padding:7px 13px;font:600 .84rem 'Plus Jakarta Sans',system-ui,sans-serif;color:var(--text-dim,#5A6278);cursor:pointer}
+  .jsm-seg button.on{background:var(--navy,#0E3A8A);color:#fff}
+  .jsm-bar input,.jsm-bar select{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);color:inherit;border-radius:10px;padding:7px 10px;font:500 .86rem 'Plus Jakarta Sans',system-ui,sans-serif}
+  .jsm-bar input[type=search]{flex:1;min-width:150px}
+  .jsm-btn{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);color:inherit;border-radius:10px;padding:7px 12px;font:600 .82rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer}
+  .jsm-count{margin-left:auto;font-size:.8rem;color:var(--text-dim,#5A6278)}
+  .jsm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;align-items:start}
+  @media (max-width:860px){.jsm-grid{grid-template-columns:1fr}}
+  .ch{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;overflow:hidden}
+  .ch[open]{grid-column:1/-1;border-color:var(--navy,#0E3A8A);box-shadow:0 6px 18px rgba(14,27,61,.08)}
+  .ch>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:9px 12px;align-items:center}
+  .ch>summary::-webkit-details-marker{display:none}
+  .ch .nm{font-weight:700;font-size:.95rem;line-height:1.25}
+  .ch .nm small{font-weight:500;color:var(--text-dim,#5A6278);margin-left:6px;font-size:.74rem}
+  .ch .meta{display:flex;gap:8px;align-items:center;justify-self:end}
+  .ch .qn{font:700 .8rem 'JetBrains Mono',monospace;color:var(--navy,#0E3A8A);min-width:3.2em;text-align:right}
+  .ch .row2{grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .pill{font:700 .62rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .pill.t1{background:rgba(31,139,92,.15);color:#1F8B5C}.pill.t2{background:#E1E9F7;color:#0E3A8A}.pill.t3{background:#FFF1E6;color:#8A4B00}.pill.t0{background:#EEE;color:#666}
+  .heat{display:inline-flex;gap:1px}.heat i{width:7px;height:11px;border-radius:2px;background:var(--border,#E8DFC8)}
+  .heat i.a1{background:#BFD0EE}.heat i.a2{background:#6F8FD3}.heat i.a3{background:#0E3A8A}.heat i.gap{width:5px;background:none}
+  .dbar{display:inline-flex;width:74px;height:7px;border-radius:4px;overflow:hidden;background:var(--border,#E8DFC8)}
+  .dbar i{display:block;height:100%}
+  .row2 .t{font-size:.74rem;color:var(--text-dim,#5A6278)}
+  .chb{padding:4px 14px 14px;border-top:1px solid var(--border,#E8DFC8)}
+  .fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:8px 18px;margin:10px 0 6px}
+  .fm{display:flex;flex-direction:column;gap:1px;padding:7px 10px;background:var(--cream,#FBF7EE);border-radius:8px;min-width:0}
+  .fl{font:700 .62rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}
+  .fx{overflow-x:auto;overflow-y:hidden;font-size:.97rem;padding:1px 0}
+  .fx .katex{font-size:1.04em}
+  .nof{margin:10px 0 4px;color:var(--text-dim,#5A6278);font-size:.88rem}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 2px}
+  .tags span{background:#E1E9F7;color:#0E3A8A;border-radius:6px;padding:2px 8px;font-size:.76rem}
+  .lnk{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:8px;font-size:.82rem;color:var(--text-dim,#5A6278)}
+  .lnk b{color:var(--ink,#0E1B3D)}
+  .jsm-note{margin-top:18px;font-size:.8rem;color:var(--text-dim,#5A6278);line-height:1.55;max-width:900px}
+  .dg-alert{display:flex;gap:14px;align-items:flex-start;margin:14px 0 0;padding:12px 16px;border:1px solid #F5CBA7;border-left:5px solid #FF6B0A;border-radius:12px;background:#FFF1E6;color:#0E1B3D}
+  .dg-alert__icon{font-size:1.3rem;line-height:1.2}.dg-alert__body{flex:1;font-size:.92rem;line-height:1.5}
+  .dg-alert__body strong{font-family:'Fraunces',Georgia,serif;font-size:1.02rem;display:block;margin-bottom:2px}
+  .dg-alert__cta{display:inline-block;margin-top:8px;background:#FF6B0A;color:#fff !important;font-weight:700;padding:8px 18px;border-radius:999px;text-decoration:none}
+  .dg-alert__ok{display:inline-block;margin-top:4px;font-weight:600;color:#1F8B5C}
+  :root[data-theme="dark"] .dg-alert{background:#2A1E14;border-color:#7A4A22;color:#EEE9DA}
+  :root[data-theme="dark"] .tags span{background:#1E2A4A;color:#BFD0EE}
+  @media print{
+    .jsm-bar,.dg-alert,.jsm-btn{display:none !important}
+    .jsm-grid{display:block}.ch{break-inside:avoid;margin-bottom:6px;border-color:#bbb}
+    .ch>summary{cursor:default}
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jsm">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Members edition: JEE Main 2026 syllabus map and formula sheet.</strong>
+      Question counts come from all 19 B.Tech shifts of 2026 (10 in January, 9 in April). The latest 2026&ndash;27 admission data and analytics are part of Premium Membership.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier == 'premium' and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <h1>JEE Main 2026 <em>syllabus map</em> &amp; formula sheet</h1>
+  <p class="sub">Every chapter, ranked by how many questions it carried in 2026, with the formulas worth knowing by heart. Tap a chapter to open its sheet. Tier 1 chapters carried 22 or more questions across the 19 shifts, Tier 2 carried 13 to 21, Tier 3 fewer.</p>
+  <div class="jsm-stats">
+    <span><b>{{ '{:,}'.format(stats.NQ) }}</b>questions read</span>
+    <span><b>{{ stats.nch }}</b>chapters</span>
+    <span><b>{{ stats.NS }}</b>shifts</span>
+    <span><b>{{ class11_pct }}%</b>from Class 11</span>
+    <span><b>{{ stats.ncross }}</b>problem types seen in both sessions</span>
+  </div>
+
+  <div class="jsm-bar" role="search">
+    <div class="jsm-seg" id="segS" role="group" aria-label="Subject">
+      <button data-v="" class="on">All</button><button data-v="0">Maths</button><button data-v="1">Physics</button><button data-v="2">Chemistry</button>
+    </div>
+    <div class="jsm-seg" id="segC" role="group" aria-label="Class">
+      <button data-v="" class="on">11 + 12</button><button data-v="11">11</button><button data-v="12">12</button>
+    </div>
+    <select id="fT" aria-label="Tier"><option value="">All tiers</option><option value="1">Tier 1</option><option value="2">Tier 2</option><option value="3">Tier 3</option><option value="0">Not tested</option></select>
+    <select id="fO" aria-label="Sort"><option value="n">Most questions</option><option value="get">Most gettable marks</option><option value="shifts">Most shifts present</option><option value="name">Name A&ndash;Z</option></select>
+    <input type="search" id="fQ" placeholder="Search chapter or formula topic" aria-label="Search chapters">
+    <button class="jsm-btn" id="bAll" type="button">Expand all</button>
+    <button class="jsm-btn" id="bPrint" type="button">Print</button>
+    <span class="jsm-count" id="cnt"></span>
+  </div>
+
+  <div class="jsm-grid" id="grid">
+  {% for c in chapters %}
+    <details class="ch" data-s="{{ c.s }}" data-cls="{{ c.cls }}" data-tier="{{ c.tier_n }}" data-n="{{ c.n }}" data-get="{{ c.get }}" data-shifts="{{ c.shifts }}" data-name="{{ c.ch|lower }}" data-text="{{ c.search }}">
+      <summary>
+        <span class="nm">{{ c.ch }}<small>{{ subjects[c.s] }} &middot; Class {{ c.cls }}</small></span>
+        <span class="meta"><span class="pill t{{ c.tier_n }}">{{ c.tier }}</span><span class="qn" title="Questions across 19 shifts">{{ c.n }} Q</span></span>
+        <span class="row2">
+          <span class="heat" aria-label="Questions per shift, January then April">{% for x in c.pp %}{% if loop.index0 == nj %}<i class="gap"></i>{% endif %}<i class="{{ 'a3' if x >= 3 else 'a2' if x == 2 else 'a1' if x == 1 else '' }}" title="{{ papers[loop.index0] }}: {{ x }}"></i>{% endfor %}</span>
+          {% if c.n %}<span class="dbar" title="{{ c.e }} easy, {{ c.m }} medium, {{ c.h }} hard"><i style="width:{{ (c.e / c.n * 100)|round(1) }}%;background:#1F8B5C"></i><i style="width:{{ (c.m / c.n * 100)|round(1) }}%;background:#E89A1C"></i><i style="width:{{ (c.h / c.n * 100)|round(1) }}%;background:#C23A3A"></i></span>{% endif %}
+          <span class="t">{% if c.n %}Jan {{ c.jan }} &middot; Apr {{ c.apr }}{% else %}not tested in 2026{% endif %}</span>
+        </span>
+      </summary>
+      <div class="chb">
+        {% if c.formulas %}
+        <div class="fgrid">
+          {% for label, tex in c.formulas %}<div class="fm"><span class="fl">{{ label }}</span><span class="fx">\(\displaystyle {{ tex }}\)</span></div>{% endfor %}
+        </div>
+        {% else %}<p class="nof">This chapter is descriptive: learn it from NCERT lines, reactions and exceptions rather than a formula sheet. Its 2026 question pattern is below.</p>{% endif %}
+        {% if c.topics %}<div class="tags" aria-label="Question types seen in 2026">{% for t in c.topics %}<span>{{ t }}</span>{% endfor %}</div>{% endif %}
+        <div class="lnk">
+          {% if c.pre %}<span><b>Needs:</b> {{ c.pre }}</span>{% endif %}
+          {% if c.feed %}<span><b>Feeds:</b> {{ c.feed }}</span>{% endif %}
+          {% if c.n %}<span><b>Easy / Medium / Hard:</b> {{ c.e }} / {{ c.m }} / {{ c.h }}</span><span><b>Repeat-type questions:</b> {{ c.rep }}</span>{% endif %}
+        </div>
+      </div>
+    </details>
+  {% endfor %}
+  </div>
+
+  <p class="jsm-note">How to read this: the small squares show the chapter in each of the 19 shifts (ten in January, then nine in April); darker means more questions. The bar shows the Easy, Medium and Hard split. Counts are from reading each question and assigning its chapter, so treat them as a guide. January papers are memory-based reconstructions checked against the NTA Session 1 key, April papers are the NTA papers, and 24 questions NTA dropped are flagged in the source. Formulas are standard results: check any constant against your NCERT or the exam's data sheet. No rank or score is guaranteed.</p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+(function(){
+  var grid=document.getElementById('grid'),items=[].slice.call(grid.children),s='',c='';
+  var OPTS={delimiters:[{left:'\\(',right:'\\)',display:false}],throwOnError:false};
+  function render(el){ if(el.dataset.done||!window.renderMathInElement)return; window.renderMathInElement(el,OPTS); el.dataset.done='1'; }
+  function renderOpen(){ items.forEach(function(d){ if(d.open)render(d); }); }
+  items.forEach(function(d){ d.addEventListener('toggle',function(){ if(d.open)render(d); }); });
+  window.addEventListener('load',function(){ setTimeout(renderOpen,50); });
+  function seg(id,cb){ var box=document.getElementById(id); box.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b)return; [].forEach.call(box.children,function(x){x.classList.remove('on')}); b.classList.add('on'); cb(b.dataset.v); apply(); }); }
+  seg('segS',function(v){s=v}); seg('segC',function(v){c=v});
+  var fT=document.getElementById('fT'),fO=document.getElementById('fO'),fQ=document.getElementById('fQ'),cnt=document.getElementById('cnt');
+  function apply(){
+    var t=fT.value,q=fQ.value.trim().toLowerCase(),o=fO.value,shown=0;
+    var sorted=items.slice().sort(function(a,b){
+      if(o==='name')return a.dataset.name<b.dataset.name?-1:1;
+      return (+b.dataset[o]-+a.dataset[o])||(+b.dataset.n-+a.dataset.n);
+    });
+    sorted.forEach(function(d){
+      var ok=(!s||d.dataset.s===s)&&(!c||d.dataset.cls===c)&&(!t||d.dataset.tier===t)&&(!q||d.dataset.name.indexOf(q)>-1||d.dataset.text.indexOf(q)>-1);
+      d.hidden=!ok; if(ok)shown++; grid.appendChild(d);
+    });
+    cnt.textContent=shown+' of '+items.length+' chapters';
+  }
+  [fT,fO].forEach(function(e){e.addEventListener('change',apply)}); fQ.addEventListener('input',apply);
+  var all=false,bAll=document.getElementById('bAll');
+  bAll.addEventListener('click',function(){ all=!all; items.forEach(function(d){ if(!d.hidden){ d.open=all; if(all)render(d); } }); bAll.textContent=all?'Collapse all':'Expand all'; });
+  document.getElementById('bPrint').addEventListener('click',function(){ items.forEach(function(d){ if(!d.hidden){ d.open=true; render(d); } }); setTimeout(function(){window.print()},150); });
+  apply();
+})();
+</script>
+{% endblock %}
