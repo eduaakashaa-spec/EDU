@@ -19,6 +19,8 @@ from app.models_membership import Invoice, InvoiceReceipt  # noqa: E402
 
 app = create_app()
 app.config['TESTING'] = True
+for _k in ('BANK_AC_NAME', 'BANK_AC_NO', 'BANK_IFSC', 'BANK_NAME', 'BANK_BRANCH'):
+    app.config['COMPANY'][_k] = ''          # the shipped defaults carry the real account; the test starts with none saved
 pw = lambda: bcrypt.generate_password_hash('x').decode()
 with app.app_context():
     db.create_all()

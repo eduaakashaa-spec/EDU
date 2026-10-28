@@ -334,6 +334,60 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
                   'from the registered parent email.')],
          'wa': 'Dear {name}, payment of {amount} received 🙏 ✅ {student} is enrolled in Elite Mentorship (Class of 2027). Mentor: {mentor}. Onboarding assessment link in 3 working days; first session within 7 days.'}])
 
+    add('mp_payment_details', '💳', 'Payment details — mentorship fee & instalments', C,
+        'Send the programme fee, the 4-instalment schedule and the bank details to parents (e-mail and WhatsApp).', [
+        {'fields': [PARENT, _f('fee', 'Total programme fee', '₹75,000'),
+                    _f('inst', 'Each instalment (25%)', '₹18,750'),
+                    _f('bank_ac_name', 'Bank: account name', 'EDUAAKASHAA EDUCATIONAL SERVICES PRIVATE LIMITED'),
+                    _f('bank_ac_no', 'Bank: account number', '037602000000768'),
+                    _f('bank_ifsc', 'Bank: IFSC', 'IOBA0000376'),
+                    _f('bank_branch', 'Bank: branch', 'Palani, Tamil Nadu – 624601')],
+         'subject': 'EduAakashaa Mentorship Program — payment details',
+         'blocks': [
+            ('p', 'Dear {name},'),
+            ('p', 'Greetings from EduAakashaa! 🌟 We are pleased to share the payment details for our Mentorship Program.'),
+            ('kv', [('Total Program Fee', '{fee}')]),
+            ('p', 'To make the payment convenient, the fee can be paid in **4 instalments of 25% each**, at intervals of 2 months.'),
+            ('h', 'Instalment details'),
+            ('kv', [('1st Instalment', '{inst}'), ('2nd Instalment', '{inst} (after 2 months)'),
+                    ('3rd Instalment', '{inst} (after 4 months)'), ('4th Instalment', '{inst} (after 6 months)')]),
+            ('h', 'Bank account details'),
+            ('kv', [('Account Name', '{bank_ac_name}'), ('Account Number', '{bank_ac_no}'),
+                    ('IFSC Code', '{bank_ifsc}'), ('Branch', '{bank_branch}')]),
+            ('p', 'Once the payment is completed, kindly share the payment confirmation or transaction receipt with us for our records.'),
+            ('p', "Thank you for trusting EduAakashaa with your child's learning journey. We look forward to supporting your "
+                  "child's growth and success! 🙏")],
+         'wa': (
+                "Dear Parents,\n"
+                "\n"
+                "Greetings from EduAakashaa! 🌟\n"
+                "\n"
+                "We are pleased to share the payment details for our Mentorship Program.\n"
+                "\n"
+                "💰 *Total Program Fee:* {fee}\n"
+                "\n"
+                "To make the payment convenient, the fee can be paid in *4 instalments of 25% each*, at intervals of 2 months.\n"
+                "\n"
+                "📌 *Instalment Details:*\n"
+                "• 1st Instalment: {inst}\n"
+                "• 2nd Instalment: {inst} (after 2 months)\n"
+                "• 3rd Instalment: {inst} (after 4 months)\n"
+                "• 4th Instalment: {inst} (after 6 months)\n"
+                "\n"
+                "🏦 *Bank Account Details*\n"
+                "Account Name: {bank_ac_name}\n"
+                "Account Number: {bank_ac_no}\n"
+                "IFSC Code: {bank_ifsc}\n"
+                "Branch: {bank_branch}\n"
+                "\n"
+                "Once the payment is completed, kindly share the payment confirmation or transaction receipt with us for our records.\n"
+                "\n"
+                "Thank you for trusting EduAakashaa with your child's learning journey. We look forward to supporting your child's growth and success! 🙏\n"
+                "\n"
+                "Warm regards,\n"
+                "Team EduAakashaa"
+                )}])
+
     add('mp_instalment', '⏳', 'Instalment reminder — mentorship', C,
         'Seven days before the Month-4 and Month-8 instalments.', [
         {'fields': [PARENT, STUDENT, _f('which', 'Which instalment', 'second'),

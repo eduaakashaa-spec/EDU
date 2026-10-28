@@ -69,11 +69,11 @@ class Config:
         'EMAIL': os.environ.get('ADMIN_EMAIL', 'info@eduaakashaa.com'),
         'WEBSITE': 'www.eduaakashaa.com',
         'LOGO_URL': os.environ.get('LOGO_URL', ''),
-        'BANK_AC_NAME': os.environ.get('BANK_AC_NAME', ''),
-        'BANK_AC_NO': os.environ.get('BANK_AC_NO', ''),
-        'BANK_IFSC': os.environ.get('BANK_IFSC', ''),
+        'BANK_AC_NAME': os.environ.get('BANK_AC_NAME', 'EDUAAKASHAA EDUCATIONAL SERVICES PRIVATE LIMITED'),
+        'BANK_AC_NO': os.environ.get('BANK_AC_NO', '037602000000768'),
+        'BANK_IFSC': os.environ.get('BANK_IFSC', 'IOBA0000376'),
         'BANK_NAME': os.environ.get('BANK_NAME', ''),
-        'BANK_BRANCH': os.environ.get('BANK_BRANCH', ''),
+        'BANK_BRANCH': os.environ.get('BANK_BRANCH', 'Palani, Tamil Nadu – 624601'),
     }
 
     # Where generated invoice/receipt PDFs are stored (private, not link-shared).

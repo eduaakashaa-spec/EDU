@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-10-27'
+UPDATED = '2026-10-28'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -50,6 +50,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-28', 'New e-mail and WhatsApp template "Payment details — mentorship fee & instalments" (fee, four 25% instalments every 2 months, bank details); the company bank details are now pre-filled.'),
     ('2026-10-27', 'Invoices can be cancelled (with a reason, reinstatable) and the invoice form has a drop-down of EduAakashaA membership items with editable prices and an item catalogue in Invoice Settings.'),
     ('2026-10-27', 'Invoices show the saved bank details for payment (also on invoices issued earlier and in the invoice e-mail); the "GST is not charged" line is removed from invoices.'),
     ('2026-10-27', 'Invoices can be created without GST, and payment receipts (with or without GST) are issued for every payment or on their own: Admin > Finance > Payment receipts / New receipt.'),
@@ -413,7 +414,7 @@ GUIDE = [
          steps=['Announcements: Post an announcement with a title, message and audience; pin it and tick "Also email it?" if needed.',
                 'Schedule: add an exam or event with type, location, start and end; mark it important to highlight it.',
                 'Messages: choose a template and audience, preview the drafts, then Send for each member.',
-                'Email templates: pick a template (for example the Elite Mentorship fee e-mail), fill the fields, choose the recipients and the sender, and Send now. The bank-transfer block fills from Invoice Settings.',
+                'Email templates: pick a template (for example the Elite Mentorship fee e-mail, or "Payment details — mentorship fee & instalments" for the 4-instalment schedule and bank details, with a WhatsApp version), fill the fields, choose the recipients and the sender, and Send now. The bank-transfer block fills from Invoice Settings.',
                 'Email Test (SMTP) checks that outgoing e-mail works before you send anything important.',
                 'Where a page has WhatsApp buttons, use "send to group" to post the same text to a member\'s family group.'],
          added='2026-10-26', updated='2026-10-26'),
