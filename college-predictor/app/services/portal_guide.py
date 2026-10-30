@@ -37,6 +37,7 @@ COVERED_BLUEPRINTS = {
     'futureready': 'FutureReady (Class 8-9)',
     'pulse': 'EduPulse-UCEED practice and UCEED mock centre',
     'pulse_jee': 'EduPulse-JEE mock centre',
+    'pulse_tn10': 'EduPulse-TN Class 10 mock centre',
     'reinforce': 'EduPulse - Reinforcement',
     'wagroup': 'WhatsApp group buttons',
     'admin_portal': 'Admin overview, announcements, schedule, messages, email templates',
@@ -50,6 +51,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-30', 'New EduPulse-TN Class 10 Mock Test Centre (Mathematics and Science, Tamil Nadu Class 10, English medium): three full mocks per subject and a unit test for every textbook unit, with confidence ratings and reports; the same 310 questions are in EduPulse - Reinforcement as exam track TN10.'),
     ('2026-10-30', 'New "NUS, NTU and HKU admission pack" button on each enrolment in Mentorship admin: 2027 application windows with per-university checklists, deadlines, KPIs, actions and a college list for a student applying to Singapore and Hong Kong.'),
     ('2026-10-30', 'Onboarding assessment is now grade-aware: Class 7-9 (stream selection), Class 10-11 (career goal, colleges, branch) and Class 12 (engineering), with medicine, law and management paths; two new mentorship programmes for Class 7-9 and Class 10-11; the admin onboarding list shows class and path.'),
     ('2026-10-28', 'New Elite role (premium tools plus the mentorship portal); Premium alone no longer opens the mentorship portal. Admin > Members > Manage > Tool access lets you allow or block individual tools for any member or mentor.'),
@@ -188,6 +190,15 @@ GUIDE = [
                 'Submit and open the report: negative-marking tracker, confidence table, chapters to revisit, and a PDF.'],
          tips=['A paper that says "Not yet available" is waiting for its answer key.'],
          tiles=['EduPulse-JEE Mock Test Centre'], added='2026-10-26', updated='2026-10-26'),
+    dict(id='s-tn10-mock', role='student', group='EduPulse', title='EduPulse-TN Class 10 Mock Test Centre', summary='Tamil Nadu Class 10 (SSLC / Matriculation) Mathematics and Science mocks and unit tests, in English.',
+         where=[('EduPulse-TN Class 10', 'pulse_tn10.home')],
+         steps=['Open "EduPulse-TN Class 10 Mock Test Centre". Choose a Full-syllabus mock (three each for Mathematics and Science) or a Unit test for one textbook unit (Mathematics units 1-8, Science units 1-22).',
+                'Each question is multiple choice, worth 1 mark, with no negative marking. Pick an answer, then rate your confidence: Guess, Low, Medium or High. You cannot move on from an answered question without a rating.',
+                'A timed test submits itself when time is up. Your progress is kept in the browser until you submit.',
+                'Submit and open the report: your score, the confidence table, unit-by-unit bands (Secure, Developing, Needs reinforcement), sure-but-wrong and right-but-unsure counts, and every question with the key and a short explanation.',
+                'Mentors see the report of a student whose record they handle. Daily practice on weak units comes from EduPulse - Reinforcement (exam track TN10).'],
+         tips=['The tests are objective practice on original questions. The board paper also has short and long written answers: practise those from the textbook and previous papers.'],
+         tiles=['EduPulse-TN Class 10 Mock Test Centre'], added='2026-10-30', updated='2026-10-30'),
     dict(id='s-reinforce', role='student', group='EduPulse', title='EduPulse - Reinforcement (daily practice)', summary='Short practice sets from your mentor, one question at a time.',
          where=[('Reinforcement', 'reinforce.home')],
          steps=['When your mentor assigns practice, a popup appears on Member Home with the number of questions, estimated time and focus. Press "Start Today\'s Practice".',

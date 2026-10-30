@@ -4,7 +4,7 @@
 <h2 style="margin:0 0 8px">Administration</h2>
 <p class="rf-muted">{{ n_students }} students on rosters · {{ n_attempts }} recorded answers · questions: {% for k in ('draft','in_review','approved','retired') %}{{ k.replace('_',' ') }} {{ counts.get(k, 0) }}{{ ' · ' if not loop.last }}{% endfor %}</p>
 <div class="pl-grid pl-g2">
-  <form method="post" class="pl-card"><input type="hidden" name="do" value="seed"><h3>Load starter question bank</h3><p>Adds the original JEE and UCEED mock-centre questions as approved practice questions. Existing questions are kept. Safe to run again.</p><button class="rf-btn alt">Load starter bank</button></form>
+  <form method="post" class="pl-card"><input type="hidden" name="do" value="seed"><h3>Load starter question bank</h3><p>Adds the original JEE and UCEED mock-centre questions, and the Tamil Nadu Class 10 Mathematics and Science questions (track TN10), as approved practice questions. Existing questions are kept. Safe to run again.</p><button class="rf-btn alt">Load starter bank</button></form>
   <form method="post" class="pl-card"><input type="hidden" name="do" value="demo"><h3>Create demonstration workspace</h3><p>Creates a clearly labelled demo student with three weeks of sample practice, so the dashboards can be shown. Demo students are excluded from exports.</p><button class="rf-btn alt">Create demo</button></form>
 </div>
 <form method="post" class="pl-card rf-form" style="margin-top:12px"><input type="hidden" name="do" value="settings"><h3>Analytics thresholds</h3>

@@ -6,7 +6,7 @@
   <form method="post" action="{{ url_for('reinforce.notices_read') }}"><button class="rf-btn sm ghost">Mark read</button></form></div>{% endif %}
 <form method="get" class="rf-form pl-card" style="margin-top:14px;padding:12px 16px"><div class="row" style="align-items:end">
   <div><label for="q">Search</label><input id="q" type="text" name="q" value="{{ f.q }}" placeholder="Name, email or member ID (EA…)"></div>
-  <div><label for="exam">Exam</label><select id="exam" name="exam"><option value="">All</option><option {{ 'selected' if f.exam=='UCEED' }}>UCEED</option><option {{ 'selected' if f.exam=='JEE' }}>JEE</option></select></div>
+  <div><label for="exam">Exam</label><select id="exam" name="exam"><option value="">All</option><option {{ 'selected' if f.exam=='UCEED' }}>UCEED</option><option {{ 'selected' if f.exam=='JEE' }}>JEE</option><option {{ 'selected' if f.exam=='TN10' }}>TN10</option></select></div>
   <div><label for="grp">Group</label><select id="grp" name="group"><option value="">All</option>{% for g in groups %}<option {{ 'selected' if f.group==g }}>{{ g }}</option>{% endfor %}</select></div>
   <div><label for="st">Assignment status</label><select id="st" name="status"><option value="">All</option>{% for k,l in (('overdue','Overdue'),('pending','Pending'),('clear','Nothing pending')) %}<option value="{{ k }}" {{ 'selected' if f.status==k }}>{{ l }}</option>{% endfor %}</select></div>
   {% if current_user.is_admin %}<div><label for="mn">Mentor</label><select id="mn" name="mentor"><option value="">All</option>{% for m in mentors %}<option value="{{ m.id }}" {{ 'selected' if f.mentor==m.id }}>{{ m.name }}</option>{% endfor %}</select></div>{% endif %}

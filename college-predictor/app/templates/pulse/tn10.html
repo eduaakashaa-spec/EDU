@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}EduPulse-TN Class 10 Mock Test Centre | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.tn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.tn-t{display:block;text-decoration:none;color:inherit;background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px}.tn-t:hover{border-color:var(--navy,#0E3A8A)}.tn-t b{display:block;font-size:.95rem}.tn-t small{color:var(--muted,#5A6278)}.tn-t .tn-s{float:right;font:700 .75rem 'JetBrains Mono',monospace;color:var(--navy,#0E3A8A)}.tn-h{margin:22px 0 8px}</style>{% endblock %}
+{% block content %}
+{% set an = sm.an %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-TN Class 10</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">Tamil Nadu Class 10 · SSLC / Matriculation · English medium · 1 mark each, no negative marking</span><h1>EduPulse-TN Class 10 Mock Test Centre</h1>
+      <p>Full-syllabus mocks and unit tests in Mathematics and Science, written for the Tamil Nadu Class 10 textbooks. Rate your confidence on every answer, then see which units are secure, which answers were lucky guesses and where you were sure but wrong.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ sm.attempts }}</b><span>tests saved</span></div>
+      <div class="pl-kpi"><b>{{ sm.avg_pct ~ '%' if sm.avg_pct is not none else '—' }}</b><span>average score</span></div>
+      <div class="pl-kpi"><b>{{ sm.best ~ '%' if sm.best is not none else '—' }}</b><span>best score</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P4 }}</b><span>sure-but-wrong answers</span></div>
+    </div>
+  </section>
+  <div class="pl-note">These tests are objective practice: the board paper also has short and long written answers, which are practised from the textbook and previous papers. Scores are practice guidance, not a prediction of marks. The questions are original EduAakashaA questions written for the syllabus.</div>
+
+  {% for subj in ('Mathematics', 'Science') %}
+  <h2 class="tn-h">{{ subj }}</h2>
+  <h3 style="margin:0 0 8px;font-size:.95rem;color:var(--muted)">Full-syllabus mocks</h3>
+  <div class="tn-grid">
+    {% for m in mocks if m.subject == subj and m.kind == 'full' %}
+    <a class="tn-t" href="{{ url_for('pulse_tn10.take', mid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ (100 * done[m.id].score / done[m.id].total)|round|int }}%{% endif %}</span><b>{{ m.title }}</b><small>{{ m.qids|length }} questions · {{ m.minutes }} min · every unit</small></a>
+    {% endfor %}
+  </div>
+  <h3 style="margin:16px 0 8px;font-size:.95rem;color:var(--muted)">Unit tests</h3>
+  <div class="tn-grid">
+    {% for m in mocks if m.subject == subj and m.kind == 'unit' %}
+    <a class="tn-t" href="{{ url_for('pulse_tn10.take', mid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ (100 * done[m.id].score / done[m.id].total)|round|int }}%{% endif %}</span><b>{{ m.title }}</b><small>{{ m.qids|length }} questions · {{ m.minutes }} min</small></a>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="pl-grid pl-g2" style="margin-top:24px;">
+    <div class="pl-card"><span class="pl-eyebrow">Confidence</span><h3>How sure were you, and were you right?</h3>
+      {% if an.rated %}
+      <table class="pl-tbl"><thead><tr><th>You said</th><th>Answers</th><th>Right</th><th>Accuracy</th></tr></thead><tbody>
+      {% for c, label in CONF %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}
+      </tbody></table>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+      {% else %}<p class="pl-muted">Finish a test and rate your answers (Guess, Low, Medium, High). Your confidence picture appears here.</p>{% endif %}
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Units</span><h3>Where to reinforce first</h3>
+      {% if an.units %}<table class="pl-tbl"><thead><tr><th>Unit</th><th>Answers</th><th>Right</th><th></th></tr></thead><tbody>
+      {% for u in an.units[:8] %}<tr><td>{{ u.subject[0] }}{{ u.unit[1:] }} · {{ u.title }}</td><td>{{ u.n }}</td><td>{{ u.pct ~ '%' if u.pct is not none else '—' }}</td><td><span class="pl-pill {{ 'strong' if u.band == 'Secure' else 'warn' if u.band == 'Developing' else 'weak' if u.band == 'Needs reinforcement' else '' }}">{{ u.band }}</span></td></tr>{% endfor %}</tbody></table>
+      <p class="pl-muted">Weakest units first. Daily short practice on these comes from EduPulse – Reinforcement when your mentor sets it.</p>
+      {% else %}<p class="pl-muted">Nothing yet.</p>{% endif %}
+    </div>
+  </div>
+
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>My test history</h3>
+    {% if sm.rows %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Test</th><th>Score</th><th>Answered</th><th>Sure but wrong</th><th>Right but unsure</th><th></th></tr></thead><tbody>
+    {% for r in sm.rows %}<tr><td>{{ r.finished_at.strftime('%d %b %Y') }}</td><td>{{ r.title }}</td><td>{{ r.score }} / {{ r.total }}</td><td>{{ r.attempted }}</td><td>{{ r.sure_wrong }}</td><td>{{ r.lucky }}</td><td><a href="{{ url_for('pulse_tn10.report', rid=r.id) }}">Report</a></td></tr>{% endfor %}</tbody></table>
+    {% else %}<p class="pl-muted">No saved tests yet. Start one above.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -178,3 +178,25 @@ class PulseReport(db.Model):
     period_end = db.Column(db.DateTime)
     sent_to = db.Column(db.String(500))
     created_at = db.Column(db.DateTime, default=_utcnow)
+
+
+class PulseTn10Result(db.Model):
+    """One finished Tamil Nadu Class 10 mock or unit test (EduPulse-TN Class 10 Mock Test Centre). Auto-graded objective questions, 1 mark each, no negative marking.
+    `payload_json` keeps one row per question: the chosen option, whether it was right, the confidence rating (G/L/M/H) and the seconds spent."""
+    __tablename__ = 'pulse_tn10_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    mock = db.Column(db.String(12), index=True)                  # M-F1, S-F2, M-U3 ...
+    title = db.Column(db.String(120))
+    subject = db.Column(db.String(20))                           # Mathematics | Science
+    score = db.Column(db.Integer, default=0)
+    total = db.Column(db.Integer, default=0)
+    attempted = db.Column(db.Integer, default=0)
+    rated = db.Column(db.Integer, default=0)
+    sure_wrong = db.Column(db.Integer, default=0)                # wrong answers rated High
+    lucky = db.Column(db.Integer, default=0)                     # right answers rated Guess or Low
+    duration_sec = db.Column(db.Integer)
+    timed = db.Column(db.Boolean, default=True)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
+    user = db.relationship('User', foreign_keys=[user_id])

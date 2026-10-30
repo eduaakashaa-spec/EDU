@@ -12,7 +12,7 @@
   {% if current_user.is_admin and q.status!='retired' %}<button class="rf-btn sm ghost" name="to" value="retired">Retire</button>{% endif %}</form>{% endif %}{% endif %}
 <form method="post" class="rf-form pl-card">
   {% if not q %}<label>Question id (optional, generated if blank)</label><input type="text" name="qid" maxlength="60" value="{{ val('qid') }}">{% endif %}
-  <div class="row"><div><label>Exam</label><select name="exam">{% for e in ('JEE','UCEED') %}<option {{ 'selected' if (F.get('exam') if form else (q.exam if q else 'JEE'))==e }}>{{ e }}</option>{% endfor %}</select></div>
+  <div class="row"><div><label>Exam</label><select name="exam">{% for e in ('JEE','UCEED','TN10') %}<option {{ 'selected' if (F.get('exam') if form else (q.exam if q else 'JEE'))==e }}>{{ e }}</option>{% endfor %}</select></div>
     <div><label>Type</label><select name="qtype">{% for t,l in (('mcq','Single correct'),('msq','Multiple correct'),('nat','Numerical')) %}<option value="{{ t }}" {{ 'selected' if (F.get('qtype') if form else (q.qtype if q else 'mcq'))==t }}>{{ l }}</option>{% endfor %}</select></div>
     <div><label>Difficulty</label><select name="difficulty">{% for k,l in rf.DIFF_LABEL.items() %}<option value="{{ k }}" {{ 'selected' if (F.get('difficulty')|int if form and F.get('difficulty') else (q.difficulty if q else 2))==k }}>{{ l }}</option>{% endfor %}</select></div></div>
   {% set cur_subj = F.get('subject') if form else (q.subject if q else '') %}{% set cur_chap = F.get('chapter') if form else (q.chapter if q else '') %}

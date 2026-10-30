@@ -261,6 +261,13 @@ def seed_guides():
     return n
 
 
+EXAMS = ('JEE', 'UCEED', 'TN10')                          # TN10 = Tamil Nadu Class 10 (SSLC / Matriculation) Mathematics and Science, in English
+
+
+def exam_of(value, default='JEE'):
+    return value if value in EXAMS else default
+
+
 def seed_bank():
     """Idempotent: loads the original EduAakashaa mock questions (JEE M1-M5, UCEED M1-M5) into the bank as approved questions."""
     seed_taxonomy()
@@ -270,6 +277,8 @@ def seed_bank():
         n += _seed_from(os.path.join(_MOCK, 'uceed_mock', 'data', 'M%d.json' % i), 'UCEED', 'M%d' % i, None)
     db.session.commit()
     n += seed_guides()
+    from app.services import tn10
+    n += tn10.seed_reinforcement()
     return n
 
 

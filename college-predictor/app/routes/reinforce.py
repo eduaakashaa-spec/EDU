@@ -371,7 +371,7 @@ def mentor_students():
                 flash('That student is already on a roster.', 'info')
             else:
                 mid = _int('mentor_id') if current_user.is_admin else current_user.id
-                db.session.add(RfStudent(user_id=u.id, mentor_id=mid or current_user.id, exam='UCEED' if request.form.get('exam') == 'UCEED' else 'JEE', grade=request.form.get('grade', '')[:20], group_name=request.form.get('group', '')[:60] or None))
+                db.session.add(RfStudent(user_id=u.id, mentor_id=mid or current_user.id, exam=rf.exam_of(request.form.get('exam')), grade=request.form.get('grade', '')[:20], group_name=request.form.get('group', '')[:60] or None))
                 db.session.commit()
                 rf.audit(current_user.id, 'student_added', u.email)
                 flash('Student added.', 'success')
@@ -397,7 +397,7 @@ def mentor_students():
             flash('%d student(s) imported from Mentorship and EduPulse.' % n, 'success')
         elif do == 'update':
             rs = _student_or_404(_int('id', 0))
-            rs.exam = 'UCEED' if request.form.get('exam') == 'UCEED' else 'JEE'
+            rs.exam = rf.exam_of(request.form.get('exam'))
             rs.grade = request.form.get('grade', '')[:20]
             rs.group_name = request.form.get('group', '')[:60] or None
             rs.parent_report = bool(request.form.get('parent_report'))
@@ -503,7 +503,7 @@ def assign():
         pre['students'] = [request.args.get('student', type=int)]
     if request.method == 'POST':
         f = request.form
-        exam = 'UCEED' if f.get('exam') == 'UCEED' else 'JEE'
+        exam = rf.exam_of(f.get('exam'))
         sids = [int(x) for x in f.getlist('students') if x.isdigit()]
         if f.get('group'):
             sids += [s.id for s in students if s.group_name == f['group'] and s.exam == exam]
@@ -625,7 +625,7 @@ def bank():
 @staff_required
 def bank_export():
     q = RfQuestion.query.filter_by(active=True)
-    if request.args.get('exam') in ('UCEED', 'JEE'):
+    if request.args.get('exam') in rf.EXAMS:
         q = q.filter_by(exam=request.args['exam'])
     rf.audit(current_user.id, 'bank_export', request.args.get('exam', 'all'))
     return Response(rf.export_csv(q.order_by(RfQuestion.id).all()), mimetype='text/csv', headers={'Content-Disposition': 'attachment; filename=edupulse-reinforcement-questions.csv'})
@@ -656,7 +656,7 @@ def bank_import():
 def _qform(q):
     f = request.form
     qt = f.get('qtype') if f.get('qtype') in ('mcq', 'msq', 'nat') else 'mcq'
-    exam = 'UCEED' if f.get('exam') == 'UCEED' else 'JEE'
+    exam = rf.exam_of(f.get('exam'))
     opts = [rf.sanitize(f.get('option_' + c, '')) for c in 'abcd']
     errs = []
     tx = RfTaxonomy.query.filter_by(exam=exam, subject=f.get('subject', ''), chapter=f.get('chapter', '')).first()

@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ r.title }} report | EduPulse-TN Class 10{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.rv{border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;margin:8px 0;background:var(--paper,#FFFDF7)}.rv.ok{border-left:5px solid #1F8B5C}.rv.no{border-left:5px solid #C23A3A}.rv.bl{border-left:5px solid #E89A1C}.rv small{color:var(--muted,#5A6278)}.rv .o{margin:2px 0;font-size:.95rem}.rv .o.k{color:#14603F;font-weight:700}.rv .o.w{color:#8E2525;text-decoration:line-through}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb">{% if own %}<a href="{{ url_for('pulse_tn10.home') }}">EduPulse-TN Class 10</a>{% else %}<a href="{{ url_for('pulse.mentor_student', uid=r.user_id) }}">{{ r.user.name }}</a>{% endif %} › {{ r.title }} report</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">{{ r.subject }} · {{ r.finished_at.strftime('%d %b %Y') }}{{ ' · ' ~ (r.duration_sec // 60) ~ ' min' if r.duration_sec }}</span><h1>{{ r.title }}</h1>
+      {% if not own %}<p>{{ r.user.name }}'s attempt.</p>{% endif %}</div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ r.score }} / {{ r.total }}</b><span>score</span></div>
+      <div class="pl-kpi"><b>{{ (100 * r.score / r.total)|round|int if r.total else 0 }}%</b><span>correct</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P4 }}</b><span>sure but wrong</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P2 }}</b><span>right but unsure</span></div>
+    </div>
+  </section>
+
+  <div class="pl-grid pl-g2">
+    <div class="pl-card"><span class="pl-eyebrow">Confidence</span><h3>What your confidence says</h3>
+      {% if an.rated %}<table class="pl-tbl"><thead><tr><th>You said</th><th>Answers</th><th>Right</th><th>Accuracy</th></tr></thead><tbody>
+      {% for c, label in [('H','High'),('M','Medium'),('L','Low'),('G','Guess')] %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}</tbody></table>
+      {% else %}<p class="pl-muted">No confidence ratings were given in this test.</p>{% endif %}
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Units</span><h3>Unit by unit</h3>
+      <table class="pl-tbl"><thead><tr><th>Unit</th><th>Right</th><th></th></tr></thead><tbody>
+      {% for u in an.units %}<tr><td>{{ u.subject[0] }}{{ u.unit[1:] }} · {{ u.title }}{% if u.sure_wrong %} <small>({{ u.sure_wrong }} sure but wrong)</small>{% endif %}</td><td>{{ u.right }} / {{ u.n }}</td><td><span class="pl-pill {{ 'strong' if u.band == 'Secure' else 'warn' if u.band == 'Developing' else 'weak' if u.band == 'Needs reinforcement' else '' }}">{{ u.band }}</span></td></tr>{% endfor %}</tbody></table>
+      {% if an.weak %}<p style="margin:10px 0 0;">Reinforce first: <strong>{{ an.weak|join(', ') }}</strong>.</p>{% endif %}
+    </div>
+  </div>
+
+  <h2 style="margin:22px 0 8px">Question review</h2>
+  {% for q in review %}
+  <div class="rv {{ 'ok' if q.right else 'bl' if q.chosen is none else 'no' }}">
+    <small>{{ loop.index }} · {{ q.chapter }}{% if q.conf %} · you rated <span class="pl-pill cf-{{ q.conf }}">{{ CONF_LABEL[q.conf] }}</span>{% endif %}</small>
+    <div style="margin:4px 0 6px;"><strong>{{ q.stem }}</strong></div>
+    {% for o in q.options %}<div class="o {{ 'k' if loop.index0 == q.ans else 'w' if loop.index0 == q.chosen }}">{{ LETTERS[loop.index0] }}. {{ o }}{% if loop.index0 == q.ans %} ✓{% endif %}{% if loop.index0 == q.chosen and loop.index0 != q.ans %} (your answer){% endif %}</div>{% endfor %}
+    {% if q.chosen is none %}<small>Not answered.</small>{% endif %}
+    <small style="display:block;margin-top:4px;">Why: {{ q.why }}</small>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

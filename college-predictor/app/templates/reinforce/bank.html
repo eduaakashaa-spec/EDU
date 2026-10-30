@@ -6,7 +6,7 @@
 <p class="rf-muted">{% for k in ('draft','in_review','approved','retired') %}{{ k.replace('_',' ') }}: {{ counts.get(k, 0) }}{{ ' · ' if not loop.last }}{% endfor %}. Only approved questions can be assigned.</p>
 <form method="get" class="rf-form pl-card" style="padding:12px 16px"><div class="row" style="align-items:end">
   <div><label>Search</label><input type="text" name="q" value="{{ f.q }}"></div>
-  <div><label>Exam</label><select name="exam"><option value="">All</option>{% for e in ('JEE','UCEED') %}<option {{ 'selected' if f.exam==e }}>{{ e }}</option>{% endfor %}</select></div>
+  <div><label>Exam</label><select name="exam"><option value="">All</option>{% for e in ('JEE','UCEED','TN10') %}<option {{ 'selected' if f.exam==e }}>{{ e }}</option>{% endfor %}</select></div>
   <div><label>Subject</label><select name="subject"><option value="">All</option>{% for s in tax|map(attribute='subject')|unique %}<option {{ 'selected' if f.subject==s }}>{{ s }}</option>{% endfor %}</select></div>
   <div><label>Status</label><select name="status"><option value="">All</option>{% for k in ('draft','in_review','approved','retired') %}<option value="{{ k }}" {{ 'selected' if f.status==k }}>{{ k.replace('_',' ') }}</option>{% endfor %}</select></div>
   <div><label>Difficulty</label><select name="diff"><option value="">All</option>{% for k,l in rf.DIFF_LABEL.items() %}<option value="{{ k }}" {{ 'selected' if f.diff==k|string }}>{{ l }}</option>{% endfor %}</select></div>

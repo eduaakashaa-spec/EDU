@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}{{ m.title }} | EduPulse-TN Class 10{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>
+  .tt{max-width:900px;margin:0 auto;padding:12px 16px 80px}
+  .tt-top{position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;justify-content:space-between;background:var(--cream,#FBF7EE);padding:8px 0;border-bottom:1px solid var(--hairline,#E8DFC8)}
+  .tt-top b{font-family:'Fraunces',Georgia,serif}.tt-time{font:700 1rem 'JetBrains Mono',monospace;color:var(--navy,#0E3A8A)}.tt-time.low{color:#C23A3A}
+  .tt-bar{height:5px;background:var(--hairline,#E8DFC8);border-radius:3px;margin:4px 0 14px;overflow:hidden}.tt-bar i{display:block;height:100%;background:var(--navy,#0E3A8A);width:0}
+  .tt-q{background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:14px;padding:16px 18px}
+  .tt-c{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}
+  .tt-s{font-size:1.08rem;line-height:1.55;margin:6px 0 12px}
+  .tt-o{display:block;width:100%;text-align:left;background:var(--cream,#FBF7EE);border:1.5px solid var(--hairline,#E8DFC8);border-radius:10px;padding:10px 12px;margin:7px 0;font:500 .98rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit;cursor:pointer}
+  .tt-o b{display:inline-block;width:1.6em;color:var(--navy,#0E3A8A)}.tt-o.on{border-color:var(--navy,#0E3A8A);background:#E1E9F7}
+  .tt-cf{display:none;margin-top:12px}.tt-cf.show{display:block}.tt-cf p{margin:0 0 6px;font-size:.86rem;color:var(--muted,#5A6278)}
+  .tt-cf button{border:1.5px solid var(--hairline,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:999px;padding:7px 15px;margin:0 6px 6px 0;font:700 .84rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}
+  .tt-cf button.on{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .tt-nav{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}.tt-btn{border:0;border-radius:999px;padding:10px 22px;font:700 .92rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer}
+  .tt-btn.p{background:var(--navy,#0E3A8A);color:#fff}.tt-btn.g{background:var(--paper,#FFFDF7);border:1.5px solid var(--hairline,#E8DFC8);color:inherit}.tt-btn.o{background:#FF6B0A;color:#fff}.tt-btn:disabled{opacity:.45;cursor:not-allowed}
+  .tt-pal{display:flex;flex-wrap:wrap;gap:5px;margin:16px 0 0}.tt-pal button{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--hairline,#E8DFC8);background:var(--paper,#FFFDF7);font:700 .75rem 'JetBrains Mono',monospace;cursor:pointer;color:inherit}
+  .tt-pal button.a{background:#DDF1E6;border-color:#1F8B5C}.tt-pal button.u{background:#F7EBCB;border-color:#E89A1C}.tt-pal button.cur{outline:2px solid var(--navy,#0E3A8A)}
+  .tt-msg{margin:10px 0 0;font-size:.88rem;color:#8A4B00}
+</style>{% endblock %}
+{% block content %}
+<div class="tt" id="tt">
+  <div class="pl-crumb"><a href="{{ url_for('pulse_tn10.home') }}">EduPulse-TN Class 10</a> › {{ m.title }}</div>
+  <div class="tt-top"><b>{{ m.title }}</b><span>Question <span id="ttNow">1</span> of {{ paper|length }}</span><span class="tt-time" id="ttTime"></span></div>
+  <div class="tt-bar"><i id="ttFill"></i></div>
+  <div class="tt-q" id="ttQ"></div>
+  <div class="tt-nav"><button class="tt-btn g" id="ttBack" type="button">Back</button><button class="tt-btn p" id="ttNext" type="button">Next</button><button class="tt-btn o" id="ttSubmit" type="button">Submit test</button></div>
+  <p class="tt-msg" id="ttMsg"></p>
+  <div class="tt-pal" id="ttPal" aria-label="Question palette"></div>
+  <p class="pl-muted" style="margin-top:14px">Choose an answer, then say how sure you are: Guess, Low, Medium or High. Your progress is kept in this browser until you submit. No negative marking: answer every question.</p>
+</div>
+<script id="ttData" type="application/json">{{ {'mock': m.id, 'minutes': m.minutes, 'timed': timed, 'paper': paper, 'conf': CONF, 'submit': url_for('pulse_tn10.submit', mid=m.id)}|tojson }}</script>
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById('ttData').textContent), P = D.paper, i = 0, A = {}, KEY = 'tn10:' + D.mock, started = Date.now(), left = D.minutes * 60, tick = null, secAt = Date.now();
+  var $ = function (id) { return document.getElementById(id); };
+  try { var s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.A) { A = s.A; i = s.i || 0; left = s.left != null ? s.left : left; } } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify({A: A, i: i, left: left})); } catch (e) {} }
+  function el(t, c, h) { var x = document.createElement(t); if (c) x.className = c; if (h != null) x.textContent = h; return x; }
+  function spent() { var n = Math.round((Date.now() - secAt) / 1000); secAt = Date.now(); var q = P[i]; if (q) { var a = A[q.id] || (A[q.id] = {}); a.sec = (a.sec || 0) + Math.min(n, 600); } }
+  function pal() {
+    var box = $('ttPal'); box.innerHTML = '';
+    P.forEach(function (q, k) { var b = el('button', (A[q.id] && A[q.id].a != null ? 'a' : '') + (k === i ? ' cur' : ''), k + 1); b.type = 'button'; b.onclick = function () { go(k); }; box.appendChild(b); });
+  }
+  function draw() {
+    var q = P[i], a = A[q.id] || {}, box = $('ttQ'); box.innerHTML = '';
+    box.appendChild(el('div', 'tt-c', q.chapter)); box.appendChild(el('div', 'tt-s', (i + 1) + '. ' + q.stem));
+    q.options.forEach(function (o, k) {
+      var b = el('button', 'tt-o' + (a.a === k ? ' on' : ''), ''); b.type = 'button'; b.appendChild(el('b', '', 'ABCD'[k] + '.')); b.appendChild(document.createTextNode(' ' + o));
+      b.onclick = function () { (A[q.id] = A[q.id] || {}).a = k; save(); draw(); }; box.appendChild(b);
+    });
+    var cf = el('div', 'tt-cf' + (a.a != null ? ' show' : '')); cf.appendChild(el('p', '', 'How sure are you of this answer?'));
+    D.conf.forEach(function (c) { var b = el('button', a.c === c[0] ? 'on' : '', c[1]); b.type = 'button'; b.onclick = function () { A[q.id].c = c[0]; save(); draw(); }; cf.appendChild(b); });
+    box.appendChild(cf);
+    $('ttNow').textContent = i + 1; $('ttFill').style.width = (100 * (i + 1) / P.length) + '%';
+    $('ttBack').disabled = i === 0; $('ttNext').disabled = i === P.length - 1; $('ttMsg').textContent = ''; pal();
+  }
+  function go(k) { spent(); i = Math.max(0, Math.min(P.length - 1, k)); save(); draw(); }
+  $('ttBack').onclick = function () { go(i - 1); };
+  $('ttNext').onclick = function () { var a = A[P[i].id]; if (a && a.a != null && !a.c) { $('ttMsg').textContent = 'Please say how sure you are of this answer before you move on.'; return; } go(i + 1); };
+  function clock() { var m = Math.floor(left / 60), s = left % 60; $('ttTime').textContent = (D.timed ? m + ':' + (s < 10 ? '0' : '') + s : 'Practice'); $('ttTime').className = 'tt-time' + (D.timed && left < 300 ? ' low' : ''); }
+  function send(auto) {
+    spent(); clearInterval(tick); $('ttSubmit').disabled = true; $('ttMsg').textContent = 'Saving your test…';
+    fetch(D.submit, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({answers: A, timed: D.timed, seconds: Math.round((Date.now() - started) / 1000), auto: !!auto})})
+      .then(function (r) { return r.json(); }).then(function (j) { if (j.ok) { try { localStorage.removeItem(KEY); } catch (e) {} location.href = j.url; } else { $('ttMsg').textContent = 'Could not save: ' + (j.error || 'try again'); $('ttSubmit').disabled = false; } })
+      .catch(function () { $('ttMsg').textContent = 'Network problem. Your answers are kept; press Submit again.'; $('ttSubmit').disabled = false; });
+  }
+  $('ttSubmit').onclick = function () {
+    var un = P.filter(function (q) { return !A[q.id] || A[q.id].a == null; }).length, nr = P.filter(function (q) { var a = A[q.id]; return a && a.a != null && !a.c; }).length;
+    var msg = 'Submit the test?' + (un ? '\n' + un + ' question(s) are unanswered.' : '') + (nr ? '\n' + nr + ' answer(s) have no confidence rating.' : '');
+    if (confirm(msg)) send(false);
+  };
+  if (D.timed) { tick = setInterval(function () { left--; if (left % 5 === 0) save(); clock(); if (left <= 0) { clearInterval(tick); send(true); } }, 1000); }
+  clock(); draw();
+})();
+</script>
+{% endblock %}

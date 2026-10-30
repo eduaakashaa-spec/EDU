@@ -52,7 +52,7 @@ def create_app():
     # public information pages. Hidden on membership / account / admin pages, on
     # contact pages, and for members who already have Premium.
     NOTICE_SKIP_BLUEPRINTS = {'membership', 'admin_portal', 'auth', 'members', 'invoices',
-                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup', 'pulse_jee', 'reinforce', 'portal_guide', 'planner'}
+                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup', 'pulse_jee', 'pulse_tn10', 'reinforce', 'portal_guide', 'planner'}
     NOTICE_SKIP_ENDPOINTS = {'main.members_registration', 'main.premium_membership',
                              'main.members_login', 'main.contact', 'main.contact_alias',
                              'main.contactus_alias', 'main.dasa_guide', 'main.nirf_ranking', 'main.josaa', 'main.iiits', 'main.annanri', 'main.nirf_analytic', 'main.tnea_colleges', 'main.dasa_2026', 'main.dasa_2026_analytics', 'main.josaa_ea_members', 'main.josaa_assessment', 'main.choice_builder_pro', 'main.tnea_expert', 'main.neet_2027', 'main.medicine', 'static'}
@@ -126,6 +126,8 @@ def create_app():
 
     from app.routes.pulse_jee import pulse_jee_bp
     app.register_blueprint(pulse_jee_bp)
+    from app.routes.pulse_tn10 import pulse_tn10_bp
+    app.register_blueprint(pulse_tn10_bp)
 
     from app.routes.reinforce import reinforce_bp
     app.register_blueprint(reinforce_bp)
