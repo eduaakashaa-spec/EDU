@@ -275,7 +275,7 @@ def ensure_futureready_programme():
 
 def ensure_default_programme():
     """Create the standard 10-session programme if none exists. Returns the first programme."""
-    prog = MsProgramme.query.filter(db.or_(MsProgramme.tier == None, ~MsProgramme.tier.in_(['Add-on', FR_TIER]))).first()  # noqa: E711
+    prog = MsProgramme.query.filter(db.or_(MsProgramme.tier == None, ~MsProgramme.tier.in_(['Add-on', FR_TIER, 'Grade 7-9 Mentorship', 'Grade 10-11 Mentorship']))).first()  # noqa: E711
     if prog:
         return prog
     prog = MsProgramme(name='Grade 12 Engineering Mentorship',

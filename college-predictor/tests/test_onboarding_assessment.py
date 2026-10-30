@@ -42,8 +42,9 @@ PARENT = {it['id']: it for it in items_for('parent')}
 # --------------------------------------------------------------------------- #
 def test_answer_key_matches_options():
     for iid, ans in ANSWER_KEY.items():
-        assert iid in STUDENT, 'answer key for unknown item %s' % iid
-        opts = STUDENT[iid]['options']
+        item = STUDENT.get(iid) or PARENT.get(iid)                         # the parent knowledge quizzes (PX4, PC1 ...) are keyed too
+        assert item, 'answer key for unknown item %s' % iid
+        opts = item['options']
         assert ans in opts, '%s: keyed answer %r is not an option: %r' % (iid, ans, opts)
 
 
@@ -64,7 +65,7 @@ def test_dropped_options_are_gone():
 # --------------------------------------------------------------------------- #
 def test_nine_ncert_questions_per_class():
     for cls, prefix in (('Class 11', 'N11'), ('Class 12', 'N12')):
-        shown = [it for it in items_for('student') if _when_met(it, {'S61': cls})]
+        shown = [it for it in items_for('student') if _when_met(it, {'S61': cls, 'S63': 'Engineering'})]
         quiz = [it for it in shown if it['id'].startswith(('N11', 'N12'))]
         assert len(quiz) == 9, '%s shows %d NCERT items, want 9' % (cls, len(quiz))
         assert all(it['id'].startswith(prefix) for it in quiz), '%s: wrong set' % cls
@@ -78,13 +79,14 @@ def test_gate_depends_on_an_earlier_item():
     # _save reads items in bank order, so a gate must resolve before it is checked
     order = {it['id']: n for n, it in enumerate(items_for('student'))}
     for it in items_for('student'):
-        for dep in (it.get('when') or {}):
+        w = it.get('when') or {}
+        for dep in {k for g in (w if isinstance(w, list) else [w]) for k in g}:        # a `when` may be a dict, or a list of dicts (any one)
             assert order[dep] < order[it['id']], \
                 '%s gates on %s, which is asked later' % (it['id'], dep)
 
 
 def test_ungated_items_always_shown():
-    assert _when_met(STUDENT['S1'], {})
+    assert _when_met(STUDENT['S61'], {}) and _when_met(STUDENT['S62'], {})                       # the class and board questions open the form for everyone
     assert not _when_met(STUDENT['N12P1'], {'S61': 'Class 11'})
     assert not _when_met(STUDENT['N12P1'], {}), 'no class answered -> must not be shown'
 
@@ -152,7 +154,7 @@ def test_ai_bundle_marks_the_quiz():
         student = OnboardingResponse(
             role='student', family_key='user:99', student_name='Ravi',
             email='b@ea.com',
-            responses_json='{"S61": "Class 11", "N11P1": "2 s", "N11C1": "6"}')
+            responses_json='{"S61": "Class 11", "S63": "Engineering", "N11P1": "2 s", "N11C1": "6"}')
         db.session.add(student)
         db.session.commit()
         text = _ai_bundle(student, None)
@@ -182,7 +184,7 @@ def _answer(it, form, cls):
     """Fill one item with any valid answer, using the same field names as the form."""
     from app.routes.onboarding import _slug
     iid, t = it['id'], it['type']
-    if it.get('when') and not _when_met(it, {'S61': cls}):
+    if it.get('when') and not _when_met(it, {'S61': cls, 'S63': 'Engineering'}):
         return
     if iid == 'S61':
         form[iid] = cls
@@ -243,6 +245,6 @@ if __name__ == '__main__':
             print('  ok  %s' % fname)
     print('\n%d checks passed — %d student items (%d shown per class), %d parent items'
           % (passed, len(items_for('student')),
-             len([i for i in items_for('student') if _when_met(i, {'S61': 'Class 11'})]),
+             len([i for i in items_for('student') if _when_met(i, {'S61': 'Class 11', 'S63': 'Engineering'})]),
              len(items_for('parent'))))
     os.unlink(_db)

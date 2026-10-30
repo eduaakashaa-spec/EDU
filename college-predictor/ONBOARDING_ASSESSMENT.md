@@ -1,5 +1,6 @@
 # EduAakashaa Membership Onboarding Assessment
-### Class 12 · Engineering (India) · Student + Parent instruments · AI-ready
+### Class 7 to 12 · Engineering, medicine, law and management (India) · Student + Parent instruments · AI-ready
+*Originally written for Class 12 engineering; the grade bands (Explore, Direct, Senior) are described in Deliverable 2B at the end.*
 
 **Purpose.** Completed by every new member family *before* the first 1-on-1. The student and parent(s)
 answer separately (each on their own phone, without comparing answers). A completed pair is pasted into
@@ -575,3 +576,89 @@ Biggest single gap to address first: {one line}.
   ceiling checks, and calibration items that downgrade certainty instead of discarding data.
 - **Sensitive items are protected.** S50/P34 are optional, flagged confidential, and the rubric
   forbids quoting them into parent-facing copy.
+
+
+---
+
+# DELIVERABLE 2B — GRADE-BAND ADDENDUM (Class 7 to 12, all career paths)
+
+The instrument is now one form that follows the first answers: the class (S61 / P35), the board (S62) and, from Class 10, the career path (S63 / P36).
+Items a family was not asked simply do not appear in the bundle. Use this addendum together with Deliverable 2: it replaces the Class 12 engineering assumptions
+for the bands below and adds the path sections. The non-negotiable rules of Deliverable 2 (never invent data, quote verbatim, S50/P34 and EX40 stay confidential,
+no clinical language, calibration items soften claims) apply unchanged. EX40 is confidential in the same way as S50.
+
+## Which band is this family?
+- Explore: Class 7, 8, 9. Questions EX1 to EX40 (student), PX1 to PX9 and P37 to P41 (parent). Focus: STREAM SELECTION.
+- Direct: Class 10, 11. Student: CX1 to CX12, the path module (MD, LW, MG, UD or engineering D/E), CY1 to CY6, and the shared blocks. Focus: CAREER GOAL, COURSE/BRANCH, COLLEGES.
+- Senior: Class 12. Deliverable 2 as written for the engineering path; for another path replace §D/E of the dossier with the path section below.
+
+## New tags
+STREAM-KNOW / STREAM-LEAN / CAL-STREAM / STREAM-WHY / STREAM-FACTOR / SJT-STREAM-HERD: stream awareness (scored where an answer key is attached), lean, certainty, reasons, decision factors,
+herd bias. CAREER-AWARE / PATH-CURIOUS / PATH-READY / PATH-ROLEMODEL: how much of the world of work the student has seen. PATH-CHOICE / PATH-AWARE / PATH-RANK / PATH-BLOCK / PATH-OTHER: the chosen path and,
+if undecided, what is blocking. MED-* / LAW-* / MGT-*: path readiness (knowledge items are scored; likert items are self-report). COLLEGE-RESEARCH / COLLEGE-KNOW / COLLEGE-FACTOR / COLLEGE-LIST / SJT-COLLEGE:
+college readiness and priorities. ENJOY-SUBJ / HARD-SUBJ, SELFEFF-SCI / SELFEFF-LANG, DISTRACT / HELP-SEEK / GROWTH: Explore-band study behaviour. STREAM-PREF-P / ALIGN-STREAM-FIXED / PARENT-KNOW-STREAM /
+PARENT-STREAM-FACTOR / PARENT-FLEX-STREAM: the parent's stream view. PARENT-RISK-PLANB: openness to a related course.
+
+## Scoring procedures
+
+E1. Interest themes without the Class 12 triads (Explore EX8 to EX11, Direct CX10 to CX12 plus S13 if shown). Triads: "most" = +2, "least" = -1 to the letter of that option (order a, b, c).
+    EX8: a=R b=I c=A. EX9: a=S b=E c=C. EX10: a=S b=E c=E-or-C (treat c as E). CX10: a=R b=I c=A. CX11: a=S b=E c=C. CX12: a=S b=E c=E (a looks after people, plants or animals: S).
+    Ranking EX11 (and S13): rank1 = 5 down to rank6 = 0 to each letter in the order the options are listed: R, I, A, S, E, C. Report the top two letters only and call it "early interest themes"
+    for Class 7 to 9. Never present a code as fixed for a child under 15.
+
+E2. Study behaviour, Explore band (EX13 to EX18). Reverse EX15 as (6 - x). Report: curiosity (EX13), routine (mean of EX14 and reversed EX15), help-seeking (EX16), growth (EX17), teamwork (EX18).
+    One sentence each, as a tendency, with one concrete habit to build.
+
+E3. Stream readiness (Explore). Knowledge: EX23 to EX26, one mark each, shown as n/4 using the RIGHT/wrong markings. Lean (EX27) and certainty (EX28). Herd bias: EX31 and whether EX30 ranks
+    "What my friends choose" in the bottom three. Evidence for the lean: do EX6/EX7 (enjoyed and hardest subject), the interest themes (E1), EX3 to EX5 (self-efficacy) and EX20 (curious careers) support EX27?
+    Output a "stream picture": lean, how sure, supporting evidence, contradicting evidence, and the three questions the mentor should ask in the first session. If EX27 = Science with Maths (PCM)
+    but EX3 is 1 or 2 and EX7 = Maths, say plainly that the lean and the evidence disagree and why that matters; do not tell the student to change.
+
+E4. Career awareness. EX19 is a familiarity audit per career: list the two lowest as the first "career conversations" to arrange. PATH-READY (EX22): "Not at all" is a normal answer for Class 7 and 8,
+    a flag only from Class 9.
+
+D1. Academic standing, Class 10 and non-engineering Class 11/12 (CX1 to CX9). Marks (CX2 or CX4) against self-efficacy (CX6 to CX8): same quadrant method as Deliverable 2 section C
+    (hidden strength, over-confident, aligned, struggling). Class 10: CX3 is the expected board score; flag a gap of 15 points or more between CX2 marks and CX3 expectation as "expectation above recent marks".
+    CX1 gives the subject group; check it against the path (PCB for medicine, Maths for engineering and most management routes, any stream for law). Say plainly if the group and the path do not fit,
+    and name what that means for the entrance exam.
+
+D2. Path fit. Always report: the stated path (S63), the parent's path (P36), and whether they match. Then by path:
+    ENGINEERING (D and E modules, S25 to S40): as Deliverable 2 sections D and E. For Class 10 students the NCERT set is not shown; do not comment on its absence.
+    MEDICINE (MD1 to MD9): knowledge = MD1 + MD2 (n/2). Readiness = mean of MD3 to MD6 (MD3 stamina, MD4 temperament, MD5 biology comfort, MD6 openness to other healthcare routes). Bands: <= 2.4 Low,
+    2.5 to 3.5 Moderate, >= 3.6 High. Route interest from MD7 (top two). Plan B from MD9 and MD6. Flag: MD3 or MD5 at 1 or 2 with MD8 mentioning only family or status.
+    LAW (LW1 to LW8): knowledge = LW1 + LW2. Readiness = mean of LW3 to LW6 (reading, argument, current affairs, writing). Area interest from LW7 (top two). Flag: LW3 at 1 or 2 (reading load is the main
+    daily demand of law).
+    MANAGEMENT (MG1 to MG7): knowledge = MG1. Readiness = mean of MG2 to MG5 (leading, numbers, venture appetite, communication). Area interest from MG6 (top two). Note MG3 low with finance ranked first.
+    UNDECIDED (UD1 to UD3): list the two paths with the highest familiarity and the two with the highest curiosity (UD2). Report what is blocking (UD3) in the student's words. Do not push a path:
+    the dossier outcome is an "exploration plan", not a recommendation.
+    OTHER (UD4, UD5): quote UD4, say how much is known about the entrance route (UD5), and suggest one conversation with a practitioner.
+
+D3. Colleges and options (CY1 to CY6). Research level (CY1), familiarity (CY2: list the two lowest), the top three factors from CY3, named colleges or courses (CY4, quote), abroad (CY5),
+    and the CY6 judgement (herd or fit). If the CY3 top factor is "College reputation and ranking" and CY2 shows low familiarity with how rankings work, say so as a coaching point.
+    Constraints (S45 to S50) as Deliverable 2 section G, noting that the budget answers cover the whole course, not four years.
+
+P1. Parent, Explore band (PX1 to PX9, P37 to P41). Stream preference (PX1) and how fixed (PX2) against the student's lean (EX27): compute the gap (same stream, adjacent, different). Knowledge: PX4 and PX5
+    (n/2) plus the familiarity ratings PX3. Decision factors PX6 against the student's EX30: report the top factor of each. Flexibility PX7 (reverse nothing: high = child's interest decides).
+    Output: a "stream conversation brief" the mentor can use with both together.
+
+P2. Parent, Direct and Senior, non-engineering (PC1 to PC6, P38, P40). Knowledge: the one PC1 to PC3 item that matches P36, scored right or wrong. Familiarity PC4 (list the two lowest). Plan B openness PC5.
+    The student/parent path gap from S63 versus P36. Budget (P17 to P21) as Deliverable 2 section 5, noting that medical and some private programmes cost more than the options list tops out at:
+    if "Above 30 L" is chosen for a medicine or private-college route, say "budget exceeds the top band; ask for the actual figure" instead of treating it as a number.
+
+## Dossier sections by band (replace the Deliverable 3 headings as follows)
+Explore: 1 Snapshot. 2 School standing and study habits (E2, marks and self-efficacy). 3 Interest themes (E1). 4 Career awareness (E4). 5 Stream picture (E3). 6 Parent and student alignment on stream (P1).
+7 Questions for the first session (3 to 4 bullets). 8 Flags.
+Direct: 1 Snapshot. 2 Academic standing (D1). 3 Path fit (D2). 4 Colleges and options (D3). 5 Alignment (student, parent, path, budget, location). 6 What the parent knows and does not (P2) and the session agenda it implies.
+7 Talking points. 8 Flags.
+Senior: Deliverable 3 as written. For a non-engineering path use D2 for the path section and P2 for the parent section.
+
+## Flags specific to the bands
+- Explore: stream lean contradicts the evidence; lean driven only by friends or parents (EX30, EX31); parent stream preference "Must be this stream" while the student lean differs.
+- Direct: subject group does not fit the path; marks expectation far above recent marks; no research on colleges at Class 11; parent path differs from the student path with PX/PC2 knowledge low.
+- All bands: any item marked "Honestly, guessing" or "No idea yet" on a certainty question softens every claim that depends on it.
+
+## Design rationale (addendum, for the EduAakashaa team)
+Class 7 to 9 students are not asked about colleges, branches or entrance marks: the decision they face is the stream after Class 10, so the form measures strengths, interests, study habits, how much of the world
+of work they have seen, and what they already know about streams. Class 10 and 11 students are asked about the career goal and colleges, with one short readiness block per path, so a child aiming at medicine,
+law or management is not asked about engineering branches. Class 12 keeps the full engineering instrument. Knowledge questions are limited to widely published, stable facts (which exam gives access to which course,
+which subjects a route needs) and are marked for the counsellor only; exam dates, fees, seat numbers and cut-offs are deliberately not asked or scored here because they change every year.

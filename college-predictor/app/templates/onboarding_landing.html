@@ -32,6 +32,10 @@
   understand the whole picture — where the student stands, what genuinely interests them, and
   what the family hopes for. There are no right answers. It's answered on the phone in one sitting.</p>
 
+  <p class="lead">The first question asks the <strong>class</strong>, and the rest follows it: for <strong>Class 7 to 9</strong> the focus is
+  choosing a stream, for <strong>Class 10 and 11</strong> it is colleges, branches and the career goal (engineering, medicine, law or management),
+  and <strong>Class 12</strong> keeps the detailed engineering assessment.</p>
+
   <p class="lead"><strong>The student and the parent both sign in with the same EduAakashaa
   account</strong> — that's what pairs your two halves together. Fill them separately, without
   comparing answers.{% if not current_user.is_authenticated %}
@@ -41,15 +45,15 @@
     <a class="oal-card" href="{{ url_for('onboarding.assessment', role='student') }}">
       <div class="ic">🎓</div>
       <h2>I'm the student</h2>
-      <p>About 20 minutes — your marks and confidence, interests, how you work, and where you hope
+      <p>About 15 to 20 minutes — your marks and confidence, interests, how you work, the stream or career you lean to, and where you hope
       this goes. Honest answers only.</p>
       <span class="go">Start the student assessment →</span>
     </a>
     <a class="oal-card" href="{{ url_for('onboarding.assessment', role='parent') }}">
       <div class="ic">👪</div>
       <h2>I'm the parent</h2>
-      <p>About 12 minutes — your read on your child, your hopes, an honest self-check on the
-      admissions landscape, and your budget.</p>
+      <p>About 10 to 12 minutes — your read on your child, your hopes, an honest self-check on streams, exams and
+      colleges, and your budget.</p>
       <span class="go">Start the parent assessment →</span>
     </a>
   </div>

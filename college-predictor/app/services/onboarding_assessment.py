@@ -451,3 +451,13 @@ def items_for(role):
 
 def item_count(role):
     return len(items_for(role))
+
+
+# --- grade bands: Class 7-9 (stream selection), 10-11 (colleges, branch, career goal), 12 (the original) ---------------------------------------------
+# Adds the class / board / path questions, the band modules and the `when` gates on the original items. See services/onboarding_bands.py.
+from app.services import onboarding_bands as _bands  # noqa: E402
+
+_bands.apply(globals())
+band_for = _bands.band_for
+PATHS = _bands.PATHS
+CLASSES = _bands.CLASSES

@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-10-28'
+UPDATED = '2026-10-30'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -50,6 +50,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-30', 'Onboarding assessment is now grade-aware: Class 7-9 (stream selection), Class 10-11 (career goal, colleges, branch) and Class 12 (engineering), with medicine, law and management paths; two new mentorship programmes for Class 7-9 and Class 10-11; the admin onboarding list shows class and path.'),
     ('2026-10-28', 'New Elite role (premium tools plus the mentorship portal); Premium alone no longer opens the mentorship portal. Admin > Members > Manage > Tool access lets you allow or block individual tools for any member or mentor.'),
     ('2026-10-28', 'New members page "JEE Main syllabus map & formulas": all 92 chapters ranked by 2026 questions with compact, typeset key formulas for Maths, Physics and Chemistry.'),
     ('2026-10-28', 'New e-mail and WhatsApp template "Payment details — mentorship fee & instalments" (fee, four 25% instalments every 2 months, bank details); the company bank details are now pre-filled.'),
@@ -261,8 +262,9 @@ GUIDE = [
          where=[('Document Verify', 'members.admin_doc_list'), ('Assessment Results', 'assessments.admin_list'), ('Onboarding', 'onboarding.admin_list')],
          steps=['Document Verify: open a member, review each uploaded document and set its status (the member sees Awaiting review change to Approved).',
                 'Assessment Results: open a result to see answers and scores; export to Excel if needed.',
-                'Onboarding Assessments: read the student form and the parent form side by side before the first session.'],
-         added='2026-10-26', updated='2026-10-26'),
+                'Onboarding Assessments: read the student form and the parent form side by side before the first session. The list shows the class and career path of each family; the detail page opens with a Profile (class, band, board, path) and the programme that fits, and lists only the questions that family was asked.',
+                'The form follows the class: Class 7-9 families get the stream-selection form, Class 10-11 the career-goal and college form (engineering, medicine, law or management), Class 12 the detailed engineering form. "Copy for AI" adds the class and band, and the downloaded file carries the matching rubric (Deliverable 2B).'],
+         added='2026-10-26', updated='2026-10-30'),
     dict(id='m-reinforce-roster', role='mentor', group='Reinforcement', title='Reinforcement: build your roster', summary='Add the students you will assign daily practice to.',
          where=[('Roster', 'reinforce.mentor_students')],
          steps=['Open Member Home > "Reinforcement mentor view", then Roster.',
@@ -370,11 +372,11 @@ GUIDE = [
          steps=['Open Mentorship. First time only: press "Load standard 10-session programme" and "Load add-on programmes".',
                 'Enrol a student: press "Enrol a student", choose the student, programme and mentor, then Save. Use "resend invite" if the student did not get the e-mail.',
                 'Link parent: attach the parent\'s account so they see the plan and reports.',
-                'Programmes: edit session titles, reorder with the arrows, add sessions, or create a new programme (including FutureReady).',
+                'Programmes: edit session titles, reorder with the arrows, add sessions, or create a new programme (including FutureReady). Two grade programmes are created for you the first time you open this page: "Class 7-9 Stream and Career Explorer Mentorship" (stream selection) and "Class 10-11 College and Career Mentorship" (career goal, entrance exams, courses, colleges). Pick the one the onboarding Profile suggests when you enrol a student.',
                 'Exam catalogue: add or edit exams and dates. "Save & alert on change" notifies members; use it only for real changes.',
                 'Programme calendar, Attention rules and Branch catalogue are also kept here.'],
          tips=['Members and students are at the top; programme details are collapsed until you expand them.'],
-         added='2026-10-26', updated='2026-10-26'),
+         added='2026-10-26', updated='2026-10-30'),
     dict(id='a-futureready', role='admin', group='Programmes', title='FutureReady administration', summary='Class 8-9 programme.',
          where=[('FutureReady admin', 'futureready.admin_home')],
          steps=['Open FutureReady admin to see all profiles.',

@@ -1077,6 +1077,8 @@ def report_pdf(eid, rid):
 @admin_required
 def admin_home():
     svc.ensure_futureready_programme()
+    from app.services import mentorship_grades
+    mentorship_grades.ensure_grade_programmes()
     progs = MsProgramme.query.order_by(MsProgramme.id).all()
     return render_template('admin/mentorship_admin.html', admin_tab='mentorship', programmes=progs,
                            enrolments=MsEnrolment.query.order_by(MsEnrolment.id.desc()).all(),

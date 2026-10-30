@@ -38,6 +38,16 @@
 
   {% include "admin/_nav.html" %}
 
+  {% if profile.class %}
+  <div class="adm-card" style="margin-bottom:18px;">
+    <h2>Profile</h2>
+    <p style="margin:0 0 6px;"><strong>{{ profile.class }}</strong> &middot; {{ profile.band }} band{% if profile.board %} &middot; {{ profile.board }}{% endif %}
+      {% if profile.path %}&middot; student path: <strong>{{ profile.path }}</strong>{% endif %}
+      {% if profile.parent_path and profile.parent_path != profile.path %}&middot; parent has in mind: <strong>{{ profile.parent_path }}</strong>{% endif %}</p>
+    {% if profile.programme %}<p style="margin:0;color:var(--muted);font-size:.9rem;">Suggested programme: <strong>{{ profile.programme }}</strong>. {{ profile.why }} Enrol in Admin &rarr; Mentorship.</p>{% endif %}
+  </div>
+  {% endif %}
+
   <div class="adm-card" style="margin-bottom:18px;">
     <h2>Generate the Insight Dossier</h2>
     <p class="sub">Copy the block below and paste it into your AI. It already includes the instruction
@@ -62,7 +72,7 @@
         {% set resp = rec.responses %}
         {% for mod in modules_for(role) %}
           <div class="ob-mod">{{ mod.title }}</div>
-          {% for it in mod['items'] %}
+          {% for it in mod['items'] if when_met(it, resp) %}
             {% set ans = resp.get(it.id) %}
             <div class="ob-item {{ 'ob-conf' if it.get('confidential') }}">
               {% if it.get('confidential') %}<div class="warn">🔒 Confidential — counsellor only</div>{% endif %}

@@ -26,7 +26,7 @@ from app.decorators import admin_required, staff_required
 from app.extensions import db
 from app.models import OnboardingResponse
 from app.services.mailer import send_async
-from app.services.onboarding_assessment import (ANSWER_KEY, ROLES, intro_for,
+from app.services.onboarding_assessment import (ANSWER_KEY, ROLES, band_for, intro_for,
                                                 items_for, modules_for)
 
 onboarding_bp = Blueprint('onboarding', __name__)
@@ -263,8 +263,23 @@ def _read_answer(it, f):
 
 def _when_met(it, answers):
     """True when a conditional item's gate is satisfied by the given answers.
-    `when` is {earlier_item_id: required_answer} — see _mcq in the question bank."""
-    return all(answers.get(k) == v for k, v in (it.get('when') or {}).items())
+    `when` is {earlier_item_id: required_answer}; a required answer may be a list (any of them), and a list of such dicts means any one of them
+    must hold. See services/onboarding_bands.py."""
+    w = it.get('when') or {}
+    groups = w if isinstance(w, list) else [w]
+    return any(all(answers.get(k) in (v if isinstance(v, list) else [v]) for k, v in g.items()) for g in groups)
+
+
+def profile_of(student, parent=None):
+    """Class, band, board, career path and the programme that fits, read from a family's answers (the student's first, the parent's as a fallback)."""
+    from app.services import mentorship_grades
+    s = student.responses if student else {}
+    p = parent.responses if parent else {}
+    cls = s.get('S61') or p.get('P35') or ''
+    path = s.get('S63') or p.get('P36') or ''
+    name, why = mentorship_grades.suggested_programme(cls, path)
+    return {'class': cls, 'band': band_for(cls), 'board': s.get('S62', ''), 'path': path, 'parent_path': p.get('P36', ''),
+            'programme': name, 'why': why}
 
 
 def _slug(label):
@@ -306,6 +321,8 @@ def admin_list():
             fam['last'] = r.created_at
     families = sorted(fams.values(),
                       key=lambda x: x['last'] or 0, reverse=True)
+    for f in families:
+        f['profile'] = profile_of(f['student'], f['parent'])
 
     total, students, parents = 0, 0, 0
     for f in families:
@@ -337,8 +354,8 @@ def admin_detail(sub_id):
     sub = db.session.get(OnboardingResponse, sub_id) or abort(404)
     student, parent = _student_parent(sub)
     return render_template('admin/onboarding_detail.html', admin_tab='onboarding',
-                           sub=sub, student=student, parent=parent,
-                           modules_for=modules_for, ai_bundle=_ai_bundle(student, parent))
+                           sub=sub, student=student, parent=parent, profile=profile_of(student, parent),
+                           modules_for=modules_for, when_met=_when_met, ai_bundle=_ai_bundle(student, parent))
 
 
 def _rubric_text():
@@ -395,10 +412,18 @@ def _ai_bundle(student, parent):
             lines.append(line)
         return '\n'.join(lines)
 
+    pr = profile_of(student, parent)
+    band_note = {
+        'Explore': "This is a Class 7-9 (Explore) family: use Deliverable 2B, the grade-band addendum, and focus the dossier on stream selection. Ignore the Class 12 engineering rubric.",
+        'Direct': "This is a Class 10-11 (Direct) family: use Deliverable 2B for the career path and college readiness, and Deliverable 2 only for the sections that still apply (academics, interests, work style, constraints).",
+        'Senior': "This is a Class 12 family: use Deliverable 2. If the path is not engineering, add the path section from Deliverable 2B.",
+    }.get(pr['band'], '')
     header = ("Run the EduAakashaa onboarding analysis. Use the AI Analysis Rubric "
-              "(Deliverable 2) and Insight Dossier template (Deliverable 3) from "
+              "(Deliverable 2, and 2B for the grade bands) and Insight Dossier template (Deliverable 3) from "
               "ONBOARDING_ASSESSMENT.md. Below are this family's answers, keyed by "
               "item id.\n")
+    header += 'Class: %s | Band: %s | Student path: %s | Parent path: %s | Board: %s\n%s\n' % (
+        pr['class'] or 'not given', pr['band'] or '-', pr['path'] or '-', pr['parent_path'] or '-', pr['board'] or '-', band_note)
     return header + '\n\n' + render(student, 'student') + '\n\n' + render(parent, 'parent')
 
 

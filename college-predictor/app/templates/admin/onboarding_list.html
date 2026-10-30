@@ -39,13 +39,14 @@
   <div class="adm-table-wrap">
     <table class="adm-table">
       <thead><tr>
-        <th>Student</th><th>Student form</th><th>Parent form</th><th>Latest</th><th></th>
+        <th>Student</th><th>Class and path</th><th>Student form</th><th>Parent form</th><th>Latest</th><th></th>
       </tr></thead>
       <tbody>
       {% for fam in families %}
         {% set open_id = (fam.student or fam.parent).id %}
         <tr>
           <td class="ob-fam"><strong>{{ fam.name }}</strong></td>
+          <td>{% if fam.profile.class %}{{ fam.profile.class }}{% if fam.profile.band %} <span class="mut">&middot; {{ fam.profile.band }}</span>{% endif %}{% if fam.profile.path %}<div class="mut" style="font-size:12px">{{ fam.profile.path }}</div>{% endif %}{% else %}<span class="mut">—</span>{% endif %}</td>
           <td>
             {% if fam.student %}<span class="ob-dot ob-have">✓ done</span>{% else %}<span class="ob-dot ob-miss">— waiting</span>{% endif %}
           </td>
@@ -56,7 +57,7 @@
           <td><a class="ref" href="{{ url_for('onboarding.admin_detail', sub_id=open_id) }}">Open →</a></td>
         </tr>
       {% else %}
-        <tr><td colspan="5" style="padding:26px; text-align:center; color:var(--muted);">
+        <tr><td colspan="6" style="padding:26px; text-align:center; color:var(--muted);">
           No assessments yet. Share <code>/onboarding-assessment</code> with a member family.
         </td></tr>
       {% endfor %}

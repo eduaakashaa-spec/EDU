@@ -330,9 +330,13 @@
     var w = step.getAttribute('data-when');
     if (!w) return true;
     try { w = JSON.parse(w); } catch (e) { return true; }
-    return Object.keys(w).every(function (k) {
-      var el = form.querySelector('[name="' + k + '"]:checked');
-      return el && el.value === w[k];
+    var groups = Array.isArray(w) ? w : [w];          // a list of gates means any one of them; inside a gate every key must match (a value may be a list = any of)
+    return groups.some(function (g) {
+      return Object.keys(g).every(function (k) {
+        var el = form.querySelector('[name="' + k + '"]:checked');
+        var ok = [].concat(g[k]);
+        return el && ok.indexOf(el.value) > -1;
+      });
     });
   }
   function liveSteps() { return steps.filter(live); }
