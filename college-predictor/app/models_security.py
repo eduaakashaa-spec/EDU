@@ -11,3 +11,15 @@ class SignupLog(db.Model):
     email = db.Column(db.String(200))
     reason = db.Column(db.String(30), index=True)           # created | honeypot | too_fast | expired | rate_limited | bad_name | disposable | duplicate
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None), index=True)
+
+
+class AdminImpersonation(db.Model):
+    """Every time an admin used "View as" on another account (Admin -> Members -> View as): who, whom, read-only or not, and when it started and ended."""
+    __tablename__ = 'admin_impersonations'
+    id = db.Column(db.Integer, primary_key=True)
+    admin_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    target_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    readonly = db.Column(db.Boolean, default=True)
+    ip = db.Column(db.String(64))
+    started_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None), index=True)
+    ended_at = db.Column(db.DateTime)

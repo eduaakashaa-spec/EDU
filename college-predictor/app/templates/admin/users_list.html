@@ -123,7 +123,9 @@
                   <button class="btn btn-navy btn-sm" type="submit">Save plan</button>
                 </form>
 
-                <div style="align-self:end;"><a class="btn btn-ghost btn-sm" href="{{ url_for('admin_portal.user_access', user_id=u.id) }}">Tool access →</a></div>
+                <div style="align-self:end;display:flex;gap:6px;flex-wrap:wrap;"><a class="btn btn-ghost btn-sm" href="{{ url_for('admin_portal.user_access', user_id=u.id) }}">Tool access →</a>
+                  <a class="btn btn-ghost btn-sm" href="{{ url_for('impersonate.diagnose', user_id=u.id) }}">Diagnose →</a>
+                  {% if u.tier != 'admin' %}<form method="post" action="{{ url_for('impersonate.start', user_id=u.id) }}" style="display:inline;"><button class="btn btn-ghost btn-sm" type="submit">View as →</button></form>{% endif %}</div>
 
                 <form method="post" action="{{ url_for('admin_portal.user_email', user_id=u.id) }}">
                   <div>

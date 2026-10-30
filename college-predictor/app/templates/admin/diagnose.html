@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Diagnose {{ u.name }} — Admin · EduAakashaa{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>.dg-ok{color:#1F8B5C;font-weight:700}.dg-no{color:#C23A3A;font-weight:700}.dg-t td{vertical-align:top}</style>{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  <div class="adm-top"><div><div class="adm-eyebrow"><a href="{{ url_for('membership.admin_users') }}" style="color:var(--navy);text-decoration:none;">← Members</a></div><h1>Diagnose: {{ u.name }}</h1></div></div>
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-card" style="margin-bottom:16px;">
+    <p style="margin:0 0 8px;"><b>{{ u.email }}</b> · plan <span class="pill pill-{{ u.tier }}">{{ u.tier }}</span>
+      {% if u.tier_expires_at %}· valid until {{ u.tier_expires_at.strftime('%d %b %Y') }}{% endif %}
+      · created {{ u.created_at.strftime('%d %b %Y') if u.created_at else '—' }}</p>
+    <p style="margin:0 0 8px;font-size:.92rem;">Premium access: <b class="{{ 'dg-ok' if u.is_premium else 'dg-no' }}">{{ 'yes' if u.is_premium else 'no' }}</b> ·
+      Elite / mentorship portal: <b class="{{ 'dg-ok' if u.is_elite else 'dg-no' }}">{{ 'yes' if u.is_elite else 'no' }}</b> ·
+      Team account: <b>{{ 'yes' if u.is_staff else 'no' }}</b> · College Guide: <b>{{ 'yes' if u.is_mentor else 'no' }}</b></p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+      <a class="btn btn-ghost btn-sm" href="{{ url_for('admin_portal.user_access', user_id=u.id) }}">Tool access exceptions →</a>
+      {% if u.tier != 'admin' %}
+      <form method="post" action="{{ url_for('impersonate.start', user_id=u.id) }}" style="display:inline-flex;gap:8px;align-items:center;">
+        <label style="display:flex;gap:4px;align-items:center;font-size:12px;margin:0"><input type="checkbox" name="allow_changes" value="1" style="width:auto"> allow changes</label>
+        <button class="btn btn-navy btn-sm" type="submit">View as this person</button></form>{% endif %}
+    </div>
+  </div>
+
+  <div class="adm-card" style="margin-bottom:16px;">
+    <h2>Records</h2>
+    <ul style="margin:6px 0 0;padding-left:18px;line-height:1.7;font-size:.92rem;">
+      <li>Mentorship enrolments as a student: {% if info.enrolments %}{% for e in info.enrolments %}<a href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}">{{ e.programme.name }} ({{ e.status }})</a>{{ ', ' if not loop.last }}{% endfor %}{% else %}none{% endif %}</li>
+      <li>Students mentored: {{ info.mentoring }} · linked as a parent of: {{ info.parent_of }}</li>
+      <li>EduPulse profile: {{ 'yes' if info.pulse else 'none' }}{% if info.pulse and info.pulse.mentor_id %} (mentor linked){% endif %} · Reinforcement roster: {% if info.rf %}{{ info.rf.exam }}{{ ', inactive' if not info.rf.active }}{% else %}not on a roster{% endif %}</li>
+      <li>Custom tool access: {% if info.exceptions %}{% for x in info.exceptions %}{{ x.tool_key }} = {{ x.mode }}{{ ', ' if not loop.last }}{% endfor %}{% else %}none (follows the plan){% endif %}</li>
+      {% if info.viewed %}<li>Last admin views: {% for v in info.viewed %}{{ v.started_at.strftime('%d %b %H:%M') }}{{ ', ' if not loop.last }}{% endfor %}</li>{% endif %}
+    </ul>
+  </div>
+
+  {% for g in groups %}
+  <div class="adm-card" style="margin-bottom:12px;"><h2>{{ g.title }}</h2>
+    <table class="adm-table dg-t"><tbody>
+      {% for r in g.rows %}<tr><td style="width:34%">{{ r.title }}{% if r.staff %} <small style="color:var(--muted)">team tool</small>{% endif %}</td><td style="width:12%"><span class="{{ 'dg-ok' if r.ok else 'dg-no' }}">{{ 'Open' if r.ok else 'Not open' }}</span></td><td style="color:var(--muted);font-size:.88rem">{{ r.why }}</td></tr>{% endfor %}
+    </tbody></table>
+  </div>
+  {% endfor %}
+</div></div>
+{% endblock %}

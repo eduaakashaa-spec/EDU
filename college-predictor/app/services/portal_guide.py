@@ -38,6 +38,7 @@ COVERED_BLUEPRINTS = {
     'pulse': 'EduPulse-UCEED practice and UCEED mock centre',
     'pulse_jee': 'EduPulse-JEE mock centre',
     'pulse_tn10': 'EduPulse-TN Class 10 mock centre',
+    'impersonate': 'Admin View as and Diagnose',
     'reinforce': 'EduPulse - Reinforcement',
     'wagroup': 'WhatsApp group buttons',
     'admin_portal': 'Admin overview, announcements, schedule, messages, email templates',
@@ -51,6 +52,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-30', 'Admins can now "View as" a student, parent or mentor (read-only by default, with a banner and a log) and open a Diagnose page that shows what each person can open and why.'),
     ('2026-10-30', 'New EduPulse-TN Class 10 Mock Test Centre (Mathematics and Science, Tamil Nadu Class 10, English medium): three full mocks per subject and a unit test for every textbook unit, with confidence ratings and reports; the same 310 questions are in EduPulse - Reinforcement as exam track TN10.'),
     ('2026-10-30', 'New "NUS, NTU and HKU admission pack" button on each enrolment in Mentorship admin: 2027 application windows with per-university checklists, deadlines, KPIs, actions and a college list for a student applying to Singapore and Hong Kong.'),
     ('2026-10-30', 'Onboarding assessment is now grade-aware: Class 7-9 (stream selection), Class 10-11 (career goal, colleges, branch) and Class 12 (engineering), with medicine, law and management paths; two new mentorship programmes for Class 7-9 and Class 10-11; the admin onboarding list shows class and path.'),
@@ -340,6 +342,16 @@ GUIDE = [
                 'Network holds College Guides and College Surveys. Finance holds Invoices, New invoice and Invoice Settings.',
                 'This guide is also in the Admin menu, so mentors and members can read their sections.'],
          added='2026-10-26', updated='2026-10-26'),
+    dict(id='a-view-as', role='admin', group='People', title='View as a student or mentor, and Diagnose', summary='See the portal exactly as a member sees it, and find out why something is or is not visible.',
+         where=[('View as', 'impersonate.picker'), ('Members', 'membership.admin_users')],
+         steps=['Open People > View as a student or mentor (or Members > Manage > View as). Choose Students or Mentors, search by name or e-mail, and press View as.',
+                'You are signed in as that person. A red bar at the top shows who you are viewing and has "Stop viewing & return to admin". Every page, menu and Member Home tile appears exactly as they see it, including locked tiles.',
+                'The view is read-only by default: any save, send or submit is refused with a message, so you can look around safely. Tick "allow changes" before starting only when you must reproduce something that needs a click or a test submission; changes are then made as that person.',
+                'Passwords, sign-in and e-mail can never be changed while viewing as someone else. You cannot view as an admin, and only one view can be open at a time.',
+                'Diagnose (Members > Manage > Diagnose, or the button on the picker) lists every Member Home tool for that person with Open or Not open and the reason: plan and expiry, Elite, team account, or an admin exception from Tool access. It also shows their mentorship enrolments, mentoring and parent links, EduPulse and Reinforcement records.',
+                'Press Stop viewing when done. Each view is logged with the admin, the person, read-only or not, and the start and end time.'],
+         tips=['A member who "cannot see" a tool is usually on the wrong plan, expired, or blocked by a Tool access exception: Diagnose shows which in one line.'],
+         added='2026-10-30', updated='2026-10-30'),
     dict(id='a-members', role='admin', group='People', title='Members and access', summary='Create members, set plans, reset passwords.',
          where=[('Members & Access', 'membership.admin_users')],
          steps=['Open People > Members. Search by name or e-mail.',

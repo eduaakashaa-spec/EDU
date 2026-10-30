@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}View as a student or mentor — Admin · EduAakashaa{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">{% endblock %}
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+  <div class="adm-top"><div><div class="adm-eyebrow">Admin · Members</div><h1>View as a student, parent or mentor</h1></div></div>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}<ul class="flash-list">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}
+  {% endwith %}
+  {% include "admin/_nav.html" %}
+  <p style="color:var(--muted);font-size:.9rem;max-width:760px;line-height:1.5;margin:0 0 12px;">You sign in as the person and see every page exactly as they do, with a red bar at the top and a button to return. It is <b>read-only</b> by default: nothing can be changed, so you can look around safely. Tick <b>allow changes</b> only when you need to reproduce something that needs a click, a save or a test submission. Passwords, sign-in and e-mail can never be changed this way. Each session is logged.</p>
+  <form class="adm-bar" method="get" action="{{ url_for('impersonate.picker') }}">
+    <select name="role"><option value="student" {{ 'selected' if role == 'student' }}>Students, parents and free members</option><option value="mentor" {{ 'selected' if role == 'mentor' }}>Mentors (EA mentors and College Guides)</option><option value="all" {{ 'selected' if role == 'all' }}>Everyone</option></select>
+    <input type="text" name="q" value="{{ q }}" placeholder="Search name or e-mail…" style="flex:1;min-width:200px;">
+    <button class="btn btn-navy" type="submit">Search</button>
+  </form>
+  <div class="adm-table-wrap"><table class="adm-table"><thead><tr><th>Person</th><th>Plan</th><th>Valid until</th><th></th></tr></thead><tbody>
+    {% for u in rows %}<tr>
+      <td>{{ u.name }}<div style="color:var(--muted);font-size:12px">{{ u.email }}</div></td>
+      <td><span class="pill pill-{{ u.tier }}">{{ u.tier }}</span></td>
+      <td>{{ u.tier_expires_at.strftime('%d %b %Y') if u.tier_expires_at else '—' }}</td>
+      <td style="white-space:nowrap">
+        <form method="post" action="{{ url_for('impersonate.start', user_id=u.id) }}" style="display:inline-flex;gap:8px;align-items:center;">
+          <label style="display:flex;gap:4px;align-items:center;font-size:12px;margin:0"><input type="checkbox" name="allow_changes" value="1" style="width:auto"> allow changes</label>
+          <button class="btn btn-navy btn-sm" type="submit">View as</button>
+          <a class="btn btn-ghost btn-sm" href="{{ url_for('impersonate.diagnose', user_id=u.id) }}">Diagnose</a>
+        </form></td></tr>
+    {% else %}<tr><td colspan="4" style="text-align:center;padding:30px;color:var(--muted)">No one matches.</td></tr>{% endfor %}
+  </tbody></table></div>
+  <div style="margin-top:10px;display:flex;gap:10px;">
+    {% if pagination.has_prev %}<a href="{{ url_for('impersonate.picker', page=pagination.prev_num, q=q, role=role) }}">‹ Prev</a>{% endif %}
+    {% if pagination.has_next %}<a href="{{ url_for('impersonate.picker', page=pagination.next_num, q=q, role=role) }}">Next ›</a>{% endif %}
+  </div>
+  {% if recent %}<h2 style="margin-top:22px;font-size:1rem">Your recent sessions</h2>
+  <ul style="padding-left:18px;color:var(--muted);font-size:.88rem;line-height:1.7">{% for r in recent %}<li>{{ r.started_at.strftime('%d %b %Y %H:%M') }} UTC · {{ users[r.target_id].name if users.get(r.target_id) else 'deleted account' }} · {{ 'read-only' if r.readonly else 'changes allowed' }}{{ '' if r.ended_at else ' · not ended' }}</li>{% endfor %}</ul>{% endif %}
+</div></div>
+{% endblock %}

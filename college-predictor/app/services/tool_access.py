@@ -110,3 +110,35 @@ def save(user, modes, admin_email=''):
     db.session.commit()
     g.__dict__.get('_tool_access', {}).pop(user.id, None)
     return len(clean)
+
+
+def explain(user, tile):
+    """(open?, plain-language reason) for one Member Home tile and one person: the tier rule first, then any admin exception. Used by Admin -> Members -> Diagnose."""
+    key = mh.slugify(tile['title'])
+    mode = mode_for(user, key)
+    access = tile.get('access')
+    if access == 'soon':
+        return False, 'Coming soon'
+    if tile.get('staff') and not user.is_staff:
+        return False, 'Team tool: hidden for this account (needs the EA mentor or admin plan)'
+    if mode == 'deny':
+        return False, 'Blocked by an admin exception (Tool access)'
+    if access == 'elite':
+        if user.is_elite:
+            return True, 'Open: Elite plan' if user.tier == 'elite' else 'Open: team account'
+        if mode == 'allow':
+            return True, 'Open: admin exception (allow)'
+        return False, 'Locked: needs Elite Mentorship (plan is %s)' % _plan(user)
+    if access == 'premium':
+        if user.is_premium:
+            return True, 'Open: %s' % ('Premium or Elite plan' if user.tier in ('premium', 'elite') else 'team account')
+        if mode == 'allow' and not tile.get('staff'):
+            return True, 'Open: admin exception (allow)'
+        return False, 'Locked: needs Premium (plan is %s)' % _plan(user)
+    return True, 'Open: any signed-in member'
+
+
+def _plan(user):
+    if user.tier in ('premium', 'elite') and user.tier_expires_at:
+        return '%s, expired on %s' % (user.tier, user.tier_expires_at.strftime('%d %b %Y'))
+    return user.tier

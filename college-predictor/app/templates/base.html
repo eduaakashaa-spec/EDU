@@ -36,6 +36,12 @@
   {% block head %}{% endblock %}
 </head>
 <body class="{% block body_class %}{% endblock %}">
+{% if impersonating %}
+<div id="impBar" role="alert" style="position:sticky;top:0;z-index:99999;background:#7C2D12;color:#fff;padding:8px 14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;font:600 .86rem 'Plus Jakarta Sans',system-ui,sans-serif">
+  <span>&#128065; Admin view as <b>{{ impersonating.name }}</b> ({{ impersonating.tier }}, {{ impersonating.email }}) &middot; {{ 'read-only' if impersonating.readonly else 'changes allowed' }}</span>
+  <form method="post" action="{{ url_for('impersonate.stop') }}" style="margin:0"><button type="submit" style="background:#fff;color:#7C2D12;border:0;border-radius:999px;padding:5px 14px;font:700 .82rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer">Stop viewing &amp; return to admin</button></form>
+</div>
+{% endif %}
 
   <a class="skip-link" href="#main-content">Skip to main content</a>
 

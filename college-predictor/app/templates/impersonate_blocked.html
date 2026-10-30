@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Not allowed while viewing as someone else | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block content %}
+<div style="max-width:640px;margin:48px auto;padding:0 18px;">
+  <h1 style="font-family:'Fraunces',Georgia,serif;">Nothing was changed</h1>
+  <p style="line-height:1.6;">{{ message }}</p>
+  <form method="post" action="{{ url_for('impersonate.stop') }}"><button class="btn btn-navy" type="submit">Stop viewing &amp; return to admin</button></form>
+  <p style="margin-top:14px;"><a href="javascript:history.back()">Go back</a></p>
+</div>
+{% endblock %}
