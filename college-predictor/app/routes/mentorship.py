@@ -1230,6 +1230,21 @@ def admin_enrol():
     return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
 
 
+@mentorship_bp.route('/admin/enrolment/<int:eid>/intl-pack', methods=['POST'])
+@admin_required
+def admin_intl_pack(eid):
+    """Add the NUS, NTU and HKU admission pack (dates, checklists, KPIs, actions, college list) to one student's record."""
+    from app.services import intl_pack
+    e = db.session.get(MsEnrolment, eid) or abort(404)
+    n = intl_pack.apply(e, current_user.id)
+    if not any(n.values()):
+        flash(f'{e.student.name} already has the NUS, NTU and HKU pack; nothing was added.', 'info')
+    else:
+        flash(f"NUS, NTU and HKU pack added for {e.student.name}: {n['followed']} admission windows followed (with checklists), {n['events']} calendar dates, "
+              f"{n['kpis']} KPIs, {n['actions']} actions, {n['entries']} college-list entries.", 'success')
+    return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
+
+
 def _open_futureready(student, mentor, e):
     """A FutureReady enrolment also opens the student's FutureReady workspace (profile, mentor, and any linked parents)."""
     from app.futureready import engine as fr_engine

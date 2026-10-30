@@ -36,7 +36,53 @@ EXTRAS = [
 ]
 
 
+# University applications abroad have their own checklist (from the NUS / NTU / HKU admission report, 30 Oct 2026); it replaces the Indian-exam list for an exam named after the university.
+UNIVERSITY = {
+    'nus': [
+        ('nus_passport', 'Passport valid and scanned', 'Name and dates must match the marksheets.', True),
+        ('nus_marksheets', 'Class 10 and 11 marksheets scanned', 'Keep CBSE admit card details with them.', True),
+        ('nus_prereq', 'Prerequisites confirmed: Maths; Physics or Chemistry for Computer Engineering', 'Check the NUS prerequisites PDF for the chosen programme (the copy read was dated April 2024).', True),
+        ('nus_grant', 'Tuition Grant and 3-year work bond decision made', 'About S$18,300 a year saved with the grant; the grant carries a 3-year Singapore work bond.', True),
+        ('nus_submitted', 'Application submitted (window 16 Dec to 17 Feb)', 'Target: submit by 31 January, before the CBSE exams.', True),
+        ('nus_scholarship', 'Scholarship applications made', 'NUS International Undergraduate Scholarship and others open to Indians (reported).', False),
+        ('nus_results', 'Final CBSE results updated in the portal within 3 days of release', 'The 3-day clock starts at release.', True),
+        ('nus_outcome', 'Outcome read and answered (by July)', 'Read the terms and answer inside the window.', True),
+        ('nus_visa', 'Student pass, housing and budget planned', 'Living costs, housing, visa and flights are extra.', True),
+    ],
+    'ntu': [
+        ('ntu_passport', 'Passport valid and scanned', 'Name and dates must match the marksheets.', True),
+        ('ntu_marksheets', 'Marksheets scanned; 93% average worked out including English', '93% across all Standard 12 subjects including English is the stated minimum.', True),
+        ('ntu_subjects', 'Programme minimum-subject PDF checked', 'Subject rules are programme by programme; Physics matters.', True),
+        ('ntu_window', 'Exact window confirmed on the India Standard 12 page', 'The close varies by qualification (15 Oct 2026 to 19 Mar 2027).', True),
+        ('ntu_sitting', 'One uninterrupted sitting booked for the form', 'No save and return; the wrong form can void the application.', True),
+        ('ntu_submitted', 'Form submitted and fee paid (about S$25, reported)', 'Target: submit by 31 January.', True),
+        ('ntu_scholarship', 'Scholarship applied for on the tracking page', 'All scholarships are applied for through the application tracking page.', False),
+        ('ntu_results', 'Result slip uploaded within 3 days of release', 'Otherwise the application is incomplete and not processed.', True),
+        ('ntu_visa', 'Student pass, housing and budget planned', 'Offers from March on actual results only.', True),
+    ],
+    'hku': [
+        ('hku_passport', 'Passport valid and scanned', 'Name and dates must match the marksheets.', True),
+        ('hku_date', '2027 first-round date confirmed with HKU in writing', "The HKU India page still showed last cycle's dates on 30 Oct 2026; the 25 Nov cut-off is reported.", True),
+        ('hku_results', 'Predicted and Class 11 results ready to key in', 'Results are keyed into the application system, not just uploaded.', True),
+        ('hku_statement', 'Personal statement and referee ready; nominee chosen', 'A teacher or counsellor can be nominated to enter results and upload documents.', True),
+        ('hku_fee', 'HK$780 (about US$100) fee ready', 'Non-refundable.', True),
+        ('hku_submitted', 'Submitted for the first round (noon Hong Kong time, 25 Nov)', 'Target 22 Nov; the cut-off runs on Hong Kong time.', True),
+        ('hku_interview', 'Interview prepared if invited', 'Interviews ran Nov to Jan last cycle.', False),
+        ('hku_offer', 'Offer accepted within 3 to 4 weeks; deposit paid', 'The deposit is non-refundable.', True),
+        ('hku_visa', 'Student visa started (8 to 10 weeks)', 'Allow 4 to 6 weeks for assessment per last published guidance.', True),
+    ],
+}
+
+
+def university_key(exam):
+    name = (exam.name or '').lower()
+    return next((k for k in UNIVERSITY if re.search('(?<![a-z])' + k + '(?![a-z])', name)), None)
+
+
 def items_for(exam):
+    uni = university_key(exam)
+    if uni:
+        return list(UNIVERSITY[uni])
     name = (exam.name or '').lower()
     # word-start match, so 'ceed' does not catch 'UCEED' but 'eapcet' still catches 'TG-EAPCET'
     extra = next((items for keys, items in EXTRAS if any(re.search(r'\b' + re.escape(k), name) for k in keys)), [])

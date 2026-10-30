@@ -50,6 +50,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-30', 'New "NUS, NTU and HKU admission pack" button on each enrolment in Mentorship admin: 2027 application windows with per-university checklists, deadlines, KPIs, actions and a college list for a student applying to Singapore and Hong Kong.'),
     ('2026-10-30', 'Onboarding assessment is now grade-aware: Class 7-9 (stream selection), Class 10-11 (career goal, colleges, branch) and Class 12 (engineering), with medicine, law and management paths; two new mentorship programmes for Class 7-9 and Class 10-11; the admin onboarding list shows class and path.'),
     ('2026-10-28', 'New Elite role (premium tools plus the mentorship portal); Premium alone no longer opens the mentorship portal. Admin > Members > Manage > Tool access lets you allow or block individual tools for any member or mentor.'),
     ('2026-10-28', 'New members page "JEE Main syllabus map & formulas": all 92 chapters ranked by 2026 questions with compact, typeset key formulas for Maths, Physics and Chemistry.'),
@@ -373,6 +374,7 @@ GUIDE = [
                 'Enrol a student: press "Enrol a student", choose the student, programme and mentor, then Save. Use "resend invite" if the student did not get the e-mail.',
                 'Link parent: attach the parent\'s account so they see the plan and reports.',
                 'Programmes: edit session titles, reorder with the arrows, add sessions, or create a new programme (including FutureReady). Two grade programmes are created for you the first time you open this page: "Class 7-9 Stream and Career Explorer Mentorship" (stream selection) and "Class 10-11 College and Career Mentorship" (career goal, entrance exams, courses, colleges). Pick the one the onboarding Profile suggests when you enrol a student.',
+                'Overseas admissions pack: open a student\'s row in Enrolments and press "Add NUS, NTU and HKU admission pack". It adds the three 2027 application windows (followed by the student, each with its own checklist on the Exam Calendar tab), calendar dates and targets, KPIs, actions for student, parents and mentor, and a college list with the application dates. Each date is tagged OFFICIAL or REPORTED; the HKU first-round date is reported and must be confirmed with HKU. Safe to repeat: nothing is added twice.',
                 'Exam catalogue: add or edit exams and dates. "Save & alert on change" notifies members; use it only for real changes.',
                 'Programme calendar, Attention rules and Branch catalogue are also kept here.'],
          tips=['Members and students are at the top; programme details are collapsed until you expand them.'],
