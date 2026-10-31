@@ -52,6 +52,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-31', 'New public page: JEE Main 2027 registration guide for NRI and Indian families (dates, documents, steps, fees, exam cities abroad, 36 searchable family questions, myths, interactive checklist), with a Member Home tile and a JEE / JOSAA menu link.'),
     ('2026-10-31', 'JEE Main 2023 (24 Jan, Shift 2) added to the JEE Mock Test Centre and EduPulse - Reinforcement as a recreated paper: 73 questions retyped from the NTA paper with worked steps, figure-based and unconfirmed questions left out.'),
     ('2026-10-30', 'Admins can now "View as" a student, parent or mentor (read-only by default, with a banner and a log) and open a Diagnose page that shows what each person can open and why.'),
     ('2026-10-30', 'New EduPulse-TN Class 10 Mock Test Centre (Mathematics and Science, Tamil Nadu Class 10, English medium): three full mocks per subject and a unit test for every textbook unit, with confidence ratings and reports; the same 310 questions are in EduPulse - Reinforcement as exam track TN10.'),
@@ -220,10 +221,11 @@ GUIDE = [
                 'DASA analytics: compare DASA 2025 and 2026 closing ranks. Choice Builder PRO: enter your rank, build and test your choice order, then export CSV or print the PDF report.',
                 'JoSAA predictor and members edition: enter your JEE rank and filters to see colleges, and use the tabs for matrix, analytics and process.',
                 'Roadmap pages (UCEED, Law, IPM, JEE 2027) give the exam process step by step.',
+                'JEE Main 2027 registration guide (open to everyone, also under the JEE / JOSAA menu): key dates for both sessions, who is eligible, the documents and file sizes, the eight steps, fees for centres in India and outside India, rules for families abroad (DigiLocker, Aadhaar OTP, exam cities, nationality), 36 family questions you can search, myths, and a ten-point checklist whose ticks are kept in your browser. Rules move: confirm on jeemain.nta.nic.in.',
                 'JEE Main syllabus map & formulas: every chapter ranked by its 2026 questions (Tier 1, 2 or 3), filtered by subject, class or search. Tap a chapter for its key formulas and the question types seen in 2026; Expand all or Print gives a formula sheet.'],
          tips=['Predictions are planning aids, not seat guarantees.'],
          tiles=['DASA 2026 Analytics', 'DASA prediction report', 'JoSAA EA members', 'UCEED 2027 Roadmap', 'Law Entrance 2027 Roadmap', 'IPM 2027 Roadmap', 'JEE 2027 Roadmap', 'JEE Main syllabus map & formulas', 'TNEA expert',
-                'Members report', 'CAET · IIT Delhi – Abu Dhabi guide', 'NRI admission guide', 'Choice Builder Simulator', 'Why CSE?', 'Best location', 'Engineering insights', 'Hostel & culture',
+                'Members report', 'CAET · IIT Delhi – Abu Dhabi guide', 'JEE Main 2027 registration guide', 'NRI admission guide', 'Choice Builder Simulator', 'Why CSE?', 'Best location', 'Engineering insights', 'Hostel & culture',
                 'Branch selection guide'], added='2026-10-26', updated='2026-10-28'),
     dict(id='s-free', role='student', group='Free resources', title='Free guides and the exam schedule', summary='Open to every member.',
          where=[('Free guides', 'guides.library'), ('Exam schedule', 'main.exam_schedule')],

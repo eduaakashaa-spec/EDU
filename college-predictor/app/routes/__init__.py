@@ -514,6 +514,19 @@ def neet_2027():
     return render_template('neet_2027.html')
 
 
+@main_bp.route('/jee-main-2027-registration')
+def jee_registration():
+    # public page for members and visitors: JEE Main 2027 registration, from the EduAakashaA NRI registration guide (31 Oct 2026); keep dates in step with the NTA notice
+    from app.data import jee_registration as d
+    return render_template('jee_registration.html', d=d)
+
+
+@main_bp.route('/jee-registration')
+@main_bp.route('/jee-main-registration')
+def jee_registration_alias():
+    return redirect(url_for('main.jee_registration'), code=301)
+
+
 @main_bp.route('/jee-2027-roadmap')
 @premium_required
 def jee_2027_roadmap():

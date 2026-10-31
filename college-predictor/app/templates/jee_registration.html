@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}JEE Main 2027 Registration Guide for NRI and Indian Families | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="JEE Main 2027 registration step by step: dates, eligibility, documents, DigiLocker and Aadhaar, exam cities abroad, fees for centres in India and outside India, 36 family questions answered, myths and a tick-off checklist. Prepared {{ d.UPDATED }} from NTA's Information Bulletin.">{% endblock %}
+{% block head %}
+<style>
+  .jr2{max-width:1120px;margin:0 auto;padding:10px 16px 70px;color:var(--ink,#0E1B3D)}
+  .jr2 h1,.jr2 h2,.jr2 h3{font-family:'Fraunces',Georgia,serif;color:var(--navy-ink,#071A44)}
+  .jr2 h2{font-size:clamp(1.35rem,2.6vw,1.8rem);margin:0 0 4px}.jr2 h3{font-size:1.05rem;margin:0 0 6px}
+  .jr2 .eb{font:700 .7rem 'JetBrains Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:#FF6B0A}
+  .jr2 p{line-height:1.6}
+  .jr2-hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:center;margin:14px 0 6px}
+  @media (max-width:760px){.jr2-hero{grid-template-columns:1fr}.jr2-hero img{max-width:260px;margin:0 auto}}
+  .jr2-hero h1{font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.1;margin:8px 0}.jr2-hero h1 em{color:#FF6B0A}
+  .jr2-hero .lead{font-size:1.05rem;color:var(--text-dim,#3f4763);max-width:620px}
+  .jr2-hero img{width:100%;max-width:340px;justify-self:end;border-radius:24px;mix-blend-mode:multiply}
+  .jr2-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:14px 0}
+  .jr2-facts div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:14px;padding:12px 14px}
+  .jr2-facts b{display:block;font:700 1.35rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.jr2-facts span{font-size:.82rem;color:var(--text-dim,#5A6278)}
+  .jr2-nav{position:sticky;top:0;z-index:30;display:flex;gap:6px;overflow-x:auto;padding:8px 0;background:var(--cream,#FBF7EE);border-bottom:1px solid var(--border,#E8DFC8);margin:10px 0 18px}
+  .jr2-nav a{white-space:nowrap;text-decoration:none;font:600 .82rem 'Plus Jakarta Sans',system-ui,sans-serif;color:var(--navy,#0E3A8A);background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:999px;padding:6px 13px}
+  .jr2-nav a:hover{background:#E1E9F7}
+  .jr2 section{margin:0 0 30px;scroll-margin-top:60px}
+  .jr2-card{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:16px;padding:16px 18px}
+  .jr2-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;margin-top:12px}
+  .jr2 table{width:100%;border-collapse:collapse;font-size:.92rem}.jr2 th{text-align:left;font:700 .68rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim,#5A6278);padding:6px 8px;border-bottom:1px solid var(--border,#E8DFC8)}
+  .jr2 td{padding:8px;border-bottom:1px solid var(--border,#E8DFC8);vertical-align:top}.jr2 td.k{font-weight:700;white-space:nowrap;width:1%}
+  .jr2 .tg{display:inline-block;font:700 .62rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .tag-official,.tg.official{background:rgba(31,139,92,.15);color:#1F8B5C}.tag-peer,.tg.peer{background:#E1E9F7;color:#0E3A8A}.tag-disputed,.tg.disputed{background:#FFF1E6;color:#8A4B00}.tag-open,.tg.open{background:#F8E0DE;color:#8E2525}
+  .jr2-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;counter-reset:s;margin-top:12px}
+  .jr2-steps div{position:relative;background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:14px;padding:14px 14px 12px 52px}
+  .jr2-steps div:before{counter-increment:s;content:counter(s);position:absolute;left:12px;top:12px;width:30px;height:30px;border-radius:50%;background:var(--navy,#0E3A8A);color:#fff;font:700 .9rem 'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center}
+  .jr2-steps b{display:block}.jr2-steps span{font-size:.88rem;color:var(--text-dim,#5A6278)}
+  .jr2-note{border-left:4px solid #FF6B0A;background:#FFF6EC;border-radius:10px;padding:10px 14px;margin:12px 0;font-size:.92rem}
+  .jr2-faqbar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.jr2-faqbar input{flex:1;min-width:200px;border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:10px;padding:9px 12px;font:500 .92rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit}
+  .jr2-faqbar button{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:999px;padding:6px 13px;font:600 .8rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}
+  .jr2-faqbar button.on{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .jr2 details.q{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;margin:6px 0}.jr2 details.q summary{cursor:pointer;list-style:none;padding:11px 14px;font-weight:700;display:flex;gap:10px;align-items:baseline}
+  .jr2 details.q summary::-webkit-details-marker{display:none}.jr2 details.q summary i{font:700 .7rem 'JetBrains Mono',monospace;color:#FF6B0A;font-style:normal;min-width:2.4em}
+  .jr2 details.q summary:after{content:"+";margin-left:auto;color:#FF6B0A;font-weight:700}.jr2 details.q[open] summary:after{content:"\2212"}
+  .jr2 details.q .a{padding:0 14px 12px 14px;font-size:.95rem}.jr2 .grp{margin:18px 0 4px}.jr2 .grp ul{margin:4px 0 6px;padding-left:18px;font-size:.88rem;color:var(--text-dim,#5A6278)}
+  .jr2-myth{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px;margin-top:10px}.jr2-myth div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:12px 14px}
+  .jr2-myth b{display:block;color:#C23A3A;text-decoration:line-through;text-decoration-thickness:1px;font-size:.93rem}.jr2-myth span{font-size:.9rem}
+  .jr2-ck label{display:flex;gap:12px;align-items:flex-start;padding:10px 12px;border:1px solid var(--border,#E8DFC8);border-radius:12px;background:var(--paper,#FFFDF7);margin:6px 0;cursor:pointer}
+  .jr2-ck input{width:20px;height:20px;margin-top:2px;flex:none}.jr2-ck label.on{background:#EAF6EF;border-color:#1F8B5C}.jr2-ck b{display:block}.jr2-ck span{font-size:.88rem;color:var(--text-dim,#5A6278)}
+  .jr2-prog{height:8px;background:var(--border,#E8DFC8);border-radius:6px;overflow:hidden;margin:8px 0 4px}.jr2-prog i{display:block;height:100%;background:#1F8B5C;width:0;transition:width .25s}
+  .jr2-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center;background:linear-gradient(120deg,#0E3A8A,#0A2560);color:#fff;border-radius:18px;padding:20px 22px}
+  .jr2-cta h2{color:#fff;margin:0 0 4px}.jr2-cta p{margin:0;opacity:.92;max-width:640px}.jr2-cta a.b{display:inline-block;background:#FF6B0A;color:#fff;text-decoration:none;font-weight:700;border-radius:999px;padding:10px 20px}
+  .jr2-cta a.b.g{background:transparent;border:1.5px solid #fff}
+  .dg-alert{display:flex;gap:14px;align-items:flex-start;margin:14px 0 0;padding:12px 16px;border:1px solid #F5CBA7;border-left:5px solid #FF6B0A;border-radius:12px;background:#FFF1E6;color:#0E1B3D}
+  .dg-alert__icon{font-size:1.3rem;line-height:1.2}.dg-alert__body{flex:1;font-size:.92rem;line-height:1.5}.dg-alert__body strong{font-family:'Fraunces',Georgia,serif;font-size:1.02rem;display:block;margin-bottom:2px}
+  .dg-alert__cta{display:inline-block;margin-top:8px;background:#FF6B0A;color:#fff !important;font-weight:700;padding:8px 18px;border-radius:999px;text-decoration:none}.dg-alert__ok{display:inline-block;margin-top:4px;font-weight:600;color:#1F8B5C}
+  :root[data-theme="dark"] .dg-alert{background:#2A1E14;border-color:#7A4A22;color:#EEE9DA}:root[data-theme="dark"] .jr2-note{background:#2A1E14}
+  @media print{.jr2-nav,.dg-alert,.jr2-cta,.jr2-faqbar{display:none !important}.jr2 details.q{break-inside:avoid}}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jr2">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Rules move: this guide was prepared on {{ d.UPDATED }}.</strong>
+      It follows NTA&rsquo;s JEE (Main) 2027 Information Bulletin and the Session 1 public notice. Confirm every date, fee and rule on <b>{{ d.NTA }}</b>. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <header class="jr2-hero">
+    <div>
+      <span class="eb">JEE Main 2027 &middot; for NRI and Indian families &middot; updated {{ d.UPDATED }}</span>
+      <h1>JEE Main 2027 <em>registration guide</em></h1>
+      <p class="lead">The official process step by step, with the problems families abroad actually hit: identity checks, an Indian phone number that may not receive an OTP, and exam cities in another country. NTA&rsquo;s rules sit next to what other families reported in the EduAakashaA Members Group.</p>
+    </div>
+    <img src="{{ url_for('static', filename='img/mascot/eduaakashaa-cube.webp') }}" width="340" height="340" alt="The EduAakashaA mascot, an orange cube with a graduation cap, waving and holding a pen" loading="eager">
+  </header>
+
+  <div class="jr2-facts">
+    <div><b>22 Nov</b><span>Session 1 applications close, 11:50 pm IST</span></div>
+    <div><b>5 Jan</b><span>Session 2 applications open</span></div>
+    <div><b>₹5,000</b><span>General male, centre outside India, per session</span></div>
+    <div><b>1 form</b><span>per candidate, ever</span></div>
+  </div>
+
+  <nav class="jr2-nav" aria-label="On this page">
+    <a href="#dates">Dates</a><a href="#eligibility">Who can apply</a><a href="#documents">Documents</a><a href="#steps">Steps</a><a href="#fees">Fees and cities</a><a href="#abroad">From abroad</a>
+    <a href="#after">After JEE Main</a><a href="#faq">36 questions</a><a href="#myths">Myths</a><a href="#checklist">Checklist</a><a href="#glossary">Glossary</a>
+  </nav>
+
+  <section id="dates"><span class="eb">Official</span><h2>Key dates, session by session</h2>
+    <p>All times are Indian Standard Time (IST). Session 1 registration opened on 24 October.</p>
+    <div class="jr2-grid">
+      {% for s in d.SESSIONS %}<div class="jr2-card"><h3>{{ s.name }}</h3><table><tbody>{% for a, b in s.rows %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>{% endfor %}
+    </div>
+    <p style="margin-top:10px;font-size:.92rem">{{ d.TIMING }}</p>
+  </section>
+
+  <section id="eligibility"><span class="eb">Official</span><h2>Who is eligible</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.ELIGIBILITY %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+  </section>
+
+  <section id="documents"><span class="eb">Official</span><h2>Gather these before you log in</h2>
+    <p>NTA sets a size and format for every upload. Prepare each one in advance.</p>
+    <div class="jr2-grid">
+      <div class="jr2-card"><h3>Files</h3><table><thead><tr><th>Item</th><th>Format and size</th></tr></thead><tbody>{% for a, b, c in d.DOCS %}<tr><td class="k">{{ a }}</td><td><b>{{ b }}</b><br><span style="font-size:.88rem;color:var(--text-dim,#5A6278)">{{ c }}</span></td></tr>{% endfor %}</tbody></table></div>
+      <div class="jr2-card"><h3>Identity and contact</h3><table><tbody>{% for a, b in d.IDENTITY %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    </div>
+  </section>
+
+  <section id="steps"><span class="eb">Official</span><h2>Eight steps, in order</h2>
+    <p>Allow two to two and a half hours with a stable connection, and sit with someone who can read each field back to you.</p>
+    <div class="jr2-steps">{% for a, b in d.STEPS %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
+    <div class="jr2-grid"><div class="jr2-card"><h3>Payment, in short</h3><table><tbody>{% for a, b in d.PAYMENT %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+      <div class="jr2-card"><h3>Exam pattern in one line</h3><p style="margin:0">{{ d.PATTERN }}</p></div></div>
+    <div class="jr2-note"><b>One application only.</b> The bulletin says strict action will be taken against candidates who fill more than one. Appearing under more than one application number counts as unfair means. NTA&rsquo;s helpline: {{ d.HELPLINE }}, or {{ d.HELP_EMAIL }}.</div>
+  </section>
+
+  <section id="fees"><span class="eb">Official source plus family reports</span><h2>The fee follows the exam centre, not your address</h2>
+    <div class="jr2-card"><table><thead><tr><th>Category</th><th>{{ d.FEES_HEAD[0] }}</th><th>{{ d.FEES_HEAD[1] }}</th></tr></thead><tbody>{% for a, b, c in d.FEES %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td><td><b>{{ c }}</b></td></tr>{% endfor %}</tbody></table>
+      <p style="margin:8px 0 0;font-size:.88rem;color:var(--text-dim,#5A6278)">{{ d.FEES_NOTE }}</p></div>
+    <div class="jr2-note"><b>Budget in one line.</b> {{ d.BUDGET }}</div>
+    <h3 style="margin-top:16px">Choosing your four cities</h3>
+    <div class="jr2-grid">{% for a, t, b in d.CITIES %}<div class="jr2-card"><span class="tg {{ t[4:] }}">{{ d.TAGS[t[4:]] }}</span><h3 style="margin-top:6px">{{ a }}</h3><p style="margin:0;font-size:.92rem">{{ b }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="abroad"><span class="eb">Applying from abroad</span><h2>Rules that differ for families abroad</h2>
+    <div class="jr2-card"><table><thead><tr><th>Topic</th><th>What applies</th><th>Evidence</th></tr></thead><tbody>
+      {% for a, b, t in d.NATIONALITY %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td><td><span class="tg {{ t }}">{{ d.TAGS[t] }}</span></td></tr>{% endfor %}</tbody></table></div>
+    <h3 style="margin-top:16px">The Aadhaar problem, in plain words</h3>
+    <div class="jr2-grid">{% for a, b in d.AADHAAR %}<div class="jr2-card"><h3>{{ a }}</h3><p style="margin:0;font-size:.92rem">{{ b }}</p></div>{% endfor %}</div>
+    <div class="jr2-note">{{ d.AADHAAR_NOTE }}</div>
+    <h3 style="margin-top:16px">What families in the EduAakashaA Members Group ask about most</h3>
+    <ul style="line-height:1.7;padding-left:20px">{% for t in d.TOPICS %}<li>{{ t }}</li>{% endfor %}</ul>
+  </section>
+
+  <section id="after"><span class="eb">Admission, not registration</span><h2>What comes after JEE Main</h2>
+    <p>Families often mix registration rules with admission rules. They are different gates.</p>
+    <div class="jr2-steps">{% for l, a, b in d.AFTER %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
+    <div class="jr2-card" style="margin-top:12px"><table><tbody>{% for a, b in d.GATES %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <div class="jr2-note">{{ d.AFTER_NOTE }} <b>The simplest plan:</b> register once, appear in both sessions, protect the Class 12 aggregate, and keep documents ready for the admission stage.</div>
+  </section>
+
+  <section id="faq"><span class="eb">Family questions</span><h2>36 questions, with the answers families gave and what the bulletin says</h2>
+    <p>Each answer is tagged: <span class="tg official">Official source</span> <span class="tg peer">Reported by families</span> <span class="tg disputed">Disputed</span> <span class="tg open">Unanswered</span>. Reports from families are useful, but they are not rules. The questions were asked in the EduAakashaA Members Group and are rewritten so no family can be identified.</p>
+    <div class="jr2-faqbar"><input type="search" id="faqQ" placeholder="Search the questions (for example OTP, passport, photo)" aria-label="Search the questions">
+      <button type="button" class="on" data-g="">All</button>{% set short = {'identity': 'Identity', 'portal': 'Portal and OTP', 'cities': 'Cities abroad', 'photo': 'Photo and fields', 'category': 'Category', 'forms': 'Forms and DASA'} %}{% for g in d.FAQ %}<button type="button" data-g="{{ g.key }}">{{ short[g.key] }}</button>{% endfor %}</div>
+    <div id="faqList">
+    {% for g in d.FAQ %}
+    <div class="grp" data-grp="{{ g.key }}"><h3>{{ g.title }}</h3><ul>{% for c in g.check %}<li><b>Bulletin check:</b> {{ c }}</li>{% endfor %}</ul>
+      {% for n, t, q, a in g.qs %}<details class="q" data-grp="{{ g.key }}" data-text="{{ (q ~ ' ' ~ a)|lower }}"><summary><i>Q{{ '%02d'|format(n) }}</i><span>{{ q }}</span></summary>
+        <div class="a"><span class="tg {{ t }}">{{ d.TAGS[t] }}</span><p style="margin:6px 0 0">{{ a }}</p></div></details>{% endfor %}
+    </div>
+    {% endfor %}
+    <p id="faqNone" hidden>No question matches. Try another word, or ask us below.</p>
+    </div>
+  </section>
+
+  <section id="myths"><span class="eb">Myths, corrections and open questions</span><h2>Twelve things that circulated and were wrong</h2>
+    <div class="jr2-myth">{% for a, b in d.MYTHS %}<div><b>{{ a }}</b><span><strong>Reality:</strong> {{ b }}</span></div>{% endfor %}</div>
+    <h3 style="margin-top:18px">Said early, corrected later</h3>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.CORRECTIONS %}<tr><td class="k" style="white-space:normal;width:34%">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <h3 style="margin-top:18px">Still open on {{ d.UPDATED }}</h3>
+    <p>No answer from families and none found in the bulletin. Ask NTA on {{ d.HELPLINE }}, or {{ d.HELP_EMAIL }}, and keep a record of what you were told.</p>
+    <ul style="line-height:1.7;padding-left:20px">{% for q in d.OPEN_QS %}<li>{{ q }}</li>{% endfor %}</ul>
+  </section>
+
+  <section id="checklist"><span class="eb">Your checklist</span><h2>Before you log in</h2>
+    <p>Ten checks for families abroad. Tick them as you go: your ticks are kept in this browser only.</p>
+    <div class="jr2-prog"><i id="ckBar"></i></div><div id="ckTxt" style="font-size:.88rem;color:var(--text-dim,#5A6278)"></div>
+    <div class="jr2-ck" id="ck">{% for a, b in d.CHECKLIST %}<label><input type="checkbox" data-i="{{ loop.index0 }}"><div><b>{{ a }}</b><span>{{ b }}</span></div></label>{% endfor %}</div>
+    <div class="jr2-note"><b>Rule of thumb.</b> If you are unsure about a field, stop and call the NTA helpline before you submit. Most fields cannot be corrected.</div>
+  </section>
+
+  <section id="glossary"><span class="eb">Reference</span><h2>Initials you will meet</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.GLOSSARY %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:12px">How this was made: official rules come from NTA&rsquo;s Information Bulletin for JEE (Main) 2027 and the Session 1 public notice. Family reports come from questions asked in the EduAakashaA Members Group between 31 July and 31 October 2026, rewritten so that no name, phone number, email, school, application number, rank, city of residence or other identifying detail of any family or child appears. What this guide cannot tell you: whether NTA changed the portal after {{ d.UPDATED }}, how your Aadhaar record looks, or whether a particular document will be accepted. It is not legal advice. It was prepared with AI assistance and may contain errors: confirm every date, fee and rule on {{ d.NTA }} before acting. EduAakashaA is not affiliated with NTA.</p>
+  </section>
+
+  <div class="jr2-cta">
+    <div style="flex:1;min-width:260px"><h2>Want a second pair of eyes on your form?</h2>
+      <p>A counsellor can check your documents and name match before you submit. Weekends are open too. Mon to Fri 9:00 to 22:00, Sat and Sun 9:00 to 16:00 IST.</p>
+      <p style="margin-top:8px;font-size:.92rem">{% if current_user.is_authenticated and current_user.is_premium %}Post your question in the <b>EduAakashaA Members Group</b>: counsellors and experienced parents answer there.{% else %}Members are added to the <b>EduAakashaA Members Group</b>, where counsellors and experienced parents answer questions like these.{% endif %}</p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      {% if current_user.is_authenticated and current_user.is_premium %}<a class="b" href="{{ url_for('memberhub.home') }}">Open Member Home</a>{% else %}<a class="b" href="{{ url_for('main.members_registration') }}">Join the Members Group</a>{% endif %}
+      <a class="b g" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">Talk to a counsellor</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var qs = document.querySelectorAll('#faqList details.q'), box = document.getElementById('faqQ'), btns = document.querySelectorAll('.jr2-faqbar button'), g = '';
+  function apply() {
+    var t = box.value.trim().toLowerCase(), shown = 0;
+    qs.forEach(function (d) { var ok = (!g || d.dataset.grp === g) && (!t || d.dataset.text.indexOf(t) > -1); d.hidden = !ok; if (ok) shown++; if (t && ok && shown <= 5) d.open = true; else if (!t) d.open = false; });
+    document.querySelectorAll('#faqList .grp').forEach(function (s) { s.hidden = !s.querySelector('details.q:not([hidden])'); });
+    document.getElementById('faqNone').hidden = shown > 0;
+  }
+  box.addEventListener('input', apply);
+  btns.forEach(function (b) { b.addEventListener('click', function () { btns.forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); g = b.dataset.g; apply(); }); });
+  var KEY = 'jee27reg', ck = document.querySelectorAll('#ck input'), saved = [];
+  try { saved = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) {}
+  function paint() {
+    var n = 0; ck.forEach(function (c) { c.closest('label').classList.toggle('on', c.checked); if (c.checked) n++; });
+    document.getElementById('ckBar').style.width = (100 * n / ck.length) + '%';
+    document.getElementById('ckTxt').textContent = n + ' of ' + ck.length + ' checks done' + (n === ck.length ? ': you are ready to log in.' : '.');
+  }
+  ck.forEach(function (c) { c.checked = saved.indexOf(+c.dataset.i) > -1; c.addEventListener('change', function () {
+    var a = []; ck.forEach(function (x) { if (x.checked) a.push(+x.dataset.i); }); try { localStorage.setItem(KEY, JSON.stringify(a)); } catch (e) {} paint(); }); });
+  paint();
+})();
+</script>
+{% endblock %}
