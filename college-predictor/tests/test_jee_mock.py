@@ -131,7 +131,7 @@ for u in (B + '/', B + '/app', B + '/data/M1.json', B + '/data/index.json'):
     assert r.status_code != 200 or b'JEE Main' not in r.data, u                      # a free account gets neither the centre nor the papers
 assert s1.get(B + '/data/M1.json').status_code == 200 and s1.get(B + '/data/index.json').status_code == 200
 idx = s1.get(B + '/data/index.json').get_json()['papers']
-assert [p['y'] for p in idx if p['ready']] == ['M1', 'M2', 'M3', 'M4', 'M5', 'J2401S1'] and sum(1 for p in idx if p['kind'] == 'pyq') == 10 and all(not p['ready'] for p in idx if p['kind'] == 'pyq' and p['y'] != 'J2401S1')
+assert [p['y'] for p in idx if p['ready']] == ['M1', 'M2', 'M3', 'M4', 'M5', 'J2401S1', 'J2301S2'] and sum(1 for p in idx if p['kind'] == 'pyq') == 11 and all(not p['ready'] for p in idx if p['kind'] == 'pyq' and p['y'] not in ('J2401S1', 'J2301S2'))
 # the solved 2024 paper: 90 image questions, key present, "attempt any 5" numerical sections, a worked-solution image for every question
 r24 = s1.get(B + '/data/J2401S1.json')
 assert r24.status_code == 200

@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-10-30'
+UPDATED = '2026-10-31'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -52,6 +52,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-10-31', 'JEE Main 2023 (24 Jan, Shift 2) added to the JEE Mock Test Centre and EduPulse - Reinforcement as a recreated paper: 73 questions retyped from the NTA paper with worked steps, figure-based and unconfirmed questions left out.'),
     ('2026-10-30', 'Admins can now "View as" a student, parent or mentor (read-only by default, with a banner and a log) and open a Diagnose page that shows what each person can open and why.'),
     ('2026-10-30', 'New EduPulse-TN Class 10 Mock Test Centre (Mathematics and Science, Tamil Nadu Class 10, English medium): three full mocks per subject and a unit test for every textbook unit, with confidence ratings and reports; the same 310 questions are in EduPulse - Reinforcement as exam track TN10.'),
     ('2026-10-30', 'New "NUS, NTU and HKU admission pack" button on each enrolment in Mentorship admin: 2027 application windows with per-university checklists, deadlines, KPIs, actions and a college list for a student applying to Singapore and Hong Kong.'),
@@ -188,6 +189,7 @@ GUIDE = [
          steps=['Open "EduPulse-JEE Mock Test Centre". Choose one of the five EduAakashaA mocks (2027 pattern) or a previous-year paper that shows as available.',
                 'Marking is +4 for a right answer, -1 for a wrong one and 0 for a blank, in both multiple-choice and numerical sections.',
                 'Rate your confidence on each answer: the report shows how many marks guesses cost or earned.',
+                'Papers marked "recreated" (JEE Main 2023, 24 Jan Shift 2 so far) are NTA questions retyped as clean text with worked steps. Questions that need a figure, or whose answer we could not confirm, are left out, so such a paper has fewer than 90 questions and a lower maximum. Their answers were checked by EduAakashaA and are not the NTA final key. The same questions are in EduPulse - Reinforcement.',
                 'Previous-year papers marked "solved" show a worked solution after submission. Section B of those papers is "attempt any 5 of 10": only the first 5 numerical answers in a subject are marked.',
                 'Submit and open the report: negative-marking tracker, confidence table, chapters to revisit, and a PDF.'],
          tips=['A paper that says "Not yet available" is waiting for its answer key.'],

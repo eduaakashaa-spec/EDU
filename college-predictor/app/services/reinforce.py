@@ -268,6 +268,43 @@ def exam_of(value, default='JEE'):
     return value if value in EXAMS else default
 
 
+def seed_recreated():
+    """Recreated previous-year papers of the JEE mock centre (retyped text questions with worked steps, EduAakashaA-checked answers). Idempotent by qid.
+    They enter as approved JEE questions tagged with their source paper; the explanation is the worked solution."""
+    data_dir = os.path.join(_MOCK, 'jee_mock', 'data')
+    try:
+        papers = json.load(open(os.path.join(data_dir, 'index.json'), encoding='utf-8'))['papers']
+    except (OSError, ValueError):
+        return 0
+    n = 0
+    for meta in papers:
+        if not (meta.get('recreated') and meta.get('ready')):
+            continue
+        try:
+            d = json.load(open(os.path.join(data_dir, meta['y'] + '.json'), encoding='utf-8'))
+        except (OSError, ValueError):
+            continue
+        for q in d['qs']:
+            qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
+            if RfQuestion.query.filter_by(qid=qid).first():
+                continue
+            tx = RfTaxonomy.query.filter_by(exam='JEE', code=q.get('cat')).first()
+            if not tx:
+                continue
+            if q['t'] == 'NAT':
+                qt, opts, ans = 'nat', [], q['acc']['ranges']
+            else:
+                qt, opts, ans = 'mcq', [sanitize(o) for o in q['opts']], q['acc']['sets'][0]
+            expl = '<ol>%s</ol>' % ''.join('<li>%s</li>' % x for x in q.get('steps', [])) if q.get('steps') else ''
+            db.session.add(RfQuestion(qid=qid, exam='JEE', subject=tx.subject, chapter=tx.chapter, topic=tx.chapter, concept=tx.chapter, difficulty=2, qtype=qt, stem=sanitize(q['stem']),
+                                      options_json=json.dumps(opts), answer_json=json.dumps(ans), explanation=sanitize(expl), misconception='', marks=4, neg_marks=1,
+                                      est_sec=150 if qt == 'nat' else 100, source='%s, question %d (source question %s). %s' % (meta['title'], q['n'], q.get('src', '-'), '; '.join((d.get('notes') or [])[:1])),
+                                      status='approved'))
+            n += 1
+    db.session.commit()
+    return n
+
+
 def seed_bank():
     """Idempotent: loads the original EduAakashaa mock questions (JEE M1-M5, UCEED M1-M5) into the bank as approved questions."""
     seed_taxonomy()
@@ -277,6 +314,7 @@ def seed_bank():
         n += _seed_from(os.path.join(_MOCK, 'uceed_mock', 'data', 'M%d.json' % i), 'UCEED', 'M%d' % i, None)
     db.session.commit()
     n += seed_guides()
+    n += seed_recreated()
     from app.services import tn10
     n += tn10.seed_reinforcement()
     return n
