@@ -24,6 +24,9 @@ assert len(d.INTEREST) == 12 and {a for _s, a in d.INTEREST} == set(d.AXES)
 assert all(t in d.TAGS for _q, t, _a in d.FAQ) and len(d.DEADLINES) == 6
 assert d.PATTERN[3] == ('Total', '77 questions, 400 marks', '100 questions, 400 marks')
 assert 'No ' not in d.MARKING[1][1] and d.FEES[0][1:] == ('₹1,000', '₹5,000') and d.FEES[5][1:] == ('₹2,000', '₹10,000')
+assert len(d.COLLEGES) == 18 and {c[3] for c in d.COLLEGES} == {g[0] for g in d.COLLEGE_GROUPS}
+assert all(o <= c for _n, _c, _s, _g, pr in d.COLLEGES for rows in pr.values() for _q, o, c in rows)
+assert d.FEE_CATS[0] == ('General, male', 1000, 5000, 2000, 10000) and all(e == 2 * b and c == 2 * a or w.startswith('Gen-EWS') for w, a, b, c, e in d.FEE_CATS)
 assert 'whatsapp' not in repr(vars(d)).lower()
 
 app = create_app()
@@ -51,6 +54,7 @@ for who, c in (('public', anon), ('premium', prem)):
     pages[who] = h
     assert 'Paper 2A' in h and '22 November 2026' in h and '20, 21, 22, 23, 24 and 28 January 2027' in h and '2, 3, 4, 5, 6 and 7 April 2027' in h, who
     assert 'UNIT' not in h and h.count('class="pp-qz"') == 12 and h.count('class="pp-lk"') == 12 and h.count('class="q"') == len(d.FAQ), who
+    assert h.count('class="fx-row"') == 4 and h.count('class="cl"') == 18 and 'id="colleges"' in h and 'SPA New Delhi' in h and 'Kharagpur' in h, who
     assert 'Water colours are not allowed' in h and 'id="assess"' in h and 'dg-alert' in h and 'premiumNotice' not in h, who
     assert 'EduAakashaA Members Group' in h and 'eduaakashaa-cube.webp' in h and 'nta.ac.in/Quiz' in h, who
     low = re.sub(r'<[^>]+>', ' ', h).lower()

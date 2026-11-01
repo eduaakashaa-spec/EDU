@@ -259,3 +259,53 @@ SOURCES = [
     ('NTA syllabus for JEE (Main) 2027, Paper 2A and 2B pages', 'Mathematics, Aptitude, Drawing and Planning syllabus'),
     ('NTA Test Practice Centre, nta.ac.in/Quiz', 'Computer-based practice screen (the page lists no Paper 2 items)'),
 ]
+
+
+# fee infographic: (who, one paper in India, one paper abroad, both papers in India, both papers abroad)
+FEE_CATS = [
+    ('General, male', 1000, 5000, 2000, 10000),
+    ('Gen-EWS or OBC-NCL, male', 900, 4500, 2000, 10000),
+    ('Female (General, EWS, OBC-NCL)', 800, 4000, 1600, 8000),
+    ('SC, ST, PwD, PwBD, third gender', 500, 2500, 1000, 5000),
+]
+FEE_EXTRAS = [
+    ('₹500', 'late fee, every category'),
+    ('+ GST', 'and bank or processing charges'),
+    ('2×', 'both papers cost twice one paper'),
+    ('Per session', 'pay again if you sit Session 2'),
+]
+
+# colleges that admitted through JoSAA on a JEE Main Paper 2 rank in 2025 (rounds 1 to 6).
+# (name, city, state, group, {programme: [(quota, opening rank, closing rank)]}) for OPEN, gender-neutral seats.
+COLLEGE_GROUPS = [('spa', 'Schools of Planning and Architecture', 'Centrally funded, the only institutes in this list that offer both B.Arch and B.Planning at all-India level.'),
+                  ('nit', 'National Institutes of Technology', 'Home-state (HS) seats and other-state (OS) seats have separate ranks.'),
+                  ('other', 'Other JoSAA institutes', 'Technical institutes and universities that took part in JoSAA 2025.')]
+COLLEGES = [
+    ('SPA New Delhi', 'New Delhi', 'Delhi', 'spa', {'B.Arch': [('AI', 4, 191)], 'B.Plan': [('AI', 8, 209)]}),
+    ('SPA Bhopal', 'Bhopal', 'Madhya Pradesh', 'spa', {'B.Arch': [('AI', 74, 436)], 'B.Plan': [('AI', 159, 701)]}),
+    ('SPA Vijayawada', 'Vijayawada', 'Andhra Pradesh', 'spa', {'B.Arch': [('AI', 37, 521)], 'B.Plan': [('AI', 155, 786)]}),
+    ('NIT Calicut', 'Calicut', 'Kerala', 'nit', {'B.Arch': [('HS', 93, 241), ('OS', 2, 289)]}),
+    ('NIT Tiruchirappalli', 'Tiruchirappalli', 'Tamil Nadu', 'nit', {'B.Arch': [('HS', 112, 316), ('OS', 20, 227)]}),
+    ('VNIT Nagpur', 'Nagpur', 'Maharashtra', 'nit', {'B.Arch': [('HS', 153, 505), ('OS', 271, 709)]}),
+    ('NIT Kurukshetra', 'Kurukshetra', 'Haryana', 'nit', {'B.Arch': [('HS', 376, 2110), ('OS', 531, 1008)]}),
+    ('MNIT Jaipur', 'Jaipur', 'Rajasthan', 'nit', {'B.Arch': [('HS', 638, 1615), ('OS', 346, 612)]}),
+    ('NIT Rourkela', 'Rourkela', 'Odisha', 'nit', {'B.Arch': [('HS', 643, 1223), ('OS', 316, 550)]}),
+    ('NIT Hamirpur', 'Hamirpur', 'Himachal Pradesh', 'nit', {'B.Arch': [('HS', 939, 7647), ('OS', 609, 1138)]}),
+    ('MANIT Bhopal', 'Bhopal', 'Madhya Pradesh', 'nit', {'B.Arch': [('HS', 1019, 3386), ('OS', 566, 889)], 'B.Plan': [('HS', 132, 2659), ('OS', 114, 574)]}),
+    ('NIT Raipur', 'Raipur', 'Chhattisgarh', 'nit', {'B.Arch': [('HS', 1170, 3672), ('OS', 626, 1070)]}),
+    ('NIT Patna', 'Patna', 'Bihar', 'nit', {'B.Arch': [('HS', 1536, 4364), ('OS', 378, 1119)]}),
+    ('IIEST Shibpur', 'Howrah', 'West Bengal', 'other', {'B.Arch': [('HS', 375, 725), ('OS', 491, 923)]}),
+    ('SMVD University', 'Katra', 'Jammu and Kashmir', 'other', {'B.Arch': [('AI', 124, 1271)]}),
+    ('BIT Mesra', 'Ranchi', 'Jharkhand', 'other', {'B.Arch': [('AI', 506, 1014), ('HS', 867, 3406)]}),
+    ('Mizoram University', 'Aizawl', 'Mizoram', 'other', {'B.Arch': [('AI', 905, 1251)]}),
+    ('IUST Kashmir', 'Awantipora', 'Jammu and Kashmir', 'other', {'B.Arch': [('AI', 970, 1582), ('HS', 1233, 43615)]}),
+]
+QUOTA = {'AI': 'All India', 'HS': 'Home state', 'OS': 'Other states'}
+COLLEGES_NOTE = ('Source: the JoSAA 2025 opening and closing rank file for rounds 1 to 6, which the portal already holds. Figures are the lowest opening rank and the highest closing rank '
+                 'across rounds for OPEN, gender-neutral seats on the Paper 2 rank list, so they show the range, not a prediction. Other categories and gender-only seats have their own ranks. '
+                 'Seats, courses and ranks change every year; read the JoSAA 2027 brochure when it appears.')
+COLLEGES_MORE = [
+    'IIT Kharagpur, IIT Roorkee and IIT (BHU) Varanasi offer B.Arch through JEE Advanced and the Architecture Aptitude Test (AAT), not through Paper 2.',
+    'Many state governments, deemed universities and private colleges admit to B.Arch through NATA or through JEE Main Paper 2, and set their own dates and rules. Check each college and see our NATA page.',
+    'Seat counts are not in this file, so the list shows ranks only.',
+]
