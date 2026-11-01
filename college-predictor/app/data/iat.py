@@ -146,17 +146,18 @@ SYLLABUS_NOTE = 'Topics are grouped from the 2026 brochure (pages 23 to 32). The
 
 # papers: year, official link text, what EduAakashaA holds
 PAPERS = [
-    ('2026', 'Answer key (final and provisional)', 'IAT 2026 held on 7 June 2026'),
-    ('2025', 'Question paper', ''),
-    ('2024', 'Question paper', ''),
-    ('2023', 'Question paper', ''),
-    ('2022', 'Question paper', ''),
-    ('2021', 'Question paper', ''),
-    ('2019', 'Question paper', ''),
-    ('2018', 'Question paper (English only)', ''),
-    ('2017', 'Question paper', ''),
+    ('2026', 'Answer key (final and provisional)', 'Mock centre with worked solutions'),
+    ('2025', 'Question paper with key', 'Mock centre with worked solutions'),
+    ('2024', 'Question paper with key', 'Mock centre with worked solutions'),
+    ('2023', 'Question paper with key', 'Mock centre with worked solutions'),
+    ('2022', 'Question paper with key', 'Mock centre with worked solutions'),
+    ('2021', 'Question paper with key', 'Mock centre with worked solutions'),
+    ('2019', 'Question paper', 'Official paper only'),
+    ('2018', 'Question paper (English only)', 'Official paper only'),
+    ('2017', 'Question paper', 'Official paper only'),
 ]
-PAPERS_NOTE = 'The official site lists the question papers for 2017 to 2025 (no paper for 2020). The 2025 and 2026 documents also carry the official answer key. For the earlier years the site does not publish keys.'
+PAPERS_NOTE = ('The official site lists the question papers for 2017 to 2025 (no paper for 2020). The papers from 2021 to 2026 are published as answer-key editions in which option (a) is always the correct answer, '
+               'so the mock centre shuffles the options. The 2017, 2018 and 2019 papers have no published key and are not in the mock centre.')
 
 PLAN = [
     ('Biology (60 marks)', 'NCERT Class 11 and 12, line by line, including figures and tables. Add data-based questions: pedigrees, enzyme kinetics graphs, gene regulation, population curves.'),

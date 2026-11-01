@@ -1,0 +1,1229 @@
+[
+{
+"year": 2023,
+"sj": "BIO",
+"n": 1,
+"ok": true,
+"stem": [
+"bio01_s.webp"
+],
+"opts": [
+"bio01_o0.webp",
+"bio01_o1.webp",
+"bio01_o2.webp",
+"bio01_o3.webp"
+],
+"full": [],
+"topic": "Animal tissues: epithelium",
+"diff": "medium",
+"why": "Squamous epithelium is thin and acts as a diffusion barrier (iv). Cuboidal cells have a central nucleus and secrete/absorb (iii). Columnar cells have a basal nucleus and secrete/absorb (ii). Ciliated epithelium has a basal nucleus and moves particles and mucus (i). So P-iv, Q-iii, R-ii, S-i.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 2,
+"ok": true,
+"stem": [
+"bio02_s.webp"
+],
+"opts": [
+"bio02_o0.webp",
+"bio02_o1.webp",
+"bio02_o2.webp",
+"bio02_o3.webp"
+],
+"full": [],
+"topic": "Digestion of proteins",
+"diff": "easy",
+"why": "Pepsin in the stomach breaks proteins into shorter, partially digested products called proteoses and peptones. Pepsinogen is the zymogen and pepsin the active form; the other option describes pancreatic or intestinal juice. So peptones are partially digested proteins.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 3,
+"ok": true,
+"stem": [
+"bio03_s.webp"
+],
+"opts": [
+"bio03_o0.webp",
+"bio03_o1.webp",
+"bio03_o2.webp",
+"bio03_o3.webp"
+],
+"full": [],
+"topic": "Biomolecules",
+"diff": "medium",
+"why": "Insulin is a protein made of two different chains of many amino acids: a heteropolymer (iv). Inulin is a polymer of fructose only: homopolymer (ii). Lectin is a secondary metabolite (i). Lecithin is a phospholipid with choline, a quaternary ammonium group (iii). So P-iv, Q-ii, R-i, S-iii.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 4,
+"ok": true,
+"stem": [
+"bio04_s.webp"
+],
+"opts": [
+"bio04_o0.webp",
+"bio04_o1.webp",
+"bio04_o2.webp",
+"bio04_o3.webp"
+],
+"full": [],
+"topic": "Cell cycle: mitosis",
+"diff": "hard",
+"why": "Spindle microtubules must capture kinetochores and align chromosomes on the plate, which is the defining event of metaphase. Prophase events (condensation, nuclear envelope breakdown) go ahead without a working spindle, so the first stage that visibly fails is metaphase; anaphase and telophase come later. Colchicine-type drugs arrest cells at metaphase.",
+"agree": true,
+"note": "Ambiguous: spindle assembly begins in late prophase (NCERT: initiation of spindle assembly), so prophase is a defensible alternative. The key says metaphase; an earlier solver chose prophase. Reasoning above treats first functional failure as the first stage affected."
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 5,
+"ok": true,
+"stem": [
+"bio05_s.webp"
+],
+"opts": [
+"bio05_o0.webp",
+"bio05_o1.webp",
+"bio05_o2.webp",
+"bio05_o3.webp"
+],
+"full": [],
+"topic": "Seed structure",
+"diff": "medium",
+"why": "The statement in (a) is incorrect. In monocot seeds the membranous seed coat fused with the fruit wall is the pericarp. The aleurone layer is the protein-rich outermost layer of the endosperm. The other three are true: some dicot seeds are non-endospermic, testa is the outer coat, and coleoptile and coleorhiza occur in monocots.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 6,
+"ok": true,
+"stem": [
+"bio06_s.webp"
+],
+"opts": [
+"bio06_o0.webp",
+"bio06_o1.webp",
+"bio06_o2.webp",
+"bio06_o3.webp"
+],
+"full": [],
+"topic": "Secondary growth: annual rings",
+"diff": "easy",
+"why": "In temperate climates cambium is active in spring, giving wide light early (spring) wood, and less active in autumn, giving narrow dark late wood. One pair forms an annual ring, so counting rings gives the age. Heartwood and sapwood differ in function, not in yearly layering.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 7,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio07_full0.webp"
+],
+"topic": "Nitrogen fixation",
+"diff": "medium",
+"why": "Nitrogenase is a Mo-Fe protein: its catalytic centre contains molybdenum and iron. It reduces N2 to NH3, not NO3-; it is oxygen sensitive (leghaemoglobin keeps O2 low); amides are carried mainly in xylem. So only the statement on Mo and Fe cofactors is correct.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 8,
+"ok": true,
+"stem": [
+"bio08_s.webp"
+],
+"opts": [
+"bio08_o0.webp",
+"bio08_o1.webp",
+"bio08_o2.webp",
+"bio08_o3.webp"
+],
+"full": [],
+"topic": "Biodiversity",
+"diff": "easy",
+"why": "Genetic diversity is variation within a species. Different potency and concentration of reserpine in Rauwolfia vomitoria is variation among populations of one species. The other options describe species diversity (amphibians, plants) or ecosystem diversity.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 9,
+"ok": true,
+"stem": [
+"bio09_s.webp"
+],
+"opts": [
+"bio09_o0.webp",
+"bio09_o1.webp",
+"bio09_o2.webp",
+"bio09_o3.webp"
+],
+"full": [],
+"topic": "Translation: termination",
+"diff": "easy",
+"why": "Stop codons (UAA, UAG, UGA) have no tRNA. They are recognised by protein release factors, which trigger release of the polypeptide. Rho is a transcription terminator in bacteria and sigma is a transcription initiation factor.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 10,
+"ok": true,
+"stem": [
+"bio10_s.webp"
+],
+"opts": [
+"bio10_o0.webp",
+"bio10_o1.webp",
+"bio10_o2.webp",
+"bio10_o3.webp"
+],
+"full": [],
+"topic": "Human reproduction and excretion",
+"diff": "medium",
+"why": "Sertoli cells nourish developing spermatozoa (iv). FSH, with LH, drives follicle growth and ovulation (v). Placenta secretes hCG (i). The urethra carries urine away from the bladder (ii); the ureter, not the urethra, carries urine from kidney (iii). So P-iv, Q-v, R-i, S-ii.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 11,
+"ok": true,
+"stem": [
+"bio11_s.webp"
+],
+"opts": [
+"bio11_o0.webp",
+"bio11_o1.webp",
+"bio11_o2.webp",
+"bio11_o3.webp"
+],
+"full": [],
+"topic": "Gene expression: splicing",
+"diff": "medium",
+"why": "Splicing of hnRNA (introns removal) happens only in eukaryotes. Plasmodium, the malaria parasite, is a eukaryote. Pertussis (Bordetella), typhoid (Salmonella) and tuberculosis (Mycobacterium) are bacterial, and their mRNA needs no splicing.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 12,
+"ok": true,
+"stem": [
+"bio12_s.webp"
+],
+"opts": [
+"bio12_o0.webp",
+"bio12_o1.webp",
+"bio12_o2.webp",
+"bio12_o3.webp"
+],
+"full": [],
+"topic": "Enzyme inhibition",
+"diff": "medium",
+"why": "A competitive inhibitor resembles the substrate and binds the active site. P and S have the same triangular tip as the substrate and fit the active site. Q, R and T are shaped like the allosteric notches, so they would be non-competitive or allosteric. Best pair: P and S.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 13,
+"ok": true,
+"stem": [
+"bio13_s.webp"
+],
+"opts": [
+"bio13_o0.webp",
+"bio13_o1.webp",
+"bio13_o2.webp",
+"bio13_o3.webp"
+],
+"full": [],
+"topic": "Hardy-Weinberg principle",
+"diff": "easy",
+"why": "q^2 = 4/10000 = 0.0004, so q = 0.02 and p = 0.98. Heterozygotes = 2pq = 2 x 0.98 x 0.02 = 0.0392. In 10,000 individuals this is 392.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 14,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio14_full0.webp",
+"bio14_full1.webp",
+"bio14_full2.webp"
+],
+"topic": "Recombinant DNA: restriction mapping",
+"diff": "hard",
+"why": "Circular plasmid 4500 bp. Vector NotI sites lie 500 bp from EcoRI and 1100 bp from HindIII; insert NotI is 400 bp from EcoRI, 600 from HindIII; remaining vector 1900. NotI+EcoRI: 500, 400, 600+1100=1700, 1900. NotI+HindIII: 500+400=900, 600, 1100, 1900. This matches the gel in (a).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "BIO",
+"n": 15,
+"ok": true,
+"stem": [
+"bio15_s.webp"
+],
+"opts": [
+"bio15_o0.webp",
+"bio15_o1.webp",
+"bio15_o2.webp",
+"bio15_o3.webp"
+],
+"full": [],
+"topic": "Pedigree analysis",
+"diff": "medium",
+"why": "Affected daughter III-2 has unaffected parents, so the trait is recessive. X-linked recessive is ruled out because an affected daughter needs an affected father, but II-3 is normal. So autosomal recessive: III-2 is aa, each parent carries one a allele, and II-3 is heterozygous.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 1,
+"ok": true,
+"stem": [
+"che01_s.webp"
+],
+"opts": [
+"che01_o0.webp",
+"che01_o1.webp",
+"che01_o2.webp",
+"che01_o3.webp"
+],
+"full": [],
+"topic": "Atomic structure: nodes",
+"diff": "easy",
+"why": "Radial nodes = n - l - 1. For a 4s orbital, n = 4 and l = 0, so nodes = 4 - 0 - 1 = 3. Ca+ is one-electron-removed, but the node count depends only on n and l.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 2,
+"ok": true,
+"stem": [
+"che02_s.webp"
+],
+"opts": [
+"che02_o0.webp",
+"che02_o1.webp",
+"che02_o2.webp",
+"che02_o3.webp"
+],
+"full": [],
+"topic": "Molecular orbital theory",
+"diff": "medium",
+"why": "Paramagnetic molecules have unpaired electrons. O2 has two unpaired electrons in pi* orbitals, and B2 has two unpaired in pi bonding orbitals. N2 and F2 have all electrons paired (diamagnetic). So O2 and B2 are attracted by the field.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 3,
+"ok": true,
+"stem": [
+"che03_s.webp"
+],
+"opts": [
+"che03_o0.webp",
+"che03_o1.webp",
+"che03_o2.webp",
+"che03_o3.webp"
+],
+"full": [],
+"topic": "p-block: phosphorus allotropes",
+"diff": "easy",
+"why": "White phosphorus, the highly reactive allotrope, exists as tetrahedral P4 molecules. Each P-P-P angle is 60 degrees, causing ring strain and high reactivity.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 4,
+"ok": true,
+"stem": [
+"che04_s.webp"
+],
+"opts": [
+"che04_o0.webp",
+"che04_o1.webp",
+"che04_o2.webp",
+"che04_o3.webp"
+],
+"full": [],
+"topic": "Metallurgy: ores",
+"diff": "easy",
+"why": "Siderite is FeCO3, an ore of iron. Bauxite is the aluminium ore, malachite the copper ore, quartz is SiO2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 5,
+"ok": true,
+"stem": [
+"che05_s.webp"
+],
+"opts": [
+"che05_o0.webp",
+"che05_o1.webp",
+"che05_o2.webp",
+"che05_o3.webp"
+],
+"full": [],
+"topic": "Metallurgy: Ellingham diagram",
+"diff": "easy",
+"why": "The Ellingham diagram plots the standard Gibbs energy change of formation of oxides against temperature. Since dG = dH - T dS, the lines are nearly straight with slope -dS.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 6,
+"ok": true,
+"stem": [
+"che06_s.webp"
+],
+"opts": [
+"che06_o0.webp",
+"che06_o1.webp",
+"che06_o2.webp",
+"che06_o3.webp"
+],
+"full": [],
+"topic": "Haloalkanes: SN2",
+"diff": "medium",
+"why": "The Finkelstein reaction needs an alkyl halide that can undergo SN2. II is an aryl bromide and III is a vinyl bromide; their C-Br bonds have partial double-bond character and the carbon cannot be attacked from behind. I (benzylic) and IV (primary) react readily. Answer: II and III.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 7,
+"ok": true,
+"stem": [
+"che07_s.webp"
+],
+"opts": [
+"che07_o0.webp",
+"che07_o1.webp",
+"che07_o2.webp",
+"che07_o3.webp"
+],
+"full": [],
+"topic": "Aromatic hydrocarbons: synthesis",
+"diff": "medium",
+"why": "Direct alkylation with 1-chloropropane, propanol or propene gives isopropylbenzene because the carbocation rearranges. Friedel-Crafts acylation with propanoyl chloride gives propiophenone with no rearrangement, and Wolff-Kishner reduction (KOH, NH2NH2) then gives n-propylbenzene. So route I.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 8,
+"ok": true,
+"stem": [
+"che08_s.webp"
+],
+"opts": [
+"che08_o0.webp",
+"che08_o1.webp",
+"che08_o2.webp",
+"che08_o3.webp"
+],
+"full": [],
+"topic": "Stereochemistry: chirality",
+"diff": "hard",
+"why": "I has two CH3 groups on one ring carbon, so it has a mirror plane: achiral. III has a Me and vinyl on C4 but the two ring arms are identical: achiral. II (3-aminobut-1-ene) has four different groups on one carbon: chiral. IV has OH, H, sp2 ring carbon and CH2 on C1: chiral. So II and IV.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 9,
+"ok": true,
+"stem": [
+"che09_s.webp"
+],
+"opts": [
+"che09_o0.webp",
+"che09_o1.webp",
+"che09_o2.webp",
+"che09_o3.webp"
+],
+"full": [],
+"topic": "Biomolecules: nucleic acid bases",
+"diff": "easy",
+"why": "The structures are cytosine (I), guanine (II), thymine (III, with the 5-methyl group) and uracil (IV). RNA contains A, G, C and U. Thymine, the methylated uracil, is found only in DNA, so III is not present in RNA.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 10,
+"ok": true,
+"stem": [
+"che10_s.webp"
+],
+"opts": [
+"che10_o0.webp",
+"che10_o1.webp",
+"che10_o2.webp",
+"che10_o3.webp"
+],
+"full": [],
+"topic": "Aromaticity",
+"diff": "hard",
+"why": "Apply Huckel: planar, fully conjugated, 4n+2 pi electrons. I (cyclopropenyl cation) has 2: aromatic. II (pyranyl cation) has 4 from two C=C plus 2 from O lone pair = 6, with the empty p orbital in the ring: aromatic. III (cycloheptatrienyl anion) has 8 and IV (cyclobutadiene) has 4: antiaromatic. So I and II.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 11,
+"ok": true,
+"stem": [
+"che11_s.webp"
+],
+"opts": [
+"che11_o0.webp",
+"che11_o1.webp",
+"che11_o2.webp",
+"che11_o3.webp"
+],
+"full": [],
+"topic": "States of matter",
+"diff": "easy",
+"why": "In solids and liquids the molecules are already in close contact with very little empty space between them, so pressure cannot squeeze them much closer. Gas molecules are far apart, so most of the volume is empty and compressible.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 12,
+"ok": true,
+"stem": [
+"che12_s.webp"
+],
+"opts": [
+"che12_o0.webp",
+"che12_o1.webp",
+"che12_o2.webp",
+"che12_o3.webp"
+],
+"full": [],
+"topic": "Surface chemistry: adsorption",
+"diff": "medium",
+"why": "The statement in (a) is not correct. Freundlich's x/m = k P^(1/n) is empirical, works for gases and solutions, and 1/n lies between 0 and 1, but it holds only over a limited pressure range and fails at high pressure when adsorption saturates.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 13,
+"ok": true,
+"stem": [
+"che13_s.webp"
+],
+"opts": [
+"che13_o0.webp",
+"che13_o1.webp",
+"che13_o2.webp",
+"che13_o3.webp"
+],
+"full": [],
+"topic": "Thermochemistry: bond enthalpy",
+"diff": "medium",
+"why": "The given 1665 kJ/mol is the enthalpy of atomisation, i.e. breaking all four C-H bonds. The mean C-H bond enthalpy is 1665/4 = 416 kJ/mol, so statement (a) is false. The other statements are true: bonds are identical, successive dissociation energies differ, and mean values vary slightly between compounds.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 14,
+"ok": true,
+"stem": [
+"che14_s.webp"
+],
+"opts": [
+"che14_o0.webp",
+"che14_o1.webp",
+"che14_o2.webp",
+"che14_o3.webp"
+],
+"full": [],
+"topic": "Solutions: Raoult's law",
+"diff": "medium",
+"why": "Hexane and benzene are non-polar with similar interactions, so they form a nearly ideal solution. Water and HCl react (HCl + H2O gives H3O+ and Cl-), giving stronger solute-solvent attraction than in the pure liquids: negative deviation. So ideal and negative.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "CHE",
+"n": 15,
+"ok": true,
+"stem": [
+"che15_s.webp"
+],
+"opts": [
+"che15_o0.webp",
+"che15_o1.webp",
+"che15_o2.webp",
+"che15_o3.webp"
+],
+"full": [],
+"topic": "Hydronium ion hydration",
+"diff": "easy",
+"why": "In water the proton exists as H3O+ hydrated by three more water molecules, giving H9O4+ (the Eigen cation). H3O+ plus 3 H2O has 9 H and 4 O, charge +1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 1,
+"ok": true,
+"stem": [
+"mat01_s.webp"
+],
+"opts": [
+"mat01_o0.webp",
+"mat01_o1.webp",
+"mat01_o2.webp",
+"mat01_o3.webp"
+],
+"full": [],
+"topic": "Integration estimate with GP",
+"diff": "hard",
+"why": "f decreasing, f(k) = f(0)/5^k. Then sum f(1..10) < integral < sum f(0..9). The lower sum is about 0.25 f(0) and the upper about 1.25 f(0). So the integral lies between 0.25 f(0) and 1.25 f(0), which is inside (0, 2f(0)) and disjoint from the other intervals.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 2,
+"ok": true,
+"stem": [
+"mat02_s.webp"
+],
+"opts": [
+"mat02_o0.webp",
+"mat02_o1.webp",
+"mat02_o2.webp",
+"mat02_o3.webp"
+],
+"full": [],
+"topic": "Matrices and determinants",
+"diff": "medium",
+"why": "The set of x with Mx = 0 is the line x1 + x2 = 0 = x2 + x3, which is spanned by (1,-1,1). A non-zero vector in the kernel means M is singular, so the determinant is 0.",
+"agree": true,
+"note": "Text extraction garbled the set notation; reading is {x : Mx = 0} = that line. Even if read as the image being that line (rank 1), det M = 0."
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 3,
+"ok": true,
+"stem": [
+"mat03_s.webp"
+],
+"opts": [
+"mat03_o0.webp",
+"mat03_o1.webp",
+"mat03_o2.webp",
+"mat03_o3.webp"
+],
+"full": [],
+"topic": "Circles: locus",
+"diff": "easy",
+"why": "If a circle of radius r passes through the origin, its centre is at distance r from the origin. So the centre lies on x^2 + y^2 = r^2, a circle.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 4,
+"ok": true,
+"stem": [
+"mat04_s.webp"
+],
+"opts": [
+"mat04_o0.webp",
+"mat04_o1.webp",
+"mat04_o2.webp",
+"mat04_o3.webp"
+],
+"full": [],
+"topic": "Conics and intersections",
+"diff": "medium",
+"why": "y^2 = 1 means y = 1 or y = -1. The parabola y = (x + 2 sin a)^2 + 6 - 4 sin^2 a has minimum 6 - 4 sin^2 a, at least 2. Since 2 > 1, it never reaches y = 1 or -1, so the number of intersection points is zero.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 5,
+"ok": true,
+"stem": [
+"mat05_s.webp"
+],
+"opts": [
+"mat05_o0.webp",
+"mat05_o1.webp",
+"mat05_o2.webp",
+"mat05_o3.webp"
+],
+"full": [],
+"topic": "3D geometry: direction cosines",
+"diff": "easy",
+"why": "The direction cosines satisfy cos^2 a + cos^2 b + cos^2 g = 1. So cos 2a + cos 2b + cos 2g = 2(sum of cos^2) - 3 = 2 - 3 = -1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 6,
+"ok": true,
+"stem": [
+"mat06_s.webp"
+],
+"opts": [
+"mat06_o0.webp",
+"mat06_o1.webp",
+"mat06_o2.webp",
+"mat06_o3.webp"
+],
+"full": [],
+"topic": "Number theory: divisors",
+"diff": "easy",
+"why": "For N = 2^9 x 3^19, divisors have the form 2^a 3^b with a from 0 to 9 and b from 0 to 19. Number = (9 + 1)(19 + 1) = 10 x 20 = 200.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 7,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"mat07_full0.webp"
+],
+"topic": "Statistics: standard deviation",
+"diff": "medium",
+"why": "Sum of squared deviations about mu is 9 sigma^2. The new mean stays mu, so x10 = mu (the 10th value must equal mu), and its deviation adds 0. New variance = 9 sigma^2 / 10, so standard deviation = 3 sigma / sqrt(10).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 8,
+"ok": true,
+"stem": [
+"mat08_s.webp"
+],
+"opts": [
+"mat08_o0.webp",
+"mat08_o1.webp",
+"mat08_o2.webp",
+"mat08_o3.webp"
+],
+"full": [],
+"topic": "Conditional probability",
+"diff": "easy",
+"why": "Given the first coin is tail, at least two heads needs both of the other coins to be heads: P = (1/3)(1/3) = 1/9. So P(E | F) = 1/9.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 9,
+"ok": true,
+"stem": [
+"mat09_s.webp"
+],
+"opts": [
+"mat09_o0.webp",
+"mat09_o1.webp",
+"mat09_o2.webp",
+"mat09_o3.webp"
+],
+"full": [],
+"topic": "Differential equations",
+"diff": "medium",
+"why": "Put y = y' = y'' = e^x. Then y y'' = e^(2x), e^x y' = e^(2x), y^2 = e^(2x). Option (a): e^(2x) - e^(2x) + e^(2x) = e^(2x), which equals the right side. Options with +e^x y' give 3e^(2x), and those with right side e^x fail.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 10,
+"ok": true,
+"stem": [
+"mat10_s.webp"
+],
+"opts": [
+"mat10_o0.webp",
+"mat10_o1.webp",
+"mat10_o2.webp",
+"mat10_o3.webp"
+],
+"full": [],
+"topic": "Definite integrals: area",
+"diff": "easy",
+"why": "Area = integral from 0 to 1 of x e^(x^2) dx. Put t = x^2, dt = 2x dx: area = (1/2) integral of e^t from 0 to 1 = (e - 1)/2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 11,
+"ok": true,
+"stem": [
+"mat11_s.webp"
+],
+"opts": [
+"mat11_o0.webp",
+"mat11_o1.webp",
+"mat11_o2.webp",
+"mat11_o3.webp"
+],
+"full": [],
+"topic": "Linear programming",
+"diff": "medium",
+"why": "Feasible region corners: (2,0), (10,0), (0,5), (0,2). Z = x - y gives 2, 10, -5, -2 respectively. The minimum is -5, at (0,5).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 12,
+"ok": true,
+"stem": [
+"mat12_s.webp"
+],
+"opts": [
+"mat12_o0.webp",
+"mat12_o1.webp",
+"mat12_o2.webp",
+"mat12_o3.webp"
+],
+"full": [],
+"topic": "Quadratic equations",
+"diff": "easy",
+"why": "p(1) = 1 + b + c = 5 and p(-1) = 1 - b + c = 3. Adding: 2 + 2c = 8, so c = 3 (and b = 1). The product of roots of x^2 + bx + c is c = 3.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 13,
+"ok": true,
+"stem": [
+"mat13_s.webp"
+],
+"opts": [
+"mat13_o0.webp",
+"mat13_o1.webp",
+"mat13_o2.webp",
+"mat13_o3.webp"
+],
+"full": [],
+"topic": "Integration: antiderivative",
+"diff": "easy",
+"why": "f(x) = integral of (2x^2 - 5) dx = 2x^3/3 - 5x + C, with f(0) = 0 giving C = 0. Then f(1) = 2/3 - 5 = -13/3, which is negative, so it lies in (-infinity, 0).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 14,
+"ok": true,
+"stem": [
+"mat14_s.webp"
+],
+"opts": [
+"mat14_o0.webp",
+"mat14_o1.webp",
+"mat14_o2.webp",
+"mat14_o3.webp"
+],
+"full": [],
+"topic": "Monotonicity of functions",
+"diff": "medium",
+"why": "f'(x) = 3 cos 3x. For x in (pi/4, pi/2), 3x is in (3pi/4, 3pi/2), where cos is negative, so f' < 0. Hence f is decreasing on (pi/4, pi/2) throughout; pi/3 gives 3x = pi and is not a turning point.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "MAT",
+"n": 15,
+"ok": true,
+"stem": [
+"mat15_s.webp"
+],
+"opts": [
+"mat15_o0.webp",
+"mat15_o1.webp",
+"mat15_o2.webp",
+"mat15_o3.webp"
+],
+"full": [],
+"topic": "Differentiability",
+"diff": "easy",
+"why": "cos|x| = cos x since cos is even, so it is differentiable at 0. sin|x| and |x| have a corner at 0 (left and right slopes -1 and 1), and |x|^(1/2) has a vertical tangent cusp. So only cos|x|.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 1,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy01_full0.webp"
+],
+"topic": "Kinematics: average speed",
+"diff": "medium",
+"why": "Distance = u^2/(2g) (up) + u^2/(2g) + h (down) = u^2/g + h. With v^2 = u^2 + 2gh, h = (v^2 - u^2)/(2g), so distance = (u^2 + v^2)/(2g). Time = u/g + v/g = (u + v)/g. Average speed = (u^2 + v^2)/(2(u + v)).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 2,
+"ok": true,
+"stem": [
+"phy02_s.webp"
+],
+"opts": [
+"phy02_o0.webp",
+"phy02_o1.webp",
+"phy02_o2.webp",
+"phy02_o3.webp"
+],
+"full": [],
+"topic": "Fluids: buoyancy",
+"diff": "medium",
+"why": "Alone, A floats with fraction eta immersed, so rho_A = eta rho_w. With B on top, A is just fully immersed: (rho_A + rho_B) V g = rho_w V g, so rho_B = (1 - eta) rho_w. Ratio rho_B/rho_A = (1 - eta)/eta.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 3,
+"ok": true,
+"stem": [
+"phy03_s.webp"
+],
+"opts": [
+"phy03_o0.webp",
+"phy03_o1.webp",
+"phy03_o2.webp",
+"phy03_o3.webp"
+],
+"full": [],
+"topic": "Ray optics: lens",
+"diff": "hard",
+"why": "Take f = 1. Magnification 2 gives v = 2u, and 1/u + 1/v = 1 gives u = 1.5, v = 3. Then (u - d) and (v + 8d) must also satisfy the lens formula: 1/(1.5 - d) + 1/(3 + 8d) = 1 gives d = 1/4. New u = 1.25, v = 5, so m = v/u = 4.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 4,
+"ok": true,
+"stem": [
+"phy04_s.webp"
+],
+"opts": [
+"phy04_o0.webp",
+"phy04_o1.webp",
+"phy04_o2.webp",
+"phy04_o3.webp"
+],
+"full": [],
+"topic": "Waves: Doppler effect",
+"diff": "medium",
+"why": "The stationary detector hears the wave frequency nu1, which is the frequency the waves have in the air. An observer moving toward the source at speed v receives nu2 = nu1 (v_sound + v)/v_sound. So v/v_sound = (nu2 - nu1)/nu1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 5,
+"ok": true,
+"stem": [
+"phy05_s.webp"
+],
+"opts": [
+"phy05_o0.webp",
+"phy05_o1.webp",
+"phy05_o2.webp",
+"phy05_o3.webp"
+],
+"full": [],
+"topic": "Current electricity: power",
+"diff": "easy",
+"why": "Resistance R = rho L/A. Halving the length halves the resistance. With the same current, P = I^2 R, so each half dissipates P2 = P1/2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 6,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy06_full0.webp"
+],
+"topic": "Electrostatics: Coulomb force",
+"diff": "easy",
+"why": "Coulomb forces on a pair of charges obey Newton's third law: equal in magnitude and opposite in direction, regardless of the charge values. So F_AB = -F_BA.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 7,
+"ok": true,
+"stem": [
+"phy07_s.webp"
+],
+"opts": [
+"phy07_o0.webp",
+"phy07_o1.webp",
+"phy07_o2.webp",
+"phy07_o3.webp"
+],
+"full": [],
+"topic": "Electromagnetic induction",
+"diff": "easy",
+"why": "emf = -d(phi)/dt = phi0 omega sin(omega t). Its magnitude is largest when sin(omega t) = 1, i.e. omega t = pi/2 within the range 0 to pi. So t = pi/(2 omega).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 8,
+"ok": true,
+"stem": [
+"phy08_s.webp"
+],
+"opts": [
+"phy08_o0.webp",
+"phy08_o1.webp",
+"phy08_o2.webp",
+"phy08_o3.webp"
+],
+"full": [],
+"topic": "Semiconductors",
+"diff": "easy",
+"why": "Trivalent impurities (acceptors) create holes, so the material is p-type. Hole concentration rises above the intrinsic value: nh > nh(0). Electron concentration falls (ne < ne(0)) by mass action, and ne is not equal to nh. Intrinsic values depend on temperature.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 9,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy09_full0.webp"
+],
+"topic": "Kinematics: velocity-time graph",
+"diff": "easy",
+"why": "Displacement is the area under the v-t graph. Triangle 0 to T/3: (1/2)(T/3)(alpha T/3) = alpha T^2/18. Rectangle: (T/3)(alpha T/3) = alpha T^2/9. Last triangle: alpha T^2/18. Sum = (1 + 2 + 1) alpha T^2/18 = 2 alpha T^2/9.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 10,
+"ok": true,
+"stem": [
+"phy10_s.webp"
+],
+"opts": [
+"phy10_o0.webp",
+"phy10_o1.webp",
+"phy10_o2.webp",
+"phy10_o3.webp"
+],
+"full": [],
+"topic": "Dimensional analysis / oscillations",
+"diff": "medium",
+"why": "For small displacement x, the net force on the middle charge is about q^2 x/(eps0 L^3) (up to constants), so omega^2 ~ q^2/(eps0 m L^3) and T ~ sqrt(eps0 m L^3)/q. Comparing with T = 2 pi^(3/2) alpha sqrt(m)/q gives alpha ~ eps0^(1/2) L^(3/2).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 11,
+"ok": true,
+"stem": [
+"phy11_s.webp"
+],
+"opts": [
+"phy11_o0.webp",
+"phy11_o1.webp",
+"phy11_o2.webp",
+"phy11_o3.webp"
+],
+"full": [],
+"topic": "Current electricity: resistor networks",
+"diff": "medium",
+"why": "Each path from A to B is R then 3R (to top, bottom or the centre node), so the potential at top, bottom and centre is the same at 3/4 of V. No current flows in the 2R resistors. The three R + 3R branches are 4R each in parallel: 4R/3.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 12,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy12_full0.webp"
+],
+"topic": "Gravitation: energy conservation",
+"diff": "hard",
+"why": "Potential at x: -GM/x - GM/(4R - x). Maximum is at the midpoint x = 2R, so vmin^2 = 2GM/(3R) and v0^2 = 8GM/(3R). Energy conservation: v^2 = 2GM[1/x + 1/(4R - x)] = 8GMR/(x(4R - x)), so v = 2 sqrt(2GMR)/(x^(1/2)(4R - x)^(1/2)).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 13,
+"ok": true,
+"stem": [
+"phy13_s.webp"
+],
+"opts": [
+"phy13_o0.webp",
+"phy13_o1.webp",
+"phy13_o2.webp",
+"phy13_o3.webp"
+],
+"full": [],
+"topic": "Atomic physics: Bohr model",
+"diff": "easy",
+"why": "Bohr radius r_n = n^2 h^2 eps0/(pi m Z e^2), so r is proportional to n^2/Z. For the same principal quantum number (n = 2 here), doubling Z from 1 to 2 halves the radius: r/2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 14,
+"ok": true,
+"stem": [
+"phy14_s.webp"
+],
+"opts": [
+"phy14_o0.webp",
+"phy14_o1.webp",
+"phy14_o2.webp",
+"phy14_o3.webp"
+],
+"full": [],
+"topic": "Units and measurement: significant figures",
+"diff": "easy",
+"why": "Leading zeros in 0.00230 are not significant. The digits 2, 3 and the trailing 0 (after the decimal point, so significant) count. So there are 3 significant figures.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2023,
+"sj": "PHY",
+"n": 15,
+"ok": true,
+"stem": [
+"phy15_s.webp"
+],
+"opts": [
+"phy15_o0.webp",
+"phy15_o1.webp",
+"phy15_o2.webp",
+"phy15_o3.webp"
+],
+"full": [],
+"topic": "Thermodynamics: Carnot engine and refrigerator",
+"diff": "medium",
+"why": "Engine efficiency = 1 - 300/600 = 1/2, so W = 500 kJ and 500 kJ is rejected to the atmosphere. Refrigerator COP = 200/(300 - 200) = 2, so it extracts 1000 kJ and rejects 1000 + 500 = 1500 kJ. Total to atmosphere = 500 + 1500 = 2000 kJ.",
+"agree": true,
+"note": ""
+}
+]

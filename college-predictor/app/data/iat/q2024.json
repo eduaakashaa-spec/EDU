@@ -1,0 +1,1200 @@
+[
+{
+"year": 2024,
+"sj": "BIO",
+"n": 1,
+"ok": true,
+"stem": [
+"bio01_s.webp"
+],
+"opts": [
+"bio01_o0.webp",
+"bio01_o1.webp",
+"bio01_o2.webp",
+"bio01_o3.webp"
+],
+"full": [],
+"topic": "Transcription",
+"diff": "easy",
+"why": "RNA is antiparallel and complementary to the template, with U for T. Template 5'-GTCTAGGCTTCTC-3' read from the 3' end is 3'-CTCTTCGGATCTG-5'. Complementing gives 5'-GAGAAGCCUAGAC-3', which is option (a).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 2,
+"ok": true,
+"stem": [
+"bio02_s.webp"
+],
+"opts": [
+"bio02_o0.webp",
+"bio02_o1.webp",
+"bio02_o2.webp",
+"bio02_o3.webp"
+],
+"full": [],
+"topic": "Pedigree analysis",
+"diff": "medium",
+"why": "An affected father passes the trait to all his daughters and none of his sons: the affected male in the third generation has two affected daughters and two unaffected sons. Affected mothers pass it to both sexes. This matches X-linked dominant inheritance. It is not recessive, since the trait appears in every generation.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 3,
+"ok": true,
+"stem": [
+"bio03_s.webp"
+],
+"opts": [
+"bio03_o0.webp",
+"bio03_o1.webp",
+"bio03_o2.webp",
+"bio03_o3.webp"
+],
+"full": [],
+"topic": "Human physiology and disorders",
+"diff": "easy",
+"why": "Allergy is an exaggerated immune response to environmental substances (ii). Uremia is kidney malfunction with urea build-up in the blood (iv). Myasthenia gravis is an autoimmune disorder of the neuromuscular junction (iii). Acromegaly is excess growth hormone secretion (i). So P-ii, Q-iv, R-iii, S-i.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 4,
+"ok": true,
+"stem": [
+"bio04_s.webp"
+],
+"opts": [
+"bio04_o0.webp",
+"bio04_o1.webp",
+"bio04_o2.webp",
+"bio04_o3.webp"
+],
+"full": [],
+"topic": "Muscle contraction",
+"diff": "easy",
+"why": "Troponin sits on the thin filament with tropomyosin. When Ca2+ binds troponin, the myosin-binding sites on actin are exposed and contraction follows. Insulin is a hormone, myoglobin stores O2 in muscle and trypsin is a digestive protease. None of these takes part directly in contraction.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 5,
+"ok": true,
+"stem": [
+"bio05_s.webp"
+],
+"opts": [
+"bio05_o0.webp",
+"bio05_o1.webp",
+"bio05_o2.webp",
+"bio05_o3.webp"
+],
+"full": [],
+"topic": "Plant anatomy",
+"diff": "medium",
+"why": "The Casparian strip is a suberin band in the radial walls of the endodermis of the root. The endodermis is ground tissue, not epidermis. Trichomes, subsidiary (guard-associated) cells and bulliform cells are all epidermal derivatives. So the Casparian strip is the one NOT derived from the epidermis.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 6,
+"ok": true,
+"stem": [
+"bio06_s.webp"
+],
+"opts": [
+"bio06_o0.webp",
+"bio06_o1.webp",
+"bio06_o2.webp",
+"bio06_o3.webp"
+],
+"full": [],
+"topic": "Meiosis in plants",
+"diff": "medium",
+"why": "In flowering plants meiosis II gives haploid spores (microspores or megaspores), not gametes. Gametes form later by mitosis in the gametophytes. So statement (a) is incorrect. The other statements are true: crossing over and independent assortment make the four products different, and in the female only one megaspore survives.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 7,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio07_full0.webp",
+"bio07_full1.webp"
+],
+"topic": "Photosynthesis",
+"diff": "easy",
+"why": "Rate of photosynthesis rises roughly in proportion to light intensity when light is limiting. It then levels off at a plateau once another factor (CO2, enzymes or temperature) becomes limiting. Graph (a), a rise followed by a flat saturation line, shows this. A straight line never saturates and a peak implies photoinhibition.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 8,
+"ok": true,
+"stem": [
+"bio08_s.webp"
+],
+"opts": [
+"bio08_o0.webp",
+"bio08_o1.webp",
+"bio08_o2.webp",
+"bio08_o3.webp"
+],
+"full": [],
+"topic": "Cell organelles and enzymes",
+"diff": "medium",
+"why": "Succinate dehydrogenase is bound to the inner mitochondrial membrane (ii). Pyruvate dehydrogenase works in the mitochondrial matrix (iii). Lactate dehydrogenase is cytoplasmic (i). ATP synthase is also on the thylakoid membrane in chloroplasts (iv), and the inner mitochondrial membrane is already used. So P-ii, Q-iii, R-i, S-iv.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 9,
+"ok": true,
+"stem": [
+"bio09_s.webp"
+],
+"opts": [
+"bio09_o0.webp",
+"bio09_o1.webp",
+"bio09_o2.webp",
+"bio09_o3.webp"
+],
+"full": [],
+"topic": "Double fertilisation and seed tissues",
+"diff": "medium",
+"why": "Embryo is 2n = n(female) + n(male): 10+15 = 25 in both reciprocal crosses. Endosperm is 3n = 2 maternal + 1 paternal: 20+15 = 35 versus 30+10 = 40, so it differs. The seed coat is maternal, 2n = 20 versus 30. Only the embryo has the same number (25).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 10,
+"ok": true,
+"stem": [
+"bio10_s.webp"
+],
+"opts": [
+"bio10_o0.webp",
+"bio10_o1.webp",
+"bio10_o2.webp",
+"bio10_o3.webp"
+],
+"full": [],
+"topic": "Human health and disease",
+"diff": "easy",
+"why": "Typhoid is caused by Salmonella typhi. The routine diagnostic is the Widal test, an agglutination test for antibodies against the bacterium's O and H antigens. ELISA is used for HIV and similar infections, and RT-PCR for RNA viruses. Gel electrophoresis is not a diagnostic test for typhoid.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 11,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio11_full0.webp",
+"bio11_full1.webp"
+],
+"topic": "Recombinant DNA technology",
+"diff": "medium",
+"why": "For cloning with BamHI and EcoRI and selecting on ampicillin, the cut sites must lie outside AmpR and Ori, so the plasmid still replicates and keeps ampicillin resistance. In plasmid (a) both sites are in the free stretch away from Ori and AmpR. In the others BamHI lies in AmpR or Ori.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 12,
+"ok": true,
+"stem": [
+"bio12_s.webp"
+],
+"opts": [
+"bio12_o0.webp",
+"bio12_o1.webp",
+"bio12_o2.webp",
+"bio12_o3.webp"
+],
+"full": [],
+"topic": "PCR",
+"diff": "easy",
+"why": "Copies double every cycle, so N = N0 x 2^n. Cycle 30 gives 10^9 copies. Cycle 20 is 10 cycles earlier, so copies = 10^9/2^10 = 10^9/1024, which is about 10^6, or 1 million.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 13,
+"ok": true,
+"stem": [
+"bio13_s.webp"
+],
+"opts": [
+"bio13_o0.webp",
+"bio13_o1.webp",
+"bio13_o2.webp",
+"bio13_o3.webp"
+],
+"full": [],
+"topic": "Population ecology",
+"diff": "easy",
+"why": "Logistic growth: dN/dt = rN(K-N)/K. With r = 0.01, N = 400 and K = 500: dN/dt = 0.01 x 400 x (100/500) = 4 x 0.2 = 0.8 individuals per unit time.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 14,
+"ok": true,
+"stem": [
+"bio14_s.webp"
+],
+"opts": [
+"bio14_o0.webp",
+"bio14_o1.webp",
+"bio14_o2.webp",
+"bio14_o3.webp"
+],
+"full": [],
+"topic": "Animal classification",
+"diff": "medium",
+"why": "Hemichordata is a separate phylum, not a sub-phylum of Chordata. It has a stomochord, an outgrowth of the buccal cavity (a proto-notochord) and gill slits, but no true notochord. The water vascular system belongs to echinoderms. So statement (a) is the correct one.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "BIO",
+"n": 15,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio15_full0.webp"
+],
+"topic": "Oxygen dissociation curve",
+"diff": "medium",
+"why": "Curve A lies to the left of B, so haemoglobin has a higher O2 affinity. This occurs at low pCO2, low [H+] (high pH) and lower temperature (the Bohr effect). Curve C is shifted right, meaning lower affinity at high H+, high pCO2 or low pH. So A with low [H+] is correct.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 1,
+"ok": true,
+"stem": [
+"che01_s.webp"
+],
+"opts": [
+"che01_o0.webp",
+"che01_o1.webp",
+"che01_o2.webp",
+"che01_o3.webp"
+],
+"full": [],
+"topic": "Periodic table",
+"diff": "easy",
+"why": "Z = 118 is the noble gas oganesson, ending period 7. Z = 119 starts period 8 as an alkali metal (8s1). Z = 120 fills 8s2, so it belongs to group 2, the alkaline earth metals.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 2,
+"ok": true,
+"stem": [
+"che02_s.webp"
+],
+"opts": [
+"che02_o0.webp",
+"che02_o1.webp",
+"che02_o2.webp",
+"che02_o3.webp"
+],
+"full": [],
+"topic": "Chemical bonding (MO theory)",
+"diff": "easy",
+"why": "N2 has 14 electrons, CO has 6+8 = 14, and NO+ has 7+8-1 = 14, so all are isoelectronic. They share the same MO configuration, with 10 bonding and 4 antibonding electrons. Bond order = (10-4)/2 = 3 for all.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 3,
+"ok": true,
+"stem": [
+"che03_s.webp"
+],
+"opts": [
+"che03_o0.webp",
+"che03_o1.webp",
+"che03_o2.webp",
+"che03_o3.webp"
+],
+"full": [],
+"topic": "Coordination compounds",
+"diff": "hard",
+"why": "A moment near 2 BM (1.73 BM) needs one unpaired electron. In K4[Mn(CN)6], Mn(II) is d5 and CN- is strong field, so it is low spin with 1 unpaired electron. [Fe(H2O)6]2+ (d6, weak field) has 4 and [MnCl4]2- (d5, high spin) has 5. [Ni(CO)4] is d10 with 0. Only K4[Mn(CN)6] fits.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 4,
+"ok": true,
+"stem": [
+"che04_s.webp"
+],
+"opts": [
+"che04_o0.webp",
+"che04_o1.webp",
+"che04_o2.webp",
+"che04_o3.webp"
+],
+"full": [],
+"topic": "VSEPR theory",
+"diff": "medium",
+"why": "XeF4 has 4 bond pairs and 2 lone pairs (octahedral electron geometry). The lone pairs sit trans to each other, giving a square planar shape. SF4 has 4 bond pairs and 1 lone pair (trigonal bipyramidal). The lone pair takes an equatorial position, giving a see-saw shape.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 5,
+"ok": true,
+"stem": [
+"che05_s.webp"
+],
+"opts": [
+"che05_o0.webp",
+"che05_o1.webp",
+"che05_o2.webp",
+"che05_o3.webp"
+],
+"full": [],
+"topic": "Coordination compounds (colour)",
+"diff": "hard",
+"why": "The colour seen is complementary to the light absorbed. Cl- is the weakest field ligand of the set, so [CoCl(NH3)5]2+ has the smallest splitting and absorbs at longer wavelength (yellow-green). It therefore appears violet or purple. Aqua is pink, hexaammine is yellow-orange and the strong-field cyano complex is colourless or pale yellow.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 6,
+"ok": true,
+"stem": [
+"che06_s.webp"
+],
+"opts": [
+"che06_o0.webp",
+"che06_o1.webp",
+"che06_o2.webp",
+"che06_o3.webp"
+],
+"full": [],
+"topic": "Stereochemistry",
+"diff": "medium",
+"why": "Both drawings are CH3-CH(OH)-CH2F. Keep the CH2F group on top and the three groups on the middle carbon go (H, CH3, OH) in the first and (OH, H, CH3) in the second. That is a cyclic rotation, which is rotation about the C-C bond. They are conformers of the same molecule, not mirror images.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 7,
+"ok": true,
+"stem": [
+"che07_s.webp"
+],
+"opts": [
+"che07_o0.webp",
+"che07_o1.webp",
+"che07_o2.webp",
+"che07_o3.webp"
+],
+"full": [],
+"topic": "Acidity of organic compounds",
+"diff": "medium",
+"why": "Picric acid (P, 2,4,6-trinitrophenol) has pKa about 0.4 because three nitro groups stabilise the phenoxide. Benzoic acid (N) has pKa about 4.2. p-Nitrophenol (Q) has pKa about 7.1 and phenol (M) about 10. So P > N > Q > M.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 8,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che08_full0.webp"
+],
+"topic": "Aromatic reactions of diazonium and nitriles",
+"diff": "medium",
+"why": "Benzene diazonium chloride with H3PO2/H2O gives benzene (M). Benzene with CO and HCl over anhydrous AlCl3 (Gattermann-Koch) gives benzaldehyde (N). Benzonitrile with SnCl2/HCl (Stephen reduction) gives an imine salt (P), and H3O+ hydrolyses it to benzaldehyde (Q). So N = Q = C6H5CHO.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 9,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che09_full0.webp"
+],
+"topic": "Alkyne hydration and aldol condensation",
+"diff": "medium",
+"why": "The product PhCH=CH-CO-CH3 comes from a crossed aldol condensation of acetone with benzaldehyde (Z = PhCHO) under dilute NaOH and heat. Acetone (Y) is made by Markovnikov hydration of propyne (X = H3C-C=CH) with HgSO4/dil. H2SO4 via the enol.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 10,
+"ok": true,
+"stem": [
+"che10_s.webp"
+],
+"opts": [
+"che10_o0.webp",
+"che10_o1.webp",
+"che10_o2.webp",
+"che10_o3.webp"
+],
+"full": [],
+"topic": "Carbohydrates",
+"diff": "medium",
+"why": "M is a six-membered ring (pyranose) of D-glucose with the anomeric OH down, the alpha form, dextrorotatory: alpha-D-(+)-glucopyranose. N is a five-membered ring (furanose) of D-fructose with the anomeric OH up, cis to the CH2OH, the beta form, levorotatory: beta-D-(-)-fructofuranose. These are the units of sucrose.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 11,
+"ok": true,
+"stem": [
+"che11_s.webp"
+],
+"opts": [
+"che11_o0.webp",
+"che11_o1.webp",
+"che11_o2.webp",
+"che11_o3.webp"
+],
+"full": [],
+"topic": "Chemical thermodynamics",
+"diff": "easy",
+"why": "The reaction is exothermic, so dH < 0. Two moles of gas form from solid, so dS > 0 and -T dS < 0. Then dG = dH - T dS < 0 at every temperature, so the reaction is spontaneous at all temperatures.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 12,
+"ok": true,
+"stem": [
+"che12_s.webp"
+],
+"opts": [
+"che12_o0.webp",
+"che12_o1.webp",
+"che12_o2.webp",
+"che12_o3.webp"
+],
+"full": [],
+"topic": "Photoelectric effect",
+"diff": "hard",
+"why": "The work function corresponds to 500 nm. Each 300 nm photon has KE = hc(1/300-1/500) per nm = 1.98e-25 x 1.333e6 = 2.64e-19 J. Photon energy is 6.6e-19 J, so photons per second = 100/6.6e-19 = 1.52e20. Total KE = 1.52e20 x 2.64e-19 = 40 J (also 100 x 0.4). This assumes one electron per photon.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 13,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che13_full0.webp",
+"che13_full1.webp"
+],
+"topic": "Chemical kinetics",
+"diff": "medium",
+"why": "The unit of k, mol L-1 s-1, shows a zero-order reaction: [R] = [R]0 - kt. A plot of [R] against t is a straight line with negative slope -k, which is graph (a). The curved decay is first order and the ln[R] and log([R]0/[R]) plots apply to first order.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 14,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che14_full0.webp"
+],
+"topic": "Colligative properties",
+"diff": "easy",
+"why": "Osmotic pressure Pi = (n/V)RT, so for fixed n and T, Pi x V = constant. This is a rectangular hyperbola, and Pi falls towards zero as V rises but never touches an axis. Graph (a) is the one that approaches both axes asymptotically.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "CHE",
+"n": 15,
+"ok": true,
+"stem": [
+"che15_s.webp"
+],
+"opts": [
+"che15_o0.webp",
+"che15_o1.webp",
+"che15_o2.webp",
+"che15_o3.webp"
+],
+"full": [],
+"topic": "Electrochemistry (conductivity)",
+"diff": "medium",
+"why": "Kohlrausch law for a strong electrolyte: Lm = L0 - A sqrt(c). sqrt(1e-4) = 0.01 and sqrt(9e-4) = 0.03. So 149.1 = L0 - 0.01A and 147.1 = L0 - 0.03A. Subtracting: 2.0 = 0.02A, so A = 100. Then L0 = 149.1 + 1.0 = 150.1 S cm2 mol-1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 1,
+"ok": true,
+"stem": [
+"mat01_s.webp"
+],
+"opts": [
+"mat01_o0.webp",
+"mat01_o1.webp",
+"mat01_o2.webp",
+"mat01_o3.webp"
+],
+"full": [],
+"topic": "Straight lines",
+"diff": "easy",
+"why": "L1: y = (5x-1)/2. L2: y = x+1. L3 has direction (-1,2) through (1,11), so y = -2x+13. L1 and L2 meet at (1,2), L2 and L3 at (4,5), and L3 and L1 at (3,7). The three points are distinct, so A has 3 elements.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 2,
+"ok": true,
+"stem": [
+"mat02_s.webp"
+],
+"opts": [
+"mat02_o0.webp",
+"mat02_o1.webp",
+"mat02_o2.webp",
+"mat02_o3.webp"
+],
+"full": [],
+"topic": "Conics (locus)",
+"diff": "medium",
+"why": "A is the perpendicular bisector of PQ, the line x = 0. B is the set of points equidistant from the line x = 0 and the point Q(1,0), a parabola. For (5,y): distance to the line = 5, and distance to Q is sqrt(16+y^2). So 16 + y^2 = 25 and y^2 = 9.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 3,
+"ok": true,
+"stem": [
+"mat03_s.webp"
+],
+"opts": [
+"mat03_o0.webp",
+"mat03_o1.webp",
+"mat03_o2.webp",
+"mat03_o3.webp"
+],
+"full": [],
+"topic": "3D geometry (skew lines)",
+"diff": "hard",
+"why": "Directions d1 = (1,2,3) and d2 = (1,0,1) give common perpendicular direction d1 x d2 = (2,2,-2), parallel to (1,1,-1). Take P = (2,3,4) and Q = (4+s,4,4+s). Then Q-P = (2+s,1,s) is parallel to (1,1,-1), so s = -1 (consistent in all three components). Q = (3,4,3).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 4,
+"ok": true,
+"stem": [
+"mat04_s.webp"
+],
+"opts": [
+"mat04_o0.webp",
+"mat04_o1.webp",
+"mat04_o2.webp",
+"mat04_o3.webp"
+],
+"full": [],
+"topic": "Sequences and series",
+"diff": "medium",
+"why": "n = 1 gives a1 = c. Subtracting the relations for n and n-1 gives (n-2)a_n = (n-1)a_{n-1} - c. Putting a_n = c + (n-1)d satisfies 2 s_n = n(2c+(n-1)d) = n(c+a_n) for all n, and the recurrence fixes every term. So the sequence is an arithmetic progression.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 5,
+"ok": true,
+"stem": [
+"mat05_s.webp"
+],
+"opts": [
+"mat05_o0.webp",
+"mat05_o1.webp",
+"mat05_o2.webp",
+"mat05_o3.webp"
+],
+"full": [],
+"topic": "Monotonic functions",
+"diff": "easy",
+"why": "The values f(t) lie in (-pi/2, pi/2), where sin is strictly increasing. A strictly decreasing function f followed by an increasing function sin gives a decreasing composition. So g(t) = sin(f(t)) is decreasing on all of [0, pi].",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 6,
+"ok": true,
+"stem": [
+"mat06_s.webp"
+],
+"opts": [
+"mat06_o0.webp",
+"mat06_o1.webp",
+"mat06_o2.webp",
+"mat06_o3.webp"
+],
+"full": [],
+"topic": "Continuity",
+"diff": "medium",
+"why": "If g = f^3 then f = g^(1/3), and the cube root is continuous on R, so f is a composition of continuous maps and is continuous. For |f|, f^2 and sin f, f can flip sign or jump between values with the same image. For example f = 1 for rational x and -1 otherwise gives g = |f| = f^2 = 1 continuous, but f is discontinuous.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 7,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"mat07_full0.webp"
+],
+"topic": "Maxima and minima",
+"diff": "medium",
+"why": "A rectangle symmetric about the y-axis with half-width x has area A = 2x(1-x^2). dA/dx = 2 - 6x^2 = 0 gives x = 1/sqrt(3), and the second derivative is negative so this is a maximum. A = 2(1/sqrt3)(2/3) = 4/(3 sqrt3).",
+"agree": true,
+"note": "The text extraction of option (a) is garbled; the reading used is 4/(3 sqrt3)."
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 8,
+"ok": true,
+"stem": [
+"mat08_s.webp"
+],
+"opts": [
+"mat08_o0.webp",
+"mat08_o1.webp",
+"mat08_o2.webp",
+"mat08_o3.webp"
+],
+"full": [],
+"topic": "Relations",
+"diff": "hard",
+"why": "Reflexive: det(A-A) = 0 is an integer. Symmetric: det(B-A) = (-1)^3 det(A-B) = -det(A-B), an integer. Not transitive: take X = I and Y = diag(1/3,3,1), then det X = 1 and det Y = 1 are integers, but det(X+Y) = (4/3)(4)(2) = 32/3 is not. So R is reflexive and symmetric but not transitive.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 9,
+"ok": true,
+"stem": [
+"mat09_s.webp"
+],
+"opts": [
+"mat09_o0.webp",
+"mat09_o1.webp",
+"mat09_o2.webp",
+"mat09_o3.webp"
+],
+"full": [],
+"topic": "Binomial theorem",
+"diff": "easy",
+"why": "For n = 23, the sum of even-index coefficients equals the sum of odd-index coefficients, and the total is 2^23. So the even sum is 2^23/2 = 2^22.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 10,
+"ok": true,
+"stem": [
+"mat10_s.webp"
+],
+"opts": [
+"mat10_o0.webp",
+"mat10_o1.webp",
+"mat10_o2.webp",
+"mat10_o3.webp"
+],
+"full": [],
+"topic": "Functions (Cauchy equation)",
+"diff": "medium",
+"why": "Additivity over Q gives f(n) = 10n for integers, then f(p/q) = 10p/q, so f(x) = 10x for all rational x. The map x -> 10x is one-one, and every rational y has pre-image y/10 in Q, so it is onto. Therefore f is bijective.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 11,
+"ok": true,
+"stem": [
+"mat11_s.webp"
+],
+"opts": [
+"mat11_o0.webp",
+"mat11_o1.webp",
+"mat11_o2.webp",
+"mat11_o3.webp"
+],
+"full": [],
+"topic": "Definite integrals",
+"diff": "hard",
+"why": "Put x = e^t, dx = e^t dt, limits -pi/2 to pi/2, integrand e^t(sin^2 t + sin 2t). Let D = e^(pi/2) - e^(-pi/2). Integral of e^t/2 is D/2. Integral of -e^t cos2t / 2 = +D/10, since the integral of e^t cos2t is -D/5. Integral of e^t sin2t = 2D/5. Sum = D/2 + D/10 + 2D/5 = D = e^(pi/2) - e^(-pi/2).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 12,
+"ok": true,
+"stem": [
+"mat12_s.webp"
+],
+"opts": [
+"mat12_o0.webp",
+"mat12_o1.webp",
+"mat12_o2.webp",
+"mat12_o3.webp"
+],
+"full": [],
+"topic": "Complex numbers and conics",
+"diff": "medium",
+"why": "|z - iz| = |z||1 - i| = sqrt2 |z|. With X = sqrt2 r and Y = r^2 (r >= 0), we get Y = X^2/2. The set S is the part of the parabola Y = X^2/2 with X >= 0, so a parabola is the right choice among the options.",
+"agree": true,
+"note": "S is only the half of the parabola with X >= 0; (a) is still the only option that fits."
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 13,
+"ok": true,
+"stem": [
+"mat13_s.webp"
+],
+"opts": [
+"mat13_o0.webp",
+"mat13_o1.webp",
+"mat13_o2.webp",
+"mat13_o3.webp"
+],
+"full": [],
+"topic": "Probability",
+"diff": "medium",
+"why": "Working probabilities are A = 3/4, B = 3/4, C = 1/2. All three: 9/32. A and B only: (9/16)(1/2) = 9/32. A and C only: (3/4)(1/4)(1/2) = 3/32. B and C only: 3/32. Total = (9+9+3+3)/32 = 24/32 = 3/4.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 14,
+"ok": true,
+"stem": [
+"mat14_s.webp"
+],
+"opts": [
+"mat14_o0.webp",
+"mat14_o1.webp",
+"mat14_o2.webp",
+"mat14_o3.webp"
+],
+"full": [],
+"topic": "Differential equations",
+"diff": "hard",
+"why": "Let u = sin y, so u' + u/x = x. Then (xu)' = x^2, so xu = x^3/3 + C. At x = sqrt3, u = 1 gives sqrt3 = sqrt3 + C, so C = 0 and u = x^2/3. At x = sqrt(3/2), u = (3/2)/3 = 1/2. Following the solution continuously from y = pi/2, y = pi/6.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "MAT",
+"n": 15,
+"ok": true,
+"stem": [
+"mat15_s.webp"
+],
+"opts": [
+"mat15_o0.webp",
+"mat15_o1.webp",
+"mat15_o2.webp",
+"mat15_o3.webp"
+],
+"full": [],
+"topic": "Coordinate geometry",
+"diff": "hard",
+"why": "Take Q = (0,0), A = (3,0), B = (3,4), so QB = 5 along (3,4). BC = 1 is perpendicular to BQ, so C = B + (-4,3)/5 = (2.2, 4.6). P is the foot of the perpendicular from C to QA, so P = (2.2, 0) and PQ = 2.2 unit.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 1,
+"ok": true,
+"stem": [
+"phy01_s.webp"
+],
+"opts": [
+"phy01_o0.webp",
+"phy01_o1.webp",
+"phy01_o2.webp",
+"phy01_o3.webp"
+],
+"full": [],
+"topic": "Kinematics",
+"diff": "medium",
+"why": "They meet with equal speed v after time t. Vani, from rest with constant acceleration, has v = at and covers (1/2)at^2 = vt/2. Abhijit moves at constant speed v, so he covers vt. Abhijit's distance is double Vani's.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 2,
+"ok": true,
+"stem": [
+"phy02_s.webp"
+],
+"opts": [
+"phy02_o0.webp",
+"phy02_o1.webp",
+"phy02_o2.webp",
+"phy02_o3.webp"
+],
+"full": [],
+"topic": "Simple harmonic motion (pendulum)",
+"diff": "medium",
+"why": "Angular momentum L = m l^2 (d theta/dt). Its amplitude is A = m l^2 theta0 omega with omega = 2 pi/T. Since T = 2 pi sqrt(l/g), l = gT^2/(4 pi^2), so l^2 is proportional to T^4. Then A is proportional to T^4/T = T^3.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 3,
+"ok": true,
+"stem": [
+"phy03_s.webp"
+],
+"opts": [
+"phy03_o0.webp",
+"phy03_o1.webp",
+"phy03_o2.webp",
+"phy03_o3.webp"
+],
+"full": [],
+"topic": "Rotational dynamics",
+"diff": "medium",
+"why": "Disc moment of inertia I = MR^2/2, so its effective inertial term is (I/R^2)a = Ma/2. Net driving force on the system: Mg - Mg/2 = Mg/2. Total effective mass: M + M/2 + M/2 = 2M. So a = (Mg/2)/(2M) = g/4 and alpha = a/R = g/(4R).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 4,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy04_full0.webp"
+],
+"topic": "Circular motion with buoyancy",
+"diff": "hard",
+"why": "The bob has density 2 rho_w, so buoyancy is half its weight and effective gravity is g' = g/2. The string just goes slack at the top, so m v^2/L = m g', giving v^2 = gL/2. Energy from bottom to top: V0^2 = v^2 + 4 g' L = gL/2 + 2gL = 5gL/2, so V0 = sqrt(5gL/2).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 5,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy05_full0.webp"
+],
+"topic": "Fluids and SHM",
+"diff": "hard",
+"why": "Half-submerged means density = rho_w/2, so mass = (4/3)pi R^3 (rho_w/2) = (2/3)pi R^3 rho_w. For a small push x the extra buoyancy at the equator is rho_w g (pi R^2) x. So omega^2 = rho_w g pi R^2/((2/3)pi R^3 rho_w) = 3g/(2R) and T = 2 pi sqrt(2R/(3g)).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 6,
+"ok": true,
+"stem": [
+"phy06_s.webp"
+],
+"opts": [
+"phy06_o0.webp",
+"phy06_o1.webp",
+"phy06_o2.webp",
+"phy06_o3.webp"
+],
+"full": [],
+"topic": "Thermodynamics (ideal gas)",
+"diff": "easy",
+"why": "Adiabatic means Q = 0 and no external work means W = 0, so dU = 0. For an ideal gas U depends only on T, so T stays the same. For one mole, P = RT/V_final = RT/(2V).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 7,
+"ok": true,
+"stem": [
+"phy07_s.webp"
+],
+"opts": [
+"phy07_o0.webp",
+"phy07_o1.webp",
+"phy07_o2.webp",
+"phy07_o3.webp"
+],
+"full": [],
+"topic": "Oscillations (period)",
+"diff": "hard",
+"why": "Write x = sin^2(wt)cos^3(wt). Under t -> t + pi/w, sin^2 is unchanged but cos^3 changes sign, so x -> -x and the motion does not repeat. After t -> t + 2pi/w both factors repeat. No shorter period works, as x contains odd harmonics w, 3w and 5w, so the period is 2 pi/w.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 8,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy08_full0.webp"
+],
+"topic": "Kinetic theory (mean free path)",
+"diff": "hard",
+"why": "Both boxes have the same volume, and one is emptied into the other, so the total number density is n = n1 + n2. Mean free path is proportional to 1/n for the same gas, so 1/lambda = 1/lambda1 + 1/lambda2, giving lambda = lambda1 lambda2/(lambda1 + lambda2). Energy conservation gives T = (n1T1 + n2T2)/(n1 + n2).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 9,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy09_full0.webp"
+],
+"topic": "Electrostatics",
+"diff": "medium",
+"why": "The point (0, sqrt3 l/2) is at distance l from both charges. Forces on -q are attractive: from +q, (kq^2/l^2)(-1/2, -sqrt3/2); from +2q, (2kq^2/l^2)(1/2, -sqrt3/2). Sum = (kq^2/l^2)(1/2, -3 sqrt3/2) = kq^2/(2 l^2)(i - 3 sqrt3 j). With k = 1/(4 pi eps0), a = q^2/(8 pi eps0 m l^2)(i - 3 sqrt3 j).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 10,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy10_full0.webp"
+],
+"topic": "AC circuits",
+"diff": "hard",
+"why": "Source drives L in series with the parallel combination of B and (A + C in series). Let X = 1/(wC), with R as each resistance. I_A / V = R/[(2R - jX) jwL + R(R - jX)]. Its imaginary part is 2RwL - RX. For I_A to be in phase with V this must vanish: 2wL = 1/(wC), so w = 1/sqrt(2LC).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 11,
+"ok": true,
+"stem": [
+"phy11_s.webp"
+],
+"opts": [
+"phy11_o0.webp",
+"phy11_o1.webp",
+"phy11_o2.webp",
+"phy11_o3.webp"
+],
+"full": [],
+"topic": "Magnetic moment of a current loop",
+"diff": "medium",
+"why": "Trace the path: +b along i, then a along -k, a along +j, b along -i, a along -j, a along +k. Split into two rectangles sharing an edge, which cancels. The xz rectangle (b by a, traversed i then -k) has area vector Iab j. The vertical rectangle (a by b, traversed j then -i) has Iab k. So m = Iab(j + k).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 12,
+"ok": true,
+"stem": [
+"phy12_s.webp"
+],
+"opts": [
+"phy12_o0.webp",
+"phy12_o1.webp",
+"phy12_o2.webp",
+"phy12_o3.webp"
+],
+"full": [],
+"topic": "Capacitors",
+"diff": "medium",
+"why": "With X-Y the battery charges C1 to Q0 = C1 V (C2 is not in the loop). Switching to X-Z puts C1 and C2 in parallel, sharing the charge Q0. So Q1 + Q2 = Q0 and Q2/Q1 = C2/C1 = 8/2 = 4. Hence Q2/(Q1+Q2) = 4/5.",
+"agree": true,
+"note": "Assumes C2 is initially uncharged, as the figure indicates."
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 13,
+"ok": true,
+"stem": [
+"phy13_s.webp"
+],
+"opts": [
+"phy13_o0.webp",
+"phy13_o1.webp",
+"phy13_o2.webp",
+"phy13_o3.webp"
+],
+"full": [],
+"topic": "Nuclear binding energy",
+"diff": "medium",
+"why": "BE = [Z m_p + (A-Z) m_n + Z m_e - M_atomic]c^2. For O-18 and O-16 the proton and electron terms are identical and cancel. BE(18) - BE(16) = 2 m_n - (M18 - M16) = 2(1.00866) - (17.99916 - 15.99491) = 2.01732 - 2.00425 = 0.01307 uc^2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 14,
+"ok": true,
+"stem": [
+"phy14_s.webp"
+],
+"opts": [
+"phy14_o0.webp",
+"phy14_o1.webp",
+"phy14_o2.webp",
+"phy14_o3.webp"
+],
+"full": [],
+"topic": "Refraction",
+"diff": "hard",
+"why": "Snell's law: sqrt2 sin45 = 1 = 2 sin(th1), so th1 = 30 degrees. Then 1 = (2/sqrt3) sin(th2) gives th2 = 60 degrees. Zero lateral shift means the ray's total sideways displacement equals the straight path's: 1 x tan30 + t tan60 = (1 + t) tan45. So 1/sqrt3 + sqrt3 t = 1 + t, giving t(sqrt3 - 1) = (sqrt3 - 1)/sqrt3 and t = 1/sqrt3 cm.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2024,
+"sj": "PHY",
+"n": 15,
+"ok": true,
+"stem": [
+"phy15_s.webp"
+],
+"opts": [
+"phy15_o0.webp",
+"phy15_o1.webp",
+"phy15_o2.webp",
+"phy15_o3.webp"
+],
+"full": [],
+"topic": "Photoelectric effect",
+"diff": "easy",
+"why": "eV_s = hc/lambda - phi. With E = hc/lambda: 1 = E - phi. For wavelength lambda/2 the photon energy is 2E: 3 = 2E - phi. Subtracting: E = 2 eV, so phi = 2 - 1 = 1 eV.",
+"agree": true,
+"note": ""
+}
+]

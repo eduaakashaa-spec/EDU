@@ -1,0 +1,1188 @@
+[
+{
+"year": 2025,
+"sj": "BIO",
+"n": 1,
+"ok": true,
+"stem": [
+"bio01_s.webp"
+],
+"opts": [
+"bio01_o0.webp",
+"bio01_o1.webp",
+"bio01_o2.webp",
+"bio01_o3.webp"
+],
+"full": [],
+"topic": "Animal diversity (classification)",
+"diff": "medium",
+"why": "P: notochord plus hollow dorsal nerve cord defines Chordata (iv). Q: ectoparasite with 6-15 gill pairs is a lamprey/hagfish, Cyclostomata (i). R: marine, placoid scales, persistent notochord (cartilaginous fishes) is Chondrichthyes (ii). S: open circulation with a stomochord is Hemichordata (iii). So P-iv, Q-i, R-ii, S-iii.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 2,
+"ok": true,
+"stem": [
+"bio02_s.webp"
+],
+"opts": [
+"bio02_o0.webp",
+"bio02_o1.webp",
+"bio02_o2.webp",
+"bio02_o3.webp"
+],
+"full": [],
+"topic": "Cell biology: chromosome structure",
+"diff": "easy",
+"why": "Chromosomes are classified by the position of the centromere (primary constriction): in the middle (metacentric), slightly off-centre (sub-metacentric), near one end (acrocentric) or at the terminal end (telocentric). Centrosome and centriole organise spindles; telomeres cap chromosome ends.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 3,
+"ok": true,
+"stem": [
+"bio03_s.webp"
+],
+"opts": [
+"bio03_o0.webp",
+"bio03_o1.webp",
+"bio03_o2.webp",
+"bio03_o3.webp"
+],
+"full": [],
+"topic": "Biomolecules: lipids",
+"diff": "easy",
+"why": "A triglyceride (triacylglycerol) is formed by esterification of the three hydroxyl groups of one glycerol molecule with three fatty acid chains, giving three ester bonds. Hence 'three fatty acid chains linked to a molecule of glycerol'.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 4,
+"ok": true,
+"stem": [
+"bio04_s.webp"
+],
+"opts": [
+"bio04_o0.webp",
+"bio04_o1.webp",
+"bio04_o2.webp",
+"bio04_o3.webp"
+],
+"full": [],
+"topic": "Photosynthesis: pigments",
+"diff": "easy",
+"why": "The FALSE statement is (a). Carotenoids absorb blue-violet light (about 400-500 nm), not 600-700 nm, where chlorophylls absorb red. They do protect chlorophyll a from photo-oxidation, give carotenoid-derived ABA, and accumulate in chromoplasts when fruit ripen.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 5,
+"ok": true,
+"stem": [
+"bio05_s.webp"
+],
+"opts": [
+"bio05_o0.webp",
+"bio05_o1.webp",
+"bio05_o2.webp",
+"bio05_o3.webp"
+],
+"full": [],
+"topic": "Respiration: electron transport chain",
+"diff": "medium",
+"why": "Untreated mitochondria give the most ATP (expt 3). X blocks Complex I only, so NADH is lost but FADH2 still feeds Complex II, then III and IV: reduced ATP. Y blocks Complex III to cyt c, which stops electron flow from both NADH and FADH2: almost no ATP. So Exp 2 < Exp 1 < Exp 3.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 6,
+"ok": true,
+"stem": [
+"bio06_s.webp"
+],
+"opts": [
+"bio06_o0.webp",
+"bio06_o1.webp",
+"bio06_o2.webp",
+"bio06_o3.webp"
+],
+"full": [],
+"topic": "Excretion: kidney autoregulation",
+"diff": "medium",
+"why": "Lowered GFR is sensed by the JG cells, which release renin. Renin converts angiotensinogen to angiotensin I, then ACE gives angiotensin II. Angiotensin II constricts the efferent arteriole and stimulates aldosterone, so Na+ and water are retained and GFR is restored. All of these levels rise.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 7,
+"ok": true,
+"stem": [
+"bio07_s.webp"
+],
+"opts": [
+"bio07_o0.webp",
+"bio07_o1.webp",
+"bio07_o2.webp",
+"bio07_o3.webp"
+],
+"full": [],
+"topic": "Breathing and gas transport",
+"diff": "easy",
+"why": "Bohr effect: high [H+] (low pH, from CO2), higher temperature and higher pCO2 shift the oxygen dissociation curve to the right, lowering haemoglobin's affinity for O2. Active tissues are therefore where O2 is released most readily, so higher [H+] and higher temperature favour maximum dissociation.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 8,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio08_full0.webp"
+],
+"topic": "Locomotion: muscle fibre types",
+"diff": "easy",
+"why": "Red (slow-twitch) fibres are rich in myoglobin and mitochondria and make ATP aerobically by oxidative phosphorylation under normal O2 supply. White fibres have few mitochondria, rely on glycolysis and accumulate lactic acid. So only statement (a) is correct.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 9,
+"ok": true,
+"stem": [
+"bio09_s.webp"
+],
+"opts": [
+"bio09_o0.webp",
+"bio09_o1.webp",
+"bio09_o2.webp",
+"bio09_o3.webp"
+],
+"full": [],
+"topic": "Reproduction: gametogenesis",
+"diff": "hard",
+"why": "In a flowering plant (garden pea) the megaspore is haploid and divides mitotically three times to give the 8-nucleate embryo sac whose egg cell is the female gamete. In honey bee, fruit fly and chicken the female gamete arises by meiosis in diploid germ cells. Drones (haploid males) make sperm by mitosis, not eggs.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 10,
+"ok": true,
+"stem": [
+"bio10_s.webp"
+],
+"opts": [
+"bio10_o0.webp",
+"bio10_o1.webp",
+"bio10_o2.webp",
+"bio10_o3.webp"
+],
+"full": [],
+"topic": "Translation: genetic code",
+"diff": "medium",
+"why": "The anticodon pairs antiparallel with the codon. Anticodon 5'-GUU-3' reads codon 5'-AAC-3' (A pairs U, A pairs U, C pairs G). AAC codes for asparagine, so that is the amino acid on this tRNA. The other options list codons that do not pair with this anticodon.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 11,
+"ok": true,
+"stem": [
+"bio11_s.webp"
+],
+"opts": [
+"bio11_o0.webp",
+"bio11_o1.webp",
+"bio11_o2.webp",
+"bio11_o3.webp"
+],
+"full": [],
+"topic": "Genetics: linkage",
+"diff": "hard",
+"why": "Both F1 are PpQq but gametes are non-random (30% recombinants), so the genes are linked. Left cross: parental gametes are pQ and Pq (35% each), so the F1 got pQ from one parent and Pq from the other: ppQQ x PPqq. Right cross: parental gametes PQ and pq: PPQQ x ppqq. This matches option (a).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 12,
+"ok": true,
+"stem": [
+"bio12_s.webp"
+],
+"opts": [
+"bio12_o0.webp",
+"bio12_o1.webp",
+"bio12_o2.webp",
+"bio12_o3.webp"
+],
+"full": [],
+"topic": "Viruses",
+"diff": "easy",
+"why": "Retroviruses (e.g. HIV) have a single-stranded RNA genome and carry reverse transcriptase, which copies the RNA into DNA (cDNA). This DNA integrates into the host genome as a provirus. So 'RNA genome with reverse transcriptase activity' is correct.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 13,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio13_full0.webp",
+"bio13_full1.webp"
+],
+"topic": "Biotechnology: restriction mapping",
+"diff": "hard",
+"why": "A circular 10,000 bp plasmid cut once gives one 10 kb band; single bands at 5 kb mean each enzyme cuts twice, 5,000 bp apart. X+Y gives bands of 3 kb and 2 kb, so the sites alternate X, Y, X, Y. In (a): Y 1235, X 4235, Y 6235, X 9235 gives fragments 3000, 2000, 3000, 2000 bp.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 14,
+"ok": true,
+"stem": [
+"bio14_s.webp"
+],
+"opts": [
+"bio14_o0.webp",
+"bio14_o1.webp",
+"bio14_o2.webp",
+"bio14_o3.webp"
+],
+"full": [],
+"topic": "Reproduction: honey bee genetics",
+"diff": "medium",
+"why": "The INCORRECT statement is (a). A drone is haploid and fertilises the queen's eggs, so he can have daughters (diploid, from fertilised eggs) but cannot have sons (sons come from unfertilised eggs). The other statements are true: a drone has no father but has a grandfather, and he makes gametes by mitosis.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "BIO",
+"n": 15,
+"ok": true,
+"stem": [
+"bio15_s.webp"
+],
+"opts": [
+"bio15_o0.webp",
+"bio15_o1.webp",
+"bio15_o2.webp",
+"bio15_o3.webp"
+],
+"full": [],
+"topic": "Ecology: energy flow",
+"diff": "medium",
+"why": "The FALSE statement is (a). Plants and photosynthetic bacteria capture only about 1-5% of solar radiation falling on earth, and about 2-10% of the photosynthetically active radiation, not over 80%. The 10% law, counting all organisms of a trophic level, and one-way energy flow are standard true statements.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 1,
+"ok": true,
+"stem": [
+"che01_s.webp"
+],
+"opts": [
+"che01_o0.webp",
+"che01_o1.webp",
+"che01_o2.webp",
+"che01_o3.webp"
+],
+"full": [],
+"topic": "Periodic table: oxides",
+"diff": "easy",
+"why": "ZnO reacts with both acids and bases (to give zincates), so it is amphoteric. CaO is an oxide of an s-block metal that reacts with water and acids to give Ca(OH)2, so it is basic. Therefore ZnO is amphoteric and CaO is basic.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 2,
+"ok": true,
+"stem": [
+"che02_s.webp"
+],
+"opts": [
+"che02_o0.webp",
+"che02_o1.webp",
+"che02_o2.webp",
+"che02_o3.webp"
+],
+"full": [],
+"topic": "Molecular orbital theory",
+"diff": "medium",
+"why": "(i) N2 (BO 3, diamagnetic) to N2+ (BO 2.5, paramagnetic): bond order falls. (ii) O2 (BO 2, paramagnetic) to O2+ (BO 2.5, still paramagnetic with one unpaired electron): bond order rises, behaviour unchanged. (iii) O2 to O2- (BO 1.5): bond order falls. So (ii) only.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 3,
+"ok": true,
+"stem": [
+"che03_s.webp"
+],
+"opts": [
+"che03_o0.webp",
+"che03_o1.webp",
+"che03_o2.webp",
+"che03_o3.webp"
+],
+"full": [],
+"topic": "Electrochemistry",
+"diff": "easy",
+"why": "Free energies add, not potentials. Fe3+ + e to Fe2+: dG = -1(F)(0.77). Fe2+ + 2e to Fe: dG = -2(F)(-0.44). Sum = -3F E, so E = (0.77 + 2(-0.44))/3 = (0.77 - 0.88)/3 = -0.037, about -0.04 V.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 4,
+"ok": true,
+"stem": [
+"che04_s.webp"
+],
+"opts": [
+"che04_o0.webp",
+"che04_o1.webp",
+"che04_o2.webp",
+"che04_o3.webp"
+],
+"full": [],
+"topic": "d-block and halide stability",
+"diff": "medium",
+"why": "Fluorine, being the smallest and most electronegative halogen, stabilises high oxidation states, so VF5 exists while VCl5 does not (VF5 > VCl5). Cu2+ oxidises I- to I2, so CuI2 is unstable and does not exist, while CuCl2 is stable (CuCl2 > CuI2).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 5,
+"ok": true,
+"stem": [
+"che05_s.webp"
+],
+"opts": [
+"che05_o0.webp",
+"che05_o1.webp",
+"che05_o2.webp",
+"che05_o3.webp"
+],
+"full": [],
+"topic": "Coordination compounds",
+"diff": "hard",
+"why": "P gives 1 mole AgCl, so it is [Cr(H2O)4Cl2]Cl.2H2O, which has cis and trans isomers. Q gives 3 AgCl, so it is [Cr(NH3)6]Cl3, with no geometrical isomerism. NH3 is a stronger-field ligand than H2O, so Q has larger splitting, absorbs shorter wavelength, and P absorbs the higher wavelength.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 6,
+"ok": true,
+"stem": [
+"che06_s.webp"
+],
+"opts": [
+"che06_o0.webp",
+"che06_o1.webp",
+"che06_o2.webp",
+"che06_o3.webp"
+],
+"full": [],
+"topic": "Organic chemistry: nomenclature and hydrogens",
+"diff": "easy",
+"why": "Structure: OHC-CH(CH3)-CH(Ph)-CH2CH3. C1 is CHO, C2 is the alpha carbon, so the beta hydrogens are those on beta carbons: the methyl on C2 (3 H) and C3 (1 H). Total 4 beta-hydrogens.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 7,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che07_full0.webp"
+],
+"topic": "Aldehyde preparations",
+"diff": "medium",
+"why": "(a) An acid chloride with a dialkylcadmium reagent, (PhCH2)2Cd, gives a ketone (PhCOCH2Ph), not an aldehyde. (b) Rosenmund reduction (Pd-BaSO4/H2) gives PhCHO. (c) Stephen reduction (SnCl2/HCl then H3O+) gives an aldehyde. (d) Etard reaction (CrO2Cl2) converts toluene to benzaldehyde. So (a) does not give an aldehyde.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 8,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che08_full0.webp"
+],
+"topic": "Ozonolysis and Grignard reaction",
+"diff": "medium",
+"why": "Ozonolysis with Zn/H2O of PhCH=C(CH3)CH2CH3 gives PhCHO and butan-2-one. Excess PhMgBr adds to each carbonyl: PhCHO gives Ph2CH-OH (diphenylmethanol) and butan-2-one gives a tertiary alcohol, 2-phenylbutan-2-ol, after H3O+. This matches option (a).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 9,
+"ok": true,
+"stem": [
+"che09_s.webp"
+],
+"opts": [
+"che09_o0.webp",
+"che09_o1.webp",
+"che09_o2.webp",
+"che09_o3.webp"
+],
+"full": [],
+"topic": "Reduction of nitriles",
+"diff": "medium",
+"why": "DIBAL-H (1 equiv) reduces the nitrile R-CN to an imine-aluminium complex, and H2O hydrolyses it to the aldehyde R-CHO. Zn-Hg/conc. HCl (Clemmensen reduction) then reduces C=O to CH2. The net change is R-CN to R-CH3, so the product has a terminal CH3 in place of CN.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 10,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che10_full0.webp"
+],
+"topic": "Hydroboration-oxidation",
+"diff": "medium",
+"why": "Working backwards: II is 2,3-dimethylcyclohexan-1-ol (CrO3 oxidises it to the ketone). Hydroboration-oxidation puts OH on the less substituted alkene carbon, so I is 2,3-dimethylcyclohex-1-ene: the double bond C1=C2, methyl on C2 and on C3. Option (a) shows this structure.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 11,
+"ok": true,
+"stem": [
+"che11_s.webp"
+],
+"opts": [
+"che11_o0.webp",
+"che11_o1.webp",
+"che11_o2.webp",
+"che11_o3.webp"
+],
+"full": [],
+"topic": "Thermodynamics: work",
+"diff": "hard",
+"why": "Each step is an irreversible expansion against the constant final pressure RT/V_final of that step. Two steps: V to 1.5V to 2V give RT(1/3 + 1/4) = 7RT/12 (matches). Three steps of V/3: pressures 3RT/4V, 3RT/5V, RT/2V give RT(1/4 + 1/5 + 1/6) = 37RT/60. Extra work = 37/60 - 35/60 = RT/30.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 12,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che12_full0.webp",
+"che12_full1.webp"
+],
+"topic": "Chemical kinetics",
+"diff": "medium",
+"why": "The unit of the Arrhenius factor A equals the unit of k, so k has units mol L^-1 min^-1, which is characteristic of a zero order reaction. For zero order t1/2 = [R]0/(2k), a straight line through the origin, increasing with [R]0, as in plot (a).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 13,
+"ok": true,
+"stem": [
+"che13_s.webp"
+],
+"opts": [
+"che13_o0.webp",
+"che13_o1.webp",
+"che13_o2.webp",
+"che13_o3.webp"
+],
+"full": [],
+"topic": "Atomic structure: Bohr model",
+"diff": "hard",
+"why": "For He+ (Z=2), n=4: r = a0 n^2/Z = 52.9 x 16/2 = 423 pm. v = (Z/n)(h/(2 pi m a0)) = 0.5 x 2.19e6 = 1.09e6 m/s. T = 2 pi r/v = 2 pi (4.23e-10)/(1.09e6) = 2.43e-15 s, about 2.4 femtoseconds. Checked twice.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 14,
+"ok": true,
+"stem": [
+"che14_s.webp"
+],
+"opts": [
+"che14_o0.webp",
+"che14_o1.webp",
+"che14_o2.webp",
+"che14_o3.webp"
+],
+"full": [],
+"topic": "Chemical bonding: dipole moment",
+"diff": "medium",
+"why": "BF3 is trigonal planar with the bond dipoles cancelling, so mu = 0 (I). NF3 and NH3 are pyramidal. In NH3 the N-H bond dipoles and the lone pair dipole point the same way (about 1.5 D), while in NF3 the N-F bond dipoles oppose the lone pair (0.2 D). So I: BF3, II: NF3, III: NH3.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "CHE",
+"n": 15,
+"ok": true,
+"stem": [
+"che15_s.webp"
+],
+"opts": [
+"che15_o0.webp",
+"che15_o1.webp",
+"che15_o2.webp",
+"che15_o3.webp"
+],
+"full": [],
+"topic": "Electrochemistry: lead-acid battery",
+"diff": "hard",
+"why": "In the battery Pb goes to Pb2+ (as PbSO4) at the anode on discharge, PbO2 is reduced Pb4+ to Pb2+, and on charging Pb2+ is oxidised to Pb4+ and also reduced to Pb. A direct Pb4+ + 4e- to Pb reduction does not occur, since PbO2 is reduced only to PbSO4 (Pb2+). So (a) is not a battery step.",
+"agree": true,
+"note": "Option (d), the disproportionation 2Pb2+ to Pb4+ + Pb, also does not occur as one reaction (the two halves occur at different electrodes), so a strict reader could argue it too. The official key (a) is defensible because a direct 4-electron reduction is never a step."
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 1,
+"ok": true,
+"stem": [
+"mat01_s.webp"
+],
+"opts": [
+"mat01_o0.webp",
+"mat01_o1.webp",
+"mat01_o2.webp",
+"mat01_o3.webp"
+],
+"full": [],
+"topic": "Permutations and combinations",
+"diff": "medium",
+"why": "Last digit 0: 9 x 8 = 72 numbers. Last digit 5: the hundreds digit is non-zero and not 5 (8 ways) and the tens digit is any of the remaining 8 digits (8 ways) = 64. Total = 72 + 64 = 136.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 2,
+"ok": true,
+"stem": [
+"mat02_s.webp"
+],
+"opts": [
+"mat02_o0.webp",
+"mat02_o1.webp",
+"mat02_o2.webp",
+"mat02_o3.webp"
+],
+"full": [],
+"topic": "Matrices",
+"diff": "medium",
+"why": "Symmetric needs a13 = a31: cos x = x^2 + 1. Since cos x <= 1 and x^2 + 1 >= 1, equality needs both sides to equal 1, which happens only at x = 0 (cos 0 = 1 = 0 + 1). The other pairs (-1,-1) and (25,25) already match. So exactly 1 value of x.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 3,
+"ok": true,
+"stem": [
+"mat03_s.webp"
+],
+"opts": [
+"mat03_o0.webp",
+"mat03_o1.webp",
+"mat03_o2.webp",
+"mat03_o3.webp"
+],
+"full": [],
+"topic": "Binomial theorem",
+"diff": "medium",
+"why": "n = 3^20 x sum (-1)^r C(10,r) (4/9)^r = 3^20 (1 - 4/9)^10 = 3^20 (5/9)^10 = 3^20 x 5^10/3^20 = 5^10. This is a power of 5, so n is divisible by 5 but not by 6, 8 or 9.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 4,
+"ok": true,
+"stem": [
+"mat04_s.webp"
+],
+"opts": [
+"mat04_o0.webp",
+"mat04_o1.webp",
+"mat04_o2.webp",
+"mat04_o3.webp"
+],
+"full": [],
+"topic": "Calculus: monotonicity",
+"diff": "easy",
+"why": "cos(tan^-1 x) = 1/sqrt(1+x^2), an even function. For x > 0 its derivative -x/(1+x^2)^(3/2) is negative, so f is decreasing for x > 0. For x < 0 the derivative is positive (increasing), so it is not decreasing on x < 0, on R, or on (-1,1).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 5,
+"ok": true,
+"stem": [
+"mat05_s.webp"
+],
+"opts": [
+"mat05_o0.webp",
+"mat05_o1.webp",
+"mat05_o2.webp",
+"mat05_o3.webp"
+],
+"full": [],
+"topic": "Determinants and inequalities",
+"diff": "easy",
+"why": "det = 5(3x - 1) - (2)(-2) = 15x - 5 + 4 = 15x - 1. Condition -31 < 15x - 1 <= 29 gives -30 < 15x <= 30, so -2 < x <= 2. Hence A = (-2, 2].",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 6,
+"ok": true,
+"stem": [
+"mat06_s.webp"
+],
+"opts": [
+"mat06_o0.webp",
+"mat06_o1.webp",
+"mat06_o2.webp",
+"mat06_o3.webp"
+],
+"full": [],
+"topic": "Complex numbers",
+"diff": "hard",
+"why": "Let a = z1 (|a| = 1), b = z2 - 1, c = z3 + 1 (|b| = |c| = 2). Then 1/a = conj(a), 1/b = conj(b)/4, 1/c = conj(c)/4, so |1/a + 1/b + 1/c| = |a + b/4 + c/4| = 2, giving |4a + b + c| = 8. But 4z1 + z2 + z3 = 4a + b + c, so the value is 8.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 7,
+"ok": true,
+"stem": [
+"mat07_s.webp"
+],
+"opts": [
+"mat07_o0.webp",
+"mat07_o1.webp",
+"mat07_o2.webp",
+"mat07_o3.webp"
+],
+"full": [],
+"topic": "Continuity: greatest integer function",
+"diff": "hard",
+"why": "At an integer n the left limit is |n^3 - 3n|(n - 1) and the right limit is |n^3 - 3n| n. They agree only if |n^3 - 3n| = 0. For integers, n^3 = 3n has only n = 0 (sqrt3 is not an integer). So f is discontinuous at every non-zero integer, but continuous at 0 and at non-integers.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 8,
+"ok": true,
+"stem": [
+"mat08_s.webp"
+],
+"opts": [
+"mat08_o0.webp",
+"mat08_o1.webp",
+"mat08_o2.webp",
+"mat08_o3.webp"
+],
+"full": [],
+"topic": "Conic sections: tangent and normal",
+"diff": "medium",
+"why": "The tangent to x^2 + 16y^2 = 4 at (1, sqrt3/4) is x(1) + 16y(sqrt3/4) = 4, i.e. x + 4 sqrt3 y = 4, with slope -1/(4 sqrt3). A perpendicular line has slope 4 sqrt3, so through (2,0) it is y = 4 sqrt3 (x - 2).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 9,
+"ok": true,
+"stem": [
+"mat09_s.webp"
+],
+"opts": [
+"mat09_o0.webp",
+"mat09_o1.webp",
+"mat09_o2.webp",
+"mat09_o3.webp"
+],
+"full": [],
+"topic": "Vectors",
+"diff": "medium",
+"why": "Let c = 3i - 4j + 5k. a x c = c x b means -(c x a) = c x b, so c x (a+b) = 0 and a+b is parallel to c. |c| = sqrt50 = 5 sqrt2, so a+b = +/-(15/(5 sqrt2)) c = +/-(3/sqrt2) c. Dot with (2,3,1): c.(2,3,1) = 6 - 12 + 5 = -1. Result 3/sqrt2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 10,
+"ok": true,
+"stem": [
+"mat10_s.webp"
+],
+"opts": [
+"mat10_o0.webp",
+"mat10_o1.webp",
+"mat10_o2.webp",
+"mat10_o3.webp"
+],
+"full": [],
+"topic": "Differentiation",
+"diff": "easy",
+"why": "log(sin^2 x) = 2 log(sin x). With t = sin x, d/dt (2 ln t) = 2/t = 2/sin x = 2 cosec x.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 11,
+"ok": true,
+"stem": [
+"mat11_s.webp"
+],
+"opts": [
+"mat11_o0.webp",
+"mat11_o1.webp",
+"mat11_o2.webp",
+"mat11_o3.webp"
+],
+"full": [],
+"topic": "Sequences and series",
+"diff": "medium",
+"why": "S(n+3) - S(n) = a(n+1) + a(n+2) + a(n+3) = 13n + 7. Replace n by n+1 and subtract: a(n+4) - a(n+1) = 13 for all n. With n = 9, a13 - a10 = 13.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 12,
+"ok": true,
+"stem": [
+"mat12_s.webp"
+],
+"opts": [
+"mat12_o0.webp",
+"mat12_o1.webp",
+"mat12_o2.webp",
+"mat12_o3.webp"
+],
+"full": [],
+"topic": "Probability",
+"diff": "easy",
+"why": "P(at least 2 heads) = 1 - P(0 heads) - P(1 head) = 1 - 1/32 - 5/32 = 26/32 = 13/16.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 13,
+"ok": true,
+"stem": [
+"mat13_s.webp"
+],
+"opts": [
+"mat13_o0.webp",
+"mat13_o1.webp",
+"mat13_o2.webp",
+"mat13_o3.webp"
+],
+"full": [],
+"topic": "Functions: one-one and onto",
+"diff": "medium",
+"why": "For x >= 1, f = (x - 2)^2 - 9 has range [-9, infinity) (f(1) = -8). For x < 1, f = 2x has range (-infinity, 2). The union is all of R, so f is onto. Not one-one: f(1) = -8 and f(-4) = -8 (also other repeated values near x=3 and x=1).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 14,
+"ok": true,
+"stem": [
+"mat14_s.webp"
+],
+"opts": [
+"mat14_o0.webp",
+"mat14_o1.webp",
+"mat14_o2.webp",
+"mat14_o3.webp"
+],
+"full": [],
+"topic": "Differential equations",
+"diff": "medium",
+"why": "Divide by x^2: y' + (9/x) y = x^2. Integrating factor x^9: (x^9 y)' = x^11, so x^9 y = x^12/12 + C. With y(1) = 0, C = -1/12. Thus 12y = x^3 - 1/x^9.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "MAT",
+"n": 15,
+"ok": true,
+"stem": [
+"mat15_s.webp"
+],
+"opts": [
+"mat15_o0.webp",
+"mat15_o1.webp",
+"mat15_o2.webp",
+"mat15_o3.webp"
+],
+"full": [],
+"topic": "Definite integrals",
+"diff": "medium",
+"why": "Let I = integral of x|cos x| sin x from 0 to pi. Using x to pi - x: I = integral of (pi - x)|cos x| sin x, so 2I = pi times integral of |cos x| sin x = pi x 2 x (1/2) = pi (since the integral over [0,pi/2] is 1/2, and the same over [pi/2, pi]). So I = pi/2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 1,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy01_full0.webp"
+],
+"topic": "Elastic collisions",
+"diff": "medium",
+"why": "For an elastic collision of equal masses, the velocities are exchanged: A (faster, behind) stops being faster, and after impact A moves with B's old velocity while B moves with A's old velocity. In v-t, the upper pre-collision line (A) becomes B after collision, and B's lower line becomes A. Option (a).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 2,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy02_full0.webp"
+],
+"topic": "Momentum and energy conservation",
+"diff": "medium",
+"why": "The perfectly inelastic impact is quick, so momentum is conserved: m v = (M+m) V, V = mv/(M+m). Afterwards energy is conserved: (1/2)(M+m)V^2 = (1/2) k x^2, so x = V sqrt((M+m)/k) = mv/sqrt(k(M+m)) = sqrt(m^2 v^2/(k(M+m))).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 3,
+"ok": true,
+"stem": [
+"phy03_s.webp"
+],
+"opts": [
+"phy03_o0.webp",
+"phy03_o1.webp",
+"phy03_o2.webp",
+"phy03_o3.webp"
+],
+"full": [],
+"topic": "Circular motion in a vertical loop",
+"diff": "medium",
+"why": "At the top B: v^2 >= gR. Energy conservation from A to B: M g h1 = M g h2 + (1/2) M v^2, so h1 >= h2 + R/2. Mass M cancels in both the condition and the energy equation, so M plays no role; h1, h2 and R all do.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 4,
+"ok": true,
+"stem": [
+"phy04_s.webp"
+],
+"opts": [
+"phy04_o0.webp",
+"phy04_o1.webp",
+"phy04_o2.webp",
+"phy04_o3.webp"
+],
+"full": [],
+"topic": "Rotational dynamics",
+"diff": "medium",
+"why": "I = (1/2) M R^2. Opposing torque T gives deceleration alpha = T/I = 2T/(M R^2). Using w^2 = 2 alpha theta (final w = 0): theta = w^2/(2 alpha) = w^2 M R^2/(4T), positive in the clockwise direction.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 5,
+"ok": true,
+"stem": [
+"phy05_s.webp"
+],
+"opts": [
+"phy05_o0.webp",
+"phy05_o1.webp",
+"phy05_o2.webp",
+"phy05_o3.webp"
+],
+"full": [],
+"topic": "Thermal radiation",
+"diff": "medium",
+"why": "P = sigma A T^4. A 1% rise in T gives 4% in P, so the area must rise by 0.5%. For a cube, A is proportional to L^2, so L rises by 0.25%. Volume is proportional to L^3, so it rises by 3 x 0.25 = 0.75%.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 6,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy06_full0.webp"
+],
+"topic": "Waves: organ pipes",
+"diff": "medium",
+"why": "Closed-open pipe: f = n_A v_A/(4L). Open-open pipe: f = n_B v_B/(2L). Equal frequencies give v_A/v_B = 2 n_B/n_A. Since v is proportional to sqrt(T): T_A/T_B = 4 n_B^2/n_A^2, so T_A = (4 n_B^2/n_A^2) T_B.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 7,
+"ok": true,
+"stem": [
+"phy07_s.webp"
+],
+"opts": [
+"phy07_o0.webp",
+"phy07_o1.webp",
+"phy07_o2.webp",
+"phy07_o3.webp"
+],
+"full": [],
+"topic": "Superposition of waves",
+"diff": "easy",
+"why": "Write cos(kx - wt) = sin(kx - wt + pi/2). Phasor sum of A at 0 and sqrt3 A at pi/2: amplitude = sqrt(A^2 + 3A^2) = 2A, phase = tan^-1(sqrt3) = pi/3. Equivalently A sin u + sqrt3 A cos u = 2A sin(u + pi/3).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 8,
+"ok": true,
+"stem": [
+"phy08_s.webp"
+],
+"opts": [
+"phy08_o0.webp",
+"phy08_o1.webp",
+"phy08_o2.webp",
+"phy08_o3.webp"
+],
+"full": [],
+"topic": "Motion of charge in electric field",
+"diff": "hard",
+"why": "The particle enters midway, so it must deflect less than d/2. y = (1/2)(eV/(m d))(l/v)^2 with v^2 = 2K/m gives y = eV l^2/(4 K d). Requiring y <= d/2: K >= eV l^2/(2 d^2). With V = 1 V, K(min) = l^2/(2 d^2) eV.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 9,
+"ok": true,
+"stem": [
+"phy09_s.webp"
+],
+"opts": [
+"phy09_o0.webp",
+"phy09_o1.webp",
+"phy09_o2.webp",
+"phy09_o3.webp"
+],
+"full": [],
+"topic": "Capacitors",
+"diff": "medium",
+"why": "The two branches each have two capacitors in series between the battery terminals (12 V). Left branch (4 uF then 2 uF): voltage across 4 uF = 12 x 2/6 = 4 V, so V_P = 8 V relative to the far end. Other branch (2 uF then 4 uF): voltage across 2 uF = 12 x 4/6 = 8 V, so V_Q = 4 V. V_P - V_Q = 4 V.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 10,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy10_full0.webp"
+],
+"topic": "Magnetic force: helical motion",
+"diff": "hard",
+"why": "v = v0(1,1,-1), |v| = sqrt3 v0; B-hat = (1,1,1)/sqrt3. v_parallel = v0/sqrt3, v_perp = sqrt(3 - 1/3) v0 = 2 sqrt2 v0/sqrt3. |B| = sqrt3 B0, so r = m v_perp/(q|B|) = 2 sqrt2 m v0/(3 q B0). Pitch = v_par x 2 pi m/(q|B|) = 2 pi m v0/(3 q B0).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 11,
+"ok": true,
+"stem": [
+"phy11_s.webp"
+],
+"opts": [
+"phy11_o0.webp",
+"phy11_o1.webp",
+"phy11_o2.webp",
+"phy11_o3.webp"
+],
+"full": [],
+"topic": "Magnetism: electromagnetic induction",
+"diff": "hard",
+"why": "The metallic (conducting) frame acts as a loop that resists change of flux: as it shrinks, induced currents keep the flux through it constant, so the field B inside increases (flux compression). Then r = m v/(qB) falls and w = qB/m rises. With B r^2 constant, the orbit radius decreases and the frequency increases.",
+"agree": true,
+"note": "Assumes the frame is an ideal conductor so flux through it is conserved; the question does not state this explicitly."
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 12,
+"ok": true,
+"stem": [
+"phy12_s.webp"
+],
+"opts": [
+"phy12_o0.webp",
+"phy12_o1.webp",
+"phy12_o2.webp",
+"phy12_o3.webp"
+],
+"full": [],
+"topic": "Refraction through a prism",
+"diff": "medium",
+"why": "Equilateral prism, ray parallel to the base: it travels symmetrically, so the angle inside at the second face is 30 degrees. Snell at the prism face (the same value after passing through the parallel-faced block, since n1 sin i is invariant): 1.5 sin30 = 0.75 = sin(theta). So theta = sin^-1(3/4).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 13,
+"ok": true,
+"stem": [
+"phy13_s.webp"
+],
+"opts": [
+"phy13_o0.webp",
+"phy13_o1.webp",
+"phy13_o2.webp",
+"phy13_o3.webp"
+],
+"full": [],
+"topic": "Polarisation: Malus law",
+"diff": "medium",
+"why": "P2 at angle theta from x passes I0 cos^2(theta). P1 axis is along y, so the angle between P2 and P1 axes is 90 - theta. Final I = I0 cos^2(theta) sin^2(theta) = (I0/4) sin^2(2 theta) = 3 I0/16, so sin^2(2 theta) = 3/4, 2 theta = 60 or 120, theta = 30 or 60 degrees. Option 60 is possible.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2025,
+"sj": "PHY",
+"n": 14,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy14_full0.webp"
+],
+"topic": "Bohr model: hydrogen spectrum",
+"diff": "easy",
+"why": "Energy levels are E_n = E1/n^2. The final energy is E1 + Ea = E1/n^2, so n^2 = E1/(E1 + Ea) and n = sqrt(E1/(E1 + Ea)). E1 is negative (-13.6 eV), so E1 + Ea is also negative, and the ratio is positive.",
+"agree": true,
+"note": ""
+}
+]

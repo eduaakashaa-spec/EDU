@@ -88,7 +88,7 @@
   </section>
 
   <section id="papers"><span class="eb">Practice</span><h2>Past papers and official practice</h2>
-    <div class="ia-pp">{% for y, kind, note in d.PAPERS %}<div><b>{{ y }}</b><span>{{ kind }}</span></div>{% endfor %}</div>
+    <div class="ia-pp">{% for y, kind, note in d.PAPERS %}<div><b>{{ y }}</b><span>{{ kind }}</span><span style="display:block;margin-top:3px;color:{{ '#1F8B5C' if 'Mock' in note else 'inherit' }}">{{ note }}</span></div>{% endfor %}</div>
     <p style="font-size:.88rem;margin-top:10px">{{ d.PAPERS_NOTE }}</p>
     <p style="font-size:.92rem"><a class="dg-alert__cta" style="margin:0" href="{{ d.PAPERS_URL }}" target="_blank" rel="noopener">Official previous-year papers</a> <a class="dg-alert__cta" style="margin:0 0 0 8px;background:#0E3A8A" href="{{ d.MOCK_URL }}" target="_blank" rel="noopener">Official mock test</a></p>
   </section>

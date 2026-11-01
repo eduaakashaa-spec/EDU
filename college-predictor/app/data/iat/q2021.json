@@ -1,0 +1,1217 @@
+[
+{
+"year": 2021,
+"sj": "BIO",
+"n": 1,
+"ok": true,
+"stem": [
+"bio01_s.webp"
+],
+"opts": [
+"bio01_o0.webp",
+"bio01_o1.webp",
+"bio01_o2.webp",
+"bio01_o3.webp"
+],
+"full": [],
+"topic": "Animal tissues",
+"diff": "easy",
+"why": "The fallopian tube is lined by ciliated columnar epithelium. The beating cilia sweep the ovum (and zygote) towards the uterus, so the feature that characterises the inner surface is that the cells are ciliated.",
+"agree": true,
+"note": "Option B (columnar) is also partly true, since the cells are ciliated columnar; A names the functional feature."
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 2,
+"ok": true,
+"stem": [
+"bio02_s.webp"
+],
+"opts": [
+"bio02_o0.webp",
+"bio02_o1.webp",
+"bio02_o2.webp",
+"bio02_o3.webp"
+],
+"full": [],
+"topic": "Reproduction in lower organisms",
+"diff": "easy",
+"why": "Conidia (Penicillium), zoospores (Chlamydomonas) and gemmules (sponges) are asexual propagules. Isogametes of Cladophora are gametes that fuse in sexual reproduction, so they are not an asexual structure.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 3,
+"ok": true,
+"stem": [
+"bio03_s.webp"
+],
+"opts": [
+"bio03_o0.webp",
+"bio03_o1.webp",
+"bio03_o2.webp",
+"bio03_o3.webp"
+],
+"full": [],
+"topic": "Biotechnology: restriction enzymes",
+"diff": "easy",
+"why": "A palindromic DNA sequence reads the same 5' to 3' on both strands. 5' GAATTC 3' pairs with 3' CTTAAG 5', whose reading 5' to 3' is again GAATTC (the EcoRI site). The other three options do not read identically on the two strands.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 4,
+"ok": true,
+"stem": [
+"bio04_s.webp"
+],
+"opts": [
+"bio04_o0.webp",
+"bio04_o1.webp",
+"bio04_o2.webp",
+"bio04_o3.webp"
+],
+"full": [],
+"topic": "Immunity and allergy",
+"diff": "easy",
+"why": "Pollen allergy is a type I hypersensitivity. The allergen drives production of IgE, which binds mast cells and basophils; on re-exposure it triggers histamine release, causing sneezing.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 5,
+"ok": true,
+"stem": [
+"bio05_s.webp"
+],
+"opts": [
+"bio05_o0.webp",
+"bio05_o1.webp",
+"bio05_o2.webp",
+"bio05_o3.webp"
+],
+"full": [],
+"topic": "Hardy-Weinberg principle",
+"diff": "medium",
+"why": "HW equilibrium needs no mutation, no gene flow, no selection, random mating and a large population. Mutation, gene flow and drift each directly change allele frequencies. A reduction in population size is only a condition; unless it is severe enough to cause sampling error (drift) it does not itself shift allele frequencies, so it is the least likely cause.",
+"agree": true,
+"note": "Interpretation-dependent: small-size reduction does cause drift, but drift is listed separately, so A is the least direct cause. Mutation (B) is a clear violation of HW, though rare."
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 6,
+"ok": true,
+"stem": [
+"bio06_s.webp"
+],
+"opts": [
+"bio06_o0.webp",
+"bio06_o1.webp",
+"bio06_o2.webp",
+"bio06_o3.webp"
+],
+"full": [],
+"topic": "Griffith and Avery experiments",
+"diff": "medium",
+"why": "The transforming principle is DNA. T1 heat-killed S: mouse lives. T2 heat-killed S + live R: transformation, mouse dies. T3 RNase leaves DNA intact: dies. T4 DNase destroys the DNA: lives. T5 live S: dies. T6 live R: lives.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 7,
+"ok": true,
+"stem": [
+"bio07_s.webp"
+],
+"opts": [
+"bio07_o0.webp",
+"bio07_o1.webp",
+"bio07_o2.webp",
+"bio07_o3.webp"
+],
+"full": [],
+"topic": "Photosynthesis: light reactions",
+"diff": "medium",
+"why": "Far-red light (above 700 nm) excites only photosystem I, not PS II. With no PS II there is no water splitting or linear electron flow, so electrons cycle round PS I (cyclic photophosphorylation), producing only ATP and no NADPH.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 8,
+"ok": true,
+"stem": [
+"bio08_s.webp"
+],
+"opts": [
+"bio08_o0.webp",
+"bio08_o1.webp",
+"bio08_o2.webp",
+"bio08_o3.webp"
+],
+"full": [],
+"topic": "Restriction mapping",
+"diff": "medium",
+"why": "The four sites (PstI 800, EcoRI 1700, HindIII 1920, SalI 2460) all cut, giving four fragments on the circle: 800 to 1700 = 900; 1700 to 1920 = 220; 1920 to 2460 = 540; 2460 round to 800 = 4000 - 2460 + 800 = 2340. Sum = 4000. Bands: 220, 540, 900, 2340 bp.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 9,
+"ok": true,
+"stem": [
+"bio09_s.webp"
+],
+"opts": [
+"bio09_o0.webp",
+"bio09_o1.webp",
+"bio09_o2.webp",
+"bio09_o3.webp"
+],
+"full": [],
+"topic": "C3 and C4 photosynthesis",
+"diff": "medium",
+"why": "P1 (dotted) peaks at about 25 C at a rate near 20 and falls early: a C3 plant, temperate adaptation. P2 rises to about 40 units at a leaf temperature near 35 C: a C4 plant, tropical adaptation (no photorespiration, high optimum).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 10,
+"ok": true,
+"stem": [
+"bio10_s.webp"
+],
+"opts": [
+"bio10_o0.webp",
+"bio10_o1.webp",
+"bio10_o2.webp",
+"bio10_o3.webp"
+],
+"full": [],
+"topic": "Thermoregulation and surface area to volume",
+"diff": "medium",
+"why": "X (flat line) = endotherm with constant body temperature; Y (rises with external temperature) = ectotherm. Type a = high surface area:volume ratio (small body), type b = low (large body). Hummingbird: small endotherm Xa; crocodile: large ectotherm Yb; frog: small ectotherm Ya; polar bear: large endotherm Xb.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 11,
+"ok": true,
+"stem": [
+"bio11_s.webp"
+],
+"opts": [
+"bio11_o0.webp",
+"bio11_o1.webp",
+"bio11_o2.webp",
+"bio11_o3.webp"
+],
+"full": [],
+"topic": "Nitrogen metabolism in plants",
+"diff": "easy",
+"why": "Reductive amination of an alpha-keto acid (alpha-ketoglutarate) by NH4+ with NADPH is catalysed by glutamate dehydrogenase, giving glutamate. Nitrogenase fixes N2, transacetylase and lactate dehydrogenase do other jobs.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 12,
+"ok": true,
+"stem": [
+"bio12_s.webp"
+],
+"opts": [
+"bio12_o0.webp",
+"bio12_o1.webp",
+"bio12_o2.webp",
+"bio12_o3.webp"
+],
+"full": [],
+"topic": "Human physiology: absorption",
+"diff": "easy",
+"why": "Both the small intestine epithelium and the proximal renal tubule reabsorb glucose by Na+-linked cotransport (SGLT). Intact proteins are not absorbed in either, and neither organ's role is excretion of waste or water in this sense.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 13,
+"ok": true,
+"stem": [
+"bio13_s.webp"
+],
+"opts": [
+"bio13_o0.webp",
+"bio13_o1.webp",
+"bio13_o2.webp",
+"bio13_o3.webp"
+],
+"full": [],
+"topic": "Species interactions",
+"diff": "easy",
+"why": "Herbivore-plant = predation (b); cuckoo lays eggs in crow nests, brood parasitism (c); sea anemone-clownfish = commensalism (d) as classified in NCERT; fungus-cyanobacteria in lichens = mutualism (a). Matches i-b, ii-c, iii-d, iv-a.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 14,
+"ok": true,
+"stem": [
+"bio14_s.webp"
+],
+"opts": [
+"bio14_o0.webp",
+"bio14_o1.webp",
+"bio14_o2.webp",
+"bio14_o3.webp"
+],
+"full": [],
+"topic": "Meiosis prophase I",
+"diff": "medium",
+"why": "Synaptonemal complex forms at zygotene (iv); recombination nodules appear at pachytene (i); chiasmata become visible at diplotene (iii); the meiotic spindle forms later, at metaphase I (ii). Sequence iv, i, iii, ii.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "BIO",
+"n": 15,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio15_full0.webp"
+],
+"topic": "Floral formula",
+"diff": "medium",
+"why": "Zygomorphic is shown by the % symbol; diadelphous androecium by A(9)+1; superior ovary by G with the underline below. Option A, % K(5) C1+2+(2) A(9)+1 G1 (pea family), fits all three. B and C have A(infinity) (polyadelphous or united) and D has two stamens.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 1,
+"ok": true,
+"stem": [
+"che01_s.webp"
+],
+"opts": [
+"che01_o0.webp",
+"che01_o1.webp",
+"che01_o2.webp",
+"che01_o3.webp"
+],
+"full": [],
+"topic": "VSEPR / trigonal bipyramidal geometry",
+"diff": "medium",
+"why": "PF3Cl2 is trigonal bipyramidal. By Bent's rule the more electronegative F atoms prefer axial positions, so two F are axial; the third F and both Cl are equatorial. An axial F-P-Cl angle is 90 degrees and the equatorial F-P-Cl angle is 120 degrees (180 degrees is F-P-F, not F-P-Cl).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 2,
+"ok": true,
+"stem": [
+"che02_s.webp"
+],
+"opts": [
+"che02_o0.webp",
+"che02_o1.webp",
+"che02_o2.webp",
+"che02_o3.webp"
+],
+"full": [],
+"topic": "Structure of Al2Cl6",
+"diff": "medium",
+"why": "In Al2Cl6 each Al is tetrahedral. The terminal Cl-Al-Cl angle is about 118 degrees and the bridging Cl-Al-Cl angle about 87 degrees, so terminal angle is larger. Bridging bonds are longer (about 221 pm) than terminal bonds (about 206 pm): Al-Clb > Al-Clt.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 3,
+"ok": true,
+"stem": [
+"che03_s.webp"
+],
+"opts": [
+"che03_o0.webp",
+"che03_o1.webp",
+"che03_o2.webp",
+"che03_o3.webp"
+],
+"full": [],
+"topic": "Silicones",
+"diff": "easy",
+"why": "Hydrolysis gives silanols. (CH3)2SiCl2 gives a diol, which condenses into long linear chains. CH3SiCl3 gives a triol, which links in three directions and forms cross-linked (branched) polymer. (CH3)3SiCl is a chain terminator.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 4,
+"ok": true,
+"stem": [
+"che04_s.webp"
+],
+"opts": [
+"che04_o0.webp",
+"che04_o1.webp",
+"che04_o2.webp",
+"che04_o3.webp"
+],
+"full": [],
+"topic": "Coordination compounds: magnetism",
+"diff": "medium",
+"why": "Divalent ion with Z = 25 is Mn2+ (d5). Weak-field (tetrahedral or octahedral): high spin, 5 unpaired, mu = sqrt(35) = 5.92 BM. Strong-field octahedral: low spin, 1 unpaired, mu = 1.73 BM. So the statement giving 1.73 BM for a weak-field tetrahedral complex is incorrect.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 5,
+"ok": true,
+"stem": [
+"che05_s.webp"
+],
+"opts": [
+"che05_o0.webp",
+"che05_o1.webp",
+"che05_o2.webp",
+"che05_o3.webp"
+],
+"full": [],
+"topic": "Metal carbonyls: magnetism",
+"diff": "medium",
+"why": "In Ni(CO)4, Ni is in oxidation state 0 with configuration 3d10 (the 4s electrons are shifted into 3d under the strong CO field), tetrahedral sp3. A completely filled 3d shell has no unpaired electrons, so the complex is diamagnetic.",
+"agree": true,
+"note": "C and D explain why the 3d10 arrangement forms, but the direct reason for diamagnetism is the filled d shell, so A is acceptable. Not a clear-cut wording."
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 6,
+"ok": true,
+"stem": [
+"che06_s.webp"
+],
+"opts": [
+"che06_o0.webp",
+"che06_o1.webp",
+"che06_o2.webp",
+"che06_o3.webp"
+],
+"full": [],
+"topic": "Conformations of butane",
+"diff": "medium",
+"why": "Structure I is staggered anti (lowest). II and III are staggered gauche, equal energy and higher than anti by the CH3-CH3 gauche strain. IV is eclipsed with the two CH3 groups syn-periplanar, the highest. Order IV > III = II > I.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 7,
+"ok": true,
+"stem": [
+"che07_s.webp"
+],
+"opts": [
+"che07_o0.webp",
+"che07_o1.webp",
+"che07_o2.webp",
+"che07_o3.webp"
+],
+"full": [],
+"topic": "Nucleophilic aromatic substitution",
+"diff": "medium",
+"why": "SNAr is helped by electron-withdrawing groups ortho or para to Cl, which stabilise the Meisenheimer anion by resonance: II (p-NO2) is fastest. Meta NO2 (III) acts only inductively, giving a small effect, so III is about equal to plain chlorobenzene (I). Para OCH3 donates electrons, so IV is slowest: II > III ~ I > IV.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 8,
+"ok": true,
+"stem": [
+"che08_s.webp"
+],
+"opts": [
+"che08_o0.webp",
+"che08_o1.webp",
+"che08_o2.webp",
+"che08_o3.webp"
+],
+"full": [],
+"topic": "Carbonyl compounds reaction sequence",
+"diff": "medium",
+"why": "Propanoyl chloride gives propanal (P) by Rosenmund reduction. MeMgBr then gives butan-2-ol (Q, chiral). CrO3 oxidises it to butanone (R). Clemmensen reduction gives butane (S, saturated). (i) aldehyde P and ketone R add HCN: true. (ii) Q has a chiral centre: false. (iii) R has alpha-H and is a ketone, no Cannizzaro: false. (iv) true. So (i) and (iv).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 9,
+"ok": true,
+"stem": [
+"che09_s.webp"
+],
+"opts": [
+"che09_o0.webp",
+"che09_o1.webp",
+"che09_o2.webp",
+"che09_o3.webp"
+],
+"full": [],
+"topic": "Grignard reactions of carbonyls",
+"diff": "hard",
+"why": "The phenolic O-H is far more acidic than any C-H, so with one equivalent MeMgBr the Grignard acts as a base: it deprotonates the phenol, giving the magnesium phenoxide and methane. The CHO is untouched and acid work-up regenerates the phenol, giving salicylaldehyde back (structure II).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 10,
+"ok": true,
+"stem": [
+"che10_s.webp"
+],
+"opts": [
+"che10_o0.webp",
+"che10_o1.webp",
+"che10_o2.webp",
+"che10_o3.webp"
+],
+"full": [],
+"topic": "Stereoisomerism",
+"diff": "medium",
+"why": "CH3CH(OH)CH(OH)CH=CHCH3 has two stereocentres (C2, C3) that are not equivalent, so 2^2 = 4 configurations, and a C=C that can be E or Z (2). No symmetry removes any. Total = 4 x 2 = 8 stereoisomers.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 11,
+"ok": true,
+"stem": [
+"che11_s.webp"
+],
+"opts": [
+"che11_o0.webp",
+"che11_o1.webp",
+"che11_o2.webp",
+"che11_o3.webp"
+],
+"full": [],
+"topic": "Thermodynamics: DH and DU",
+"diff": "medium",
+"why": "Kp = Kc (RT)^dn. Kp/Kc = 9.98e27/4.0e24 = 2495, and RT = 8.314 x 300 = 2494 (SI units, Pa and mol/m3), so dn = 1. dU = dH - dn RT = -18.4 - 2.494 = -20.89 kJ/mol.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 12,
+"ok": true,
+"stem": [
+"che12_s.webp"
+],
+"opts": [
+"che12_o0.webp",
+"che12_o1.webp",
+"che12_o2.webp",
+"che12_o3.webp"
+],
+"full": [],
+"topic": "Atomic structure: 1s orbital",
+"diff": "easy",
+"why": "The 1s wavefunction is proportional to exp(-r/a0), so the probability density |psi|^2 falls steadily with r and is greatest at r = 0, the nucleus. (The radial probability 4 pi r^2 |psi|^2 peaks at the Bohr radius, a different quantity.)",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 13,
+"ok": true,
+"stem": [
+"che13_s.webp"
+],
+"opts": [
+"che13_o0.webp",
+"che13_o1.webp",
+"che13_o2.webp",
+"che13_o3.webp"
+],
+"full": [],
+"topic": "Chemical kinetics: half-life",
+"diff": "easy",
+"why": "Zero order: t1/2 = [A]0/(2k), proportional to [A]0 and inversely proportional to k, so the statement that it is proportional to k is incorrect. First order: t1/2 = 0.693/k, independent of [A]0 and inversely proportional to k, so B, C, D are correct.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 14,
+"ok": true,
+"stem": [
+"che14_s.webp"
+],
+"opts": [
+"che14_o0.webp",
+"che14_o1.webp",
+"che14_o2.webp",
+"che14_o3.webp"
+],
+"full": [],
+"topic": "Electrochemistry: Faraday's laws",
+"diff": "easy",
+"why": "MnO4- to Mn2+ takes 5 electrons, so 1 mol needs 5 F = 5 x 96500 = 482500 C. t = Q/I = 482500/2.5 = 193000 s = 53.6 hours.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "CHE",
+"n": 15,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che15_full0.webp"
+],
+"topic": "Chemical kinetics: energy profiles",
+"diff": "hard",
+"why": "K1 = 4k/2k = 2 so Y is more stable than X; K2 = 8k'/3k' = 8/3 so Z is more stable than Y: free energy falls X > Y > Z. The forward rate 8k' exceeds 4k, so the Y to Z barrier is lower than the X to Y barrier. Diagram A (descending, with the first barrier higher) fits.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 1,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"mat01_full0.webp"
+],
+"topic": "Trigonometry / maxima",
+"diff": "medium",
+"why": "With c = cos x, expression = c^4 + 1 - c^2 + c = g(c) on [-1,1]. g'(c) = 4c^3 - 2c + 1 is positive on [0,1] and g(1) = 1 - 1 + 1 + 1 = 2, while g(-1) = 0 and the negative-side maximum is below 2. Maximum = 2 (at x = 0).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 2,
+"ok": true,
+"stem": [
+"mat02_s.webp"
+],
+"opts": [
+"mat02_o0.webp",
+"mat02_o1.webp",
+"mat02_o2.webp",
+"mat02_o3.webp"
+],
+"full": [],
+"topic": "Probability",
+"diff": "easy",
+"why": "With replacement, m even: 2,4,6,8,10. Number of n less than m is m - 1: 1+3+5+7+9 = 25. Total pairs with m even = 5 x 10 = 50. P = 25/50 = 1/2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 3,
+"ok": true,
+"stem": [
+"mat03_s.webp"
+],
+"opts": [
+"mat03_o0.webp",
+"mat03_o1.webp",
+"mat03_o2.webp",
+"mat03_o3.webp"
+],
+"full": [],
+"topic": "Coordinate geometry: collinearity",
+"diff": "hard",
+"why": "Equal slopes of the first two and last two segments give b(b-1)(a-b) = 0 (after cancelling a^2(a-1), a not 0 or 1). If a = b the points lie on y = x, distinct for a not 0 or 1: slope 1. If b = 0 or b = 1, all y-values are equal: slope 0. So the slope takes exactly two values, 0 and 1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 4,
+"ok": true,
+"stem": [
+"mat04_s.webp"
+],
+"opts": [
+"mat04_o0.webp",
+"mat04_o1.webp",
+"mat04_o2.webp",
+"mat04_o3.webp"
+],
+"full": [],
+"topic": "Area under a curve",
+"diff": "medium",
+"why": "Each term n(1 - |x - (2n+1)|) is a triangle of height n on [2n, 2n+2] with base 2, area n. Neighbouring triangles touch at the zero at x = 2n+2, so the max is the union without overlap. Area = 1 + 2 + ... + 10 = 55.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 5,
+"ok": true,
+"stem": [
+"mat05_s.webp"
+],
+"opts": [
+"mat05_o0.webp",
+"mat05_o1.webp",
+"mat05_o2.webp",
+"mat05_o3.webp"
+],
+"full": [],
+"topic": "Limits",
+"diff": "medium",
+"why": "(sin x)^sqrt(x) = exp(sqrt(x) ln(sin x)) and sqrt(x) ln x tends to 0, so this factor tends to 1. For (e^x + x)^(1/x): e^x + x = 1 + 2x + ..., so ln = (2x + ...)/x tends to 2, giving e^2. Limit = e^2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 6,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"mat06_full0.webp"
+],
+"topic": "Integral equations / ODE",
+"diff": "medium",
+"why": "Differentiate: f' = x e^(x^2/2) + x f, f(0) = 1. Then (f e^(-x^2/2))' = x gives f e^(-x^2/2) = 1 + x^2/2, so f = e^(x^2/2)(1 + x^2/2). f(sqrt2) = e x 2 = 2e = 5.44, lying between 5 and 6.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 7,
+"ok": true,
+"stem": [
+"mat07_s.webp"
+],
+"opts": [
+"mat07_o0.webp",
+"mat07_o1.webp",
+"mat07_o2.webp",
+"mat07_o3.webp"
+],
+"full": [],
+"topic": "Quadratic equations / complex roots",
+"diff": "hard",
+"why": "Let u = e^(a - e^a). Polynomial z^2 + 2u z + u. Since a - e^a <= -1 (maximum at a = 0), 0 < u <= 1/e < 1. Discriminant = 4u^2 - 4u = 4u(u - 1) < 0 for every a, so the roots are always non-real.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 8,
+"ok": true,
+"stem": [
+"mat08_s.webp"
+],
+"opts": [
+"mat08_o0.webp",
+"mat08_o1.webp",
+"mat08_o2.webp",
+"mat08_o3.webp"
+],
+"full": [],
+"topic": "Counting: involutions",
+"diff": "medium",
+"why": "f(f(n)) = n means f is an involution (a permutation made of fixed points and 2-cycles). Count on 5 elements: identity 1, one 2-cycle C(5,2) = 10, two 2-cycles 5 x 3 = 15. Total 26.",
+"agree": false,
+"note": "My count is 26, which is not among the options (41, 25, 31, 120); the printed first option 41 cannot be reached. Possible error in the paper or in the extracted key; I could not reproduce 41."
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 9,
+"ok": true,
+"stem": [
+"mat09_s.webp"
+],
+"opts": [
+"mat09_o0.webp",
+"mat09_o1.webp",
+"mat09_o2.webp",
+"mat09_o3.webp"
+],
+"full": [],
+"topic": "3D geometry: planes and lines",
+"diff": "medium",
+"why": "The direction of L is n1 x n2 = (1,1,1) x (2,1,1) = (0, 1, -1). Plane P through (1,2,1) with this normal: 0(x-1) + (y-2) - (z-1) = 0, i.e. y - z = 1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 10,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"mat10_full0.webp"
+],
+"topic": "Definite integrals: King's property",
+"diff": "medium",
+"why": "Replace theta by pi/2 - theta: cos and sin swap. Adding the two forms, the integrand becomes (f(c)+f(s))/(f(s)+f(c)) = 1, so 2I = pi/2 and I = pi/4.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 11,
+"ok": true,
+"stem": [
+"mat11_s.webp"
+],
+"opts": [
+"mat11_o0.webp",
+"mat11_o1.webp",
+"mat11_o2.webp",
+"mat11_o3.webp"
+],
+"full": [],
+"topic": "Area between curves",
+"diff": "medium",
+"why": "The vertical gap is (1 + |sin x|) - (-|sin x|) = 1 + 2|sin x|. Integral over [0, 2pi]: 2pi + 2 x (integral of |sin x|) = 2pi + 2 x 4 = 8 + 2pi.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 12,
+"ok": true,
+"stem": [
+"mat12_s.webp"
+],
+"opts": [
+"mat12_o0.webp",
+"mat12_o1.webp",
+"mat12_o2.webp",
+"mat12_o3.webp"
+],
+"full": [],
+"topic": "Differentiability",
+"diff": "medium",
+"why": "f(x) = |x|^3, so f'(x) = 3x|x|, which is continuous and differentiable (f'' = 6|x|). But f'' = 6|x| has a corner at 0 so f'' is not differentiable. Hence f' is differentiable and f'' is not.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 13,
+"ok": true,
+"stem": [
+"mat13_s.webp"
+],
+"opts": [
+"mat13_o0.webp",
+"mat13_o1.webp",
+"mat13_o2.webp",
+"mat13_o3.webp"
+],
+"full": [],
+"topic": "Matrices and determinants",
+"diff": "medium",
+"why": "A^2 + A = -J with J = [[0,1],[1,0]], so A(A + I) = -J. Taking determinants: det A x det(A + I) = det(-J) = det J = -1, which is non-zero. Hence both A and A + I are invertible.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 14,
+"ok": true,
+"stem": [
+"mat14_s.webp"
+],
+"opts": [
+"mat14_o0.webp",
+"mat14_o1.webp",
+"mat14_o2.webp",
+"mat14_o3.webp"
+],
+"full": [],
+"topic": "Determinants",
+"diff": "medium",
+"why": "Every row is x^2(1,1,1) plus a row in arithmetic progression, so each row lies in the plane spanned by (1,1,1) and (0,1,2). Three vectors in a 2-dimensional span are dependent, so the determinant is 0. (Check: R2 - R1 = (1,1,1) and R3 is an AP row, so a row operation gives zero.)",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "MAT",
+"n": 15,
+"ok": true,
+"stem": [
+"mat15_s.webp"
+],
+"opts": [
+"mat15_o0.webp",
+"mat15_o1.webp",
+"mat15_o2.webp",
+"mat15_o3.webp"
+],
+"full": [],
+"topic": "Statistics: mean and variance",
+"diff": "easy",
+"why": "Each element of S2 equals the matching element of S1 plus 50 (1 to 51, ..., 33 to 83). A shift by 50 raises the mean by 50 and leaves the spread, hence the variance, unchanged: m2 = m1 + 50, v2 = v1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 1,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy01_full0.webp"
+],
+"topic": "Rotational dynamics: angular momentum",
+"diff": "medium",
+"why": "Angular momentum about the hinge is conserved: m v x = (M L^2/3 + m x^2) omega. For m much less than M, m x^2 is negligible, so omega = 3 m v x/(M L^2), directly proportional to x for x up to L, and zero for x beyond the door. That is a straight line rising to L, then zero.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 2,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy02_full0.webp"
+],
+"topic": "Simple harmonic motion",
+"diff": "medium",
+"why": "E = (1/2) m w^2 A^2, so A = sqrt(2E/m)/w. Maximum acceleration = w^2 A = w sqrt(2E/m), with w = 2 pi/T: a_max = (2 pi/T) sqrt(2E/m) = (2 sqrt2 pi/T) sqrt(E/m).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 3,
+"ok": true,
+"stem": [
+"phy03_s.webp"
+],
+"opts": [
+"phy03_o0.webp",
+"phy03_o1.webp",
+"phy03_o2.webp",
+"phy03_o3.webp"
+],
+"full": [],
+"topic": "Kinematics",
+"diff": "medium",
+"why": "Acceleration = 9/2 = 4.5 m/s^2, so deceleration = 2.25 m/s^2 and braking time = 9/2.25 = 4 s. Constant-speed time = 12 - 2 - 4 = 6 s. Distance = (1/2)(9)(2) + 9 x 6 + (1/2)(9)(4) = 9 + 54 + 18 = 81 m.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 4,
+"ok": true,
+"stem": [
+"phy04_s.webp"
+],
+"opts": [
+"phy04_o0.webp",
+"phy04_o1.webp",
+"phy04_o2.webp",
+"phy04_o3.webp"
+],
+"full": [],
+"topic": "Capacitors and thermal expansion",
+"diff": "easy",
+"why": "C = e0 A/d with d fixed. Each plate dimension grows by (1 + alpha dT), so area A grows by (1 + alpha dT)^2, about 1 + 2 alpha dT. Thus dC = 2 alpha dT C (an increase).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 5,
+"ok": true,
+"stem": [
+"phy05_s.webp"
+],
+"opts": [
+"phy05_o0.webp",
+"phy05_o1.webp",
+"phy05_o2.webp",
+"phy05_o3.webp"
+],
+"full": [],
+"topic": "Capacitors in DC circuits",
+"diff": "medium",
+"why": "At steady state no current flows in the capacitor branch. The series loop is 12 V with 2k + 4k (bottom) and 4k + 2k (top): R = 12 kohm, I = 1 mA. Voltage across the top branch = 6 V, which also appears across the 2 uF and 4 uF in series. Ceq = 4/3 uF, so Q = (4/3)(6) = 8 uC on each.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 6,
+"ok": true,
+"stem": [
+"phy06_s.webp"
+],
+"opts": [
+"phy06_o0.webp",
+"phy06_o1.webp",
+"phy06_o2.webp",
+"phy06_o3.webp"
+],
+"full": [],
+"topic": "Motion of charge in E and B fields",
+"diff": "medium",
+"why": "Constant velocity means zero net force: E + v x B = 0. With v = v k and B = Bx i + By j, v x B = v(-By i + Bx j). Hence E = -v x B = v(By i - Bx j), so Ex = v By and Ey = -v Bx.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 7,
+"ok": true,
+"stem": [
+"phy07_s.webp"
+],
+"opts": [
+"phy07_o0.webp",
+"phy07_o1.webp",
+"phy07_o2.webp",
+"phy07_o3.webp"
+],
+"full": [],
+"topic": "Electrostatic energy",
+"diff": "medium",
+"why": "The vertex charges sum to q - 2q - 3q + 4q = 0, so the potential at the centre is zero and the centre charge adds no energy. Vertex-pair energy = (1/4 pi e0 L) x sum of q_i q_j = ((sum q)^2 - sum q^2)/2 = (0 - 30 q^2)/2 = -15 q^2. U = -15 q^2/(4 pi e0 L).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 8,
+"ok": true,
+"stem": [
+"phy08_s.webp"
+],
+"opts": [
+"phy08_o0.webp",
+"phy08_o1.webp",
+"phy08_o2.webp",
+"phy08_o3.webp"
+],
+"full": [],
+"topic": "Radioactivity: decay law",
+"diff": "easy",
+"why": "If 2/3 decay, 1/3 remains: N/N0 = (1/2)^(t/T) = 1/3, so t = T log2(3) = 2000 x 1.585 = 3170 hours.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 9,
+"ok": true,
+"stem": [
+"phy09_s.webp"
+],
+"opts": [
+"phy09_o0.webp",
+"phy09_o1.webp",
+"phy09_o2.webp",
+"phy09_o3.webp"
+],
+"full": [],
+"topic": "Digital logic gates",
+"diff": "easy",
+"why": "XOR(1, P) = NOT P. AND(1, Q) = Q. The output is NAND(NOT P, Q) = 0 only when both its inputs are 1, so NOT P = 1 (P = 0) and Q = 1. Thus P = 0, Q = 1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 10,
+"ok": true,
+"stem": [
+"phy10_s.webp"
+],
+"opts": [
+"phy10_o0.webp",
+"phy10_o1.webp",
+"phy10_o2.webp",
+"phy10_o3.webp"
+],
+"full": [],
+"topic": "Photoelectric effect and de Broglie wavelength",
+"diff": "medium",
+"why": "Photon energy 5W, so maximum kinetic energy K = 5W - W = 4W. With lambda = h/sqrt(2 m K): K = h^2/(2 m lambda^2). So 4W = h^2/(2 m lambda^2) and W = h^2/(8 m lambda^2).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 11,
+"ok": true,
+"stem": [
+"phy11_s.webp"
+],
+"opts": [
+"phy11_o0.webp",
+"phy11_o1.webp",
+"phy11_o2.webp",
+"phy11_o3.webp"
+],
+"full": [],
+"topic": "Doppler effect",
+"diff": "medium",
+"why": "Approaching: f1 = 540 x (340 + 20)/(340 - 20) = 540 x 360/320 = 607.5 Hz. After crossing, receding: f2 = 540 x (340 - 20)/(340 + 20) = 540 x 320/360 = 480 Hz. Change = 607.5 - 480 = 127.5 Hz.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 12,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy12_full0.webp"
+],
+"topic": "Wave optics: interference",
+"diff": "medium",
+"why": "Path difference 600 nm = one wavelength, so a bright fringe: I0 = Imax. At 100 nm the phase difference is 2 pi x 100/600 = 60 degrees. I = Imax cos^2(phase/2) = Imax cos^2(30 degrees) = (3/4) I0.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 13,
+"ok": true,
+"stem": [
+"phy13_s.webp"
+],
+"opts": [
+"phy13_o0.webp",
+"phy13_o1.webp",
+"phy13_o2.webp",
+"phy13_o3.webp"
+],
+"full": [],
+"topic": "Kinetic theory of gases",
+"diff": "easy",
+"why": "At the same temperature, average translational kinetic energy (3/2)kT is the same for all gases, so options B and C are false. v_rms = sqrt(3RT/M) and O2 (M = 32) is heavier than N2 (M = 28), so O2 molecules have the smaller rms speed.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 14,
+"ok": true,
+"stem": [
+"phy14_s.webp"
+],
+"opts": [
+"phy14_o0.webp",
+"phy14_o1.webp",
+"phy14_o2.webp",
+"phy14_o3.webp"
+],
+"full": [],
+"topic": "Calorimetry",
+"diff": "medium",
+"why": "Heat lost by A equals heat gained by B. The hotter object has the larger specific heat (at higher temperature), so it needs a smaller temperature drop to supply the same heat: TA - T < T - TB. Hence T > (TA + TB)/2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2021,
+"sj": "PHY",
+"n": 15,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy15_full0.webp"
+],
+"topic": "Dimensional analysis",
+"diff": "easy",
+"why": "h/e^2 has units J s/C^2 = (V C s)/C^2 = V s/C = V/A = ohm. This is the dimension of resistance (the von Klitzing constant h/e^2, about 25.8 kohm). e^2/h is conductance and e/h, h/e do not give ohm.",
+"agree": true,
+"note": ""
+}
+]

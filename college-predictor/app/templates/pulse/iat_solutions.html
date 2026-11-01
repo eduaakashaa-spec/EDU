@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}IAT {{ year }} solved paper | EduPulse-IAT{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.rv{border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;margin:10px 0;background:var(--paper,#FFFDF7)}.rv small{color:var(--muted,#5A6278)}.rv img{max-width:100%;height:auto;display:block}
+.rv .o{margin:5px 0;padding:4px 8px;border-radius:8px;border:1.5px solid transparent;display:flex;gap:8px;align-items:center}.rv .o b{min-width:1.6em}.rv .o img{background:#fff;border-radius:4px}.rv .o.k{border-color:#1F8B5C;background:#EAF6EF}
+.rv .sol{margin-top:8px;font-size:.92rem;background:#F4F6FB;border-radius:8px;padding:8px 10px}.rv .warn{margin-top:6px;font-size:.86rem;color:#8A4B00;background:#FFF1E6;border-radius:8px;padding:6px 10px}
+.sj-nav{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.sj-nav a{border:1px solid var(--hairline,#E8DFC8);border-radius:999px;padding:6px 14px;text-decoration:none;color:inherit;font-weight:600;font-size:.86rem;background:var(--paper,#FFFDF7)}
+:root[data-theme="dark"] .rv .sol{background:#1d2230}:root[data-theme="dark"] .rv .o.k{background:#12301f}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('iat.home') }}">EduPulse-IAT</a> › IAT {{ year }} solved paper</div>
+  <section class="pl-hero"><div><span class="pl-chip">Released paper · {{ qs|length }} questions</span><h1>IAT {{ year }}: questions with worked solutions</h1>
+    <p>Shown as printed. In the key editions published by the IISER admission board, option (a) is the correct answer, so it is marked here. Use the <a href="{{ url_for('iat.home') }}">mock centre</a> for shuffled, timed practice.</p></div></section>
+  <div class="sj-nav">{% for sj, name in subjects %}<a href="#s-{{ sj }}">{{ name }}</a>{% endfor %}{% for p in papers if p.year != year %}<a href="{{ url_for('iat.solutions', year=p.year) }}">{{ p.year }}</a>{% endfor %}</div>
+  {% for sj, name in subjects %}<h2 id="s-{{ sj }}" style="margin:22px 0 4px">{{ name }}</h2>
+  {% for q in qs if q.sj == sj %}
+  <div class="rv"><small>Q{{ q.n }}{% if q.topic %} · {{ q.topic }}{% endif %}{% if q.diff %} · {{ q.diff }}{% endif %}</small>
+    {% if q.ok %}<img src="{{ asset(q, q.stem[0]) }}" alt="{{ name }} question {{ q.n }}" loading="lazy" style="margin:6px 0">
+      {% for f in q.opts %}<div class="o {{ 'k' if loop.first }}"><b>({{ 'abcd'[loop.index0] }})</b><img src="{{ asset(q, f) }}" alt="Option {{ 'abcd'[loop.index0] }}" loading="lazy">{% if loop.first %}<span>✓ official answer</span>{% endif %}</div>{% endfor %}
+    {% else %}{% for f in q.full %}<img src="{{ asset(q, f) }}" alt="{{ name }} question {{ q.n }}" loading="lazy" style="margin:6px 0">{% endfor %}<small>Official answer: option (a).</small>{% endif %}
+    {% if q.why %}<div class="sol"><strong>Solution:</strong> {{ q.why }}</div>{% endif %}
+    {% if not q.agree %}<div class="warn">Our independent working did not match the published key here. {{ q.note }} Treat the published key as the reference and ask your mentor.</div>{% endif %}
+  </div>
+  {% endfor %}{% endfor %}
+</div>
+{% endblock %}

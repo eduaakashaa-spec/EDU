@@ -38,6 +38,7 @@ COVERED_BLUEPRINTS = {
     'pulse': 'EduPulse-UCEED practice and UCEED mock centre',
     'pulse_jee': 'EduPulse-JEE mock centre',
     'pulse_tn10': 'EduPulse-TN Class 10 mock centre',
+    'iat': 'EduPulse-IAT mock centre (IISER Aptitude Test)',
     'impersonate': 'Admin View as and Diagnose',
     'reinforce': 'EduPulse - Reinforcement',
     'wagroup': 'WhatsApp group buttons',
@@ -52,6 +53,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-01', 'New member tool: EduPulse-IAT Mock Test Centre (IISER Aptitude Test) with full 60-question mocks, past-paper practice sets 2021 to 2026, subject sections, confidence reports and solved papers with worked solutions; Member Home tile.'),
     ('2026-11-01', 'New public page: IISER Aptitude Test (IAT) guide with pattern, dates, eligibility, fees, the seven IISERs and five other institutions that use the IAT, the syllabus, past papers and an IAT mentorship programme (new Add-on), with a Member Home tile and a Colleges and Exams menu link.'),
     ('2026-11-01', 'New member programme: B.Arch and B.Planning mentorship (two tracks, 14 and 10 sessions, covering JEE Main Paper 2A and 2B, NATA and college or state routes), with a page for members, two new Add-on programmes to request, and a Member Home tile.'),
     ('2026-11-01', 'JEE Paper 2 guide: fees shown as a compact infographic with switches for one or both papers and centre in India or abroad, and a searchable list of 18 colleges (SPAs, NITs and other JoSAA institutes) with their 2025 OPEN rank ranges.'),
@@ -200,6 +202,16 @@ GUIDE = [
                 'Submit and open the report: negative-marking tracker, confidence table, chapters to revisit, and a PDF.'],
          tips=['A paper that says "Not yet available" is waiting for its answer key.'],
          tiles=['EduPulse-JEE Mock Test Centre'], added='2026-10-26', updated='2026-10-26'),
+    dict(id='s-iat-mock', role='student', group='EduPulse', title='EduPulse-IAT Mock Test Centre', summary='IISER Aptitude Test mocks, past-paper practice sets, subject sections and solved papers 2021 to 2026.',
+         where=[('EduPulse-IAT', 'iat.home')],
+         steps=['Open "EduPulse-IAT Mock Test Centre". Choose a Full mock (60 questions, 15 per subject, 180 minutes), a past-paper practice set for one year, or a subject section of 15 questions.',
+                'Marking is as in the real IAT: +4 for a right answer, minus 1 for a wrong answer, 0 for a blank. Questions and options are pictures cut from the released papers, with the options shuffled. Pick an answer, then rate your confidence: Guess, Low, Medium or High.',
+                'A timed test submits itself when time is up. Your progress is kept in the browser until you submit. Use the subject buttons at the top to jump between Biology, Chemistry, Mathematics and Physics.',
+                'Submit and open the report: marks, right, wrong and blank by subject, the effect of negative marking, the confidence table, weakest topics, and every question with the key and a worked solution.',
+                '"Solved papers" shows every question of IAT 2021 to 2026, including the ones that cannot be shuffled, with the official answer and a worked solution.',
+                'Mentors see the report of a student they mentor; admins see all.'],
+         tips=['The released papers are answer-key editions in which option (a) is always right, so the tests shuffle the options. A few questions whose figures cannot be shuffled are left out of the tests but appear in the solved papers.'],
+         tiles=['EduPulse-IAT Mock Test Centre'], added='2026-11-01', updated='2026-11-01'),
     dict(id='s-tn10-mock', role='student', group='EduPulse', title='EduPulse-TN Class 10 Mock Test Centre', summary='Tamil Nadu Class 10 (SSLC / Matriculation) Mathematics and Science mocks and unit tests, in English.',
          where=[('EduPulse-TN Class 10', 'pulse_tn10.home')],
          steps=['Open "EduPulse-TN Class 10 Mock Test Centre". Choose a Full-syllabus mock (three each for Mathematics and Science) or a Unit test for one textbook unit (Mathematics units 1-8, Science units 1-22).',

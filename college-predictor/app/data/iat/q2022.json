@@ -1,0 +1,1217 @@
+[
+{
+"year": 2022,
+"sj": "BIO",
+"n": 1,
+"ok": true,
+"stem": [
+"bio01_s.webp"
+],
+"opts": [
+"bio01_o0.webp",
+"bio01_o1.webp",
+"bio01_o2.webp",
+"bio01_o3.webp"
+],
+"full": [],
+"topic": "Plant cell types",
+"diff": "medium",
+"why": "Mature sieve tube element: cytoplasm but no nucleus (i-t). Tracheid: dead, no cytoplasm or nucleus (ii-r). Tapetum: multinucleate (polyploid) cells (iii-s). Synergid: haploid cell made by mitosis in the embryo sac (iv-q). Phloem companion cell and pollen grain do not fit these. So i-t, ii-r, iii-s, iv-q.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 2,
+"ok": true,
+"stem": [
+"bio02_s.webp"
+],
+"opts": [
+"bio02_o0.webp",
+"bio02_o1.webp",
+"bio02_o2.webp",
+"bio02_o3.webp"
+],
+"full": [],
+"topic": "Respiration",
+"diff": "medium",
+"why": "Order of the pathway: glycolysis step DHAP to glyceraldehyde-3-phosphate (ii), then link reaction pyruvate to acetyl CoA (i), then Krebs cycle entry oxaloacetate to citrate (iii), then later cycle step fumarate to malate (iv). Sequence: ii; i; iii; iv.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 3,
+"ok": true,
+"stem": [
+"bio03_s.webp"
+],
+"opts": [
+"bio03_o0.webp",
+"bio03_o1.webp",
+"bio03_o2.webp",
+"bio03_o3.webp"
+],
+"full": [],
+"topic": "Plant genetics",
+"diff": "medium",
+"why": "The seed coat is maternal (2n) tissue, so seed colour follows the female parent: brown (ww). The embryo gets w from the ovule and W from the pollen, so it is Ww. Answer: brown seeds with a Ww embryo.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 4,
+"ok": true,
+"stem": [
+"bio04_s.webp"
+],
+"opts": [
+"bio04_o0.webp",
+"bio04_o1.webp",
+"bio04_o2.webp",
+"bio04_o3.webp"
+],
+"full": [],
+"topic": "Viruses",
+"diff": "easy",
+"why": "SARS-CoV-2 is a coronavirus with a positive-sense, single-stranded RNA genome (about 30 kb), not DNA and not double-stranded.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 5,
+"ok": true,
+"stem": [
+"bio05_s.webp"
+],
+"opts": [
+"bio05_o0.webp",
+"bio05_o1.webp",
+"bio05_o2.webp",
+"bio05_o3.webp"
+],
+"full": [],
+"topic": "Body fluids and circulation",
+"diff": "easy",
+"why": "Lymph is tissue fluid that enters lymph capillaries and is returned to the blood through lymphatic ducts into the subclavian veins. So the statement that it is never put back into circulation is false. The others are true (colourless, plasma-like minerals, lacteals absorb fats).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 6,
+"ok": true,
+"stem": [
+"bio06_s.webp"
+],
+"opts": [
+"bio06_o0.webp",
+"bio06_o1.webp",
+"bio06_o2.webp",
+"bio06_o3.webp"
+],
+"full": [],
+"topic": "Neural control, reflex arc",
+"diff": "easy",
+"why": "In the spinal cord the grey matter (butterfly-shaped, central) holds cell bodies and interneurons that link sensory and motor neurons in a reflex. White matter has myelinated tracts; the dorsal root ganglion has sensory cell bodies.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 7,
+"ok": true,
+"stem": [
+"bio07_s.webp"
+],
+"opts": [
+"bio07_o0.webp",
+"bio07_o1.webp",
+"bio07_o2.webp",
+"bio07_o3.webp"
+],
+"full": [],
+"topic": "Osmoregulation",
+"diff": "medium",
+"why": "Osmoreceptors detect raised osmolarity or low volume and stimulate the hypothalamus, which makes ADH released from the posterior pituitary. ADH increases water reabsorption in the distal tubule and collecting duct. ANF and renin act through other pathways.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 8,
+"ok": true,
+"stem": [
+"bio08_s.webp"
+],
+"opts": [
+"bio08_o0.webp",
+"bio08_o1.webp",
+"bio08_o2.webp",
+"bio08_o3.webp"
+],
+"full": [],
+"topic": "Genetics, pleiotropy",
+"diff": "easy",
+"why": "One gene (one mutation) affecting several unrelated traits (breathing, blood pressure, fertility) is pleiotropy. Incomplete dominance and linkage involve alleles or different genes, not one gene with many effects.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 9,
+"ok": true,
+"stem": [
+"bio09_s.webp"
+],
+"opts": [
+"bio09_o0.webp",
+"bio09_o1.webp",
+"bio09_o2.webp",
+"bio09_o3.webp"
+],
+"full": [],
+"topic": "Mendelian genetics",
+"diff": "medium",
+"why": "Treat each gene separately. QQ x qq gives only Qq, so no offspring can be QQ: probability 0 for that gene. The product probability is 0, so the expected number is 0 of 400.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 10,
+"ok": true,
+"stem": [
+"bio10_s.webp"
+],
+"opts": [
+"bio10_o0.webp",
+"bio10_o1.webp",
+"bio10_o2.webp",
+"bio10_o3.webp"
+],
+"full": [],
+"topic": "Animal kingdom",
+"diff": "easy",
+"why": "Platyhelminthes (flatworms) have three germ layers (triploblastic), no body cavity (acoelomate) and bilateral symmetry. Mollusca and Arthropoda are coelomate; Hemichordata have a coelom as well.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 11,
+"ok": true,
+"stem": [
+"bio11_s.webp"
+],
+"opts": [
+"bio11_o0.webp",
+"bio11_o1.webp",
+"bio11_o2.webp",
+"bio11_o3.webp"
+],
+"full": [],
+"topic": "Ecosystems, productivity",
+"diff": "medium",
+"why": "Net primary productivity per unit area: tropical rainforest (about 2200 g/m2/yr) highest, then coastal zone (about 360), tundra (about 140), desert (about 90). So P > S > Q > R.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 12,
+"ok": true,
+"stem": [
+"bio12_s.webp"
+],
+"opts": [
+"bio12_o0.webp",
+"bio12_o1.webp",
+"bio12_o2.webp",
+"bio12_o3.webp"
+],
+"full": [],
+"topic": "Hardy-Weinberg",
+"diff": "easy",
+"why": "Non-tasters are homozygous recessive: q^2 = 0.09, so q = 0.3 (recessive). p = 1 - 0.3 = 0.7 (dominant). Answer: 0.7 and 0.3.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 13,
+"ok": true,
+"stem": [
+"bio13_s.webp"
+],
+"opts": [
+"bio13_o0.webp",
+"bio13_o1.webp",
+"bio13_o2.webp",
+"bio13_o3.webp"
+],
+"full": [],
+"topic": "PCR and DNA replication",
+"diff": "medium",
+"why": "PCR heating (denaturation) separates both strands completely, so no replication fork exists and each strand is a free template with its own primer. Taq polymerase adds nucleotides only 5 prime to 3 prime, so every new strand is made continuously and no Okazaki fragments form.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 14,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio14_full0.webp"
+],
+"topic": "Chemiosmosis, mitochondria",
+"diff": "medium",
+"why": "The ETC pumps H+ from the matrix (MM) into the intermembrane space (IMS), building a gradient. H+ then flows back from IMS to MM through ATP synthase, and the energy converts ADP to ATP in the matrix. Only diagram A shows pumping up, flow down through synthase and ATP made on the matrix side.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "BIO",
+"n": 15,
+"ok": true,
+"stem": [
+"bio15_s.webp"
+],
+"opts": [
+"bio15_o0.webp",
+"bio15_o1.webp",
+"bio15_o2.webp",
+"bio15_o3.webp"
+],
+"full": [],
+"topic": "Cell division",
+"diff": "easy",
+"why": "X is zero or small at metaphase, when centromeres lie on the equatorial plate. In anaphase sister chromatids separate and move to opposite poles, so the centromere-to-plate distance keeps increasing and is highest in late anaphase.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 1,
+"ok": true,
+"stem": [
+"che01_s.webp"
+],
+"opts": [
+"che01_o0.webp",
+"che01_o1.webp",
+"che01_o2.webp",
+"che01_o3.webp"
+],
+"full": [],
+"topic": "Coordination compounds",
+"diff": "medium",
+"why": "H2O2 is an oxidant here and oxidises Fe(II) to Fe(III), keeping the cyanides: 2K4[Fe(CN)6] + H2O2 -> 2K3[Fe(CN)6] + 2KOH. Products: K3[Fe(CN)6] (ferricyanide) and KOH.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 2,
+"ok": true,
+"stem": [
+"che02_s.webp"
+],
+"opts": [
+"che02_o0.webp",
+"che02_o1.webp",
+"che02_o2.webp",
+"che02_o3.webp"
+],
+"full": [],
+"topic": "Coordination compounds, colour",
+"diff": "medium",
+"why": "A colourless aqua complex has no d-d transition, so the metal ion is d0 or d10. Only (t2g)6(eg)4 is d10 (for example Zn2+). The other options are d3, d8 and d6, which are coloured.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 3,
+"ok": true,
+"stem": [
+"che03_s.webp"
+],
+"opts": [
+"che03_o0.webp",
+"che03_o1.webp",
+"che03_o2.webp",
+"che03_o3.webp"
+],
+"full": [],
+"topic": "Carbon allotropes",
+"diff": "medium",
+"why": "C60 has 12 pentagons and 20 hexagons. Every pentagon is surrounded by five hexagons (no two pentagons share an edge), so pentagons fuse with hexagons only; hexagons fuse with both hexagons and pentagons.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 4,
+"ok": true,
+"stem": [
+"che04_s.webp"
+],
+"opts": [
+"che04_o0.webp",
+"che04_o1.webp",
+"che04_o2.webp",
+"che04_o3.webp"
+],
+"full": [],
+"topic": "Periodic properties, ionisation energy",
+"diff": "medium",
+"why": "Valence electrons are found where IE jumps sharply. X: IE3 = 28.4 then IE4 = 120, so 3 valence electrons. Y: IE4 = 45.1 then IE5 = 166.7, so 4 valence electrons. Answer: 3 and 4.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 5,
+"ok": true,
+"stem": [
+"che05_s.webp"
+],
+"opts": [
+"che05_o0.webp",
+"che05_o1.webp",
+"che05_o2.webp",
+"che05_o3.webp"
+],
+"full": [],
+"topic": "Atomic structure, wave functions",
+"diff": "hard",
+"why": "The plot starts positive at r = 0, crosses zero near r = 2a0, goes negative with a minimum and returns to 0: one radial node, so it is a 2s function. 2s = (1/(4 sqrt(2 pi)))(1/a0)^(3/2)(2 - r/a0)e^(-r/2a0), zero at r = 2a0. 1s has no node; 2p vanishes at r = 0.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 6,
+"ok": true,
+"stem": [
+"che06_s.webp"
+],
+"opts": [
+"che06_o0.webp",
+"che06_o1.webp",
+"che06_o2.webp",
+"che06_o3.webp"
+],
+"full": [],
+"topic": "Aromaticity",
+"diff": "medium",
+"why": "Aromatic needs a planar cyclic ring with 4n+2 pi electrons. M (pyridine, 6 pi), N (pyridinium, 6 pi) and O (pyrrole, N lone pair in the ring, 6 pi) qualify. P has an sp3 NH2+ in the ring, which breaks the conjugation. So M, N and O only.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 7,
+"ok": true,
+"stem": [
+"che07_s.webp"
+],
+"opts": [
+"che07_o0.webp",
+"che07_o1.webp",
+"che07_o2.webp",
+"che07_o3.webp"
+],
+"full": [],
+"topic": "Haloarenes",
+"diff": "easy",
+"why": "An aryl bromide has Br bonded directly to an sp2 carbon of a benzene ring. N (bromobenzene) and P (4-bromophenol) qualify. M is an allylic (cyclopentadienyl) bromide and O is benzyl bromide, with Br on an sp3 carbon. So N and P only.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 8,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che08_full0.webp"
+],
+"topic": "Amines, diazonium salts",
+"diff": "medium",
+"why": "Hofmann bromamide: benzamide + Br2/NaOH gives aniline (X). NaNO2/HCl at 0-5 C gives benzenediazonium chloride (Y). Ethanol reduces the diazonium group, replacing N2+ with H (giving benzene and ethanal). Z = benzene.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 9,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che09_full0.webp"
+],
+"topic": "Aromatic substitution, haloform reaction",
+"diff": "medium",
+"why": "Phenol + NaOH/MeI gives anisole (M). Friedel-Crafts acylation with CH3COCl/AlCl3 goes para (OMe is o,p-directing, para favoured) to 4-methoxyacetophenone (N). NaOCl (haloform) converts the methyl ketone to the sodium 4-methoxybenzoate (O).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 10,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che10_full0.webp"
+],
+"topic": "Electrophilic addition",
+"diff": "medium",
+"why": "HBr adds to the alkene PhCH=CH-CH(CH3)2. H+ goes to the carbon farther from the ring, giving the benzylic carbocation, which is resonance stabilised and preferred over a hydride shift. Br- then attacks it, giving PhCH(Br)CH2CH(CH3)2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 11,
+"ok": true,
+"stem": [
+"che11_s.webp"
+],
+"opts": [
+"che11_o0.webp",
+"che11_o1.webp",
+"che11_o2.webp",
+"che11_o3.webp"
+],
+"full": [],
+"topic": "Electrochemistry",
+"diff": "hard",
+"why": "Nernst: E(Y2+/Y) = 0.40 + (0.0592/2) log 0.001 = 0.40 - 0.089 = 0.311 V. E(X2+/X) = 0.35 V (1 M). The higher reduction potential is deposited first, so X deposits at about 0.35 V, while Y (0.311 V) does not. The deposit is only X.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 12,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che12_full0.webp"
+],
+"topic": "Chemical equilibrium",
+"diff": "medium",
+"why": "Delta n(gas) = 5 - 3 = +2, so Kp = Kc(RT)^2 and Kp/Kc = (RT)^2, proportional to T^2. That is a parabola rising from the origin, the plot in A (not a constant, not decreasing).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 13,
+"ok": true,
+"stem": [
+"che13_s.webp"
+],
+"opts": [
+"che13_o0.webp",
+"che13_o1.webp",
+"che13_o2.webp",
+"che13_o3.webp"
+],
+"full": [],
+"topic": "Gaseous state, dimensions",
+"diff": "medium",
+"why": "In (P + a/V^2)(V - b) = RT, a/V^2 has the dimension of pressure, so a = P V^2; b has the dimension of volume. a/b = P V = energy = ML^2T^-2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 14,
+"ok": true,
+"stem": [
+"che14_s.webp"
+],
+"opts": [
+"che14_o0.webp",
+"che14_o1.webp",
+"che14_o2.webp",
+"che14_o3.webp"
+],
+"full": [],
+"topic": "Colligative properties",
+"diff": "medium",
+"why": "Solvent mass = 20 x 0.88 = 17.6 g = 0.0176 kg. Moles of acid = 2/172 = 0.01163. Molality = 0.6607 mol/kg. Delta Tf = i Kf m, so i = 2/(5 x 0.6607) = 0.605 (below 1, as expected for dimerisation in benzene).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "CHE",
+"n": 15,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che15_full0.webp"
+],
+"topic": "Dipole moments",
+"diff": "hard",
+"why": "Dipole moments: p-difluorobenzene is 0 (vectors cancel); chlorobenzene is about 1.7 D; m-dichlorobenzene about 1.7 D (a little larger than chlorobenzene); o-chlorofluorobenzene about 2.4 D (the two C-X moments reinforce). So the order is 0 < PhCl < m-dichloro < ortho-ClF, the chain in A.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 1,
+"ok": true,
+"stem": [
+"mat01_s.webp"
+],
+"opts": [
+"mat01_o0.webp",
+"mat01_o1.webp",
+"mat01_o2.webp",
+"mat01_o3.webp"
+],
+"full": [],
+"topic": "Probability",
+"diff": "easy",
+"why": "Given black: 26 cards. Favourable: all 13 spades plus black face cards that are not spades (K, Q, J of clubs = 3), so 16. Probability = 16/26 = 8/13.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 2,
+"ok": true,
+"stem": [
+"mat02_s.webp"
+],
+"opts": [
+"mat02_o0.webp",
+"mat02_o1.webp",
+"mat02_o2.webp",
+"mat02_o3.webp"
+],
+"full": [],
+"topic": "Complex numbers",
+"diff": "medium",
+"why": "For w a cube root of unity: w^k + w^-k = 2 if 3 divides k, else w + w^2 = -1. Among k = 1..100, 33 multiples of 3 and 67 others. Product = 2^33 x (-1)^67 = -2^33.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 3,
+"ok": true,
+"stem": [
+"mat03_s.webp"
+],
+"opts": [
+"mat03_o0.webp",
+"mat03_o1.webp",
+"mat03_o2.webp",
+"mat03_o3.webp"
+],
+"full": [],
+"topic": "Polynomials, derivatives",
+"diff": "medium",
+"why": "f(0) = 0 gives a0 = 0; f'(0) = 1 gives a1 = 1; f''(0) = 4 gives a2 = 2. The identity f''' = f^(5) forces the highest-degree terms to vanish, so f''' = 0 and f = x + 2x^2. f(5) = 5 + 50 = 55.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 4,
+"ok": true,
+"stem": [
+"mat04_s.webp"
+],
+"opts": [
+"mat04_o0.webp",
+"mat04_o1.webp",
+"mat04_o2.webp",
+"mat04_o3.webp"
+],
+"full": [],
+"topic": "Vectors",
+"diff": "easy",
+"why": "Every unit vector in the plane is (cos t, sin t) for some real t, a different vector for each t in [0, 2 pi). So the set is infinite.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 5,
+"ok": true,
+"stem": [
+"mat05_s.webp"
+],
+"opts": [
+"mat05_o0.webp",
+"mat05_o1.webp",
+"mat05_o2.webp",
+"mat05_o3.webp"
+],
+"full": [],
+"topic": "Growth, percentages",
+"diff": "easy",
+"why": "Compound growth over 15 years (2020 to 2035): 14.9 x (1.01)^15. 1.01^15 = 1.16097, so T = 14.9 x 1.16097 = 17.298 C.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 6,
+"ok": true,
+"stem": [
+"mat06_s.webp"
+],
+"opts": [
+"mat06_o0.webp",
+"mat06_o1.webp",
+"mat06_o2.webp",
+"mat06_o3.webp"
+],
+"full": [],
+"topic": "Relations",
+"diff": "medium",
+"why": "AB = AB gives reflexive; AB = BA implies BA = AB gives symmetric. Not transitive: the identity commutes with every matrix, but A = [[1,0],[0,0]] and B = [[0,1],[0,0]] both commute with I and do not commute with each other. So reflexive and symmetric but not transitive.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 7,
+"ok": true,
+"stem": [
+"mat07_s.webp"
+],
+"opts": [
+"mat07_o0.webp",
+"mat07_o1.webp",
+"mat07_o2.webp",
+"mat07_o3.webp"
+],
+"full": [],
+"topic": "Definite integrals, area",
+"diff": "medium",
+"why": "Area between y = x^n and y = x^(n+1) on [0,1]: An = 1/(n+1) - 1/(n+2) = 1/((n+1)(n+2)). This decreases with n, so the maximum is at n = 1: 1/2 - 1/3 = 1/6.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 8,
+"ok": true,
+"stem": [
+"mat08_s.webp"
+],
+"opts": [
+"mat08_o0.webp",
+"mat08_o1.webp",
+"mat08_o2.webp",
+"mat08_o3.webp"
+],
+"full": [],
+"topic": "Calculus, antiderivative",
+"diff": "easy",
+"why": "The integral of f over [0,1] equals F(1) - F(0) = 1. With F(0) = 1, F(1) = 2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 9,
+"ok": true,
+"stem": [
+"mat09_s.webp"
+],
+"opts": [
+"mat09_o0.webp",
+"mat09_o1.webp",
+"mat09_o2.webp",
+"mat09_o3.webp"
+],
+"full": [],
+"topic": "Maxima and minima",
+"diff": "hard",
+"why": "g'(x) = f'(2a^2 x - a x^2)(2a^2 - 2ax) = 2a(a - x) f'(...), and f' > 0. For a > 0, g' is positive for x < a and negative for x > a, so g has a local maximum at x = a. (For a < 0 the sign flips: a minimum.)",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 10,
+"ok": true,
+"stem": [
+"mat10_s.webp"
+],
+"opts": [
+"mat10_o0.webp",
+"mat10_o1.webp",
+"mat10_o2.webp",
+"mat10_o3.webp"
+],
+"full": [],
+"topic": "Determinants",
+"diff": "medium",
+"why": "Expand det A along column 2, which has only one nonzero entry (1 in position (2,2)): det A = 1 x (cos^2 t + sin^2 t) = 1. Then det(A^k) = (det A)^k = 1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 11,
+"ok": true,
+"stem": [
+"mat11_s.webp"
+],
+"opts": [
+"mat11_o0.webp",
+"mat11_o1.webp",
+"mat11_o2.webp",
+"mat11_o3.webp"
+],
+"full": [],
+"topic": "Vectors, determinants",
+"diff": "medium",
+"why": "A nonzero vector perpendicular to a, b and c exists only if they are coplanar: det [[1,x,2],[1,2,x],[2,1,3]] = 0. Expanding: (6 - x) - x(3 - 2x) + 2(1 - 4) = 2x^2 - 4x = 0, so x = 0 or 2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 12,
+"ok": true,
+"stem": [
+"mat12_s.webp"
+],
+"opts": [
+"mat12_o0.webp",
+"mat12_o1.webp",
+"mat12_o2.webp",
+"mat12_o3.webp"
+],
+"full": [],
+"topic": "Coordinate geometry, circles",
+"diff": "medium",
+"why": "Angle POQ at the centre = 45 degrees. The radii OP and OQ are perpendicular to the tangents, so quadrilateral OPRQ has two right angles at P and Q. Then angle PRQ = 180 - 45 = 135 degrees = 3 pi/4.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 13,
+"ok": true,
+"stem": [
+"mat13_s.webp"
+],
+"opts": [
+"mat13_o0.webp",
+"mat13_o1.webp",
+"mat13_o2.webp",
+"mat13_o3.webp"
+],
+"full": [],
+"topic": "Monotonicity",
+"diff": "easy",
+"why": "f'(x) = 6x^2 - 30x + 36 = 6(x - 2)(x - 3). f' > 0 for x < 2 and x > 3, f' < 0 on (2,3). So f is increasing on (0,2); it is also increasing on (-3,0) and (3, infinity), and decreasing on (2,3).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 14,
+"ok": true,
+"stem": [
+"mat14_s.webp"
+],
+"opts": [
+"mat14_o0.webp",
+"mat14_o1.webp",
+"mat14_o2.webp",
+"mat14_o3.webp"
+],
+"full": [],
+"topic": "Definite integrals, floor function",
+"diff": "hard",
+"why": "On [k, k+1], [x] = k, so the integral is the sum of k ln((k+1)/k) for k = 1..99. This telescopes to 99 ln 100 - ln(99!) = log(100^99 / 99!).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "MAT",
+"n": 15,
+"ok": true,
+"stem": [
+"mat15_s.webp"
+],
+"opts": [
+"mat15_o0.webp",
+"mat15_o1.webp",
+"mat15_o2.webp",
+"mat15_o3.webp"
+],
+"full": [],
+"topic": "Differential equations",
+"diff": "medium",
+"why": "y = (alpha x + beta)e^x is the general solution with a repeated characteristic root m = 1, i.e. (m - 1)^2 = m^2 - 2m + 1 = 0. The equation is y'' - 2y' + y = 0. Check: y' = y + alpha e^x, y'' = y' + alpha e^x, so y'' - 2y' + y = 0.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 1,
+"ok": true,
+"stem": [
+"phy01_s.webp"
+],
+"opts": [
+"phy01_o0.webp",
+"phy01_o1.webp",
+"phy01_o2.webp",
+"phy01_o3.webp"
+],
+"full": [],
+"topic": "Kinematics",
+"diff": "medium",
+"why": "dv/dt = alpha v gives v = v1 exp(alpha(t - t1)). Distance from t1 to t: (v1/alpha)(exp(alpha(t - t1)) - 1). So S13/S12 = (exp(alpha(t3 - t1)) - 1)/(exp(alpha(t2 - t1)) - 1).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 2,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy02_full0.webp"
+],
+"topic": "Circular motion in a vertical plane",
+"diff": "medium",
+"why": "Tension is minimum at the top: T + mg = m v_top^2/R with T = 2mg gives v_top^2 = 3gR. Speed is greatest at the bottom: v^2 = v_top^2 + 4gR = 7gR. Maximum speed = sqrt(7gR).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 3,
+"ok": true,
+"stem": [
+"phy03_s.webp"
+],
+"opts": [
+"phy03_o0.webp",
+"phy03_o1.webp",
+"phy03_o2.webp",
+"phy03_o3.webp"
+],
+"full": [],
+"topic": "Friction, circular motion",
+"diff": "hard",
+"why": "Exact energy equation (N = mg cos + mv^2/R) gives the stopping angle from 6mu(cos th - e^(-2 mu th)) + (2 - 4mu^2) sin th = 0, which is transcendental, so no option is exact. Only mu = cot(th/2) has the right limit (mu to 0 gives th to pi); cot(th), tan(th) and tan(th/2) fail it.",
+"agree": false,
+"note": "Exact dynamics is transcendental: mu = 1 stops at about 1.16 rad, while cot(th/2) = 1 gives pi/2. For small mu the exact th is about pi - 6 mu, option A gives pi - 2 mu. A is the only option with the right limit, so it is the best fit, but it is not exactly correct."
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 4,
+"ok": true,
+"stem": [
+"phy04_s.webp"
+],
+"opts": [
+"phy04_o0.webp",
+"phy04_o1.webp",
+"phy04_o2.webp",
+"phy04_o3.webp"
+],
+"full": [],
+"topic": "SHM with a wall",
+"diff": "hard",
+"why": "Amplitude d/2 < d: the block never reaches the wall, so T = 2 pi sqrt(m/k). Amplitude 2d: the block meets the wall at x = +d, where x = -2d cos(wt) = d gives wt = 2 pi/3. The elastic bounce reverses it, so the full cycle is 2 x (2 pi/3)/w = (2/3)T. T0/T = 2/3.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 5,
+"ok": true,
+"stem": [
+"phy05_s.webp"
+],
+"opts": [
+"phy05_o0.webp",
+"phy05_o1.webp",
+"phy05_o2.webp",
+"phy05_o3.webp"
+],
+"full": [],
+"topic": "Fluid statics, buoyancy",
+"diff": "easy",
+"why": "The fully submerged block displaces volume L^3, so the buoyant force on it is rho g L^3. By Newton's third law the block pushes down on the liquid with the same force, which the scale registers in addition to W. New reading: W + rho g L^3.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 6,
+"ok": true,
+"stem": [
+"phy06_s.webp"
+],
+"opts": [
+"phy06_o0.webp",
+"phy06_o1.webp",
+"phy06_o2.webp",
+"phy06_o3.webp"
+],
+"full": [],
+"topic": "Thermodynamics, ideal gas",
+"diff": "medium",
+"why": "Adiabatic compression of a monoatomic gas (gamma = 5/3) to V/8: P1 = P x 8^(5/3) = 32P. Then isothermal expansion back to V multiplies the volume by 8, so the pressure falls by 8: 32P/8 = 4P.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 7,
+"ok": true,
+"stem": [
+"phy07_s.webp"
+],
+"opts": [
+"phy07_o0.webp",
+"phy07_o1.webp",
+"phy07_o2.webp",
+"phy07_o3.webp"
+],
+"full": [],
+"topic": "Waves on a string, electrostatics",
+"diff": "hard",
+"why": "The charges (q and -q) are L/2 apart (figure), so the tension equals the Coulomb attraction T = k q^2/(L/2)^2 = 4 k q^2/L^2. The fundamental of the string over the pulleys, length L: f = (1/2L) sqrt(T/mu) is proportional to (1/L)(1/L) = L^-2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 8,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy08_full0.webp"
+],
+"topic": "Electrostatics, potential",
+"diff": "medium",
+"why": "Outside both shells the net charge is zero, so V = 0. Between shells V = kQ(1/r - 1/r2), falling to 0 at r2. Inside r1 the field is zero, so V is constant and equals kQ(1/r1 - 1/r2) (positive, continuous at r1). Graph A shows this.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 9,
+"ok": true,
+"stem": [
+"phy09_s.webp"
+],
+"opts": [
+"phy09_o0.webp",
+"phy09_o1.webp",
+"phy09_o2.webp",
+"phy09_o3.webp"
+],
+"full": [],
+"topic": "Electrostatics, Gauss law",
+"diff": "hard",
+"why": "Superposition on the equatorial plane at distance x > a: long cylinder E1 = rho a^2/(2 eps0 x); the carved sphere acts as charge -rho: E2 = rho a^3/(3 eps0 x^2). E = rho/eps0 (a^2/(2x) - a^3/(3x^2)). dE/dx = 0 gives -a^2/(2x^2) + 2a^3/(3x^3) = 0, so x = 4a/3.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 10,
+"ok": true,
+"stem": [
+"phy10_s.webp"
+],
+"opts": [
+"phy10_o0.webp",
+"phy10_o1.webp",
+"phy10_o2.webp",
+"phy10_o3.webp"
+],
+"full": [],
+"topic": "RC and RL circuits",
+"diff": "medium",
+"why": "Resistor: current jumps to V/R and stays constant (a1). Capacitor: it starts uncharged and acts as a short, so current starts at V/R and decays to zero (a2). Inductor: it opposes the change, so current rises from zero to V/R (a3). Option A.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 11,
+"ok": true,
+"stem": [
+"phy11_s.webp"
+],
+"opts": [
+"phy11_o0.webp",
+"phy11_o1.webp",
+"phy11_o2.webp",
+"phy11_o3.webp"
+],
+"full": [],
+"topic": "Circuits, capacitors",
+"diff": "hard",
+"why": "In steady state no current flows through capacitors. The only path is A-B-C-G(=H)-D through 4 resistors: I = 5/4 mA. Branch H-E-F-G forms a loop with both ends at the same node, so no current. V_B = 5 - 1.25 = 3.75 V; V_F = V_G = 1.25 V. Voltage across the B-F capacitor = 2.5 V; Q = 4 uF x 2.5 V = 10 uC.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 12,
+"ok": true,
+"stem": [
+"phy12_s.webp"
+],
+"opts": [
+"phy12_o0.webp",
+"phy12_o1.webp",
+"phy12_o2.webp",
+"phy12_o3.webp"
+],
+"full": [],
+"topic": "Ray optics, lenses",
+"diff": "medium",
+"why": "For nl > nm the lens is converging. For nl < nm it behaves as a diverging lens: it cannot form a real image and the refracted rays diverge, giving a virtual image on the object side, closer to the lens than O. That is point B, between O and the lens.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 13,
+"ok": true,
+"stem": [
+"phy13_s.webp"
+],
+"opts": [
+"phy13_o0.webp",
+"phy13_o1.webp",
+"phy13_o2.webp",
+"phy13_o3.webp"
+],
+"full": [],
+"topic": "Electrostatics, Gauss law",
+"diff": "medium",
+"why": "The sphere of radius 2a centred on a point of the charged sphere's surface encloses the whole charged sphere (its diameter is 2a). Charge is conserved even if it moves, so Q = (4/3) pi a^3 rho. Gauss: flux = Q/eps0 = 4 pi a^3 rho/(3 eps0).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 14,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy14_full0.webp"
+],
+"topic": "Photoelectric effect",
+"diff": "medium",
+"why": "Threshold frequency depends only on the material, so all intensities start at the same frequency. Above it, the (saturation) photocurrent is proportional to intensity: I3 > I2 > I1 gives the highest line for I3. Graph A shows this.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2022,
+"sj": "PHY",
+"n": 15,
+"ok": true,
+"stem": [
+"phy15_s.webp"
+],
+"opts": [
+"phy15_o0.webp",
+"phy15_o1.webp",
+"phy15_o2.webp",
+"phy15_o3.webp"
+],
+"full": [],
+"topic": "Nuclear physics, energy",
+"diff": "medium",
+"why": "E = 20000 x 4.184e9 = 8.37e13 J. Energy per fission = 207e6 x 1.6e-19 = 3.31e-11 J. Number of atoms = 2.53e24 = 4.2 mol. Mass = 4.2 x 239 g, about 1000 g, so about 1 kg.",
+"agree": true,
+"note": ""
+}
+]

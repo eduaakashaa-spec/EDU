@@ -1,0 +1,1193 @@
+[
+{
+"year": 2026,
+"sj": "BIO",
+"n": 1,
+"ok": true,
+"stem": [
+"bio01_s.webp"
+],
+"opts": [
+"bio01_o0.webp",
+"bio01_o1.webp",
+"bio01_o2.webp",
+"bio01_o3.webp"
+],
+"full": [],
+"topic": "Photosynthesis: proton gradient",
+"diff": "medium",
+"why": "The lumen gains protons from plastoquinone (carries H+ from stroma to lumen) and from water splitting (releases H+ in the lumen). The stroma loses protons when NADP+ is reduced. Together these build the gradient: i, ii and iv. ATP synthase lets protons flow out of the lumen, so it dissipates the gradient: iii is wrong.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 2,
+"ok": true,
+"stem": [
+"bio02_s.webp"
+],
+"opts": [
+"bio02_o0.webp",
+"bio02_o1.webp",
+"bio02_o2.webp",
+"bio02_o3.webp"
+],
+"full": [],
+"topic": "Plant anatomy: vascular arrangement",
+"diff": "medium",
+"why": "Dicot root: radial, open (cambium forms later), diarch to tetrarch = (i). Dicot stem: bundles in a ring, conjoint, open = (ii). Monocot root: radial, closed, polyarch = (iii). Monocot stem: scattered, conjoint, closed = (iv). So P-i, Q-ii, R-iii, S-iv.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 3,
+"ok": true,
+"stem": [
+"bio03_s.webp"
+],
+"opts": [
+"bio03_o0.webp",
+"bio03_o1.webp",
+"bio03_o2.webp",
+"bio03_o3.webp"
+],
+"full": [],
+"topic": "Population interactions",
+"diff": "easy",
+"why": "Alone, P and Q both grow to a plateau. Together, Q grows exactly as it does alone while P rises briefly and then falls towards zero. One species is harmed and the other is unaffected or benefits: Q is a predator of P (it kills and removes P). Mutualism would help both; a commensal would not harm P.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 4,
+"ok": true,
+"stem": [
+"bio04_s.webp"
+],
+"opts": [
+"bio04_o0.webp",
+"bio04_o1.webp",
+"bio04_o2.webp",
+"bio04_o3.webp"
+],
+"full": [],
+"topic": "Recombinant DNA: pBR322 insertional inactivation",
+"diff": "easy",
+"why": "Foreign DNA inserted into the tetracycline gene (tet) breaks it, so the recombinant plasmid no longer gives tetracycline resistance but still has the intact ampicillin gene. Recombinant cells therefore grow on ampicillin but not on tetracycline. Non-recombinant plasmids keep both resistances.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 5,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio05_full0.webp",
+"bio05_full1.webp"
+],
+"topic": "Enzyme kinetics: Km",
+"diff": "easy",
+"why": "Km is the substrate concentration at which V = Vmax/2. Vmax = 16, so V = 8 is needed at [S] = 20. In plot (a) the curve passes through (20, 8). In the other plots V = 8 occurs at [S] of about 5, 40 and 40 respectively, i.e. a different Km.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 6,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio06_full0.webp"
+],
+"topic": "Hormone action",
+"diff": "easy",
+"why": "FSH is a peptide (protein) hormone: it cannot cross the membrane, so it binds a membrane receptor and acts through the second messenger cyclic AMP. Estrogen is a lipid-soluble steroid: it enters the cell, binds an intracellular receptor and the complex regulates gene expression.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 7,
+"ok": true,
+"stem": [
+"bio07_s.webp"
+],
+"opts": [
+"bio07_o0.webp",
+"bio07_o1.webp",
+"bio07_o2.webp",
+"bio07_o3.webp"
+],
+"full": [],
+"topic": "Classification: cell wall",
+"diff": "easy",
+"why": "Mycoplasma is the smallest bacterium and completely lacks a cell wall. If the cell wall alone were the criterion, the only kingdom of wall-less organisms among the choices is animals (plants, fungi and most protists have walls).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 8,
+"ok": true,
+"stem": [
+"bio08_s.webp"
+],
+"opts": [
+"bio08_o0.webp",
+"bio08_o1.webp",
+"bio08_o2.webp",
+"bio08_o3.webp"
+],
+"full": [],
+"topic": "Transcription: coding strand",
+"diff": "medium",
+"why": "The arrow shows transcription going leftwards. RNA is made 5' to 3' leftwards, so the template is read 3' to 5' leftwards, which means the template is the strand with its 3' end at the right: the top strand. The coding strand is the bottom strand, written 5' to 3' (right to left): GTGCTGTAACGGCTTCAC.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 9,
+"ok": true,
+"stem": [
+"bio09_s.webp"
+],
+"opts": [
+"bio09_o0.webp",
+"bio09_o1.webp",
+"bio09_o2.webp",
+"bio09_o3.webp"
+],
+"full": [],
+"topic": "Muscle contraction",
+"diff": "easy",
+"why": "Acetylcholine at the neuromuscular junction triggers an action potential and Ca2+ release into the sarcoplasm. Ca2+ binds troponin, which moves tropomyosin and unmasks the myosin-binding sites on actin. Cross-bridges form and the thin filaments slide, pulling the Z lines inwards and shortening the sarcomere.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 10,
+"ok": true,
+"stem": [
+"bio10_s.webp"
+],
+"opts": [
+"bio10_o0.webp",
+"bio10_o1.webp",
+"bio10_o2.webp",
+"bio10_o3.webp"
+],
+"full": [],
+"topic": "Rh incompatibility",
+"diff": "easy",
+"why": "Erythroblastosis foetalis arises when an Rh-negative mother, sensitised by an Rh-positive first child, makes anti-Rh antibodies that attack a later Rh-positive foetus. Giving anti-Rh antibody to the Rh-negative mother just after delivery of the first Rh-positive child destroys foetal Rh+ cells before she is sensitised.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 11,
+"ok": true,
+"stem": [
+"bio11_s.webp"
+],
+"opts": [
+"bio11_o0.webp",
+"bio11_o1.webp",
+"bio11_o2.webp",
+"bio11_o3.webp"
+],
+"full": [],
+"topic": "lac operon",
+"diff": "medium",
+"why": "Negative regulation needs a regulator gene i (repressor), plus the operator O placed directly next to its promoter P and upstream of the structural genes. Schematics i and iii have P-O immediately before the structural genes (z, y, a in any order). In ii and iv, O is separated from the structural genes by i or lacks the correct promoter-operator arrangement.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 12,
+"ok": true,
+"stem": [
+"bio12_s.webp"
+],
+"opts": [
+"bio12_o0.webp",
+"bio12_o1.webp",
+"bio12_o2.webp",
+"bio12_o3.webp"
+],
+"full": [],
+"topic": "ABO blood group inheritance",
+"diff": "easy",
+"why": "AB x O: children are AO or BO, so phenotype A or B, never AB or O, i.e. never like either parent. A x O (AO) can give A or O. AB x A gives A, AB or B. O x B gives O or B. Only AB x O always produces children unlike both parents.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 13,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"bio13_full0.webp"
+],
+"topic": "RNA interference",
+"diff": "medium",
+"why": "RNAi uses double-stranded RNA, which Dicer cuts into siRNAs that guide silencing of the matching mRNA. Option (a) shows two complementary strands made of A, C, G and U (RNA base U, not T). The single strands and the DNA duplex (with T) are not suitable.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 14,
+"ok": true,
+"stem": [
+"bio14_s.webp"
+],
+"opts": [
+"bio14_o0.webp",
+"bio14_o1.webp",
+"bio14_o2.webp",
+"bio14_o3.webp"
+],
+"full": [],
+"topic": "Pedigree analysis",
+"diff": "medium",
+"why": "Every affected father (squares) has all his daughters affected and all his sons unaffected, which fits an X-linked dominant trait (the father's only X goes to every daughter, his Y to every son). Y-linked would affect all sons; mitochondrial would pass only through mothers; X-linked recessive would show carrier mothers and affected sons.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "BIO",
+"n": 15,
+"ok": true,
+"stem": [
+"bio15_s.webp"
+],
+"opts": [
+"bio15_o0.webp",
+"bio15_o1.webp",
+"bio15_o2.webp",
+"bio15_o3.webp"
+],
+"full": [],
+"topic": "Oogenesis",
+"diff": "easy",
+"why": "Primary oocytes are formed during foetal life; they begin meiosis I and arrest at prophase I (diplotene stage). They stay arrested until puberty, when each cycle one oocyte resumes meiosis. So at birth they are in prophase I.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 1,
+"ok": true,
+"stem": [
+"che01_s.webp"
+],
+"opts": [
+"che01_o0.webp",
+"che01_o1.webp",
+"che01_o2.webp",
+"che01_o3.webp"
+],
+"full": [],
+"topic": "Coordination compounds: magnetic moment",
+"diff": "medium",
+"why": "Unpaired electrons: [Cr(H2O)4(OH)2] is Cr(II), d4, weak-field, high spin: 4 unpaired (mu = sqrt(24) = 4.9 BM). V(III) d2: 2. [Fe(NH3)4(CN)2]+ is Fe(III) d5, strong field low spin: 1. [Co(NH3)4Cl2] is Co(II) d7, high spin: 3. So the Cr complex has the highest moment.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 2,
+"ok": true,
+"stem": [
+"che02_s.webp"
+],
+"opts": [
+"che02_o0.webp",
+"che02_o1.webp",
+"che02_o2.webp",
+"che02_o3.webp"
+],
+"full": [],
+"topic": "Redox: balancing dichromate",
+"diff": "easy",
+"why": "Cr2O7^2- + 14H+ + 6e- -> 2Cr3+ + 7H2O. Check charge: left -2 + 14 - 6 = +6; right 2 x 3 = +6. Two Cr go from +6 to +3, so 6 electrons; oxygen balance needs 7 H2O, hence 14 H+. Protons 14, electrons 6.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 3,
+"ok": true,
+"stem": [
+"che03_s.webp"
+],
+"opts": [
+"che03_o0.webp",
+"che03_o1.webp",
+"che03_o2.webp",
+"che03_o3.webp"
+],
+"full": [],
+"topic": "Molecular orbital theory",
+"diff": "medium",
+"why": "Bond order rises on removing an electron only if the HOMO is antibonding. F2 has HOMO pi*2p (BO 1 -> 1.5 in F2+). N2 (sigma2p), C2 (pi2p) and B2 (pi2p) have bonding HOMOs, so removing an electron lowers their bond order.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 4,
+"ok": true,
+"stem": [
+"che04_s.webp"
+],
+"opts": [
+"che04_o0.webp",
+"che04_o1.webp",
+"che04_o2.webp",
+"che04_o3.webp"
+],
+"full": [],
+"topic": "Metal-ligand pi bonding",
+"diff": "hard",
+"why": "In Mn2(CO)10 the metal d electrons back-donate into the empty pi* orbitals of CO: metal orbital to ligand orbital. In MnO4- (Mn in +7, d0) the filled oxygen p orbitals donate into empty Mn d orbitals: ligand orbital to metal orbital.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 5,
+"ok": true,
+"stem": [
+"che05_s.webp"
+],
+"opts": [
+"che05_o0.webp",
+"che05_o1.webp",
+"che05_o2.webp",
+"che05_o3.webp"
+],
+"full": [],
+"topic": "Chemical bonding: bond energy",
+"diff": "medium",
+"why": "C=S is stronger than C=Te: S is smaller, so 2p-3p overlap is better than 2p-5p. Cl-Cl (about 243 kJ/mol) is stronger than F-F (about 159 kJ/mol) because the very short F-F bond has large lone-pair repulsion. So C=S > C=Te and Cl-Cl > F-F.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 6,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che06_full0.webp"
+],
+"topic": "SN1 reaction",
+"diff": "medium",
+"why": "tert-Butyl bromide with OH- is SN1: rate = k[t-BuBr], the slow step is ionisation, and [OH-] does not matter, so (b), (c), (d) are true. Adding water makes the solvent more polar and stabilises the carbocation and bromide, so the rate increases, not decreases. Statement (a) is incorrect.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 7,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che07_full0.webp"
+],
+"topic": "Stereochemistry: chirality",
+"diff": "hard",
+"why": "In the 1,3-dioxane ring, C2 and C5 lie on a possible mirror plane. In (a) the methyls on C4 and C6 are on opposite faces (one wedge, one hash), so no mirror plane exists and C4/C6 are not equivalent mirror images: the molecule is chiral. In (b) and (c) C4 and C6 carry same-face groups (or none), giving a meso, achiral molecule.",
+"agree": true,
+"note": "Judged from a small drawing; chirality assessed by whether the two ring substituents flanking C2 sit on opposite faces."
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 8,
+"ok": true,
+"stem": [
+"che08_s.webp"
+],
+"opts": [
+"che08_o0.webp",
+"che08_o1.webp",
+"che08_o2.webp",
+"che08_o3.webp"
+],
+"full": [],
+"topic": "Chromatography: Rf and polarity",
+"diff": "easy",
+"why": "Rf = distance moved by spot / distance moved by solvent front. A: 3.75/5 = 0.75. B: 1.25/5 = 0.25. On polar silica gel the more polar compound is held more strongly and moves less, so B is more polar than A, and A has Rf = 0.75.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 9,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"che09_full0.webp"
+],
+"topic": "Cannizzaro reaction (intramolecular)",
+"diff": "hard",
+"why": "Phthalaldehyde with conc. NaOH undergoes an intramolecular Cannizzaro reaction: one CHO is oxidised to COONa and hydride (H or D) from it reduces the other CHO to CH2OH. Either way the product is the CHD-OH carboxylate (X). Excess HCl gives the hydroxy acid, which lactonises to the phthalide with a CHD in the ring (P).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 10,
+"ok": true,
+"stem": [
+"che10_s.webp"
+],
+"opts": [
+"che10_o0.webp",
+"che10_o1.webp",
+"che10_o2.webp",
+"che10_o3.webp"
+],
+"full": [],
+"topic": "Basicity of amines",
+"diff": "medium",
+"why": "P (benzylamine, pKa of conjugate acid about 9.3) is an alkylamine, far more basic than the anilines, so it has the lowest pKb. Among N-aryl amines, methyl groups increase basicity: N,N-dimethylaniline (R, pKb about 8.9) is more basic than N-methylaniline (Q, about 9.2), which is more basic than aniline (S, about 9.4). Order of pKb: P < R < Q < S.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 11,
+"ok": true,
+"stem": [
+"che11_s.webp"
+],
+"opts": [
+"che11_o0.webp",
+"che11_o1.webp",
+"che11_o2.webp",
+"che11_o3.webp"
+],
+"full": [],
+"topic": "Solutions: molarity",
+"diff": "easy",
+"why": "100 mL of 1.0 M = 0.10 mol, diluted to 1.0 L = 0.10 M. Half discarded: 0.5 L holds 0.05 mol. Add 0.100 L of 0.5 M = 0.05 mol. Total 0.10 mol in 0.60 L = 0.167 M, about 0.17 M.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 12,
+"ok": true,
+"stem": [
+"che12_s.webp"
+],
+"opts": [
+"che12_o0.webp",
+"che12_o1.webp",
+"che12_o2.webp",
+"che12_o3.webp"
+],
+"full": [],
+"topic": "Thermodynamics: ideal gas processes",
+"diff": "hard",
+"why": "The isotherm keeps T fixed while P falls; the adiabat then lowers both P and T, more steeply. (i) P-V: isotherm then steeper adiabat: correct. (iii) P-T: vertical line, then P and T both falling: correct. (ii) shows T rising during the adiabat, and (iv) is not a proper P-1/V sketch of an expansion, so only (i) and (iii).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 13,
+"ok": true,
+"stem": [
+"che13_s.webp"
+],
+"opts": [
+"che13_o0.webp",
+"che13_o1.webp",
+"che13_o2.webp",
+"che13_o3.webp"
+],
+"full": [],
+"topic": "Bohr model",
+"diff": "easy",
+"why": "Bohr velocity v is proportional to Z/n. Be3+ (Z = 4), n = 4: Z/n = 1. He+ (Z = 2), n = 2: Z/n = 1. The velocities have the same value, so the ratio is 1:1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 14,
+"ok": true,
+"stem": [
+"che14_s.webp"
+],
+"opts": [
+"che14_o0.webp",
+"che14_o1.webp",
+"che14_o2.webp",
+"che14_o3.webp"
+],
+"full": [],
+"topic": "Solutions: Raoult's law deviations",
+"diff": "easy",
+"why": "If X-Y attractions are stronger than X-X and Y-Y, molecules escape less readily: negative deviation from Raoult's law. For an ideal equimolar solution ptotal = (p0X + p0Y)/2; with negative deviation the real vapour pressure is lower, so ptotal < (p0X + p0Y)/2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "CHE",
+"n": 15,
+"ok": true,
+"stem": [
+"che15_s.webp"
+],
+"opts": [
+"che15_o0.webp",
+"che15_o1.webp",
+"che15_o2.webp",
+"che15_o3.webp"
+],
+"full": [],
+"topic": "Chemical kinetics: Arrhenius equation",
+"diff": "hard",
+"why": "First order: k2 = 0.693/152 = 4.56e-3 s^-1. k2/k1 = 4.56e-3/5.0e-5 = 91.2, ln = 4.513. Ea/R = 191470/8.314 = 23030 K. 1/T2 = 1/600 - 4.513/23030 = 1.6667e-3 - 1.960e-4 = 1.4707e-3, so T2 = 680 K.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 1,
+"ok": true,
+"stem": [
+"mat01_s.webp"
+],
+"opts": [
+"mat01_o0.webp",
+"mat01_o1.webp",
+"mat01_o2.webp",
+"mat01_o3.webp"
+],
+"full": [],
+"topic": "Polynomials",
+"diff": "easy",
+"why": "p(1) = p(-1) = 0 means p(x) = a(x - 1)(x + 1) = a(x^2 - 1) for a quadratic. There is no x term, so its coefficient is 0.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 2,
+"ok": true,
+"stem": [
+"mat02_s.webp"
+],
+"opts": [
+"mat02_o0.webp",
+"mat02_o1.webp",
+"mat02_o2.webp",
+"mat02_o3.webp"
+],
+"full": [],
+"topic": "Complex numbers: roots of unity",
+"diff": "medium",
+"why": "A: exp(2 n pi i/5) takes only the five fifth roots of unity, so A is finite. B: exp(2n i/5) has angle 2n/5 radians; since pi is irrational, 2n/5 is never congruent to another 2m/5 mod 2 pi for n different from m, so all points are distinct and B is infinite.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 3,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"mat03_full0.webp"
+],
+"topic": "Vectors: collinearity",
+"diff": "easy",
+"why": "AB = B - A = (-4, 1, -3). BC = C - B = (-4, 1, -3). So AB = BC: same direction and sharing point B, hence A, B, C are collinear. (Then AB x BC = 0 and no pair is perpendicular, so (c) and (d) fail; (b) fails since AB + 3BC = 4AB is parallel to AC.)",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 4,
+"ok": true,
+"stem": [
+"mat04_s.webp"
+],
+"opts": [
+"mat04_o0.webp",
+"mat04_o1.webp",
+"mat04_o2.webp",
+"mat04_o3.webp"
+],
+"full": [],
+"topic": "3D geometry: angle between lines",
+"diff": "easy",
+"why": "Direction of l1: (3-1, 1-1, 3-1) = (2, 0, 2). Direction of l2: (2, -2, 4). Dot product = 4 + 0 + 8 = 12. |l1| = 2 sqrt(2), |l2| = sqrt(24). cos(theta) = 12/(2 sqrt(2) x 2 sqrt(6)) = 3/sqrt(12) = sqrt(3)/2, so the angle is 30 degrees.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 5,
+"ok": true,
+"stem": [
+"mat05_s.webp"
+],
+"opts": [
+"mat05_o0.webp",
+"mat05_o1.webp",
+"mat05_o2.webp",
+"mat05_o3.webp"
+],
+"full": [],
+"topic": "Counting: functions",
+"diff": "medium",
+"why": "Choose distinct f(1),...,f(l): r(r-1)...(r-l+1) ways. Each of the remaining r - l elements can map anywhere: r^(r-l) ways. Total = r^(r-l) x r(r-1)...(r-l+1) = r^(r-l+1)(r-1)(r-2)...(r-l+1), which is option (a).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 6,
+"ok": true,
+"stem": [
+"mat06_s.webp"
+],
+"opts": [
+"mat06_o0.webp",
+"mat06_o1.webp",
+"mat06_o2.webp",
+"mat06_o3.webp"
+],
+"full": [],
+"topic": "Relations",
+"diff": "easy",
+"why": "Every circle intersects itself: reflexive. If C1 meets C2 then C2 meets C1: symmetric. Transitivity fails: C1 meets C2 and C2 meets C3 does not force C1 to meet C3 (C1 and C3 can be far apart). So R is reflexive and symmetric but not transitive.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 7,
+"ok": true,
+"stem": [
+"mat07_s.webp"
+],
+"opts": [
+"mat07_o0.webp",
+"mat07_o1.webp",
+"mat07_o2.webp",
+"mat07_o3.webp"
+],
+"full": [],
+"topic": "Definite integral with min",
+"diff": "medium",
+"why": "(1 - x) - (1 - x^3) = x^3 - x. It is positive on (-1,0) and (1,2), negative on (0,1). So min = 1 - x^3 on [-1,0] and [1,2], and 1 - x on [0,1]. Integrals: 5/4 + 1/2 + (-11/4) = -1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 8,
+"ok": true,
+"stem": [
+"mat08_s.webp"
+],
+"opts": [
+"mat08_o0.webp",
+"mat08_o1.webp",
+"mat08_o2.webp",
+"mat08_o3.webp"
+],
+"full": [],
+"topic": "Statistics: mean deviation",
+"diff": "easy",
+"why": "Adding a constant k to every score shifts the mean and median by k, so each deviation from them is unchanged. Hence the mean deviation about the mean is unchanged (and so are the variance and the mean deviation about the median).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 9,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"mat09_full0.webp"
+],
+"topic": "Trigonometric functions",
+"diff": "hard",
+"why": "f(x) = sin(12x) sin(2x). (b): for 0 < x < pi/48, 12x < pi/4, both sines positive: true. (c): f(x + pi/2) = sin(12x) x (-sin 2x) = -f(x): true. (d): sin(pi) = 0: true. (a): put x = 3pi/2 + t: f = -sin(12t) sin(2t) < 0 for small t > 0 and decreasing, so f is not increasing on the whole interval. (a) is NOT true.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 10,
+"ok": true,
+"stem": [
+"mat10_s.webp"
+],
+"opts": [
+"mat10_o0.webp",
+"mat10_o1.webp",
+"mat10_o2.webp",
+"mat10_o3.webp"
+],
+"full": [],
+"topic": "Continuity",
+"diff": "medium",
+"why": "At x = -1: -a(-1) - b = 5(-1) + 1 gives a - b = -4. At x = 1: 6 = a^2 + 3b. Substitute b = a + 4: a^2 + 3a + 12 = 6, i.e. a^2 + 3a + 6 = 0, discriminant 9 - 24 < 0. No real solutions, so there are 0 pairs.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 11,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"mat11_full0.webp"
+],
+"topic": "Matrices: Fibonacci matrix",
+"diff": "medium",
+"why": "A1 = [[1,1],[1,0]] and A_n = A1^n (Fibonacci matrix). Since A1^2 = A1 + I, multiplying by A1^(m-2) gives A1^m = A1^(m-1) + A1^(m-2): (a) true. det(A_m) = (-1)^m, not always -1, so (b) fails. (c) and (d) would require A^m - A^(m-1) = -I, which is false.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 12,
+"ok": true,
+"stem": [
+"mat12_s.webp"
+],
+"opts": [
+"mat12_o0.webp",
+"mat12_o1.webp",
+"mat12_o2.webp",
+"mat12_o3.webp"
+],
+"full": [],
+"topic": "Geometric progression",
+"diff": "easy",
+"why": "With ratio r, a(n+2) = r^2 a(n) and a(n+1) = r a(n), so r^2 - 2 = r, i.e. r^2 - r - 2 = 0, so r = 2 or -1. Terms are positive integers, so r = 2. The terms are 3, 6, 12, 24, 48 and the sum is 3(2^5 - 1) = 93.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 13,
+"ok": true,
+"stem": [
+"mat13_s.webp"
+],
+"opts": [
+"mat13_o0.webp",
+"mat13_o1.webp",
+"mat13_o2.webp",
+"mat13_o3.webp"
+],
+"full": [],
+"topic": "Number theory: remainders",
+"diff": "hard",
+"why": "n = 20^26 is even and a multiple of 100. 49^2 = 2401 = 1 mod 100, so 49^n = 1. 41^k = (1 + 40)^k = 1 + 40k mod 100, so 41^n = 1 + 40n = 1 mod 100 (40n is a multiple of 100). 10n = 0 mod 100. Sum = 1 + 1 + 0 = 2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 14,
+"ok": true,
+"stem": [
+"mat14_s.webp"
+],
+"opts": [
+"mat14_o0.webp",
+"mat14_o1.webp",
+"mat14_o2.webp",
+"mat14_o3.webp"
+],
+"full": [],
+"topic": "Probability: Bayes' theorem",
+"diff": "medium",
+"why": "B1 red: 3/7, then B2 has 7 red of 11, P(red) = 7/11. B1 black: 4/7, then B2 has 3 red of 10, P(red) = 3/10. P(B2 red) = (3/7)(7/11) + (4/7)(3/10) = 3/11 + 6/35 = 171/385. Required probability = (3/11)/(171/385) = 105/171 = 35/57.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "MAT",
+"n": 15,
+"ok": true,
+"stem": [
+"mat15_s.webp"
+],
+"opts": [
+"mat15_o0.webp",
+"mat15_o1.webp",
+"mat15_o2.webp",
+"mat15_o3.webp"
+],
+"full": [],
+"topic": "Differentiability",
+"diff": "hard",
+"why": "Slopes of |x-2|, 3|x-1| and ||x-2|-1| (kinks at x = 1, 2, 3). Total slope: x<1: -1-3-1 = -5; 1<x<2: -1+3+1 = 3; 2<x<3: 1+3-1 = 3; x>3: 1+3+1 = 5. At x = 2 the slope stays 3, so f is differentiable there. At x = 1 (-5 to 3) and x = 3 (3 to 5) it is not. Answer: 2 points.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 1,
+"ok": true,
+"stem": [
+"phy01_s.webp"
+],
+"opts": [
+"phy01_o0.webp",
+"phy01_o1.webp",
+"phy01_o2.webp",
+"phy01_o3.webp"
+],
+"full": [],
+"topic": "Collisions and oscillations",
+"diff": "hard",
+"why": "Equal masses in an elastic collision exchange velocities. The cube reaches equilibrium with speed v = omega x l, stops, and the sphere leaves at v, bounces off the wall and returns, taking time 2D/v, then hands v back to the cube. T = T0/2 + 2D/(omega l), where T0 is the spring period. Larger l means larger v, so the flight time falls and T decreases.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 2,
+"ok": true,
+"stem": [
+"phy02_s.webp"
+],
+"opts": [
+"phy02_o0.webp",
+"phy02_o1.webp",
+"phy02_o2.webp",
+"phy02_o3.webp"
+],
+"full": [],
+"topic": "Ray optics: mirror and lens",
+"diff": "hard",
+"why": "One lens image comes from the direct object, the other from the mirror's real inverted image. They coincide only if both objects are the same distance from the lens: the mirror image must lie at the object position, so object at the centre of curvature, u = 2f = 20 cm (v = u from 1/u + 1/v = 1/10). Lens distance 30 cm > 5 cm: real.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 3,
+"ok": true,
+"stem": [
+"phy03_s.webp"
+],
+"opts": [
+"phy03_o0.webp",
+"phy03_o1.webp",
+"phy03_o2.webp",
+"phy03_o3.webp"
+],
+"full": [],
+"topic": "Simple pendulum in electric field",
+"diff": "medium",
+"why": "T = 2 pi sqrt(L/g_eff), so T decreases only if g_eff increases, i.e. the electric force must have a downward component. If q > 0 and n = +z, the force qE is upward, reducing g_eff and increasing T. So that statement is NOT correct. The other three give a downward force component and reduce T.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 4,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy04_full0.webp"
+],
+"topic": "Motion in electric field",
+"diff": "easy",
+"why": "Acceleration a = qE/m. From rest, d = (1/2) a t^2, so t = sqrt(2 d m/(qE)), proportional to sqrt(m). Hence t1/t2 = sqrt(m1/m2).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 5,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy05_full0.webp"
+],
+"topic": "Elasticity: bulk modulus",
+"diff": "medium",
+"why": "Pressure rise at depth d is rho g d. Bulk modulus: dV/V = -rho g d/B, so V' = V(1 - rho g d/B). Since V is proportional to R^3, R' = R(1 - rho g d/B)^(1/3). Then Delta R/R = 1 - (1 - rho g d/B)^(1/3).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 6,
+"ok": true,
+"stem": [
+"phy06_s.webp"
+],
+"opts": [
+"phy06_o0.webp",
+"phy06_o1.webp",
+"phy06_o2.webp",
+"phy06_o3.webp"
+],
+"full": [],
+"topic": "Gravitation: orbital period",
+"diff": "medium",
+"why": "Kepler: T^2 is proportional to r^3/M. Halving the radius at constant density makes the star's mass M scale as R^3, i.e. M becomes M/8. The orbital distance r halves, so r^3 becomes r^3/8. The ratio r^3/M is unchanged, so T stays the same.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 7,
+"ok": true,
+"stem": [
+"phy07_s.webp"
+],
+"opts": [
+"phy07_o0.webp",
+"phy07_o1.webp",
+"phy07_o2.webp",
+"phy07_o3.webp"
+],
+"full": [],
+"topic": "Angular momentum",
+"diff": "medium",
+"why": "r = (t, 1, 2t^2), v = (1, 0, 4t). L = r x v = (1 x 4t - 2t^2 x 0, -(t x 4t - 2t^2 x 1), t x 0 - 1 x 1) = (4t, -2t^2, -1). Component along (i + j)/sqrt(2) = (4t - 2t^2)/sqrt(2) = (1/sqrt 2)(4t - 2t^2).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 8,
+"ok": true,
+"stem": [
+"phy08_s.webp"
+],
+"opts": [
+"phy08_o0.webp",
+"phy08_o1.webp",
+"phy08_o2.webp",
+"phy08_o3.webp"
+],
+"full": [],
+"topic": "Electromagnetic induction",
+"diff": "hard",
+"why": "As the radius grows, the flux B x pi R^2 through the solenoid loop increases. By Lenz's law an induced current flows to oppose the increase, producing a field opposite to B, so B_in decreases (with negligible resistance flux stays constant: B_in is proportional to 1/R^2). Energy density falls as B^2 while volume grows only as R^2, so U_in is proportional to 1/R^2 and also decreases.",
+"agree": true,
+"note": "Energy conclusion assumes a negligible-resistance circuit (flux conserved)."
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 9,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy09_full0.webp"
+],
+"topic": "Dimensional analysis",
+"diff": "easy",
+"why": "d2x/dt2 has dimensions L T^-2. The term alpha x/|x|^7 has dimensions alpha L^-6, so [alpha] = L^7 T^-2. The term beta dx/dt must equal L T^-2, and dx/dt has L T^-1, so [beta] = T^-1.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 10,
+"ok": true,
+"stem": [
+"phy10_s.webp"
+],
+"opts": [
+"phy10_o0.webp",
+"phy10_o1.webp",
+"phy10_o2.webp",
+"phy10_o3.webp"
+],
+"full": [],
+"topic": "Radiation pressure",
+"diff": "easy",
+"why": "Momentum per second delivered = P/c x (fraction absorbed x 1 + fraction reflected x 2 + fraction transmitted x 0). Reflected = 80%. Force = (P/c)(0.1 x 1 + 0.8 x 2 + 0.1 x 0) = 1.7 P/c.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 11,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy11_full0.webp"
+],
+"topic": "Photoelectric effect and de Broglie wavelength",
+"diff": "hard",
+"why": "Photon: hc/lambda = phi0 + p^2/2m, with p = h/lambda. So phi0 lambda^2 - hc lambda + h^2/2m = 0, giving lambda = (hc/2phi0)[1 +/- sqrt(1 - 2phi0/mc^2)]. The smaller root uses the minus sign; multiplying by (1 + s)/(1 + s) gives lambda = (h/mc)/(1 + sqrt(1 - 2phi0/mc^2)).",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 12,
+"ok": true,
+"stem": [
+"phy12_s.webp"
+],
+"opts": [
+"phy12_o0.webp",
+"phy12_o1.webp",
+"phy12_o2.webp",
+"phy12_o3.webp"
+],
+"full": [],
+"topic": "Nuclei: nuclear radius",
+"diff": "easy",
+"why": "Nuclear radius r = r0 A^(1/3), where A is the mass number. (1,0): A = 1. (4,4): A = 8. So r1/r2 = (1/8)^(1/3) = 1/2.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 13,
+"ok": false,
+"stem": [],
+"opts": [],
+"full": [
+"phy13_full0.webp"
+],
+"topic": "Kinetic theory: partial pressure",
+"diff": "medium",
+"why": "Pressure is proportional to moles at fixed V and T. With molar mass of B = m and of A = 2m: nA = MA/(2m), nB = MB/m. P_total/P_A = (nA + nB)/nA = 1 + nB/nA = 1 + (MB/m)(2m/MA) = 1 + 2 MB/MA.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 14,
+"ok": true,
+"stem": [
+"phy14_s.webp"
+],
+"opts": [
+"phy14_o0.webp",
+"phy14_o1.webp",
+"phy14_o2.webp",
+"phy14_o3.webp"
+],
+"full": [],
+"topic": "Electrostatics: Gauss's law",
+"diff": "hard",
+"why": "Field of a sheet is sigma/(2 eps0). Between the left and middle sheets: sigma/2 - sigma/2 - sigma = -sigma (net leftward, magnitude sigma/eps0). Between the middle and right sheets: sigma/2 + sigma/2 - sigma = 0. So the right hemisphere has zero flux, while the left hemisphere has outward (leftward) flux sigma pi (d/2)^2/eps0 > 0. Hence flux L > flux R.",
+"agree": true,
+"note": ""
+},
+{
+"year": 2026,
+"sj": "PHY",
+"n": 15,
+"ok": true,
+"stem": [
+"phy15_s.webp"
+],
+"opts": [
+"phy15_o0.webp",
+"phy15_o1.webp",
+"phy15_o2.webp",
+"phy15_o3.webp"
+],
+"full": [],
+"topic": "Thermodynamics: Carnot engines",
+"diff": "medium",
+"why": "eta1 = 1 - Q2/Q1 and eta2 = 1 - Q3/Q2. The combination takes Q1 from A and rejects Q3 to C, so net efficiency = 1 - Q3/Q1 = 1 - (Q2/Q1)(Q3/Q2) = 1 - (1 - eta1)(1 - eta2) = eta1 + eta2 - eta1 eta2.",
+"agree": true,
+"note": ""
+}
+]

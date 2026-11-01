@@ -200,3 +200,27 @@ class PulseTn10Result(db.Model):
     finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
     payload_json = db.Column(db.Text)
     user = db.relationship('User', foreign_keys=[user_id])
+
+
+class PulseIatResult(db.Model):
+    """One finished IISER Aptitude Test (IAT) mock or practice test. +4 for a right answer, -1 for a wrong one, 0 for blank (as in the real IAT).
+    `payload_json` keeps one row per question: the chosen option (position shown), right or wrong, the confidence rating (G/L/M/H) and the seconds spent."""
+    __tablename__ = 'pulse_iat_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    mock = db.Column(db.String(16), index=True)                  # F1, Y2026, S-BIO1 ...
+    title = db.Column(db.String(120))
+    score = db.Column(db.Integer, default=0)                     # marks: +4 / -1
+    max_score = db.Column(db.Integer, default=0)
+    right = db.Column(db.Integer, default=0)
+    wrong = db.Column(db.Integer, default=0)
+    blank = db.Column(db.Integer, default=0)
+    rated = db.Column(db.Integer, default=0)
+    sure_wrong = db.Column(db.Integer, default=0)                # wrong answers rated High
+    lucky = db.Column(db.Integer, default=0)                     # right answers rated Guess or Low
+    duration_sec = db.Column(db.Integer)
+    timed = db.Column(db.Boolean, default=True)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
+    user = db.relationship('User', foreign_keys=[user_id])
+
