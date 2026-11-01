@@ -551,6 +551,30 @@ def barch_mentorship():
     return render_template('barch_mentorship.html', p=p, barch=by['barch'], bplan=by['bplan'])
 
 
+@main_bp.route('/iiser-aptitude-test')
+def iat():
+    # public page: IISER Aptitude Test (IAT): pattern, dates, eligibility, institutes, syllabus, past papers; from the IAT 2026 brochure and iiseradmission.in; keep in step with that site
+    from app.data import iat as d
+    from app.data.mentorship_addons import ADDONS
+    addon = next(x for x in ADDONS if x['key'] == 'iiser')
+    return render_template('iat.html', d=d, addon=addon, mock=_iat_mock_ready())
+
+
+def _iat_mock_ready():
+    try:
+        from app.services import iat as svc
+        return bool(svc.papers())
+    except ImportError:
+        return False
+
+
+@main_bp.route('/iat')
+@main_bp.route('/iiser')
+@main_bp.route('/iiser-admission')
+def iat_alias():
+    return redirect(url_for('main.iat'), code=301)
+
+
 @main_bp.route('/jee-2027-roadmap')
 @premium_required
 def jee_2027_roadmap():

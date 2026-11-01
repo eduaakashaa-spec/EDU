@@ -52,6 +52,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-01', 'New public page: IISER Aptitude Test (IAT) guide with pattern, dates, eligibility, fees, the seven IISERs and five other institutions that use the IAT, the syllabus, past papers and an IAT mentorship programme (new Add-on), with a Member Home tile and a Colleges and Exams menu link.'),
     ('2026-11-01', 'New member programme: B.Arch and B.Planning mentorship (two tracks, 14 and 10 sessions, covering JEE Main Paper 2A and 2B, NATA and college or state routes), with a page for members, two new Add-on programmes to request, and a Member Home tile.'),
     ('2026-11-01', 'JEE Paper 2 guide: fees shown as a compact infographic with switches for one or both papers and centre in India or abroad, and a searchable list of 18 colleges (SPAs, NITs and other JoSAA institutes) with their 2025 OPEN rank ranges.'),
     ('2026-11-01', 'New public page: JEE Main 2027 Paper 2A (B.Arch) and 2B (B.Planning) guide with deadlines and countdown, pattern, marking, fees, the full syllabus, drawing kit, a family section and a self-check made of an interest check, 12 aptitude questions and a drawing exercise; Member Home tile and a JEE / JOSAA menu link.'),
@@ -233,11 +234,12 @@ GUIDE = [
                 'Members report', 'CAET · IIT Delhi – Abu Dhabi guide', 'JEE Main 2027 registration guide', 'JEE Paper 2: B.Arch and B.Planning guide', 'NRI admission guide', 'Choice Builder Simulator', 'Why CSE?', 'Best location', 'Engineering insights', 'Hostel & culture',
                 'Branch selection guide'], added='2026-10-26', updated='2026-10-28'),
     dict(id='s-free', role='student', group='Free resources', title='Free guides and the exam schedule', summary='Open to every member.',
-         where=[('Free guides', 'guides.library'), ('Exam schedule', 'main.exam_schedule')],
+         where=[('Free guides', 'guides.library'), ('Exam schedule', 'main.exam_schedule'), ('IISER Aptitude Test guide', 'main.iat')],
          steps=['Open "Free student guides", choose a guide and enter your e-mail to receive it.',
                 'Open "Exam schedule" for registration, exam and counselling dates. Admins keep it current.',
-                'Medicine entrance exams (NEET and others) have their own Medicine tab; see "Medicine exam guides".'],
-         tiles=['Free student guides', 'Exam schedule'], added='2026-10-26', updated='2026-10-27'),
+                'Medicine entrance exams (NEET and others) have their own Medicine tab; see "Medicine exam guides".',
+                'IISER Aptitude Test (IAT) guide (open to everyone, also under the Colleges and Exams menu): the pattern and marking, the 2026 dates and counselling rounds, eligibility, fees, the seven IISERs with their seats and programmes, the five other institutions that use the IAT, the syllabus for the four subjects, past papers with the official links, a preparation plan, FAQs and the IAT mentorship programme (16 sessions over about 20 weeks).'],
+         tiles=['Free student guides', 'Exam schedule', 'IISER Aptitude Test (IAT) guide'], added='2026-10-26', updated='2026-10-27'),
     dict(id='s-medicine', role='student', group='Free resources', title='Medicine exam guides', summary='NEET UG 2027 and every other medicine entrance-exam page, grouped under one tab.',
          where=[('Medicine exams', 'main.medicine'), ('NEET 2027 guide', 'main.neet_2027')],
          steps=['Open the Medicine tab in the site menu (or the Medicine group on Member Home) and choose "All medicine exams".',

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}IISER Aptitude Test (IAT) Guide: Dates, Pattern, Syllabus, Institutes | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="IISER Aptitude Test (IAT): pattern (60 questions, 240 marks, 180 minutes, minus 1 marking), dates, eligibility, fees, syllabus, the seven IISERs and five other institutions that use the IAT, past papers and a mentorship programme. Prepared {{ d.UPDATED }} from the official IISER admission site and brochure.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .ia-tab{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.ia-tab button{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:999px;padding:7px 14px;font:600 .84rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}.ia-tab button.on{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .ia-pane[hidden]{display:none}
+  .ia-inst{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+  .ia-inst>div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:14px;padding:12px 14px}
+  .ia-inst h3{margin:0;font-size:1rem}.ia-inst small{color:var(--text-dim,#5A6278)}.ia-inst .st{display:inline-block;margin-top:6px;font:700 .72rem 'JetBrains Mono',monospace;background:#FFF1E6;color:#B34700;border-radius:999px;padding:2px 9px}
+  .ia-inst ul{margin:6px 0 0;padding-left:16px;font-size:.84rem;line-height:1.5}
+  .ia-mu{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:8px}.ia-mu div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:10px 14px;font-size:.9rem}.ia-mu b{display:block}.ia-mu span{color:var(--text-dim,#5A6278);font-size:.85rem}
+  .ia-rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px}.ia-rd div{background:#EAF2FF;border-radius:10px;padding:8px 12px;font-size:.84rem}.ia-rd b{display:block}
+  .ia-pp{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-top:10px}.ia-pp div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:10px 12px}.ia-pp b{display:block;font:700 1.15rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.ia-pp span{font-size:.78rem;color:var(--text-dim,#5A6278)}
+  .ia-sess{counter-reset:s;margin:0;padding:0;list-style:none}.ia-sess li{position:relative;padding:8px 12px 8px 44px;border:1px solid var(--border,#E8DFC8);border-radius:12px;background:var(--paper,#FFFDF7);margin:6px 0;font-size:.9rem}
+  .ia-sess li:before{counter-increment:s;content:counter(s);position:absolute;left:10px;top:8px;width:26px;height:26px;border-radius:50%;background:var(--navy,#0E3A8A);color:#fff;font:700 .78rem 'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center}
+  .ia-sess li small{display:block;color:var(--text-dim,#5A6278);font-size:.8rem;margin-top:2px}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jr2">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Rules move: this guide was prepared on {{ d.UPDATED }}.</strong>
+      It follows the IAT 2026 Information Brochure and <b>{{ d.SITE }}</b>. The IAT 2027 cycle was not announced there on that date, so the 2026 cycle is shown as the reference. Confirm every date, fee and rule on the official site. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <header class="jr2-hero">
+    <div>
+      <span class="eb">IISER Aptitude Test &middot; updated {{ d.UPDATED }}</span>
+      <h1>IISER Aptitude Test <em>(IAT)</em></h1>
+      <p class="lead">The single entrance for the seven IISERs, and for science programmes at IISc, IIT Madras, IIT Guwahati, IACS Kolkata and IIEST Shibpur. Pattern, dates, eligibility, syllabus, the institutes, past papers and a mentored plan.</p>
+    </div>
+    <img src="{{ url_for('static', filename='img/mascot/eduaakashaa-cube.webp') }}" width="340" height="340" alt="The EduAakashaA mascot, an orange cube with a graduation cap, waving and holding a pen" loading="eager">
+  </header>
+
+  <div class="jr2-facts">{% for a, b in d.FACTS %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
+
+  <nav class="jr2-nav" aria-label="On this page">
+    <a href="#pattern">Pattern</a><a href="#dates">Dates</a><a href="#eligibility">Eligibility</a><a href="#institutes">Institutes</a><a href="#fees">Fees</a><a href="#syllabus">Syllabus</a>
+    <a href="#papers">Past papers</a>{% if mock %}<a href="#mock">Mock tests</a>{% endif %}<a href="#mentorship">Mentorship</a><a href="#plan">Preparation</a><a href="#faq">Questions</a>
+  </nav>
+
+  <section id="pattern"><span class="eb">Official</span><h2>Exam pattern and marking</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.PATTERN %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <div class="jr2-note">{{ d.PATTERN_NOTE }}</div>
+  </section>
+
+  <section id="dates"><span class="eb">Official dates &middot; 2026 cycle</span><h2>Key dates</h2>
+    <div class="jr2-grid"><div class="jr2-card"><h3>Application to result</h3><table><tbody>{% for a, b in d.DATES %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+      <div class="jr2-card"><h3>Counselling rounds (tentative)</h3><div class="ia-rd" style="margin-top:0">{% for a, b in d.ROUNDS %}<div><b>{{ a }}</b>{{ b }}</div>{% endfor %}</div><p style="font-size:.84rem;margin:10px 0 0">{{ d.ROUNDS_NOTE }}</p></div></div>
+    <div class="jr2-note">{{ d.DATES_NOTE }}</div>
+  </section>
+
+  <section id="eligibility"><span class="eb">Official</span><h2>Who can apply</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.ELIGIBILITY %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+  </section>
+
+  <section id="institutes"><span class="eb">Institutes covered</span><h2>Where an IAT rank can take you</h2>
+    <h3>The seven IISERs</h3>
+    <div class="ia-inst">{% for n, st, site, seats, more in d.IISERS %}<div><h3>{{ n }}</h3><small>{{ st }} &middot; <a href="https://www.{{ site }}" target="_blank" rel="noopener">{{ site }}</a></small><br><span class="st">{{ seats }} BS-MS seats</span>{% if more %}<ul>{% for m in more %}<li>{{ m }}</li>{% endfor %}</ul>{% endif %}</div>{% endfor %}</div>
+    <p style="font-size:.86rem;color:var(--text-dim,#5A6278);margin-top:8px">{{ d.SEATS_NOTE }}</p>
+    <h3 style="margin-top:16px">Programmes offered through the IAT at the IISERs</h3>
+    <ul style="line-height:1.7;padding-left:20px;margin-top:4px">{% for p in d.PROGRAMMES %}<li>{{ p }}</li>{% endfor %}</ul>
+    <h3 style="margin-top:16px">Five other institutions that use the IAT</h3>
+    <div class="jr2-card"><table><thead><tr><th>Institution</th><th>Programme</th></tr></thead><tbody>{% for a, b in d.OTHERS %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <div class="jr2-note">{{ d.OTHERS_NOTE }}</div>
+  </section>
+
+  <section id="fees"><span class="eb">Official</span><h2>Fees</h2>
+    <div class="jr2-card"><table><thead><tr><th>Fee</th><th>Who</th><th>Amount</th></tr></thead><tbody>{% for a, b, c in d.FEES %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td><td><b>{{ c }}</b></td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.86rem;color:var(--text-dim,#5A6278);margin-top:8px">{{ d.FEES_NOTE }}</p>
+  </section>
+
+  <section id="syllabus"><span class="eb">Official syllabus</span><h2>What is tested</h2>
+    <div class="ia-tab">{% for s, _u in d.SYLLABUS %}<button type="button" class="{{ 'on' if loop.first else '' }}" data-p="{{ s|lower }}">{{ s }}</button>{% endfor %}</div>
+    {% for s, units in d.SYLLABUS %}<div class="ia-pane" id="ia-{{ s|lower }}" {% if not loop.first %}hidden{% endif %}><div class="ia-mu">{% for t, topics in units %}<div><b>{{ t }}</b><span>{{ topics }}</span></div>{% endfor %}</div></div>{% endfor %}
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:8px">{{ d.SYLLABUS_NOTE }} <a href="{{ d.BROCHURE_URL }}" target="_blank" rel="noopener">Open the brochure</a>.</p>
+  </section>
+
+  <section id="papers"><span class="eb">Practice</span><h2>Past papers and official practice</h2>
+    <div class="ia-pp">{% for y, kind, note in d.PAPERS %}<div><b>{{ y }}</b><span>{{ kind }}</span></div>{% endfor %}</div>
+    <p style="font-size:.88rem;margin-top:10px">{{ d.PAPERS_NOTE }}</p>
+    <p style="font-size:.92rem"><a class="dg-alert__cta" style="margin:0" href="{{ d.PAPERS_URL }}" target="_blank" rel="noopener">Official previous-year papers</a> <a class="dg-alert__cta" style="margin:0 0 0 8px;background:#0E3A8A" href="{{ d.MOCK_URL }}" target="_blank" rel="noopener">Official mock test</a></p>
+  </section>
+
+  {% if mock %}<section id="mock"><span class="eb">EduAakashaA mock tests</span><h2>Timed mocks with worked solutions</h2>
+    <p>Full 60-question papers in the official format (180 minutes, +4 and &minus;1), built from released IAT papers, with a confidence rating, a report by subject and worked answers.</p>
+    <p style="margin-top:8px">{% if current_user.is_authenticated and current_user.is_premium %}<a class="dg-alert__cta" style="margin:0" href="{{ url_for('iat.home') }}">Open the IAT mock centre</a>{% else %}<a class="dg-alert__cta" style="margin:0" href="{{ url_for('main.members_registration') }}">Join to open the mock centre</a>{% endif %}</p>
+  </section>{% endif %}
+
+  <section id="mentorship"><span class="eb">For members</span><h2>IAT mentorship programme: {{ addon.sessions|length }} sessions over about {{ addon.weeks }} weeks</h2>
+    <p>{{ addon.blurb }}</p>
+    <p style="font-size:.9rem"><b>For:</b> {{ addon.audience }}</p>
+    <details class="q"><summary><i>List</i><span>See all {{ addon.sessions|length }} sessions and their deliverables</span></summary><div class="a">
+      <ol class="ia-sess">{% for t, topics, dv in addon.sessions %}<li><strong>{{ t }}</strong><small>{{ topics.split('\n')|join(' &middot; ')|safe }}<br><b>Deliverable:</b> {{ dv }}</small></li>{% endfor %}</ol></div></details>
+    <p style="margin-top:10px">{% if current_user.is_authenticated %}<a class="dg-alert__cta" style="margin:0" href="{{ url_for('mentorship.addons') }}#iiser">Request this programme</a>{% else %}<a class="dg-alert__cta" style="margin:0" href="{{ url_for('auth.login', next=request.path) }}">Sign in to request this programme</a>{% endif %}</p>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278)">The programme gives structure and guidance. It does not promise a rank or a seat.</p>
+  </section>
+
+  <section id="plan"><span class="eb">EduAakashaA advice</span><h2>How to prepare</h2>
+    <div class="jr2-grid">{% for a, b in d.PLAN %}<div class="jr2-card"><h3>{{ a }}</h3><p style="margin:0;font-size:.92rem">{{ b }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="faq"><span class="eb">Questions</span><h2>Common questions</h2>
+    <p><span class="tg official">Official source</span> <span class="tg disputed">EduAakashaA advice</span></p>
+    {% set cls = {'official': 'official', 'advice': 'disputed'} %}
+    {% for q, t, a in d.FAQ %}<details class="q"><summary><i>Q{{ '%02d'|format(loop.index) }}</i><span>{{ q }}</span></summary><div class="a"><span class="tg {{ cls[t] }}">{{ d.TAGS[t] }}</span><p style="margin:6px 0 0">{{ a }}</p></div></details>{% endfor %}
+  </section>
+
+  <section id="sources"><span class="eb">Sources</span><h2>Where this came from</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b, u in d.SOURCES %}<tr><td class="k" style="white-space:normal"><a href="{{ u }}" target="_blank" rel="noopener">{{ a }}</a></td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:12px">Prepared {{ d.UPDATED }} with AI assistance from the documents above. The IISER admission site may change after that date and each institute sets its own rules. Confirm everything on {{ d.SITE }} before acting. Questions to the organisers: {{ d.CONTACT }}. EduAakashaA is not affiliated with the IISERs.</p>
+  </section>
+
+  <div class="jr2-cta">
+    <div style="flex:1;min-width:260px"><h2>Plan your IISER route with a counsellor</h2>
+      <p>We help you compare IISERs and programmes, build a study plan and keep the paperwork on time. Mon to Fri 9:00 to 22:00, Sat and Sun 9:00 to 16:00 IST.</p>
+      <p style="margin-top:8px;font-size:.92rem">{% if current_user.is_authenticated and current_user.is_premium %}Ask in the <b>EduAakashaA Members Group</b>: counsellors and experienced parents answer there.{% else %}Members are added to the <b>EduAakashaA Members Group</b>, where counsellors and experienced parents answer questions like these.{% endif %}</p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      {% if current_user.is_authenticated and current_user.is_premium %}<a class="b" href="{{ url_for('memberhub.home') }}">Open Member Home</a>{% else %}<a class="b" href="{{ url_for('main.members_registration') }}">Join the Members Group</a>{% endif %}
+      <a class="b g" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">Talk to a counsellor</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var bs = document.querySelectorAll('.ia-tab button');
+  bs.forEach(function (b) { b.addEventListener('click', function () {
+    bs.forEach(function (x) { x.classList.toggle('on', x === b); });
+    document.querySelectorAll('.ia-pane').forEach(function (p) { p.hidden = p.id !== 'ia-' + b.dataset.p; });
+  }); });
+})();
+</script>
+{% endblock %}

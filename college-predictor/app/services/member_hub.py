@@ -88,6 +88,7 @@ CATEGORIES = [
     {'key': 'free', 'title': 'Free Resources', 'icon': '🎁', 'color': '#0891B2', 'tint': '#E0F5FA',
      'blurb': 'Open to every member.',
      'tiles': [
+         {'title': 'IISER Aptitude Test (IAT) guide', 'desc': 'Pattern, dates, eligibility, the seven IISERs and five other institutes, syllabus, past papers and a mentored plan.', 'icon': '🔬', 'endpoint': 'main.iat', 'access': 'free'},
          {'title': 'Free student guides', 'desc': 'Download guides by email.', 'icon': '📥', 'endpoint': 'guides.library', 'access': 'free'},
          {'title': 'Exam schedule', 'desc': 'Key exam and counselling dates.', 'icon': '🗓️', 'endpoint': 'main.exam_schedule', 'access': 'free'},
          {'title': 'NRI admission guide', 'desc': 'DASA, CIWG and NRI routes.', 'icon': '🌍', 'endpoint': 'main.nri_guide', 'access': 'free'},
@@ -109,7 +110,7 @@ TILE_ICON = {
     'Profile & sessions': 'user', 'Document verification': 'file-check', 'My assessments': 'clipboard', 'Stream selection': 'compass',
     'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'FutureReady (Class 8–9)': 'compass', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',
     'DASA 2026 Analytics': 'bar', 'DASA prediction report': 'trend', 'JoSAA EA members': 'users', 'EduPulse-UCEED': 'target', 'EduPulse mentor view': 'dashboard', 'EduPulse – Reinforcement': 'target', 'Reinforcement mentor view': 'dashboard', 'Smart Study Planner': 'calendar', 'Study planner mentor view': 'dashboard',
-    'EduPulse-JEE Mock Test Centre': 'calculator', 'JEE Main 2027 registration guide': 'clipboard', 'JEE Paper 2: B.Arch and B.Planning guide': 'compass', 'B.Arch and B.Planning mentorship': 'compass', 'EduPulse-TN Class 10 Mock Test Centre': 'book', 'UCEED Mock Test Centre': 'clipboard', 'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'JEE Main syllabus map & formulas': 'calculator', 'TNEA expert': 'book', 'Members report': 'file-text',
+    'EduPulse-JEE Mock Test Centre': 'calculator', 'JEE Main 2027 registration guide': 'clipboard', 'JEE Paper 2: B.Arch and B.Planning guide': 'compass', 'B.Arch and B.Planning mentorship': 'compass', 'IISER Aptitude Test (IAT) guide': 'bulb', 'EduPulse-TN Class 10 Mock Test Centre': 'book', 'UCEED Mock Test Centre': 'clipboard', 'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'JEE Main syllabus map & formulas': 'calculator', 'TNEA expert': 'book', 'Members report': 'file-text',
     'IIT Delhi – Abu Dhabi mentoring': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
     'Why CSE?': 'code', 'Best location': 'pin', 'Engineering insights': 'bulb', 'Hostel & culture': 'home', 'Branch selection guide': 'branch',
     'Free student guides': 'download', 'NEET 2027 guide': 'book', 'Medicine exams': 'life-buoy', 'Exam schedule': 'calendar', 'Contact the team': 'mail', 'Membership plans': 'star', 'Portal guide': 'book', 'More tools coming soon': 'sparkle',
