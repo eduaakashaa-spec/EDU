@@ -52,6 +52,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-01', 'New member programme: B.Arch and B.Planning mentorship (two tracks, 14 and 10 sessions, covering JEE Main Paper 2A and 2B, NATA and college or state routes), with a page for members, two new Add-on programmes to request, and a Member Home tile.'),
     ('2026-11-01', 'JEE Paper 2 guide: fees shown as a compact infographic with switches for one or both papers and centre in India or abroad, and a searchable list of 18 colleges (SPAs, NITs and other JoSAA institutes) with their 2025 OPEN rank ranges.'),
     ('2026-11-01', 'New public page: JEE Main 2027 Paper 2A (B.Arch) and 2B (B.Planning) guide with deadlines and countdown, pattern, marking, fees, the full syllabus, drawing kit, a family section and a self-check made of an interest check, 12 aptitude questions and a drawing exercise; Member Home tile and a JEE / JOSAA menu link.'),
     ('2026-10-31', 'New public page: JEE Main 2027 registration guide for NRI and Indian families (dates, documents, steps, fees, exam cities abroad, 36 searchable family questions, myths, interactive checklist), with a Member Home tile and a JEE / JOSAA menu link.'),
@@ -147,11 +148,12 @@ GUIDE = [
          tips=['The plan lives in the portal; the WhatsApp group is only for quick reminders.'],
          tiles=['My Mentorship', 'Action tracker'], added='2026-10-26', updated='2026-10-28'),
     dict(id='s-addons', role='student', group='Mentorship', title='Add-on programmes', summary='Ready-made mentoring for UCEED, NID, NIFT, TNEA, SRM, Amrita, VIT and more.',
-         where=[('Add-on programmes', 'mentorship.addons')],
+         where=[('Add-on programmes', 'mentorship.addons'), ('B.Arch and B.Planning mentorship', 'main.barch_mentorship')],
          steps=['Open "Add-on programmes" and read the programme list.',
                 'Ask your mentor or the team to add the programme to your plan.',
-                'Its sessions and actions then appear in your Mentorship portal.'],
-         tiles=['Add-on programmes', 'IIT Delhi – Abu Dhabi mentoring'], added='2026-10-26', updated='2026-10-26'),
+                'Its sessions and actions then appear in your Mentorship portal.',
+                'B.Arch and B.Planning mentorship (members): a page for architecture and planning aspirants with two tracks (B.Arch 16 weeks, B.Planning 10 weeks), the exams covered (JEE Main Paper 2A and 2B, NATA, the IIT route, college and state routes), a four-phase roadmap with dates, every session with its deliverable, the weekly rhythm, what is tracked and a parents section. Use the Request buttons to ask for a track; the team then enrols the student from Admin, Mentorship, Enrol student.'],
+         tiles=['Add-on programmes', 'B.Arch and B.Planning mentorship', 'IIT Delhi – Abu Dhabi mentoring'], added='2026-10-26', updated='2026-10-26'),
     dict(id='s-futureready', role='student', group='Mentorship', title='FutureReady (Class 8-9)', summary='Assessments, engineering exploration and an action plan for younger students.',
          where=[('FutureReady', 'futureready.index')],
          steps=['A parent or the team enrols the student; sign in and open FutureReady from Member Home.',

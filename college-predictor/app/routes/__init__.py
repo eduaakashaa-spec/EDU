@@ -541,6 +541,16 @@ def jee_paper2_alias():
     return redirect(url_for('main.jee_paper2'), code=301)
 
 
+@main_bp.route('/barch-bplanning-mentorship')
+@premium_required
+def barch_mentorship():
+    # members: B.Arch and B.Planning mentorship programme (sessions live in app/data/mentorship_addons.py, keys barch and bplan)
+    from app.data import barch_programme as p
+    from app.data.mentorship_addons import ADDONS
+    by = {x['key']: x for x in ADDONS}
+    return render_template('barch_mentorship.html', p=p, barch=by['barch'], bplan=by['bplan'])
+
+
 @main_bp.route('/jee-2027-roadmap')
 @premium_required
 def jee_2027_roadmap():

@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block title %}B.Arch and B.Planning Mentorship Programme | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .bm-tr{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-top:12px}
+  .bm-tr .jr2-card h3{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.bm-tr ul{margin:8px 0;padding-left:18px;font-size:.92rem;line-height:1.55}
+  .bm-ph{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:12px}
+  .bm-ph>div{position:relative;background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-top:5px solid #FF6B0A;border-radius:14px;padding:12px 14px}
+  .bm-ph>div:nth-child(2){border-top-color:#0E3A8A}.bm-ph>div:nth-child(3){border-top-color:#1F8B5C}.bm-ph>div:nth-child(4){border-top-color:#7C3AED}
+  .bm-ph b{display:block;font:700 1.05rem 'Fraunces',Georgia,serif}.bm-ph small{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim,#5A6278)}
+  .bm-ph p{margin:6px 0;font-size:.9rem}.bm-ph .chips{display:flex;gap:4px;flex-wrap:wrap}.bm-ph .chips span{font:700 .68rem 'JetBrains Mono',monospace;background:#E1E9F7;color:#0E3A8A;border-radius:999px;padding:2px 8px}
+  .bm-ph .chips span.p{background:#EAF6EF;color:#1F8B5C}
+  .bm-tab{display:flex;gap:6px;margin:10px 0}.bm-tab button{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:999px;padding:7px 14px;font:600 .84rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}.bm-tab button.on{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .bm-pane[hidden]{display:none}
+  .bm-sess{counter-reset:s;margin:0;padding:0;list-style:none}.bm-sess li{position:relative;padding:9px 12px 9px 46px;border:1px solid var(--border,#E8DFC8);border-radius:12px;background:var(--paper,#FFFDF7);margin:6px 0}
+  .bm-sess li:before{counter-increment:s;content:counter(s);position:absolute;left:11px;top:9px;width:26px;height:26px;border-radius:50%;background:var(--navy,#0E3A8A);color:#fff;font:700 .8rem 'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center}
+  .bm-sess li small{display:block;color:var(--text-dim,#5A6278);font-size:.82rem;margin-top:2px}.bm-sess li em{display:block;font-style:normal;font-size:.8rem;color:#1F8B5C;font-weight:600;margin-top:2px}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jr2">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Rules move: this programme was prepared on {{ p.UPDATED }}.</strong>
+      Exam dates, patterns, fees and counselling rules change every year. Each session sends you to the official notice for the current cycle.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <header class="jr2-hero">
+    <div>
+      <span class="eb">Mentorship &middot; for members &middot; updated {{ p.UPDATED }}</span>
+      <h1>B.Arch and B.Planning <em>mentorship programme</em></h1>
+      <p class="lead">One mentored path for architecture and planning aspirants: JEE Main Paper 2A and 2B, NATA, and the college and state routes around them. A weekly session, a daily habit, monthly mocks and reports your parent can read.</p>
+    </div>
+    <img src="{{ url_for('static', filename='img/mascot/eduaakashaa-cube.webp') }}" width="340" height="340" alt="The EduAakashaA mascot, an orange cube with a graduation cap, waving and holding a pen" loading="eager">
+  </header>
+
+  <div class="jr2-facts">
+    <div><b>2 tracks</b><span>B.Arch (16 weeks) and B.Planning (10 weeks)</span></div>
+    <div><b>{{ barch.sessions|length }} + {{ bplan.sessions|length }}</b><span>mentor sessions, a deliverable in each</span></div>
+    <div><b>4 routes</b><span>JEE Paper 2A, 2B, NATA, college and state</span></div>
+    <div><b>1 calendar</b><span>for every exam, built with your mentor</span></div>
+  </div>
+
+  <nav class="jr2-nav" aria-label="On this page">
+    <a href="#tracks">Tracks</a><a href="#exams">Exams covered</a><a href="#roadmap">Roadmap</a><a href="#sessions">Sessions</a><a href="#rhythm">Weekly rhythm</a><a href="#tracked">What we track</a><a href="#family">Parents</a><a href="#join">Join</a>
+  </nav>
+
+  <section id="tracks"><span class="eb">Choose your track</span><h2>Two tracks, one shared start</h2>
+    <div class="bm-tr">{% for t in p.TRACKS %}<div class="jr2-card"><h3>{{ t.title }} <span class="tg official">{{ t.weeks }} weeks</span></h3>
+      <p style="margin:0"><b>Exams:</b> {{ t.exams }}.</p><p style="margin:4px 0 0"><b>Good fit:</b> {{ t.who }}</p><ul>{% for f in t.focus %}<li>{{ f }}</li>{% endfor %}</ul>
+      <a class="dg-alert__cta" style="margin:0" href="{{ url_for('mentorship.addons') }}#{{ t.key }}">Request the {{ t.tag }} track</a></div>{% endfor %}</div>
+    <div class="jr2-note">{{ p.BOTH_NOTE }}</div>
+  </section>
+
+  <section id="exams"><span class="eb">Entrance exams</span><h2>Every route we cover</h2>
+    <div class="jr2-card"><table><thead><tr><th>Exam</th><th>Run by</th><th>Used for</th><th>Format</th><th>Verify at</th></tr></thead><tbody>
+      {% for a, b, c, d2, e in p.EXAMS %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td><td>{{ c }}</td><td>{{ d2 }}</td><td>{{ e }}</td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.9rem;margin-top:8px">{{ p.EXAMS_NOTE }}</p>
+    <p style="font-size:.9rem">See also: <a href="{{ url_for('main.jee_paper2') }}">JEE Paper 2 guide</a> (pattern, syllabus, fees, 18 colleges) and the <a href="{{ url_for('main.nata') }}">NATA guide</a>.</p>
+  </section>
+
+  <section id="roadmap"><span class="eb">Roadmap</span><h2>Four phases</h2>
+    <div class="bm-ph">{% for name, wk, what, ba, pl in p.PHASES %}<div><small>{{ wk }}</small><b>{{ name }}</b><p>{{ what }}</p>
+      <div class="chips">{% for n in ba %}<span>A{{ n }}</span>{% endfor %}{% for n in pl %}<span class="p">P{{ n }}</span>{% endfor %}</div></div>{% endfor %}</div>
+    <p style="font-size:.82rem;color:var(--text-dim,#5A6278)">A1&hellip;A14 are the B.Arch sessions and P1&hellip;P10 the B.Planning sessions (full lists below).</p>
+    <h3 style="margin-top:16px">Dates to plan around</h3>
+    <div class="jr2-card"><table><tbody>{% for k, when, what in p.MILESTONES %}<tr><td class="k"><span class="tg {{ 'official' if k == 'Official' else 'disputed' }}">{{ k }}</span></td><td class="k">{{ when }}</td><td>{{ what }}</td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:8px">Official dates come from NTA&rsquo;s JEE (Main) 2027 Information Bulletin. NATA 2027 dates are not announced, so the 2026 cycle is shown only as a planning reference.</p>
+  </section>
+
+  <section id="sessions"><span class="eb">Session by session</span><h2>What happens in each session</h2>
+    <div class="bm-tab" role="tablist"><button type="button" class="on" data-p="barch">B.Arch ({{ barch.sessions|length }})</button><button type="button" data-p="bplan">B.Planning ({{ bplan.sessions|length }})</button></div>
+    {% for key, a in (('barch', barch), ('bplan', bplan)) %}<div class="bm-pane" id="bm-{{ key }}" {% if key != 'barch' %}hidden{% endif %}>
+      <p style="font-size:.9rem"><b>For:</b> {{ a.audience }}</p>
+      <ol class="bm-sess">{% for title, topics, deliv in a.sessions %}<li><strong>{{ title }}</strong><small>{{ topics.split('\n')|join(' &middot; ')|safe }}</small><em>Deliverable: {{ deliv }}</em></li>{% endfor %}</ol>
+      <p style="font-size:.84rem;color:var(--text-dim,#5A6278)">Verify on the official site: {{ a.verify }}</p></div>{% endfor %}
+  </section>
+
+  <section id="rhythm"><span class="eb">How it runs</span><h2>A weekly rhythm</h2>
+    <div class="jr2-grid">{% for a, b in p.RHYTHM %}<div class="jr2-card"><h3>{{ a }}</h3><p style="margin:0;font-size:.92rem">{{ b }}</p></div>{% endfor %}</div>
+    <div class="jr2-grid"><div class="jr2-card"><h3>What you will need</h3><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.92rem">{% for k in p.KIT %}<li>{{ k }}</li>{% endfor %}</ul></div>
+      <div class="jr2-card"><h3>What you will have at the end</h3><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.92rem">{% for k in p.DELIVERABLES %}<li>{{ k }}</li>{% endfor %}</ul></div></div>
+  </section>
+
+  <section id="tracked"><span class="eb">Progress you can see</span><h2>What we track</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b in p.TRACKED %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.9rem;margin-top:8px">These appear as measures in the Mentorship Portal, with a monthly report for the student and the parent.</p>
+  </section>
+
+  <section id="family"><span class="eb">For parents</span><h2>Your part, and what we do not promise</h2>
+    <div class="jr2-grid"><div class="jr2-card"><h3>Your part</h3><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.92rem">{% for k in p.PARENT_ROLE %}<li>{{ k }}</li>{% endfor %}</ul></div>
+      <div class="jr2-card"><h3>Not promised</h3><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.92rem">{% for k in p.NOT_PROMISED %}<li>{{ k }}</li>{% endfor %}</ul></div></div>
+    <h3 style="margin-top:16px">Questions</h3>
+    {% for q, a in p.FAQ %}<details class="q"><summary><i>Q{{ '%02d'|format(loop.index) }}</i><span>{{ q }}</span></summary><div class="a"><p style="margin:0">{{ a }}</p></div></details>{% endfor %}
+  </section>
+
+  <div class="jr2-cta" id="join">
+    <div style="flex:1;min-width:260px"><h2>Ready to start?</h2>
+      <p>Send a request for the track you want. Our team will contact you, confirm the plan with your mentor and enrol your child in the Mentorship Portal. Mon to Fri 9:00 to 22:00, Sat and Sun 9:00 to 16:00 IST.</p>
+      <p style="margin-top:8px;font-size:.92rem">Questions from other families are answered in the <b>EduAakashaA Members Group</b>.</p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap"><a class="b" href="{{ url_for('mentorship.addons') }}#barch">Request B.Arch track</a><a class="b g" href="{{ url_for('mentorship.addons') }}#bplan">Request B.Planning track</a></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var bs = document.querySelectorAll('.bm-tab button');
+  bs.forEach(function (b) { b.addEventListener('click', function () {
+    bs.forEach(function (x) { x.classList.toggle('on', x === b); });
+    document.querySelectorAll('.bm-pane').forEach(function (p) { p.hidden = p.id !== 'bm-' + b.dataset.p; });
+  }); });
+})();
+</script>
+{% endblock %}
