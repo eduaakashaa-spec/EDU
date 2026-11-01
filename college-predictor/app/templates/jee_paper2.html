@@ -1,0 +1,234 @@
+{% extends "base.html" %}
+{% block title %}JEE Main 2027 Paper 2A B.Arch and 2B B.Planning Guide | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="JEE Main 2027 Paper 2A (B.Arch) and Paper 2B (B.Planning): deadlines, pattern, marking, fees, full syllabus, drawing kit, a quick interest check and a 12-question aptitude practice for students and parents. Prepared {{ d.UPDATED }} from NTA's Information Bulletin.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .pp-cd{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:12px 0}
+  .pp-cd div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:14px;padding:12px 14px}
+  .pp-cd b{display:block;font:700 1.7rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A);line-height:1}.pp-cd b.late{color:#8E2525}
+  .pp-cd span{display:block;font-size:.84rem;color:var(--text-dim,#5A6278)}.pp-cd i{font-style:normal;font-weight:700;font-size:.88rem}
+  .pp-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media (max-width:720px){.pp-two{grid-template-columns:1fr}}
+  .pp-card ul{margin:6px 0 0;padding-left:18px;font-size:.92rem;line-height:1.55}
+  .pp-lk{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border,#E8DFC8)}
+  .pp-lk p{margin:0;font-size:.95rem}
+  .pp-lk .opts{display:flex;gap:4px}.pp-lk .opts label{cursor:pointer}
+  .pp-lk .opts input{position:absolute;opacity:0;width:0;height:0}
+  .pp-lk .opts span{display:inline-block;min-width:38px;text-align:center;padding:6px 8px;border:1px solid var(--border,#E8DFC8);border-radius:8px;font:600 .8rem 'Plus Jakarta Sans',system-ui,sans-serif;background:var(--paper,#FFFDF7)}
+  .pp-lk .opts input:checked+span{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .pp-lk .opts input:focus-visible+span{outline:2px solid #FF6B0A}
+  @media (max-width:560px){.pp-lk{grid-template-columns:1fr}}
+  .pp-bar{display:grid;grid-template-columns:150px 1fr 44px;gap:8px;align-items:center;margin:6px 0;font-size:.88rem}.pp-bar i{display:block;height:10px;border-radius:6px;background:#FF6B0A;width:0;transition:width .3s}.pp-bar div{background:var(--border,#E8DFC8);border-radius:6px}
+  @media (max-width:520px){.pp-bar{grid-template-columns:110px 1fr 40px}}
+  .pp-res{display:none;margin-top:12px}.pp-res.on{display:block}
+  .pp-qz{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:12px 14px;margin:8px 0}
+  .pp-qz .ar{font:700 .64rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}.pp-qz p{margin:3px 0 8px}
+  .pp-qz label{display:block;padding:7px 10px;border:1px solid var(--border,#E8DFC8);border-radius:9px;margin:4px 0;cursor:pointer;font-size:.92rem}
+  .pp-qz label.ok{background:#EAF6EF;border-color:#1F8B5C}.pp-qz label.no{background:#F8E0DE;border-color:#C23A3A}
+  .pp-qz .ex{display:none;font-size:.88rem;margin-top:6px;color:var(--text-dim,#3f4763)}.pp-qz.done .ex{display:block}
+  .pp-btn{border:0;background:#FF6B0A;color:#fff;font:700 .92rem 'Plus Jakarta Sans',system-ui,sans-serif;border-radius:999px;padding:10px 22px;cursor:pointer}.pp-btn.g{background:transparent;color:var(--navy,#0E3A8A);border:1.5px solid var(--navy,#0E3A8A)}
+  .pp-tab{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.pp-tab button{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:999px;padding:7px 14px;font:600 .84rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}.pp-tab button.on{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .pp-pane[hidden]{display:none}
+  .pp-mu{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:8px}.pp-mu div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:10px 14px 10px 50px;position:relative;font-size:.9rem}
+  .pp-mu div i{position:absolute;left:12px;top:10px;font:700 .8rem 'JetBrains Mono',monospace;color:#FF6B0A;font-style:normal}.pp-mu b{display:block}.pp-mu em{display:block;color:var(--text-dim,#5A6278);font-size:.84rem;margin-top:3px}
+  :root[data-theme="dark"] .pp-qz label.ok{background:#12301f}:root[data-theme="dark"] .pp-qz label.no{background:#3a1a1a}
+  @media print{.pp-tab,.pp-btn{display:none !important}.pp-pane[hidden]{display:block}}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jr2">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Rules move: this guide was prepared on {{ d.UPDATED }}.</strong>
+      It follows NTA&rsquo;s JEE (Main) 2027 Information Bulletin and the 2027 syllabus. Confirm every date, fee and rule on <b>{{ d.NTA }}</b>. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <header class="jr2-hero">
+    <div>
+      <span class="eb">JEE Main 2027 &middot; Architecture and Planning &middot; updated {{ d.UPDATED }}</span>
+      <h1>Paper 2A <em>B.Arch</em> and Paper 2B <em>B.Planning</em></h1>
+      <p class="lead">What the exam is, when to apply, what to study and what to carry, with a quick check of whether architecture or planning suits your child. Written for students and for the parents who sign the form.</p>
+    </div>
+    <img src="{{ url_for('static', filename='img/mascot/eduaakashaa-cube.webp') }}" width="340" height="340" alt="The EduAakashaA mascot, an orange cube with a graduation cap, waving and holding a pen" loading="eager">
+  </header>
+
+  <div class="jr2-facts">{% for a, b in d.FACTS %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
+
+  <nav class="jr2-nav" aria-label="On this page">
+    <a href="#which">Which paper</a><a href="#deadlines">Deadlines</a><a href="#pattern">Pattern</a><a href="#fees">Fees</a><a href="#syllabus">Syllabus</a>
+    <a href="#assess">Check your interest</a><a href="#plan">Plan</a><a href="#parents">Parents</a><a href="#faq">Questions</a>
+  </nav>
+
+  <section id="which"><span class="eb">Start here</span><h2>Which paper is yours?</h2>
+    <div class="jr2-grid">{% for a, b, c, w, n in d.WHICH %}<div class="jr2-card"><h3>{{ a }}</h3><p style="margin:0 0 4px;font-weight:600">{{ b }}</p><p style="margin:0 0 6px;font-size:.92rem">{{ c }}</p><p style="margin:0 0 6px;font-size:.92rem"><b>Good fit:</b> {{ w }}</p><span class="tg official">{{ n }}</span></div>{% endfor %}</div>
+    <div class="pp-two" style="margin-top:12px">{% for t, items in d.CHOOSE %}<div class="jr2-card pp-card"><h3>{{ t }}</h3><ul>{% for i in items %}<li>{{ i }}</li>{% endfor %}</ul></div>{% endfor %}</div>
+    <div class="jr2-note"><b>Not sure?</b> Take the <a href="#assess">interest check</a> below. It takes three minutes and nothing is stored on our servers.</div>
+  </section>
+
+  <section id="deadlines"><span class="eb">Official dates</span><h2>Deadlines, with a live countdown</h2>
+    <div class="pp-cd" id="cd">{% for l, iso, n in d.DEADLINES %}<div data-d="{{ iso }}"><i>{{ l }}</i><b>&ndash;</b><span>{{ n }}</span></div>{% endfor %}</div>
+    <div class="jr2-grid">{% for name, rows in d.SESSIONS %}<div class="jr2-card"><h3>{{ name }}</h3><table><tbody>{% for a, b in rows %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>{% endfor %}</div>
+    <p style="margin-top:10px;font-size:.92rem">{{ d.DATES_NOTE }}</p>
+    <div class="jr2-note"><b>Tip:</b> do not wait for the last day. The portal is slowest in the final hours, and most fields cannot be changed after you submit. Apply early, then use the correction window only for the fields NTA allows.</div>
+  </section>
+
+  <section id="pattern"><span class="eb">Official</span><h2>Pattern, marks and time</h2>
+    <div class="jr2-card"><table><thead><tr><th>Part</th><th>Paper 2A: B.Arch</th><th>Paper 2B: B.Planning</th></tr></thead><tbody>
+      {% for a, b, c in d.PATTERN %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td><td>{{ c }}</td></tr>{% endfor %}</tbody></table></div>
+    <div class="jr2-grid">
+      <div class="jr2-card"><h3>Marking</h3><table><tbody>{% for a, b in d.MARKING %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+      <div class="jr2-card"><h3>Time</h3><table><tbody>{% for a, b, c in d.TIME %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}{% if c %}<br><span style="font-size:.84rem;color:var(--text-dim,#5A6278)">{{ c }}</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+    </div>
+    <ul style="line-height:1.7;padding-left:20px;margin-top:12px">{% for n in d.PATTERN_NOTES %}<li>{{ n }}</li>{% endfor %}</ul>
+  </section>
+
+  <section id="fees"><span class="eb">Official</span><h2>Fees, per session</h2>
+    <div class="jr2-card"><table><thead><tr><th>Category</th><th>{{ d.FEES_HEAD[0] }}</th><th>{{ d.FEES_HEAD[1] }}</th></tr></thead><tbody>{% for a, b, c in d.FEES %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td><td><b>{{ c }}</b></td></tr>{% endfor %}</tbody></table>
+      <p style="margin:8px 0 0;font-size:.88rem;color:var(--text-dim,#5A6278)">{{ d.FEES_NOTE }}</p></div>
+    <h3 style="margin-top:16px">Who can apply</h3>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.ELIGIBILITY %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+  </section>
+
+  <section id="syllabus"><span class="eb">Official 2027 syllabus</span><h2>What to study</h2>
+    <p>Mathematics and the aptitude test are common to both papers. The third part differs.</p>
+    <div class="pp-tab" role="tablist">
+      <button type="button" class="on" data-p="maths">Mathematics (both)</button><button type="button" data-p="apt">Aptitude (both)</button>
+      <button type="button" data-p="draw">Drawing (2A)</button><button type="button" data-p="plan">Planning (2B)</button></div>
+    <div class="pp-pane" id="pp-maths"><p style="font-size:.92rem">{{ d.SYLLABUS_MATHS_NOTE }}</p>
+      <div class="pp-mu">{% for n, t, topics, tip in d.MATHS %}<div><i>{{ '%02d'|format(n) }}</i><b>{{ t }}</b>{{ topics }}<em>Tip: {{ tip }}</em></div>{% endfor %}</div></div>
+    <div class="pp-pane" id="pp-apt" hidden><div class="jr2-grid">{% for t, items, tip in d.APTITUDE %}<div class="jr2-card pp-card"><h3>{{ t }}</h3><ul>{% for i in items %}<li>{{ i }}</li>{% endfor %}</ul><p style="font-size:.88rem;margin:8px 0 0"><b>How to prepare:</b> {{ tip }}</p></div>{% endfor %}</div>
+      <div class="jr2-note">Aptitude carries <b>200 of 400 marks</b> in both papers: 50 MCQs at 4 marks each.</div></div>
+    <div class="pp-pane" id="pp-draw" hidden><div class="jr2-grid"><div class="jr2-card pp-card"><h3>What you will sketch</h3><ul>{% for i in d.DRAWING.topics %}<li>{{ i }}</li>{% endfor %}</ul></div>
+      <div class="jr2-card pp-card"><h3>Exam-day rules</h3><ul>{% for i in d.DRAWING.rules %}<li>{{ i }}</li>{% endfor %}</ul></div></div>
+      <div class="jr2-note"><b>How to prepare:</b> {{ d.DRAWING.tip }}</div></div>
+    <div class="pp-pane" id="pp-plan" hidden><div class="jr2-card"><table><tbody>{% for a, b in d.PLANNING.units %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+      <div class="jr2-note"><b>How to prepare:</b> {{ d.PLANNING.tip }}</div></div>
+  </section>
+
+  <section id="assess"><span class="eb">Quick assessment</span><h2>Is this a good path for you?</h2>
+    <p>Two short parts. First rate twelve statements, then answer twelve mini-questions on the kind of thinking this exam tests. Your answers stay on this page and are not sent anywhere.</p>
+    <div class="jr2-card"><h3>Part 1: Interest check (3 minutes)</h3>
+      <p style="font-size:.88rem;margin:0 0 6px">0 = not me, 1 = a little, 2 = mostly, 3 = very much me.</p>
+      <div id="lk">{% for s, ax in d.INTEREST %}{% set oi = loop.index %}<div class="pp-lk" data-ax="{{ ax }}"><p>{{ oi }}. {{ s }}</p><div class="opts">{% for v in range(4) %}<label><input type="radio" name="l{{ oi }}" value="{{ v }}"><span>{{ v }}</span></label>{% endfor %}</div></div>{% endfor %}</div>
+      <div style="margin-top:12px"><button type="button" class="pp-btn" id="lkGo">Show my result</button></div>
+      <div class="pp-res" id="lkRes" aria-live="polite">
+        <div id="lkBars"></div>
+        <div class="jr2-note" id="lkTxt"></div>
+      </div></div>
+    <div class="jr2-card" style="margin-top:14px"><h3>Part 2: Mini aptitude (about 10 minutes)</h3>
+      <p style="font-size:.88rem;margin:0 0 6px">Pick one answer per question, then press <b>Check my answers</b>. Wrong answers show why.</p>
+      <div id="qz">{% for area, q, opts, ans, ex in d.QUIZ %}{% set oi = loop.index %}<div class="pp-qz" data-a="{{ ans }}"><span class="ar">Q{{ oi }} &middot; {{ area }}</span><p>{{ q }}</p>
+        {% for o in opts %}<label><input type="radio" name="q{{ oi }}" value="{{ loop.index0 }}"> {{ o }}</label>{% endfor %}<div class="ex"><b>Why:</b> {{ ex }}</div></div>{% endfor %}</div>
+      <div style="margin-top:10px;display:flex;gap:10px;flex-wrap:wrap"><button type="button" class="pp-btn" id="qzGo">Check my answers</button><button type="button" class="pp-btn g" id="qzReset">Start again</button></div>
+      <div class="pp-res" id="qzRes" aria-live="polite"><div class="jr2-note" id="qzTxt"></div></div>
+      <p style="font-size:.82rem;color:var(--text-dim,#5A6278);margin:10px 0 0">{{ d.QUIZ_NOTE }} <a href="{{ d.NTA_PRACTICE }}" target="_blank" rel="noopener">Open NTA practice</a>.</p></div>
+    <div class="jr2-card" style="margin-top:14px"><h3>Part 3: One drawing, ten minutes (for 2A)</h3>
+      <p style="margin:0 0 6px">Take a plain A4 sheet and a pencil. Sketch <b>a busy street market on a festival evening</b> from memory. Show at least three people, one building and something in the foreground. Then ask yourself:</p>
+      <ul style="line-height:1.7;margin:0;padding-left:20px"><li>Did the sketch look balanced, with a near and a far part?</li><li>Did the people look the right size next to the building?</li><li>Did I enjoy it, or did I watch the clock?</li></ul>
+      <p style="margin:8px 0 0;font-size:.9rem">If you enjoyed it and the sizes looked right, Paper 2A suits you. If it felt like a chore, look closely at Paper 2B. This is a self-check, not a score.</p></div>
+  </section>
+
+  <section id="plan"><span class="eb">EduAakashaA suggestion</span><h2>A simple preparation plan</h2>
+    <p style="font-size:.9rem">The dates come from NTA. The advice on what to do in each period is ours, not an NTA rule.</p>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.PLAN %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+  </section>
+
+  <section id="parents"><span class="eb">For parents</span><h2>What to know before you pay and sign</h2>
+    <div class="jr2-grid">{% for a, b in d.PARENTS %}<div class="jr2-card"><h3>{{ a }}</h3><p style="margin:0;font-size:.92rem">{{ b }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="faq"><span class="eb">Questions</span><h2>Common questions</h2>
+    <p>Each answer is tagged: <span class="tg official">Official source</span> <span class="tg peer">Check with the institute</span> <span class="tg disputed">EduAakashaA advice</span></p>
+    {% set cls = {'official': 'official', 'check': 'peer', 'advice': 'disputed'} %}
+    {% for q, t, a in d.FAQ %}<details class="q"><summary><i>Q{{ '%02d'|format(loop.index) }}</i><span>{{ q }}</span></summary><div class="a"><span class="tg {{ cls[t] }}">{{ d.TAGS[t] }}</span><p style="margin:6px 0 0">{{ a }}</p></div></details>{% endfor %}
+  </section>
+
+  <section id="sources"><span class="eb">Sources</span><h2>Where this came from</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.SOURCES %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:12px">Prepared {{ d.UPDATED }} with AI assistance and checked against the documents above. NTA may change dates, fees or rules after that date, and institutes set their own admission conditions. Confirm everything on {{ d.NTA }} before acting. This is guidance, not legal advice. EduAakashaA is not affiliated with NTA.</p>
+  </section>
+
+  <div class="jr2-cta">
+    <div style="flex:1;min-width:260px"><h2>Talk to a counsellor about B.Arch or B.Planning</h2>
+      <p>We can look at your child&rsquo;s sketches, marks and interests, and help you choose between 2A, 2B and both. Mon to Fri 9:00 to 22:00, Sat and Sun 9:00 to 16:00 IST.</p>
+      <p style="margin-top:8px;font-size:.92rem">{% if current_user.is_authenticated and current_user.is_premium %}Ask in the <b>EduAakashaA Members Group</b>: counsellors and experienced parents answer there.{% else %}Members are added to the <b>EduAakashaA Members Group</b>, where counsellors and experienced parents answer questions like these.{% endif %}</p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      {% if current_user.is_authenticated and current_user.is_premium %}<a class="b" href="{{ url_for('memberhub.home') }}">Open Member Home</a>{% else %}<a class="b" href="{{ url_for('main.members_registration') }}">Join the Members Group</a>{% endif %}
+      <a class="b g" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">Talk to a counsellor</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var AX = {{ d.AXES|tojson }};
+  // countdown (days left, local date)
+  var now = new Date(), t0 = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  document.querySelectorAll('#cd div').forEach(function (el) {
+    var p = el.dataset.d.split('-'), n = Math.round((new Date(+p[0], p[1] - 1, +p[2]) - t0) / 86400000), b = el.querySelector('b');
+    if (n < 0) { b.textContent = 'Closed'; b.className = 'late'; }
+    else if (n === 0) { b.textContent = 'Today'; b.className = 'late'; }
+    else b.textContent = n + (n === 1 ? ' day' : ' days');
+  });
+  // syllabus tabs
+  var tb = document.querySelectorAll('.pp-tab button');
+  tb.forEach(function (b) { b.addEventListener('click', function () {
+    tb.forEach(function (x) { x.classList.toggle('on', x === b); });
+    document.querySelectorAll('.pp-pane').forEach(function (p) { p.hidden = p.id !== 'pp-' + b.dataset.p; });
+  }); });
+  // interest check
+  document.getElementById('lkGo').addEventListener('click', function () {
+    var sc = {}, mx = {}, miss = 0;
+    document.querySelectorAll('#lk .pp-lk').forEach(function (r) {
+      var ax = r.dataset.ax, c = r.querySelector('input:checked');
+      mx[ax] = (mx[ax] || 0) + 3;
+      if (!c) { miss++; return; }
+      sc[ax] = (sc[ax] || 0) + (+c.value);
+    });
+    var res = document.getElementById('lkRes'), bars = document.getElementById('lkBars'), txt = document.getElementById('lkTxt');
+    res.classList.add('on');
+    if (miss) { bars.innerHTML = ''; txt.textContent = 'Please rate all twelve statements (' + miss + ' left), then press the button again.'; return; }
+    var pc = {}; Object.keys(mx).forEach(function (k) { pc[k] = Math.round(100 * (sc[k] || 0) / mx[k]); });
+    bars.innerHTML = Object.keys(AX).map(function (k) { return '<div class="pp-bar"><span>' + AX[k] + '</span><div><i style="width:' + pc[k] + '%"></i></div><b>' + pc[k] + '%</b></div>'; }).join('');
+    var arch = Math.round((pc.A + pc.S) / 2), plan = Math.round((pc.P + pc.G) / 2), msg;
+    if (arch >= plan + 15) msg = '<b>Leans towards Paper 2A (B.Arch).</b> Your answers point to design, drawing and spatial thinking. Keep a daily sketching habit and practise views and rotations.';
+    else if (plan >= arch + 15) msg = '<b>Leans towards Paper 2B (B.Planning).</b> Your answers point to cities, data and reading. Practise map and chart questions and follow the news on cities.';
+    else if (arch < 35 && plan < 35) msg = '<b>Neither path stands out yet.</b> That is fine. Try the mini aptitude, talk to a counsellor and look at other routes before choosing.';
+    else msg = '<b>Open to both.</b> Your interests span design and planning. Consider taking both papers (3 hours 30 minutes) and let the Session 1 experience guide you.';
+    if (pc.M < 35) msg += ' Mathematics is 100 of 400 marks, so plan regular practice if numbers do not come easily.';
+    txt.innerHTML = msg + '<br><span style="font-size:.84rem">This is a conversation starter, not a prediction. Interests grow with practice.</span>';
+  });
+  // mini aptitude
+  var qs = document.querySelectorAll('#qz .pp-qz');
+  document.getElementById('qzGo').addEventListener('click', function () {
+    var ok = 0, un = 0;
+    qs.forEach(function (q) {
+      var a = +q.dataset.a, c = q.querySelector('input:checked'), ls = q.querySelectorAll('label');
+      ls.forEach(function (l) { l.classList.remove('ok', 'no'); });
+      if (!c) { un++; return; }
+      q.classList.add('done'); ls[a].classList.add('ok');
+      if (+c.value === a) ok++; else ls[+c.value].classList.add('no');
+    });
+    var r = document.getElementById('qzRes'), t = document.getElementById('qzTxt'); r.classList.add('on');
+    var m = ok + ' of ' + qs.length + ' correct';
+    if (un) m += ', ' + un + ' left unanswered (answer them for the full picture).';
+    else m += '. ' + (ok >= 10 ? 'Strong start: keep practising under time.' : ok >= 7 ? 'Good base. Read the explanations for the ones you missed.' : 'Normal at this stage. Work through the explanations, then try again in a week.');
+    t.textContent = m;
+  });
+  document.getElementById('qzReset').addEventListener('click', function () {
+    qs.forEach(function (q) { q.classList.remove('done'); q.querySelectorAll('label').forEach(function (l) { l.classList.remove('ok', 'no'); }); q.querySelectorAll('input').forEach(function (i) { i.checked = false; }); });
+    document.getElementById('qzRes').classList.remove('on');
+  });
+})();
+</script>
+{% endblock %}

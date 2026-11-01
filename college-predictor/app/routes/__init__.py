@@ -527,6 +527,20 @@ def jee_registration_alias():
     return redirect(url_for('main.jee_registration'), code=301)
 
 
+@main_bp.route('/jee-main-2027-paper-2-barch-bplanning')
+def jee_paper2():
+    # public page: JEE Main 2027 Paper 2A (B.Arch) and 2B (B.Planning): deadlines, pattern, syllabus, interest check; from NTA's 2027 bulletin and syllabus, keep in step with NTA notices
+    from app.data import jee_paper2 as d
+    return render_template('jee_paper2.html', d=d)
+
+
+@main_bp.route('/jee-paper-2')
+@main_bp.route('/jee-main-paper-2')
+@main_bp.route('/jee-barch-bplanning')
+def jee_paper2_alias():
+    return redirect(url_for('main.jee_paper2'), code=301)
+
+
 @main_bp.route('/jee-2027-roadmap')
 @premium_required
 def jee_2027_roadmap():
