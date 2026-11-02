@@ -541,6 +541,22 @@ def jee_paper2_alias():
     return redirect(url_for('main.jee_paper2'), code=301)
 
 
+@main_bp.route('/engineering-colleges-by-city')
+def engineering_cities():
+    # public page: top NIRF-ranked engineering colleges per city region and state with fee, eligibility and NRI quota; data in app/data/eng_cities.py, eng_cities.json, eng_colleges.json
+    from app.data import eng_cities as d
+    ctx = d.context()
+    eng = dict(cities=ctx['cities'], states=ctx['states'], colleges=ctx['colleges'], tile=url_for('static', filename='img/colleges/'), types=d.TYPE_LABEL)
+    return render_template('engineering_cities.html', d=d, cities=ctx['cities'], states=ctx['states'], colleges=ctx['colleges'], eng=eng)
+
+
+@main_bp.route('/top-engineering-colleges')
+@main_bp.route('/engineering-colleges-by-state')
+@main_bp.route('/engineering-colleges-city')
+def engineering_cities_alias():
+    return redirect(url_for('main.engineering_cities'), code=301)
+
+
 @main_bp.route('/architecture-planning-india')
 def architecture_planning():
     # public page: B.Arch and B.Planning colleges state by state, admission routes, fees, placements, NRI quota, NIRF 2025, JoSAA 2026; data in app/data/arch_planning.py and arch_colleges.json

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Top Engineering Colleges by City: NIRF Rank, Fees, NRI Quota, Eligibility | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Top 10 NIRF-ranked engineering colleges in Mumbai, Pune, Chennai, Coimbatore, Tiruchirappalli, Kozhikode, Delhi NCR, Ahmedabad and other state capitals, with NIRF rank, course fee, eligibility and NRI quota. Prepared {{ d.UPDATED }}.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<style>
+  .ec{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278)}
+  .ec h2{font-size:1.3rem;margin:0 0 4px}.ec h3{font-size:1rem;margin:12px 0 6px}
+  .ec-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end;margin:6px 0 10px}.ec-top h1{font-size:clamp(1.5rem,3.4vw,2.1rem);margin:2px 0 0}.ec-top p{margin:4px 0 0;font-size:.95rem;color:var(--dim);max-width:64ch}
+  .ec-chips{display:flex;gap:8px;flex-wrap:wrap}.ec-chips span{background:var(--pp);border:1px solid var(--ln);border-radius:999px;padding:5px 12px;font-size:.78rem;color:var(--dim)}.ec-chips b{color:var(--navy,#0E3A8A);font:700 .95rem 'Fraunces',Georgia,serif;margin-right:3px}
+  .ec-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+  .ec-seg{display:inline-flex;border:1px solid var(--ln);border-radius:999px;overflow:hidden;background:var(--pp)}.ec-seg button{border:0;background:transparent;padding:8px 16px;font:700 .82rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:var(--dim)}.ec-seg button.on{background:var(--navy,#0E3A8A);color:#fff}
+  .ec-q{flex:1;min-width:200px;border:1px solid var(--ln);background:var(--pp);border-radius:999px;padding:9px 16px;font:500 .9rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit}
+  .ec-rail{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:thin}.ec-rail button{flex:0 0 auto;border:1px solid var(--ln);background:var(--pp);border-radius:999px;padding:7px 13px;font:700 .8rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit;white-space:nowrap}
+  .ec-rail button small{color:var(--dim);font-weight:600;margin-left:4px}.ec-rail button.on{background:#FF6B0A;border-color:#FF6B0A;color:#fff}.ec-rail button.on small{color:#fff}.ec-rail button[hidden]{display:none}
+  .ec-head{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-end;margin:8px 0}.ec-head p{margin:2px 0 0;font-size:.86rem;color:var(--dim)}
+  .ec-st{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin:8px 0}.ec-st div{background:var(--pp);border:1px solid var(--ln);border-radius:14px;padding:8px 12px}.ec-st b{display:block;font:700 1.3rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A);line-height:1.1}.ec-st span{font-size:.74rem;color:var(--dim)}
+  .ec-two{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:10px;margin-bottom:10px}@media (max-width:860px){.ec-two{grid-template-columns:1fr}}
+  .ec-box{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:10px 12px}
+  .ec-cv{position:relative;width:100%;height:300px}
+  .ec-fl{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:6px 0}.ec-fl button{border:1px solid var(--ln);background:var(--pp);border-radius:999px;padding:6px 12px;font:700 .78rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}.ec-fl button.on{background:var(--navy,#0E3A8A);border-color:var(--navy,#0E3A8A);color:#fff}
+  .ec-fl select{border:1px solid var(--ln);background:var(--pp);border-radius:999px;padding:6px 12px;font:600 .8rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit}
+  .ec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+  .ec-c{background:var(--pp);border:1px solid var(--ln);border-radius:18px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 1px 0 rgba(0,0,0,.02);transition:transform .15s,box-shadow .15s}.ec-c:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(14,58,138,.12)}
+  .ec-img{position:relative;aspect-ratio:400/220;background:#223}.ec-img img{display:block;width:100%;height:100%;object-fit:cover}
+  .ec-rk{position:absolute;top:10px;left:10px;background:#fff;color:#B34700;font:800 .78rem 'JetBrains Mono',monospace;border-radius:999px;padding:4px 10px;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+  .ec-ty{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.45);color:#fff;font:700 .64rem 'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:4px 9px}
+  .ec-b{padding:10px 14px 12px;display:flex;flex-direction:column;gap:6px;flex:1}.ec-b h4{margin:0;font:700 1.02rem 'Fraunces',Georgia,serif;color:var(--navy-ink,#071A44);line-height:1.25}.ec-b small{color:var(--dim)}
+  .ec-sc{display:flex;align-items:center;gap:8px;font-size:.76rem;color:var(--dim)}.ec-sc div{flex:1;height:7px;background:#F1ECDD;border-radius:5px;overflow:hidden}.ec-sc i{display:block;height:100%;background:linear-gradient(90deg,#FF6B0A,#FFB070);border-radius:5px}.ec-sc b{color:var(--navy,#0E3A8A);font-family:'JetBrains Mono',monospace}
+  :root[data-theme="dark"] .ec-sc div{background:#2a2a33}
+  .ec-dl{display:grid;grid-template-columns:70px 1fr;gap:5px 8px;margin:2px 0 0;font-size:.82rem}.ec-dl dt{font:700 .62rem 'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);padding-top:2px}.ec-dl dd{margin:0}.ec-na{color:var(--dim);font-style:italic}
+  .ec-tag{display:inline-block;font:700 .62rem 'JetBrains Mono',monospace;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:rgba(31,139,92,.15);color:#1F8B5C;margin-right:4px}
+  .ec-more{font-size:.78rem;color:var(--dim)}.ec-more summary{cursor:pointer;color:var(--navy,#0E3A8A);font-weight:700}
+  .ec-ft{margin-top:auto;padding-top:6px;display:flex;justify-content:space-between;gap:8px;font-size:.78rem}
+  .ec-t{width:100%;border-collapse:collapse;font-size:.84rem}.ec-t th,.ec-t td{padding:6px 8px;border-bottom:1px solid var(--ln);text-align:left}.ec-t th{font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dim)}.ec-t td.n,.ec-t th.n{text-align:right;font-family:'JetBrains Mono',monospace}.ec-t tr.cl{cursor:pointer}.ec-t tr.cl:hover{background:rgba(255,107,10,.08)}
+  .ec-card{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:12px 14px}.ec-card h3:first-child{margin-top:0}.ec-card p,.ec-card li{font-size:.88rem;line-height:1.55}
+  .ec-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jr2 ec">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Rankings and rules move: prepared {{ d.UPDATED }}.</strong>
+      Rank and score are from the NIRF Engineering list on our NIRF page. A fee, entrance route or NRI quota appears only where the college or an admission authority publishes it, so confirm every fee and seat rule with the college before you pay. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="ec-top">
+    <div><span class="eb">Engineering &middot; by city and state &middot; updated {{ d.UPDATED }}</span>
+      <h1>Top engineering colleges <em>near you</em></h1>
+      <p>Pick a city or state to see its best NIRF-ranked colleges with rank, course fee, eligibility and NRI quota. <a href="{{ url_for('main.nirf_ranking') }}"><b>Full NIRF ranking</b></a> &middot; <a href="{{ url_for('main.nri_admission') }}"><b>NRI guide</b></a></p></div>
+    <div class="ec-chips"><span><b>{{ cities|length }}</b>city regions</span><span><b>{{ states|length }}</b>states</span><span><b>{{ colleges|length }}</b>colleges</span></div>
+  </div>
+
+  <div class="ec-bar">
+    <div class="ec-seg" id="ecView" role="group" aria-label="View"><button type="button" class="on" data-v="city">By city</button><button type="button" data-v="state">By state</button></div>
+    <input type="search" class="ec-q" id="ecQ" placeholder="Search a city, state or college" aria-label="Search">
+  </div>
+  <div class="ec-rail" id="ecRail" role="tablist" aria-label="Cities and states"></div>
+
+  <section id="ecPanel">
+    <div class="ec-head"><div><h2 id="ecTitle"></h2><p id="ecSub"></p></div></div>
+    <div class="ec-st" id="ecStats"></div>
+    <div class="ec-two">
+      <div class="ec-box"><h3 style="margin:0 0 4px;font-size:.92rem">NIRF score of the colleges shown</h3><div class="ec-cv" id="ecCvW"><canvas id="ecChart" aria-label="NIRF scores of the colleges in this region"></canvas></div></div>
+      <div class="ec-box"><h3 style="margin:0 0 4px;font-size:.92rem">City regions at a glance</h3><div style="max-height:300px;overflow:auto"><table class="ec-t" id="ecCmp"><thead><tr><th>Region</th><th class="n">Best rank</th><th class="n">Ranked</th><th class="n">Avg score</th></tr></thead><tbody></tbody></table></div></div>
+    </div>
+    <div class="ec-fl" id="ecFl"><button type="button" class="on" data-f="">All</button><button type="button" data-f="nri">With an NRI route</button><button type="button" data-f="govt">IIT, NIT, IIIT and centrally funded</button><button type="button" data-f="pri">Private and deemed</button>
+      <select id="ecSort" aria-label="Sort"><option value="rank">Sort: NIRF rank</option><option value="fee">Sort: fee, low to high</option></select></div>
+    <div class="ec-grid" id="ecGrid"></div>
+    <p class="ec-n" id="ecNone" hidden>Nothing matches. Try another filter or word.</p>
+    <p class="ec-n">Tile pictures are illustrations we drew, coloured by type of institution: they are not photographs or logos. &ldquo;NIRF 151&ndash;200&rdquo; and similar are NIRF bands, used after rank 100.</p>
+  </section>
+
+  <section id="elig"><span class="eb">Before you apply</span><h2>Eligibility, by kind of college</h2>
+    <div class="ec-grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">{% for a, b in d.ELIGIBILITY %}<div class="ec-card"><h3>{{ a }}</h3><p style="margin:0">{{ b }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="nri"><span class="eb">NRI, PIO, OCI and foreign students</span><h2>How the NRI quota works</h2>
+    <div class="ec-grid" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr))">{% for a, b in d.NRI %}<div class="ec-card"><h3>{{ a }}</h3><p style="margin:0">{{ b }}</p></div>{% endfor %}</div>
+    <p class="ec-n">More: the <a href="{{ url_for('main.nri_admission') }}">NRI admission guide</a>, the <a href="{{ url_for('main.dasa_2026') }}">DASA guide</a> and the <a href="{{ url_for('main.dasa_seat_matrix') }}">DASA seat matrix</a>.</p>
+  </section>
+
+  <section id="faq"><span class="eb">Questions</span><h2>Common questions</h2>
+    {% for q, a in d.FAQ %}<details class="q"><summary><i>Q{{ '%02d'|format(loop.index) }}</i><span>{{ q }}</span></summary><div class="a"><p style="margin:6px 0 0">{{ a }}</p></div></details>{% endfor %}
+    <p class="ec-n">Prepared {{ d.UPDATED }} with AI assistance from: {{ d.SOURCES|join('; ') }}. Nothing here promises a rank, a seat or an admission.</p>
+  </section>
+</div>
+<noscript><p style="padding:12px">This page needs JavaScript to list the colleges. The full NIRF list is on our <a href="{{ url_for('main.nirf_ranking') }}">NIRF ranking page</a>.</p></noscript>
+<script>window.ENG = {{ eng|tojson }};</script>
+<script src="{{ url_for('static', filename='js/eng_cities.js') }}" defer></script>
+{% endblock %}
