@@ -541,6 +541,27 @@ def jee_paper2_alias():
     return redirect(url_for('main.jee_paper2'), code=301)
 
 
+@main_bp.route('/architecture-planning-india')
+def architecture_planning():
+    # public page: B.Arch and B.Planning colleges state by state, admission routes, fees, placements, NRI quota, NIRF 2025, JoSAA 2026; data in app/data/arch_planning.py and arch_colleges.json
+    from app.data import arch_planning as d
+    return render_template('architecture_planning.html', d=d, **d.guide_context())
+
+
+@main_bp.route('/architecture-planning-analytics')
+def architecture_analytics():
+    # public page: charts and a rank finder from the JoSAA 2026 rounds, NIRF 2025 Architecture list, DASA 2025/2026 and the NIT+ seat matrix
+    from app.data import arch_planning as d
+    return render_template('architecture_analytics.html', d=d, **d.analytics_context())
+
+
+@main_bp.route('/architecture-colleges')
+@main_bp.route('/barch-colleges')
+@main_bp.route('/architecture-planning')
+def architecture_planning_alias():
+    return redirect(url_for('main.architecture_planning'), code=301)
+
+
 @main_bp.route('/barch-bplanning-mentorship')
 @premium_required
 def barch_mentorship():

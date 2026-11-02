@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+{% block title %}Architecture and Planning Colleges in India: Admission, Fees, Placements, NRI Quota | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="B.Arch and B.Planning in India: NIRF 2025 ranking, state-wise government and private colleges, admission routes (JEE Paper 2, NATA, DASA), eligibility, fees, placements, NRI quota and JoSAA 2026 seat allotment. Prepared {{ d.UPDATED }}.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .ap-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media (max-width:720px){.ap-two{grid-template-columns:1fr}}
+  .ap-route{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px}
+  .ap-route .jr2-card h3{font-size:1.02rem}.ap-route .by{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#FF6B0A;margin:0 0 4px}
+  .ap-steps{counter-reset:s;display:grid;gap:8px;margin:0;padding:0;list-style:none}.ap-steps li{counter-increment:s;background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:10px 14px 10px 46px;position:relative;font-size:.92rem}
+  .ap-steps li::before{content:counter(s);position:absolute;left:12px;top:9px;width:24px;height:24px;border-radius:50%;background:#FF6B0A;color:#fff;font:700 .8rem 'JetBrains Mono',monospace;display:flex;align-items:center;justify-content:center}
+  .ap-steps b{display:block}
+  .ap-dates{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:10px 0}.ap-dates div{background:#FFF6EC;border:1px solid #F5CBA7;border-radius:12px;padding:8px 12px}.ap-dates b{display:block;font:700 1rem 'Fraunces',Georgia,serif;color:#B34700}.ap-dates span{font-size:.8rem;color:var(--text-dim,#5A6278)}
+  :root[data-theme="dark"] .ap-dates div{background:#2A1E14;border-color:#7A4A22}
+  .ap-bar{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;align-items:center}.ap-bar input,.ap-bar select{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:10px;padding:9px 12px;font:500 .92rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit}.ap-bar input{flex:1;min-width:200px}
+  .ap-bar button{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:999px;padding:6px 13px;font:600 .8rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}.ap-bar button.on{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .ap-st{margin:18px 0 6px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}.ap-st h3{margin:0}.ap-st span{font-size:.84rem;color:var(--text-dim,#5A6278)}.ap-st[hidden],.ap-note[hidden]{display:none}
+  .ap-note{font-size:.84rem;color:var(--text-dim,#5A6278);margin:0 0 8px}
+  .ap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+  .ap-c{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:14px;padding:12px 14px;font-size:.88rem}.ap-c[hidden]{display:none}
+  .ap-c h4{margin:0;font:700 1rem 'Fraunces',Georgia,serif;color:var(--navy-ink,#071A44)}.ap-c small{color:var(--text-dim,#5A6278)}
+  .ap-c .tp{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}.ap-c .tp i{font:700 .6rem 'JetBrains Mono',monospace;letter-spacing:.05em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:#E1E9F7;color:#0E3A8A;font-style:normal}
+  .ap-c .tp i.g{background:#EAF6EF;color:#1F8B5C}.ap-c .tp i.n{background:#FFF1E6;color:#8A4B00}
+  .ap-c dl{margin:6px 0 0;display:grid;grid-template-columns:78px 1fr;gap:3px 8px}.ap-c dt{font-weight:700;color:var(--text-dim,#5A6278);font-size:.78rem}.ap-c dd{margin:0}.ap-c .na{color:var(--text-dim,#8a8f9f);font-style:italic}
+  .ap-c .src{margin-top:7px;font-size:.76rem}.ap-c .src a{margin-right:8px}
+  .ap-t{width:100%;border-collapse:collapse;font-size:.88rem}.ap-t th,.ap-t td{padding:7px 9px;border-bottom:1px solid var(--border,#E8DFC8);text-align:left;vertical-align:top}.ap-t th{font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-dim,#5A6278)}
+  .ap-t td.n{text-align:right;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+  .ap-sc{display:inline-block;height:8px;border-radius:4px;background:linear-gradient(90deg,#FF6B0A,#FFB070);vertical-align:middle;margin-right:6px}
+  .ap-tw{overflow-x:auto}
+  .ap-sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:10px 0}.ap-sum div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:10px 12px}.ap-sum b{display:block;font:700 1.15rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.ap-sum span{font-size:.78rem;color:var(--text-dim,#5A6278)}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jr2">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Rules move: this guide was prepared on {{ d.UPDATED }}.</strong>
+      Ranks and rules come from NIRF 2025, the JoSAA and DASA 2026 brochures and the NATA 2026 brochure. Fees, placements and quotas for individual colleges change every year: confirm them with the college and the counselling authority before you pay. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <header class="jr2-hero">
+    <div>
+      <span class="eb">Architecture and Planning &middot; India &middot; updated {{ d.UPDATED }}</span>
+      <h1><em>B.Arch</em> and <em>B.Planning</em> colleges, state by state</h1>
+      <p class="lead">Where to study architecture or planning in India, how to get in, what it costs, where graduates go, and the 2026 JoSAA seat allotment. Written for students and for the parents who pay.</p>
+      <p style="margin:10px 0 0"><a class="jr2-cta-btn" href="{{ url_for('main.architecture_analytics') }}" style="display:inline-block;background:#FF6B0A;color:#fff;font-weight:700;border-radius:999px;padding:10px 22px;text-decoration:none">Open the analytics &rarr;</a></p>
+    </div>
+    <img src="{{ url_for('static', filename='img/mascot/eduaakashaa-cube.webp') }}" width="340" height="340" alt="The EduAakashaA mascot, an orange cube with a graduation cap, waving and holding a pen" loading="eager">
+  </header>
+
+  <div class="jr2-facts">{% for a, b in d.FACTS %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
+
+  <nav class="jr2-nav" aria-label="On this page">
+    <a href="#routes">Routes in</a><a href="#eligibility">Eligibility</a><a href="#process">Admission process</a><a href="#colleges">Colleges by state</a><a href="#fees">Fees</a><a href="#placements">Placements</a><a href="#nri">NRI quota</a><a href="#nirf">NIRF 2025</a><a href="#josaa">JoSAA 2026</a><a href="#faq">Questions</a>
+  </nav>
+
+  <section id="routes"><span class="eb">Five doors</span><h2>How students get in</h2>
+    <div class="ap-route">{% for t, by, what, site in d.ROUTES %}<div class="jr2-card"><p class="by">{{ by }}</p><h3>{{ t }}</h3><p style="margin:0 0 6px;font-size:.92rem">{{ what }}</p><span class="tg official">{{ site }}</span></div>{% endfor %}</div>
+    <div class="jr2-note"><b>Tip:</b> sit both JEE Main Paper 2 and NATA if you can. Together they open the central institutes and most state and private colleges. Our <a href="{{ url_for('main.jee_paper2') }}">Paper 2 guide</a> has the exam dates, pattern and syllabus.</div>
+  </section>
+
+  <section id="eligibility"><span class="eb">Who can apply</span><h2>Eligibility</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b, c in d.ELIGIBILITY %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}<br><span style="font-size:.8rem;color:var(--text-dim,#5A6278)">Source: {{ c }}</span></td></tr>{% endfor %}</tbody></table></div>
+  </section>
+
+  <section id="process"><span class="eb">Official</span><h2>Admission process</h2>
+    <div class="ap-two">
+      <div><h3>{{ d.NATA.title }}</h3><div class="jr2-card"><table><tbody>{% for a, b in d.NATA.rows %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div></div>
+      <div><h3>JoSAA counselling, step by step</h3><ol class="ap-steps">{% for a, b in d.JOSAA_STEPS %}<li><b>{{ a }}</b>{{ b }}</li>{% endfor %}</ol></div>
+    </div>
+    <h3 style="margin-top:16px">JoSAA 2026 calendar (reference)</h3>
+    <div class="ap-dates">{% for a, b in d.JOSAA_DATES %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
+    <p style="font-size:.88rem">{{ d.JOSAA_NOTE }}</p>
+    <h3>State and college counselling</h3>
+    <p>Outside JoSAA, each state runs its own counselling or leaves admission to the college. The Council of Architecture does not admit students: it sets the minimum standards and the NATA test. State by state, the rules are in the notes inside each state heading in the list below.</p>
+  </section>
+
+  <section id="colleges"><span class="eb">Government and private, state by state</span><h2>Colleges by state</h2>
+    {% if colleges %}
+    <p>{{ colleges|length }} institutions with B.Arch or B.Planning, grouped by state. Every fact carries its own source link. A blank means we could not find a trustworthy source, not that the answer is no: ask the college.</p>
+    <div class="ap-bar">
+      <input type="search" id="apQ" placeholder="Search a college, city or state" aria-label="Search colleges">
+      <select id="apState" aria-label="State"><option value="">All states</option>{% for s in states %}<option value="{{ s }}">{{ s }}</option>{% endfor %}</select>
+      <button type="button" class="on" data-f="">All</button><button type="button" data-f="gov">Government</button><button type="button" data-f="pri">Private and deemed</button><button type="button" data-f="plan">Offers B.Planning</button>
+    </div>
+    {% for s in states %}<div class="ap-grp" data-s="{{ s }}">
+      <div class="ap-st"><h3>{{ s }}</h3><span>{{ by_state[s]|length }} listed</span></div>
+      {% if state_notes.get(s) %}<p class="ap-note">{{ state_notes[s].text }}{% if state_notes[s].source %} <a href="{{ state_notes[s].source }}" target="_blank" rel="noopener nofollow">Source</a>{% endif %}</p>{% endif %}
+      <div class="ap-grid">
+      {% for c in by_state[s] %}<div class="ap-c" data-t="{{ (c.name ~ ' ' ~ (c.city or '') ~ ' ' ~ s)|lower }}" data-g="{{ 'gov' if c.type in ('Central govt', 'State govt', 'State university') else 'pri' }}" data-p="{{ 'plan' if c.has_plan else '' }}">
+        <h4>{{ c.name }}</h4><small>{{ c.city }}</small>
+        <div class="tp"><i class="{{ 'g' if c.type in ('Central govt', 'State govt', 'State university') else '' }}">{{ c.type }}</i>{% if c.nirf_rank %}<i class="n">NIRF 2025 #{{ c.nirf_rank }}</i>{% endif %}{% for p in c.programmes %}<i>{{ p }}</i>{% endfor %}</div>
+        <dl>
+          <dt>Route</dt><dd>{{ c.admission_route or '' }}{% if not c.admission_route %}<span class="na">Not found</span>{% endif %}</dd>
+          <dt>Seats</dt><dd>{% if c.seats %}{{ c.seats }} B.Arch{% if c.seats_note %} <small>({{ c.seats_note }})</small>{% endif %}{% elif c.intake %}{{ c.intake }} B.Arch (intake){% else %}<span class="na">Not found</span>{% endif %}</dd>
+          <dt>Fee</dt><dd>{% if c.fee_text %}{{ c.fee_text }}{% else %}<span class="na">Not found: ask the college</span>{% endif %}</dd>
+          <dt>Placement</dt><dd>{% if c.placement_text %}{{ c.placement_text }}{% else %}<span class="na">Not found</span>{% endif %}</dd>
+          <dt>NRI quota</dt><dd>{% if c.nri_text %}{{ c.nri_text }}{% else %}<span class="na">Not found: ask the college</span>{% endif %}</dd>
+          {% if c.josaa_text %}<dt>JoSAA 2026</dt><dd>{{ c.josaa_text }}</dd>{% endif %}
+        </dl>
+        <div class="src">{% if c.website %}<a href="{{ c.website }}" target="_blank" rel="noopener nofollow">Website</a>{% endif %}{% for u in c.sources[:3] %}<a href="{{ u }}" target="_blank" rel="noopener nofollow">Source {{ loop.index }}</a>{% endfor %}</div>
+      </div>{% endfor %}
+      </div></div>{% endfor %}
+    <p id="apNone" hidden style="margin-top:10px">No college matches. Try another word or state.</p>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:10px">{{ coverage_note }}</p>
+    {% else %}
+    <div class="jr2-note">The researched college list is being added. The NIRF 2025 ranking and JoSAA 2026 allotment below are ready.</div>
+    {% endif %}
+  </section>
+
+  <section id="fees"><span class="eb">What it costs</span><h2>Fees at a glance</h2>
+    <p>These figures come from each college&rsquo;s own pages or notices, for the year noted in its card. A fee is a tuition fee unless the card says otherwise: hostel, mess, studio materials and exam fees are extra.</p>
+    {% if fee_summary %}<div class="ap-sum">{% for a, b in fee_summary %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
+    <div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>College</th><th>Type</th><th class="n">Tuition per year</th><th>Year and note</th></tr></thead><tbody>
+      {% for c in fee_rows %}<tr><td>{{ c.name }}<br><small>{{ c.city }}, {{ c.state }}</small></td><td>{{ c.type }}</td><td class="n">&#8377;{{ '{:,}'.format(c.tuition) }}</td><td>{{ c.fee_note or '' }}</td></tr>{% endfor %}</tbody></table></div>
+    {% else %}<div class="jr2-note">Fee figures are being verified and added.</div>{% endif %}
+    <p style="font-size:.88rem;margin-top:10px">JoSAA seats also carry a one-time seat acceptance fee of {{ '₹30,000' }} (₹15,000 for SC, ST and PwD categories), adjusted against the admission fee. DASA candidates pay the DASA enrolment fee in US dollars (see NRI quota).</p>
+  </section>
+
+  <section id="placements"><span class="eb">Where graduates go</span><h2>Placement records</h2>
+    <p>Architecture hires are fewer and smaller than engineering hires, and many graduates go into higher studies or open their own practice. Read the number of students placed beside the median, not the median alone.</p>
+    {% if placement_rows %}<div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>College</th><th>Year</th><th class="n">Median or average</th><th>Placed and note</th></tr></thead><tbody>
+      {% for c in placement_rows %}<tr><td>{{ c.name }}<br><small>{{ c.city }}, {{ c.state }}</small></td><td>{{ c.pl_year or '' }}</td><td class="n">{{ c.pl_pack }}</td><td>{{ c.pl_note }}</td></tr>{% endfor %}</tbody></table></div>
+    {% else %}<div class="jr2-note">Placement figures are being verified and added.</div>{% endif %}
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:10px">Source for each row is on its college card above. NIRF data sheets are submitted by the institutions themselves. IIT Roorkee&rsquo;s sheet, for example, shows 10 of 22 graduates placed in 2023-24 at a median of &#8377;10,00,000, with 11 going into higher studies.</p>
+  </section>
+
+  <section id="nri"><span class="eb">NRI, PIO, OCI and foreign students</span><h2>NRI quota</h2>
+    <p>{{ d.NRI.intro }}</p>
+    <h3>The government door: DASA 2026</h3>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.NRI.dasa %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <h3 style="margin-top:14px">The college door</h3>
+    <ul style="line-height:1.7;padding-left:20px">{% for n in d.NRI.college %}<li>{{ n }}</li>{% endfor %}</ul>
+    {% if nri_rows %}<h3>Colleges that state an NRI quota (from their own pages)</h3><div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>College</th><th>What they say</th></tr></thead><tbody>
+      {% for c in nri_rows %}<tr><td>{{ c.name }}<br><small>{{ c.city }}, {{ c.state }}</small></td><td>{{ c.nri_text }}</td></tr>{% endfor %}</tbody></table></div>{% endif %}
+    <div class="jr2-note">More on this in our <a href="{{ url_for('main.nri_admission') }}">NRI admission guide</a> and the <a href="{{ url_for('main.dasa_2026') }}">DASA guide</a>. DASA 2025 and 2026 closing ranks for architecture are charted in the <a href="{{ url_for('main.architecture_analytics') }}#dasa">analytics</a>.</div>
+  </section>
+
+  <section id="nirf"><span class="eb">NIRF India Rankings 2025</span><h2>Architecture and Planning ranking</h2>
+    <p>The 40 institutions NIRF ranked this year. The bar shows the overall score; the five columns are the parameter scores out of 100.</p>
+    <div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>#</th><th>Institute</th><th>State</th><th>Score</th>{% for k, n, w in d.NIRF_PARAMS %}<th class="n" title="{{ n }} (weight {{ w }})">{{ k }}</th>{% endfor %}</tr></thead><tbody>
+      {% for r, n, city, st, sc, ps in d.NIRF %}<tr><td>{{ r }}</td><td>{{ n }}<br><small>{{ city }}</small></td><td>{{ st }}</td><td><span class="ap-sc" style="width:{{ (sc * 0.9)|round|int }}px"></span>{{ '%.2f'|format(sc) }}</td>{% for p in ps %}<td class="n">{{ '%.1f'|format(p) }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:10px">{{ d.NIRF_NOTE }}</p>
+    <div class="jr2-note"><a href="{{ url_for('main.architecture_analytics') }}#nirf">See the ranking as charts</a>: what each score is made of, and how any two institutes compare.</div>
+  </section>
+
+  <section id="josaa"><span class="eb">JoSAA 2026, rounds 1 to 5</span><h2>Seat allotment last year</h2>
+    <p>{{ josaa_n }} institutes allotted B.Arch or B.Planning seats through JoSAA in 2026. The table gives each institute&rsquo;s final-round (Round 5) closing rank for the OPEN category, gender-neutral pool, in the quota pools it has.</p>
+    <div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>Institute</th><th>Programme</th><th>Quota</th><th class="n">Round 1 close</th><th class="n">Round 5 close</th><th class="n">Seats</th></tr></thead><tbody>
+      {% for r in josaa_rows %}<tr><td>{{ r.name }}<br><small>{{ r.city }}, {{ r.state }}</small></td><td>{{ r.prog }}</td><td>{{ r.quota }}</td><td class="n">{{ '{:,}'.format(r.c1) if r.c1 else '' }}</td><td class="n">{{ '{:,}'.format(r.c5) if r.c5 else '' }}</td><td class="n">{{ r.seats or '' }}</td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:10px">Ranks are from the JoSAA 2026 opening and closing rank file. Seat counts are from the 2026 NIT+ seat matrix and are shown only where that file has the programme. IIT rows are JEE Advanced and AAT ranks, a different list from JEE Main Paper 2: do not compare them with the others. Every category, gender pool and round is in the <a href="{{ url_for('main.architecture_analytics') }}#rank">analytics</a>, with a tool that takes your rank.</p>
+  </section>
+
+  <section id="faq"><span class="eb">Questions</span><h2>Common questions</h2>
+    {% for q, a in d.FAQ %}<details class="q"><summary><i>Q{{ '%02d'|format(loop.index) }}</i><span>{{ q }}</span></summary><div class="a"><p style="margin:6px 0 0">{{ a }}</p></div></details>{% endfor %}
+  </section>
+
+  <section id="sources"><span class="eb">Sources</span><h2>Where this came from</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.SOURCES %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td><a href="{{ b }}" target="_blank" rel="noopener nofollow">{{ b }}</a></td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:12px">Prepared {{ d.UPDATED }} with AI assistance and checked against the documents above. Institutes may change fees, seats and rules after that date. Nothing here promises a rank, a seat or an admission.</p>
+  </section>
+
+  <div class="jr2-cta">
+    <div style="flex:1;min-width:260px"><h2>Choosing between colleges?</h2>
+      <p>Bring your Paper 2 or NATA score, your state and your budget. We help you build a college list across central, state and private options, and prepare the NRI or DASA paperwork if it applies. Members can also join the <a href="{{ url_for('main.barch_mentorship') }}">B.Arch and B.Planning mentorship programme</a>.</p>
+      <p style="margin-top:8px;font-size:.92rem">{% if current_user.is_authenticated and current_user.is_premium %}Ask in the <b>EduAakashaA Members Group</b>: counsellors and experienced parents answer there.{% else %}Members are added to the <b>EduAakashaA Members Group</b>, where counsellors and parents answer questions.{% endif %}</p></div>
+    <a class="btn" href="{{ url_for('main.members_registration') }}">{% if current_user.is_authenticated and current_user.is_premium %}Your membership{% else %}Join Premium{% endif %}</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  var q = document.getElementById('apQ'); if (!q) return;
+  var st = document.getElementById('apState'), cards = [].slice.call(document.querySelectorAll('.ap-c')), grps = [].slice.call(document.querySelectorAll('.ap-grp'));
+  var btns = [].slice.call(document.querySelectorAll('.ap-bar button')), f = '';
+  function run() {
+    var t = q.value.trim().toLowerCase(), s = st.value, shown = 0;
+    cards.forEach(function (c) {
+      var ok = (!t || c.dataset.t.indexOf(t) > -1) && (!s || c.parentNode.parentNode.dataset.s === s) &&
+        (!f || (f === 'plan' ? c.dataset.p === 'plan' : c.dataset.g === f));
+      c.hidden = !ok; if (ok) shown++;
+    });
+    grps.forEach(function (g) { g.hidden = !g.querySelector('.ap-c:not([hidden])'); });
+    document.getElementById('apNone').hidden = shown > 0;
+  }
+  q.addEventListener('input', run); st.addEventListener('change', run);
+  btns.forEach(function (b) { b.addEventListener('click', function () { btns.forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); f = b.dataset.f; run(); }); });
+})();
+</script>
+{% endblock %}

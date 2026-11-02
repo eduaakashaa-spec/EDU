@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-01'
+UPDATED = '2026-11-02'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -53,6 +53,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-02', 'New public pages: Architecture and Planning colleges in India (state-wise government and private colleges, admission routes, eligibility, fees, placements, NRI quota, NIRF 2025 ranking, JoSAA 2026 allotment) and Architecture and Planning analytics (NIRF 2025 score breakdown, JoSAA 2026 round-by-round ranks, category ladder, DASA 2025 vs 2026, NIT seat matrix and a rank finder). Fees, placements and quotas are shown only where a source link was found.'),
     ('2026-11-01', 'New member tool: EduPulse-IAT Mock Test Centre (IISER Aptitude Test) with full 60-question mocks, past-paper practice sets 2021 to 2026, subject sections, confidence reports and solved papers with worked solutions; Member Home tile.'),
     ('2026-11-01', 'New public page: IISER Aptitude Test (IAT) guide with pattern, dates, eligibility, fees, the seven IISERs and five other institutions that use the IAT, the syllabus, past papers and an IAT mentorship programme (new Add-on), with a Member Home tile and a Colleges and Exams menu link.'),
     ('2026-11-01', 'New member programme: B.Arch and B.Planning mentorship (two tracks, 14 and 10 sessions, covering JEE Main Paper 2A and 2B, NATA and college or state routes), with a page for members, two new Add-on programmes to request, and a Member Home tile.'),
@@ -232,18 +233,19 @@ GUIDE = [
          tips=['Your mentor sees each answer with your confidence, so rate honestly.'],
          tiles=['EduPulse – Reinforcement'], added='2026-10-26', updated='2026-10-26'),
     dict(id='s-analytics', role='student', group='Premium tools', title='Admission intelligence and choice-filling tools', summary='DASA, JoSAA, NIRF, TNEA, roadmaps and the Choice Builder.',
-         where=[('DASA 2026 analytics', 'main.dasa_2026_analytics'), ('Choice Builder', 'main.choice_builder_pro'), ('JoSAA predictor', 'main.josaa'), ('NIRF ranking', 'main.nirf_ranking')],
+         where=[('DASA 2026 analytics', 'main.dasa_2026_analytics'), ('Choice Builder', 'main.choice_builder_pro'), ('JoSAA predictor', 'main.josaa'), ('NIRF ranking', 'main.nirf_ranking'), ('Architecture colleges', 'main.architecture_planning'), ('Architecture analytics', 'main.architecture_analytics')],
          steps=['Open a tool from Admission Intelligence, Choice-Filling Tools or Engineering Insights in Member Home.',
                 'Each page opens with a note saying which year its data covers. Latest 2026-27 data and analytics are a Premium benefit.',
                 'DASA analytics: compare DASA 2025 and 2026 closing ranks. Choice Builder PRO: enter your rank, build and test your choice order, then export CSV or print the PDF report.',
                 'JoSAA predictor and members edition: enter your JEE rank and filters to see colleges, and use the tabs for matrix, analytics and process.',
                 'Roadmap pages (UCEED, Law, IPM, JEE 2027) give the exam process step by step.',
                 'JEE Main 2027 registration guide (open to everyone, also under the JEE / JOSAA menu): key dates for both sessions, who is eligible, the documents and file sizes, the eight steps, fees for centres in India and outside India, rules for families abroad (DigiLocker, Aadhaar OTP, exam cities, nationality), 36 family questions you can search, myths, and a ten-point checklist whose ticks are kept in your browser. Rules move: confirm on jeemain.nta.nic.in.',
+                'Architecture and Planning colleges in India (open to everyone, also under the JEE / JOSAA menu): admission routes (JEE Paper 2 via JoSAA, JEE Advanced with the Architecture Aptitude Test, NATA, DASA, college tests), eligibility, the NATA 2026 pattern and the JoSAA steps and 2026 dates, a searchable list of colleges grouped by state with fee, placement and NRI quota where a source was found (a blank means not found, so ask the college), the NIRF 2025 table, and the JoSAA 2026 final closing ranks. Architecture and Planning analytics: choose the number of NIRF institutes to chart, compare two institutes on the five NIRF scores, type your rank into the rank finder, see closing ranks by quota and category, how a pool moved from round 1 to round 5, DASA 2025 vs 2026 and the NIT seat matrix. Nothing is stored on our servers.',
                 'JEE Paper 2: B.Arch and B.Planning guide (open to everyone, also under the JEE / JOSAA menu): deadlines with a live countdown, pattern and marking for 2A and 2B, fees as an infographic you can switch between one and both papers and India and abroad, the colleges that use a Paper 2 rank (search, filter B.Arch or B.Planning, 2025 rank ranges), the full 2027 syllabus in tabs (Mathematics, Aptitude, Drawing, Planning), what to carry for the Drawing Test, a simple plan, a parents section and FAQs. The self-check has an interest check that leans towards B.Arch, B.Planning or both, 12 mini aptitude questions with explanations, and a ten-minute drawing exercise. Nothing is stored on our servers.',
                 'JEE Main syllabus map & formulas: every chapter ranked by its 2026 questions (Tier 1, 2 or 3), filtered by subject, class or search. Tap a chapter for its key formulas and the question types seen in 2026; Expand all or Print gives a formula sheet.'],
          tips=['Predictions are planning aids, not seat guarantees.'],
          tiles=['DASA 2026 Analytics', 'DASA prediction report', 'JoSAA EA members', 'UCEED 2027 Roadmap', 'Law Entrance 2027 Roadmap', 'IPM 2027 Roadmap', 'JEE 2027 Roadmap', 'JEE Main syllabus map & formulas', 'TNEA expert',
-                'Members report', 'CAET · IIT Delhi – Abu Dhabi guide', 'JEE Main 2027 registration guide', 'JEE Paper 2: B.Arch and B.Planning guide', 'NRI admission guide', 'Choice Builder Simulator', 'Why CSE?', 'Best location', 'Engineering insights', 'Hostel & culture',
+                'Members report', 'CAET · IIT Delhi – Abu Dhabi guide', 'JEE Main 2027 registration guide', 'JEE Paper 2: B.Arch and B.Planning guide', 'Architecture and Planning colleges in India', 'Architecture and Planning analytics', 'NRI admission guide', 'Choice Builder Simulator', 'Why CSE?', 'Best location', 'Engineering insights', 'Hostel & culture',
                 'Branch selection guide'], added='2026-10-26', updated='2026-10-28'),
     dict(id='s-free', role='student', group='Free resources', title='Free guides and the exam schedule', summary='Open to every member.',
          where=[('Free guides', 'guides.library'), ('Exam schedule', 'main.exam_schedule'), ('IISER Aptitude Test guide', 'main.iat')],

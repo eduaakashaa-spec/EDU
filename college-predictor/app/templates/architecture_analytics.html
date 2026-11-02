@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Architecture and Planning Analytics: JoSAA 2026 Ranks, NIRF 2025, DASA | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Charts and a rank finder for B.Arch and B.Planning: JoSAA 2026 round-by-round opening and closing ranks, NIRF 2025 Architecture and Planning scores, DASA 2025 vs 2026 and NIT seat matrix. Prepared {{ d.UPDATED }}.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<style>
+  .aa-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:12px 0}.aa-kpi div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:14px;padding:12px 14px}
+  .aa-kpi b{display:block;font:700 1.6rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A);line-height:1.1}.aa-kpi span{font-size:.8rem;color:var(--text-dim,#5A6278)}
+  .aa-find{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin:10px 0}.aa-find div{background:#FFF6EC;border:1px solid #F5CBA7;border-radius:12px;padding:10px 14px;font-size:.9rem}.aa-find b{display:block;font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#B34700;margin-bottom:3px}
+  :root[data-theme="dark"] .aa-find div{background:#2A1E14;border-color:#7A4A22}
+  .aa-ctl{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 10px;align-items:center}.aa-ctl label{font-size:.8rem;font-weight:600;color:var(--text-dim,#5A6278);display:flex;flex-direction:column;gap:2px}
+  .aa-ctl select,.aa-ctl input[type=number]{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:10px;padding:8px 10px;font:500 .9rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit;min-width:130px}
+  .aa-box{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:16px;padding:12px 14px;margin-bottom:12px}
+  .aa-cv{position:relative;width:100%;height:340px}
+  .aa-two{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media (max-width:820px){.aa-two{grid-template-columns:1fr}}
+  .ap-t{width:100%;border-collapse:collapse;font-size:.88rem}.ap-t th,.ap-t td{padding:7px 9px;border-bottom:1px solid var(--border,#E8DFC8);text-align:left;vertical-align:top}.ap-t th{font-size:.76rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-dim,#5A6278)}
+  .ap-t td.n{text-align:right;font-family:'JetBrains Mono',monospace;white-space:nowrap}.aa-tw{overflow-x:auto}
+  .rk-ok,.rk-ok2,.rk-near,.rk-no{display:inline-block;font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px}
+  .rk-ok{background:rgba(31,139,92,.15);color:#1F8B5C}.rk-ok2{background:#E1E9F7;color:#0E3A8A}.rk-near{background:#FFF1E6;color:#8A4B00}.rk-no{background:#F8E0DE;color:#8E2525}
+  .aa-n{font-size:.84rem;color:var(--text-dim,#5A6278);margin:6px 0 0}
+  .aa-dt td.up{color:#1F8B5C}.aa-dt td.dn{color:#C23A3A}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jr2">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Past data, not a prediction: prepared {{ d.UPDATED }}.</strong>
+      Every chart on this page uses the JoSAA 2026 round files, the DASA 2025 and 2026 closing ranks and the NIRF 2025 list. Seats, applicants and rules change every year, so use these numbers to see the level of a college, not to promise a seat. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <header class="jr2-hero">
+    <div>
+      <span class="eb">Architecture and Planning &middot; analytics &middot; updated {{ d.UPDATED }}</span>
+      <h1>B.Arch and B.Planning <em>by the numbers</em></h1>
+      <p class="lead">What the NIRF 2025 ranking is made of, how JoSAA 2026 seats moved from round 1 to round 5, how DASA changed from 2025 to 2026, and a rank finder you can try with your own result.</p>
+      <p style="margin:10px 0 0"><a href="{{ url_for('main.architecture_planning') }}" style="font-weight:700">&larr; The full guide: colleges by state, fees, admission, NRI quota</a></p>
+    </div>
+    <img src="{{ url_for('static', filename='img/mascot/eduaakashaa-cube.webp') }}" width="340" height="340" alt="The EduAakashaA mascot, an orange cube with a graduation cap, waving and holding a pen" loading="eager">
+  </header>
+
+  <div class="aa-kpi">
+    <div><b>{{ n_inst }}</b><span>JoSAA institutes with B.Arch or B.Planning in 2026</span></div>
+    <div><b>{{ '{:,}'.format(n_rows) }}</b><span>seat pools tracked across 5 rounds (category, gender and quota)</span></div>
+    <div><b>40</b><span>institutions ranked in NIRF 2025 Architecture and Planning</span></div>
+    <div><b>{{ n_dasa }}</b><span>DASA programme pools with 2025 or 2026 ranks</span></div>
+  </div>
+
+  {% if findings %}<h2 style="margin-top:6px">What stands out in 2026</h2>
+  <div class="aa-find">{% for a, b in findings %}<div><b>{{ a }}</b>{{ b }}</div>{% endfor %}</div>
+  <p class="aa-n">Worked out from the JoSAA 2026 file, for JEE Main Paper 2 institutes, OPEN category, gender-neutral pool.</p>{% endif %}
+
+  <nav class="jr2-nav" aria-label="On this page"><a href="#nirf">NIRF 2025</a><a href="#rank">Rank finder</a><a href="#closing">Closing ranks</a><a href="#moves">Round by round</a><a href="#ladder">Category ladder</a><a href="#seats">Seats</a><a href="#dasa">DASA</a><a href="#read">How to read</a></nav>
+
+  <section id="nirf"><span class="eb">NIRF India Rankings 2025</span><h2>What the ranking is made of</h2>
+    <p>Each bar adds up to the institute&rsquo;s NIRF score. The coloured parts show how many of those points came from each parameter, after weighting.</p>
+    <div class="aa-ctl"><label>Show<select id="nirfN"><option value="10">Top 10</option><option value="20" selected>Top 20</option><option value="40">All 40</option></select></label></div>
+    <div class="aa-box"><div class="aa-cv" id="nirfWrap"><canvas id="nirfBars" aria-label="Stacked bars of weighted NIRF scores"></canvas></div></div>
+    <h3>Compare two institutes</h3>
+    <div class="aa-ctl"><label>First<select id="rdA"></select></label><label>Second<select id="rdB"></select></label></div>
+    <div class="aa-box"><div class="aa-cv"><canvas id="nirfRadar" aria-label="Radar chart of the five NIRF parameters"></canvas></div><p class="aa-n" id="rdTxt"></p></div>
+    <p class="aa-n">{{ d.NIRF_NOTE }}</p>
+  </section>
+
+  <section id="rank"><span class="eb">Try it</span><h2>Rank finder (JoSAA 2026)</h2>
+    <p>Enter your rank, choose the programme and your category. The list shows where a seat of your kind was still open at your rank in 2026.</p>
+    <div class="aa-ctl">
+      <label>Your rank<input type="number" id="rkN" min="1" inputmode="numeric" placeholder="e.g. 1500"></label>
+      <label>Rank list<select id="rkList"><option value="p2">JEE Main Paper 2 (NITs, SPAs, IIEST, others)</option><option value="iit">JEE Advanced + AAT (IITs)</option></select></label>
+      <label>Programme<select id="rkP"><option value="A">B.Arch</option><option value="P">B.Planning</option></select></label>
+      <label>Category<select id="rkC"></select></label>
+      <label>Pool<select id="rkG"><option value="N">Gender-neutral</option><option value="F">Female-only</option><option value="B">Both</option></select></label>
+      <label style="flex-direction:row;align-items:center;gap:6px"><input type="checkbox" id="rkHide" checked> Hide closed</label>
+    </div>
+    <div class="aa-box aa-tw"><table class="ap-t"><thead><tr><th>Institute</th><th>Pool</th><th class="n">Round 1 close</th><th class="n">Last round close</th><th>Status in 2026</th></tr></thead><tbody id="rkBody"></tbody></table></div>
+    <p class="aa-n" id="rkTxt"></p>
+  </section>
+
+  <section id="closing"><span class="eb">JoSAA 2026</span><h2>Closing ranks by institute</h2>
+    <div class="aa-ctl">
+      <label>Rank list<select id="fList"><option value="p2">JEE Main Paper 2</option><option value="iit">JEE Advanced + AAT (IITs)</option></select></label>
+      <label>Programme<select id="fProg"><option value="A">B.Arch</option><option value="P">B.Planning</option></select></label>
+      <label>Quota<select id="fQ"><option value="AI">All India</option><option value="HS">Home State</option><option value="OS" selected>Other State</option></select></label>
+      <label>Category<select id="fCat"><option>OPEN</option><option>EWS</option><option>OBC-NCL</option><option>SC</option><option>ST</option><option>OPEN (PwD)</option><option>OBC-NCL (PwD)</option></select></label>
+      <label>Pool<select id="fG"><option value="N">Gender-neutral</option><option value="F">Female-only</option></select></label>
+    </div>
+    <div class="aa-box"><div class="aa-cv" id="clWrap"><canvas id="clBars" aria-label="Closing ranks by institute"></canvas></div><p class="aa-n" id="clNone" hidden>No seats of this kind in 2026. Try another quota (NITs use Home State and Other State; the SPAs and IITs use All India).</p></div>
+  </section>
+
+  <section id="moves"><span class="eb">Round 1 to Round 5</span><h2>How a pool moved across rounds</h2>
+    <div class="aa-ctl"><label>Institute<select id="mI"></select></label><label>Programme<select id="mP"></select></label><label>Quota<select id="mQ"></select></label><label>Category<select id="mC"></select></label></div>
+    <div class="aa-box"><div class="aa-cv" style="height:300px"><canvas id="mv" aria-label="Opening and closing rank by round"></canvas></div><p class="aa-n" id="mTxt"></p></div>
+  </section>
+
+  <section id="ladder"><span class="eb">Reservation categories</span><h2>The category ladder at one institute</h2>
+    <div class="aa-ctl"><label>Institute<select id="lI"></select></label><label>Programme<select id="lP"></select></label><label>Quota<select id="lQ"></select></label></div>
+    <div class="aa-box"><div class="aa-cv" style="height:300px"><canvas id="lad" aria-label="Final-round closing rank by category"></canvas></div><p class="aa-n" id="lNone" hidden>No seats of this kind.</p></div>
+  </section>
+
+  <section id="seats"><span class="eb">2026 seat matrix (NITs and IIEST)</span><h2>How many seats are on offer</h2>
+    <div class="aa-box"><div class="aa-cv" id="stWrap"><canvas id="stBars" aria-label="Seats by institute and quota"></canvas></div></div>
+    <p class="aa-n">From the JoSAA 2026 seat matrix. It covers the NIT+ programmes in the file: the three SPAs, IITs and a few other institutes are not in it, so their seat numbers are not charted. Seats include any female supernumerary seats the matrix counts.</p>
+  </section>
+
+  <section id="dasa"><span class="eb">DASA 2025 and 2026</span><h2>Closing ranks for NRI, PIO, OCI and foreign students</h2>
+    <p>Final closing rank in each year&rsquo;s last round (2025: Round 3, 2026: Round 2). A smaller number means a harder seat. These ranks are in the DASA lists, not the JoSAA lists.</p>
+    <div class="aa-box"><div class="aa-cv" id="dsWrap"><canvas id="dsBars" aria-label="DASA final closing ranks 2025 and 2026"></canvas></div></div>
+    <div class="aa-box aa-tw"><table class="ap-t aa-dt"><thead><tr><th>Institute</th><th>Programme</th><th>Quota</th><th class="n">2025 final</th><th class="n">2026 final</th><th>Change</th></tr></thead><tbody>
+      {% for r in dasa_rows %}<tr><td>{{ r.inst }}</td><td>{{ r.prog }}</td><td>{{ r.quota }}</td><td class="n">{{ '{:,}'.format(r.f25) if r.f25 else 'not offered' }}</td><td class="n">{{ '{:,}'.format(r.f26) if r.f26 else 'not offered' }}</td><td class="{{ r.cls }}">{{ r.change }}</td></tr>{% endfor %}</tbody></table></div>
+    <p class="aa-n">Source: the DASA 2025 and 2026 closing-rank report. &ldquo;Easier&rdquo; means the closing rank went up (a seat was available to a lower-ranked student), &ldquo;tougher&rdquo; means it came down. One year of change is a small sample.</p>
+  </section>
+
+  <section id="read"><span class="eb">Before you decide</span><h2>How to read these numbers</h2>
+    <div class="jr2-grid">{% for a, b in d.READING %}<div class="jr2-card"><h3>{{ a }}</h3><p style="margin:0;font-size:.92rem">{{ b }}</p></div>{% endfor %}</div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:12px">Prepared {{ d.UPDATED }} with AI assistance from the JoSAA 2026 opening and closing rank file (rounds 1 to 5), the JoSAA 2026 seat matrix, the DASA 2025 and 2026 report and the NIRF India Rankings 2025. See the <a href="{{ url_for('main.architecture_planning') }}#sources">sources</a>. Nothing here promises a rank, a seat or an admission.</p>
+  </section>
+</div>
+<script>window.ARCH = {{ data|tojson }};</script>
+<script src="{{ url_for('static', filename='js/arch_analytics.js') }}" defer></script>
+{% endblock %}
