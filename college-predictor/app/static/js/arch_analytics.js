@@ -194,8 +194,10 @@
     ['Graduate outcomes (5-year B.Arch)', null],
     ['Graduating batch', function (x) { return x.year; }, function (v) { return v; }, null], ['Graduated', function (x) { return x.grads; }, num, null], ['Placed', function (x) { return x.placed; }, num, null],
     ['Placed (latest batch)', function (x) { return x.placed_pct; }, pc, 'hi'], ['Placed (average of 3 batches)', function (x) { return x.avg_placed_pct; }, pc, 'hi'],
-    ['Median salary a year', function (x) { return x.median; }, money, 'hi'], ['Went to higher studies (latest batch)', function (x) { return x.higher_pct; }, pc, null]
+    ['Median salary a year', function (x) { return x.median; }, money, 'hi'], ['Went to higher studies (latest batch)', function (x) { return x.higher_pct; }, pc, null],
+    ['NIRF rating chart: sub-scores (marks, where NIRF\u2019s chart is held)', null]
   ];
+  A.subp.forEach(function (sp, j) { M.push([sp[1] + ' (' + sp[0] + ', of ' + sp[2] + ')', function (x) { return x.sub ? x.sub[j] : null; }, function (v) { return v.toFixed(2); }, sp[0] === 'PR' || sp[2] ? 'hi' : null]); });
   var cm = ['cmA', 'cmB', 'cmC', 'cmD'];
   function compare() {
     var picks = cm.map(function (id) { return $(id).value === '' ? null : X[+$(id).value]; }).filter(Boolean);
@@ -243,5 +245,28 @@
     options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return c.raw.n + ': ' + c.raw.x + '% placed, median ₹' + c.raw.y.toLocaleString('en-IN'); } } } },
       scales: { x: { title: { display: true, text: 'Placed, latest graduating batch (%)' }, min: 0, max: 100 }, y: { title: { display: true, text: 'Median salary a year (₹)' }, ticks: { callback: function (v) { return fmt(v); } } } } } });
 
+
+  /* ---- NIRF rating chart (15 sub-scores) ---- */
+  var RT = X.filter(function (x) { return x.sub; });
+  if (RT.length && $('rtI')) {
+    var SP = A.subp, avgPct = SP.map(function (sp, j) { return RT.reduce(function (a, x) { return a + 100 * x.sub[j] / sp[2]; }, 0) / RT.length; });
+    opt($('rtI'), RT.map(function (x, k) { return [k, nm(x)]; }), 0);
+    var ratingChart = function () {
+      var x = RT[+$('rtI').value];
+      mk('rtBars', { type: 'bar', data: { labels: SP.map(function (sp) { return sp[0]; }), datasets: [
+        { label: 'Marks available', data: SP.map(function (sp) { return sp[2]; }), backgroundColor: dark ? 'rgba(255,255,255,.14)' : 'rgba(14,58,138,.12)' },
+        { label: 'Marks scored', data: x.sub, backgroundColor: SP.map(function (sp) { return { TLR: '#9B3326', RPC: '#2FA655', GO: '#5F7FB5', OI: '#4F2A76', PR: OR }[sp[3]]; }) }] },
+        options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }, tooltip: { callbacks: { title: function (it) { return SP[it[0].dataIndex][1]; } } } }, scales: { x: { stacked: false }, y: { max: 100, title: { display: true, text: 'Marks' } } }, datasets: { bar: { grouped: false } } } });
+      var dz = SP.map(function (sp, j) { return [100 * x.sub[j] / sp[2] - avgPct[j], j]; }).sort(function (a, b) { return b[0] - a[0]; });
+      var up = dz.filter(function (d) { return d[0] > 8; }).slice(0, 3).map(function (d) { return SP[d[1]][1].toLowerCase(); });
+      var dn = dz.slice().reverse().filter(function (d) { return d[0] < -8; }).slice(0, 3).map(function (d) { return SP[d[1]][1].toLowerCase(); });
+      $('rtTxt').textContent = x.name + ': ' + (up.length ? 'stronger than most of the ' + RT.length + ' on ' + up.join(', ') : 'close to the group average everywhere') + (dn.length ? '; weaker than most on ' + dn.join(', ') : '') + '. Overall NIRF score ' + x.score.toFixed(2) + ', rank ' + x.rank + '.';
+    };
+    $('rtI').addEventListener('change', ratingChart); ratingChart();
+    var order = SP.map(function (sp, j) { return j; }).sort(function (a, b) { return avgPct[b] - avgPct[a]; });
+    $('rtAvg').parentNode.style.height = (SP.length * 26 + 80) + 'px';
+    mk('rtAvg', { type: 'bar', data: { labels: order.map(function (j) { return SP[j][1] + ' (' + SP[j][0] + ')'; }), datasets: [{ label: 'Average share of marks earned (%)', data: order.map(function (j) { return +avgPct[j].toFixed(0); }), backgroundColor: order.map(function (j) { return avgPct[j] >= 75 ? GREEN : avgPct[j] >= 40 ? GOLD : RED; }) }] },
+      options: barOpts(true, { plugins: { legend: { display: false } }, scales: { x: { max: 100, title: { display: true, text: '% of the marks available' } } } }) });
+  }
   nirfStack(); nirfRadar(); closing(); fillM(); fillL(); dasa(); seats(); find();
 })();

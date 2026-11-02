@@ -106,6 +106,7 @@
           <dt>NRI quota</dt><dd>{% if c.nri_text %}{{ c.nri_text }}{% else %}<span class="na">Not found: ask the college</span>{% endif %}</dd>
           {% if c.josaa_text %}<dt>JoSAA 2026</dt><dd>{{ c.josaa_text }}</dd>{% endif %}
           {% if c.nirf %}<dt>Placement</dt><dd>{{ c.nirf.placed }} of {{ c.nirf.grads }} graduates placed ({{ c.nirf.year }}){% if c.nirf.median %}, median &#8377;{{ '{:,}'.format(c.nirf.median) }}{% endif %}; {{ c.nirf.higher }} to higher studies <small>(NIRF)</small></dd>
+          <dt>NIRF score</dt><dd>{{ '%.2f'|format(c.nirf.score) }} <small>(TLR {{ '%.0f'|format(c.nirf.scores[0]) }}, RPC {{ '%.0f'|format(c.nirf.scores[1]) }}, GO {{ '%.0f'|format(c.nirf.scores[2]) }}, OI {{ '%.0f'|format(c.nirf.scores[3]) }}, PR {{ '%.0f'|format(c.nirf.scores[4]) }})</small></dd>
           <dt>Campus</dt><dd>{{ '{:,}'.format(c.nirf.students) }} students, {{ c.nirf.women_pct|round|int }}% women, {{ c.nirf.outside_state_pct|round|int }}% from other states, {{ c.nirf.faculty }} faculty <small>(NIRF)</small></dd>{% endif %}
         </dl>
         <div class="src">{% if c.website %}<a href="{{ c.website }}" target="_blank" rel="noopener nofollow">Website</a>{% endif %}{% if c.nirf %}<a href="{{ url_for('main.architecture_analytics') }}?c={{ c.nirf_rank }}#compare">Compare on NIRF factors</a>{% endif %}</div>
@@ -151,6 +152,14 @@
     <div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>#</th><th>Institute</th><th>Score</th>{% for k, n, w in d.NIRF_PARAMS %}<th class="n" title="{{ n }} (weight {{ w }})">{{ k }}</th>{% endfor %}<th class="n">B.Arch intake</th><th class="n">Students</th><th class="n">Faculty</th></tr></thead><tbody>
       {% for c in profiles %}<tr><td>{{ c.rank }}</td><td>{{ c.name }}<br><small>{{ c.city }}, {{ c.state }} &middot; <a href="{{ url_for('main.architecture_analytics') }}?c={{ c.rank }}#compare">compare</a></small></td><td><span class="ap-sc" style="width:{{ (c.score * 0.7)|round|int }}px"></span>{{ '%.2f'|format(c.score) }}</td>{% for p in c.scores %}<td class="n">{{ '%.1f'|format(p) }}</td>{% endfor %}<td class="n">{{ c.intake_ug5 }}</td><td class="n">{{ '{:,}'.format(c.students) }}</td><td class="n">{{ c.faculty }}</td></tr>{% endfor %}</tbody></table></div>
     <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:10px">{{ d.NIRF_NOTE }}</p>
+    <h3>How the NIRF score is built</h3>
+    <div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>Score</th><th class="n">Weight</th><th>Made up of (marks on the Architecture chart)</th></tr></thead><tbody>
+      <tr><td>TLR: Teaching, learning and resources</td><td class="n">0.40</td><td>Student strength (20), faculty-student ratio (30), faculty qualification and experience (20), financial resources and their use (30)</td></tr>
+      <tr><td>RPC: Research and professional practice</td><td class="n">0.20</td><td>Publications (60), quality of publications (20), projects and professional practice (20)</td></tr>
+      <tr><td>GO: Graduation outcomes</td><td class="n">0.20</td><td>Placement and higher studies (40), university examinations (30), median salary (30)</td></tr>
+      <tr><td>OI: Outreach and inclusivity</td><td class="n">0.10</td><td>Students from other states and countries (30), women (30), economically and socially challenged students (20), facilities for physically challenged students (20)</td></tr>
+      <tr><td>PR: Perception</td><td class="n">0.10</td><td>A survey of employers and academic peers (100)</td></tr></tbody></table></div>
+    <p style="font-size:.9rem;margin-top:8px">Reading the 39 rating charts we hold (of 40): almost every institution earns full or near-full marks for accessibility, women, examinations and faculty-student ratio, and loses most marks on research income, publications, support for economically challenged students and perception. The scores that separate institutions most are financial resources, publications and perception. See each institute&rsquo;s chart, a heat map of all sub-scores and the details in the <a href="{{ url_for('main.architecture_analytics') }}#rating">rating-chart analysis</a>.</p>
     <div class="jr2-note"><a href="{{ url_for('main.architecture_analytics') }}#compare">Compare colleges on NIRF factors</a>: placement, median salary, intake, women and out-of-state students, faculty, research income and more. Or <a href="{{ url_for('main.architecture_analytics') }}#nirf">see the ranking as charts</a>.</div>
   </section>
 

@@ -64,6 +64,18 @@ assert all(r['c5'] for r in g['josaa_rows'])
 a = d.analytics_context()
 assert a['findings'] and len(a['dasa_rows']) == 16 and len(a['data']['nirfx']) == 40
 
+# rating charts: 15 sub-scores for 20 institutions, each reconciling with the five published NIRF scores
+from app.data import arch_nirf_sub as sub  # noqa: E402
+assert len(sub.SUB_PARAMS) == 15 and len(sub.SUB) == 39 and all(len(v) == 15 for v in sub.SUB.values())
+for iid, v in sub.SUB.items():
+    r = d.NIRF[d.NIRF_IDS.index(iid)][5]
+    got = [sum(v[0:4]), sum(v[4:7]), sum(v[7:10]), sum(v[10:14]), v[14]]
+    assert all(abs(a - b) <= 0.05 for a, b in zip(got, r)), (iid, got, r)
+    assert all(0 <= x <= sp[2] for x, sp in zip(v, sub.SUB_PARAMS))
+rc = d.rating_context()
+assert rc['n'] == 39 and len(rc['heat']) == 39 and len(rc['avg']) == 15 and rc['findings']
+assert sum(1 for p in d.nirf_profiles() if p['sub']) == 39
+
 app = create_app()
 app.config['TESTING'] = True
 with app.app_context():
@@ -78,7 +90,7 @@ assert 'Source 1' not in h and 'aggregator' not in h.lower() and 'collegedekho' 
 r = cl.get('/architecture-planning-analytics')
 assert r.status_code == 200
 h = r.get_data(as_text=True)
-for t in ('Rank finder', 'window.ARCH', 'arch_analytics.js', 'dg-alert', 'DASA 2025', 'id="compare"', 'cmT'):
+for t in ('Rank finder', 'window.ARCH', 'arch_analytics.js', 'dg-alert', 'DASA 2025', 'id="compare"', 'cmT', 'id="rating"', 'rtBars', 'Inside the five scores'):
     assert t in h, t
 for u in ('/architecture-colleges', '/barch-colleges', '/architecture-planning'):
     assert cl.get(u).status_code == 301

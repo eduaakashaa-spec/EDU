@@ -4,7 +4,10 @@ DASA 2026 brochure and the DASA 2025/2026 closing-rank workbook, NIRF India Rank
 College fees, placements and quota rules for individual colleges live in app/data/arch_colleges.json (researched, each fact with its own source link; blank where not verified).
 Nothing here promises a rank, a seat or an admission."""
 import json
+import math
 import os
+
+from app.data.arch_nirf_sub import SUB, SUB_KEYS, SUB_PARAMS
 
 UPDATED = '2 November 2026'
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -324,7 +327,8 @@ def analytics_context():
         else:
             cls, txt = '', ('2025 only' if d['f25'] else '2026 only')
         dr.append(dict(inst=d['inst'].replace('School of Planning & Architecture:', 'School of Planning & Architecture,'), prog=prog, quota=d['quota'].replace('DASA-', 'DASA '), f25=d['f25'], f26=d['f26'], change=txt, cls=cls))
-    return dict(data=data, findings=f, n_rows=len(j['rows']), n_inst=len(j['institutes']), n_dasa=len(j['dasa']), dasa_rows=dr)
+    data['subp'] = [list(sp) for sp in SUB_PARAMS]
+    return dict(data=data, rating=rating_context(), sub_keys=SUB_KEYS, findings=f, n_rows=len(j['rows']), n_inst=len(j['institutes']), n_dasa=len(j['dasa']), dasa_rows=dr)
 
 
 # NIRF 2025 Architecture and Planning institute ids, in rank order (the data sheets are in app/data/arch_nirf.json)
@@ -381,5 +385,39 @@ def nirf_profiles():
             place=place, plan=plan, placed_pct=last.get('placed_pct'), median=last.get('median'), higher_pct=last.get('higher_pct'), grads=last.get('grads'), placed=last.get('placed'), higher=last.get('higher'),
             avg_placed_pct=_pct(psum, gsum), avg_higher_pct=_pct(hsum, gsum), year=last.get('year'),
             research_lakh=round(spon / 1e5, 1), consult_lakh=round(cons / 1e5, 1), research_per_fac=round((spon + cons) / 1e5 / fac, 1) if fac else None,
-            acad_per_student=round(acad / float(tot)) if tot else None, pcs=pcs))
+            acad_per_student=round(acad / float(tot)) if tot else None, pcs=pcs,
+            sub=list(SUB[NIRF_IDS[k]]) if NIRF_IDS[k] in SUB else None))
     return out
+
+
+_W = {'TLR': 0.40, 'RPC': 0.20, 'GO': 0.20, 'OI': 0.10, 'PR': 0.10}
+
+
+def rating_context():
+    """What the rating charts (15 sub-scores) show, worked out from the 20 charts supplied."""
+    P = [p for p in nirf_profiles() if p['sub']]
+    if not P:
+        return None
+    n = len(SUB_PARAMS)
+    pct = [[100.0 * p['sub'][j] / SUB_PARAMS[j][2] for j in range(n)] for p in P]
+    avg = [sum(r[j] for r in pct) / len(P) for j in range(n)]
+    heat = [dict(p=p, pct=[round(x) for x in pct[i]]) for i, p in enumerate(P)]
+    # which sub-scores move the overall NIRF score most: spread of weighted points (a sub-score counts for its parameter's weight)
+    sep = []
+    for j, sp in enumerate(SUB_PARAMS):
+        pts = [p['sub'][j] * _W[sp[3]] for p in P]
+        sd = math.sqrt(sum((x - sum(pts) / len(pts)) ** 2 for x in pts) / len(pts))
+        sep.append(dict(key=sp[0], label=sp[1], maxm=sp[2], lo=min(p['sub'][j] for p in P), hi=max(p['sub'][j] for p in P), spread=round(max(pts) - min(pts), 1), sd=round(sd, 2), avg=round(avg[j])))
+    sep.sort(key=lambda x: -x['sd'])
+    notes = {}
+    for i, p in enumerate(P):
+        dz = sorted(((pct[i][j] - avg[j], j) for j in range(n)), reverse=True)
+        up = [SUB_PARAMS[j] for d, j in dz[:3] if d > 8]
+        dn = [SUB_PARAMS[j] for d, j in dz[::-1][:3] if d < -8]
+        notes[p['rank']] = dict(up=[(x[0], x[1]) for x in up], down=[(x[0], x[1]) for x in dn])
+    f = []
+    top, low = sorted(range(n), key=lambda j: -avg[j]), sorted(range(n), key=lambda j: avg[j])
+    f.append(('Where almost everyone scores full marks', ', '.join('%s (%d%% of the marks on average)' % (SUB_PARAMS[j][1].lower(), avg[j]) for j in top[:4])))
+    f.append(('Where almost everyone loses marks', ', '.join('%s (%d%%)' % (SUB_PARAMS[j][1].lower(), avg[j]) for j in low[:4])))
+    f.append(('What separates institutes most', ', '.join('%s (%.1f to %.1f of %d)' % (x['label'].lower(), x['lo'], x['hi'], x['maxm']) for x in sep[:3])))
+    return dict(heat=heat, avg=[round(a) for a in avg], sep=sep, notes=notes, findings=f, n=len(P))
