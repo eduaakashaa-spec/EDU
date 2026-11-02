@@ -93,20 +93,22 @@
     </div>
     {% for s in states %}<div class="ap-grp" data-s="{{ s }}">
       <div class="ap-st"><h3>{{ s }}</h3><span>{{ by_state[s]|length }} listed</span></div>
-      {% if state_notes.get(s) %}<p class="ap-note">{{ state_notes[s].text }}{% if state_notes[s].source %} <a href="{{ state_notes[s].source }}" target="_blank" rel="noopener nofollow">Source</a>{% endif %}</p>{% endif %}
+      {% if state_notes.get(s) %}<p class="ap-note">{{ state_notes[s].text }}</p>{% endif %}
       <div class="ap-grid">
       {% for c in by_state[s] %}<div class="ap-c" data-t="{{ (c.name ~ ' ' ~ (c.city or '') ~ ' ' ~ s)|lower }}" data-g="{{ 'gov' if c.type in ('Central govt', 'State govt', 'State university') else 'pri' }}" data-p="{{ 'plan' if c.has_plan else '' }}">
         <h4>{{ c.name }}</h4><small>{{ c.city }}</small>
         <div class="tp"><i class="{{ 'g' if c.type in ('Central govt', 'State govt', 'State university') else '' }}">{{ c.type }}</i>{% if c.nirf_rank %}<i class="n">NIRF 2025 #{{ c.nirf_rank }}</i>{% endif %}{% for p in c.programmes %}<i>{{ p }}</i>{% endfor %}</div>
         <dl>
-          <dt>Route</dt><dd>{{ c.admission_route or '' }}{% if not c.admission_route %}<span class="na">Not found</span>{% endif %}</dd>
-          <dt>Seats</dt><dd>{% if c.seats %}{{ c.seats }} B.Arch{% if c.seats_note %} <small>({{ c.seats_note }})</small>{% endif %}{% elif c.intake %}{{ c.intake }} B.Arch (intake){% else %}<span class="na">Not found</span>{% endif %}</dd>
+          <dt>Route</dt><dd>{% if c.admission_route %}{{ c.admission_route }}{% else %}<span class="na">Not found</span>{% endif %}</dd>
+          {% if c.nirf %}<dt>Intake</dt><dd>{{ c.nirf.intake_ug5 }} B.Arch{% if c.nirf.intake_ug4 %}, {{ c.nirf.intake_ug4 }} B.Planning{% endif %} <small>(NIRF, 2023-24)</small></dd>
+          {% elif c.seats %}<dt>Seats</dt><dd>{{ c.seats }} B.Arch <small>(2026 JoSAA seat matrix)</small></dd>{% endif %}
           <dt>Fee</dt><dd>{% if c.fee_text %}{{ c.fee_text }}{% else %}<span class="na">Not found: ask the college</span>{% endif %}</dd>
-          <dt>Placement</dt><dd>{% if c.placement_text %}{{ c.placement_text }}{% else %}<span class="na">Not found</span>{% endif %}</dd>
           <dt>NRI quota</dt><dd>{% if c.nri_text %}{{ c.nri_text }}{% else %}<span class="na">Not found: ask the college</span>{% endif %}</dd>
           {% if c.josaa_text %}<dt>JoSAA 2026</dt><dd>{{ c.josaa_text }}</dd>{% endif %}
+          {% if c.nirf %}<dt>Placement</dt><dd>{{ c.nirf.placed }} of {{ c.nirf.grads }} graduates placed ({{ c.nirf.year }}){% if c.nirf.median %}, median &#8377;{{ '{:,}'.format(c.nirf.median) }}{% endif %}; {{ c.nirf.higher }} to higher studies <small>(NIRF)</small></dd>
+          <dt>Campus</dt><dd>{{ '{:,}'.format(c.nirf.students) }} students, {{ c.nirf.women_pct|round|int }}% women, {{ c.nirf.outside_state_pct|round|int }}% from other states, {{ c.nirf.faculty }} faculty <small>(NIRF)</small></dd>{% endif %}
         </dl>
-        <div class="src">{% if c.website %}<a href="{{ c.website }}" target="_blank" rel="noopener nofollow">Website</a>{% endif %}{% for u in c.sources[:3] %}<a href="{{ u }}" target="_blank" rel="noopener nofollow">Source {{ loop.index }}</a>{% endfor %}</div>
+        <div class="src">{% if c.website %}<a href="{{ c.website }}" target="_blank" rel="noopener nofollow">Website</a>{% endif %}{% if c.nirf %}<a href="{{ url_for('main.architecture_analytics') }}?c={{ c.nirf_rank }}#compare">Compare on NIRF factors</a>{% endif %}</div>
       </div>{% endfor %}
       </div></div>{% endfor %}
     <p id="apNone" hidden style="margin-top:10px">No college matches. Try another word or state.</p>
@@ -125,12 +127,12 @@
     <p style="font-size:.88rem;margin-top:10px">JoSAA seats also carry a one-time seat acceptance fee of {{ '₹30,000' }} (₹15,000 for SC, ST and PwD categories), adjusted against the admission fee. DASA candidates pay the DASA enrolment fee in US dollars (see NRI quota).</p>
   </section>
 
-  <section id="placements"><span class="eb">Where graduates go</span><h2>Placement records</h2>
-    <p>Architecture hires are fewer and smaller than engineering hires, and many graduates go into higher studies or open their own practice. Read the number of students placed beside the median, not the median alone.</p>
-    {% if placement_rows %}<div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>College</th><th>Year</th><th class="n">Median or average</th><th>Placed and note</th></tr></thead><tbody>
-      {% for c in placement_rows %}<tr><td>{{ c.name }}<br><small>{{ c.city }}, {{ c.state }}</small></td><td>{{ c.pl_year or '' }}</td><td class="n">{{ c.pl_pack }}</td><td>{{ c.pl_note }}</td></tr>{% endfor %}</tbody></table></div>
-    {% else %}<div class="jr2-note">Placement figures are being verified and added.</div>{% endif %}
-    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:10px">Source for each row is on its college card above. NIRF data sheets are submitted by the institutions themselves. IIT Roorkee&rsquo;s sheet, for example, shows 10 of 22 graduates placed in 2023-24 at a median of &#8377;10,00,000, with 11 going into higher studies.</p>
+  <section id="placements"><span class="eb">Where graduates go</span><h2>Placement records (NIRF 2025)</h2>
+    <p>For the 40 NIRF-ranked institutions, from the data each one submitted. Architecture hires are fewer and smaller than engineering hires, and many graduates go into higher studies or open their own practice. Read the number placed beside the median, not the median alone.</p>
+    <div class="ap-bar"><button type="button" class="on" data-s="median">Sort by median salary</button><button type="button" data-s="pct">Sort by % placed</button><button type="button" data-s="avg">Sort by 3-year average</button><button type="button" data-s="rank">NIRF rank</button></div>
+    <div class="jr2-card ap-tw"><table class="ap-t" id="plT"><thead><tr><th>Institute</th><th class="n">Graduated {{ placement_rows[0].year }}</th><th class="n">Placed</th><th class="n">% placed</th><th class="n">3-year avg % placed</th><th class="n">Median a year</th><th class="n">Higher studies</th></tr></thead><tbody>
+      {% for c in placement_rows %}<tr data-median="{{ c.median or 0 }}" data-pct="{{ c.placed_pct or 0 }}" data-avg="{{ c.avg_placed_pct or 0 }}" data-rank="{{ c.rank }}"><td>{{ c.name }}<br><small>NIRF #{{ c.rank }} &middot; {{ c.city }}, {{ c.state }}</small></td><td class="n">{{ c.grads }}</td><td class="n">{{ c.placed }}</td><td class="n">{{ c.placed_pct }}%</td><td class="n">{{ c.avg_placed_pct }}%</td><td class="n">{% if c.median %}&#8377;{{ '{:,}'.format(c.median) }}{% else %}&ndash;{% endif %}</td><td class="n">{{ c.higher }} ({{ c.higher_pct }}%)</td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:10px">{{ d.NIRF_NOTES }} <a href="{{ url_for('main.architecture_analytics') }}#compare">Compare institutes side by side</a>.</p>
   </section>
 
   <section id="nri"><span class="eb">NRI, PIO, OCI and foreign students</span><h2>NRI quota</h2>
@@ -145,11 +147,11 @@
   </section>
 
   <section id="nirf"><span class="eb">NIRF India Rankings 2025</span><h2>Architecture and Planning ranking</h2>
-    <p>The 40 institutions NIRF ranked this year. The bar shows the overall score; the five columns are the parameter scores out of 100.</p>
-    <div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>#</th><th>Institute</th><th>State</th><th>Score</th>{% for k, n, w in d.NIRF_PARAMS %}<th class="n" title="{{ n }} (weight {{ w }})">{{ k }}</th>{% endfor %}</tr></thead><tbody>
-      {% for r, n, city, st, sc, ps in d.NIRF %}<tr><td>{{ r }}</td><td>{{ n }}<br><small>{{ city }}</small></td><td>{{ st }}</td><td><span class="ap-sc" style="width:{{ (sc * 0.9)|round|int }}px"></span>{{ '%.2f'|format(sc) }}</td>{% for p in ps %}<td class="n">{{ '%.1f'|format(p) }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+    <p>The 40 institutions NIRF ranked this year, with the five scores out of 100 and key facts from each sheet. Tap a name&rsquo;s compare link to see up to four institutes side by side.</p>
+    <div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>#</th><th>Institute</th><th>Score</th>{% for k, n, w in d.NIRF_PARAMS %}<th class="n" title="{{ n }} (weight {{ w }})">{{ k }}</th>{% endfor %}<th class="n">B.Arch intake</th><th class="n">Students</th><th class="n">Faculty</th></tr></thead><tbody>
+      {% for c in profiles %}<tr><td>{{ c.rank }}</td><td>{{ c.name }}<br><small>{{ c.city }}, {{ c.state }} &middot; <a href="{{ url_for('main.architecture_analytics') }}?c={{ c.rank }}#compare">compare</a></small></td><td><span class="ap-sc" style="width:{{ (c.score * 0.7)|round|int }}px"></span>{{ '%.2f'|format(c.score) }}</td>{% for p in c.scores %}<td class="n">{{ '%.1f'|format(p) }}</td>{% endfor %}<td class="n">{{ c.intake_ug5 }}</td><td class="n">{{ '{:,}'.format(c.students) }}</td><td class="n">{{ c.faculty }}</td></tr>{% endfor %}</tbody></table></div>
     <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:10px">{{ d.NIRF_NOTE }}</p>
-    <div class="jr2-note"><a href="{{ url_for('main.architecture_analytics') }}#nirf">See the ranking as charts</a>: what each score is made of, and how any two institutes compare.</div>
+    <div class="jr2-note"><a href="{{ url_for('main.architecture_analytics') }}#compare">Compare colleges on NIRF factors</a>: placement, median salary, intake, women and out-of-state students, faculty, research income and more. Or <a href="{{ url_for('main.architecture_analytics') }}#nirf">see the ranking as charts</a>.</div>
   </section>
 
   <section id="josaa"><span class="eb">JoSAA 2026, rounds 1 to 5</span><h2>Seat allotment last year</h2>
@@ -164,7 +166,7 @@
   </section>
 
   <section id="sources"><span class="eb">Sources</span><h2>Where this came from</h2>
-    <div class="jr2-card"><table><tbody>{% for a, b in d.SOURCES %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td><a href="{{ b }}" target="_blank" rel="noopener nofollow">{{ b }}</a></td></tr>{% endfor %}</tbody></table></div>
+    <div class="jr2-card"><table><tbody>{% for a, b in d.SOURCES %}<tr><td class="k" style="white-space:normal">{{ a }}</td></tr>{% endfor %}</tbody></table></div>
     <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:12px">Prepared {{ d.UPDATED }} with AI assistance and checked against the documents above. Institutes may change fees, seats and rules after that date. Nothing here promises a rank, a seat or an admission.</p>
   </section>
 
@@ -193,6 +195,16 @@
   }
   q.addEventListener('input', run); st.addEventListener('change', run);
   btns.forEach(function (b) { b.addEventListener('click', function () { btns.forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); f = b.dataset.f; run(); }); });
+})();
+(function () {
+  var t = document.getElementById('plT'); if (!t) return;
+  var bs = [].slice.call(document.querySelectorAll('#placements .ap-bar button'));
+  bs.forEach(function (b) { b.addEventListener('click', function () {
+    bs.forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on');
+    var k = b.dataset.s, body = t.tBodies[0], rows = [].slice.call(body.rows);
+    rows.sort(function (a, c) { return k === 'rank' ? a.dataset.rank - c.dataset.rank : c.dataset[k] - a.dataset[k]; });
+    rows.forEach(function (r) { body.appendChild(r); });
+  }); });
 })();
 </script>
 {% endblock %}

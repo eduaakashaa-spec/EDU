@@ -19,6 +19,8 @@
   .rk-ok,.rk-ok2,.rk-near,.rk-no{display:inline-block;font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.04em;text-transform:uppercase;padding:2px 8px;border-radius:999px}
   .rk-ok{background:rgba(31,139,92,.15);color:#1F8B5C}.rk-ok2{background:#E1E9F7;color:#0E3A8A}.rk-near{background:#FFF1E6;color:#8A4B00}.rk-no{background:#F8E0DE;color:#8E2525}
   .aa-n{font-size:.84rem;color:var(--text-dim,#5A6278);margin:6px 0 0}
+  .aa-cmp td.best{background:rgba(31,139,92,.14);font-weight:700}.aa-cmp th.h{background:var(--paper,#FFFDF7)}.aa-cmp td.k{color:var(--text-dim,#5A6278);font-weight:600;white-space:normal;text-align:left;font-family:inherit}.aa-cmp tr.sec td{background:#F1ECDD;font:700 .7rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;text-align:left}
+  :root[data-theme="dark"] .aa-cmp tr.sec td{background:#2a2a33}
   .aa-dt td.up{color:#1F8B5C}.aa-dt td.dn{color:#C23A3A}
 </style>
 {% endblock %}
@@ -59,7 +61,7 @@
   <div class="aa-find">{% for a, b in findings %}<div><b>{{ a }}</b>{{ b }}</div>{% endfor %}</div>
   <p class="aa-n">Worked out from the JoSAA 2026 file, for JEE Main Paper 2 institutes, OPEN category, gender-neutral pool.</p>{% endif %}
 
-  <nav class="jr2-nav" aria-label="On this page"><a href="#nirf">NIRF 2025</a><a href="#rank">Rank finder</a><a href="#closing">Closing ranks</a><a href="#moves">Round by round</a><a href="#ladder">Category ladder</a><a href="#seats">Seats</a><a href="#dasa">DASA</a><a href="#read">How to read</a></nav>
+  <nav class="jr2-nav" aria-label="On this page"><a href="#nirf">NIRF 2025</a><a href="#compare">Compare colleges</a><a href="#explore">NIRF factors</a><a href="#rank">Rank finder</a><a href="#closing">Closing ranks</a><a href="#moves">Round by round</a><a href="#ladder">Category ladder</a><a href="#seats">Seats</a><a href="#dasa">DASA</a><a href="#read">How to read</a></nav>
 
   <section id="nirf"><span class="eb">NIRF India Rankings 2025</span><h2>What the ranking is made of</h2>
     <p>Each bar adds up to the institute&rsquo;s NIRF score. The coloured parts show how many of those points came from each parameter, after weighting.</p>
@@ -69,6 +71,22 @@
     <div class="aa-ctl"><label>First<select id="rdA"></select></label><label>Second<select id="rdB"></select></label></div>
     <div class="aa-box"><div class="aa-cv"><canvas id="nirfRadar" aria-label="Radar chart of the five NIRF parameters"></canvas></div><p class="aa-n" id="rdTxt"></p></div>
     <p class="aa-n">{{ d.NIRF_NOTE }}</p>
+  </section>
+
+  <section id="compare"><span class="eb">Compare colleges</span><h2>Side by side on NIRF factors</h2>
+    <p>Pick up to four of the 40 NIRF-ranked institutions. Every number is from the data the institution submitted to NIRF for 2025. The best value in each row is highlighted where &ldquo;best&rdquo; is clear; some rows (such as intake or students) are just facts.</p>
+    <div class="aa-ctl"><label>First<select id="cmA"></select></label><label>Second<select id="cmB"></select></label><label>Third<select id="cmC"></select></label><label>Fourth<select id="cmD"></select></label></div>
+    <div class="aa-box aa-tw"><table class="ap-t aa-cmp" id="cmT"></table></div>
+    <div class="aa-box"><div class="aa-cv" style="height:320px"><canvas id="cmRadar" aria-label="Radar chart of the five NIRF scores for the chosen institutes"></canvas></div></div>
+    <p class="aa-n">{{ d.NIRF_NOTES }}</p>
+  </section>
+
+  <section id="explore"><span class="eb">NIRF factors</span><h2>Explore one factor across all 40</h2>
+    <div class="aa-ctl"><label>Factor<select id="exM"></select></label></div>
+    <div class="aa-box"><div class="aa-cv" id="exWrap"><canvas id="exBars" aria-label="Bar chart of the chosen NIRF factor"></canvas></div></div>
+    <h3>Placement against median salary</h3>
+    <p>Each dot is an institute: further right means a larger share of the latest graduating class was placed, higher means a higher median salary. Bigger dots have a larger B.Arch intake.</p>
+    <div class="aa-box"><div class="aa-cv" style="height:380px"><canvas id="exScatter" aria-label="Scatter of placement percentage against median salary"></canvas></div></div>
   </section>
 
   <section id="rank"><span class="eb">Try it</span><h2>Rank finder (JoSAA 2026)</h2>

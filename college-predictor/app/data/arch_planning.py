@@ -146,7 +146,7 @@ NIRF_PARAMS = [
 ]
 NIRF_NOTE = ('Ranks and the five scores are copied from the NIRF 2025 Architecture and Planning list. For this list the weights are 0.40, 0.20, 0.20, 0.10 and 0.10: '
              'we worked them out from the published scores, which they reproduce to two decimals. The NIRF engineering paper uses different weights (0.30, 0.30, 0.20, 0.10, 0.10), so do not read this list with those. '
-             'Each institute’s own data sheet (placement, median salary, intake) is linked on nirfindia.org and is the source to trust for those numbers. 40 institutions were ranked in 2025.')
+             'Placement, median salary and intake come from the data sheet each institution submitted to NIRF. 40 institutions were ranked in 2025.')
 
 # institute facts for the JoSAA 2026 file: short name, city, state, group
 INST_META = {
@@ -190,6 +190,7 @@ FAQ = [
 ]
 
 SOURCES = [
+    ('NIRF 2025 data sheets submitted by the 40 ranked institutions (intake, students, placement, faculty, research income)', ''),
     ('NATA 2026 information brochure (Council of Architecture)', 'https://www.nata.in'),
     ('JoSAA 2026 information brochure and business rules', 'https://josaa.nic.in'),
     ('JoSAA 2026 opening and closing ranks, rounds 1 to 5', 'https://josaa.nic.in'),
@@ -264,14 +265,18 @@ def guide_context():
         if p:
             fee_summary.append(('\u20b9{:,} to \u20b9{:,}'.format(min(p), max(p)), 'tuition a year at %d private or deemed institutions with a verified figure' % len(p)))
         fee_summary.append((str(len(fee_rows)), 'of %d listed colleges have a fee we could verify' % len(cols)))
-    placement_rows = [c for c in cols if c.get('pl_pack')]
+    profiles = nirf_profiles()
+    by_rank = {x['rank']: x for x in profiles}
+    for c in cols:
+        c['nirf'] = by_rank.get(c.get('nirf_rank'))
+    placement_rows = sorted(profiles, key=lambda x: -(x['median'] or 0))
     nri_rows = [c for c in cols if c.get('nri_text')]
     ver = sum(1 for c in cols if c.get('tuition'))
     cov = ('This list has %d of the roughly 369 Council-approved institutions: all 40 NIRF-ranked ones, the JoSAA institutes and a selection of state and private colleges. '
-           'It is not the full Council list; check coa.gov.in for every approved college. Fee figures marked unverified come from aggregator sites. '
-           'NIRF data sheets (placement, median salary, intake) could not be read for most institutions, so placement is shown only where we hold the sheet.') % len(cols)
+           'It is not the full Council list; check coa.gov.in for every approved college. Intake, students, placement and the other NIRF factors are shown for the 40 ranked institutions, '
+           'read from the data they submitted to NIRF. A fee or quota appears only where the institution or a government notice states it.') % len(cols)
     return dict(colleges=cols, states=states, by_state=by_state, state_notes=cd['state_notes'], josaa_rows=jr, josaa_n=len(j['institutes']),
-                fee_rows=fee_rows, fee_summary=fee_summary, placement_rows=placement_rows, nri_rows=nri_rows, coverage_note=cov)
+                fee_rows=fee_rows, fee_summary=fee_summary, placement_rows=placement_rows, profiles=profiles, nri_rows=nri_rows, coverage_note=cov)
 
 
 def analytics_context():
@@ -290,7 +295,7 @@ def analytics_context():
     except OSError:
         pass
     nirf = [[r[0], r[1], r[2], r[3], r[4], list(r[5])] for r in NIRF]
-    data = dict(inst=j['institutes'], meta=meta, rows=j['rows'], dasa=j['dasa'], seats=seat_rows, nirf=nirf, params=[list(p) for p in NIRF_PARAMS], byInst=by_inst)
+    data = dict(inst=j['institutes'], meta=meta, rows=j['rows'], dasa=j['dasa'], seats=seat_rows, nirf=nirf, params=[list(p) for p in NIRF_PARAMS], byInst=by_inst, nirfx=nirf_profiles())
     # findings, computed from the rows
     rows = [r for r in j['rows'] if r['s'] == 'OPEN' and r['g'] == 'N' and INST_META.get(j['institutes'][r['i']], ('', '', '', ''))[3] != 'IIT' and _last(r['c'])]
     f = []
@@ -320,3 +325,61 @@ def analytics_context():
             cls, txt = '', ('2025 only' if d['f25'] else '2026 only')
         dr.append(dict(inst=d['inst'].replace('School of Planning & Architecture:', 'School of Planning & Architecture,'), prog=prog, quota=d['quota'].replace('DASA-', 'DASA '), f25=d['f25'], f26=d['f26'], change=txt, cls=cls))
     return dict(data=data, findings=f, n_rows=len(j['rows']), n_inst=len(j['institutes']), n_dasa=len(j['dasa']), dasa_rows=dr)
+
+
+# NIRF 2025 Architecture and Planning institute ids, in rank order (the data sheets are in app/data/arch_nirf.json)
+NIRF_IDS = ['IR-A-U-0560', 'IR-A-U-0263', 'IR-A-U-0573', 'IR-A-U-0584', 'IR-A-U-0108', 'IR-A-U-0127', 'IR-A-U-0357', 'IR-A-U-0116', 'IR-A-U-0467', 'IR-A-U-0334',
+            'IR-A-U-0626', 'IR-A-U-0410', 'IR-A-U-0072', 'IR-A-U-0747', 'IR-A-C-43708', 'IR-A-U-0575', 'IR-A-U-0284', 'IR-A-U-0473', 'IR-A-U-0627', 'IR-A-C-57952',
+            'IR-A-U-0749', 'IR-A-U-0202', 'IR-A-U-0201', 'IR-A-U-0379', 'IR-A-U-0779', 'IR-A-U-0496', 'IR-A-C-46330', 'IR-A-U-0439', 'IR-A-U-0146', 'IR-A-U-0189',
+            'IR-A-C-1331', 'IR-A-U-0461', 'IR-A-C-26794', 'IR-A-U-0217', 'IR-A-U-0092', 'IR-A-U-0099', 'IR-A-C-47256', 'IR-A-U-0373', 'IR-A-C-46873', 'IR-A-U-0830']
+
+NIRF_NOTES = ('Everything below is read from the data each institution submitted to NIRF for the 2025 Architecture and Planning ranking. The institution, not NIRF, is the author of these numbers. '
+              'Placement is for the 5-year B.Arch programme unless a row says B.Planning; "placed" counts students placed through the institute, and many graduates go on to higher studies or practice instead. '
+              'Median salary is the figure the institution reported for placed graduates, in rupees a year, and is shown only when at least one student was placed. Batch sizes are small, so one year can swing a percentage a lot: read the three-year average beside it.')
+
+
+def _pct(a, b):
+    return round(100.0 * a / b, 1) if b else None
+
+
+def nirf_profiles():
+    """One dict per NIRF-ranked institute, with the NIRF scores and the factors read from its data sheet."""
+    with open(os.path.join(_HERE, 'arch_nirf.json'), encoding='utf-8') as f:
+        sheets = json.load(f)
+    out = []
+    for k, r in enumerate(NIRF):
+        s = sheets[NIRF_IDS[k]]
+        st, ug = s['strength'], s['strength'].get('UG5')
+        tot = sum(v['total'] for v in st.values())
+        fem = sum(v['female'] for v in st.values())
+        outs = sum(v['outside_state'] for v in st.values())
+        abroad = sum(v['outside_country'] for v in st.values())
+        ebc = sum(v['economically_backward'] for v in st.values())
+        soc = sum(v['socially_challenged'] for v in st.values())
+        reimb = sum(v['reimb_govt'] + v['reimb_inst'] + v['reimb_private'] for v in st.values())
+        place = []
+        for row in s['placement'].get('UG5', []):
+            place.append(dict(year=row['graduating_year'], grads=row['graduating'], placed=row['placed'], placed_pct=_pct(row['placed'], row['graduating']),
+                              median=row['median'] if row['placed'] and row['median'] else None, higher=row['higher_studies'], higher_pct=_pct(row['higher_studies'], row['graduating'])))
+        plan = []
+        for row in s['placement'].get('UG4', []):
+            plan.append(dict(year=row['graduating_year'], grads=row['graduating'], placed=row['placed'], placed_pct=_pct(row['placed'], row['graduating']),
+                             median=row['median'] if row['placed'] and row['median'] else None, higher=row['higher_studies'], higher_pct=_pct(row['higher_studies'], row['graduating'])))
+        gsum, psum, hsum = sum(p['grads'] for p in place), sum(p['placed'] for p in place), sum(p['higher'] for p in place)
+        cap = s['capex']
+        acad = sum(cap.get(x) or 0 for x in ('library', 'laboratories', 'studios'))
+        spon = sum(s['sponsored']['amount'] or [])
+        cons = sum(s['consultancy']['amount'] or [])
+        fac = s['faculty']
+        pcs = sum(1 for a in s['pcs'] if a.lower().startswith('yes'))
+        last = place[-1] if place else {}
+        out.append(dict(
+            rank=r[0], id=NIRF_IDS[k], name=r[1], city=r[2], state=r[3], score=r[4], scores=list(r[5]),
+            intake_ug5=(s['intake'].get('UG5') or [None])[0], intake_ug4=(s['intake'].get('UG4') or [None])[0], intake_pg=(s['intake'].get('PG2') or [None])[0],
+            students=tot, students_ug5=ug['total'] if ug else None, women_pct=_pct(fem, tot), outside_state_pct=_pct(outs, tot), abroad=abroad,
+            ebc_pct=_pct(ebc, tot), social_pct=_pct(soc, tot), reimb_pct=_pct(reimb, tot), faculty=fac, spf=round(tot / float(fac), 1) if fac else None,
+            place=place, plan=plan, placed_pct=last.get('placed_pct'), median=last.get('median'), higher_pct=last.get('higher_pct'), grads=last.get('grads'), placed=last.get('placed'), higher=last.get('higher'),
+            avg_placed_pct=_pct(psum, gsum), avg_higher_pct=_pct(hsum, gsum), year=last.get('year'),
+            research_lakh=round(spon / 1e5, 1), consult_lakh=round(cons / 1e5, 1), research_per_fac=round((spon + cons) / 1e5 / fac, 1) if fac else None,
+            acad_per_student=round(acad / float(tot)) if tot else None, pcs=pcs))
+    return out

@@ -160,5 +160,88 @@
       options: barOpts(true, { plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true, title: { display: true, text: 'Seats' } }, y: { stacked: true } } }) });
   }
 
+
+  /* ---- NIRF compare, factor explorer: every value comes from the NIRF 2025 data sheets ---- */
+  var X = A.nirfx;
+  var nm = function (x) { return x.rank + '. ' + x.name; };
+  var DASH = '–';
+  var money = function (v) { return v == null ? DASH : '₹' + v.toLocaleString('en-IN'); };
+  var num = function (v) { return v == null ? DASH : v.toLocaleString('en-IN'); };
+  var pc = function (v) { return v == null ? DASH : v + '%'; };
+  var lakh = function (v) { return v == null ? DASH : '₹' + v + ' lakh'; };
+  var d1 = function (v) { return v.toFixed(1); };
+  // [label, getter, formatter, best: 'hi' | 'lo' | null]; a row with no getter is a heading
+  var M = [
+    ['NIRF 2025', null],
+    ['Rank', function (x) { return x.rank; }, num, 'lo'], ['Overall score', function (x) { return x.score; }, function (v) { return v.toFixed(2); }, 'hi'],
+    ['Teaching, learning and resources (TLR)', function (x) { return x.scores[0]; }, d1, 'hi'],
+    ['Research and professional practice (RPC)', function (x) { return x.scores[1]; }, d1, 'hi'],
+    ['Graduation outcomes (GO)', function (x) { return x.scores[2]; }, d1, 'hi'],
+    ['Outreach and inclusivity (OI)', function (x) { return x.scores[3]; }, d1, 'hi'],
+    ['Perception (PR)', function (x) { return x.scores[4]; }, d1, 'hi'],
+    ['Intake and students', null],
+    ['B.Arch intake (2023-24)', function (x) { return x.intake_ug5; }, num, null], ['B.Planning intake (2023-24)', function (x) { return x.intake_ug4; }, num, null],
+    ['All students on roll', function (x) { return x.students; }, num, null], ['Women', function (x) { return x.women_pct; }, pc, null],
+    ['From other states', function (x) { return x.outside_state_pct; }, pc, 'hi'], ['From abroad (students)', function (x) { return x.abroad; }, num, 'hi'],
+    ['Socially challenged (SC, ST, OBC)', function (x) { return x.social_pct; }, pc, null], ['Economically backward', function (x) { return x.ebc_pct; }, pc, null],
+    ['Full tuition reimbursed', function (x) { return x.reimb_pct; }, pc, null],
+    ['Teaching and resources', null],
+    ['Faculty', function (x) { return x.faculty; }, num, null], ['Students per faculty member', function (x) { return x.spf; }, d1, 'lo'],
+    ['Library, labs and studio spend per student (2023-24)', function (x) { return x.acad_per_student; }, money, 'hi'],
+    ['Accessibility facilities (of 3)', function (x) { return x.pcs; }, num, 'hi'],
+    ['Research income (sponsored and consultancy)', null],
+    ['Income, last 3 years', function (x) { return +(x.research_lakh + x.consult_lakh).toFixed(1); }, lakh, 'hi'], ['Income per faculty member, last 3 years', function (x) { return x.research_per_fac; }, lakh, 'hi'],
+    ['Graduate outcomes (5-year B.Arch)', null],
+    ['Graduating batch', function (x) { return x.year; }, function (v) { return v; }, null], ['Graduated', function (x) { return x.grads; }, num, null], ['Placed', function (x) { return x.placed; }, num, null],
+    ['Placed (latest batch)', function (x) { return x.placed_pct; }, pc, 'hi'], ['Placed (average of 3 batches)', function (x) { return x.avg_placed_pct; }, pc, 'hi'],
+    ['Median salary a year', function (x) { return x.median; }, money, 'hi'], ['Went to higher studies (latest batch)', function (x) { return x.higher_pct; }, pc, null]
+  ];
+  var cm = ['cmA', 'cmB', 'cmC', 'cmD'];
+  function compare() {
+    var picks = cm.map(function (id) { return $(id).value === '' ? null : X[+$(id).value]; }).filter(Boolean);
+    var h = '<thead><tr><th></th>' + picks.map(function (x) { return '<th class="h">' + x.name + '<br><small>' + x.city + ', ' + x.state + '</small></th>'; }).join('') + '</tr></thead><tbody>';
+    M.forEach(function (m) {
+      if (!m[1]) { h += '<tr class="sec"><td colspan="' + (picks.length + 1) + '">' + m[0] + '</td></tr>'; return; }
+      var vals = picks.map(function (x) { return m[1](x); }), best = null;
+      if (m[3] && picks.length > 1) {
+        var ok = vals.filter(function (v) { return v != null; });
+        if (ok.length) best = m[3] === 'hi' ? Math.max.apply(null, ok) : Math.min.apply(null, ok);
+      }
+      h += '<tr><td class="k">' + m[0] + '</td>' + vals.map(function (v) { return '<td class="n' + (best != null && v === best ? ' best' : '') + '">' + (v == null ? DASH : m[2](v)) + '</td>'; }).join('') + '</tr>';
+    });
+    $('cmT').innerHTML = h + '</tbody>';
+    var cols = [NAVY, OR, GREEN, GOLD];
+    mk('cmRadar', { type: 'radar', data: { labels: A.params.map(function (p) { return p[0]; }), datasets: picks.map(function (x, k) { return { label: x.name, data: x.scores, borderColor: cols[k], backgroundColor: cols[k] + '22' }; }) },
+      options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 100, grid: { color: GRID }, angleLines: { color: GRID }, pointLabels: { color: TXT }, ticks: { backdropColor: 'transparent', color: TXT } } }, plugins: { legend: { position: 'bottom' } } } });
+  }
+  var xs = X.map(function (x, k) { return [k, nm(x)]; });
+  var want = (new URLSearchParams(location.search).get('c') || '').split(',').map(function (v) { return parseInt(v, 10) - 1; }).filter(function (v) { return v >= 0 && v < X.length; });
+  var dflt = [0, 7, 18, 1];
+  cm.forEach(function (id, k) {
+    var el = $(id), items = (k >= 2 ? [['', 'None']] : []).concat(xs);
+    var v = want[k] != null ? want[k] : (want.length && k >= 2 ? '' : dflt[k]);
+    opt(el, items, v);
+    el.addEventListener('change', compare);
+  });
+  compare();
+  if (want.length && location.hash === '#compare' && $('compare').scrollIntoView) $('compare').scrollIntoView();
+
+  var EM = M.filter(function (m) { return m[1]; });
+  var exItems = EM.map(function (m, k) { return [k, m[0]]; }).filter(function (o) { return o[1] !== 'Rank' && o[1] !== 'Graduating batch'; });
+  opt($('exM'), exItems, EM.map(function (m) { return m[0]; }).indexOf('Median salary a year'));
+  function explore() {
+    var m = EM[+$('exM').value], rows = X.map(function (x) { return [x, m[1](x)]; }).filter(function (r) { return r[1] != null; });
+    rows.sort(function (a, b) { return b[1] - a[1]; });
+    $('exWrap').style.height = Math.max(300, rows.length * 22 + 80) + 'px';
+    mk('exBars', { type: 'bar', data: { labels: rows.map(function (r) { return r[0].rank + '. ' + r[0].name.replace('Indian Institute of Technology', 'IIT').replace('National Institute of Technology', 'NIT').replace('School of Planning and Architecture', 'SPA').replace('School of Planning & Architecture', 'SPA').replace(/,.*$/, ''); }), datasets: [{ label: m[0], data: rows.map(function (r) { return r[1]; }), backgroundColor: OR }] },
+      options: barOpts(true, { plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return m[2](c.raw); } } } } }) });
+  }
+  $('exM').addEventListener('change', explore);
+  explore();
+  var pts = X.filter(function (x) { return x.median && x.placed_pct != null; });
+  mk('exScatter', { type: 'bubble', data: { datasets: [{ label: 'Institutes', data: pts.map(function (x) { return { x: x.placed_pct, y: x.median, r: Math.max(4, Math.sqrt(x.intake_ug5 || 20) * 1.4), n: nm(x) + ' (intake ' + x.intake_ug5 + ')' }; }), backgroundColor: 'rgba(255,107,10,.55)', borderColor: OR }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return c.raw.n + ': ' + c.raw.x + '% placed, median ₹' + c.raw.y.toLocaleString('en-IN'); } } } },
+      scales: { x: { title: { display: true, text: 'Placed, latest graduating batch (%)' }, min: 0, max: 100 }, y: { title: { display: true, text: 'Median salary a year (₹)' }, ticks: { callback: function (v) { return fmt(v); } } } } } });
+
   nirfStack(); nirfRadar(); closing(); fillM(); fillL(); dasa(); seats(); find();
 })();

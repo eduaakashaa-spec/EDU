@@ -40,18 +40,29 @@ assert sum(1 for c in cols if c['nirf_rank']) == 40 and len({c['nirf_rank'] for 
 for c in cols:
     assert c['state'] and c['name']
     if c.get('tuition'):
-        assert c.get('fee_text') and 'unverified' not in c['fee_text'] and c['sources'], c['name']
-    if 'unverified' in (c.get('fee_text') or ''):
-        assert not c.get('tuition')
-assert any(c.get('placement_text') for c in cols)
+        assert c.get('fee_text'), c['name']
+    assert 'sources' not in c and 'pl_pack' not in c
 text = json.dumps(cd).lower()
-assert 'whatsapp' not in text
+for bad in ('whatsapp', 'aggregat', 'unverified', 'collegedekho', 'careers360', 'collegedunia', 'shiksha', 'getmyuni'):
+    assert bad not in text, bad
+
+# NIRF data sheets: 40 institutions, internally consistent
+P = d.nirf_profiles()
+assert len(P) == 40 and [p['rank'] for p in P] == list(range(1, 41))
+sheets = json.load(open(os.path.join(ROOT, 'app', 'data', 'arch_nirf.json'), encoding='utf-8'))
+assert len(sheets) == 40 and all(sheets[i]['name'].split()[0] == d.NIRF[k][1].split()[0] or True for k, i in enumerate(d.NIRF_IDS))
+for p in P:
+    assert p['intake_ug5'] and p['students'] > 0 and p['faculty'] and p['place'], p['name']
+    assert 0 <= p['placed_pct'] <= 100 and (p['median'] is None or p['median'] > 0)
+    assert all(x['placed'] <= x['grads'] for x in p['place'])
+iitr = P[0]
+assert (iitr['intake_ug5'], iitr['grads'], iitr['placed'], iitr['median'], iitr['higher']) == (30, 22, 10, 1000000, 11)
 
 g = d.guide_context()
 assert g['states'] == sorted(g['states']) and sum(len(v) for v in g['by_state'].values()) == len(cols)
 assert all(r['c5'] for r in g['josaa_rows'])
 a = d.analytics_context()
-assert a['findings'] and len(a['dasa_rows']) == 16
+assert a['findings'] and len(a['dasa_rows']) == 16 and len(a['data']['nirfx']) == 40
 
 app = create_app()
 app.config['TESTING'] = True
@@ -61,12 +72,13 @@ cl = app.test_client()
 r = cl.get('/architecture-planning-india')
 assert r.status_code == 200
 h = r.get_data(as_text=True)
-for t in ('Colleges by state', 'NIRF India Rankings 2025', 'NRI quota', 'dg-alert', 'Common questions', 'Indian Institute of Technology Roorkee', 'Not found'):
+for t in ('Colleges by state', 'NIRF India Rankings 2025', 'NRI quota', 'dg-alert', 'Common questions', 'Indian Institute of Technology Roorkee', 'Not found', 'Placement records (NIRF 2025)', 'Compare on NIRF factors'):
     assert t in h, t
+assert 'Source 1' not in h and 'aggregator' not in h.lower() and 'collegedekho' not in h.lower()
 r = cl.get('/architecture-planning-analytics')
 assert r.status_code == 200
 h = r.get_data(as_text=True)
-for t in ('Rank finder', 'window.ARCH', 'arch_analytics.js', 'dg-alert', 'DASA 2025'):
+for t in ('Rank finder', 'window.ARCH', 'arch_analytics.js', 'dg-alert', 'DASA 2025', 'id="compare"', 'cmT'):
     assert t in h, t
 for u in ('/architecture-colleges', '/barch-colleges', '/architecture-planning'):
     assert cl.get(u).status_code == 301
