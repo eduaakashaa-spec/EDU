@@ -148,7 +148,11 @@
   </section>
 
   <section id="nirf"><span class="eb">NIRF India Rankings 2025</span><h2>Architecture and Planning ranking</h2>
-    <p>The 40 institutions NIRF ranked this year, with the five scores out of 100 and key facts from each sheet. Tap a name&rsquo;s compare link to see up to four institutes side by side.</p>
+    <div class="jr2-card"><h3 style="margin-top:0">What is NIRF, and why does it matter?</h3><p style="margin:0 0 8px;font-size:.92rem">{{ d.NIRF_EXPLAIN.what }}</p>
+      <div class="ap-two"><div><b style="font-size:.9rem">Why it matters</b><ul style="margin:4px 0 0;padding-left:18px;font-size:.88rem;line-height:1.55">{% for a, b in d.NIRF_EXPLAIN.why %}<li><b>{{ a }}.</b> {{ b }}</li>{% endfor %}</ul></div>
+        <div><b style="font-size:.9rem">What it does not tell you</b><ul style="margin:4px 0 0;padding-left:18px;font-size:.88rem;line-height:1.55">{% for x in d.NIRF_EXPLAIN.limits %}<li>{{ x }}</li>{% endfor %}</ul></div></div>
+      <p style="margin:8px 0 0;font-size:.88rem"><a href="{{ url_for('main.architecture_analytics') }}#explain">See it with charts &rarr;</a></p></div>
+    <p style="margin-top:10px">The 40 institutions NIRF ranked this year, with the five scores out of 100 and key facts from each sheet. Tap a name&rsquo;s compare link to see up to four institutes side by side.</p>
     <div class="jr2-card ap-tw"><table class="ap-t"><thead><tr><th>#</th><th>Institute</th><th>Score</th>{% for k, n, w in d.NIRF_PARAMS %}<th class="n" title="{{ n }} (weight {{ w }})">{{ k }}</th>{% endfor %}<th class="n">B.Arch intake</th><th class="n">Students</th><th class="n">Faculty</th></tr></thead><tbody>
       {% for c in profiles %}<tr><td>{{ c.rank }}</td><td>{{ c.name }}<br><small>{{ c.city }}, {{ c.state }} &middot; <a href="{{ url_for('main.architecture_analytics') }}?c={{ c.rank }}#compare">compare</a></small></td><td><span class="ap-sc" style="width:{{ (c.score * 0.7)|round|int }}px"></span>{{ '%.2f'|format(c.score) }}</td>{% for p in c.scores %}<td class="n">{{ '%.1f'|format(p) }}</td>{% endfor %}<td class="n">{{ c.intake_ug5 }}</td><td class="n">{{ '{:,}'.format(c.students) }}</td><td class="n">{{ c.faculty }}</td></tr>{% endfor %}</tbody></table></div>
     <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:10px">{{ d.NIRF_NOTE }}</p>

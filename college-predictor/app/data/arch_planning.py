@@ -328,7 +328,7 @@ def analytics_context():
             cls, txt = '', ('2025 only' if d['f25'] else '2026 only')
         dr.append(dict(inst=d['inst'].replace('School of Planning & Architecture:', 'School of Planning & Architecture,'), prog=prog, quota=d['quota'].replace('DASA-', 'DASA '), f25=d['f25'], f26=d['f26'], change=txt, cls=cls))
     data['subp'] = [list(sp) for sp in SUB_PARAMS]
-    return dict(data=data, rating=rating_context(), sub_keys=SUB_KEYS, findings=f, n_rows=len(j['rows']), n_inst=len(j['institutes']), n_dasa=len(j['dasa']), dasa_rows=dr)
+    return dict(data=data, podium=nirf_profiles()[:5], rating=rating_context(), sub_keys=SUB_KEYS, findings=f, n_rows=len(j['rows']), n_inst=len(j['institutes']), n_dasa=len(j['dasa']), dasa_rows=dr)
 
 
 # NIRF 2025 Architecture and Planning institute ids, in rank order (the data sheets are in app/data/arch_nirf.json)
@@ -421,3 +421,22 @@ def rating_context():
     f.append(('Where almost everyone loses marks', ', '.join('%s (%d%%)' % (SUB_PARAMS[j][1].lower(), avg[j]) for j in low[:4])))
     f.append(('What separates institutes most', ', '.join('%s (%.1f to %.1f of %d)' % (x['label'].lower(), x['lo'], x['hi'], x['maxm']) for x in sep[:3])))
     return dict(heat=heat, avg=[round(a) for a in avg], sep=sep, notes=notes, findings=f, n=len(P))
+
+
+NIRF_EXPLAIN = dict(
+    what=('NIRF, the National Institutional Ranking Framework, is the Ministry of Education’s yearly ranking of Indian institutions. Each institution that takes part submits its own data in one fixed format. '
+          'NIRF scores it on five parameters and publishes a ranked list for each category. Architecture and Planning is one category: 40 institutions were ranked in 2025.'),
+    steps=[('Institutions submit data', 'Intake, students, faculty, spending, placement and research income, in the same format for everyone.'),
+           ('NIRF scores five parameters', 'Teaching and resources, research, graduation outcomes, outreach and inclusivity, and perception.'),
+           ('Weights decide the rank', 'For Architecture and Planning the weights are 0.40, 0.20, 0.20, 0.10 and 0.10.')],
+    why=[('A common yardstick', 'A central institute and a private university are measured on the same factors, so you compare like with like.'),
+         ('Mostly measured data', 'About 90 percent of the score comes from measured data. Perception, a survey of employers and academics, is only 10 percent.'),
+         ('It shows trade-offs', 'A college can be strong on placement and weak on research, or the reverse. The five scores and 15 sub-scores show where.'),
+         ('Claims you can check', 'Placement, intake and student numbers on these pages are what each institution told NIRF. Hold them against a brochure.')],
+    limits=['The data is reported by the institutions themselves.',
+            'Only 40 institutions were ranked, out of about 369 recognised by the Council of Architecture. An unranked college can still be a good one.',
+            'It does not measure studio teaching, design culture, internships or the city you will live in.',
+            'Research and spending marks favour larger, older institutions, and placement batches are small, so a year can swing a lot.',
+            'A rank is no substitute for Council of Architecture approval. Check that first.'],
+    use=['Use it to shortlist, then visit, meet students and see their work.', 'Look at the factor you care about, not only the overall rank: order the chart below by that factor.', 'Compare two or three colleges side by side on the compare tab.'],
+)

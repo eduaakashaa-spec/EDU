@@ -26,15 +26,43 @@
 
   /* ---- NIRF ---- */
   var W = A.weights;
+  var PCOL = [NAVY, OR, GREEN, GOLD, GREY], ordMode = 'score';
+  var abbr = function (n) { return n.replace('Indian Institute of Technology', 'IIT').replace('National Institute of Technology', 'NIT').replace('School of Planning and Architecture', 'SPA').replace('School of Planning & Architecture', 'SPA').replace(/,.*$/, ''); };
   function nirfStack() {
-    var n = +$('nirfN').value, rows = A.nirf.slice(0, n);
-    var sets = A.params.map(function (p, k) {
-      return { label: p[1] + ' (x' + p[2] + ')', data: rows.map(function (r) { return +(r[5][k] * p[2]).toFixed(2); }), backgroundColor: [NAVY, OR, GREEN, GOLD, GREY][k] };
-    });
+    var n = +$('nirfN').value, m = ordMode, X0 = A.nirfx, rows, cfg, txt;
+    if (/^s\d+$/.test(m)) {
+      var j = +m.slice(1), sp = A.subp[j];
+      rows = X0.filter(function (x) { return x.sub; }).sort(function (a, b) { return b.sub[j] - a.sub[j]; }).slice(0, n);
+      cfg = { type: 'bar', data: { labels: rows.map(function (x, i) { return (i + 1) + '. ' + abbr(x.name) + ' \u00b7 ' + x.sub[j].toFixed(1); }), datasets: [
+        { label: 'Marks available', data: rows.map(function () { return sp[2]; }), backgroundColor: dark ? 'rgba(255,255,255,.14)' : 'rgba(14,58,138,.12)' },
+        { label: sp[1] + ' (' + sp[0] + ')', data: rows.map(function (x) { return x.sub[j]; }), backgroundColor: PCOL[['TLR', 'RPC', 'GO', 'OI', 'PR'].indexOf(sp[3])] }] },
+        options: barOpts(true, { plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, scales: { x: { max: sp[2], title: { display: true, text: 'Marks out of ' + sp[2] } } }, datasets: { bar: { grouped: false } } }) };
+      txt = 'Ordered by ' + sp[1].toLowerCase() + ' (' + sp[0] + ', marks out of ' + sp[2] + '). Only the ' + X0.filter(function (x) { return x.sub; }).length + ' institutions whose rating chart we hold are shown. Strongest: ' + abbr(rows[0].name) + ' (' + rows[0].sub[j].toFixed(1) + ').';
+    } else {
+      var k = m === 'score' ? -1 : +m.slice(1);
+      rows = X0.slice();
+      if (k >= 0) rows.sort(function (a, b) { return b.scores[k] - a.scores[k]; });
+      rows = rows.slice(0, n);
+      var order = [0, 1, 2, 3, 4]; if (k >= 0) order = [k].concat(order.filter(function (i) { return i !== k; }));
+      var sets = order.map(function (i) {
+        var p = A.params[i], col = PCOL[i];
+        return { label: p[1] + ' (x' + p[2] + ')', data: rows.map(function (r) { return +(r.scores[i] * p[2]).toFixed(2); }), backgroundColor: k >= 0 && i !== k ? col + '55' : col };
+      });
+      cfg = { type: 'bar', data: { labels: rows.map(function (r, i) { return (k >= 0 ? (i + 1) : r.rank) + '. ' + abbr(r.name) + ' \u00b7 ' + (k >= 0 ? r.scores[k].toFixed(1) : r.score.toFixed(1)); }), datasets: sets },
+        options: barOpts(true, { plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } }, tooltip: { callbacks: { footer: function (it) { var r = rows[it[0].dataIndex]; return 'NIRF score ' + r.score.toFixed(2) + ' (rank ' + r.rank + ')  \u00b7  ' + A.params.map(function (p, i) { return p[0] + ' ' + r.scores[i].toFixed(0); }).join('  '); } } } }, scales: { x: { stacked: true, max: k >= 0 ? A.params[k][2] * 100 : 90, title: { display: true, text: 'Weighted points (adds up to the NIRF score)' } }, y: { stacked: true } } }) };
+      txt = k < 0 ? 'Ordered by the overall NIRF score (the official rank).' : 'Ordered by ' + A.params[k][1].toLowerCase() + ' (' + A.params[k][0] + ', weight ' + A.params[k][2] + '). The number after each name is its ' + A.params[k][0] + ' score out of 100; the strongest colleges on this factor are at the top, and the other factors are shown faded. Strongest: ' + abbr(rows[0].name) + ' (' + rows[0].scores[k].toFixed(1) + ').';
+    }
     $('nirfWrap').style.height = Math.max(300, rows.length * 24 + 90) + 'px';
-    mk('nirfBars', { type: 'bar', data: { labels: rows.map(function (r) { return r[0] + '. ' + r[1].replace('Indian Institute of Technology', 'IIT').replace('National Institute of Technology', 'NIT').replace('School of Planning and Architecture', 'SPA').replace('School of Planning & Architecture', 'SPA').replace(/,.*$/, ''); }), datasets: sets },
-      options: barOpts(true, { plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } }, tooltip: { callbacks: { footer: function (it) { return 'Total ' + rows[it[0].dataIndex][4].toFixed(2); } } } }, scales: { x: { stacked: true, max: 90, title: { display: true, text: 'Weighted points (adds up to the NIRF score)' } }, y: { stacked: true } } }) });
+    $('nirfTxt').textContent = txt;
+    mk('nirfBars', cfg);
   }
+  var subSel = $('nirfSub');
+  A.subp.forEach(function (sp, j) { subSel.insertAdjacentHTML('beforeend', '<option value="s' + j + '">' + sp[0] + ' \u00b7 ' + sp[1] + ' (of ' + sp[2] + ')</option>'); });
+  [].slice.call(document.querySelectorAll('#nirfOrd button')).forEach(function (b) { b.addEventListener('click', function () {
+    [].slice.call(document.querySelectorAll('#nirfOrd button')).forEach(function (x) { x.classList.remove('on'); }); b.classList.add('on'); subSel.value = ''; ordMode = b.dataset.m; nirfStack(); }); });
+  subSel.addEventListener('change', function () { if (!subSel.value) return; [].slice.call(document.querySelectorAll('#nirfOrd button')).forEach(function (x) { x.classList.remove('on'); }); ordMode = subSel.value; nirfStack(); });
+  mk('nirfWt', { type: 'doughnut', data: { labels: A.params.map(function (p) { return p[0] + ' ' + p[1]; }), datasets: [{ data: A.params.map(function (p) { return p[2]; }), backgroundColor: PCOL, borderWidth: 0 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '58%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return c.label + ': weight ' + c.raw; } } } } } });
   function nirfRadar() {
     var a = A.nirf[+$('rdA').value], b = A.nirf[+$('rdB').value];
     mk('nirfRadar', { type: 'radar', data: { labels: A.params.map(function (p) { return p[0]; }), datasets: [
@@ -213,6 +241,7 @@
     });
     $('cmT').innerHTML = h + '</tbody>';
     var cols = [NAVY, OR, GREEN, GOLD];
+    $('cmHi').innerHTML = '<h3>Who leads on each factor</h3>' + A.params.map(function (p, i) { var b = picks.slice().sort(function (a, c) { return c.scores[i] - a.scores[i]; })[0]; return b ? '<p style="margin:4px 0;font-size:.86rem"><b>' + p[0] + '</b> ' + p[1].toLowerCase() + ': ' + abbr(b.name) + ' (' + b.scores[i].toFixed(1) + ')</p>' : ''; }).join('');
     mk('cmRadar', { type: 'radar', data: { labels: A.params.map(function (p) { return p[0]; }), datasets: picks.map(function (x, k) { return { label: x.name, data: x.scores, borderColor: cols[k], backgroundColor: cols[k] + '22' }; }) },
       options: { responsive: true, maintainAspectRatio: false, scales: { r: { min: 0, max: 100, grid: { color: GRID }, angleLines: { color: GRID }, pointLabels: { color: TXT }, ticks: { backdropColor: 'transparent', color: TXT } } }, plugins: { legend: { position: 'bottom' } } } });
   }
@@ -226,7 +255,6 @@
     el.addEventListener('change', compare);
   });
   compare();
-  if (want.length && location.hash === '#compare' && $('compare').scrollIntoView) $('compare').scrollIntoView();
 
   var EM = M.filter(function (m) { return m[1]; });
   var exItems = EM.map(function (m, k) { return [k, m[0]]; }).filter(function (o) { return o[1] !== 'Rank' && o[1] !== 'Graduating batch'; });
@@ -268,5 +296,18 @@
     mk('rtAvg', { type: 'bar', data: { labels: order.map(function (j) { return SP[j][1] + ' (' + SP[j][0] + ')'; }), datasets: [{ label: 'Average share of marks earned (%)', data: order.map(function (j) { return +avgPct[j].toFixed(0); }), backgroundColor: order.map(function (j) { return avgPct[j] >= 75 ? GREEN : avgPct[j] >= 40 ? GOLD : RED; }) }] },
       options: barOpts(true, { plugins: { legend: { display: false } }, scales: { x: { max: 100, title: { display: true, text: '% of the marks available' } } } }) });
   }
+
+  /* ---- tabs: the hash picks the tab that holds a section ---- */
+  var panes = [].slice.call(document.querySelectorAll('.aa-pane')), tabBtns = [].slice.call(document.querySelectorAll('.aa-tabs button'));
+  function showTab(t, id) {
+    panes.forEach(function (p) { p.hidden = p.id !== 'pane-' + t; });
+    tabBtns.forEach(function (b) { b.classList.toggle('on', b.dataset.t === t); });
+    var pn = $('pane-' + t);
+    setTimeout(function () { [].slice.call(pn.querySelectorAll('canvas')).forEach(function (c) { var ch = Chart.getChart(c); if (ch) { ch.resize(); ch.update('none'); } }); if (id && $(id)) $(id).scrollIntoView(); }, 30);
+  }
+  tabBtns.forEach(function (b) { b.addEventListener('click', function () { showTab(b.dataset.t); try { history.replaceState(null, '', '#' + b.dataset.t); } catch (e) {} }); });
+  var h0 = location.hash.slice(1);
+  if (want.length) showTab('compare', h0 === 'compare' ? 'compare' : null);
+  else if (h0) panes.forEach(function (p) { if (p.dataset.s.split(',').indexOf(h0) > -1) showTab(p.id.slice(5), h0); });
   nirfStack(); nirfRadar(); closing(); fillM(); fillL(); dasa(); seats(); find();
 })();

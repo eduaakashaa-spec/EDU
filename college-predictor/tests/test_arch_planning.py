@@ -90,7 +90,7 @@ assert 'Source 1' not in h and 'aggregator' not in h.lower() and 'collegedekho' 
 r = cl.get('/architecture-planning-analytics')
 assert r.status_code == 200
 h = r.get_data(as_text=True)
-for t in ('Rank finder', 'window.ARCH', 'arch_analytics.js', 'dg-alert', 'DASA 2025', 'id="compare"', 'cmT', 'id="rating"', 'rtBars', 'Inside the five scores'):
+for t in ('Rank finder', 'window.ARCH', 'arch_analytics.js', 'dg-alert', 'DASA 2025', 'id="compare"', 'cmT', 'id="rating"', 'rtBars', 'Inside the five scores', 'What is the NIRF ranking, and why does it matter?', 'nirfOrd', 'nirfSub'):
     assert t in h, t
 for u in ('/architecture-colleges', '/barch-colleges', '/architecture-planning'):
     assert cl.get(u).status_code == 301
