@@ -30,7 +30,7 @@
   .ma .esum::after{ content:"\25BE"; color:#8a93ab; justify-self:end; } .ma details[open] > .esum::after{ transform:rotate(180deg); }
   .ma .en strong{ display:block; } .ma .en small{ color:var(--muted); font-size:12px; }
   .ma .pill{ display:inline-block; padding:2px 10px; border-radius:999px; font-size:11.5px; font-weight:700; background:#EDF1FA; color:var(--navy); }
-  .ma .pill.st-Active{ background:#E3F4EB; color:#14603F; } .ma .pill.st-Paused{ background:#FFF0D6; color:#8A5A00; } .ma .pill.st-Completed{ background:#EEE; color:#555; }
+  .ma .pill.st-Active{ background:#E3F4EB; color:#14603F; } .ma .pill.st-Paused{ background:#FFF0D6; color:#8A5A00; } .ma .pill.st-Completed{ background:#EEE; color:#555; } .ma .pill.st-Removed{ background:#FBE3E3; color:#8E1B1B; }
   .ma details.pcard, .ma details.enrol-card{ padding:6px 18px; border:1px solid var(--hairline); border-style:solid; margin-bottom:12px; }
   .ma .psum{ list-style:none; display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:pointer; padding:8px 0; } .ma .psum h2{ margin:0; }
   .ma .chev{ color:#8a93ab; transition:transform .15s; } .ma details[open] > .psum .chev{ transform:rotate(180deg); }
@@ -73,7 +73,7 @@
   <div class="card" id="students-list">
     <div class="toolbar">
       <input type="search" id="en-q" placeholder="Search student, email, programme or mentor" aria-label="Search enrolments">
-      <select id="en-status" aria-label="Filter by status"><option value="">All statuses</option><option>Active</option><option>Paused</option><option>Completed</option></select>
+      <select id="en-status" aria-label="Filter by status"><option value="">All statuses</option><option>Active</option><option>Paused</option><option>Completed</option><option>Removed</option></select>
       <select id="en-prog" aria-label="Filter by programme"><option value="">All programmes</option>{% for p in programmes %}<option>{{ p.name }}</option>{% endfor %}</select>
       <span class="hint" id="en-count" style="margin:0">{{ enrolments|length }} shown</span>
     </div>
@@ -87,6 +87,14 @@
           <div><label>Start</label><input type="date" name="start_date" value="{{ e.start_date or '' }}"></div><div><label>End</label><input type="date" name="end_date" value="{{ e.end_date or '' }}"></div>
           <div><label>Time zone</label><input type="text" name="timezone" value="{{ e.timezone }}"></div></div>
         <button class="btn btn-navy">Save</button> <a class="btn btn-ghost" href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}">Open record</a></form>
+      {% if e.status == 'Removed' %}
+      <form method="post" action="{{ url_for('mentorship.admin_enrolment_restore', eid=e.id) }}" style="margin-top:8px;"><button class="btn btn-navy" type="submit">Restore to member portal</button>
+        <span class="hint">Removed from the member portal: {{ e.student.name }}, parents and the mentor no longer see this programme. All records are kept.</span></form>
+      {% else %}
+      <form method="post" action="{{ url_for('mentorship.admin_enrolment_remove', eid=e.id) }}" style="margin-top:8px;" onsubmit="return confirm('Remove {{ e.programme.name|e }} from {{ e.student.name|e }}’s portal? It will disappear for the student, parents and mentor. Nothing is deleted and you can restore it.');">
+        <button class="btn btn-ghost" type="submit" style="color:#8E1B1B;border-color:#E3B4B4;">Remove from member portal</button>
+        <span class="hint">Hides the programme from the member, parents and mentor. Records are kept; Restore brings it back.</span></form>
+      {% endif %}
       <form method="post" action="{{ url_for('mentorship.admin_intl_pack', eid=e.id) }}" style="margin-top:8px;" onsubmit="return confirm('Add the NUS, NTU and HKU admission pack (2027 intake) to {{ e.student.name|e }}? Nothing existing is changed.');">
         <button class="btn btn-ghost" type="submit">Add NUS, NTU and HKU admission pack</button>
         <span class="hint">Deadlines, checklists, KPIs, actions and a college list from the 30 Oct 2026 report. Safe to repeat.</span></form>

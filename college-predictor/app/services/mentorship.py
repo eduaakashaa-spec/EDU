@@ -109,12 +109,17 @@ def week_start(d=None):
 # --------------------------------------------------------------------------- #
 # Access control — every route calls this; the server decides, not the template
 # --------------------------------------------------------------------------- #
+REMOVED = 'Removed'     # enrolment status: hidden from the student, parents and mentor; data kept; an admin can restore it
+
+
 def role_for(e, user):
     """'admin' | 'mentor' | 'student' | 'parent' | None for this user on this enrolment."""
     if not user or not user.is_authenticated:
         return None
     if user.is_admin:
         return 'admin'
+    if e.status == REMOVED:                 # taken off the member portal by an admin: only admins can still open it
+        return None
     if e.mentor_id == user.id and user.is_ea_mentor:
         return 'mentor'
     if e.student_id == user.id:

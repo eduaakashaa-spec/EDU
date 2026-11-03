@@ -99,9 +99,9 @@ def _premium_gate(role):
 def index():
     if current_user.is_admin or current_user.is_ea_mentor:
         return redirect(url_for('mentorship.mentor_home'))
-    as_student = MsEnrolment.query.filter_by(student_id=current_user.id).all()
+    as_student = MsEnrolment.query.filter(MsEnrolment.student_id == current_user.id, MsEnrolment.status != svc.REMOVED).all()
     parent_eids = [x.enrolment_id for x in MsParentLink.query.filter_by(parent_id=current_user.id).all()]
-    as_parent = MsEnrolment.query.filter(MsEnrolment.id.in_(parent_eids)).all() if parent_eids else []
+    as_parent = MsEnrolment.query.filter(MsEnrolment.id.in_(parent_eids), MsEnrolment.status != svc.REMOVED).all() if parent_eids else []
     mine = as_student + [e for e in as_parent if e not in as_student]
     if not mine:
         return render_template('mentorship/not_enrolled.html')
@@ -115,7 +115,7 @@ def index():
 def _staff_enrolments():
     q = MsEnrolment.query
     if not current_user.is_admin:
-        q = q.filter(MsEnrolment.mentor_id == current_user.id)
+        q = q.filter(MsEnrolment.mentor_id == current_user.id, MsEnrolment.status != svc.REMOVED)
     return q.order_by(MsEnrolment.id.desc()).all()
 
 
@@ -1114,7 +1114,7 @@ def admin_addons_load():
 def addons():
     """Catalogue of ready-made add-on programmes. Anyone signed in can read it and request one."""
     from app.data.mentorship_addons import ADDONS
-    mine = {e.programme.name for e in MsEnrolment.query.filter_by(student_id=current_user.id).all()}
+    mine = {e.programme.name for e in MsEnrolment.query.filter(MsEnrolment.student_id == current_user.id, MsEnrolment.status != svc.REMOVED).all()}
     asked = _addon_requests(current_user)
     return render_template('mentorship/addons.html', addons=ADDONS, mine=mine, asked=asked)
 
@@ -1284,6 +1284,36 @@ def admin_enrolment_update(eid):
     svc.audit(e, 'enrolment.updated', f'mentor={e.mentor_id} quota={e.extra_quota} status={e.status}', 'admin')
     db.session.commit()
     flash('Enrolment updated.', 'success')
+    return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
+
+
+@mentorship_bp.route('/admin/enrolment/<int:eid>/remove', methods=['POST'])
+@admin_required
+def admin_enrolment_remove(eid):
+    """Take an assigned programme off the member's portal. Nothing is deleted: sessions, actions, KPIs and reports stay for the admin, and Restore brings it back."""
+    e = db.session.get(MsEnrolment, eid) or abort(404)
+    if e.status == svc.REMOVED:
+        flash('That programme is already removed from the member portal.', 'info')
+    else:
+        was = e.status
+        e.status = svc.REMOVED
+        svc.audit(e, 'enrolment.removed', f'was {was}; removed from the member portal by admin', 'admin')
+        db.session.commit()
+        flash(f'{e.programme.name} removed from {e.student.name}’s portal (it no longer shows for the student, parents or mentor). Use Restore to bring it back.', 'success')
+    return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
+
+
+@mentorship_bp.route('/admin/enrolment/<int:eid>/restore', methods=['POST'])
+@admin_required
+def admin_enrolment_restore(eid):
+    e = db.session.get(MsEnrolment, eid) or abort(404)
+    if e.status != svc.REMOVED:
+        flash('That programme is not removed.', 'info')
+    else:
+        e.status = 'Active'
+        svc.audit(e, 'enrolment.restored', 'restored to the member portal by admin', 'admin')
+        db.session.commit()
+        flash(f'{e.programme.name} restored for {e.student.name}. Check the status if it was Paused or Completed before.', 'success')
     return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
 
 
