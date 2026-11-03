@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}EduPulse Free Sample Mock Tests: JEE, UCEED, NID, NIFT, IAT, TN Class 10 | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Try a free EduPulse sample mock test for JEE Main, UCEED, NID DAT, NIFT GAT, IISER Aptitude Test and TN Class 10. Ten questions each, with answers and explanations. Enter your phone and email to start.">{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+<style>
+  .fm{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);max-width:1080px;margin:0 auto;padding:14px 16px 60px}
+  .fm h1{font-size:clamp(1.6rem,3.6vw,2.4rem);margin:4px 0 6px}.fm .eb{font:700 .72rem 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#FF6B0A}
+  .fm .lead{color:var(--dim);max-width:68ch;margin:0 0 14px;line-height:1.6}
+  .fm-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start;background:linear-gradient(135deg,#0E1B3D,#0E3A8A);color:#fff;border-radius:22px;padding:26px}
+  .fm-hero .lead{color:#D6E0F5}.fm-hero h1{color:#fff}.fm-hero ul{margin:10px 0 0;padding-left:18px;color:#D6E0F5;line-height:1.7;font-size:.95rem}
+  .fm-form{background:var(--pp);color:#0E1B3D;border-radius:16px;padding:18px}.fm-form h2{margin:0 0 8px;font-size:1.1rem}
+  .fm-form label{display:block;font:700 .72rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#5A6278;margin:10px 0 3px}
+  .fm-form input[type=text],.fm-form input[type=email],.fm-form input[type=tel]{width:100%;box-sizing:border-box;border:1.5px solid var(--ln);border-radius:10px;padding:10px 12px;font:500 1rem 'Plus Jakarta Sans',system-ui,sans-serif}
+  .fm-form .hp{position:absolute;left:-9999px;height:0;overflow:hidden}
+  .fm-btn{display:inline-block;border:0;border-radius:999px;padding:12px 26px;font:700 .95rem 'Plus Jakarta Sans',system-ui,sans-serif;background:#FF6B0A;color:#fff;cursor:pointer;text-decoration:none;margin-top:12px}
+  .fm-btn.n{background:var(--navy,#0E3A8A)}.fm-err{background:#FBE9E7;color:#8E1B1B;border-radius:8px;padding:8px 10px;font-size:.88rem;margin-bottom:6px}
+  .fm-note{font-size:.76rem;color:#5A6278;margin:8px 0 0;line-height:1.5}
+  .fm-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:10px}
+  .fm-card{background:var(--pp);border:1px solid var(--ln);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;position:relative}
+  .fm-card h3{margin:0;font-size:1.15rem}.fm-card .k{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}
+  .fm-card p{margin:0;font-size:.9rem;line-height:1.55;color:var(--dim)}.fm-card .m{font-size:.78rem;color:var(--dim)}
+  .fm-card .sc{position:absolute;top:14px;right:16px;background:#E3F4EB;color:#14603F;border-radius:999px;padding:3px 10px;font:700 .75rem 'JetBrains Mono',monospace}
+  .fm-card .fm-btn{align-self:flex-start;margin-top:8px}
+  .fm-more{margin-top:22px;background:var(--pp);border:1px solid var(--ln);border-radius:18px;padding:18px 20px}.fm-more h2{margin:0 0 6px;font-size:1.2rem}.fm-more p{margin:4px 0;line-height:1.6;color:var(--dim)}
+  @media(max-width:760px){.fm-hero{grid-template-columns:1fr;padding:18px}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="fm">
+{% if not unlocked %}
+  <section class="fm-hero">
+    <div>
+      <span class="eb" style="color:#FFB27A">EduPulse &middot; free sample mock tests</span>
+      <h1>Try a real mock test before you join.</h1>
+      <p class="lead">One free 10-question sample for each exam, with the right answer and a short explanation for every question. See how an EduPulse mock feels.</p>
+      <ul><li>JEE Main, UCEED, NID DAT, NIFT GAT, IISER Aptitude Test and TN Class 10</li><li>Score and explanations as soon as you finish</li><li>No payment, no card. Phone and email only</li></ul>
+    </div>
+    <form class="fm-form" method="post" action="{{ url_for('free_mock.start') }}" id="start">
+      <h2>Start your free samples</h2>
+      {% if error %}<div class="fm-err" role="alert">{{ error }}</div>{% endif %}
+      <label for="fm-n">Name (optional)</label><input type="text" id="fm-n" name="name" maxlength="150" value="{{ form.get('name','') }}" autocomplete="name">
+      <label for="fm-p">Phone number</label><input type="tel" id="fm-p" name="phone" required maxlength="40" value="{{ form.get('phone','') }}" autocomplete="tel" placeholder="+91 98765 43210">
+      <label for="fm-e">Email</label><input type="email" id="fm-e" name="email" required maxlength="200" value="{{ form.get('email','') }}" autocomplete="email">
+      <div class="hp" aria-hidden="true"><label>Website</label><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+      <button class="fm-btn" type="submit">Unlock the free tests &rarr;</button>
+      <p class="fm-note">We use your phone and email only to share your results and to help with your exam preparation. We do not sell your details.</p>
+    </form>
+  </section>
+  <section style="margin-top:20px">
+    <h2 style="font-size:1.2rem;margin:0 0 6px">The six samples</h2>
+    <div class="fm-grid">
+      {% for e in exams %}<div class="fm-card"><span class="k">{{ e.tag }}</span><h3>{{ e.name }}</h3><p>{{ e.blurb }}</p><span class="m">{{ SIZE }} questions &middot; about {{ e.minutes }} min &middot; {{ e.marks }}</span></div>{% endfor %}
+    </div>
+  </section>
+{% else %}
+  <span class="eb">EduPulse &middot; free sample mock tests</span>
+  <h1>{% if name %}Welcome, {{ name.split(' ')[0] }}.{% else %}Your free samples are open.{% endif %}</h1>
+  <p class="lead">Pick an exam. Each sample has {{ SIZE }} questions; you see your score and the explanation for every question at the end. Nothing here is timed strictly, so take your time.</p>
+  <div class="fm-grid" id="samples">
+    {% for e in exams %}<div class="fm-card">
+      {% if done.get(e.key) %}<span class="sc">{{ done[e.key] }}</span>{% endif %}
+      <span class="k">{{ e.tag }}</span><h3>{{ e.name }}</h3><p>{{ e.blurb }}</p>
+      <span class="m">{{ SIZE }} questions &middot; about {{ e.minutes }} min &middot; {{ e.marks }}</span>
+      <a class="fm-btn" href="{{ url_for('free_mock.take', key=e.key) }}">{{ 'Try again' if done.get(e.key) else 'Start free sample' }} &rarr;</a>
+    </div>{% endfor %}
+  </div>
+{% endif %}
+  <section class="fm-more">
+    <h2>Want the full EduPulse?</h2>
+    <p>Members get full mock tests for every exam, previous years&rsquo; papers with answers, a confidence rating on every answer, a negative-marking tracker, daily practice set by a mentor, and reports for the student, parents and mentor.</p>
+    <a class="fm-btn n" href="{{ url_for('main.members_registration') }}#pulse">See EduPulse membership &rarr;</a>
+  </section>
+</div>
+{% endblock %}

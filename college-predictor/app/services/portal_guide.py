@@ -28,6 +28,7 @@ ROLE_BLURB = {
 COVERED_BLUEPRINTS = {
     'explorer': 'EduPulse-Explorer (Grades 7 to 10): discovery test, interest check, exam tasters, skill sets, Daily 10 review, progress, creative challenges',
     'nift_mock': 'EduPulse-NIFT (NIFT GAT and CAT): GAT mocks per programme, earlier-year questions, section sets, Daily Review, progress, CAT studio tasks',
+    'free_mock': 'EduPulse free sample mock tests (public): phone and email once, then one 10-question sample each for JEE, UCEED, NID, NIFT, IAT and TN Class 10',
     'nid_mock': 'EduPulse-NID mock tests (NID DAT): mocks, official sample papers, section sets, studio practice',
     'main': 'Public pages, guides, predictors and premium analytics pages',
     'auth': 'Sign in, register, password',
@@ -56,6 +57,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-03', 'New public page EduPulse Free Mock Tests: a visitor enters phone and email once, then tries one free 10-question sample for each exam (JEE Main, UCEED, NID, NIFT, IAT, TN Class 10) with score and explanations. Each unlock and finished sample is saved as a lead (source edupulse-free-mock). Linked from the menu and the membership page.'),
     ('2026-11-03', 'Mentorship admin: new "Remove from member portal" button on each enrolment, after a programme has been assigned and published. The programme disappears for the student, parents and mentor, all records are kept, and "Restore to member portal" brings it back.'),
     ('2026-11-03', 'Four EduPulse feature banners (Reinforcement, Mock Test Centres, previous years papers, mentor and parent view) designed in Canva: added to the homepage banner carousel (now 10 slides) and as a carousel inside the EduPulse section of the membership registration page.'),
     ('2026-11-03', 'JoSAA predictor (public page, members edition, matrix, insights and analytics) now runs on JoSAA 2026 data: Rounds 1 to 5, 138 institutes, 13,292 entries, from the consolidated workbook; B.Arch and B.Planning are no longer mixed into B.Tech predictions; IISc counts with the IIT group; page labels and the IIT CSE closing-rank boxes updated to 2026. The 2025 file stays as a fallback.'),
@@ -106,6 +108,13 @@ CHANGELOG = [
 
 GUIDE = [
     # ------------------------------------------------------------------ everyone
+    dict(id='a-free-mock', role='admin', group='Programmes', title='EduPulse free sample mock tests (public leads)', summary='A public page where visitors try one free sample per exam after leaving phone and email.',
+         where=[('EduPulse Free Mock Tests', 'free_mock.home')],
+         steps=['Share the page link with prospects: /edupulse-free-mock-tests. A visitor enters phone and email (name optional) once, then opens six samples: JEE Main, UCEED, NID, NIFT, IAT and TN Class 10, ten questions each, with the score and an explanation for every question.',
+                'Every unlock and every finished sample is saved as a lead with source edupulse-free-mock (open the Leads inbox). A finished sample records the exam and the right, wrong and blank counts, so you can see who tried what.',
+                'The samples are fixed (the same ten questions for everyone) and come from the member mock banks; to change a sample, change the seed or sizes in services/free_mock.py.'],
+         tips=['The page asks for contact details only to share results and help with preparation; do not use them for anything else.'],
+         added='2026-11-03', updated='2026-11-03'),
     dict(id='roles', role='all', group='Start here', title='Who can do what', summary='The six account types and what each one unlocks.',
          where=[('Members & Access (admin)', 'membership.admin_users')],
          steps=['Free member: signs in, sees Member Home, the free guides and the exam schedule. Premium tools show a lock.',

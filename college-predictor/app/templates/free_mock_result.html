@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Your {{ ex.name }} sample result | EduPulse{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+<style>
+  .fr{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);max-width:860px;margin:0 auto;padding:12px 16px 70px}
+  .fr h1{font-size:clamp(1.5rem,3.4vw,2.1rem);margin:4px 0 8px}.fr .eb{font:700 .72rem 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;color:#FF6B0A}
+  .fr-sc{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0 16px}.fr-sc div{background:var(--pp);border:1px solid var(--ln);border-radius:14px;padding:10px 18px;min-width:96px}
+  .fr-sc b{display:block;font:700 1.7rem 'Fraunces',Georgia,serif}.fr-sc span{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+  .fr-sc .r b{color:#1F8B5C}.fr-sc .w b{color:#C23A3A}
+  .fr-q{background:var(--pp);border:1px solid var(--ln);border-radius:14px;padding:14px 16px;margin:12px 0;border-left:5px solid var(--ln)}
+  .fr-q.right{border-left-color:#1F8B5C}.fr-q.wrong{border-left-color:#C23A3A}.fr-q.blank{border-left-color:#E89A1C}
+  .fr-k{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}
+  .fr-p{background:#F4F6FB;border-radius:8px;padding:9px 12px;margin:6px 0;font-size:.92rem;line-height:1.5;white-space:pre-line}
+  .fr-fig svg,.fr-fig img{max-width:100%;height:auto;background:#fff;border-radius:8px}
+  .fr-o{display:grid;grid-template-columns:1fr;gap:0}.fr-o.fig{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+  .fr-o div{border:1.5px solid var(--ln);border-radius:10px;padding:7px 11px;margin:5px 0;font-size:.95rem}.fr-o.fig div{margin:0;text-align:center}
+  .fr-o svg,.fr-o img{max-width:100%;height:auto;background:#fff;border-radius:6px}
+  .fr-o .ok{border-color:#1F8B5C;background:#EAF6EF}.fr-o .no{border-color:#C23A3A;background:#FBE9E7}
+  .fr-w{font-size:.9rem;background:#F4F6FB;border-radius:8px;padding:8px 11px;margin-top:6px;line-height:1.55}
+  :root[data-theme="dark"] .fr-p,:root[data-theme="dark"] .fr-w{background:#1d2230}:root[data-theme="dark"] .fr-o .ok{background:#12301f}:root[data-theme="dark"] .fr-o .no{background:#3a1a1a}
+  .fr-btn{display:inline-block;border-radius:999px;padding:11px 24px;font:700 .92rem 'Plus Jakarta Sans',system-ui,sans-serif;background:#FF6B0A;color:#fff;text-decoration:none;margin:6px 8px 0 0}.fr-btn.n{background:var(--navy,#0E3A8A)}
+  .fr-cta{background:linear-gradient(135deg,#0E1B3D,#0E3A8A);color:#fff;border-radius:18px;padding:18px 20px;margin:16px 0}.fr-cta p{margin:4px 0;color:#D6E0F5;line-height:1.55}
+</style>
+{% endblock %}
+{% block content %}
+<div class="fr">
+  <span class="eb">EduPulse &middot; {{ ex.name }} free sample</span>
+  <h1>You scored {{ res.right }} out of {{ res.total }}</h1>
+  <div class="fr-sc"><div class="r"><b>{{ res.right }}</b><span>Right</span></div><div class="w"><b>{{ res.wrong }}</b><span>Wrong</span></div><div><b>{{ res.blank }}</b><span>Not answered</span></div></div>
+  <div class="fr-cta"><strong>This is one sample of the full EduPulse.</strong>
+    <p>Members take full mocks, rate how sure they were on every answer, and see which mistakes were guesses and which were real gaps. A mentor reads the report with you.</p>
+    <a class="fr-btn" href="{{ url_for('main.members_registration') }}#pulse">Join as a member</a>
+    <a class="fr-btn n" href="{{ url_for('free_mock.take', key=ex.key) }}">Try this sample again</a></div>
+  {% for r in res.rows %}{% set q = r.q %}
+  <div class="fr-q {{ r.state }}"><span class="fr-k">Q{{ loop.index }} &middot; {{ q.sec }} &middot; {{ {'right': 'Correct', 'wrong': 'Wrong', 'blank': 'Not answered'}[r.state] }}</span>
+    {% if q.passage %}<div class="fr-p">{{ q.passage|safe }}</div>{% endif %}
+    {% if q.stem %}<p style="margin:6px 0">{{ q.stem|safe }}</p>{% endif %}
+    {% if q.fig %}<div class="fr-fig">{{ q.fig|safe }}</div>{% endif %}
+    <div class="fr-o{{ ' fig' if q.opts[0].img or (q.opts[0].h and '<svg' in q.opts[0].h) }}">
+    {% for o in q.opts %}<div class="{{ 'ok' if loop.index0 == q.ans else ('no' if loop.index0 == r.pick else '') }}"><b>{{ 'ABCD'[loop.index0] }}.</b> {% if o.img %}<img src="{{ o.img }}" alt="Option {{ 'ABCD'[loop.index0] }}">{% else %}{{ o.h|safe }}{% endif %}{% if loop.index0 == q.ans %} <small>&#10003; correct</small>{% elif loop.index0 == r.pick %} <small>your answer</small>{% endif %}</div>{% endfor %}
+    </div>
+    {% if q.why %}<div class="fr-w"><strong>Why:</strong> {{ q.why|safe }}</div>{% endif %}
+  </div>
+  {% endfor %}
+  <a class="fr-btn" href="{{ url_for('free_mock.home') }}#samples">Back to all samples</a>
+  {% if nxt %}<a class="fr-btn n" href="{{ url_for('free_mock.take', key=nxt[0].key) }}">Next: {{ nxt[0].name }}</a>{% endif %}
+</div>
+{% endblock %}

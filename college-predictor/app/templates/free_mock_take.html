@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}{{ ex.name }} Free Sample Mock Test | EduPulse{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+<style>
+  .ft{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);max-width:860px;margin:0 auto;padding:10px 16px 90px}
+  .ft-top{position:sticky;top:0;z-index:20;display:flex;gap:10px;justify-content:space-between;align-items:center;background:var(--cream,#FBF7EE);padding:8px 0;border-bottom:1px solid var(--ln)}
+  .ft-top b{font-family:'Fraunces',Georgia,serif}.ft-time{font:700 1rem 'JetBrains Mono',monospace;color:var(--navy,#0E3A8A)}
+  .ft-q{background:var(--pp);border:1px solid var(--ln);border-radius:14px;padding:14px 16px;margin:14px 0}
+  .ft-k{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}
+  .ft-p{background:#F4F6FB;border-left:4px solid var(--navy,#0E3A8A);border-radius:8px;padding:10px 14px;margin:8px 0;font-size:.95rem;line-height:1.55;white-space:pre-line}
+  .ft-s{font-size:1.05rem;line-height:1.55;margin:6px 0 10px}.ft-fig{margin:8px 0}.ft-fig svg,.ft-fig img{max-width:100%;height:auto;background:#fff;border-radius:8px}
+  .ft-o{display:grid;grid-template-columns:1fr;gap:0}.ft-o.fig{grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+  .ft-o label{display:flex;gap:8px;align-items:flex-start;border:1.5px solid var(--ln);border-radius:10px;padding:9px 12px;margin:6px 0;cursor:pointer;background:var(--cream,#FBF7EE)}
+  .ft-o.fig label{margin:0;flex-direction:column;align-items:center}.ft-o label svg,.ft-o label img{max-width:100%;height:auto;background:#fff;border-radius:6px}
+  .ft-o input{margin-top:4px}.ft-o label:has(input:checked){border-color:var(--navy,#0E3A8A);background:#E1E9F7}
+  .ft-go{border:0;border-radius:999px;padding:12px 28px;font:700 .95rem 'Plus Jakarta Sans',system-ui,sans-serif;background:#FF6B0A;color:#fff;cursor:pointer}
+  :root[data-theme="dark"] .ft-p{background:#1d2230}:root[data-theme="dark"] .ft-o label:has(input:checked){background:#1b2a4a}
+</style>
+{% endblock %}
+{% block content %}
+<div class="ft">
+  <div class="ft-top"><b>EduPulse &middot; {{ ex.name }} free sample</b><span class="ft-time" id="t" aria-live="off">{{ ex.minutes }}:00</span></div>
+  <p style="color:var(--dim);font-size:.9rem;margin:10px 0 0">{{ qs|length }} questions &middot; {{ ex.marks }}. The clock is a guide; you can still finish after it reaches zero.</p>
+  <form method="post" id="f">
+  {% for q in qs %}
+    <div class="ft-q"><span class="ft-k">Q{{ loop.index }} &middot; {{ q.sec }}</span>
+      {% if q.passage %}<div class="ft-p">{{ q.passage|safe }}</div>{% endif %}
+      {% if q.stem %}<p class="ft-s">{{ q.stem|safe }}</p>{% endif %}
+      {% if q.fig %}<div class="ft-fig">{{ q.fig|safe }}</div>{% endif %}
+      <div class="ft-o{{ ' fig' if q.opts[0].img or (q.opts[0].h and '<svg' in q.opts[0].h) }}">
+      {% for o in q.opts %}<label><input type="radio" name="a_{{ q.id }}" value="{{ loop.index0 }}"><span><b>{{ 'ABCD'[loop.index0] }}.</b> {% if o.img %}<img src="{{ o.img }}" alt="Option {{ 'ABCD'[loop.index0] }}">{% else %}{{ o.h|safe }}{% endif %}</span></label>{% endfor %}
+      </div>
+    </div>
+  {% endfor %}
+    <button class="ft-go" type="submit" onclick="return confirm('Finish and see your score?')">Finish and see my score</button>
+    <a href="{{ url_for('free_mock.home') }}" style="margin-left:12px">Back to all samples</a>
+  </form>
+</div>
+<script>
+(function(){var left={{ ex.minutes * 60 }},el=document.getElementById('t');
+setInterval(function(){left=Math.max(0,left-1);el.textContent=Math.floor(left/60)+':'+('0'+left%60).slice(-2);},1000);})();
+</script>
+{% endblock %}
