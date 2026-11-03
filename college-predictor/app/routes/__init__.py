@@ -494,6 +494,13 @@ def internship_programs_legacy():
     return redirect(url_for('main.contact'), code=301)
 
 
+@main_bp.route('/josaa-2026-analytics')
+@premium_required
+def josaa_2026_analytics():
+    # premium page: JoSAA 2026 seats and Round 1 to 5 ranks (data: app/static/data/josaa_2026.json, built by tools/josaa2026/build.py)
+    return render_template('josaa_2026_analytics.html')
+
+
 @main_bp.route('/dasa-2026-analytics')
 @premium_required
 def dasa_2026_analytics():

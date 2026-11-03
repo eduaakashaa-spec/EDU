@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% block title %}JoSAA 2026 Seat Allotment and Analytics | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Premium member analytics: JoSAA 2026 seats and Round 1 to 5 opening and closing ranks for 138 institutes: seat supply, how cut-offs moved between rounds, a searchable cut-off explorer, a rank finder and Architecture and Planning.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<style>
+  .j26{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);--nv:var(--navy,#0E3A8A)}
+  .j26 h2{font-size:1.3rem;margin:0 0 4px}.j26 h3{font-size:1rem;margin:12px 0 6px}
+  .j26-top{margin:6px 0 10px}.j26-top h1{font-size:clamp(1.5rem,3.4vw,2.2rem);margin:2px 0 0}.j26-top p{margin:4px 0 0;font-size:.95rem;color:var(--dim);max-width:75ch}
+  .j26-tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;margin:8px 0;position:sticky;top:0;z-index:5;background:var(--cream,#FBF7EE)}.j26-tabs button{border:1.5px solid var(--ln);background:var(--pp);border-radius:999px;padding:7px 15px;font:700 .85rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit;cursor:pointer;white-space:nowrap}
+  .j26-tabs button.on{background:var(--nv);color:#fff;border-color:var(--nv)}
+  .j26-kp{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:8px 0}.j26-kp div{background:var(--pp);border:1px solid var(--ln);border-radius:14px;padding:10px 12px}.j26-kp b{display:block;font:700 1.4rem 'Fraunces',Georgia,serif;color:var(--nv)}.j26-kp span{font-size:.78rem;color:var(--dim)}
+  .j26-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:12px 14px;margin:8px 0}.j26-c p{font-size:.9rem;line-height:1.55;margin:4px 0}
+  .j26-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media(max-width:860px){.j26-two{grid-template-columns:1fr}}
+  .j26-cv{position:relative;height:260px}
+  .j26-t{width:100%;border-collapse:collapse;font-size:.82rem}.j26-t th,.j26-t td{padding:5px 7px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top;white-space:nowrap}.j26-t td.n,.j26-t th.n{text-align:right}.j26-t th{font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dim);position:sticky;top:0;background:var(--pp)}
+  .j26-sc{overflow:auto;max-height:520px;border:1px solid var(--ln);border-radius:12px}
+  .j26-f{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}.j26-f label{font-size:.74rem;color:var(--dim);display:flex;flex-direction:column;gap:2px}.j26-f select,.j26-f input{border:1.5px solid var(--ln);border-radius:8px;padding:6px 8px;background:var(--pp);color:inherit;font:inherit;font-size:.86rem;min-width:130px;max-width:260px}
+  .j26-go{border:0;border-radius:999px;padding:9px 20px;font:700 .88rem 'Plus Jakarta Sans',system-ui,sans-serif;background:#FF6B0A;color:#fff;cursor:pointer;align-self:flex-end}
+  .j26-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}.j26-up{color:#C23A3A}.j26-dn{color:#1F8B5C}.j26-tag{display:inline-block;font-size:.68rem;font-weight:700;border-radius:6px;padding:1px 6px;background:#EEF1F8;color:var(--nv)}
+  .j26 [hidden]{display:none!important}
+</style>
+{% endblock %}
+{% block content %}
+<div class="jr2 j26">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Premium analytics: JoSAA 2026 seats and Round 1 to 5 ranks.</strong>
+      Latest 2026&ndash;27 admission data and analytics are part of Premium Membership. Figures come from the JoSAA rank and seat-matrix files supplied to EduAakashaA; confirm anything you act on at josaa.nic.in.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="j26-top"><span class="eb">JoSAA 2026 &middot; rounds 1 to 5 &middot; built 2 Nov 2026</span>
+    <h1>Seat allotment and analytics, <em>2026</em></h1>
+    <p>Seats for the 32 NIT+ institutes and opening and closing ranks for 138 institutes across five rounds: how many seats there are, who relaxes between rounds, and what each cut-off was. Search it, or enter your rank.</p></div>
+  <div class="j26-tabs" role="tablist" id="jTabs">
+    <button class="on" data-t="ov">Overview</button><button data-t="seats">Seats</button><button data-t="ex">Cut-off explorer</button><button data-t="rf">Rank finder</button><button data-t="in">Institutes</button><button data-t="ap">Architecture and Planning</button><button data-t="me">Method and cautions</button>
+  </div>
+  <p id="jLoad" class="j26-n">Loading the 2026 data&hellip;</p>
+
+  <section data-p="ov" hidden>
+    <div class="j26-kp" id="kpis"></div>
+    <div class="j26-two">
+      <div class="j26-c"><h3>Cells reporting a rank, by round</h3><div class="j26-cv"><canvas id="chCov" aria-label="Cells with a closing rank in each round"></canvas></div><p class="j26-n" id="covNote"></p></div>
+      <div class="j26-c"><h3>How closing ranks moved from Round 1 to Round 5</h3><div class="j26-cv"><canvas id="chDrift" aria-label="Average rise in closing rank by institute type"></canvas></div><p class="j26-n">Average rise of the closing rank as a share of the Round 1 closing rank. A rise means the cut-off relaxed: more candidates got in.</p></div>
+    </div>
+    <div class="j26-c"><h3>By institute type</h3><div class="j26-sc" style="max-height:none"><table class="j26-t" id="tDrift"></table></div></div>
+    <div class="j26-c"><h3>What stands out</h3><ul id="finds" style="margin:0;padding-left:18px;line-height:1.65;font-size:.92rem"></ul></div>
+  </section>
+
+  <section data-p="seats" hidden>
+    <div class="j26-two">
+      <div class="j26-c"><h3>NIT+ seats by seat type and gender pool</h3><div class="j26-sc" style="max-height:none"><table class="j26-t" id="tSeat"></table></div><p class="j26-n">Female-only seats include supernumerary seats. IIT, IIIT and GFTI seat counts are not in the files supplied.</p></div>
+      <div class="j26-c"><h3>Seats by quota</h3><div class="j26-cv" style="height:220px"><canvas id="chQuota"></canvas></div>
+        <h3>Seat cells with no allotment in any round</h3><div class="j26-sc" style="max-height:none"><table class="j26-t" id="tNever"></table></div><p class="j26-n">A seat cell with no opening or closing rank in Rounds 1 to 5. The files give ranks, not the number of candidates allotted, so this is the strongest vacancy signal they support.</p></div>
+    </div>
+    <div class="j26-c"><h3>NIT+ institutes with the most seats</h3><div class="j26-cv" style="height:360px"><canvas id="chInst"></canvas></div></div>
+  </section>
+
+  <section data-p="ex" hidden>
+    <div class="j26-c"><h3>Cut-off explorer</h3>
+      <p>Opening and closing rank of every institute, programme, quota, seat type and gender pool, Rounds 1 to 5. Defaults to the main view: OPEN, gender-neutral.</p>
+      <div class="j26-f" id="exF"></div><p class="j26-n" id="exN"></p><div class="j26-sc"><table class="j26-t" id="tEx"></table></div>
+      <p class="j26-n">A "P" after a rank marks a preparatory-course rank on a separate list. IIT and IISc B.Tech ranks are JEE Advanced ranks; NIT+, IIIT and GFTI B.Tech ranks are JEE Main ranks. Do not compare across the two.</p></div>
+  </section>
+
+  <section data-p="rf" hidden>
+    <div class="j26-c"><h3>Rank finder</h3>
+      <p>Enter your rank in the right list and see the 2026 programmes whose Round 5 closing rank was at or beyond it. A cut-off that moved little between rounds is a steadier guide. This shows what happened in 2026; it is not a prediction for another year.</p>
+      <div class="j26-f" id="rfF"></div><p class="j26-n" id="rfN"></p><div class="j26-sc"><table class="j26-t" id="tRf"></table></div>
+      <p class="j26-n">B.Arch and B.Planning use separate merit lists and are not listed here: see the Architecture and Planning tab.</p></div>
+  </section>
+
+  <section data-p="in" hidden>
+    <div class="j26-c"><h3>Institutes</h3><div class="j26-f" id="inF"></div><div class="j26-sc"><table class="j26-t" id="tIn"></table></div></div>
+  </section>
+
+  <section data-p="ap" hidden>
+    <div class="j26-c"><h3>Architecture and Planning, JoSAA 2026</h3><p id="apNote"></p>
+      <h3>OPEN, gender-neutral closing ranks</h3><div class="j26-sc"><table class="j26-t" id="tAp"></table></div>
+      <h3>Institutes</h3><div class="j26-sc"><table class="j26-t" id="tApI"></table></div>
+      <p class="j26-n">B.Arch and B.Planning ranks come from separate merit lists (JEE Main Paper 2A and 2B), so they are not comparable with B.Tech ranks or with each other. Seat counts exist only for the NIT+ institutes in the seat matrix. See also <a href="{{ url_for('main.architecture_analytics') }}">Architecture and Planning analytics</a>.</p></div>
+  </section>
+
+  <section data-p="me" hidden>
+    <div class="j26-c"><h3>Where the numbers come from</h3>
+      <ul style="margin:0;padding-left:18px;line-height:1.7;font-size:.92rem">
+        <li>Ranks: JoSAA opening and closing ranks, Rounds 1 to 5, for 138 institutes (IIT, IISc, NIT+, IIIT and GFTI). The file supplied is named Round 1 to 6 but holds Rounds 1 to 5 only; Round 6 was not in it.</li>
+        <li>Seats: the NIT+ seat matrix (31 NITs and IIEST Shibpur): 25,162 seats. Every NIT+ rank cell matched a seat cell.</li>
+        <li>The files give the opening and closing rank of each cell, not how many candidates were allotted, so fill rates cannot be worked out.</li>
+        <li>Shift is the Round 5 closing rank minus the Round 1 closing rank, on numeric ranks only. Relaxed means a higher closing rank (more candidates got in), tightened a lower one.</li>
+        <li>40 rows show an opening rank above the closing rank: all are cells that mix a preparatory ("P") closing rank with a regular opening rank, not errors.</li>
+        <li>The Round 5 closing rank is the last-round view; real allotment also depends on withdrawals, spot rounds and your choice order. Treat every figure as guidance and confirm at josaa.nic.in.</li>
+      </ul></div>
+  </section>
+  <p class="j26-n" style="margin-top:14px">Prepared by EduAakashaA from the supplied JoSAA 2026 files, with computed figures checked against the workbook totals. Not affiliated with JoSAA or any institute.</p>
+</div>
+<script>
+(function () {
+  var D = null, charts = {}, $ = function (id) { return document.getElementById(id); };
+  var C = ['IIT', 'IISc', 'NIT+', 'IIIT', 'GFTI'];
+  function f(n) { return n == null ? '–' : Number(n).toLocaleString('en-IN'); }
+  function pc(x, d) { return x == null ? '–' : (100 * x).toFixed(d == null ? 0 : d) + '%'; }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); }
+  function table(el, head, rows, num) {
+    el.innerHTML = '<thead><tr>' + head.map(function (h, i) { return '<th class="' + (num && num.indexOf(i) >= 0 ? 'n' : '') + '">' + esc(h) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      rows.map(function (r) { return '<tr>' + r.map(function (c, i) { return '<td class="' + (num && num.indexOf(i) >= 0 ? 'n' : '') + '">' + (c == null ? '–' : c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
+  }
+  function sel(id, label, opts, val) { var s = '<label>' + label + '<select id="' + id + '">'; opts.forEach(function (o) { var v = Array.isArray(o) ? o[0] : o, t = Array.isArray(o) ? o[1] : o; s += '<option value="' + esc(v) + '"' + (String(v) === String(val) ? ' selected' : '') + '>' + esc(t) + '</option>'; }); return s + '</select></label>'; }
+  function chart(id, cfg) { if (charts[id]) charts[id].destroy(); if (window.Chart) charts[id] = new Chart($(id), cfg); }
+  var R = function (r) { return {inst: r[0], prog: r[1], quota: r[2], seat: r[3], g: r[4], seats: r[5], rk: r.slice(6, 16), rounds: r[16], status: r[17], dir: r[18]}; };
+  var isArch = function (p) { return /Architecture \(|Planning \(/.test(D.progs[p][1]) && /Bachelor of (Architecture|Planning)/.test(D.progs[p][2]); };
+  var lastClose = function (x) { for (var k = 9; k >= 1; k -= 2) { if (typeof x.rk[k] === 'number') return [x.rk[k], (k + 1) / 2]; } return null; };
+
+  function overview() {
+    var S = D.stats, cov = S.coverage, dr = S.drift;
+    $('kpis').innerHTML = [[S.institutes, 'institutes with ranks'], [f(S.programmes), 'programmes'], [f(S.cells), 'cells with ranks'], [f(S.seats), 'NIT+ seats'], [f(S.never_cells), 'seat cells never allotted'], [pc(dr.All.relaxed), 'cells relaxed R1 to R5']].map(function (a) { return '<div><b>' + a[0] + '</b><span>' + a[1] + '</span></div>'; }).join('');
+    chart('chCov', {type: 'bar', data: {labels: cov.map(function (c) { return 'Round ' + c.round; }), datasets: [{label: 'Cells with a rank', data: cov.map(function (c) { return c.cells; }), backgroundColor: '#0E3A8A'}]}, options: {maintainAspectRatio: false, plugins: {legend: {display: false}}, scales: {y: {beginAtZero: false}}}});
+    $('covNote').textContent = 'From ' + f(cov[0].cells) + ' cells in Round 1 to ' + f(cov[4].cells) + ' in Round 5: ' + f(cov[0].cells - cov[4].cells) + ' cells that had a rank early report none by Round 5 (all seats filled or withdrawn).';
+    chart('chDrift', {type: 'bar', data: {labels: C, datasets: [{label: 'Average rise', data: C.map(function (t) { return +(100 * dr[t].avg_shift).toFixed(1); }), backgroundColor: ['#0E3A8A', '#8B5CF6', '#FF6B0A', '#1F8B5C', '#E89A1C']}]}, options: {maintainAspectRatio: false, plugins: {legend: {display: false}}, scales: {y: {ticks: {callback: function (v) { return v + '%'; }}}}}});
+    table($('tDrift'), ['Type', 'Institutes', 'Programmes', 'Cells', 'NIT+ seats', 'Avg rise R1 to R5', 'Relaxed', 'Tightened', 'Unchanged'], C.concat(['All']).map(function (t) { var d = dr[t]; return [t, d.institutes, f(d.programmes), f(d.cells), d.seats ? f(d.seats) : '–', pc(d.avg_shift, 1), pc(d.relaxed), pc(d.tightened, 1), pc(d.unchanged)]; }), [1, 2, 3, 4, 5, 6, 7, 8]);
+    var hi = C.slice().sort(function (a, b) { return dr[b].avg_shift - dr[a].avg_shift; });
+    $('finds').innerHTML = [
+      'Cut-offs relax most where the list is longest: ' + hi.map(function (t) { return t + ' ' + pc(dr[t].avg_shift) + ' (' + pc(dr[t].relaxed) + ' of cells relaxed)'; }).slice(0, 4).join(', ') + '.',
+      'NIT+ seat supply is ' + f(S.seats) + ' seats in ' + f(S.seat_cells) + ' seat cells; ' + pc(S.female_seats / S.seats, 1) + ' are in the female-only pool; Home State ' + f(S.quota_seats.HS) + ' and Other State ' + f(S.quota_seats.OS) + ' are nearly even.',
+      f(S.never_cells) + ' NIT+ seat cells (' + f(S.never_seats) + ' seats) show no rank in any round; most are PwD cells (' + f(S.never_by['ST (PwD)'][0] + S.never_by['SC (PwD)'][0] + S.never_by['OBC-NCL (PwD)'][0] + S.never_by['EWS (PwD)'][0] + S.never_by['OPEN (PwD)'][0]) + ' of them), and only ' + S.never_by['OPEN'][0] + ' is a plain OPEN cell.',
+      'Round 1 is not the end: about ' + pc(dr.All.relaxed) + ' of cells had a higher closing rank by Round 5, so a Round 1 closing rank understates how far a seat later reached.'].map(function (t) { return '<li>' + t + '</li>'; }).join('');
+  }
+  function seats() {
+    var S = D.stats, rows = D.seat_types.map(function (s) { var a = S.seat_by[s]; return [s, f(a[0]), f(a[1]), f(a[0] + a[1]), pc((a[0] + a[1]) / S.seats, 1)]; });
+    var g = 0, fm = 0; D.seat_types.forEach(function (s) { g += S.seat_by[s][0]; fm += S.seat_by[s][1]; });
+    rows.push(['All seat types', f(g), f(fm), f(g + fm), '100%']);
+    table($('tSeat'), ['Seat type', 'Gender-neutral', 'Female-only', 'Total', 'Share'], rows, [1, 2, 3, 4]);
+    var q = Object.keys(S.quota_seats).filter(function (k) { return S.quota_seats[k] > 0; });
+    chart('chQuota', {type: 'doughnut', data: {labels: q.map(function (k) { return k + ' ' + (D.quotas[k] || ''); }), datasets: [{data: q.map(function (k) { return S.quota_seats[k]; }), backgroundColor: ['#0E3A8A', '#FF6B0A', '#1F8B5C', '#E89A1C', '#8B5CF6']}]}, options: {maintainAspectRatio: false}});
+    table($('tNever'), ['Seat type', 'Cells', 'Seats', 'Total seats of the type', 'Share never allotted'], D.seat_types.map(function (s) { var n = S.never_by[s], t = S.seat_by[s][0] + S.seat_by[s][1]; return [s, n[0], n[1], f(t), pc(n[1] / t, 1)]; }), [1, 2, 3, 4]);
+    var top = D.by_inst.filter(function (x) { return x.type === 'NIT+'; }).sort(function (a, b) { return b.seats - a.seats; }).slice(0, 15);
+    chart('chInst', {type: 'bar', data: {labels: top.map(function (x) { return D.insts[x.i][0]; }), datasets: [{label: 'Seats', data: top.map(function (x) { return x.seats; }), backgroundColor: '#FF6B0A'}]}, options: {indexAxis: 'y', maintainAspectRatio: false, plugins: {legend: {display: false}}}});
+  }
+  var exState = {type: 'All', inst: 'All', branch: 'All', quota: 'All', seat: 0, g: 0, text: '', page: 0};
+  function explorer() {
+    var branches = Array.from(new Set(D.progs.map(function (p) { return p[0]; }))).sort();
+    var insts = D.insts.map(function (x, i) { return [i, x[0]]; }).sort(function (a, b) { return a[1].localeCompare(b[1]); });
+    $('exF').innerHTML = sel('exType', 'Institute type', ['All'].concat(C), exState.type) + sel('exInst', 'Institute', [['All', 'All institutes']].concat(insts), exState.inst) + sel('exBr', 'Branch', ['All'].concat(branches), exState.branch) +
+      sel('exQ', 'Quota', ['All'].concat(Object.keys(D.quotas).map(function (k) { return [k, k + ' ' + D.quotas[k]]; })), exState.quota) + sel('exS', 'Seat type', D.seat_types.map(function (s, i) { return [i, s]; }), exState.seat) +
+      sel('exG', 'Gender pool', [[0, 'Gender-neutral'], [1, 'Female-only']], exState.g) + '<label>Search<input id="exT" placeholder="institute or branch" value="' + esc(exState.text) + '"></label>';
+    ['exType', 'exInst', 'exBr', 'exQ', 'exS', 'exG'].forEach(function (id) { $(id).onchange = function () { exState.type = $('exType').value; exState.inst = $('exInst').value; exState.branch = $('exBr').value; exState.quota = $('exQ').value; exState.seat = +$('exS').value; exState.g = +$('exG').value; exState.page = 0; exRows(); }; });
+    $('exT').oninput = function () { exState.text = this.value; exState.page = 0; exRows(); };
+    exRows();
+  }
+  function exRows() {
+    var t = exState.text.toLowerCase(), out = [];
+    D.rows.forEach(function (r) {
+      var x = R(r), i = D.insts[x.inst], p = D.progs[x.prog];
+      if (exState.type !== 'All' && i[2] !== exState.type) return;
+      if (exState.inst !== 'All' && String(x.inst) !== exState.inst) return;
+      if (exState.branch !== 'All' && p[0] !== exState.branch) return;
+      if (exState.quota !== 'All' && x.quota !== exState.quota) return;
+      if (x.seat !== exState.seat || x.g !== exState.g) return;
+      if (t && (i[0] + ' ' + p[1]).toLowerCase().indexOf(t) < 0) return;
+      out.push(x);
+    });
+    out.sort(function (a, b) { var A = lastClose(a), B = lastClose(b); return (A ? A[0] : 1e9) - (B ? B[0] : 1e9); });
+    var per = 100, pages = Math.max(1, Math.ceil(out.length / per)); exState.page = Math.min(exState.page, pages - 1);
+    var show = out.slice(exState.page * per, exState.page * per + per);
+    $('exN').innerHTML = f(out.length) + ' rows, sorted by the latest closing rank. ' + (pages > 1 ? 'Page ' + (exState.page + 1) + ' of ' + pages + ': <a href="#" id="exPrev">previous</a> · <a href="#" id="exNext">next</a>' : '');
+    table($('tEx'), ['Institute', 'Programme', 'Quota', 'Seats', 'R1 open', 'R1 close', 'R2 close', 'R3 close', 'R4 close', 'R5 open', 'R5 close', 'Shift', 'Status'], show.map(function (x) {
+      var c1 = x.rk[1], c5 = x.rk[9], sh = (typeof c1 === 'number' && typeof c5 === 'number') ? c5 - c1 : null;
+      return [esc(D.insts[x.inst][0]), esc(D.progs[x.prog][1]), x.quota, x.seats || '–', f(x.rk[0]), f(c1), f(x.rk[3]), f(x.rk[5]), f(x.rk[7]), f(x.rk[8]), f(c5), sh == null ? '–' : '<span class="' + (sh > 0 ? 'j26-up' : sh < 0 ? 'j26-dn' : '') + '">' + (sh > 0 ? '+' : '') + f(sh) + '</span>', esc(x.status)];
+    }), [3, 4, 5, 6, 7, 8, 9, 10, 11]);
+    var pv = $('exPrev'), nx = $('exNext');
+    if (pv) pv.onclick = function (e) { e.preventDefault(); exState.page = Math.max(0, exState.page - 1); exRows(); };
+    if (nx) nx.onclick = function (e) { e.preventDefault(); exState.page = Math.min(pages - 1, exState.page + 1); exRows(); };
+  }
+  function finder() {
+    $('rfF').innerHTML = sel('rfL', 'Your rank is on the', [['M', 'JEE Main list (NIT+, IIIT, GFTI)'], ['A', 'JEE Advanced list (IIT, IISc)']], 'M') + '<label>Your rank<input id="rfR" type="number" min="1" placeholder="e.g. 12000"></label>' +
+      sel('rfS', 'Seat type', D.seat_types.map(function (s, i) { return [i, s]; }), 0) + sel('rfG', 'Gender pool', [[0, 'Gender-neutral'], [1, 'Female-only']], 0) + sel('rfQ', 'Quota', [['All', 'All quotas'], ['AI', 'AI (All India)'], ['HS', 'HS (Home State)'], ['OS', 'OS (Other State)']], 'All') +
+      '<button class="j26-go" id="rfGo" type="button">Find programmes</button>';
+    $('rfGo').onclick = function () {
+      var rank = +$('rfR').value, list = $('rfL').value, st = +$('rfS').value, g = +$('rfG').value, q = $('rfQ').value;
+      if (!rank || rank < 1) { $('rfN').textContent = 'Enter your rank.'; $('tRf').innerHTML = ''; return; }
+      var out = [];
+      D.rows.forEach(function (r) {
+        var x = R(r), t = D.insts[x.inst][2];
+        if ((list === 'A') !== (t === 'IIT' || t === 'IISc')) return;
+        if (x.seat !== st || x.g !== g || (q !== 'All' && x.quota !== q) || isArch(x.prog)) return;
+        var lc = lastClose(x); if (!lc || lc[0] < rank) return;
+        out.push({x: x, c: lc[0], rd: lc[1]});
+      });
+      out.sort(function (a, b) { return a.c - b.c; });
+      $('rfN').textContent = f(out.length) + ' programme cells had a closing rank at or beyond ' + f(rank) + ' (the tightest first, so the best-ranked options come first). Showing the first 150.';
+      table($('tRf'), ['Institute', 'Programme', 'Quota', 'Latest closing rank', 'Round', 'Round 1 closing', 'Shift to latest'], out.slice(0, 150).map(function (o) { var c1 = o.x.rk[1], sh = typeof c1 === 'number' ? o.c - c1 : null; return [esc(D.insts[o.x.inst][0]), esc(D.progs[o.x.prog][1]), o.x.quota, f(o.c), 'R' + o.rd, f(c1), sh == null ? '–' : (sh > 0 ? '+' : '') + f(sh)]; }), [3, 5, 6]);
+    };
+  }
+  var inState = {type: 'All', key: 'seats'};
+  function institutes() {
+    $('inF').innerHTML = sel('inT', 'Institute type', ['All'].concat(C), inState.type) + sel('inK', 'Order by', [['seats', 'Seats'], ['shift', 'Rank drift'], ['programmes', 'Programmes'], ['never', 'Never allotted']], inState.key);
+    $('inT').onchange = $('inK').onchange = function () { inState.type = $('inT').value; inState.key = $('inK').value; institutes(); };
+    var rows = D.by_inst.filter(function (x) { return inState.type === 'All' || x.type === inState.type; }).sort(function (a, b) { return (b[inState.key] || 0) - (a[inState.key] || 0); });
+    table($('tIn'), ['Institute', 'Type', 'Programmes', 'NIT+ seats', 'Cells with ranks', 'Never allotted', 'Avg rise R1 to R5'], rows.map(function (x) { return [esc(D.insts[x.i][0]), x.type, x.programmes, x.seats ? f(x.seats) : '–', f(x.cells), x.never || '–', pc(x.shift, 1)]; }), [2, 3, 4, 5, 6]);
+  }
+  function arch() {
+    var A = D.ap;
+    $('apNote').textContent = 'The NIT+ institutes offer ' + f(A.seats) + ' Architecture and Planning seats in the seat matrix; IITs and IIEST rank cells are listed without seat counts. Each row below is one institute and programme.';
+    table($('tAp'), ['Institute', 'Programme', 'Quota', 'R1 open', 'R1 close', 'R5 close', 'Shift R1 to R5', 'Female-only R1 close'], A.open.map(function (o) { return [esc(o.inst), esc(o.prog.replace(/ \(.*/, '')), o.quota, f(o.r1o), f(o.r1c), f(o.r5c), o.shift == null ? '–' : (o.shift > 0 ? '+' : '') + f(o.shift), f(o.f1c)]; }), [3, 4, 5, 6, 7]);
+    table($('tApI'), ['Institute', 'Programme', 'Seats', 'Cells', 'Ranks in R1', 'Ranks in R5', 'Never allotted'], A.inst.map(function (o) { return [esc(o.inst), esc(o.prog.replace(/ \(.*/, '')), o.seats == null ? '–' : f(o.seats), o.cells, o.r1, o.r5, o.never == null ? '–' : o.never]; }), [2, 3, 4, 5, 6]);
+  }
+  var built = {};
+  var build = {ov: overview, seats: seats, ex: explorer, rf: finder, 'in': institutes, ap: arch, me: function () {}};
+  function show(t) {
+    [].forEach.call(document.querySelectorAll('[data-p]'), function (s) { s.hidden = s.dataset.p !== t; });
+    [].forEach.call(document.querySelectorAll('#jTabs button'), function (b) { b.classList.toggle('on', b.dataset.t === t); });
+    if (D && !built[t]) { built[t] = true; build[t](); }
+    try { history.replaceState(null, '', '#' + t); } catch (e) {}
+  }
+  [].forEach.call(document.querySelectorAll('#jTabs button'), function (b) { b.onclick = function () { show(b.dataset.t); }; });
+  fetch('{{ url_for("static", filename="data/josaa_2026.json") }}').then(function (r) { return r.json(); }).then(function (j) {
+    D = j; $('jLoad').hidden = true;
+    var h = (location.hash || '').slice(1); show(build[h] ? h : 'ov');
+  }).catch(function () { $('jLoad').textContent = 'The 2026 data could not be loaded. Please refresh the page.'; });
+})();
+</script>
+{% endblock %}
