@@ -20,8 +20,12 @@ QUOTA_NAMES = {'AI': 'All India', 'HS': 'Home State', 'OS': 'Other State', 'GO':
 
 
 def short(name):
-    n = re.sub(r'^Indian Institute of Technology\s*', 'IIT ', name)
-    n = re.sub(r'^National Institute of Technology,?\s*', 'NIT ', n)
+    """Short display name: IIT X, NIT X (any 'National Institute of Technology' name), IIIT X; others unchanged."""
+    n = name.strip()
+    m = re.search(r'National Institute of Technology,?\s*(.*)$', n)
+    if m and not n.startswith('Indian Institute'):
+        return 'NIT ' + m.group(1).strip()
+    n = re.sub(r'^Indian Institute of Technology\s*', 'IIT ', n)
     n = re.sub(r'^Indian Institute of Information Technology,?\s*', 'IIIT ', n)
     n = re.sub(r'^IIIT \(IIIT\)\s*,?\s*', 'IIIT ', n)
     n = re.sub(r'^IIIT,\s*', 'IIIT ', n)
