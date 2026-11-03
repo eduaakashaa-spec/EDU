@@ -1,0 +1,525 @@
+{
+ "formats": [
+  {
+   "year": 2015,
+   "source": "recalled by candidates",
+   "stage": "Mixed",
+   "total": 100,
+   "mcq": 0,
+   "mcq_marks": null,
+   "subj": 15,
+   "subj_marks": 100,
+   "minutes": null,
+   "obs": "Entirely subjective and drawing-led paper with ten large tasks; almost no objective items except the five-part reasoning cluster in Q10. Tasks stress signage, user problem-solving (elderly, rural health, kitchen improvisation), storytelling in frames and colou"
+  },
+  {
+   "year": 2016,
+   "source": "recalled by candidates",
+   "stage": "Mixed",
+   "total": 100,
+   "mcq": 88,
+   "mcq_marks": 70.0,
+   "subj": 3,
+   "subj_marks": 30,
+   "minutes": null,
+   "obs": "Longest MCQ section of the set with 88 questions, dominated by general knowledge and current affairs of 2015 plus a block of everyday-science and observation items. Introduces concept-to-image matching (words like fluid, power, structure) and sentence-completi"
+  },
+  {
+   "year": 2017,
+   "source": "recalled by candidates",
+   "stage": "Mixed",
+   "total": 96,
+   "mcq": 75,
+   "mcq_marks": 70.0,
+   "subj": 4,
+   "subj_marks": 26,
+   "minutes": null,
+   "obs": "75 MCQs weighted to reasoning (counting figures, cubes, surfaces, family and direction puzzles) with a third of the paper in science and general knowledge. Visual-communication items (phrases with the word cut, time concepts, depth and scale cues) show how des"
+  },
+  {
+   "year": 2018,
+   "source": "paper as printed (scan)",
+   "stage": "Prelims",
+   "total": 100,
+   "mcq": 59,
+   "mcq_marks": 70.0,
+   "subj": 3,
+   "subj_marks": 30,
+   "minutes": 180,
+   "obs": "The 2018 B.Des paper is a 3-hour exam with 59 weighted MCQs (70 marks) and 3 subjective drawing/writing tasks (30 marks); question value rises from 0.5 to 3 marks with difficulty. Part I is broad: GK/current affairs, design awareness, three reading passages, a"
+  },
+  {
+   "year": 2019,
+   "source": "recalled by candidates",
+   "stage": "Mixed",
+   "total": 100,
+   "mcq": 22,
+   "mcq_marks": 30,
+   "subj": 6,
+   "subj_marks": 70,
+   "minutes": null,
+   "obs": "A turning point: Part A shrinks to 22 MCQs worth 30 marks while the creative section grows to 70 marks. Questions mix design awareness (bio-inspired product, icons, calligraphy tools) with spatial reasoning. Part B stresses viewpoint changes (window ladder, an"
+  },
+  {
+   "year": 2020,
+   "source": "recalled by candidates",
+   "stage": "Mixed",
+   "total": 100,
+   "mcq": 21,
+   "mcq_marks": 30,
+   "subj": 6,
+   "subj_marks": 70,
+   "minutes": null,
+   "obs": "Same 30/70 split as 2019. Part B introduces open ideation (reuse of a bulb, defensive trees) alongside a 3D net-to-cube drawing task, rewarding original, humorous concepts. Part A leans on design awareness and Indian culture, with the 2019 events (Kartarpur, N"
+  },
+  {
+   "year": 2021,
+   "source": "recalled by candidates",
+   "stage": "Prelims",
+   "total": null,
+   "mcq": 19,
+   "mcq_marks": 23,
+   "subj": 0,
+   "subj_marks": null,
+   "minutes": null,
+   "obs": "A short, incomplete recall of the 2021 prelims, so counts and mark weights are unreliable. Content is dominated by general knowledge, pandemic-era science and Indian art and culture, with only four figure-reasoning items. Question style is simple factual MCQ w"
+  },
+  {
+   "year": 2022,
+   "source": "paper as printed (scan)",
+   "stage": "Prelims",
+   "total": 100,
+   "mcq": 21,
+   "mcq_marks": 30,
+   "subj": 6,
+   "subj_marks": 70,
+   "minutes": null,
+   "obs": "A sample B.Des/GDPD DAT Prelims in two parts: a 30-mark objective Part I and a 70-mark drawing Part II, so sketching and ideation carry most weight. Part I mixes current-affairs/culture/brand recall with spatial and series puzzles. Part II tests perspective dr"
+  },
+  {
+   "year": 2023,
+   "source": "recalled by candidates",
+   "stage": "Prelims",
+   "total": 40,
+   "mcq": 28,
+   "mcq_marks": 40,
+   "subj": 0,
+   "subj_marks": null,
+   "minutes": null,
+   "obs": "28 questions for 40 marks. Spatial reasoning is now the single biggest block (mirror image, paper fold-cut, nets, top view, cube rotation), with the heavier two-mark band carrying most of it. Knowledge items cover colour/light science, Indian craft and temples"
+  },
+  {
+   "year": 2024,
+   "source": "NID official sample",
+   "stage": "Prelims",
+   "total": 100,
+   "mcq": 19,
+   "mcq_marks": 25,
+   "subj": 7,
+   "subj_marks": 75,
+   "minutes": null,
+   "obs": "Same 25/75 split as 2025. Objective questions lean towards school-science facts and general awareness with a few spatial and colour items. Subjective tasks reward drawing clarity, user empathy and process thinking; the 15-mark paper-cut unfolding is a pure spa"
+  },
+  {
+   "year": 2025,
+   "source": "NID official sample",
+   "stage": "Prelims",
+   "total": 100,
+   "mcq": 20,
+   "mcq_marks": 25,
+   "subj": 7,
+   "subj_marks": 75,
+   "minutes": null,
+   "obs": "Three-quarters weight is subjective (75/100): problem-solving with 4 ideas, storytelling poster, user-group analysis, observation sketching and a text-to-game design task. Objective part blends spatial, logo/sign recognition, general awareness and colour relat"
+  }
+ ],
+ "mdes": [
+  {
+   "year": 2025,
+   "source": "NID official sample",
+   "paper": "CDAT Paper 1",
+   "mcq": 18,
+   "mcq_marks": 20
+  },
+  {
+   "year": 2024,
+   "source": "NID official sample",
+   "paper": "CDAT Paper 1",
+   "mcq": 15,
+   "mcq_marks": 20
+  }
+ ],
+ "topic_eras": [
+  {
+   "era": "2016 to 2018",
+   "n": 222,
+   "rows": [
+    {
+     "topic": "General knowledge",
+     "n": 31,
+     "pct": 14.0
+    },
+    {
+     "topic": "Language",
+     "n": 27,
+     "pct": 12.2
+    },
+    {
+     "topic": "Science and objects",
+     "n": 23,
+     "pct": 10.4
+    },
+    {
+     "topic": "Visual reasoning",
+     "n": 23,
+     "pct": 10.4
+    },
+    {
+     "topic": "Design principles",
+     "n": 20,
+     "pct": 9.0
+    },
+    {
+     "topic": "Spatial reasoning",
+     "n": 20,
+     "pct": 9.0
+    },
+    {
+     "topic": "Logical reasoning",
+     "n": 18,
+     "pct": 8.1
+    },
+    {
+     "topic": "Storytelling",
+     "n": 13,
+     "pct": 5.9
+    },
+    {
+     "topic": "Numerical",
+     "n": 12,
+     "pct": 5.4
+    },
+    {
+     "topic": "Observation",
+     "n": 8,
+     "pct": 3.6
+    },
+    {
+     "topic": "Design history",
+     "n": 5,
+     "pct": 2.3
+    },
+    {
+     "topic": "Sustainability",
+     "n": 5,
+     "pct": 2.3
+    },
+    {
+     "topic": "Design awareness",
+     "n": 5,
+     "pct": 2.3
+    },
+    {
+     "topic": "Indian crafts and culture",
+     "n": 4,
+     "pct": 1.8
+    },
+    {
+     "topic": "Colour theory",
+     "n": 3,
+     "pct": 1.4
+    },
+    {
+     "topic": "Materials and printing",
+     "n": 3,
+     "pct": 1.4
+    },
+    {
+     "topic": "Other",
+     "n": 1,
+     "pct": 0.5
+    },
+    {
+     "topic": "Product and user problems",
+     "n": 1,
+     "pct": 0.5
+    }
+   ]
+  },
+  {
+   "era": "2019 to 2023",
+   "n": 111,
+   "rows": [
+    {
+     "topic": "General knowledge",
+     "n": 18,
+     "pct": 16.2
+    },
+    {
+     "topic": "Spatial reasoning",
+     "n": 18,
+     "pct": 16.2
+    },
+    {
+     "topic": "Logical reasoning",
+     "n": 16,
+     "pct": 14.4
+    },
+    {
+     "topic": "Visual reasoning",
+     "n": 15,
+     "pct": 13.5
+    },
+    {
+     "topic": "Indian crafts and culture",
+     "n": 11,
+     "pct": 9.9
+    },
+    {
+     "topic": "Design awareness",
+     "n": 8,
+     "pct": 7.2
+    },
+    {
+     "topic": "Science and objects",
+     "n": 6,
+     "pct": 5.4
+    },
+    {
+     "topic": "Numerical",
+     "n": 4,
+     "pct": 3.6
+    },
+    {
+     "topic": "Language",
+     "n": 4,
+     "pct": 3.6
+    },
+    {
+     "topic": "Design principles",
+     "n": 3,
+     "pct": 2.7
+    },
+    {
+     "topic": "Design history",
+     "n": 3,
+     "pct": 2.7
+    },
+    {
+     "topic": "Sustainability",
+     "n": 3,
+     "pct": 2.7
+    },
+    {
+     "topic": "Materials and printing",
+     "n": 1,
+     "pct": 0.9
+    },
+    {
+     "topic": "Colour theory",
+     "n": 1,
+     "pct": 0.9
+    }
+   ]
+  },
+  {
+   "era": "2024 and 2025 (official samples)",
+   "n": 41,
+   "rows": [
+    {
+     "topic": "Science and objects",
+     "n": 7,
+     "pct": 17.1
+    },
+    {
+     "topic": "Spatial reasoning",
+     "n": 7,
+     "pct": 17.1
+    },
+    {
+     "topic": "Design awareness",
+     "n": 5,
+     "pct": 12.2
+    },
+    {
+     "topic": "General knowledge",
+     "n": 4,
+     "pct": 9.8
+    },
+    {
+     "topic": "Sustainability",
+     "n": 3,
+     "pct": 7.3
+    },
+    {
+     "topic": "Visual reasoning",
+     "n": 3,
+     "pct": 7.3
+    },
+    {
+     "topic": "Colour theory",
+     "n": 2,
+     "pct": 4.9
+    },
+    {
+     "topic": "Logical reasoning",
+     "n": 2,
+     "pct": 4.9
+    },
+    {
+     "topic": "Indian crafts and culture",
+     "n": 2,
+     "pct": 4.9
+    },
+    {
+     "topic": "Observation",
+     "n": 2,
+     "pct": 4.9
+    },
+    {
+     "topic": "Language",
+     "n": 2,
+     "pct": 4.9
+    },
+    {
+     "topic": "Design principles",
+     "n": 1,
+     "pct": 2.4
+    },
+    {
+     "topic": "Numerical",
+     "n": 1,
+     "pct": 2.4
+    }
+   ]
+  }
+ ],
+ "mdes_topics": {
+  "n": 43,
+  "rows": [
+   {
+    "topic": "Logical reasoning",
+    "n": 9,
+    "pct": 20.9
+   },
+   {
+    "topic": "Materials and printing",
+    "n": 5,
+    "pct": 11.6
+   },
+   {
+    "topic": "General knowledge",
+    "n": 3,
+    "pct": 7.0
+   },
+   {
+    "topic": "Ergonomics",
+    "n": 3,
+    "pct": 7.0
+   },
+   {
+    "topic": "Sustainability",
+    "n": 3,
+    "pct": 7.0
+   },
+   {
+    "topic": "Design principles",
+    "n": 3,
+    "pct": 7.0
+   },
+   {
+    "topic": "Design awareness",
+    "n": 3,
+    "pct": 7.0
+   },
+   {
+    "topic": "Spatial reasoning",
+    "n": 3,
+    "pct": 7.0
+   },
+   {
+    "topic": "Visual reasoning",
+    "n": 2,
+    "pct": 4.7
+   },
+   {
+    "topic": "Indian crafts and culture",
+    "n": 2,
+    "pct": 4.7
+   },
+   {
+    "topic": "Colour theory",
+    "n": 2,
+    "pct": 4.7
+   },
+   {
+    "topic": "Science and objects",
+    "n": 2,
+    "pct": 4.7
+   },
+   {
+    "topic": "Other",
+    "n": 1,
+    "pct": 2.3
+   },
+   {
+    "topic": "Product and user problems",
+    "n": 1,
+    "pct": 2.3
+   },
+   {
+    "topic": "Numerical",
+    "n": 1,
+    "pct": 2.3
+   }
+  ]
+ },
+ "tasks": {
+  "n": 61,
+  "rows": [
+   {
+    "topic": "Storytelling",
+    "n": 16,
+    "pct": 26.2
+   },
+   {
+    "topic": "Product and user problems",
+    "n": 13,
+    "pct": 21.3
+   },
+   {
+    "topic": "Sketching",
+    "n": 12,
+    "pct": 19.7
+   },
+   {
+    "topic": "Ergonomics",
+    "n": 6,
+    "pct": 9.8
+   },
+   {
+    "topic": "Design awareness",
+    "n": 4,
+    "pct": 6.6
+   },
+   {
+    "topic": "3D and model making",
+    "n": 3,
+    "pct": 4.9
+   },
+   {
+    "topic": "Observation",
+    "n": 2,
+    "pct": 3.3
+   },
+   {
+    "topic": "Design principles",
+    "n": 1,
+    "pct": 1.6
+   }
+  ]
+ },
+ "papers_read": 32,
+ "papers_analysed": 18,
+ "questions_tagged": 542
+}

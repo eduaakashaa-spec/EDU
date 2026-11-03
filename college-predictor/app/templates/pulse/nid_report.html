@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}{{ r.title }} report | EduPulse-NID{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.rv{border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;margin:8px 0;background:var(--paper,#FFFDF7)}.rv.ok{border-left:5px solid #1F8B5C}.rv.no{border-left:5px solid #C23A3A}.rv.bl{border-left:5px solid #E89A1C}.rv small{color:var(--muted,#5A6278)}
+.rv img{max-width:100%;height:auto;display:block;background:#fff;border-radius:6px}.rv .p{background:#F4F6FB;border-left:4px solid var(--navy,#0E3A8A);border-radius:8px;padding:8px 12px;margin:6px 0;font-size:.9rem;white-space:pre-line}
+.rv .fig svg,.rv .o svg{max-width:100%;height:auto;background:#fff;border-radius:6px}.rv .o{margin:5px 0;padding:4px 8px;border-radius:8px;border:1.5px solid transparent;display:flex;gap:8px;align-items:center}.rv .o b{min-width:1.4em}
+.rv .o.k{border-color:#1F8B5C;background:#EAF6EF}.rv .o.w{border-color:#C23A3A;background:#FBE9E7}.rv .sol{margin-top:8px;font-size:.92rem;background:#F4F6FB;border-radius:8px;padding:8px 10px}
+:root[data-theme="dark"] .rv .sol,:root[data-theme="dark"] .rv .p{background:#1d2230}:root[data-theme="dark"] .rv .o.k{background:#12301f}:root[data-theme="dark"] .rv .o.w{background:#3a1a1a}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb">{% if own %}<a href="{{ url_for('nid_mock.home') }}">EduPulse-NID</a>{% else %}<a href="{{ url_for('pulse.mentor_student', uid=r.user_id) }}">{{ r.user.name }}</a>{% endif %} › {{ r.title }} report</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">{{ r.finished_at.strftime('%d %b %Y') }}{{ ' · ' ~ (r.duration_sec // 60) ~ ' min' if r.duration_sec }} · marks as printed, nothing deducted</span><h1>{{ r.title }}</h1>
+      {% if not own %}<p>{{ r.user.name }}'s attempt.</p>{% endif %}</div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ r.score }} / {{ r.max_score }}</b><span>marks</span></div>
+      <div class="pl-kpi"><b>{{ r.right }} · {{ r.wrong }} · {{ r.blank }}</b><span>right · wrong · blank</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P4 }}</b><span>sure but wrong</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P2 }}</b><span>right but unsure</span></div>
+    </div>
+  </section>
+  <div class="pl-grid pl-g2">
+    <div class="pl-card"><span class="pl-eyebrow">Marks</span><h3>Section by section</h3>
+      <table class="pl-tbl"><thead><tr><th>Section</th><th>Right</th><th>Wrong</th><th>Blank</th><th>Marks</th></tr></thead><tbody>
+      {% for s in an.sections %}<tr><td>{{ s.name }}</td><td>{{ s.right }}</td><td>{{ s.wrong }}</td><td>{{ s.blank }}</td><td>{{ s.marks }} / {{ s.max }}</td></tr>{% endfor %}</tbody></table>
+      {% if an.acc is not none %}<p style="margin:8px 0 0">Accuracy on attempted questions: <strong>{{ an.acc }}%</strong>.</p>{% endif %}
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Confidence</span><h3>What your confidence says</h3>
+      {% if an.rated %}<table class="pl-tbl"><thead><tr><th>You said</th><th>Answers</th><th>Right</th><th>Accuracy</th></tr></thead><tbody>
+      {% for c, label in [('H','High'),('M','Medium'),('L','Low'),('G','Guess')] %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}</tbody></table>
+      {% else %}<p class="pl-muted">No confidence ratings were given in this test.</p>{% endif %}
+      {% if an.weak %}<p style="margin:10px 0 0;">Reinforce first: <strong>{{ an.weak|join(', ') }}</strong>. Use the section sets in the centre.</p>{% endif %}
+    </div>
+  </div>
+  <h2 style="margin:22px 0 8px">Question review with explanations</h2>
+  {% for q in review %}
+  <div class="rv {{ 'ok' if q.right else 'bl' if q.chosen is none else 'no' }}">
+    <small>{{ loop.index }} · {{ q.secname }}{% if q.topic %} · {{ q.topic }}{% endif %} · {{ q.marks }} mark{{ 's' if q.marks != 1 }}{% if q.conf %} · you rated <span class="pl-pill cf-{{ q.conf }}">{{ CONF_LABEL[q.conf] }}</span>{% endif %}</small>
+    {% if q.view.passage %}<div class="p">{{ q.view.passage }}</div>{% endif %}
+    {% if q.view.img %}<img src="{{ q.view.img }}" alt="Question {{ loop.index }}" loading="lazy" style="margin:6px 0"><p style="margin:4px 0"><strong>Correct answer: {{ LETTERS[q.ans] }}</strong>{% if q.chosen is not none %} · your answer: {{ LETTERS[q.chosen] }}{% else %} · not answered{% endif %}</p>
+    {% else %}
+    <p style="margin:6px 0">{{ q.view.text }}</p>
+    {% if q.view.svg %}<div class="fig">{{ q.view.svg|safe }}</div>{% endif %}
+    {% for o in q.view.options %}<div class="o {{ 'k' if loop.index0 == q.ans else 'w' if loop.index0 == q.chosen }}"><b>{{ LETTERS[loop.index0] }}.</b>{% if o.svg %}<span>{{ o.svg|safe }}</span>{% else %}<span>{{ o.t }}</span>{% endif %}{% if loop.index0 == q.ans %}<span>✓</span>{% endif %}{% if loop.index0 == q.chosen and loop.index0 != q.ans %}<small>(your answer)</small>{% endif %}</div>{% endfor %}
+    {% if q.chosen is none %}<small>Not answered.</small>{% endif %}
+    {% endif %}
+    {% if q.why %}<div class="sol"><strong>Explanation:</strong> {{ q.why }}</div>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

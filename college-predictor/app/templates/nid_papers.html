@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% block title %}NID DAT Past Papers Analysed: Format, Topics, Mock Tests | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="What the NID Design Aptitude Test papers asked from 2015 to 2025: format by year, topic mix, drawing and studio themes, the official B.Des and M.Des sample papers, six free practice questions, mock tests and mentorship. Prepared {{ d.UPDATED }}.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<style>
+  .np{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278)}
+  .np h2{font-size:1.3rem;margin:0 0 4px}.np h3{font-size:1rem;margin:12px 0 6px}.np section{padding:6px 0 12px}
+  .np-top{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end;margin:6px 0 10px}.np-top h1{font-size:clamp(1.5rem,3.4vw,2.1rem);margin:2px 0 0}.np-top p{margin:4px 0 0;font-size:.95rem;color:var(--dim);max-width:66ch}
+  .np-chips{display:flex;gap:8px;flex-wrap:wrap}.np-chips span{background:var(--pp);border:1px solid var(--ln);border-radius:999px;padding:5px 12px;font-size:.78rem;color:var(--dim)}.np-chips b{color:var(--navy,#0E3A8A);font:700 .95rem 'Fraunces',Georgia,serif;margin-right:3px}
+  .np-card{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:12px 14px}.np-card h3:first-child{margin-top:0}.np-card p{font-size:.9rem;line-height:1.55;margin:0}
+  .np-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}.np-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}@media (max-width:860px){.np-two{grid-template-columns:1fr}}
+  .np-era{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px}.np-era div{border-top:4px solid #FF6B0A;background:var(--pp);border:1px solid var(--ln);border-top:4px solid #FF6B0A;border-radius:12px;padding:10px 12px;font-size:.86rem}.np-era b{display:block;font:700 .95rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.np-era em{font-style:normal;font-weight:700;display:block;margin:2px 0 4px}
+  .np-cv{position:relative;width:100%;height:300px}
+  .np-box{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:10px 12px}
+  .np-t{width:100%;border-collapse:collapse;font-size:.84rem}.np-t th,.np-t td{padding:6px 8px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top}.np-t th{font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dim)}.np-t td.n,.np-t th.n{text-align:right;font-family:'JetBrains Mono',monospace;white-space:nowrap}.np-tw{overflow-x:auto}
+  .np-q{background:var(--pp);border:1px solid var(--ln);border-radius:14px;padding:12px 14px}.np-q p.s{margin:0 0 6px;font-weight:600}.np-q .fig svg{max-width:100%;height:auto;background:#fff;border-radius:8px;margin:4px 0}
+  .np-o{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.np-o button{border:1.5px solid var(--ln);background:var(--pp);border-radius:10px;padding:6px 10px;cursor:pointer;font:500 .88rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit;text-align:left}.np-o button svg{display:block;max-width:100%;height:auto;margin-top:3px}
+  .np-o button.ok{border-color:#1F8B5C;background:#EAF6EF}.np-o button.no{border-color:#C23A3A;background:#FBE9E7}.np-w{display:none;font-size:.85rem;background:#F4F6FB;border-radius:8px;padding:7px 10px;margin-top:4px}.np-w.on{display:block}
+  :root[data-theme="dark"] .np-w{background:#1d2230}:root[data-theme="dark"] .np-o button.ok{background:#12301f}:root[data-theme="dark"] .np-o button.no{background:#3a1a1a}
+  .np-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jr2 np">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Prepared {{ d.UPDATED }}: confirm the exam details with NID.</strong>
+      This page reads the papers for structure and topics. Dates, stages, eligibility and fees of the current cycle are in our <a href="{{ url_for('main.nid') }}">NID admission guide</a>, which follows NID&rsquo;s handbook: check them on admissions.nid.edu before you act. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="np-top">
+    <div><span class="eb">NID Design Aptitude Test &middot; past papers &middot; updated {{ d.UPDATED }}</span>
+      <h1>What the NID papers <em>really ask</em></h1>
+      <p>We read {{ ana.papers_read }} papers and files: {{ ana.papers_analysed }} distinct NID papers from 2015 to 2025, B.Des and M.Des, with {{ ana.questions_tagged }} questions tagged by topic. Here is how the paper changed, what keeps coming back, and how to practise it.</p></div>
+    <div class="np-chips"><span><b>{{ ana.papers_analysed }}</b>papers analysed</span><span><b>{{ ana.questions_tagged }}</b>questions tagged</span><span><b>11</b>years (2015&ndash;2025)</span></div>
+  </div>
+
+  <section id="official"><span class="eb">Start with the official format</span><h2>What NID&rsquo;s own sample papers show</h2>
+    <div class="np-g">{% for a, b in d.OFFICIAL %}<div class="np-card"><h3>{{ a }}</h3><p>{{ b }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="eras"><span class="eb">How the paper changed</span><h2>Four shapes in eleven years</h2>
+    <div class="np-era">{% for y, t, b in d.ERAS %}<div><b>{{ y }}</b><em>{{ t }}</em>{{ b }}</div>{% endfor %}</div>
+    <div class="np-two" style="margin-top:10px">
+      <div class="np-box"><h3 style="margin:0 0 4px;font-size:.92rem">Marks: objective and drawing or writing, by year</h3><div class="np-cv"><canvas id="npFmt" aria-label="Stacked bars of objective and subjective marks by year"></canvas></div></div>
+      <div class="np-box np-tw"><h3 style="margin:0 0 4px;font-size:.92rem">The papers, year by year</h3>
+        <table class="np-t"><thead><tr><th>Year</th><th>Source</th><th class="n">Total</th><th class="n">MCQs</th><th class="n">Objective marks</th><th class="n">Subjective marks</th></tr></thead><tbody>
+          {% for f in ana.formats %}<tr><td>{{ f.year }}</td><td>{{ f.source }}</td><td class="n">{{ f.total if f.total else '–' }}</td><td class="n">{{ f.mcq or '–' }}</td><td class="n">{{ f.mcq_marks if f.mcq_marks else '–' }}</td><td class="n">{{ f.subj_marks if f.subj_marks else '–' }}</td></tr>{% endfor %}</tbody></table>
+        <p class="np-n">&ldquo;Recalled by candidates&rdquo; papers are written from memory and may be partial: a dash means the marks were not printed or recalled. Totals of recalled papers are our reading of the marks given.</p></div>
+    </div>
+  </section>
+
+  <section id="topics"><span class="eb">Topic by topic</span><h2>What fills the objective part</h2>
+    <div class="np-two">
+      <div class="np-box"><h3 style="margin:0 0 4px;font-size:.92rem">B.Des objective questions: share of questions by topic, by era</h3><div class="np-cv" style="height:380px"><canvas id="npTop" aria-label="Topic share by era"></canvas></div></div>
+      <div class="np-box"><h3 style="margin:0 0 4px;font-size:.92rem">M.Des CDAT and sample: topic share ({{ ana.mdes_topics.n }} questions)</h3><div class="np-cv" style="height:380px"><canvas id="npMd" aria-label="M.Des topic share"></canvas></div></div>
+    </div>
+    <h3>Patterns that keep coming back</h3>
+    <div class="np-g">{% for a, b in d.THEMES %}<div class="np-card"><h3>{{ a }}</h3><p>{{ b }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="tasks"><span class="eb">Drawing, ideas and studio</span><h2>What the open tasks ask for</h2>
+    <div class="np-two">
+      <div class="np-box"><h3 style="margin:0 0 4px;font-size:.92rem">Open tasks across {{ ana.tasks.n }} questions: theme share</h3><div class="np-cv" style="height:320px"><canvas id="npTask" aria-label="Open task themes"></canvas></div></div>
+      <div class="np-card"><h3>How to read this</h3><p>Open tasks are not marked by a computer, but they are where most of the marks sit in the official B.Des sample (75 of 100). They reward the ability to tell a story in frames, to look at a problem from a user&rsquo;s side and to produce several different ideas fast. Practise them on paper with a timer, then ask someone to mark them against a rubric: the Studio section of the mock centre gives {{ 30 }} tasks and rubrics for exactly that.</p></div>
+    </div>
+  </section>
+
+  <section id="try"><span class="eb">Try it</span><h2>Six free practice questions</h2>
+    <p style="margin:0 0 8px;font-size:.9rem">Original questions from our mock centre. Tap an option to see the explanation.</p>
+    <div class="np-g" id="npSamples">{% for q in samples %}
+      <div class="np-q" data-ans="{{ q.ans }}"><p class="s">{{ loop.index }}. {{ q.q }}</p>{% if q.svg %}<div class="fig">{{ q.svg|safe }}</div>{% endif %}
+        <div class="np-o">{% for o in q.opts %}<button type="button" data-k="{{ loop.index0 }}"><b>{{ 'ABCD'[loop.index0] }}.</b> {% if o.svg %}{{ o.svg|safe }}{% else %}{{ o.t }}{% endif %}</button>{% endfor %}</div>
+        <div class="np-w"><b>Explanation.</b> {{ q.why }}</div></div>{% endfor %}</div>
+  </section>
+
+  <section id="practise"><span class="eb">Our advice</span><h2>How to practise</h2>
+    <div class="np-g">{% for a, b in d.PRACTICE %}<div class="np-card"><h3>{{ a }}</h3><p>{{ b }}</p></div>{% endfor %}</div>
+    <div class="jr2-note"><b>Practise on the real format.</b> Members get the <a href="{{ url_for('nid_mock.home') }}">EduPulse-NID Mock Test Centre</a>: B.Des Prelims mocks (20 questions, 25 marks), M.Des CDAT mocks (18 questions, 20 marks), NID&rsquo;s own sample papers with answers and explanations, section sets by topic, confidence reports and {{ 30 }} studio tasks. Want a mentor beside you? The <a href="{{ url_for('mentorship.addons') }}">NID add-on programme</a> has weekly sessions, timed studio tasks, portfolio and interview preparation and a parent report.</div>
+  </section>
+
+  <section id="faq"><span class="eb">Questions</span><h2>Common questions</h2>
+    {% for q, a in d.FAQ %}<details class="q"><summary><i>Q{{ '%02d'|format(loop.index) }}</i><span>{{ q }}</span></summary><div class="a"><p style="margin:6px 0 0">{{ a }}</p></div></details>{% endfor %}
+    <p class="np-n">Prepared {{ d.UPDATED }} with AI assistance. The papers were read for structure, marks and topics only. The recalled papers come from candidates&rsquo; memory and from coaching publishers; the official samples are NID&rsquo;s. EduAakashaA is not affiliated with NID, and nothing here promises a rank, a seat or an admission.</p>
+  </section>
+</div>
+<script>window.NIDA = {{ ana|tojson }};</script>
+<script>
+(function () {
+  [].slice.call(document.querySelectorAll('#npSamples .np-q')).forEach(function (q) {
+    var ans = +q.dataset.ans, w = q.querySelector('.np-w'), done = false;
+    [].slice.call(q.querySelectorAll('.np-o button')).forEach(function (b) { b.addEventListener('click', function () {
+      if (done) return; done = true; var k = +b.dataset.k; b.classList.add(k === ans ? 'ok' : 'no');
+      if (k !== ans) q.querySelector('.np-o button[data-k="' + ans + '"]').classList.add('ok'); w.classList.add('on'); }); });
+  });
+  function boot() {
+    if (!window.Chart || !window.NIDA) return;
+    var A = window.NIDA, dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    Chart.defaults.color = dark ? '#d7dbe6' : '#33405c'; Chart.defaults.font.family = "'Plus Jakarta Sans',system-ui,sans-serif"; Chart.defaults.borderColor = dark ? 'rgba(255,255,255,.12)' : 'rgba(14,58,138,.1)';
+    var F = A.formats.filter(function (f) { return f.mcq_marks || f.subj_marks; });
+    new Chart(document.getElementById('npFmt'), { type: 'bar', data: { labels: F.map(function (f) { return f.year; }), datasets: [
+      { label: 'Objective (multiple choice)', data: F.map(function (f) { return f.mcq_marks || 0; }), backgroundColor: '#0E3A8A' }, { label: 'Drawing and writing', data: F.map(function (f) { return f.subj_marks || 0; }), backgroundColor: '#FF6B0A' }] },
+      options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true }, y: { stacked: true, title: { display: true, text: 'Marks' }, max: 100 } } } });
+    var top = {}; A.topic_eras.forEach(function (e) { e.rows.slice(0, 8).forEach(function (r) { top[r.topic] = (top[r.topic] || 0) + r.pct; }); });
+    var names = Object.keys(top).sort(function (a, b) { return top[b] - top[a]; }).slice(0, 10), cols = ['#0E3A8A', '#FF6B0A', '#1F8B5C'];
+    new Chart(document.getElementById('npTop'), { type: 'bar', data: { labels: names, datasets: A.topic_eras.map(function (e, k) { return { label: e.era + ' (' + e.n + ' q)', data: names.map(function (n) { var r = e.rows.filter(function (x) { return x.topic === n; })[0]; return r ? r.pct : 0; }), backgroundColor: cols[k] }; }) },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 12 } } }, scales: { x: { title: { display: true, text: '% of the objective questions' } } } } });
+    var M = A.mdes_topics.rows.slice(0, 10);
+    new Chart(document.getElementById('npMd'), { type: 'bar', data: { labels: M.map(function (r) { return r.topic; }), datasets: [{ data: M.map(function (r) { return r.pct; }), backgroundColor: '#1F8B5C' }] },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { title: { display: true, text: '% of the questions' } } } } });
+    var T = A.tasks.rows;
+    new Chart(document.getElementById('npTask'), { type: 'bar', data: { labels: T.map(function (r) { return r.topic; }), datasets: [{ data: T.map(function (r) { return r.pct; }), backgroundColor: '#FF6B0A' }] },
+      options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { title: { display: true, text: '% of the open tasks' } } } } });
+  }
+  if (window.Chart) boot(); else window.addEventListener('load', boot);
+})();
+</script>
+{% endblock %}

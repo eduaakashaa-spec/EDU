@@ -541,6 +541,20 @@ def jee_paper2_alias():
     return redirect(url_for('main.jee_paper2'), code=301)
 
 
+@main_bp.route('/nid-papers-analysis')
+def nid_papers():
+    # public page: NID DAT past papers analysed (format by year, topic mix, open-task themes), free sample questions, links to the mock centre and the NID add-on; data in app/data/nid_papers.py and app/data/nid/analysis.json
+    from app.data import nid_papers as d
+    return render_template('nid_papers.html', d=d, **d.context())
+
+
+@main_bp.route('/nid-previous-papers')
+@main_bp.route('/nid-mock-test')
+@main_bp.route('/nid-dat-papers')
+def nid_papers_alias():
+    return redirect(url_for('main.nid_papers'), code=301)
+
+
 @main_bp.route('/engineering-colleges-by-city')
 def engineering_cities():
     # public page: top NIRF-ranked engineering colleges per city region and state with fee, eligibility and NRI quota; data in app/data/eng_cities.py, eng_cities.json, eng_colleges.json

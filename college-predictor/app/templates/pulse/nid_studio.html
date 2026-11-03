@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Studio and drawing practice | EduPulse-NID{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.tn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}.tn-t{display:block;text-decoration:none;color:inherit;background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px}.tn-t:hover{border-color:var(--navy,#0E3A8A)}.tn-t b{display:block;font-family:'Fraunces',Georgia,serif}.tn-t small{color:var(--muted,#5A6278)}.tn-k{font:700 .64rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:#FF6B0A}.tn-h{margin:22px 0 8px;font-family:'Fraunces',Georgia,serif}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('nid_mock.home') }}">EduPulse-NID</a> › Studio</div>
+  <section class="pl-hero"><div><span class="pl-chip">{{ tasks|length }} tasks · pencil, colours and household materials</span><h1>Studio and drawing practice</h1>
+    <p>The NID papers also ask for drawing, storytelling, idea generation and hands-on tasks that no computer can mark. Do each task on paper or with simple materials, within the suggested time, then mark yourself against the rubric and show the work to your mentor. Prelims-style tasks are on paper; Studio tasks use simple materials.</p></div></section>
+  {% for stage in ['Prelims', 'Studio'] %}
+  <h2 class="tn-h">{{ stage }} tasks</h2>
+  <div class="tn-grid">{% for t in tasks if t.stage == stage %}
+    <a class="tn-t" href="{{ url_for('nid_mock.studio_task', tid=t.id) }}"><span class="tn-k">{{ t.kind }} · {{ t.minutes }} min · {{ t.marks }} marks{% if t.level == 'M' %} · M.Des{% endif %}</span><b>{{ t.title }}</b><small>{{ t.prompt[:120] }}…</small></a>
+  {% endfor %}</div>
+  {% endfor %}
+  <p style="font-size:.84rem;color:var(--muted);margin-top:14px">Tasks and rubrics are original EduAakashaA practice material. They are modelled on the kinds of task seen in NID papers and are not NID&rsquo;s tasks. Your self-marks stay in this browser.</p>
+</div>
+{% endblock %}

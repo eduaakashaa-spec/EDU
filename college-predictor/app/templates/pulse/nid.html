@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}EduPulse-NID Mock Test Centre (NID DAT) | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.tn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.tn-t{display:block;text-decoration:none;color:inherit;background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;position:relative}.tn-t:hover{border-color:var(--navy,#0E3A8A)}.tn-t b{display:block;font-family:'Fraunces',Georgia,serif}.tn-t small{color:var(--muted,#5A6278)}.tn-s{position:absolute;right:12px;top:10px;font:700 .8rem 'JetBrains Mono',monospace;color:#1F8B5C}.tn-h{margin:22px 0 8px;font-family:'Fraunces',Georgia,serif}</style>{% endblock %}
+{% block content %}
+{% set an = sm.an %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-NID</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">NID DAT Prelims · B.Des and M.Des · marks as printed, nothing deducted</span><h1>EduPulse-NID Mock Test Centre</h1>
+      <p>Timed mocks and practice sets for the objective part of the NID Design Aptitude Test: visual and spatial reasoning, logic, design literacy, materials, crafts, sustainability, language and critical thinking. Rate your confidence on every answer, then see which sections are secure and where you were sure but wrong. Every question has an explanation. The open drawing and studio tasks are in the Studio section.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ sm.attempts }}</b><span>tests saved</span></div>
+      <div class="pl-kpi"><b>{{ sm.avg_pct ~ '%' if sm.avg_pct is not none else '—' }}</b><span>average of the maximum</span></div>
+      <div class="pl-kpi"><b>{{ sm.best ~ '%' if sm.best is not none else '—' }}</b><span>best</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P4 }}</b><span>sure-but-wrong answers</span></div>
+    </div>
+  </section>
+  <div class="pl-note">The mocks follow the layout of NID&rsquo;s own sample papers: B.Des Prelims has 15 questions of 1 mark and 5 of 2 marks in the objective part (25 marks), and M.Des CDAT Paper 1 has 16 of 1 mark and 2 of 2 marks (20 marks). NID prints no duration or negative marking on these samples, so we give a practice time of about 1.2 minutes a mark and deduct nothing. Confirm both, the stages and the weight of Prelims in the current <a href="{{ url_for('main.nid') }}">NID admission guide</a> and handbook. The questions are original EduAakashaA practice questions written for these topics; they are not NID&rsquo;s questions. Scores are practice guidance, not a prediction.</div>
+
+  <h2 class="tn-h">B.Des Prelims mocks</h2>
+  <div class="tn-grid">
+    {% for m in tests if m.kind == 'full' and m.prog == 'B' %}
+    <a class="tn-t" href="{{ url_for('nid_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }} · {{ m.minutes }} min</small></a>
+    {% endfor %}
+  </div>
+
+  <h2 class="tn-h">M.Des CDAT Paper 1 mocks</h2>
+  <div class="tn-grid">
+    {% for m in tests if m.kind == 'full' and m.prog == 'M' %}
+    <a class="tn-t" href="{{ url_for('nid_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }} · {{ m.minutes }} min</small></a>
+    {% endfor %}
+  </div>
+
+  <h2 class="tn-h">Previous papers: NID&rsquo;s own sample papers</h2>
+  <p style="margin:0 0 8px;font-size:.92rem">The objective questions of the B.Des Prelims and M.Des CDAT sample papers NID published for 2024 and 2025, cut from the official files, with answers and explanations by EduAakashaA (NID prints no key). The option letters are part of each picture. The papers&rsquo; drawing questions are practised in the Studio section.</p>
+  <div class="tn-grid">
+    {% for m in tests if m.kind == 'official' %}
+    <a class="tn-t" href="{{ url_for('nid_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }} · {{ m.minutes }} min</small></a>
+    {% endfor %}
+  </div>
+
+  <h2 class="tn-h">Studio and drawing practice</h2>
+  <div class="tn-grid"><a class="tn-t" href="{{ url_for('nid_mock.studio') }}"><b>Studio tasks ({{ tasks|length }})</b><small>Idea generation, storytelling, posters, user analysis, observation sketches, 3D and model-making tasks, with a rubric to mark yourself and share with your mentor</small></a>
+    <a class="tn-t" href="{{ url_for('main.nid_papers') }}"><b>Past-paper analysis</b><small>What the NID papers asked from 2015 to 2025, by year and by topic</small></a></div>
+
+  <h2 class="tn-h">Practice by section</h2>
+  {% for sj in ['SPA', 'VIS', 'LOG', 'LAN', 'CRT', 'CLR', 'PRI', 'ERG', 'AWR', 'HIS', 'CRF', 'MAT', 'SUS', 'SCI', 'GKN'] %}
+  <div class="tn-grid" style="margin-bottom:8px">
+    {% for m in tests if m.kind == 'section' and m.sec == sj %}
+    <a class="tn-t" href="{{ url_for('nid_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }}</small></a>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="pl-grid pl-g2" style="margin-top:24px;">
+    <div class="pl-card"><span class="pl-eyebrow">Confidence</span><h3>How sure were you, and were you right?</h3>
+      {% if an.rated %}
+      <table class="pl-tbl"><thead><tr><th>You said</th><th>Answers</th><th>Right</th><th>Accuracy</th></tr></thead><tbody>
+      {% for c, label in CONF %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}
+      </tbody></table>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+      {% else %}<p class="pl-muted">Finish a test and rate your answers (Guess, Low, Medium, High). Your confidence picture appears here.</p>{% endif %}
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Sections</span><h3>Where to reinforce first</h3>
+      {% if an.attempted %}<table class="pl-tbl"><thead><tr><th>Section</th><th>Right</th><th>Wrong</th><th>Marks</th></tr></thead><tbody>
+      {% for s in an.sections %}<tr><td>{{ s.name }}</td><td>{{ s.right }}</td><td>{{ s.wrong }}</td><td>{{ s.marks }}</td></tr>{% endfor %}</tbody></table>
+      {% if an.weak %}<p style="margin:10px 0 0;">Weakest first: <strong>{{ an.weak|join(', ') }}</strong>.</p>{% endif %}
+      {% else %}<p class="pl-muted">Nothing yet.</p>{% endif %}
+    </div>
+  </div>
+
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>My test history</h3>
+    {% if sm.rows %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Test</th><th>Marks</th><th>Right</th><th>Wrong</th><th>Sure but wrong</th><th></th></tr></thead><tbody>
+    {% for r in sm.rows %}<tr><td>{{ r.finished_at.strftime('%d %b %Y') }}</td><td>{{ r.title }}</td><td>{{ r.score }} / {{ r.max_score }}</td><td>{{ r.right }}</td><td>{{ r.wrong }}</td><td>{{ r.sure_wrong }}</td><td><a href="{{ url_for('nid_mock.report', rid=r.id) }}">Report</a></td></tr>{% endfor %}</tbody></table>
+    {% else %}<p class="pl-muted">No saved tests yet. Start one above.</p>{% endif %}
+  </div>
+  <p style="font-size:.84rem;color:var(--muted);margin-top:14px">Practice questions and explanations by EduAakashaA, prepared with AI assistance; the visual questions are generated by code so their answers are computed, and the text answers were checked by an independent solve. Report any doubt to your mentor. The sample papers belong to the National Institute of Design. EduAakashaA is not affiliated with NID.</p>
+</div>
+{% endblock %}

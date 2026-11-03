@@ -224,3 +224,26 @@ class PulseIatResult(db.Model):
     payload_json = db.Column(db.Text)
     user = db.relationship('User', foreign_keys=[user_id])
 
+
+
+class PulseNidResult(db.Model):
+    """One finished NID DAT mock or practice test (B.Des Prelims or M.Des CDAT Paper 1 format). Marks as printed on the question (1 or 2), no negative marking.
+    `payload_json` keeps one row per question: the chosen option, right or wrong, the marks, the confidence rating (G/L/M/H) and the seconds spent."""
+    __tablename__ = 'pulse_nid_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    mock = db.Column(db.String(16), index=True)                  # B1, M2, O-BDES25, S-SPA1 ...
+    title = db.Column(db.String(120))
+    score = db.Column(db.Integer, default=0)
+    max_score = db.Column(db.Integer, default=0)
+    right = db.Column(db.Integer, default=0)
+    wrong = db.Column(db.Integer, default=0)
+    blank = db.Column(db.Integer, default=0)
+    rated = db.Column(db.Integer, default=0)
+    sure_wrong = db.Column(db.Integer, default=0)
+    lucky = db.Column(db.Integer, default=0)
+    duration_sec = db.Column(db.Integer)
+    timed = db.Column(db.Boolean, default=True)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
+    user = db.relationship('User', foreign_keys=[user_id])
