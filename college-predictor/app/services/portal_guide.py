@@ -56,6 +56,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-03', 'Four EduPulse feature banners (Reinforcement, Mock Test Centres, previous years papers, mentor and parent view) designed in Canva: added to the homepage banner carousel (now 10 slides) and as a carousel inside the EduPulse section of the membership registration page.'),
     ('2026-11-03', 'JoSAA predictor (public page, members edition, matrix, insights and analytics) now runs on JoSAA 2026 data: Rounds 1 to 5, 138 institutes, 13,292 entries, from the consolidated workbook; B.Arch and B.Planning are no longer mixed into B.Tech predictions; IISc counts with the IIT group; page labels and the IIT CSE closing-rank boxes updated to 2026. The 2025 file stays as a fallback.'),
     ('2026-11-03', 'JoSAA 2026 analytics page redesigned as a visual dashboard with compact sticky navigation: gauges, funnel, slope chart, heatmap, bubble chart, stacked bars, radar comparison of NIT seat mix and a B.Arch cut-off chart; tables moved behind expandable links.'),
     ('2026-11-03', 'New premium page JoSAA 2026 Seat Allotment and Analytics: NIT+ seats (25,162 across 32 institutes) and Round 1 to 5 opening and closing ranks for 138 institutes; overview of rank drift by institute type, seat supply by seat type, gender pool and quota, never-allotted seat cells, a cut-off explorer, a rank finder, institutes and Architecture and Planning; built from the supplied consolidated workbooks with totals checked against them; Member Home tile and menu link.'),
