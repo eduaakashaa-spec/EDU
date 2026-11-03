@@ -555,6 +555,20 @@ def nid_papers_alias():
     return redirect(url_for('main.nid_papers'), code=301)
 
 
+@main_bp.route('/nift-papers-analysis')
+def nift_exam():
+    # public page: NIFT GAT / CAT past papers analysed (format by year, section mix, CAT themes), free sample questions, links to the mock centre; data in app/data/nift_exam.py and app/data/nift/analysis.json
+    from app.data import nift_exam as d
+    return render_template('nift_exam.html', **d.context())
+
+
+@main_bp.route('/nift-previous-papers')
+@main_bp.route('/nift-mock-test')
+@main_bp.route('/nift-gat-papers')
+def nift_exam_alias():
+    return redirect(url_for('main.nift_exam'), code=301)
+
+
 @main_bp.route('/explorer-test')
 def explorer_landing():
     # public page: EduPulse-Explorer for Grades 7 to 10 (what it is, exam families, spaced review, six free questions); data in app/data/explorer_landing.py

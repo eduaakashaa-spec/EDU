@@ -6,6 +6,7 @@
 <div class="pl">
   <div class="pl-crumb"><a href="{{ url_for('pulse.mentor_home') }}">EduPulse mentor view</a> › {{ p.user.name }}</div>
   <p style="margin:0 0 8px;font-size:.88rem"><a href="{{ url_for('explorer.student_progress', uid=p.user_id) }}">EduPulse-Explorer progress (Grades 7 to 10)</a></p>
+  <p style="margin:0 0 8px;font-size:.88rem"><a href="{{ url_for('nift_mock.student_progress', uid=p.user_id) }}">EduPulse-NIFT progress (GAT and CAT)</a></p>
   <section class="pl-hero"><div><span class="pl-chip">{{ p.student_class or 'Student' }} · reports {{ p.frequency }}</span><h1>{{ p.user.name }}</h1>
     <p>Parent emails {{ 'ON (with consent)' if p.parent_consent else 'OFF' }} · last report {{ p.last_report_at.strftime('%d %b %Y') if p.last_report_at else 'not sent yet' }}.</p></div>
     <div class="pl-kpis"><div class="pl-kpi"><b>{{ ov.attempts }}</b><span>sets</span></div><div class="pl-kpi"><b>{{ ov.answered }}</b><span>answered</span></div>

@@ -1,0 +1,337 @@
+{
+ "mix": [
+  {
+   "year": 2016,
+   "prog": "B.Des",
+   "QA": 19,
+   "ANA": 14,
+   "ENG": 12,
+   "CMP": 25,
+   "GK": 15,
+   "n": 85
+  },
+  {
+   "year": 2017,
+   "prog": "B.Des",
+   "ANA": 13,
+   "GK": 15,
+   "ENG": 17,
+   "QA": 20,
+   "CMP": 25,
+   "n": 90
+  },
+  {
+   "year": 2018,
+   "prog": "B.Des",
+   "CMP": 25,
+   "ENG": 20,
+   "ANA": 11,
+   "QA": 18,
+   "GK": 15,
+   "n": 89
+  },
+  {
+   "year": 2020,
+   "prog": "B.Des",
+   "CMP": 25,
+   "ENG": 15,
+   "QA": 19,
+   "ANA": 11,
+   "GK": 15,
+   "n": 85
+  },
+  {
+   "year": 2020,
+   "prog": "B.F.Tech",
+   "ENG": 15,
+   "CMP": 36,
+   "QA": 27,
+   "ANA": 17,
+   "GK": 23,
+   "n": 118
+  },
+  {
+   "year": 2021,
+   "prog": "B.Des",
+   "CMP": 21,
+   "ENG": 13,
+   "QA": 19,
+   "ANA": 10,
+   "GK": 14,
+   "n": 77
+  },
+  {
+   "year": 2022,
+   "prog": "B.Des",
+   "QA": 15,
+   "ANA": 12,
+   "GK": 15,
+   "CMP": 25,
+   "ENG": 25,
+   "n": 92
+  },
+  {
+   "year": 2022,
+   "prog": "B.F.Tech",
+   "QA": 28,
+   "ANA": 19,
+   "GK": 25,
+   "ENG": 26,
+   "CMP": 44,
+   "n": 142
+  },
+  {
+   "year": 2022,
+   "prog": "M.Des",
+   "QA": 16,
+   "ANA": 24,
+   "GK": 15,
+   "ENG": 30,
+   "CMP": 30,
+   "n": 115
+  },
+  {
+   "year": 2022,
+   "prog": "M.F.M",
+   "QA": 18,
+   "ANA": 14,
+   "GK": 25,
+   "ENG": 35,
+   "CMP": 55,
+   "n": 147
+  },
+  {
+   "year": 2022,
+   "prog": "M.F.Tech",
+   "QA": 23,
+   "ANA": 16,
+   "GK": 25,
+   "CMP": 42,
+   "ENG": 28,
+   "n": 134
+  },
+  {
+   "year": 2023,
+   "prog": "B.Des",
+   "ENG": 26,
+   "CMP": 25,
+   "QA": 17,
+   "ANA": 12,
+   "GK": 15,
+   "n": 95
+  },
+  {
+   "year": 2023,
+   "prog": "B.F.Tech",
+   "ENG": 26,
+   "CMP": 45,
+   "QA": 25,
+   "ANA": 21,
+   "GK": 26,
+   "n": 143
+  },
+  {
+   "year": 2023,
+   "prog": "M.Des",
+   "ENG": 30,
+   "CMP": 30,
+   "QA": 20,
+   "ANA": 21,
+   "GK": 15,
+   "n": 116
+  },
+  {
+   "year": 2023,
+   "prog": "M.F.M",
+   "ENG": 30,
+   "CMP": 59,
+   "QA": 8,
+   "ANA": 23,
+   "GK": 25,
+   "n": 145
+  },
+  {
+   "year": 2023,
+   "prog": "M.F.Tech",
+   "ENG": 30,
+   "CMP": 40,
+   "QA": 24,
+   "ANA": 24,
+   "GK": 25,
+   "n": 143
+  }
+ ],
+ "topics": {
+  "QA": [
+   {
+    "topic": "Simple Interest",
+    "n": 21
+   },
+   {
+    "topic": "Time And Work",
+    "n": 15
+   },
+   {
+    "topic": "Percentages",
+    "n": 14
+   },
+   {
+    "topic": "Profit And Loss",
+    "n": 13
+   },
+   {
+    "topic": "Ratios",
+    "n": 12
+   },
+   {
+    "topic": "Averages",
+    "n": 11
+   },
+   {
+    "topic": "Partnership",
+    "n": 7
+   },
+   {
+    "topic": "Mixtures",
+    "n": 7
+   }
+  ],
+  "ANA": [
+   {
+    "topic": "Number Series",
+    "n": 20
+   },
+   {
+    "topic": "Blood Relations",
+    "n": 17
+   },
+   {
+    "topic": "Circular Seating",
+    "n": 15
+   },
+   {
+    "topic": "Puzzle",
+    "n": 11
+   },
+   {
+    "topic": "Letter Series",
+    "n": 10
+   },
+   {
+    "topic": "Directions",
+    "n": 10
+   },
+   {
+    "topic": "Letter Coding",
+    "n": 9
+   },
+   {
+    "topic": "Odd One Out",
+    "n": 9
+   }
+  ],
+  "ENG": [
+   {
+    "topic": "Synonyms",
+    "n": 70
+   },
+   {
+    "topic": "Antonyms",
+    "n": 55
+   },
+   {
+    "topic": "Idioms",
+    "n": 40
+   },
+   {
+    "topic": "Spelling",
+    "n": 32
+   },
+   {
+    "topic": "One-Word Substitution",
+    "n": 23
+   },
+   {
+    "topic": "Fill In The Blank",
+    "n": 17
+   },
+   {
+    "topic": "Fill In The Blanks",
+    "n": 15
+   },
+   {
+    "topic": "Prepositions",
+    "n": 14
+   }
+  ],
+  "CMP": [
+   {
+    "topic": "Reading Comprehension",
+    "n": 77
+   },
+   {
+    "topic": "Vocabulary In Context",
+    "n": 52
+   },
+   {
+    "topic": "Inference",
+    "n": 46
+   },
+   {
+    "topic": "Detail",
+    "n": 40
+   },
+   {
+    "topic": "Passage Inference",
+    "n": 38
+   },
+   {
+    "topic": "Business Passage",
+    "n": 30
+   },
+   {
+    "topic": "Passage Detail",
+    "n": 28
+   },
+   {
+    "topic": "Reading Inference",
+    "n": 20
+   }
+  ],
+  "GK": [
+   {
+    "topic": "Current Affairs",
+    "n": 13
+   },
+   {
+    "topic": "Geography",
+    "n": 11
+   },
+   {
+    "topic": "Awards",
+    "n": 11
+   },
+   {
+    "topic": "Sports",
+    "n": 10
+   },
+   {
+    "topic": "Indian Polity",
+    "n": 9
+   },
+   {
+    "topic": "Indian History",
+    "n": 7
+   },
+   {
+    "topic": "Environment",
+    "n": 7
+   },
+   {
+    "topic": "Books And Authors",
+    "n": 7
+   }
+  ]
+ },
+ "read": 1816
+}

@@ -14,7 +14,7 @@ from app.models import User  # noqa: E402
 app = create_app()
 with app.app_context():
     db.create_all()
-    db.session.add(User(name='Demo Student', email='demo@explorer.test', tier='free', password_hash=bcrypt.generate_password_hash('demo1234').decode()))
+    db.session.add(User(name='Demo Student', email='demo@explorer.test', tier='premium', password_hash=bcrypt.generate_password_hash('demo1234').decode()))
     db.session.commit()
     print('demo@explorer.test / demo1234', flush=True)
 app.run(port=5078, use_reloader=False)

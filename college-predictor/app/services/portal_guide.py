@@ -27,6 +27,7 @@ ROLE_BLURB = {
 # blueprints that the guide covers (value = what they are, shown to admins); a new blueprint must be added here or the test fails
 COVERED_BLUEPRINTS = {
     'explorer': 'EduPulse-Explorer (Grades 7 to 10): discovery test, interest check, exam tasters, skill sets, Daily 10 review, progress, creative challenges',
+    'nift_mock': 'EduPulse-NIFT (NIFT GAT and CAT): GAT mocks per programme, earlier-year questions, section sets, Daily Review, progress, CAT studio tasks',
     'nid_mock': 'EduPulse-NID mock tests (NID DAT): mocks, official sample papers, section sets, studio practice',
     'main': 'Public pages, guides, predictors and premium analytics pages',
     'auth': 'Sign in, register, password',
@@ -55,6 +56,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-03', 'New NIFT page and tool: public page NIFT GAT and CAT papers analysed (format by year 2016 to 2025, marking, section and topic mix, CAT themes, six free questions); new member tool EduPulse-NIFT Mock Test Centre (GAT mocks for B.Des, B.F.Tech, M.Des, M.F.M and M.F.Tech, 1,424 questions from NIFT’s earlier GAT papers whose keys an independent solve confirmed, previous-year papers, section sets, generated maths and reasoning questions, a Daily Review on Leitner boxes, progress tracker, 22 CAT studio tasks with rubrics); Member Home tile, menu, mentor view, guide.'),
     ('2026-11-03', 'New EduPulse-Explorer for Grades 7 to 10 (engineering and design interests): Discovery Test, 16-statement interest check, tasters in the style of JEE, UCEED / NID / NIFT, NATA and IISER IAT, skill sets, a Daily 10 spaced review that brings back wrong and unsure answers, progress tracker with streak and badges, and 12 creative challenges; public page Grade 7 to 10 Explorer with six free questions.'),
     ('2026-11-03', 'NID DAT: new public page NID past papers analysed (format by year 2015 to 2025, topic mix by era, drawing and studio themes, official sample-paper format, six free practice questions); new member tool EduPulse-NID Mock Test Centre (B.Des and M.Des mocks, NID official sample papers 2024 and 2025 with answers and explanations, 15 section sets, 30 studio tasks with rubrics, confidence reports); the NID add-on mentorship programme now has 16 sessions for the B.Des and M.Des routes and uses the mock centre.'),
     ('2026-11-02', 'New public page: Top engineering colleges by city and state (Mumbai, Pune, Chennai, Coimbatore, Tiruchirappalli, Kozhikode, Delhi NCR, Ahmedabad and other capitals): the best NIRF-ranked colleges in each region as illustrated tiles with NIRF rank and score, entrance route, eligibility, course fee and NRI quota where the college or an admission authority publishes it, DASA seat counts, filters, a score chart and a region comparison.'),
@@ -222,6 +224,17 @@ GUIDE = [
                 'Creative challenges are done at home with paper and household items and marked by you against a rubric; they practise the drawing and invention that design exams ask for.'],
          tips=['Short and daily beats long and rare: ten minutes a day keeps the review cards moving.', 'Questions are original school-level practice, not questions from any exam: check each exam’s current notice for its pattern.'],
          tiles=['EduPulse-Explorer (Grades 7 to 10)'], added='2026-11-03', updated='2026-11-03'),
+    dict(id='s-nift', role='student', group='EduPulse', title='EduPulse-NIFT Mock Test Centre', summary='NIFT GAT mocks, questions from earlier papers, section sets, a Daily Review that brings back what you missed, and CAT studio practice.',
+         where=[('EduPulse-NIFT', 'nift_mock.home'), ('Progress', 'nift_mock.progress'), ('CAT studio', 'nift_mock.studio'), ('NIFT papers analysed', 'main.nift_exam')],
+         steps=['Open "EduPulse-NIFT Mock Test Centre" (Premium). Choose a GAT mock for your programme (B.Des 100 questions in 120 minutes, B.F.Tech Part A or Part B, M.Des, M.F.M or M.F.Tech), a previous-year paper (2016 to 2023), or a 15-question section set (quantitative, English, comprehension, analytical, GK).',
+                'Marking is as in the NIFT papers: +1 for a right answer, -0.25 for a wrong one, nothing for a blank. Pick an answer, then rate your confidence: Guess, Low, Medium or High. A timed test submits itself when time is up (1.2 minutes a question). Written case studies are not in the mocks.',
+                'Mocks are a fresh paper each attempt: real questions from earlier NIFT GATs plus generated maths and reasoning questions with new numbers. Previous-year papers show only the questions that can be shown as text (figure questions and any we could not confirm are left out), so the count is below the full paper.',
+                'Submit and open the report: marks and net marks by section, time per question, topics that cost marks, the confidence table, and every question with the key, an explanation and its source paper.',
+                'Every wrong answer, and every right answer rated Guess or Low, becomes a review card. Open "Daily Review" each day: it serves due cards (generated ideas return with new numbers) and tops up from your weakest sections. A right answer moves a card up its box (reviews after 0, 1, 3, 7, 14 and 30 days); a wrong answer sends it back.',
+                'Open Progress for section levels (last 20 answers), the mock trend, review boxes, topics to reinforce, streak and badges. Mentors and admins can open a student’s progress from the mentor student view.',
+                'CAT studio practice has 22 tasks restated from earlier B.Des and M.Des Creative Ability Tests. Do them on paper and mark yourself against a four-line rubric (out of 10); a computer cannot mark a drawing.'],
+         tips=['The answer keys come from the papers; we kept a question only when an independent solve agreed. Tell your mentor if you doubt one.', 'Confirm the current pattern and marking in the NIFT information bulletin.'],
+         tiles=['EduPulse-NIFT Mock Test Centre'], added='2026-11-03', updated='2026-11-03'),
     dict(id='s-nid-mock', role='student', group='EduPulse', title='EduPulse-NID Mock Test Centre', summary='NID DAT mock tests: B.Des and M.Des mocks, NID official sample papers, section sets and studio practice.',
          where=[('EduPulse-NID', 'nid_mock.home'), ('Studio tasks', 'nid_mock.studio'), ('NID papers analysed', 'main.nid_papers')],
          steps=['Open "EduPulse-NID Mock Test Centre". Choose a B.Des Prelims mock (20 questions, 25 marks, as in NID\u2019s sample paper), an M.Des CDAT Paper 1 mock (18 questions, 20 marks), one of NID\u2019s own sample papers (2024 and 2025), or a section set by topic.',

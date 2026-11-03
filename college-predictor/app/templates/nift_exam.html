@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}NIFT GAT and CAT Past Papers Analysed: Format, Topics, Mock Tests | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="What the NIFT GAT and CAT papers asked from 2016 to 2025: format by year, section and topic mix, marking, studio themes, free sample questions, and mock tests with a daily spaced review built on NIFT's earlier questions.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .nf{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278)}
+  .nf h2{font-size:1.3rem;margin:0 0 4px}.nf h3{font-size:1rem;margin:10px 0 6px}.nf section{padding:6px 0 14px}
+  .nf-top{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:6px 0 12px}.nf-top h1{font-size:clamp(1.5rem,3.4vw,2.2rem);margin:2px 0 0}.nf-top p{margin:4px 0 0;font-size:.96rem;color:var(--dim);max-width:70ch}
+  .nf-go{display:inline-block;border-radius:999px;padding:11px 24px;font:700 .95rem 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;background:#FF6B0A;color:#fff;margin:6px 8px 0 0}.nf-go.n{background:var(--navy,#0E3A8A)}
+  .nf-chips{display:flex;gap:8px;flex-wrap:wrap}.nf-chips span{background:var(--pp);border:1px solid var(--ln);border-radius:999px;padding:5px 12px;font-size:.78rem;color:var(--dim)}.nf-chips b{color:var(--navy,#0E3A8A);margin-right:5px}
+  .nf-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}.nf-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:12px 14px}.nf-c h3{margin:0 0 4px}.nf-c p{font-size:.9rem;line-height:1.55;margin:0}
+  .nf-c .k{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}
+  .nf-t{width:100%;border-collapse:collapse;font-size:.84rem}.nf-t th,.nf-t td{padding:6px 8px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top}.nf-t th{font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dim)}
+  .nf-mix{display:grid;grid-template-columns:70px 1fr 40px;gap:8px;align-items:center;margin:5px 0;font-size:.84rem}.nf-bar{display:flex;height:16px;border-radius:5px;overflow:hidden;background:var(--ln)}.nf-bar i{display:block;height:100%}
+  .s-QA{background:#0E3A8A}.s-ENG{background:#FF6B0A}.s-CMP{background:#E89A1C}.s-ANA{background:#1F8B5C}.s-GK{background:#8B5CF6}
+  .nf-key{display:flex;gap:12px;flex-wrap:wrap;font-size:.78rem;margin:6px 0;color:var(--dim)}.nf-key i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:4px;vertical-align:-1px}
+  .nf-q{background:var(--pp);border:1px solid var(--ln);border-radius:14px;padding:12px 14px}.nf-q p.s{margin:0 0 6px;font-weight:600}
+  .nf-o{display:flex;flex-direction:column;gap:6px;margin:6px 0}.nf-o button{border:1.5px solid var(--ln);background:var(--pp);border-radius:10px;padding:6px 10px;cursor:pointer;font:500 .88rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit;text-align:left}
+  .nf-o button.ok{border-color:#1F8B5C;background:#EAF6EF}.nf-o button.no{border-color:#C23A3A;background:#FBE9E7}.nf-w{display:none;font-size:.85rem;background:#F4F6FB;border-radius:8px;padding:7px 10px;margin-top:4px}.nf-w.on{display:block}
+  :root[data-theme="dark"] .nf-w{background:#1d2230}:root[data-theme="dark"] .nf-o button.ok{background:#12301f}:root[data-theme="dark"] .nf-o button.no{background:#3a1a1a}
+  .nf-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+</style>
+{% endblock %}
+{% block content %}
+<div class="jr2 nf">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Prepared {{ d.UPDATED }}: confirm the exam details with NIFT.</strong>
+      This page reads earlier papers for structure and topics. Eligibility, dates, fees, the pattern and the marking of the current cycle are in NIFT&rsquo;s information bulletin. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="nf-top">
+    <div><span class="eb">NIFT GAT and CAT &middot; past papers &middot; updated {{ d.UPDATED }}</span>
+      <h1>What the NIFT papers <em>really ask</em></h1>
+      <p>We read 37 question papers and 26 answer keys from 2016 to 2026 (B.Des, B.F.Tech, M.Des, M.F.M and M.F.Tech). Here is how the General Ability Test and the Creative Ability Test changed, what each section asks, and how to practise with the earlier questions and a daily review.</p>
+      <a class="nf-go" href="{{ url_for('nift_mock.home') }}">Open EduPulse-NIFT</a><a class="nf-go n" href="#try">Try six free questions</a></div>
+    <div class="nf-chips"><span><b>{{ n_bank }}</b>earlier questions with verified keys</span><span><b>{{ n_years }}</b>previous-year papers</span><span><b>{{ n_tasks }}</b>CAT studio tasks</span></div>
+  </div>
+
+  <section id="eras"><span class="eb">How the paper changed</span><h2>Three shapes, ten years</h2>
+    <div class="nf-g">{% for y, t, b in d.ERAS %}<div class="nf-c"><span class="k">{{ y }}</span><h3>{{ t }}</h3><p>{{ b }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="format"><span class="eb">Format by year</span><h2>Sections, marks and marking</h2>
+    <div class="nf-c" style="overflow-x:auto"><table class="nf-t"><thead><tr><th>Year</th><th>Programme</th><th>Total</th><th>Sections</th><th>Time</th><th>Marking</th></tr></thead><tbody>
+      {% for y, p, tot, sec, tm, mk in d.FORMAT %}<tr><td>{{ y }}</td><td>{{ p }}</td><td>{{ tot }}</td><td>{{ sec }}</td><td>{{ tm }}</td><td>{{ mk }}</td></tr>{% endfor %}</tbody></table>
+      <p class="nf-n">2024 and 2025 figures are printed in the computer-based papers; where a section&rsquo;s marks are not printed we show the balance of the paper&rsquo;s total. Case-study parts are written answers. Check the current bulletin: formats change.</p></div>
+  </section>
+
+  <section id="mix"><span class="eb">What each section asks</span><h2>The B.Des GAT by section</h2>
+    <div class="nf-c">
+      <div class="nf-key">{% for k, n in SEC.items() %}<span><i class="s-{{ k }}"></i>{{ n }}</span>{% endfor %}</div>
+      {% for m in mix %}<div class="nf-mix"><span>{{ m.year }}</span><div class="nf-bar">{% for k in SEC %}{% if m.get(k) %}<i class="s-{{ k }}" style="width:{{ (100 * m[k] / m.n)|round(1) }}%" title="{{ SEC[k] }}: {{ m[k] }}"></i>{% endif %}{% endfor %}</div><span>{{ m.n }}</span></div>{% endfor %}
+      <p class="nf-n">Share of the questions we could read as text in each paper, tagged by section; the true split is the printed one in the format table.</p>
+    </div>
+    <h3>Topics that come back most</h3>
+    <div class="nf-g">{% for k, n in SEC.items() %}<div class="nf-c"><span class="k">{{ n }}</span><p style="margin-top:6px">{% for t in topics[k][:6] %}{{ t.topic }} ({{ t.n }}){{ ', ' if not loop.last }}{% endfor %}</p></div>{% endfor %}</div>
+    <p class="nf-n">Counts are questions among the {{ ana.read }} we read from the papers (all programmes, 2016 to 2023).</p>
+  </section>
+
+  <section id="themes"><span class="eb">What to take from it</span><h2>Five patterns</h2>
+    <div class="nf-g">{% for a, b in d.THEMES %}<div class="nf-c"><h3>{{ a }}</h3><p>{{ b }}</p></div>{% endfor %}</div>
+    <h3>The Creative Ability Test in earlier papers</h3>
+    <div class="nf-c"><p>We restated the {{ n_tasks }} CAT tasks of earlier B.Des and M.Des papers as studio practice: {% for label, n in kinds %}{{ label|lower }} ({{ n }}){{ ', ' if not loop.last }}{% endfor %}. They are done on paper and marked against a four-line rubric.</p></div>
+  </section>
+
+  <section id="practice"><span class="eb">How to practise</span><h2>A weekly plan that works with the format</h2>
+    <div class="nf-g">{% for a, b in d.PRACTICE %}<div class="nf-c"><h3>{{ a }}</h3><p>{{ b }}</p></div>{% endfor %}</div>
+    <p><a class="nf-go" href="{{ url_for('nift_mock.home') }}">Go to the mock centre</a></p>
+  </section>
+
+  <section id="try"><span class="eb">Try it</span><h2>Six free questions from earlier papers</h2>
+    <p style="margin:0 0 8px;font-size:.9rem">Tap an option to see the answer and the reason.</p>
+    <div class="nf-g" id="nfSamples">{% for q in samples %}
+      <div class="nf-q" data-ans="{{ q.ans }}"><span class="eb" style="font-size:.66rem">{{ q.sec }} · {{ q.src }}</span><p class="s">{{ loop.index }}. {{ q.q }}</p>
+        <div class="nf-o">{% for o in q.opts %}<button type="button" data-k="{{ loop.index0 }}"><b>{{ 'ABCD'[loop.index0] }}.</b> {{ o }}</button>{% endfor %}</div>
+        <div class="nf-w"><b>Why.</b> {{ q.why }}</div></div>{% endfor %}</div>
+  </section>
+
+  <section id="faq"><span class="eb">Questions</span><h2>Common questions</h2>
+    {% for q, a in d.FAQ %}<details class="q"><summary><i>Q{{ '%02d'|format(loop.index) }}</i><span>{{ q }}</span></summary><div class="a"><p style="margin:6px 0 0">{{ a }}</p></div></details>{% endfor %}
+    <p class="nf-n">Prepared {{ d.UPDATED }} with AI assistance. NIFT is an institution of the Government of India; EduAakashaA is not affiliated with it. Related: <a href="{{ url_for('main.nid_papers') }}">NID papers analysed</a> and the <a href="{{ url_for('main.explorer_landing') }}">Grade 7 to 10 Explorer</a>.</p>
+  </section>
+</div>
+<script>
+(function () {
+  [].slice.call(document.querySelectorAll('#nfSamples .nf-q')).forEach(function (q) {
+    var ans = +q.dataset.ans, w = q.querySelector('.nf-w'), done = false;
+    [].slice.call(q.querySelectorAll('.nf-o button')).forEach(function (b) { b.addEventListener('click', function () {
+      if (done) return; done = true; var k = +b.dataset.k; b.classList.add(k === ans ? 'ok' : 'no');
+      if (k !== ans) q.querySelector('.nf-o button[data-k="' + ans + '"]').classList.add('ok'); w.classList.add('on'); }); });
+  });
+})();
+</script>
+{% endblock %}

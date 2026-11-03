@@ -313,3 +313,59 @@ class PulseExpCreative(db.Model):
     total = db.Column(db.Integer, default=0)
     note = db.Column(db.String(400))
     done_at = db.Column(db.DateTime, default=_utcnow)
+
+
+class PulseNiftResult(db.Model):
+    """One finished EduPulse-NIFT test: a GAT mock, a previous-year paper, a section set or a Daily Review. +1 for a right answer, -0.25 for a wrong one (as in the NIFT papers).
+    `payload_json` keeps one row per question: id, section, topic, chosen option, right or wrong, confidence (G/L/M/H) and seconds."""
+    __tablename__ = 'pulse_nift_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    mock = db.Column(db.String(24), index=True)                  # M-BDES-1, Y-2022-BDES, S-QA, DAILY ...
+    title = db.Column(db.String(140))
+    prog = db.Column(db.String(8))                               # BDES, BFTECH, MDES, MFM, MFTECH
+    score = db.Column(db.Float, default=0)
+    max_score = db.Column(db.Float, default=0)
+    right = db.Column(db.Integer, default=0)
+    wrong = db.Column(db.Integer, default=0)
+    blank = db.Column(db.Integer, default=0)
+    rated = db.Column(db.Integer, default=0)
+    sure_wrong = db.Column(db.Integer, default=0)
+    lucky = db.Column(db.Integer, default=0)
+    duration_sec = db.Column(db.Integer)
+    timed = db.Column(db.Boolean, default=True)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
+    user = db.relationship('User', foreign_keys=[user_id])
+
+
+class PulseNiftCard(db.Model):
+    """Spaced reinforcement for NIFT: one card per question idea missed or unsure. `qkey` is a bank id, or g:<generator> for a generated idea that returns with new numbers.
+    Leitner boxes 0 to 5."""
+    __tablename__ = 'pulse_nift_cards'
+    __table_args__ = (db.UniqueConstraint('user_id', 'qkey', name='uq_nift_card'),)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    qkey = db.Column(db.String(48), nullable=False)
+    sec = db.Column(db.String(4))
+    topic = db.Column(db.String(120))
+    box = db.Column(db.Integer, default=0)
+    due = db.Column(db.Date, index=True)
+    seen = db.Column(db.Integer, default=0)
+    right_run = db.Column(db.Integer, default=0)
+    last_right = db.Column(db.Boolean)
+    created_at = db.Column(db.DateTime, default=_utcnow)
+    updated_at = db.Column(db.DateTime, default=_utcnow)
+
+
+class PulseNiftStudio(db.Model):
+    """A NIFT CAT / studio task a student did on paper and marked against the rubric (not marked by the computer)."""
+    __tablename__ = 'pulse_nift_studio'
+    __table_args__ = (db.UniqueConstraint('user_id', 'tid', name='uq_nift_studio'),)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    tid = db.Column(db.String(8), nullable=False)
+    scores_json = db.Column(db.Text)
+    total = db.Column(db.Integer, default=0)
+    note = db.Column(db.String(400))
+    done_at = db.Column(db.DateTime, default=_utcnow)
