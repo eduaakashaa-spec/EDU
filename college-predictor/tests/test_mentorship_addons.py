@@ -118,6 +118,25 @@ assert 'Architecture (B.Arch)' in body and 'NIFT B.Des: Fashion Design' in body
 # hub tile for everyone signed in
 assert 'Add-on programmes' in free.get('/member-home').get_data(as_text=True)
 
+# the NIFT add-on: 16 sessions covering the GAT sections, the CAT, the situation test and mocks; an unenrolled 10-session predecessor is refreshed in place
+nift = next(a for a in ADDONS if a['key'] == 'nift')
+assert len(nift['sessions']) == nift['weeks'] == 16 and 'NIFT (B.Des / B.FTech)' in nift['legacy']
+stxt = ' '.join(t + ' ' + b for t, b, _ in nift['sessions']).lower()
+for need in ('quantitative', 'analytical', 'general knowledge', 'negative marking', 'situation test', 'case stud', 'mock', 'counselling', 'cat i'):
+    assert need in stxt, need
+from app.models_mentorship import MsProgramme, MsSessionTemplate  # noqa: E402
+with app.app_context():
+    old = MsProgramme.query.filter_by(name=nift['title']).first()
+    if old:
+        old.name = 'NIFT (B.Des / B.FTech)'
+        MsSessionTemplate.query.filter_by(programme_id=old.id).delete()
+        for i in range(1, 8):
+            db.session.add(MsSessionTemplate(programme_id=old.id, position=i, title='old %d' % i, topics='x', deliverable='y', duration_min=60))
+        db.session.commit()
+    svc.ensure_addon_programmes()
+    pr = MsProgramme.query.filter_by(name=nift['title']).one()
+    assert MsSessionTemplate.query.filter_by(programme_id=pr.id).count() == 16 and MsProgramme.query.filter_by(name='NIFT (B.Des / B.FTech)').count() == 0
+
 try:
     os.unlink(_db)
 except OSError:
