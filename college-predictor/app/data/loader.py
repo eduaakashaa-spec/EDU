@@ -6,6 +6,7 @@ import re
 import pandas as pd
 
 _josaa_df = None
+_josaa_year = 2025
 _nirf_df = None
 _dasa_df = None
 _institutes = None
@@ -162,6 +163,8 @@ def get_college_names():
 def _get_type(name):
     if re.search(r'Indian Institute of Technology', name, re.I) and not re.search(r'Information', name, re.I):
         return 'IIT'
+    if re.search(r'Indian Institute of Science', name, re.I):
+        return 'IIT'                       # IISc: same JEE Advanced rank list, so it sits in the IIT group of the filters
     if re.search(r'National Institute of Technology', name, re.I):
         return 'NIT'
     if re.search(r'Indian Institute of Information Technology', name, re.I) or re.search(r'\bIIIT\b', name, re.I):
@@ -174,8 +177,11 @@ def load_data():
     global _josaa_df, _nirf_df, _institutes, _programs, _quotas, _seat_types, _genders
 
     # --- JOSAA cutoffs ---
-    josaa_path = os.path.join(DATA_DIR, 'josaa_cutoffs.xlsx')
-    df = pd.read_excel(josaa_path)
+    # 2026 (Rounds 1 to 5, built by tools/josaa2026/build_predictor.py) when present; the 2025 file stays as a fallback
+    global _josaa_year
+    p26 = os.path.join(DATA_DIR, 'josaa_cutoffs_2026.xlsx')
+    _josaa_year = 2026 if os.path.exists(p26) else 2025
+    df = pd.read_excel(p26 if _josaa_year == 2026 else os.path.join(DATA_DIR, 'josaa_cutoffs.xlsx'))
     df.rename(columns={
         'Academic Program Name': 'Program',
         'Seat Type': 'SeatType',
@@ -187,6 +193,8 @@ def load_data():
     df['CloseRank'] = df['CloseRank'].astype(str).str.rstrip('P').astype(int)
     df['InstType'] = df['Institute'].apply(_get_type)
     df['CleanProgram'] = df['Program'].str.replace(r'\s*\(\d+ Years.*$', '', regex=True).str.strip()
+    # B.Arch and B.Planning are admitted on separate merit lists (JEE Main Paper 2), so a B.Tech rank cannot be compared with them
+    df['IsArch'] = df['Program'].str.contains(r'Bachelor of (?:Architecture|Planning)', regex=True)
 
     _josaa_df = df
     _institutes = sorted(df['Institute'].unique().tolist())
@@ -223,6 +231,12 @@ def get_josaa_df():
     return _josaa_df
 
 
+def get_josaa_info():
+    """Which admission year the predictor runs on, for page labels: {year, rounds, entries, institutes}."""
+    n = 0 if _josaa_df is None else len(_josaa_df)
+    return {'year': _josaa_year, 'rounds': '1–5' if _josaa_year == 2026 else '1–6', 'entries': f'{n:,}', 'institutes': 0 if _josaa_df is None else int(_josaa_df['Institute'].nunique())}
+
+
 def get_nirf_df():
     return _nirf_df
 
@@ -234,6 +248,7 @@ def get_metadata():
         'quotas': _quotas,
         'seat_types': _seat_types,
         'genders': _genders,
+        'info': get_josaa_info(),
     }
 
 

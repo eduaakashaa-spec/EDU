@@ -110,13 +110,8 @@ def _branch_cat_mask(df, branch_cat):
 
 
 def _get_type(name):
-    if re.search(r'Indian Institute of Technology', name, re.I) and not re.search(r'Information', name, re.I):
-        return 'IIT'
-    if re.search(r'National Institute of Technology', name, re.I):
-        return 'NIT'
-    if re.search(r'Indian Institute of Information Technology', name, re.I) or re.search(r'\bIIIT\b', name, re.I):
-        return 'IIIT'
-    return 'GFTI'
+    from app.data.loader import _get_type as _t
+    return _t(name)
 
 
 # ---------- metadata (dropdown options) ----------
@@ -143,7 +138,7 @@ def josaa_predict():
     df = get_josaa_df()
     nirf_lookup = get_nirf_lookup()
 
-    mask = (df['SeatType'] == cat) & (df['Gender'] == gender)
+    mask = (df['SeatType'] == cat) & (df['Gender'] == gender) & ~df['IsArch']      # B.Arch / B.Planning use separate merit lists
     if quota:
         mask &= df['Quota'] == quota
     if inst_type:

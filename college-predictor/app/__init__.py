@@ -84,6 +84,8 @@ def create_app():
     # Load JOSAA + NIRF data into memory once at startup
     from app.data.loader import load_data
     load_data()
+    from app.data.loader import get_josaa_info
+    app.jinja_env.globals['JOSAA'] = get_josaa_info          # {{ JOSAA().year }}: the admission year the predictor runs on
 
     from app.routes.main import main_bp
     app.register_blueprint(main_bp)

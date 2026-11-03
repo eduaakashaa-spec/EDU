@@ -57,4 +57,29 @@ assert r.status_code == 200 and 'dg-alert' in h and 'Cut-off explorer' in h and 
 assert prem.get('/static/data/josaa_2026.json').status_code == 200
 mh = prem.get('/member-home').get_data(as_text=True)
 assert 'JoSAA 2026 Seat Allotment and Analytics' in mh
+
+# ---- the predictor runs on 2026 data
+import pandas as pd  # noqa: E402
+from app.data.loader import get_josaa_df, get_josaa_info  # noqa: E402
+with app.app_context():
+    info = get_josaa_info()
+    assert info['year'] == 2026 and info['entries'] == '13,292' and info['institutes'] == 138, info
+    df = get_josaa_df()
+    assert len(df) == 13292 and (df['OpenRank'] <= df['CloseRank']).all()
+    assert set(df['InstType']) == {'IIT', 'NIT', 'IIIT', 'GFTI'} and df[df['Institute'] == 'Indian Institute of Science, Bangalore']['InstType'].iloc[0] == 'IIT'
+bhu = df[(df['Institute'] == 'Indian Institute of Technology (BHU) Varanasi') & df['Program'].str.startswith('Architecture')]
+assert not bhu.empty
+c = anon
+meta = c.get('/api/josaa/meta').get_json()
+assert meta['info']['year'] == 2026 and len(meta['institutes']) == 138
+res = c.get('/api/josaa/predict?rank=900&cat=OPEN&gender=Gender-Neutral&quota=AI').get_json()
+assert res and not any('Bachelor of Architecture' in x['prog'] or 'Bachelor of Planning' in x['prog'] for x in res)       # separate merit lists
+# a known 2026 cell: IIT Bombay CSE, OPEN, AI, gender-neutral closes at 67 (highest closing over Rounds 1 to 5)
+cse = c.get('/api/josaa/predict?rank=50&cat=OPEN&gender=Gender-Neutral&quota=AI&instType=IIT&branch=Computer Science and Engineering').get_json()
+bomb = [x for x in cse if 'Bombay' in x['inst']]
+assert bomb and bomb[0]['close'] == 67, bomb
+page = c.get('/josaa').get_data(as_text=True)
+assert '>286<' in page and '>138<' in page and 'JoSAA 2026 data (Rounds 1' in page and '13,292' in page and 'JOSAA 2026 College Predictor' in page and '12,123' not in page
+for u in ('/api/josaa/matrix?cat=OPEN', '/api/josaa/insights', '/api/josaa/analytics', '/api/josaa/nirf'):
+    assert c.get(u).status_code == 200, u
 print('josaa 2026 checks passed')
