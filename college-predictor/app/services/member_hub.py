@@ -23,6 +23,7 @@ CATEGORIES = [
      'tiles': [
          {'title': 'My Mentorship', 'desc': 'Your journey, weekly plan, KPIs, reviews and reports (students and parents).', 'icon': '🧑\u200d🏫', 'endpoint': 'mentorship.index', 'access': 'elite'},
          {'title': 'Add-on programmes', 'desc': 'Ready-made mentoring for UCEED, NID, NIFT, IIT Delhi–Abu Dhabi, TNEA, state colleges, SRM, Amrita and VIT.', 'icon': '🧩', 'endpoint': 'mentorship.addons', 'access': 'free'},
+         {'title': 'NIFT GAT and CAT mentorship', 'desc': 'Sixteen weekly sessions for B.Des, B.F.Tech, M.Des, M.F.M and M.F.Tech: GAT sections, creative ability, situation test, mocks and counselling.', 'icon': '🧵', 'endpoint': 'mentorship.addons', 'anchor': 'nift', 'access': 'free'},
          {'title': 'B.Arch and B.Planning mentorship', 'desc': 'JEE Paper 2A and 2B, NATA and college routes: two tracks, weekly sessions, mocks and parent reports.', 'icon': '📐', 'endpoint': 'main.barch_mentorship', 'access': 'premium'},
          {'title': 'FutureReady (Class 8–9)', 'desc': 'Mentorship for Class 8–9 students: assessments, engineering exploration, action plan and reports.', 'icon': '🚀', 'endpoint': 'futureready.index', 'access': 'free'},
          {'title': 'Action tracker', 'desc': 'Meeting actions for every member: owner, due date, completion — share by email or WhatsApp.', 'icon': '📌', 'endpoint': 'mentorship.action_tracker', 'access': 'premium', 'staff': True},
@@ -119,12 +120,12 @@ TILE_ICON = {
     'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'FutureReady (Class 8–9)': 'compass', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',
     'DASA 2026 Analytics': 'bar', 'DASA prediction report': 'trend', 'JoSAA EA members': 'users', 'EduPulse-UCEED': 'target', 'EduPulse mentor view': 'dashboard', 'EduPulse – Reinforcement': 'target', 'Reinforcement mentor view': 'dashboard', 'Smart Study Planner': 'calendar', 'Study planner mentor view': 'dashboard',
     'EduPulse-JEE Mock Test Centre': 'calculator', 'JEE Main 2027 registration guide': 'clipboard', 'JEE Paper 2: B.Arch and B.Planning guide': 'compass', 'Architecture and Planning colleges in India': 'map', 'Top engineering colleges by city': 'building', 'Architecture and Planning analytics': 'bar', 'B.Arch and B.Planning mentorship': 'compass', 'IISER Aptitude Test (IAT) guide': 'bulb', 'EduPulse-TN Class 10 Mock Test Centre': 'book', 'UCEED Mock Test Centre': 'clipboard', 'EduPulse-IAT Mock Test Centre': 'calculator', 'EduPulse-NID Mock Test Centre': 'clipboard', 'EduPulse-NIFT Mock Test Centre': 'clipboard', 'EduPulse-Explorer (Grades 7 to 10)': 'target', 'NID past papers analysed': 'bar', 'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'JEE Main syllabus map & formulas': 'calculator', 'TNEA expert': 'book', 'Members report': 'file-text',
-    'IIT Delhi – Abu Dhabi mentoring': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
+    'IIT Delhi – Abu Dhabi mentoring': 'cap', 'NIFT GAT and CAT mentorship': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
     'Why CSE?': 'code', 'Best location': 'pin', 'Engineering insights': 'bulb', 'Hostel & culture': 'home', 'Branch selection guide': 'branch',
     'Free student guides': 'download', 'NEET 2027 guide': 'book', 'Medicine exams': 'life-buoy', 'Exam schedule': 'calendar', 'Contact the team': 'mail', 'Membership plans': 'star', 'Portal guide': 'book', 'More tools coming soon': 'sparkle',
 }
 # tiles added recently show a "New" label for 30 days after this date (real dates, no fabricated badges)
-NEW_SINCE = {'IPM 2027 Roadmap': date(2026, 10, 18), 'Add-on programmes': date(2026, 10, 19), 'Action tracker': date(2026, 10, 20),
+NEW_SINCE = {'NIFT GAT and CAT mentorship': date(2026, 11, 3), 'IPM 2027 Roadmap': date(2026, 10, 18), 'Add-on programmes': date(2026, 10, 19), 'Action tracker': date(2026, 10, 20),
              'IIT Delhi – Abu Dhabi mentoring': date(2026, 10, 21), 'FutureReady (Class 8–9)': date(2026, 10, 23), 'UCEED Mock Test Centre': date(2026, 10, 24), 'EduPulse-JEE Mock Test Centre': date(2026, 10, 25), 'EduPulse – Reinforcement': date(2026, 10, 25)}
 NEW_DAYS = 30
 
