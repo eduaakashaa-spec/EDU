@@ -247,3 +247,69 @@ class PulseNidResult(db.Model):
     finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
     payload_json = db.Column(db.Text)
     user = db.relationship('User', foreign_keys=[user_id])
+
+
+class PulseExpResult(db.Model):
+    """One finished EduPulse-Explorer test (Grades 7 to 10): discovery test, exam taster, skill set or Daily 10. One point per question, nothing deducted.
+    `payload_json` keeps one row per question: id, skill, topic, exam families, difficulty, chosen option, right or wrong, confidence (G/L/M/H) and seconds."""
+    __tablename__ = 'pulse_exp_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    mock = db.Column(db.String(24), index=True)                  # D78, D910, X-JEE, K-MAT, DAILY ...
+    title = db.Column(db.String(120))
+    grade = db.Column(db.Integer)
+    score = db.Column(db.Integer, default=0)
+    max_score = db.Column(db.Integer, default=0)
+    right = db.Column(db.Integer, default=0)
+    wrong = db.Column(db.Integer, default=0)
+    blank = db.Column(db.Integer, default=0)
+    rated = db.Column(db.Integer, default=0)
+    sure_wrong = db.Column(db.Integer, default=0)
+    lucky = db.Column(db.Integer, default=0)
+    duration_sec = db.Column(db.Integer)
+    timed = db.Column(db.Boolean, default=True)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
+    user = db.relationship('User', foreign_keys=[user_id])
+
+
+class PulseExpCard(db.Model):
+    """Spaced reinforcement: one card per question idea a student got wrong or was unsure of. `qkey` is a bank id, or g:<generator> for a generated idea that returns with new numbers.
+    Leitner boxes 0 to 5; a right answer moves the card up and pushes its next review out, a wrong answer sends it back to box 0."""
+    __tablename__ = 'pulse_exp_cards'
+    __table_args__ = (db.UniqueConstraint('user_id', 'qkey', name='uq_exp_card'),)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    qkey = db.Column(db.String(48), nullable=False)
+    skill = db.Column(db.String(4))
+    topic = db.Column(db.String(120))
+    box = db.Column(db.Integer, default=0)
+    due = db.Column(db.Date, index=True)
+    seen = db.Column(db.Integer, default=0)
+    right_run = db.Column(db.Integer, default=0)
+    last_right = db.Column(db.Boolean)
+    created_at = db.Column(db.DateTime, default=_utcnow)
+    updated_at = db.Column(db.DateTime, default=_utcnow)
+
+
+class PulseExpProfile(db.Model):
+    """A student's Explorer settings: grade, the interest check answers and the weekly goal."""
+    __tablename__ = 'pulse_exp_profiles'
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True)
+    grade = db.Column(db.Integer, default=8)
+    interests_json = db.Column(db.Text)
+    weekly_goal = db.Column(db.Integer, default=3)
+    updated_at = db.Column(db.DateTime, default=_utcnow)
+
+
+class PulseExpCreative(db.Model):
+    """A creative challenge a student did at home and marked against the rubric (not marked by the computer)."""
+    __tablename__ = 'pulse_exp_creative'
+    __table_args__ = (db.UniqueConstraint('user_id', 'cid', name='uq_exp_creative'),)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    cid = db.Column(db.String(8), nullable=False)
+    scores_json = db.Column(db.Text)
+    total = db.Column(db.Integer, default=0)
+    note = db.Column(db.String(400))
+    done_at = db.Column(db.DateTime, default=_utcnow)

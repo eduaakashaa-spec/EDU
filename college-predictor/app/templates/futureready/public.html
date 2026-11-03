@@ -10,5 +10,6 @@
 </div>
 <div class="fr-card" style="margin-top:16px"><h2>Learn about the entrance system now</h2><p>Open to everyone: <a href="{{ url_for('futureready.admissions') }}">how engineering admission works in India</a>, with the source and last-verified date for each route.</p>
 <p><a class="fr-btn" href="{{ url_for('auth.login', next=url_for('futureready.index')) }}">Sign in to open your workspace</a> <a class="fr-btn ghost" href="{{ url_for('futureready.privacy') }}">Privacy and child safety</a></p></div>
+<div class="fr-card" style="margin-top:16px"><h2>Practise on your own, free</h2><p><a href="{{ url_for('main.explorer_landing') }}">EduPulse-Explorer</a> is open to every student in Grades 7 to 10: a discovery test, an interest check for engineering and design, tasters in the style of JEE, UCEED, NID, NIFT, NATA and IISER IAT, and a daily review that brings back what you missed.</p></div>
 <div class="fr-note">FutureReady shows where a student is today and where to practise next. It never predicts a rank, a branch or an admission.</div>
 {% endblock %}

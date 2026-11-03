@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Creative challenges | EduPulse-Explorer{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.tn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}.tn-t{display:block;text-decoration:none;color:inherit;background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;position:relative}.tn-t:hover{border-color:var(--navy,#0E3A8A)}.tn-t b{display:block;font-family:'Fraunces',Georgia,serif}.tn-t small{color:var(--muted,#5A6278)}.tn-s{position:absolute;right:12px;top:10px;font:700 .8rem 'JetBrains Mono',monospace;color:#1F8B5C}.tn-k{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('explorer.home') }}">EduPulse-Explorer</a> › creative challenges</div>
+  <section class="pl-hero"><div><span class="pl-chip">Done at home · self-marked · {{ items|length }} challenges</span><h1>Creative challenges</h1>
+    <p>Design and engineering exams test more than multiple choice: UCEED and NID ask you to draw and invent, NATA asks you to sketch and compose, and JEE rewards building things in your head. These short challenges use paper, pencil and household items. Do one, then mark yourself against the rubric and show your work to a parent or mentor. The computer does not mark them.</p></div></section>
+  <div class="tn-grid">
+    {% for c in items %}<a class="tn-t" href="{{ url_for('explorer.make_one', cid=c.id) }}"><span class="tn-s">{% if done.get(c.id) %}{{ done[c.id].total }} / 10{% endif %}</span><span class="tn-k">{{ c.kind }} · {{ c.minutes }} min</span><b>{{ c.title }}</b><small>{{ c.skills|join(', ') }}</small></a>{% endfor %}
+  </div>
+</div>
+{% endblock %}

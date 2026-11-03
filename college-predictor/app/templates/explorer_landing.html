@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Grade 7 to 10 Engineering and Design Discovery Tests, Exam Practice and Daily Review | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Free practice for Grades 7 to 10: meet the questions JEE, UCEED, NID, NIFT, NATA and IISER IAT ask, find your strengths with a discovery test and interest check, and reinforce weak topics with a daily spaced review. Six free sample questions.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .ex{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278)}
+  .ex h2{font-size:1.3rem;margin:0 0 4px}.ex h3{font-size:1rem;margin:10px 0 6px}.ex section{padding:6px 0 14px}
+  .ex-top{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:6px 0 12px}.ex-top h1{font-size:clamp(1.5rem,3.4vw,2.2rem);margin:2px 0 0}.ex-top p{margin:4px 0 0;font-size:.96rem;color:var(--dim);max-width:68ch}
+  .ex-go{display:inline-block;border-radius:999px;padding:11px 24px;font:700 .95rem 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;background:#FF6B0A;color:#fff;margin:6px 8px 0 0}.ex-go.n{background:var(--navy,#0E3A8A)}
+  .ex-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}.ex-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:12px 14px}.ex-c h3{margin:0 0 4px}.ex-c p{font-size:.9rem;line-height:1.55;margin:0}
+  .ex-c .k{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}
+  .ex-bx{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:8px 0}.ex-bx div{background:var(--pp);border:1px solid var(--ln);border-radius:12px;padding:8px 6px;text-align:center;font-size:.8rem}.ex-bx b{display:block;font:700 .95rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.ex-bx i{display:block;font-style:normal;color:#1F8B5C;font-weight:700;margin-top:3px}
+  @media(max-width:620px){.ex-bx{grid-template-columns:repeat(3,1fr)}}
+  .ex-q{background:var(--pp);border:1px solid var(--ln);border-radius:14px;padding:12px 14px}.ex-q p.s{margin:0 0 6px;font-weight:600}.ex-q .fig svg{max-width:100%;height:auto;background:#fff;border-radius:8px;margin:4px 0}
+  .ex-o{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.ex-o button{border:1.5px solid var(--ln);background:var(--pp);border-radius:10px;padding:6px 10px;cursor:pointer;font:500 .88rem 'Plus Jakarta Sans',system-ui,sans-serif;color:inherit;text-align:left}.ex-o button svg{display:block;max-width:100%;height:auto;margin-top:3px}
+  .ex-o button.ok{border-color:#1F8B5C;background:#EAF6EF}.ex-o button.no{border-color:#C23A3A;background:#FBE9E7}.ex-w{display:none;font-size:.85rem;background:#F4F6FB;border-radius:8px;padding:7px 10px;margin-top:4px}.ex-w.on{display:block}
+  :root[data-theme="dark"] .ex-w{background:#1d2230}:root[data-theme="dark"] .ex-o button.ok{background:#12301f}:root[data-theme="dark"] .ex-o button.no{background:#3a1a1a}
+  .ex-t{width:100%;border-collapse:collapse;font-size:.88rem}.ex-t th,.ex-t td{padding:7px 9px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top}.ex-t th{font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dim)}
+  .ex-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+</style>
+{% endblock %}
+{% block content %}
+<div class="jr2 ex">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Prepared {{ updated }}: practice, not selection.</strong>
+      These are original school-level practice questions, not questions from any exam. Each exam&rsquo;s pattern, dates and eligibility are in its own current notice. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="ex-top">
+    <div><span class="eb">Grades 7 to 10 &middot; engineering and design &middot; free practice</span>
+      <h1>Find out what you enjoy, and <em>learn it for keeps</em></h1>
+      <p>A discovery test, a 16-statement interest check, tasters in the style of the exams you may face later, and a daily review that brings back what you missed. {{ n_bank }} written and visual questions plus unlimited generated maths and logic questions.</p>
+      <a class="ex-go" href="{{ url_for('explorer.home') }}">Open EduPulse-Explorer</a><a class="ex-go n" href="#try">Try six free questions</a></div>
+  </div>
+
+  <section id="how"><span class="eb">How it works</span><h2>Discover, practise, reinforce, track</h2>
+    <div class="ex-g">{% for a, b in how %}<div class="ex-c"><span class="k">Step {{ loop.index }}</span><h3>{{ a }}</h3><p>{{ b }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="exams"><span class="eb">Which exams ask what</span><h2>Meet the questions early</h2>
+    <div class="ex-c" style="overflow-x:auto"><table class="ex-t"><thead><tr><th>Style</th><th>What it tests</th></tr></thead><tbody>
+      {% for k, f in families.items() %}<tr><td><strong>{{ f[0] }}</strong></td><td>{{ f[1] }}</td></tr>{% endfor %}</tbody></table>
+      <p class="ex-n">See also: <a href="{{ url_for('main.nid_papers') }}">NID papers analysed</a>, the UCEED guide, and the JEE Main guide on the site.</p></div>
+    <h3>Seven skills tracked</h3>
+    <div class="ex-g">{% for k, n in skills.items() %}<div class="ex-c"><h3>{{ n }}</h3><p>{{ blurb[k] }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="reinforce"><span class="eb">Why it sticks</span><h2>Spaced review, six boxes</h2>
+    <p style="margin:0 0 6px;font-size:.92rem">Learning fades unless you meet an idea again just before you would forget it. Each missed idea starts in Box 0. Get it right when it returns and it moves up and comes back later; miss it and it goes back to Box 0. Generated questions come back with new numbers, so you learn the method, not the answer.</p>
+    <div class="ex-bx">{% for a, b, c in boxes %}<div><b>{{ a }}</b>{{ b }}<i>{{ c }}</i></div>{% endfor %}</div>
+  </section>
+
+  <section id="try"><span class="eb">Try it</span><h2>Six free practice questions</h2>
+    <p style="margin:0 0 8px;font-size:.9rem">One from each of six skills. Tap an option to see the explanation and how an exam would ask it.</p>
+    <div class="ex-g" id="exSamples">{% for q in samples %}
+      <div class="ex-q" data-ans="{{ q.ans }}"><span class="eb" style="font-size:.66rem">{{ q.skill }}</span><p class="s">{{ loop.index }}. {{ q.q }}</p>{% if q.svg %}<div class="fig">{{ q.svg|safe }}</div>{% endif %}
+        <div class="ex-o">{% for o in q.opts %}<button type="button" data-k="{{ loop.index0 }}"><b>{{ 'ABCD'[loop.index0] }}.</b> {% if o.svg %}{{ o.svg|safe }}{% else %}{{ o.t }}{% endif %}</button>{% endfor %}</div>
+        <div class="ex-w"><b>Explanation.</b> {{ q.why }}{% if q.style %}<br><b>How exams ask this.</b> {{ q.style }}{% endif %}</div></div>{% endfor %}</div>
+    <p><a class="ex-go" href="{{ url_for('explorer.home') }}">Take the full Discovery Test</a></p>
+  </section>
+
+  <section id="faq"><span class="eb">Questions</span><h2>Common questions</h2>
+    {% for q, a in faq %}<details class="q"><summary><i>Q{{ '%02d'|format(loop.index) }}</i><span>{{ q }}</span></summary><div class="a"><p style="margin:6px 0 0">{{ a }}</p></div></details>{% endfor %}
+    <p class="ex-n">Prepared {{ updated }} with AI assistance. The exams named belong to their organisers; EduAakashaA is not affiliated with them. For mentor-guided pathways in Classes 8 to 12 see <a href="/futureready">FutureReady</a>.</p>
+  </section>
+</div>
+<script>
+(function () {
+  [].slice.call(document.querySelectorAll('#exSamples .ex-q')).forEach(function (q) {
+    var ans = +q.dataset.ans, w = q.querySelector('.ex-w'), done = false;
+    [].slice.call(q.querySelectorAll('.ex-o button')).forEach(function (b) { b.addEventListener('click', function () {
+      if (done) return; done = true; var k = +b.dataset.k; b.classList.add(k === ans ? 'ok' : 'no');
+      if (k !== ans) q.querySelector('.ex-o button[data-k="' + ans + '"]').classList.add('ok'); w.classList.add('on'); }); });
+  });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,434 @@
+[
+ {
+  "id": "C01",
+  "kind": "Draw",
+  "title": "Tiffin box from three views",
+  "prompt": "Take a steel tiffin box or a lunch box from your kitchen. Sit with it at eye level and draw it three times on paper: from the front, from the top and from one side. Keep the three drawings in proportion to each other, and shade the side away from the light.",
+  "minutes": 30,
+  "materials": "A tiffin box or similar object, A4 paper, pencil, eraser",
+  "rubric": [
+   {
+    "criterion": "Proportions match the real object in all three views",
+    "marks": 3
+   },
+   {
+    "criterion": "The three views agree with each other (same widths and heights)",
+    "marks": 3
+   },
+   {
+    "criterion": "Shading shows light and shadow clearly",
+    "marks": 2
+   },
+   {
+    "criterion": "Neatness and clear outlines",
+    "marks": 2
+   }
+  ],
+  "skills": [
+   "observation",
+   "spatial thinking",
+   "drawing accuracy"
+  ],
+  "fam": [
+   "UCD",
+   "NAT"
+  ],
+  "why": "Design and architecture exams ask you to draw objects from observation and to link views of the same object."
+ },
+ {
+  "id": "C02",
+  "kind": "Design",
+  "title": "Save-water poster for school",
+  "prompt": "Design a poster for your school notice board that persuades students to stop wasting water at the school taps. It must have one strong picture, a headline of at most six words, and one clear action students can take. Use only two or three colours.",
+  "minutes": 40,
+  "materials": "A3 or chart paper, pencil, colour pencils or crayons, ruler",
+  "rubric": [
+   {
+    "criterion": "The idea is clear and gets attention within a few seconds",
+    "marks": 3
+   },
+   {
+    "criterion": "Headline is short and the action is clear",
+    "marks": 2
+   },
+   {
+    "criterion": "Layout and use of space guide the eye",
+    "marks": 3
+   },
+   {
+    "criterion": "Colour choice (two or three) supports the message",
+    "marks": 2
+   }
+  ],
+  "skills": [
+   "idea generation",
+   "visual communication",
+   "layout"
+  ],
+  "fam": [
+   "UCD",
+   "NAT"
+  ],
+  "why": "Design entrance exams give a communication brief and judge the idea, layout and colour together."
+ },
+ {
+  "id": "C03",
+  "kind": "Design",
+  "title": "Redesign the school bag",
+  "prompt": "Choose one problem with your school bag, such as heavy straps, a bottle that tips out, or books getting wet. Sketch a redesigned bag that fixes it. Label at least four features and write one sentence on how each feature helps the user.",
+  "minutes": 40,
+  "materials": "Paper, pencil, colour pencils, your own school bag for reference",
+  "rubric": [
+   {
+    "criterion": "A real user problem is identified clearly",
+    "marks": 2
+   },
+   {
+    "criterion": "The solution actually fixes the problem",
+    "marks": 3
+   },
+   {
+    "criterion": "Sketch is clear, with labelled features",
+    "marks": 3
+   },
+   {
+    "criterion": "Originality of at least one feature",
+    "marks": 2
+   }
+  ],
+  "skills": [
+   "problem solving",
+   "idea generation",
+   "user empathy"
+  ],
+  "fam": [
+   "UCD"
+  ],
+  "why": "UCEED and NID DAT ask you to improve an everyday object by starting from the user's problem."
+ },
+ {
+  "id": "C04",
+  "kind": "Build",
+  "title": "Tallest paper tower",
+  "prompt": "Using four sheets of old newspaper and about one metre of tape, build a free-standing tower on a table. It must stand by itself for ten seconds, and try to be as tall as possible. Measure its height and write what you would change next time.",
+  "minutes": 30,
+  "materials": "4 sheets of newspaper, masking tape or cello tape, scale or measuring tape",
+  "rubric": [
+   {
+    "criterion": "The tower stands unaided for ten seconds",
+    "marks": 3
+   },
+   {
+    "criterion": "Height achieved compared with the materials used",
+    "marks": 2
+   },
+   {
+    "criterion": "Structure is stable (wide base, rolled tubes or triangles used)",
+    "marks": 3
+   },
+   {
+    "criterion": "Written reflection says what to improve",
+    "marks": 2
+   }
+  ],
+  "skills": [
+   "structural thinking",
+   "problem solving",
+   "testing and improving"
+  ],
+  "fam": [
+   "UCD",
+   "JEE"
+  ],
+  "why": "Studio tests ask for structures from simple materials, and engineering later needs ideas of stability and load."
+ },
+ {
+  "id": "C05",
+  "kind": "Build",
+  "title": "Lift with a string pulley",
+  "prompt": "Build a simple lifting machine using a thread spool or bangle as a wheel, string and a small paper cup. Use it to lift small objects such as a few coins from the floor to a table edge. Note how many coins it can lift before it fails. Do not lift anything heavy or sharp.",
+  "minutes": 40,
+  "materials": "Thread spool or bangle, string, small paper cup, a pencil or ruler as an axle, coins",
+  "rubric": [
+   {
+    "criterion": "The machine works and lifts a load",
+    "marks": 3
+   },
+   {
+    "criterion": "Wheel turns freely and the string runs smoothly",
+    "marks": 2
+   },
+   {
+    "criterion": "Tests the load and records the result",
+    "marks": 3
+   },
+   {
+    "criterion": "Explains in a sentence how the wheel makes lifting easier",
+    "marks": 2
+   }
+  ],
+  "skills": [
+   "mechanisms",
+   "testing",
+   "cause and effect"
+  ],
+  "fam": [
+   "JEE",
+   "NAT"
+  ],
+  "why": "JEE Physics and mechanics questions build on pulleys and levers; hands-on work gives early feel for them."
+ },
+ {
+  "id": "C06",
+  "kind": "Story",
+  "title": "Four frames: a village gets a well",
+  "prompt": "Draw a four-frame comic that tells how a problem in a village was solved by a new design. Frame 1 shows the problem, frame 2 an idea, frame 3 the building or testing, and frame 4 the change in people's lives. Use at most one line of text per frame.",
+  "minutes": 35,
+  "materials": "Plain paper folded into four, pencil, colour pencils",
+  "rubric": [
+   {
+    "criterion": "Four frames tell a complete story in order",
+    "marks": 3
+   },
+   {
+    "criterion": "Characters and settings are clearly drawn",
+    "marks": 2
+   },
+   {
+    "criterion": "The design idea in frames 2 and 3 is believable",
+    "marks": 3
+   },
+   {
+    "criterion": "Text is short and adds to the pictures",
+    "marks": 2
+   }
+  ],
+  "skills": [
+   "storytelling",
+   "visual sequencing",
+   "idea generation"
+  ],
+  "fam": [
+   "UCD",
+   "NAT"
+  ],
+  "why": "UCEED and NID ask for story and sequence tasks, and NATA tests imagination with a scene."
+ },
+ {
+  "id": "C07",
+  "kind": "Fix-it",
+  "title": "Fix a problem at home",
+  "prompt": "Find a small problem at home, such as a cupboard door that will not stay shut, a slippery step, or tangled cables. Describe it in two sentences, then sketch and explain a low-cost fix using things you already have. Ask an adult before you try it, and do not use electricity or sharp tools.",
+  "minutes": 30,
+  "materials": "Paper, pencil, ordinary household items, an adult to ask",
+  "rubric": [
+   {
+    "criterion": "Problem is clearly and specifically described",
+    "marks": 2
+   },
+   {
+    "criterion": "The fix is practical and uses easily found materials",
+    "marks": 3
+   },
+   {
+    "criterion": "Sketch shows how the fix works",
+    "marks": 3
+   },
+   {
+    "criterion": "Thinks of one way the fix could fail",
+    "marks": 2
+   }
+  ],
+  "skills": [
+   "problem solving",
+   "observation",
+   "practical thinking"
+  ],
+  "fam": [
+   "UCD",
+   "JEE"
+  ],
+  "why": "Design exams ask you to solve real problems, and engineering thinking starts from finding what fails and why."
+ },
+ {
+  "id": "C08",
+  "kind": "Observe",
+  "title": "How people use a doorway",
+  "prompt": "For ten minutes, watch how people use one doorway at home or school, for example a main door or a classroom door. Make a tally of how many push, pull, hold open or struggle. Then write three findings and one design change that would help.",
+  "minutes": 20,
+  "materials": "Notebook, pencil, a clock",
+  "rubric": [
+   {
+    "criterion": "Observations are recorded honestly in a tally",
+    "marks": 3
+   },
+   {
+    "criterion": "Three findings are clear and based on the tally",
+    "marks": 3
+   },
+   {
+    "criterion": "Design change follows from the findings",
+    "marks": 3
+   },
+   {
+    "criterion": "Writing is short and neat",
+    "marks": 1
+   }
+  ],
+  "skills": [
+   "observation",
+   "data recording",
+   "user empathy"
+  ],
+  "fam": [
+   "UCD",
+   "NAT"
+  ],
+  "why": "Design thinking and architecture both begin with careful watching of how people use spaces."
+ },
+ {
+  "id": "C09",
+  "kind": "Draw",
+  "title": "Stack of boxes from above",
+  "prompt": "Stack three or four different boxes (a matchbox, a tea box, a small packet) in any arrangement. Draw what you see from the top, from the front and from the right side. Then rearrange one box and predict, before looking, how the three views change.",
+  "minutes": 30,
+  "materials": "3 or 4 boxes of different sizes, paper, pencil, ruler",
+  "rubric": [
+   {
+    "criterion": "Top, front and side views are drawn correctly",
+    "marks": 4
+   },
+   {
+    "criterion": "Views are consistent with each other",
+    "marks": 3
+   },
+   {
+    "criterion": "The prediction after rearranging is stated clearly",
+    "marks": 2
+   },
+   {
+    "criterion": "Neat outlines",
+    "marks": 1
+   }
+  ],
+  "skills": [
+   "spatial thinking",
+   "visualisation",
+   "drawing accuracy"
+  ],
+  "fam": [
+   "UCD",
+   "NAT",
+   "JEE"
+  ],
+  "why": "Views of stacked solids appear in UCEED, NATA and JEE drawing and geometry questions."
+ },
+ {
+  "id": "C10",
+  "kind": "Draw",
+  "title": "A kolam with symmetry",
+  "prompt": "Draw a kolam or rangoli pattern on a dot grid that has at least two lines of symmetry. Mark the lines of symmetry with a dotted pencil line. Then change one part of the pattern so the symmetry is lost, and note what changed.",
+  "minutes": 30,
+  "materials": "Dot grid drawn with pencil on plain paper, pencil, colour pencils",
+  "rubric": [
+   {
+    "criterion": "Pattern is drawn cleanly on the dot grid",
+    "marks": 2
+   },
+   {
+    "criterion": "It has at least two correct lines of symmetry, marked",
+    "marks": 4
+   },
+   {
+    "criterion": "The pattern is attractive and uses colour well",
+    "marks": 2
+   },
+   {
+    "criterion": "Breaks the symmetry and explains how",
+    "marks": 2
+   }
+  ],
+  "skills": [
+   "pattern recognition",
+   "symmetry",
+   "visual design"
+  ],
+  "fam": [
+   "UCD",
+   "NAT"
+  ],
+  "why": "Pattern and symmetry questions appear in UCEED, NATA and design drawing tasks."
+ },
+ {
+  "id": "C11",
+  "kind": "Build",
+  "title": "Package a clay diya safely",
+  "prompt": "Design and make a package that protects a clay diya (or a small clay pot) from breaking when dropped from table height onto a bed or a thick folded blanket. Use newspaper, cardboard or cloth only. Test it, and write what you would change.",
+  "minutes": 40,
+  "materials": "Clay diya or small pot, newspaper, cardboard, cloth, tape, a bed or thick blanket for landing",
+  "rubric": [
+   {
+    "criterion": "The package protects the diya in the test",
+    "marks": 3
+   },
+   {
+    "criterion": "Material is used wisely (padding in the right places)",
+    "marks": 2
+   },
+   {
+    "criterion": "Design has a clear plan, shown in a sketch",
+    "marks": 2
+   },
+   {
+    "criterion": "Notes on testing and one improvement",
+    "marks": 3
+   }
+  ],
+  "skills": [
+   "problem solving",
+   "testing",
+   "material thinking"
+  ],
+  "fam": [
+   "UCD",
+   "JEE"
+  ],
+  "why": "Design studio tasks test packaging ideas, and engineering later studies impact and cushioning."
+ },
+ {
+  "id": "C12",
+  "kind": "Observe",
+  "title": "Shadows through the day",
+  "prompt": "On a sunny day, stand a pencil or stick upright in clay on a flat surface that gets sun. At three different times of day, mark the tip of its shadow and measure its length. Draw the three shadows together and write what you notice about length and direction.",
+  "minutes": 25,
+  "materials": "Pencil or stick, clay, paper, ruler, chalk or marker, a sunny spot",
+  "rubric": [
+   {
+    "criterion": "Three measurements taken at three times",
+    "marks": 3
+   },
+   {
+    "criterion": "Measurements recorded correctly in a table or drawing",
+    "marks": 2
+   },
+   {
+    "criterion": "Drawing shows direction and length of the shadows",
+    "marks": 3
+   },
+   {
+    "criterion": "Written conclusion matches the data",
+    "marks": 2
+   }
+  ],
+  "skills": [
+   "observation",
+   "measurement",
+   "spatial reasoning"
+  ],
+  "fam": [
+   "NAT",
+   "JEE"
+  ],
+  "why": "Sun, shade and shadow are tested in architecture aptitude (NATA), and angles and ratios appear in JEE."
+ }
+]

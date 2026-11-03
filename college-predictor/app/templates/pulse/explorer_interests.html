@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}What do I enjoy? | EduPulse-Explorer{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.iq{background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;margin:8px 0}.iq p{margin:0 0 8px}.iq .lk{display:flex;gap:6px;flex-wrap:wrap}.iq label{border:1.5px solid var(--hairline,#E8DFC8);border-radius:999px;padding:6px 12px;font-size:.85rem;cursor:pointer}.iq input{margin-right:4px}
+.cl{display:grid;grid-template-columns:1fr 70px;gap:8px;align-items:center;margin:8px 0}.cl .ex-bar{height:10px;background:var(--hairline,#E8DFC8);border-radius:5px;overflow:hidden}.cl .ex-bar i{display:block;height:100%}.cl .e{background:#0E3A8A}.cl .d{background:#FF6B0A}.cl small{color:var(--muted,#5A6278);display:block}
+.ex-go{display:inline-block;border:0;border-radius:999px;padding:10px 22px;font:700 .92rem 'Plus Jakarta Sans',system-ui,sans-serif;background:#FF6B0A;color:#fff;cursor:pointer;text-decoration:none}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('explorer.home') }}">EduPulse-Explorer</a> › interests</div>
+  <section class="pl-hero"><div><span class="pl-chip">16 statements · no right answers</span><h1>What do I enjoy?</h1>
+    <p>Say how much each statement sounds like you. The result shows which engineering and design areas fit your interests today, and which entrance exams lead to them. Interests change a lot between Grade 7 and Grade 12, so treat this as a map to explore, not a decision. Try it again after a few months.</p></div></section>
+  {% if res %}
+  <div class="pl-card"><span class="pl-eyebrow">Your result</span><h3>You lean towards {{ res.lean }}</h3>
+    <p>Higher bars mean you agreed more with the statements linked to that area.</p>
+    {% for r in res.rows %}<div class="cl"><div><strong>{{ r.name }}</strong> <span class="pl-muted">· {{ 'Engineering' if r.kind == 'E' else 'Design' }}</span><small>{{ r.blurb }} Leads to: {{ r.exams }}.</small></div>
+      <div><div class="ex-bar"><i class="{{ 'e' if r.kind == 'E' else 'd' }}" style="width:{{ [3, ((r.score + 2) / 4 * 100)|round|int]|max }}%"></i></div></div></div>{% endfor %}
+    <p class="pl-muted" style="margin:10px 0 0">Next: try the exam tasters for the areas at the top, and the creative challenges. Talk it over with your mentor or parents. See also the <a href="{{ url_for('main.nid_papers') }}">NID papers analysed</a> and the engineering and design guides on the site.</p>
+  </div>
+  <h2 style="margin:22px 0 8px;font-family:'Fraunces',Georgia,serif">Take it again</h2>
+  {% endif %}
+  <form method="post">
+    {% for text, cl in items %}{% set i = loop.index0 %}
+    <div class="iq"><p>{{ loop.index }}. {{ text }}</p><div class="lk">
+      {% for v, lab in [(1, 'Not me'), (2, 'A little'), (3, 'Sometimes'), (4, 'Mostly'), (5, 'Very much me')] %}<label><input type="radio" name="q{{ i }}" value="{{ v }}" required {{ 'checked' if ans and ans[i] == v }}>{{ lab }}</label>{% endfor %}</div></div>
+    {% endfor %}
+    <p style="margin-top:12px"><button class="ex-go" type="submit">Show my map</button></p>
+  </form>
+</div>
+{% endblock %}

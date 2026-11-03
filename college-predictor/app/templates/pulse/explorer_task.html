@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}{{ c.title }} | EduPulse-Explorer{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.mk{max-width:760px;margin:0 auto;padding:12px 16px 60px}.mk-p{background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:14px;padding:16px 18px;margin:12px 0;line-height:1.6}.mk-r{display:grid;grid-template-columns:1fr 90px;gap:10px;align-items:center;border-top:1px solid var(--hairline,#E8DFC8);padding:8px 0}.mk-r input{width:70px;padding:6px;border:1.5px solid var(--hairline,#E8DFC8);border-radius:8px;font:inherit;background:var(--paper,#FFFDF7);color:inherit}
+.mk-k{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}.ex-go{display:inline-block;border:0;border-radius:999px;padding:10px 22px;font:700 .92rem 'Plus Jakarta Sans',system-ui,sans-serif;background:#FF6B0A;color:#fff;cursor:pointer}
+.fl{border-radius:10px;padding:8px 12px;margin:8px 0;background:#EAF6EF;color:#14532d}.fl.error{background:#FBE9E7;color:#7a1f1f}</style>{% endblock %}
+{% block content %}
+<div class="mk">
+  <div class="pl-crumb"><a href="{{ url_for('explorer.home') }}">EduPulse-Explorer</a> › <a href="{{ url_for('explorer.make') }}">creative challenges</a> › {{ c.title }}</div>
+  {% with msgs = get_flashed_messages(with_categories=true) %}{% for cat, m in msgs %}<div class="fl {{ cat }}">{{ m }}</div>{% endfor %}{% endwith %}
+  <span class="mk-k">{{ c.kind }} · about {{ c.minutes }} minutes</span>
+  <h1 style="margin:4px 0 8px">{{ c.title }}</h1>
+  <div class="mk-p"><p style="margin:0 0 8px">{{ c.prompt }}</p><p style="margin:0"><strong>You need:</strong> {{ c.materials }}</p></div>
+  <p><strong>It practises:</strong> {{ c.skills|join(', ') }}.<br><strong>Later exams that ask for this kind of thinking:</strong> {{ c.fam|join(', ') }}{% if c.why %}. {{ c.why }}{% endif %}</p>
+  <form method="post" class="mk-p">
+    <h3 style="margin:0 0 6px">Mark your own work (out of 10)</h3>
+    <p class="pl-muted" style="margin:0 0 6px">Be honest: look at your work as a stranger would. Then show it to a parent or your mentor and see if they agree.</p>
+    {% for r in c.rubric %}<div class="mk-r"><label for="s{{ loop.index0 }}">{{ r.criterion }}</label><span><input type="number" id="s{{ loop.index0 }}" name="s{{ loop.index0 }}" min="0" max="{{ r.marks }}" required value="{{ vals[loop.index0] if vals else '' }}"> / {{ r.marks }}</span></div>{% endfor %}
+    <p style="margin:10px 0 4px"><label for="note">One thing I would do better next time</label></p>
+    <input type="text" id="note" name="note" maxlength="400" style="width:100%;padding:8px;border:1.5px solid var(--hairline,#E8DFC8);border-radius:8px;font:inherit;background:var(--paper,#FFFDF7);color:inherit" value="{{ row.note if row and row.note else '' }}">
+    <p style="margin:12px 0 0"><button class="ex-go" type="submit">Save my marks</button>{% if row %} <span class="pl-muted">Last saved {{ row.done_at.strftime('%d %b %Y') }}: {{ row.total }} / 10</span>{% endif %}</p>
+  </form>
+</div>
+{% endblock %}

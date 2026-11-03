@@ -555,6 +555,19 @@ def nid_papers_alias():
     return redirect(url_for('main.nid_papers'), code=301)
 
 
+@main_bp.route('/explorer-test')
+def explorer_landing():
+    # public page: EduPulse-Explorer for Grades 7 to 10 (what it is, exam families, spaced review, six free questions); data in app/data/explorer_landing.py
+    from app.data import explorer_landing as d
+    return render_template('explorer_landing.html', **d.context())
+
+
+@main_bp.route('/grade-7-10-mock-test')
+@main_bp.route('/discovery-test-grade-7-10')
+def explorer_alias():
+    return redirect(url_for('main.explorer_landing'), code=301)
+
+
 @main_bp.route('/engineering-colleges-by-city')
 def engineering_cities():
     # public page: top NIRF-ranked engineering colleges per city region and state with fee, eligibility and NRI quota; data in app/data/eng_cities.py, eng_cities.json, eng_colleges.json

@@ -26,6 +26,7 @@ ROLE_BLURB = {
 
 # blueprints that the guide covers (value = what they are, shown to admins); a new blueprint must be added here or the test fails
 COVERED_BLUEPRINTS = {
+    'explorer': 'EduPulse-Explorer (Grades 7 to 10): discovery test, interest check, exam tasters, skill sets, Daily 10 review, progress, creative challenges',
     'nid_mock': 'EduPulse-NID mock tests (NID DAT): mocks, official sample papers, section sets, studio practice',
     'main': 'Public pages, guides, predictors and premium analytics pages',
     'auth': 'Sign in, register, password',
@@ -54,6 +55,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-03', 'New EduPulse-Explorer for Grades 7 to 10 (engineering and design interests): Discovery Test, 16-statement interest check, tasters in the style of JEE, UCEED / NID / NIFT, NATA and IISER IAT, skill sets, a Daily 10 spaced review that brings back wrong and unsure answers, progress tracker with streak and badges, and 12 creative challenges; public page Grade 7 to 10 Explorer with six free questions.'),
     ('2026-11-03', 'NID DAT: new public page NID past papers analysed (format by year 2015 to 2025, topic mix by era, drawing and studio themes, official sample-paper format, six free practice questions); new member tool EduPulse-NID Mock Test Centre (B.Des and M.Des mocks, NID official sample papers 2024 and 2025 with answers and explanations, 15 section sets, 30 studio tasks with rubrics, confidence reports); the NID add-on mentorship programme now has 16 sessions for the B.Des and M.Des routes and uses the mock centre.'),
     ('2026-11-02', 'New public page: Top engineering colleges by city and state (Mumbai, Pune, Chennai, Coimbatore, Tiruchirappalli, Kozhikode, Delhi NCR, Ahmedabad and other capitals): the best NIRF-ranked colleges in each region as illustrated tiles with NIRF rank and score, entrance route, eligibility, course fee and NRI quota where the college or an admission authority publishes it, DASA seat counts, filters, a score chart and a region comparison.'),
     ('2026-11-02', 'Architecture and Planning analytics redesigned as five compact tabs (NIRF ranking, rating charts, compare colleges, JoSAA 2026, DASA and seats). New: a plain explanation of what the NIRF ranking is and why it matters, a top-five panel, a weights chart, and an Order by factor control on the ranking chart (TLR, RPC, GO, OI, PR or any of the 15 sub-scores). The guide page carries a short NIRF explainer.'),
@@ -209,6 +211,17 @@ GUIDE = [
                 'Submit and open the report: negative-marking tracker, confidence table, chapters to revisit, and a PDF.'],
          tips=['A paper that says "Not yet available" is waiting for its answer key.'],
          tiles=['EduPulse-JEE Mock Test Centre'], added='2026-10-26', updated='2026-10-26'),
+    dict(id='s-explorer', role='student', group='EduPulse', title='EduPulse-Explorer (Grades 7 to 10)', summary='Discovery and practice for Grade 7 to 10 students interested in engineering and design: tests in the style of later exams, an interest check and a daily spaced review.',
+         where=[('EduPulse-Explorer', 'explorer.home'), ('Progress', 'explorer.progress'), ('Interest check', 'explorer.interests'), ('Creative challenges', 'explorer.make'), ('Public page', 'main.explorer_landing')],
+         steps=['Open "EduPulse-Explorer" (free with a login) and choose your grade (7, 8, 9 or 10) and how many days a week you want to practise.',
+                'Take the Discovery Test: every skill (maths reasoning, science, engineering thinking, logic, spatial and visual, design sense, language) with a few questions each. Rate how sure you are on every answer: Guess, Low, Medium or High. One point a question, nothing is deducted.',
+                'Do the 16-statement interest check. It ranks five engineering and five design areas and names the entrance exams that lead to them. It is a map to explore, not a decision.',
+                'Try the exam tasters (JEE style, UCEED / NID / NIFT style, NATA and JEE Paper 2 style, IISER IAT and olympiad style): after each question the report says how that exam would ask it. Use the skill sets (12 questions) to build one skill; maths and logic sets are generated, so the numbers are new every time.',
+                'The report shows skills, exam styles and the confidence pattern. Every wrong answer, and every right answer rated Guess or Low, becomes a review card. Open "Daily 10" each day: it serves due cards (generated ideas return with new numbers) and tops up with your weakest skills. A right answer moves a card up its box (reviews after 0, 1, 3, 7, 14 and 30 days); a wrong answer sends it back.',
+                'Open Progress for skill levels (last 20 answers per skill), the exam-style picture, review boxes, topics to reinforce, streak, weekly goal and badges. Mentors and admins see the same page for their students.',
+                'Creative challenges are done at home with paper and household items and marked by you against a rubric; they practise the drawing and invention that design exams ask for.'],
+         tips=['Short and daily beats long and rare: ten minutes a day keeps the review cards moving.', 'Questions are original school-level practice, not questions from any exam: check each exam’s current notice for its pattern.'],
+         tiles=['EduPulse-Explorer (Grades 7 to 10)'], added='2026-11-03', updated='2026-11-03'),
     dict(id='s-nid-mock', role='student', group='EduPulse', title='EduPulse-NID Mock Test Centre', summary='NID DAT mock tests: B.Des and M.Des mocks, NID official sample papers, section sets and studio practice.',
          where=[('EduPulse-NID', 'nid_mock.home'), ('Studio tasks', 'nid_mock.studio'), ('NID papers analysed', 'main.nid_papers')],
          steps=['Open "EduPulse-NID Mock Test Centre". Choose a B.Des Prelims mock (20 questions, 25 marks, as in NID\u2019s sample paper), an M.Des CDAT Paper 1 mock (18 questions, 20 marks), one of NID\u2019s own sample papers (2024 and 2025), or a section set by topic.',
