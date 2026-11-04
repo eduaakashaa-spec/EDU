@@ -55,7 +55,7 @@ def create_app():
                               'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup', 'pulse_jee', 'pulse_tn10', 'iat', 'nid_mock', 'nift_mock', 'neet_mock', 'free_mock', 'explorer', 'impersonate', 'reinforce', 'portal_guide', 'planner'}
     NOTICE_SKIP_ENDPOINTS = {'main.members_registration', 'main.premium_membership',
                              'main.members_login', 'main.contact', 'main.contact_alias',
-                             'main.contactus_alias', 'main.dasa_guide', 'main.nirf_ranking', 'main.josaa', 'main.iiits', 'main.annanri', 'main.nirf_analytic', 'main.tnea_colleges', 'main.dasa_2026', 'main.dasa_2026_analytics', 'main.josaa_ea_members', 'main.josaa_assessment', 'main.choice_builder_pro', 'main.tnea_expert', 'main.neet_2027', 'main.medicine', 'main.jee_registration', 'main.jee_paper2', 'main.iat', 'main.nid_papers', 'main.explorer_landing', 'main.nift_exam', 'main.neet_exam', 'main.josaa_2026_analytics', 'static'}
+                             'main.contactus_alias', 'main.dasa_guide', 'main.nirf_ranking', 'main.josaa', 'main.iiits', 'main.annanri', 'main.nirf_analytic', 'main.tnea_colleges', 'main.dasa_2026', 'main.dasa_2026_analytics', 'main.josaa_ea_members', 'main.josaa_assessment', 'main.choice_builder_pro', 'main.tnea_expert', 'main.neet_2027', 'main.medicine', 'main.jee_registration', 'main.jee_paper2', 'main.iat', 'main.nid_papers', 'main.explorer_landing', 'main.nift_exam', 'main.neet_exam', 'main.neet_seats_2025', 'main.josaa_2026_analytics', 'static'}
 
     @app.context_processor
     def inject_premium_notice():

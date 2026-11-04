@@ -58,6 +58,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-04', 'New premium page NEET MBBS seat matrix analytics: the National Medical Commission matrices as on 29 Oct and 10 Oct 2025 (819 colleges, 117,750 seats in 2024-25 to 128,875 in 2025-26), with seats by state and management, new colleges, seat cuts, a comparison of the two notices and a college explorer. Seats only: no ranks or cut-offs. Menu link and a Medicine tile on Member Home.'),
     ('2026-11-04', 'Member Home: new Mentorship Portal tile NEET (UG) mentorship, with a new 16-session NEET add-on programme (Physics, Chemistry, Botany and Zoology, negative marking, mocks, counselling). An admin presses Load ready-made add-ons once to create it; it uses the EduPulse-NEET Mock Test Centre.'),
     ('2026-11-04', 'New EduPulse-NEET Mock Test Centre (Premium): about 1,300 questions from the NEET (UG) papers 2018 to 2025 with the National Testing Agency answer-key option checked by an independent solve; full and half mocks (+4, -1), previous-year papers, subject sets, Daily Review with spaced cards, progress. New public page NEET Papers Analysed, a NEET sample in the free EduPulse mock tests, a Member Home tile and a menu link.'),
     ('2026-11-03', 'New public page EduPulse Free Mock Tests: a visitor enters phone and email once, then tries one free 10-question sample for each exam (JEE Main, UCEED, NID, NIFT, IAT, TN Class 10) with score and explanations. Each unlock and finished sample is saved as a lead (source edupulse-free-mock). Linked from the menu and the membership page.'),
@@ -338,11 +339,12 @@ GUIDE = [
                 'IISER Aptitude Test (IAT) guide (open to everyone, also under the Colleges and Exams menu): the pattern and marking, the 2026 dates and counselling rounds, eligibility, fees, the seven IISERs with their seats and programmes, the five other institutions that use the IAT, the syllabus for the four subjects, past papers with the official links, a preparation plan, FAQs and the IAT mentorship programme (16 sessions over about 20 weeks).'],
          tiles=['Free student guides', 'Exam schedule', 'IISER Aptitude Test (IAT) guide'], added='2026-10-26', updated='2026-10-27'),
     dict(id='s-medicine', role='student', group='Free resources', title='Medicine exam guides', summary='NEET UG 2027 and every other medicine entrance-exam page, grouped under one tab.',
-         where=[('Medicine exams', 'main.medicine'), ('NEET 2027 guide', 'main.neet_2027')],
+         where=[('Medicine exams', 'main.medicine'), ('NEET 2027 guide', 'main.neet_2027'), ('NEET MBBS seat analytics', 'main.neet_seats_2025')],
          steps=['Open the Medicine tab in the site menu (or the Medicine group on Member Home) and choose "All medicine exams".',
                 'Pick an exam guide, for example NEET UG 2027. Each guide says what is officially announced, what is expected and what is still to be announced.',
-                'Use the preparation plan and the counselling steps; check neet.nta.nic.in for the official notice.'],
-         tiles=['Medicine exams', 'NEET 2027 guide'], added='2026-10-27', updated='2026-10-27'),
+                'Use the preparation plan and the counselling steps; check neet.nta.nic.in for the official notice.',
+                'NEET MBBS seat matrix analytics (Premium, also under the Colleges and Exams menu): five tabs built from the National Medical Commission seat matrices as on 29 Oct 2025 and 10 Oct 2025. Overview has five gauges, findings, a management doughnut and a states bar chart; States has a heatmap, a slope chart and a table; Growth shows seats added by state, a bubble chart, new colleges, seat cuts and what changed between the two notices; Colleges is a search and filter explorer for all 819 colleges. It has seats only, not ranks, cut-offs or fees.'],
+         tiles=['Medicine exams', 'NEET 2027 guide', 'NEET MBBS seat matrix analytics'], added='2026-10-27', updated='2026-11-04'),
 
     # ------------------------------------------------------------------ parents
     dict(id='p-access', role='parent', group='Access', title='Getting access as a parent', summary='How a parent account is linked to a child.',

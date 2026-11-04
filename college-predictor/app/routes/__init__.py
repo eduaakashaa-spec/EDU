@@ -501,6 +501,13 @@ def josaa_2026_analytics():
     return render_template('josaa_2026_analytics.html')
 
 
+@main_bp.route('/neet-mbbs-seats-2025-analytics')
+@premium_required
+def neet_seats_2025():
+    # premium page: NMC MBBS seat matrix 2025-26 (data: app/static/data/neet_seats_2025.json, built by tools/neet_seats/build.py)
+    return render_template('neet_seats_2025.html')
+
+
 @main_bp.route('/dasa-2026-analytics')
 @premium_required
 def dasa_2026_analytics():

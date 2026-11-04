@@ -68,6 +68,7 @@ CATEGORIES = [
      'tiles': [
          {'title': 'Medicine exams', 'desc': 'Every medicine entrance-exam guide in one place.', 'icon': '🩺', 'endpoint': 'main.medicine', 'access': 'free'},
          {'title': 'NEET 2027 guide', 'desc': 'What NTA has announced, pattern, eligibility, counselling and a preparation plan.', 'icon': '🧬', 'endpoint': 'main.neet_2027', 'access': 'free'},
+         {'title': 'NEET MBBS seat matrix analytics', 'desc': 'All MBBS colleges in the NMC matrix for 2025–26: seats by state and management, new colleges, seat cuts, growth and a college explorer.', 'icon': '📊', 'endpoint': 'main.neet_seats_2025', 'access': 'premium'},
      ]},
     {'key': 'gulf', 'title': 'Engineering in Gulf', 'icon': '🌴', 'color': '#0F766E', 'tint': '#E0F5F1', 'img': 'gulf.svg',
      'blurb': 'Routes, exams and guides for studying engineering in the UAE and the Gulf.',
@@ -121,14 +122,14 @@ CATEGORY_ICON = {'journey': 'route', 'mentorship': 'cap', 'intel': 'bar', 'edupu
 TILE_ICON = {
     'Profile & sessions': 'user', 'Document verification': 'file-check', 'My assessments': 'clipboard', 'Stream selection': 'compass',
     'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'FutureReady (Class 8–9)': 'compass', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',
-    'DASA 2026 Analytics': 'bar', 'JoSAA 2026 Seat Allotment and Analytics': 'bar', 'DASA prediction report': 'trend', 'JoSAA EA members': 'users', 'EduPulse-UCEED': 'target', 'EduPulse mentor view': 'dashboard', 'EduPulse – Reinforcement': 'target', 'Reinforcement mentor view': 'dashboard', 'Smart Study Planner': 'calendar', 'Study planner mentor view': 'dashboard',
+    'DASA 2026 Analytics': 'bar', 'NEET MBBS seat matrix analytics': 'bar', 'JoSAA 2026 Seat Allotment and Analytics': 'bar', 'DASA prediction report': 'trend', 'JoSAA EA members': 'users', 'EduPulse-UCEED': 'target', 'EduPulse mentor view': 'dashboard', 'EduPulse – Reinforcement': 'target', 'Reinforcement mentor view': 'dashboard', 'Smart Study Planner': 'calendar', 'Study planner mentor view': 'dashboard',
     'EduPulse-JEE Mock Test Centre': 'calculator', 'JEE Main 2027 registration guide': 'clipboard', 'JEE Paper 2: B.Arch and B.Planning guide': 'compass', 'Architecture and Planning colleges in India': 'map', 'Top engineering colleges by city': 'building', 'Architecture and Planning analytics': 'bar', 'B.Arch and B.Planning mentorship': 'compass', 'IISER Aptitude Test (IAT) guide': 'bulb', 'EduPulse-TN Class 10 Mock Test Centre': 'book', 'UCEED Mock Test Centre': 'clipboard', 'EduPulse-IAT Mock Test Centre': 'calculator', 'EduPulse-NID Mock Test Centre': 'clipboard', 'EduPulse-NIFT Mock Test Centre': 'clipboard', 'EduPulse-Explorer (Grades 7 to 10)': 'target', 'NID past papers analysed': 'bar', 'UCEED 2027 Roadmap': 'map', 'Law Entrance 2027 Roadmap': 'scale', 'IPM 2027 Roadmap': 'briefcase', 'JEE 2027 Roadmap': 'map', 'JEE Main syllabus map & formulas': 'calculator', 'TNEA expert': 'book', 'Members report': 'file-text',
     'IIT Delhi – Abu Dhabi mentoring': 'cap', 'EduPulse-NEET Mock Test Centre': 'calculator', 'NIFT GAT and CAT mentorship': 'cap', 'NEET (UG) mentorship': 'cap', 'NRI admission guide': 'globe', 'Choice Builder Simulator': 'sliders',
     'Why CSE?': 'code', 'Best location': 'pin', 'Engineering insights': 'bulb', 'Hostel & culture': 'home', 'Branch selection guide': 'branch',
     'Free student guides': 'download', 'NEET 2027 guide': 'book', 'Medicine exams': 'life-buoy', 'Exam schedule': 'calendar', 'Contact the team': 'mail', 'Membership plans': 'star', 'Portal guide': 'book', 'More tools coming soon': 'sparkle',
 }
 # tiles added recently show a "New" label for 30 days after this date (real dates, no fabricated badges)
-NEW_SINCE = {'JoSAA 2026 Seat Allotment and Analytics': date(2026, 11, 3), 'NIFT GAT and CAT mentorship': date(2026, 11, 3), 'NEET (UG) mentorship': date(2026, 11, 4), 'IPM 2027 Roadmap': date(2026, 10, 18), 'Add-on programmes': date(2026, 10, 19), 'Action tracker': date(2026, 10, 20),
+NEW_SINCE = {'JoSAA 2026 Seat Allotment and Analytics': date(2026, 11, 3), 'NIFT GAT and CAT mentorship': date(2026, 11, 3), 'NEET (UG) mentorship': date(2026, 11, 4), 'NEET MBBS seat matrix analytics': date(2026, 11, 4), 'IPM 2027 Roadmap': date(2026, 10, 18), 'Add-on programmes': date(2026, 10, 19), 'Action tracker': date(2026, 10, 20),
              'IIT Delhi – Abu Dhabi mentoring': date(2026, 10, 21), 'FutureReady (Class 8–9)': date(2026, 10, 23), 'UCEED Mock Test Centre': date(2026, 10, 24), 'EduPulse-JEE Mock Test Centre': date(2026, 10, 25), 'EduPulse – Reinforcement': date(2026, 10, 25)}
 NEW_DAYS = 30
 

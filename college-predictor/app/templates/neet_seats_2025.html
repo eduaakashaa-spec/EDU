@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+{% block title %}NEET MBBS Seat Matrix 2025-26 Analytics | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Premium member analytics: the National Medical Commission MBBS seat matrix for 2025-26: seats by state and management, new colleges, seat cuts, growth on 2024-25, and a college explorer.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js" defer></script>
+<style>
+  .ns{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);--nv:var(--navy,#0E3A8A);--or:#FF6B0A;--gr:#1F8B5C}
+  .ns h3{font-size:.95rem;margin:0 0 6px}
+  .ns-top{margin:6px 0 4px}.ns-top h1{font-size:clamp(1.4rem,3.2vw,2rem);margin:2px 0 0}.ns-top p{margin:3px 0 0;font-size:.9rem;color:var(--dim);max-width:75ch}
+  .ns-nav{display:flex;gap:4px;overflow-x:auto;padding:5px;margin:8px 0;position:sticky;top:0;z-index:6;background:var(--pp);border:1px solid var(--ln);border-radius:14px;box-shadow:0 2px 8px rgba(14,27,61,.06);scrollbar-width:none}.ns-nav::-webkit-scrollbar{display:none}
+  .ns-nav button{flex:1 0 auto;border:0;background:transparent;border-radius:10px;padding:7px 12px;font:700 .8rem 'Plus Jakarta Sans',system-ui,sans-serif;color:var(--dim);cursor:pointer;white-space:nowrap;display:flex;align-items:center;gap:6px;justify-content:center}
+  .ns-nav button i{font-style:normal;font-size:1rem}.ns-nav button.on{background:var(--nv);color:#fff}
+  @media(max-width:560px){.ns-nav button{padding:7px 10px;font-size:.74rem}.ns-nav button span{display:none}.ns-nav button.on span{display:inline}}
+  .ns-gs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:6px 0}
+  .ns-g{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:8px 6px;text-align:center}.ns-g .l{font:700 .64rem 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-top:2px}.ns-g .s{font-size:.74rem;color:var(--dim);margin-top:1px}
+  .ns-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:10px 12px;margin:8px 0}.ns-c p{font-size:.88rem;line-height:1.5;margin:4px 0}
+  .ns-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}@media(max-width:860px){.ns-two{grid-template-columns:1fr}}
+  .ns-cv{position:relative;height:250px}.ns-sv{width:100%;height:auto;display:block}
+  .ns-ch{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}.ns-ch h3{margin:0}.ns-ch .ns-f{margin:0}
+  .ns-t{width:100%;border-collapse:collapse;font-size:.8rem}.ns-t th,.ns-t td{padding:5px 7px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top;white-space:nowrap}.ns-t td.n,.ns-t th.n{text-align:right}.ns-t th{font-size:.66rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dim);position:sticky;top:0;background:var(--pp)}
+  .ns-sc{overflow:auto;max-height:480px;border:1px solid var(--ln);border-radius:12px}
+  .ns-f{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.ns-f label{font-size:.7rem;color:var(--dim);display:flex;flex-direction:column;gap:2px}.ns-f select,.ns-f input{border:1.5px solid var(--ln);border-radius:8px;padding:5px 7px;background:var(--pp);color:inherit;font:inherit;font-size:.82rem;min-width:110px;max-width:230px}
+  .ns-go{border:0;border-radius:999px;padding:8px 18px;font:700 .85rem 'Plus Jakarta Sans',system-ui,sans-serif;background:var(--or);color:#fff;cursor:pointer;align-self:flex-end}
+  .ns-n{font-size:.76rem;color:var(--dim);margin:5px 0 0}.ns-up{color:#C23A3A}.ns-dn{color:var(--gr)}
+  .ns-fd{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;margin:8px 0}.ns-fd div{background:var(--pp);border:1px solid var(--ln);border-left:4px solid var(--or);border-radius:12px;padding:8px 10px;font-size:.84rem;line-height:1.45}.ns-fd b{display:block;font:700 1.15rem 'Fraunces',Georgia,serif;color:var(--nv)}
+  .ns details{margin-top:6px}.ns summary{cursor:pointer;font-size:.82rem;font-weight:700;color:var(--nv)}
+  .ns [hidden]{display:none!important}
+  .ns-lg{display:flex;gap:10px;flex-wrap:wrap;font-size:.72rem;color:var(--dim);margin:4px 0}.ns-lg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:4px}
+</style>
+{% endblock %}
+{% block content %}
+<div class="jr2 ns">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Premium analytics: NEET MBBS seat matrix 2025&ndash;26.</strong>
+      Latest admission data and analytics are part of Premium Membership. Figures come from the National Medical Commission seat matrices supplied to EduAakashaA; confirm anything you act on with the NMC and the counselling authority (mcc.nic.in and your state).
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="ns-top"><span class="eb">NEET (UG) &middot; MBBS seats &middot; matrix as on 29 Oct 2025 &middot; built 4 Nov 2026</span>
+    <h1>MBBS seat matrix and analytics, <em>2025&ndash;26</em></h1>
+    <p>Every MBBS college in the National Medical Commission matrix: seats in 2024&ndash;25 and 2025&ndash;26, by state and management, with what changed. Tap a tab: charts first, tables when you need them.</p></div>
+  <div class="ns-nav" role="tablist" id="nTabs">
+    <button class="on" data-t="ov"><i>📊</i><span>Overview</span></button><button data-t="st"><i>🗺️</i><span>States</span></button><button data-t="gr"><i>📈</i><span>Growth</span></button><button data-t="ex"><i>🔎</i><span>Colleges</span></button><button data-t="me"><i>ℹ️</i><span>Method</span></button>
+  </div>
+  <p id="nLoad" class="ns-n">Loading the seat matrix&hellip;</p>
+
+  <section data-p="ov" hidden>
+    <div class="ns-gs" id="gauges"></div>
+    <div class="ns-fd" id="finds"></div>
+    <div class="ns-two">
+      <div class="ns-c"><h3>Seats by management of the college</h3><div class="ns-cv"><canvas id="chMg" aria-label="Doughnut chart of 2025-26 MBBS seats by management"></canvas></div><p class="ns-n">Government includes government-society colleges such as GMERS and the AIIMS and other institutes of national importance listed in the matrix.</p></div>
+      <div class="ns-c"><h3>States with the most seats</h3><div class="ns-cv" style="height:290px"><canvas id="chSt" aria-label="Bar chart of seats by state, 2024-25 and 2025-26"></canvas></div></div>
+    </div>
+    <details class="ns-c"><summary>Table: by management</summary><div class="ns-sc" style="max-height:none;margin-top:6px"><table class="ns-t" id="tMg"></table></div></details>
+  </section>
+
+  <section data-p="st" hidden>
+    <div class="ns-c"><h3>Where the seats are: state by management</h3><svg id="heat" class="ns-sv" viewBox="0 0 560 420" role="img" aria-label="Heatmap of 2025-26 seats by state and management"></svg><p class="ns-n">Darker means more seats. The 18 states and union territories with the most seats.</p></div>
+    <div class="ns-c"><h3>Seats per state, 2024&ndash;25 to 2025&ndash;26</h3><svg id="slope" class="ns-sv" viewBox="0 0 560 330" role="img" aria-label="Slope chart of seats by state from 2024-25 to 2025-26"></svg><p class="ns-n">The 12 states with the most seats in 2025&ndash;26. Line colour: navy = more seats, red = fewer.</p></div>
+    <div class="ns-c"><h3>All states and union territories</h3><div class="ns-sc"><table class="ns-t" id="tSt"></table></div></div>
+  </section>
+
+  <section data-p="gr" hidden>
+    <div class="ns-two">
+      <div class="ns-c"><h3>Seats added by state (2025&ndash;26 minus 2024&ndash;25)</h3><div class="ns-cv" style="height:320px"><canvas id="chGain" aria-label="Bar chart of seat change by state"></canvas></div></div>
+      <div class="ns-c"><h3>Size, growth and breadth by state</h3><div class="ns-cv" style="height:320px"><canvas id="chBub" aria-label="Bubble chart of states: seats, growth, colleges"></canvas></div><p class="ns-n">Across: seats in 2024&ndash;25. Up: growth in per cent. Bubble: number of colleges.</p></div>
+    </div>
+    <div class="ns-c"><h3>New colleges in 2025&ndash;26</h3><p class="ns-n" id="newN"></p><div class="ns-sc" style="max-height:320px"><table class="ns-t" id="tNew"></table></div></div>
+    <div class="ns-c"><h3>Colleges whose seats were cut</h3><div class="ns-sc" style="max-height:320px"><table class="ns-t" id="tCut"></table></div></div>
+    <div class="ns-c"><h3>What changed between the 10 Oct and 29 Oct notices</h3><p class="ns-n" id="chN"></p><div class="ns-sc" style="max-height:360px"><table class="ns-t" id="tCh"></table></div></div>
+  </section>
+
+  <section data-p="ex" hidden>
+    <div class="ns-c"><h3>College explorer</h3>
+      <p>Every college in the matrix with its seats in both years. Search by name, or filter by state, management and change.</p>
+      <div class="ns-f" id="exF"></div><p class="ns-n" id="exN"></p><div class="ns-sc"><table class="ns-t" id="tEx"></table></div>
+      <p class="ns-n">The matrix gives seats only. It has no ranks, scores, fees, cut-offs or the split between the all-India and state quotas, so this page cannot say what rank a college closed at.</p></div>
+  </section>
+
+  <section data-p="me" hidden>
+    <div class="ns-c"><h3>Where the numbers come from</h3>
+      <ul style="margin:0;padding-left:18px;line-height:1.7;font-size:.9rem">
+        <li>Source: the National Medical Commission seat matrix for MBBS, academic year 2025&ndash;26, as on 29 October 2025 (819 colleges, including AIIMS, other institutes of national importance and JIPMER), and the earlier matrix as on 10 October 2025 (813 colleges), both supplied to EduAakashaA as PDFs.</li>
+        <li>Every row was read from the PDF text. The column totals equal the totals printed on the last page of each notice: 117,750 seats in 2024&ndash;25, and 128,875 (29 October) or 126,600 (10 October) in 2025&ndash;26.</li>
+        <li>Seats change for several reasons: new colleges, renewal of existing seats, increases and cuts. The notice itself says that 456 seats were reduced during renewal. The matrix shows the result for each college, not the reason.</li>
+        <li>Management is as printed (government, trust, society, private and so on). &ldquo;Government&rdquo; on this page also counts government-society colleges such as GMERS. A few colleges changed their printed name between the two notices, so they may appear as new in the comparison.</li>
+        <li>These files hold no counselling data: no NEET scores or ranks, no closing ranks, no round-wise allotments, no fees and no quota split. For those, read the counselling authority&rsquo;s notices (MCC for the all-India quota, your state for the state quota).</li>
+        <li>A seat in the matrix is not a seat you will be offered: eligibility, domicile, category and counselling choices decide that.</li>
+      </ul></div>
+  </section>
+  <p class="ns-n" style="margin-top:12px">Prepared by EduAakashaA from the supplied National Medical Commission seat matrices, with computed figures checked against the totals printed in the notices. NMC and MCC are bodies of the Government of India; EduAakashaA is not affiliated with them. Prepared with AI assistance.</p>
+</div>
+<script>
+window.addEventListener('load', function () {
+  var NV = '#0E3A8A', OR = '#FF6B0A', GR = '#1F8B5C', AM = '#E89A1C', RD = '#C23A3A', MU = '#5A6278';
+  var D, R, ST, MGS = ['Government', 'Trust', 'Society', 'Private', 'Other'];
+  var fmt = function (n) { return Number(n).toLocaleString('en-IN'); };
+  var sgn = function (n) { return (n > 0 ? '+' : '') + fmt(n); };
+  var mg = function (m) { return /^(Government|Central government)/.test(m) ? 'Government' : m === 'Trust' ? 'Trust' : m === 'Society' ? 'Society' : m === 'Private' ? 'Private' : 'Other'; };
+  var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]; }); };
+  var tabs = document.getElementById('nTabs'), panes = document.querySelectorAll('[data-p]'), drawn = {};
+
+  fetch('{{ url_for("static", filename="data/neet_seats_2025.json") }}').then(function (r) { return r.json(); }).then(function (d) { D = d; R = d.rows; init(); }).catch(function () {
+    document.getElementById('nLoad').textContent = 'The seat matrix could not be loaded. Please refresh the page.';
+  });
+
+  function init() {
+    document.getElementById('nLoad').hidden = true;
+    ST = {};
+    R.forEach(function (r) {
+      r.g = mg(r.mgmt); r.d = r.s25 - r.s24;
+      var s = ST[r.state] || (ST[r.state] = {state: r.state, colleges: 0, s24: 0, s25: 0, newc: 0, g: {}});
+      s.colleges++; s.s24 += r.s24; s.s25 += r.s25; s.newc += (r.s24 === 0 && r.s25 > 0) ? 1 : 0; s.g[r.g] = (s.g[r.g] || 0) + r.s25;
+    });
+    ST = Object.keys(ST).map(function (k) { return ST[k]; }).sort(function (a, b) { return b.s25 - a.s25; });
+    tabs.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) show(b.dataset.t); });
+    show('ov');
+  }
+
+  function show(t) {
+    [].forEach.call(tabs.children, function (b) { b.classList.toggle('on', b.dataset.t === t); });
+    [].forEach.call(panes, function (p) { p.hidden = p.dataset.p !== t; });
+    if (!drawn[t]) { drawn[t] = 1; ({ov: drawOv, st: drawSt, gr: drawGr, ex: drawEx, me: function () {}})[t](); }
+  }
+
+  function table(id, head, rows, nums) {
+    document.getElementById(id).innerHTML = '<thead><tr>' + head.map(function (h, i) { return '<th class="' + (nums.indexOf(i) > -1 ? 'n' : '') + '">' + h + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      rows.map(function (r) { return '<tr>' + r.map(function (c, i) { return '<td class="' + (nums.indexOf(i) > -1 ? 'n' : '') + '">' + c + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody>';
+  }
+
+  function gauge(v, max, label, color, text) {
+    var r = 46, c = 2 * Math.PI * r;
+    return '<div class="ns-g"><svg width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="' + esc(label + ': ' + text) + '"><circle cx="60" cy="60" r="46" fill="none" stroke="#EFE7D2" stroke-width="12"/>' +
+      '<circle class="ring" data-off="' + (c * (1 - Math.min(1, v / max))) + '" cx="60" cy="60" r="46" fill="none" stroke="' + color + '" stroke-width="12" stroke-linecap="round" stroke-dasharray="' + c + '" stroke-dashoffset="' + c +
+      '" transform="rotate(-90 60 60)" style="transition:stroke-dashoffset 1.1s ease"/><text x="60" y="66" text-anchor="middle" font-family="Fraunces,serif" font-size="21" font-weight="600" fill="#071A44">' + text + '</text></svg><div class="l">' + label + '</div></div>';
+  }
+
+  function drawOv() {
+    var T = D.totals, tot25 = T.s25, tot24 = T.s24;
+    var gov = R.filter(function (r) { return r.g === 'Government'; }).reduce(function (a, r) { return a + r.s25; }, 0);
+    var newc = R.filter(function (r) { return r.s24 === 0 && r.s25 > 0; }), cut = R.filter(function (r) { return r.d < 0; }), up = R.filter(function (r) { return r.d > 0; });
+    var top5 = ST.slice(0, 5).reduce(function (a, s) { return a + s.s25; }, 0);
+    var growth = 100 * (tot25 - tot24) / tot24;
+    document.getElementById('gauges').innerHTML = gauge(tot25, 150000, 'MBBS seats 2025–26', NV, fmt(tot25)) + gauge(growth, 20, 'Growth on 2024–25', OR, '+' + growth.toFixed(1) + '%') +
+      gauge(gov, tot25, 'Government share', GR, Math.round(100 * gov / tot25) + '%') + gauge(top5, tot25, 'Top 5 states’ share', AM, Math.round(100 * top5 / tot25) + '%') +
+      gauge(newc.length, 60, 'New colleges', NV, String(newc.length));
+    setTimeout(function () { [].forEach.call(document.querySelectorAll('.ring'), function (el) { el.style.strokeDashoffset = el.dataset.off; }); }, 150);
+    var big = ST[0], gain = ST.slice().sort(function (a, b) { return (b.s25 - b.s24) - (a.s25 - a.s24); })[0];
+    var newSeats = newc.reduce(function (a, r) { return a + r.s25; }, 0);
+    var f = [
+      ['Total', fmt(tot25) + ' MBBS seats in ' + fmt(R.length) + ' colleges for 2025–26, against ' + fmt(tot24) + ' in 2024–25: ' + sgn(tot25 - tot24) + ' seats (' + growth.toFixed(1) + '%).'],
+      ['Biggest state', big.state + ' has the most seats (' + fmt(big.s25) + ' in ' + big.colleges + ' colleges), ' + (100 * big.s25 / tot25).toFixed(1) + '% of the country.'],
+      ['Biggest gain', gain.state + ' added the most seats: ' + sgn(gain.s25 - gain.s24) + ' (' + fmt(gain.s24) + ' to ' + fmt(gain.s25) + ').'],
+      ['New colleges', newc.length + ' colleges have no 2024–25 seats and appear for 2025–26, with ' + fmt(newSeats) + ' seats between them.'],
+      ['Seat cuts', cut.length + ' colleges lost seats and ' + up.length + ' gained seats; ' + (R.length - cut.length - up.length) + ' did not change.'],
+      ['Since 10 Oct', 'The 29 Oct matrix has ' + fmt(T.s25 - T.s25_oct10) + ' more 2025–26 seats than the 10 Oct matrix (' + fmt(T.s25_oct10) + ') and ' + (T.colleges - T.colleges_oct10) + ' more rows.']];
+    document.getElementById('finds').innerHTML = f.map(function (x) { return '<div><b>' + x[0] + '.</b> ' + x[1] + '</div>'; }).join('');
+    Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+    var by = {}; MGS.forEach(function (g) { by[g] = 0; }); R.forEach(function (r) { by[r.g] += r.s25; });
+    new Chart(document.getElementById('chMg'), {type: 'doughnut', data: {labels: MGS, datasets: [{data: MGS.map(function (g) { return by[g]; }), backgroundColor: [NV, OR, GR, AM, MU], borderWidth: 2, borderColor: '#FFFDF7'}]},
+      options: {responsive: true, maintainAspectRatio: false, cutout: '58%', plugins: {legend: {position: 'bottom', labels: {boxWidth: 12, font: {size: 11}}}, tooltip: {callbacks: {label: function (c) { return c.label + ': ' + fmt(c.raw) + ' seats (' + (100 * c.raw / tot25).toFixed(1) + '%)'; }}}}}});
+    var tp = ST.slice(0, 12);
+    new Chart(document.getElementById('chSt'), {type: 'bar', data: {labels: tp.map(function (s) { return s.state; }), datasets: [{label: '2024–25', data: tp.map(function (s) { return s.s24; }), backgroundColor: 'rgba(14,58,138,.35)'}, {label: '2025–26', data: tp.map(function (s) { return s.s25; }), backgroundColor: NV}]},
+      options: {indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: {legend: {position: 'bottom', labels: {boxWidth: 12, font: {size: 11}}}}, scales: {x: {grid: {color: '#E8DFC8'}, ticks: {font: {size: 10}}}, y: {grid: {display: false}, ticks: {font: {size: 10}}}}}});
+    table('tMg', ['Management', 'Colleges', 'Seats 2024–25', 'Seats 2025–26', 'Change', 'Share'], MGS.map(function (g) {
+      var rs = R.filter(function (r) { return r.g === g; }), a = rs.reduce(function (x, r) { return x + r.s24; }, 0), b = rs.reduce(function (x, r) { return x + r.s25; }, 0);
+      return [g, rs.length, fmt(a), fmt(b), sgn(b - a), (100 * b / tot25).toFixed(1) + '%']; }), [1, 2, 3, 4, 5]);
+  }
+
+  function drawSt() {
+    var top = ST.slice(0, 18), W = 560, lw = 150, cw = (W - lw - 10) / MGS.length, ch = 20, svg = d3.select('#heat');
+    var mx = d3.max(top, function (s) { return d3.max(MGS, function (g) { return s.g[g] || 0; }); });
+    var col = d3.scaleLinear().domain([0, mx * 0.4, mx]).range(['#EAEFF7', '#8FA8D6', NV]);
+    MGS.forEach(function (g, j) { svg.append('text').attr('x', lw + j * cw + cw / 2).attr('y', 14).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-family', 'JetBrains Mono').attr('fill', MU).text(g); });
+    top.forEach(function (s, i) {
+      svg.append('text').attr('x', lw - 8).attr('y', 30 + i * (ch + 3) + 14).attr('text-anchor', 'end').attr('font-size', 11).attr('fill', '#071A44').text(s.state);
+      MGS.forEach(function (g, j) {
+        var v = s.g[g] || 0, x = lw + j * cw, y = 30 + i * (ch + 3);
+        svg.append('rect').attr('x', x).attr('y', y).attr('width', cw - 3).attr('height', ch).attr('rx', 3).attr('fill', v ? col(v) : '#F6F1E4').append('title').text(s.state + ' · ' + g + ': ' + fmt(v) + ' seats');
+        if (v) svg.append('text').attr('x', x + (cw - 3) / 2).attr('y', y + 14).attr('text-anchor', 'middle').attr('font-size', 10).attr('font-weight', 600).attr('fill', v > mx * 0.45 ? '#fff' : '#071A44').text(fmt(v));
+      });
+    });
+    var s2 = d3.select('#slope'), sl = ST.slice(0, 12), H = 330, mt = 28, mb = 14, xa = 170, xb = 400;
+    var y = d3.scaleLinear().domain([d3.min(sl, function (s) { return Math.min(s.s24, s.s25); }) * 0.9, d3.max(sl, function (s) { return Math.max(s.s24, s.s25); }) * 1.02]).range([H - mb, mt]);
+    s2.append('text').attr('x', xa).attr('y', 16).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-family', 'JetBrains Mono').attr('fill', MU).text('2024–25');
+    s2.append('text').attr('x', xb).attr('y', 16).attr('text-anchor', 'middle').attr('font-size', 11).attr('font-family', 'JetBrains Mono').attr('fill', MU).text('2025–26');
+    var ylab = function (arr, key) { var last = -99; return arr.slice().sort(function (a, b) { return y(a[key]) - y(b[key]); }).map(function (s) { var p = Math.max(y(s[key]), last + 12); last = p; return [s, p]; }); };
+    s2.selectAll('line.s').data(sl).enter().append('line').attr('x1', xa).attr('x2', xb).attr('y1', function (s) { return y(s.s24); }).attr('y2', function (s) { return y(s.s25); }).attr('stroke', function (s) { return s.s25 >= s.s24 ? NV : RD; }).attr('stroke-width', 2).attr('opacity', .85);
+    s2.selectAll('circle.a').data(sl).enter().append('circle').attr('cx', xa).attr('cy', function (s) { return y(s.s24); }).attr('r', 3.5).attr('fill', NV);
+    s2.selectAll('circle.b').data(sl).enter().append('circle').attr('cx', xb).attr('cy', function (s) { return y(s.s25); }).attr('r', 3.5).attr('fill', OR);
+    ylab(sl, 's24').forEach(function (p) { s2.append('text').attr('x', xa - 8).attr('y', p[1] + 3).attr('text-anchor', 'end').attr('font-size', 10).attr('fill', MU).text(p[0].state + ' ' + fmt(p[0].s24)); });
+    ylab(sl, 's25').forEach(function (p) { s2.append('text').attr('x', xb + 8).attr('y', p[1] + 3).attr('font-size', 10).attr('font-weight', 600).attr('fill', '#071A44').text(fmt(p[0].s25)); });
+    table('tSt', ['State or UT', 'Colleges', 'New', 'Seats 2024–25', 'Seats 2025–26', 'Change', 'Growth', 'Government share'], ST.map(function (s) {
+      return [esc(s.state), s.colleges, s.newc, fmt(s.s24), fmt(s.s25), '<span class="' + (s.s25 < s.s24 ? 'ns-up' : s.s25 > s.s24 ? 'ns-dn' : '') + '">' + sgn(s.s25 - s.s24) + '</span>', s.s24 ? ((100 * (s.s25 - s.s24) / s.s24).toFixed(1) + '%') : '–', Math.round(100 * (s.g.Government || 0) / s.s25) + '%']; }), [1, 2, 3, 4, 5, 6, 7]);
+  }
+
+  function drawGr() {
+    var g = ST.slice().sort(function (a, b) { return (b.s25 - b.s24) - (a.s25 - a.s24); });
+    var show = g.slice(0, 10).concat(g.slice(-4));
+    new Chart(document.getElementById('chGain'), {type: 'bar', data: {labels: show.map(function (s) { return s.state; }), datasets: [{data: show.map(function (s) { return s.s25 - s.s24; }), backgroundColor: show.map(function (s) { return s.s25 >= s.s24 ? NV : RD; })}]},
+      options: {indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: {legend: {display: false}}, scales: {x: {grid: {color: '#E8DFC8'}, ticks: {font: {size: 10}}}, y: {grid: {display: false}, ticks: {font: {size: 10}}}}}});
+    new Chart(document.getElementById('chBub'), {type: 'bubble', data: {datasets: [{label: 'States and UTs', data: ST.filter(function (s) { return s.s24 > 0; }).map(function (s) { return {x: s.s24, y: +(100 * (s.s25 - s.s24) / s.s24).toFixed(1), r: Math.max(4, Math.min(24, s.colleges / 3.5)), n: s.state, c: s.colleges}; }), backgroundColor: 'rgba(14,58,138,.5)'}]},
+      options: {responsive: true, maintainAspectRatio: false, plugins: {legend: {display: false}, tooltip: {callbacks: {label: function (c) { return c.raw.n + ': ' + fmt(c.raw.x) + ' seats, ' + c.raw.y + '% growth, ' + c.raw.c + ' colleges'; }}}},
+        scales: {x: {title: {display: true, text: 'Seats 2024–25', font: {size: 11}}, grid: {color: '#E8DFC8'}, ticks: {font: {size: 10}}}, y: {title: {display: true, text: 'Growth %', font: {size: 11}}, grid: {color: '#E8DFC8'}, ticks: {font: {size: 10}}}}}});
+    var nw = R.filter(function (r) { return r.s24 === 0 && r.s25 > 0; }).sort(function (a, b) { return b.s25 - a.s25; });
+    document.getElementById('newN').textContent = nw.length + ' colleges with no 2024–25 seats, ' + fmt(nw.reduce(function (a, r) { return a + r.s25; }, 0)) + ' seats in all.';
+    table('tNew', ['State', 'College', 'Management', 'Seats 2025–26', 'Remark'], nw.map(function (r) { return [esc(r.state), esc(r.college), r.mgmt, fmt(r.s25), esc(r.remark || '')]; }), [3]);
+    var ct = R.filter(function (r) { return r.d < 0; }).sort(function (a, b) { return a.d - b.d; });
+    table('tCut', ['State', 'College', 'Management', 'Seats 2024–25', 'Seats 2025–26', 'Change'], ct.map(function (r) { return [esc(r.state), esc(r.college), r.mgmt, fmt(r.s24), fmt(r.s25), '<span class="ns-up">' + sgn(r.d) + '</span>']; }), [3, 4, 5]);
+    var ch = D.changed_since_oct10;
+    document.getElementById('chN').textContent = ch.length + ' rows differ between the two notices (a seat count that changed, or a college that is new or renamed in the 29 Oct matrix).';
+    table('tCh', ['State', 'College', 'Management', '10 Oct', '29 Oct', 'Change'], ch.map(function (r) { return [esc(r.state), esc(r.college), r.mgmt, r.oct10 === null ? 'new row' : fmt(r.oct10), fmt(r.oct29), r.oct10 === null ? '' : sgn(r.oct29 - r.oct10)]; }), [3, 4, 5]);
+  }
+
+  function drawEx() {
+    var F = document.getElementById('exF');
+    F.innerHTML = '<label>Search<input id="fq" placeholder="college or city"></label><label>State<select id="fs"><option value="">All</option>' + D.states.map(function (s) { return '<option>' + esc(s) + '</option>'; }).join('') +
+      '</select></label><label>Management<select id="fm"><option value="">All</option>' + MGS.map(function (g) { return '<option>' + g + '</option>'; }).join('') +
+      '</select></label><label>Change<select id="fc"><option value="">All</option><option value="up">More seats</option><option value="down">Fewer seats</option><option value="new">New college</option><option value="same">No change</option></select></label>';
+    var run = function () {
+      var q = document.getElementById('fq').value.toLowerCase(), s = document.getElementById('fs').value, m = document.getElementById('fm').value, c = document.getElementById('fc').value;
+      var rs = R.filter(function (r) { return (!q || r.college.toLowerCase().indexOf(q) > -1) && (!s || r.state === s) && (!m || r.g === m) &&
+        (!c || (c === 'up' && r.d > 0) || (c === 'down' && r.d < 0) || (c === 'new' && r.s24 === 0 && r.s25 > 0) || (c === 'same' && r.d === 0)); });
+      document.getElementById('exN').textContent = fmt(rs.length) + ' colleges, ' + fmt(rs.reduce(function (a, r) { return a + r.s25; }, 0)) + ' seats in 2025–26' + (rs.length > 300 ? ' (first 300 shown)' : '') + '.';
+      table('tEx', ['State', 'College', 'Management', 'Seats 2024–25', 'Seats 2025–26', 'Change'], rs.slice(0, 300).map(function (r) { return [esc(r.state), esc(r.college), r.mgmt, fmt(r.s24), fmt(r.s25), '<span class="' + (r.d < 0 ? 'ns-up' : r.d > 0 ? 'ns-dn' : '') + '">' + (r.d ? sgn(r.d) : '–') + '</span>']; }), [3, 4, 5]);
+    };
+    F.addEventListener('input', run); F.addEventListener('change', run); run();
+  }
+});
+</script>
+{% endblock %}
