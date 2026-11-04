@@ -616,7 +616,7 @@ def nift_exam_alias():
 
 @main_bp.route('/neet-papers-analysis')
 def neet_exam():
-    # public page: NEET (UG) 2018 to 2025 papers analysed (questions by year and subject, topics, marking), free sample questions, links to the mock centre; data in app/data/neet_exam.py and app/data/neet/analysis.json
+    # public page: NEET (UG) 2018 to 2026 papers analysed (questions by year and subject, topics, marking), free sample questions, links to the mock centre; data in app/data/neet_exam.py and app/data/neet/analysis.json
     from app.data import neet_exam as d
     return render_template('neet_exam.html', **d.context())
 

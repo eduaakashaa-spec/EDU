@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-{% block title %}NEET Past Papers Analysed 2018 to 2025: Subject and Topic Mix, Marking, Mock Tests | EduAakashaA{% endblock %}
-{% block meta_description %}<meta name="description" content="What the NEET (UG) papers from 2018 to 2025 asked: questions by year and subject, topics that come back, marking, free sample questions, and mock tests with a daily spaced review built on earlier questions.">{% endblock %}
+{% block title %}NEET Past Papers Analysed 2018 to 2026: Subject and Topic Mix, Marking, Mock Tests | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="What the NEET (UG) papers from 2018 to 2026 asked: questions by year and subject, topics that come back, marking, free sample questions, and mock tests with a daily spaced review built on earlier questions.">{% endblock %}
 {% block head %}
 {% include "_jr2_css.html" %}
 <style>
@@ -40,7 +40,7 @@
   <div class="nf-top">
     <div><span class="eb">NEET (UG) &middot; past papers &middot; updated {{ d.UPDATED }}</span>
       <h1>What the NEET papers <em>really ask</em></h1>
-      <p>We read eight NEET (UG) question papers, 2018 to 2025, with the National Testing Agency&rsquo;s answer keys. Here is how many questions each year printed, what each subject asks, which topics come back, and how to practise with the earlier questions and a daily review.</p>
+      <p>We read nine NEET (UG) question papers, 2018 to 2026, with the National Testing Agency&rsquo;s answer keys. Here is how many questions each year printed, what each subject asks, which topics come back, and how to practise with the earlier questions and a daily review.</p>
       <a class="nf-go" href="{{ url_for('neet_mock.home') }}">Open EduPulse-NEET</a><a class="nf-go n" href="{{ url_for('free_mock.home') }}">Free sample mock test</a><a class="nf-go n" href="#try">Try six free questions</a></div>
     <div class="nf-chips"><span><b>{{ n_bank }}</b>earlier questions with checked keys</span><span><b>{{ n_years }}</b>previous-year papers</span><span><b>4</b>subjects</span></div>
   </div>
@@ -51,13 +51,13 @@
 
   <section id="format"><span class="eb">Year by year</span><h2>Questions printed and questions we can show</h2>
     <div class="nf-c" style="overflow-x:auto"><table class="nf-t"><thead><tr><th>Year</th><th>Booklet code read</th><th>Questions printed</th><th>Shown here as text</th><th>Physics</th><th>Chemistry</th><th>Botany</th><th>Zoology</th></tr></thead><tbody>
-      {% for y, v in years %}<tr><td>{{ y }}</td><td>{{ v.code }}</td><td>{{ v.paper_questions }}</td><td>{{ v.kept }}</td><td>{{ v.by_sec.get('PHY', 0) }}</td><td>{{ v.by_sec.get('CHEM', 0) }}</td><td>{{ v.by_sec.get('BOT', 0) }}</td><td>{{ v.by_sec.get('ZOO', 0) }}</td></tr>{% endfor %}</tbody></table>
-      <p class="nf-n">Questions that need a figure, graph or drawn structure, and questions the key leaves open, are not shown, so the count is below the full paper. Marking in every year: +4 right, &minus;1 wrong, 0 blank.</p></div>
+      {% for y, v in years %}<tr><td>{{ y }}{% if v.key == 'provisional' %} <small title="Only the provisional answer key was available">(provisional key)</small>{% endif %}</td><td>{{ v.code }}</td><td>{{ v.paper_questions }}</td><td>{{ v.kept }}</td><td>{{ v.by_sec.get('PHY', 0) }}</td><td>{{ v.by_sec.get('CHEM', 0) }}</td><td>{{ v.by_sec.get('BOT', 0) }}</td><td>{{ v.by_sec.get('ZOO', 0) }}</td></tr>{% endfor %}</tbody></table>
+      <p class="nf-n">Questions that need a figure, graph or drawn structure, and questions the key leaves open, are not shown, so the count is below the full paper. Marking in every year: +4 right, &minus;1 wrong, 0 blank. For 2026 only the National Testing Agency&rsquo;s provisional answer key was available, so a 2026 question is shown only where an independent solve agreed with it; the final key can differ for challenged questions.</p></div>
   </section>
 
   <section id="mix"><span class="eb">What each subject asks</span><h2>Topics that come back most</h2>
     <div class="nf-g">{% for k, n in SEC.items() %}<div class="nf-c"><span class="k">{{ n }}</span><p style="margin-top:6px">{% for t in topics[k][:8] %}{{ t[0] }} ({{ t[1] }}){{ ', ' if not loop.last }}{% endfor %}</p></div>{% endfor %}</div>
-    <p class="nf-n">Counts are questions among the {{ ana.questions }} we can show as text, 2018 to 2025. Topic names are our own tagging.</p>
+    <p class="nf-n">Counts are questions among the {{ ana.questions }} we can show as text, 2018 to 2026. Topic names are our own tagging.</p>
   </section>
 
   <section id="themes"><span class="eb">What to take from it</span><h2>Five patterns</h2>

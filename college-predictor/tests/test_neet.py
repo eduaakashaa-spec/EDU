@@ -22,11 +22,11 @@ from app.services import free_mock, neet  # noqa: E402
 
 # ---- bank --------------------------------------------------------------------------------------------------------------------------------
 bank = neet.bank()
-assert len(bank) >= 1250 and len({q['id'] for q in bank}) == len(bank)
+assert len(bank) >= 1400 and len({q['id'] for q in bank}) == len(bank)
 for q in bank:
     assert q['sec'] in neet.SEC and q['q'].strip() and q['why'] and q['topic'], q['id']
     assert len(q['opts']) == 4 and all(o.strip() for o in q['opts']) and len(set(q['opts'])) == 4 and 0 <= q['ans'] < 4, q['id']
-    assert q['src'] and all(len(s) == 2 and 2018 <= s[0] <= 2025 for s in q['src']), q['id']
+    assert q['src'] and all(len(s) == 2 and 2018 <= s[0] <= 2026 for s in q['src']), q['id']
     assert '�' not in json.dumps(q, ensure_ascii=False), q['id']
 blob = json.dumps(bank, ensure_ascii=False).lower()
 for bad in ('prepp', 'collegedekho', 'careers360', 'collegedunia', 'shiksha', 'getmyuni', 'toprankers', 'whatsapp', 'www.', 'http'):
@@ -36,7 +36,7 @@ assert all(n >= 250 for n in secs.values()), secs
 pos = [sum(1 for q in bank if q['ans'] == k) for k in range(4)]
 assert min(pos) > 0.15 * len(bank), pos
 years = {y for q in bank for y, _ in q['src']}
-assert years == set(range(2018, 2026)), years
+assert years == set(range(2018, 2027)), years
 assert {y['year'] for y in neet.year_papers()} == years
 
 an = neet.analysis()
@@ -44,6 +44,9 @@ assert an['questions'] == len(bank) and set(an['years']) == {str(y) for y in yea
 for y, v in an['years'].items():
     assert v['paper_questions'] in (180, 200) and 100 <= v['kept'] <= v['paper_questions'], (y, v)
     assert v['kept'] == sum(v['by_sec'].values()) or v['kept'] >= sum(v['by_sec'].values()) - 2, y
+
+assert an['years']['2026']['key'] == 'provisional' and all(v['key'] == 'final' for y, v in an['years'].items() if y != '2026')   # only the 2026 key is provisional
+assert an['years']['2026']['paper_questions'] == 180 and an['years']['2026']['kept'] >= 140
 
 # ---- composition -------------------------------------------------------------------------------------------------------------------------
 cat = neet.catalogue()
@@ -151,6 +154,10 @@ with app.app_context():
     db.session.commit()
 from app.services import member_hub  # noqa: E402
 titles = [t['title'] for cat in member_hub.CATEGORIES for t in cat['tiles']] if hasattr(member_hub, 'CATEGORIES') else []
+assert b'provisional key' in pub.data and b'Is the 2026 answer key final?' in pub.data
+with app.app_context():
+    y26 = neet.compose('Y-2026', 1, 0)
+    assert len(y26['qids']) >= 140 and all(any(y == 2026 for y, _ in neet.get(i)['src']) for i in y26['qids'])
 assert not titles or 'EduPulse-NEET Mock Test Centre' in titles
 try:
     os.remove(_db)

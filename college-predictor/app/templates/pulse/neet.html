@@ -12,7 +12,7 @@
   <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-NEET</div>
   <section class="pl-hero">
     <div><span class="pl-chip">NEET (UG) · full mocks · previous-year papers · spaced review</span><h1>EduPulse-NEET</h1>
-      <p>Full NEET mocks in the real shape (45 questions each in Physics, Chemistry, Botany and Zoology), questions from the 2018 to 2025 papers, subject sets and a Daily Review that brings back every question you missed or guessed. Marking is as in NEET: +{{ RIGHT_MARKS }} right, &minus;{{ WRONG }} wrong.</p></div>
+      <p>Full NEET mocks in the real shape (45 questions each in Physics, Chemistry, Botany and Zoology), questions from the 2018 to 2026 papers, subject sets and a Daily Review that brings back every question you missed or guessed. Marking is as in NEET: +{{ RIGHT_MARKS }} right, &minus;{{ WRONG }} wrong.</p></div>
     <div class="pl-kpis">
       <div class="pl-kpi"><b>{{ tr.streak }}</b><span>day streak</span></div>
       <div class="pl-kpi"><b>{{ tr.due }}</b><span>review cards due</span></div>
@@ -58,6 +58,6 @@
     {% for r in tr.recent %}<tr><td>{{ r.finished_at.strftime('%d %b %Y') }}</td><td>{{ r.title }}</td><td>{{ r.score|int }} / {{ r.max_score|int }}</td><td>{{ r.right }}</td><td>{{ r.wrong }}</td><td>{{ r.sure_wrong }}</td><td><a href="{{ url_for('neet_mock.report', rid=r.id) }}">Report</a></td></tr>{% endfor %}</tbody></table>
     {% else %}<p class="pl-muted">No tests yet. Start with a subject set or a half mock.</p>{% endif %}
   </div>
-  <p style="font-size:.84rem;color:var(--muted);margin-top:14px">Questions are from the NEET (UG) papers 2018 to 2025 as published, with answers from the National Testing Agency&rsquo;s answer key for the booklet code transcribed, kept only where an independent solve agreed with the key; explanations are written by EduAakashaA with AI assistance. Report any doubt to your mentor. NEET (UG) is conducted by the National Testing Agency; EduAakashaA is not affiliated with it. Check the current NEET information bulletin for the real pattern, marks and dates.</p>
+  <p style="font-size:.84rem;color:var(--muted);margin-top:14px">Questions are from the NEET (UG) papers 2018 to 2026 as published, with answers from the National Testing Agency&rsquo;s answer key for the booklet code transcribed (for 2026, the provisional key, which the final key can change), kept only where an independent solve agreed with the key; explanations are written by EduAakashaA with AI assistance. Report any doubt to your mentor. NEET (UG) is conducted by the National Testing Agency; EduAakashaA is not affiliated with it. Check the current NEET information bulletin for the real pattern, marks and dates.</p>
 </div>
 {% endblock %}

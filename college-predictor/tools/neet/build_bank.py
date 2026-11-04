@@ -24,7 +24,8 @@ KEYFILE = {2018: 'neet-2018-answer-key-pdf-may-06-2018-aa-1761561302.pdf', 2019:
            2022: 'neet-2022-answer-key-pdf-jul-17-2022-q1-1760959199.pdf', 2023: 'neet-2023-answer-key-pdf-may-07-2023-e1-1760947924.pdf',
            2024: 'neet-2024-paper-1-answer-key-pdf-may-5-2024-q5-1760946220.pdf',
            2025: 'NEET_2025_1_Question_Paper_and_Answer_Key_PDF_May_04_2025_48__9d74466e8441911833a7d7138bc5df65.pdf'}
-CODE = {2018: 'AA', 2019: 'P5', 2020: 'E1', 2021: 'M1', 2022: 'Q1', 2023: 'E1', 2024: 'Q5', 2025: '48'}
+CODE = {2018: 'AA', 2019: 'P5', 2020: 'E1', 2021: 'M1', 2022: 'Q1', 2023: 'E1', 2024: 'Q5', 2025: '48', 2026: '13'}
+KEY_KIND = {2026: 'provisional'}        # 2026: only NTA's provisional key was supplied (hand-transcribed to keys_2026_code13.json); every other year is the final key
 SECS = ['PHY', 'CHEM', 'BOT', 'ZOO']
 FIGURE_WORDS = re.compile(r'\b(figure|diagram|as shown|shown below|shown in|shown above|in the picture|given graph|following graph|graph given)\b', re.I)
 
@@ -46,8 +47,12 @@ def main(work, kdir):
     tot_read = Counter()
     yearstat = {}
     items = []
-    for y in sorted(KEYFILE):
-        k = keys.read(os.path.join(kdir, KEYFILE[y]))
+    for y in sorted(set(KEYFILE) | {2026}):
+        if y == 2026:
+            raw = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'keys_2026_code13.json'), encoding='utf-8'))
+            k = {int(a): {b} for a, b in raw.items() if a != '_note'}
+        else:
+            k = keys.read(os.path.join(kdir, KEYFILE[y]))
         size = max(k)
         per = size // 4
         files = sorted(glob.glob(os.path.join(work, 'out', '%d_*.json' % y)))
@@ -80,7 +85,7 @@ def main(work, kdir):
                     continue
                 kept += 1
                 items.append({'sec': subject(n, per), 'topic': topic_of(q.get('topic')), 'q': text, 'opts': opts, 'ans': a - 1, 'why': str(q.get('why') or '').strip(), 'src': [[y, n]]})
-        yearstat[y] = {'code': CODE[y], 'paper_questions': size, 'read': len(seen), 'figure': fig, 'unreadable': bad, 'unsure': unsure, 'no_single_key': nokey, 'key_differs': mismatch, 'kept': kept}
+        yearstat[y] = {'code': CODE[y], 'key': KEY_KIND.get(y, 'final'), 'paper_questions': size, 'read': len(seen), 'figure': fig, 'unreadable': bad, 'unsure': unsure, 'no_single_key': nokey, 'key_differs': mismatch, 'kept': kept}
         print(y, yearstat[y])
     merged, by_text = [], {}
     for it in sorted(items, key=lambda r: (r['src'][0][0], r['src'][0][1])):

@@ -1,6 +1,6 @@
 """EduPulse-NEET: mock tests, previous-year practice and spaced reinforcement for NEET (UG).
 
-* Bank (app/data/neet/bank.json): questions from NEET (UG) papers 2018 to 2025 that can be shown as plain text. Each answer is the one in the National Testing Agency's published answer key
+* Bank (app/data/neet/bank.json): questions from NEET (UG) papers 2018 to 2026 that can be shown as plain text. Each answer is the one in the National Testing Agency's published answer key
   for that paper's booklet code; a question is kept only when an independent solve agreed with the key. Explanations are written by EduAakashaA with AI assistance. Questions that need a
   figure, graph or drawn structure, and questions the key does not settle (dropped or two accepted options), are left out.
 * Tests: a full mock (45 questions each in Physics, Chemistry, Botany and Zoology, 180 minutes), a Physics + Chemistry half and a Biology half, previous-year papers (the text questions

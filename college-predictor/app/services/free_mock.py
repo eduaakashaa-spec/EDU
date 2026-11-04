@@ -22,7 +22,7 @@ EXAMS = [
     {'key': 'nift', 'name': 'NIFT GAT', 'tag': 'Quant, English, GK, reasoning', 'minutes': 15, 'marks': '+1 right, -0.25 wrong',
      'blurb': 'Ten questions from the GAT sections: quantitative ability, reasoning, English, comprehension and general knowledge.'},
     {'key': 'neet', 'name': 'NEET (UG)', 'tag': 'Physics, Chemistry, Biology', 'minutes': 20, 'marks': '+4 right, -1 wrong',
-     'blurb': 'Ten questions from the NEET papers 2018 to 2025: 3 physics, 3 chemistry, 2 botany, 2 zoology.'},
+     'blurb': 'Ten questions from the NEET papers 2018 to 2026: 3 physics, 3 chemistry, 2 botany, 2 zoology.'},
     {'key': 'iat', 'name': 'IISER Aptitude Test', 'tag': 'Bio, Chem, Maths, Physics', 'minutes': 20, 'marks': '+4 right, -1 wrong',
      'blurb': 'Ten IAT-style questions across biology, chemistry, mathematics and physics, shown as in the paper.'},
     {'key': 'tn10', 'name': 'TN Class 10', 'tag': 'Maths and Science', 'minutes': 15, 'marks': '1 mark each',
