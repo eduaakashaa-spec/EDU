@@ -2,9 +2,10 @@ import json
 import os
 from functools import lru_cache
 
-from flask import Blueprint, redirect, render_template, url_for, Response
+from flask import Blueprint, redirect, render_template, request, url_for, Response
 
 from app.decorators import admin_required, premium_required
+from app.extensions import db
 
 main_bp = Blueprint('main', __name__)
 
@@ -263,7 +264,37 @@ def exam_schedule_one_ics(exam_id):
 
 @main_bp.route('/join-our-team')
 def join_our_team():
-    return render_reference_page('join-our-team.html', 'join_our_team.html')
+    return render_reference_page('join-our-team.html', 'join_our_team.html', sent=request.args.get('sent') == '1', error=None, form={})
+
+
+@main_bp.route('/join-our-team/interest', methods=['POST'])
+def join_interest():
+    """Public form on /join-our-team: a tutor or mentor registers their interest. Saved as a lead (source 'join-team') for the admin Leads inbox; nothing is sent to the person."""
+    import json as _json
+    import re as _re
+    from app.models import PageLead
+    f = request.form
+    if (f.get('website') or '').strip():                                   # honeypot: bots fill every field
+        return redirect(url_for('main.join_our_team', sent=1) + '#register')
+    pick = lambda k, n=200: (f.get(k) or '').strip()[:n]
+    name, email, phone = pick('name', 150), pick('email').lower(), _re.sub(r'[\s\-().]', '', pick('phone', 40))
+    role = pick('role', 40) if pick('role', 40) in ('Tutor', 'Career counsellor / mentor', 'Both') else ''
+    err = None
+    if not name:
+        err = 'Please tell us your name.'
+    elif not _re.match(r'^[^@\s]+@[^@\s]+\.[^@\s]+$', email):
+        err = 'Please enter a valid email address.'
+    elif not _re.fullmatch(r'\+?\d{8,15}', phone):
+        err = 'Please enter a valid phone number (8 to 15 digits, with country code if outside India).'
+    elif not role:
+        err = 'Please choose Tutor, Career counsellor / mentor, or Both.'
+    if err:
+        return render_template('join_our_team.html', sent=False, error=err, form={k: pick(k, 400) for k in ('name', 'email', 'phone', 'role', 'city', 'qualification', 'experience', 'focus', 'availability', 'linkedin', 'message')}), 400
+    payload = {k: pick(k, 1000 if k == 'message' else 300) for k in ('role', 'city', 'qualification', 'experience', 'focus', 'availability', 'linkedin', 'message')}
+    payload['ref'] = pick('ref', 40)
+    db.session.add(PageLead(source='join-team', name=name, email=email, phone=phone, payload_json=_json.dumps(payload, ensure_ascii=False)))
+    db.session.commit()
+    return redirect(url_for('main.join_our_team', sent=1) + '#register')
 
 
 # Gated portals – require login to view content

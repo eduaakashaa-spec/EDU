@@ -58,6 +58,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-04', 'Admin Email templates: new Recruitment template "Invite tutors and mentors to register" (three versions: tutors and mentors, tutors, mentors) with the logo, a hiring banner and a Register your interest button. New Register your interest form on the Join our Team page; each submission is saved in Leads as source join-team.'),
     ('2026-11-04', 'Homepage banner carousel: added an EduPulse-NEET slide and a We are hiring slide (12 slides), and made the banner shorter (about half the screen height) so it no longer fills the page. New Teach, Mentor, Grow with us section on the homepage and hiring images (banner, Tutors, Mentors) on the Join our Team page, designed in Canva. The EduPulse carousel on the membership page also has the NEET slide.'),
     ('2026-11-04', 'New premium page NEET MBBS seat matrix analytics: the National Medical Commission matrices as on 29 Oct and 10 Oct 2025 (819 colleges, 117,750 seats in 2024-25 to 128,875 in 2025-26), with seats by state and management, new colleges, seat cuts, a comparison of the two notices and a college explorer. Seats only: no ranks or cut-offs. Menu link and a Medicine tile on Member Home.'),
     ('2026-11-04', 'Member Home: new Mentorship Portal tile NEET (UG) mentorship, with a new 16-session NEET add-on programme (Physics, Chemistry, Botany and Zoology, negative marking, mocks, counselling). An admin presses Load ready-made add-ons once to create it; it uses the EduPulse-NEET Mock Test Centre.'),
@@ -559,6 +560,7 @@ GUIDE = [
                 'Schedule: add an exam or event with type, location, start and end; mark it important to highlight it.',
                 'Messages: choose a template and audience, preview the drafts, then Send for each member.',
                 'Email templates: pick a template (for example the Elite Mentorship fee e-mail, or "Payment details — mentorship fee & instalments" for the 4-instalment schedule and bank details, with a WhatsApp version), fill the fields, choose the recipients and the sender, and Send now. The bank-transfer block fills from Invoice Settings.',
+                'Recruiting tutors and mentors: in Email templates open "Invite tutors and mentors to register" (category Recruitment). Choose the Tutors and mentors, Tutors or Mentors version, type the person\'s first name and the address, and send. The e-mail has the EduAakashaa logo, a hiring banner and a "Register your interest" button that opens the form on the Join our Team page. Each submission is saved in Leads with source join-team (role, city, qualification, experience, subjects, availability, LinkedIn), and a ref of email when it came from this e-mail. Nothing is sent to the person automatically.',
                 'Email Test (SMTP) checks that outgoing e-mail works before you send anything important.',
                 'Where a page has WhatsApp buttons, use "send to group" to post the same text to a member\'s family group.'],
          added='2026-10-26', updated='2026-10-26'),

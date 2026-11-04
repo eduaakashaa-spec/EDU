@@ -135,6 +135,23 @@ def _btn(url, label):
             'padding:12px 28px;border-radius:999px;font-weight:700;font-size:14px;'
             'display:inline-block">' + label + '</a></p>')
 
+JOIN_LINK = SITE + '/join-our-team?ref=email#register'
+
+
+def _banner(filename, alt):
+    """Full-width banner image linking to the register-interest page. JPG (not WebP) so Outlook and older clients show it; absolute URL, as email needs."""
+    return ('<p style="margin:0 0 18px"><a href="{link}"><img src="' + SITE + '/static/img/email/' + filename + '" width="504" alt="' + alt + '" '
+            'style="display:block;width:100%;max-width:504px;height:auto;border:0;border-radius:12px"></a></p>')
+
+
+def _perks(items):
+    """A simple inline-styled bullet list that survives Gmail's CSS sanitiser."""
+    return ('<ul style="margin:8px 0 4px;padding-left:20px;color:#0E1B3D">'
+            + ''.join('<li style="margin:4px 0">' + i + '</li>' for i in items) + '</ul>')
+
+NOTE_HTML = '<p style="color:#5A6278;font-size:13px">It takes about two minutes and only registers your interest. Our team will contact you to talk about the next steps.</p>'
+
+
 
 # --------------------------------------------------------------------------- #
 # The registry. Grouped by `category` for the admin UI.
@@ -644,6 +661,58 @@ EMAIL_TEMPLATES = [
                   "<strong>" + WHATSAPP_NUMBER + "</strong> with a good time, or simply reply "
                   "to this email with your questions.</p>"
                   + _btn(SITE, 'Explore the free tools'))},
+     ]},
+
+    # ===================== Recruitment ===================================== #
+    {'key': 'recruit_invite', 'icon': '\U0001F9D1\u200d\U0001F3EB', 'label': 'Invite tutors and mentors to register',
+     'category': 'Recruitment',
+     'desc': 'Marketing email to potential tutors and career counsellors: logo, hiring banner and a button to register their interest on the Join our Team page.',
+     'versions': [
+        {'key': 'both', 'label': 'Tutors and mentors', 'fields': [
+            _f('name', 'First name', 'there'), _f('link', 'Register-interest link', JOIN_LINK)],
+         'subject': 'Teach, mentor and grow with EduAakashaa',
+         'text': ("Hi {name},\n\nEduAakashaa is growing its network of tutors and career counsellors. We guide students across "
+                  "CBSE, State Boards, JEE, NEET and more with one-to-one coaching and mentoring, all online. If teaching or "
+                  "mentoring is your strength, we would like to hear from you.\n\nWhat you get:\n"
+                  "- Reach students anywhere, online\n- Flexible scheduling that fits your day\n- Competitive compensation\n"
+                  "- Tools and support from the team\n- A community of educators\n\nRegister your interest (about two minutes): {link}\n\n"
+                  "This only registers your interest. Our team will contact you to talk about the next steps.\n\n- Team EduAakashaa"),
+         'html': (_banner('hiring-both.jpg', 'We are hiring: teach, mentor and grow with EduAakashaa')
+                  + "<p>Hi {name},</p><p><strong>EduAakashaa</strong> is growing its network of <strong>tutors and career "
+                  "counsellors</strong>. We guide students across CBSE, State Boards, JEE, NEET and more with one-to-one coaching "
+                  "and mentoring, all online. If teaching or mentoring is your strength, we would like to hear from you.</p>"
+                  + _perks(['Reach students anywhere, online', 'Flexible scheduling that fits your day', 'Competitive compensation',
+                            'Tools and support from the team', 'A community of educators'])
+                  + _btn('{link}', 'Register your interest') + NOTE_HTML)},
+        {'key': 'tutor', 'label': 'Tutors', 'fields': [
+            _f('name', 'First name', 'there'), _f('subjects', 'Subjects we need', 'Maths, Physics, Chemistry and Biology'),
+            _f('link', 'Register-interest link', JOIN_LINK)],
+         'subject': 'Tutor opportunity with EduAakashaa: teach online, from anywhere',
+         'text': ("Hi {name},\n\nWe are looking for tutors for {subjects} and more, across CBSE and State Board curricula, to teach "
+                  "one-to-one with EduAakashaa.\n\nAs a tutor you would:\n- Plan lessons around each student\n"
+                  "- Teach live sessions over video\n- Track progress and share regular feedback\n- Use your own notes and materials\n\n"
+                  "Register your interest (about two minutes): {link}\n\nThis only registers your interest. Our team will contact "
+                  "you to talk about the next steps.\n\n- Team EduAakashaa"),
+         'html': (_banner('hiring-tutors.jpg', 'Now hiring tutors for Maths, Physics, Chemistry, Biology and more')
+                  + "<p>Hi {name},</p><p>We are looking for <strong>tutors</strong> for <strong>{subjects}</strong> and more, across "
+                  "CBSE and State Board curricula, to teach one-to-one with <strong>EduAakashaa</strong>.</p><p>As a tutor you would:</p>"
+                  + _perks(['Plan lessons around each student', 'Teach live sessions over video', 'Track progress and share regular feedback',
+                            'Use your own notes and materials'])
+                  + _btn('{link}', 'Register your interest') + NOTE_HTML)},
+        {'key': 'mentor', 'label': 'Mentors', 'fields': [
+            _f('name', 'First name', 'there'), _f('link', 'Register-interest link', JOIN_LINK)],
+         'subject': 'Mentor opportunity: guide students and parents with EduAakashaa',
+         'text': ("Hi {name},\n\nWe are looking for career counsellors and mentors to guide students and parents with EduAakashaa.\n\n"
+                  "As a mentor you would:\n- Guide students on career paths after Class 10 and Class 12\n"
+                  "- Run aptitude and interest mapping\n- Help with college selection and entrance-exam strategy\n"
+                  "- Hold one-to-one mentoring sessions\n\nRegister your interest (about two minutes): {link}\n\n"
+                  "This only registers your interest. Our team will contact you to talk about the next steps.\n\n- Team EduAakashaa"),
+         'html': (_banner('hiring-mentors.jpg', 'Now hiring mentors: career counsellors who guide students and parents')
+                  + "<p>Hi {name},</p><p>We are looking for <strong>career counsellors and mentors</strong> to guide students and parents "
+                  "with <strong>EduAakashaa</strong>.</p><p>As a mentor you would:</p>"
+                  + _perks(['Guide students on career paths after Class 10 and Class 12', 'Run aptitude and interest mapping',
+                            'Help with college selection and entrance-exam strategy', 'Hold one-to-one mentoring sessions'])
+                  + _btn('{link}', 'Register your interest') + NOTE_HTML)},
      ]},
 ]
 

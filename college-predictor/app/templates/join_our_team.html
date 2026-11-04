@@ -2,6 +2,18 @@
 {% block title %}Join Our Team — Tutors &amp; Career Counsellors | EduAakashaA{% endblock %}
 {% block head %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages.css') }}">
+<style>
+  .jf{max-width:860px;margin:0 auto;background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:18px;padding:22px}
+  .jf .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.jf .full{grid-column:1/-1}
+  .jf label{display:block;font:700 .72rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--muted,#5A6278);margin:6px 0 4px}
+  .jf input,.jf select,.jf textarea{width:100%;box-sizing:border-box;border:1.5px solid var(--hairline,#E8DFC8);border-radius:10px;padding:10px 12px;font:500 .95rem 'Plus Jakarta Sans',system-ui,sans-serif;background:#fff;color:inherit}
+  .jf textarea{min-height:90px;resize:vertical}.jf .hp{position:absolute;left:-9999px;height:0;overflow:hidden}
+  .jf button{border:0;border-radius:999px;padding:12px 28px;font:700 .95rem 'Plus Jakarta Sans',system-ui,sans-serif;background:#FF6B0A;color:#fff;cursor:pointer;margin-top:12px}
+  .jf .err{background:#FBE9E7;color:#8E1B1B;border-radius:8px;padding:9px 12px;margin-bottom:8px;font-size:.9rem}
+  .jf .ok{background:#E3F4EB;color:#14603F;border-radius:12px;padding:16px 18px;font-size:1rem;line-height:1.55}
+  .jf .note{font-size:.78rem;color:var(--muted,#5A6278);margin:8px 0 0}
+  @media(max-width:640px){.jf .row{grid-template-columns:1fr}}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -47,9 +59,9 @@
 
 <!-- Hiring banner -->
 <div class="container" style="margin:18px auto 0;max-width:980px;padding:0 16px;">
-  <div style="display:block;border-radius:18px;overflow:hidden;box-shadow:0 12px 32px rgba(7,26,68,.18);line-height:0;">
+  <a href="#register" style="display:block;border-radius:18px;overflow:hidden;box-shadow:0 12px 32px rgba(7,26,68,.18);line-height:0;" aria-label="Register your interest">
     <img src="{{ url_for('static', filename='img/carousel/hiring-1.webp') }}" width="1600" height="900" alt="We are hiring: teach, mentor and grow with EduAakashaA. Tutors for CBSE, State Boards, JEE and NEET, career counsellors and mentors, working online from anywhere." style="width:100%;height:auto;max-height:46vh;object-fit:cover;display:block;" decoding="async">
-  </div>
+  </a>
 </div>
 
 <div class="main-content">
@@ -115,6 +127,41 @@
       <div class="info-card"><div class="info-card__icon">{{ ea_icon('link') }}</div><div class="info-card__title">LinkedIn Profile</div><div class="info-card__text">Optional but preferred.</div></div>
       <div class="info-card"><div class="info-card__icon">📎</div><div class="info-card__title">Sample Content</div><div class="info-card__text">Sample notes / lesson plan / recorded class.</div></div>
       <div class="info-card"><div class="info-card__icon">{{ ea_icon('edit') }}</div><div class="info-card__title">Bio</div><div class="info-card__text">Brief intro — teaching philosophy &amp; strengths.</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="register">
+    <div class="section__header">
+      <span class="eyebrow">REGISTER YOUR INTEREST</span>
+      <h2 class="section__title">Tell us about yourself</h2>
+    </div>
+    <div class="jf">
+    {% if sent %}
+      <div class="ok"><strong>Thank you. We have your details.</strong><br>The EduAakashaA team will read them and get in touch on the email or phone you gave. Questions meanwhile? Write to info@eduaakashaa.com or message us on WhatsApp.</div>
+    {% else %}
+      {% if error %}<div class="err" role="alert">{{ error }}</div>{% endif %}
+      {% set form = form or {} %}
+      <form method="post" action="{{ url_for('main.join_interest') }}">
+        <div class="row">
+          <div><label for="jn">Full name</label><input id="jn" name="name" required maxlength="150" value="{{ form.get('name', '') }}" autocomplete="name"></div>
+          <div><label for="jr">I want to join as</label><select id="jr" name="role" required>
+            <option value="">Choose</option>{% for r in ('Tutor', 'Career counsellor / mentor', 'Both') %}<option {{ 'selected' if form.get('role') == r }}>{{ r }}</option>{% endfor %}</select></div>
+          <div><label for="je">Email</label><input id="je" name="email" type="email" required maxlength="200" value="{{ form.get('email', '') }}" autocomplete="email"></div>
+          <div><label for="jp">Phone (WhatsApp preferred)</label><input id="jp" name="phone" type="tel" required maxlength="40" value="{{ form.get('phone', '') }}" autocomplete="tel" placeholder="+91 98765 43210"></div>
+          <div><label for="jc">City</label><input id="jc" name="city" maxlength="120" value="{{ form.get('city', '') }}" autocomplete="address-level2"></div>
+          <div><label for="jq">Highest qualification</label><input id="jq" name="qualification" maxlength="200" value="{{ form.get('qualification', '') }}" placeholder="Degree, institution"></div>
+          <div><label for="jx">Years of experience</label><input id="jx" name="experience" maxlength="60" value="{{ form.get('experience', '') }}"></div>
+          <div><label for="jv">Available days and hours (IST)</label><input id="jv" name="availability" maxlength="200" value="{{ form.get('availability', '') }}" placeholder="For example weekday evenings, weekends"></div>
+          <div class="full"><label for="jf">Subjects, boards or exams you cover</label><input id="jf" name="focus" maxlength="300" value="{{ form.get('focus', '') }}" placeholder="For example CBSE Physics and Maths, JEE, NEET Biology, career counselling"></div>
+          <div class="full"><label for="jl">LinkedIn profile (optional)</label><input id="jl" name="linkedin" maxlength="300" value="{{ form.get('linkedin', '') }}"></div>
+          <div class="full"><label for="jm">A few lines about you (optional)</label><textarea id="jm" name="message" maxlength="1000">{{ form.get('message', '') }}</textarea></div>
+        </div>
+        <input type="hidden" name="ref" value="{{ request.args.get('ref', '') }}">
+        <div class="hp" aria-hidden="true"><label>Website</label><input type="text" name="website" tabindex="-1" autocomplete="off"></div>
+        <button type="submit">Register my interest &rarr;</button>
+        <p class="note">This only registers your interest. We will contact you to talk about the next steps; nothing is sent to you automatically and nothing is shared outside EduAakashaA.</p>
+      </form>
+    {% endif %}
     </div>
   </section>
 
