@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-03'
+UPDATED = '2026-11-04'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -28,7 +28,8 @@ ROLE_BLURB = {
 COVERED_BLUEPRINTS = {
     'explorer': 'EduPulse-Explorer (Grades 7 to 10): discovery test, interest check, exam tasters, skill sets, Daily 10 review, progress, creative challenges',
     'nift_mock': 'EduPulse-NIFT (NIFT GAT and CAT): GAT mocks per programme, earlier-year questions, section sets, Daily Review, progress, CAT studio tasks',
-    'free_mock': 'EduPulse free sample mock tests (public): phone and email once, then one 10-question sample each for JEE, UCEED, NID, NIFT, IAT and TN Class 10',
+    'neet_mock': 'EduPulse-NEET (NEET UG): full and half mocks, 2018 to 2025 previous-year papers, subject sets, Daily Review, progress',
+    'free_mock': 'EduPulse free sample mock tests (public): phone and email once, then one 10-question sample each for JEE, NEET, UCEED, NID, NIFT, IAT and TN Class 10',
     'nid_mock': 'EduPulse-NID mock tests (NID DAT): mocks, official sample papers, section sets, studio practice',
     'main': 'Public pages, guides, predictors and premium analytics pages',
     'auth': 'Sign in, register, password',
@@ -57,6 +58,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-04', 'New EduPulse-NEET Mock Test Centre (Premium): about 1,300 questions from the NEET (UG) papers 2018 to 2025 with the National Testing Agency answer-key option checked by an independent solve; full and half mocks (+4, -1), previous-year papers, subject sets, Daily Review with spaced cards, progress. New public page NEET Papers Analysed, a NEET sample in the free EduPulse mock tests, a Member Home tile and a menu link.'),
     ('2026-11-03', 'New public page EduPulse Free Mock Tests: a visitor enters phone and email once, then tries one free 10-question sample for each exam (JEE Main, UCEED, NID, NIFT, IAT, TN Class 10) with score and explanations. Each unlock and finished sample is saved as a lead (source edupulse-free-mock). Linked from the menu and the membership page.'),
     ('2026-11-03', 'Mentorship admin: new "Remove from member portal" button on each enrolment, after a programme has been assigned and published. The programme disappears for the student, parents and mentor, all records are kept, and "Restore to member portal" brings it back.'),
     ('2026-11-03', 'Four EduPulse feature banners (Reinforcement, Mock Test Centres, previous years papers, mentor and parent view) designed in Canva: added to the homepage banner carousel (now 10 slides) and as a carousel inside the EduPulse section of the membership registration page.'),
@@ -110,7 +112,7 @@ GUIDE = [
     # ------------------------------------------------------------------ everyone
     dict(id='a-free-mock', role='admin', group='Programmes', title='EduPulse free sample mock tests (public leads)', summary='A public page where visitors try one free sample per exam after leaving phone and email.',
          where=[('EduPulse Free Mock Tests', 'free_mock.home')],
-         steps=['Share the page link with prospects: /edupulse-free-mock-tests. A visitor enters phone and email (name optional) once, then opens six samples: JEE Main, UCEED, NID, NIFT, IAT and TN Class 10, ten questions each, with the score and an explanation for every question.',
+         steps=['Share the page link with prospects: /edupulse-free-mock-tests. A visitor enters phone and email (name optional) once, then opens seven samples: JEE Main, NEET, UCEED, NID, NIFT, IAT and TN Class 10, ten questions each, with the score and an explanation for every question.',
                 'Every unlock and every finished sample is saved as a lead with source edupulse-free-mock (open the Leads inbox). A finished sample records the exam and the right, wrong and blank counts, so you can see who tried what.',
                 'The samples are fixed (the same ten questions for everyone) and come from the member mock banks; to change a sample, change the seed or sizes in services/free_mock.py.'],
          tips=['The page asks for contact details only to share results and help with preparation; do not use them for anything else.'],
@@ -241,6 +243,16 @@ GUIDE = [
                 'Creative challenges are done at home with paper and household items and marked by you against a rubric; they practise the drawing and invention that design exams ask for.'],
          tips=['Short and daily beats long and rare: ten minutes a day keeps the review cards moving.', 'Questions are original school-level practice, not questions from any exam: check each exam’s current notice for its pattern.'],
          tiles=['EduPulse-Explorer (Grades 7 to 10)'], added='2026-11-03', updated='2026-11-03'),
+    dict(id='s-neet', role='student', group='EduPulse', title='EduPulse-NEET Mock Test Centre', summary='NEET full and half mocks, questions from the 2018 to 2025 papers, subject sets and a Daily Review that brings back what you missed.',
+         where=[('EduPulse-NEET', 'neet_mock.home'), ('Progress', 'neet_mock.progress'), ('NEET papers analysed', 'main.neet_exam'), ('Free sample mock tests', 'free_mock.home')],
+         steps=['Open "EduPulse-NEET Mock Test Centre" (Premium). Choose the full mock (45 questions each in Physics, Chemistry, Botany and Zoology, 180 minutes), the Physics + Chemistry half or the Biology half (90 minutes each), a previous-year paper (2018 to 2025) or a 20-question subject set.',
+                'Marking is as in NEET: +4 for a right answer, -1 for a wrong one, nothing for a blank. Pick an answer, then rate your confidence: Guess, Low, Medium or High. A timed test submits itself when time is up (one minute a question).',
+                'Every mock is a fresh paper drawn from the bank of about 1,300 questions, avoiding the questions you saw in your last four tests. Previous-year papers show only the questions that can be shown as text (figure, graph and drawn-structure questions, and questions the key leaves open, are left out), so the count is below the full paper.',
+                'Submit and open the report: marks and net marks by subject, time per question, topics that cost marks, the confidence table, and every question with the key, an explanation and its source paper.',
+                'Every wrong answer, and every right answer rated Guess or Low, becomes a review card. Open "Daily Review" each day: it serves due cards and tops up from your weakest subjects. A right answer moves a card up its box (reviews after 0, 1, 3, 7, 14 and 30 days); a wrong answer sends it back.',
+                'Open Progress for subject levels (last 20 answers), the mock trend, review boxes, topics to reinforce, streak and badges. Mentors and admins can open a student\'s progress from the mentor student view.'],
+         tips=['Each answer is the National Testing Agency key for the booklet code we transcribed, kept only when an independent solve agreed. Tell your mentor if you doubt one.', 'Confirm the current pattern and marking in the NEET (UG) information bulletin.'],
+         tiles=['EduPulse-NEET Mock Test Centre'], added='2026-11-04', updated='2026-11-04'),
     dict(id='s-nift', role='student', group='EduPulse', title='EduPulse-NIFT Mock Test Centre', summary='NIFT GAT mocks, questions from earlier papers, section sets, a Daily Review that brings back what you missed, and CAT studio practice.',
          where=[('EduPulse-NIFT', 'nift_mock.home'), ('Progress', 'nift_mock.progress'), ('CAT studio', 'nift_mock.studio'), ('NIFT papers analysed', 'main.nift_exam')],
          steps=['Open "EduPulse-NIFT Mock Test Centre" (Premium). Choose a GAT mock for your programme (B.Des 100 questions in 120 minutes, B.F.Tech Part A or Part B, M.Des, M.F.M or M.F.Tech), a previous-year paper (2016 to 2023), or a 15-question section set (quantitative, English, comprehension, analytical, GK).',

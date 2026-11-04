@@ -576,6 +576,20 @@ def nift_exam_alias():
     return redirect(url_for('main.nift_exam'), code=301)
 
 
+@main_bp.route('/neet-papers-analysis')
+def neet_exam():
+    # public page: NEET (UG) 2018 to 2025 papers analysed (questions by year and subject, topics, marking), free sample questions, links to the mock centre; data in app/data/neet_exam.py and app/data/neet/analysis.json
+    from app.data import neet_exam as d
+    return render_template('neet_exam.html', **d.context())
+
+
+@main_bp.route('/neet-previous-papers')
+@main_bp.route('/neet-mock-test')
+@main_bp.route('/neet-question-papers')
+def neet_exam_alias():
+    return redirect(url_for('main.neet_exam'), code=301)
+
+
 @main_bp.route('/explorer-test')
 def explorer_landing():
     # public page: EduPulse-Explorer for Grades 7 to 10 (what it is, exam families, spaced review, six free questions); data in app/data/explorer_landing.py

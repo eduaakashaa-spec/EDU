@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}{{ r.title }} report | EduPulse-NEET{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.rv{border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;margin:8px 0;background:var(--paper,#FFFDF7)}.rv.ok{border-left:5px solid #1F8B5C}.rv.no{border-left:5px solid #C23A3A}.rv.bl{border-left:5px solid #E89A1C}.rv small{color:var(--muted,#5A6278)}
+.rv .p{background:#F4F6FB;border-left:4px solid var(--navy,#0E3A8A);border-radius:8px;padding:8px 12px;margin:6px 0;font-size:.9rem;white-space:pre-line}
+.rv .o{margin:5px 0;padding:4px 8px;border-radius:8px;border:1.5px solid transparent;display:flex;gap:8px;align-items:center}.rv .o b{min-width:1.4em}
+.rv .o.k{border-color:#1F8B5C;background:#EAF6EF}.rv .o.w{border-color:#C23A3A;background:#FBE9E7}.rv .sol{margin-top:8px;font-size:.92rem;background:#F4F6FB;border-radius:8px;padding:8px 10px}.rv .sty{margin-top:6px;font-size:.84rem;color:var(--muted,#5A6278)}
+.ex-bar{display:inline-block;width:90px;height:8px;background:var(--hairline,#E8DFC8);border-radius:4px;overflow:hidden;vertical-align:middle;margin-right:6px}.ex-bar i{display:block;height:100%;background:#1F8B5C}
+.ex-go{display:inline-block;border-radius:999px;padding:9px 20px;font:700 .9rem 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;background:var(--navy,#0E3A8A);color:#fff;margin:4px 8px 4px 0}.ex-go.o{background:#FF6B0A}
+:root[data-theme="dark"] .rv .sol,:root[data-theme="dark"] .rv .p{background:#1d2230}:root[data-theme="dark"] .rv .o.k{background:#12301f}:root[data-theme="dark"] .rv .o.w{background:#3a1a1a}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb">{% if own %}<a href="{{ url_for('neet_mock.home') }}">EduPulse-NEET</a>{% else %}<a href="{{ url_for('neet_mock.student_progress', uid=r.user_id) }}">{{ r.user.name }}</a>{% endif %} › {{ r.title }} report</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">{{ r.finished_at.strftime('%d %b %Y') }}{{ ' · ' ~ (r.duration_sec // 60) ~ ' min' if r.duration_sec }} · +{{ RIGHT_MARKS }} right, &minus;{{ WRONG }} wrong</span><h1>{{ r.title }}</h1>
+      {% if not own %}<p>{{ r.user.name }}'s attempt.</p>{% endif %}</div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ r.score|int }} / {{ r.max_score|int }}</b><span>marks</span></div>
+      <div class="pl-kpi"><b>{{ r.right }} · {{ r.wrong }} · {{ r.blank }}</b><span>right · wrong · blank</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P4 }}</b><span>sure but wrong</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P2 }}</b><span>right but unsure</span></div>
+    </div>
+  </section>
+  {% if own %}<div class="pl-note"><strong>Reinforcement:</strong> every question you got wrong, and every right answer you rated Guess or Low, is now a review card. The idea comes back in your Daily Review on a schedule (today, tomorrow, 3 days, a week, two weeks, a month) and moves up a box each time you get it right. {% if due %}You have <strong>{{ due }}</strong> card(s) due now.{% endif %}
+    <div style="margin-top:8px"><a class="ex-go o" href="{{ url_for('neet_mock.daily') }}">Start today&rsquo;s Daily Review</a><a class="ex-go" href="{{ url_for('neet_mock.progress') }}">My progress</a></div></div>{% endif %}
+  <div class="pl-grid pl-g2">
+    <div class="pl-card"><span class="pl-eyebrow">Subjects</span><h3>Subject by subject</h3>
+      <table class="pl-tbl"><thead><tr><th>Subject</th><th>Right / tried</th><th>Net marks</th><th>Accuracy</th><th>Sec / question</th></tr></thead><tbody>
+      {% for s in an.secs %}<tr><td>{{ s.name }}</td><td>{{ s.right }} / {{ s.n }}{{ ' (+' ~ s.blank ~ ' blank)' if s.blank }}</td><td>{{ s.net }}</td><td><span class="ex-bar"><i style="width:{{ s.acc or 0 }}%"></i></span>{{ (s.acc ~ '%') if s.acc is not none else '—' }}</td><td>{{ s.avg_secs if s.avg_secs is not none else '—' }}</td></tr>{% endfor %}</tbody></table>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Topics</span><h3>Topics that cost you marks</h3>
+      {% if an.weak_topics %}<table class="pl-tbl"><thead><tr><th>Topic</th><th>Right / tried</th></tr></thead><tbody>
+      {% for t in an.weak_topics %}<tr><td>{{ t.topic }}</td><td>{{ t.right }} / {{ t.n }}</td></tr>{% endfor %}</tbody></table>
+      {% else %}<p class="pl-muted">No topic had two or more misses in this test.</p>{% endif %}
+    </div>
+  </div>
+  <div class="pl-grid pl-g2" style="margin-top:12px">
+    <div class="pl-card"><span class="pl-eyebrow">Confidence</span><h3>What your confidence says</h3>
+      {% if an.rated %}<table class="pl-tbl"><thead><tr><th>You said</th><th>Answers</th><th>Right</th><th>Accuracy</th></tr></thead><tbody>
+      {% for c, label in [('H','High'),('M','Medium'),('L','Low'),('G','Guess')] %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}</tbody></table>
+      {% else %}<p class="pl-muted">No confidence ratings were given in this test.</p>{% endif %}
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Next</span><h3>What to do next</h3>
+      {% if an.weak %}<p style="margin:0 0 6px">Reinforce first:</p><ul style="margin:0;padding-left:18px;line-height:1.7">{% for w in an.weak %}<li><strong>{{ w.name }}</strong> ({{ w.acc }}%) {% if own %}· <a href="{{ url_for('neet_mock.take', tid='S-' ~ w.sec) }}">15-question set</a>{% endif %}</li>{% endfor %}</ul>{% endif %}
+      {% if an.strong %}<p style="margin:10px 0 0">Going well: <strong>{{ an.strong|map(attribute='name')|join(', ') }}</strong>. Keep these warm with the Daily Review.</p>{% endif %}
+      {% if not an.weak and not an.strong %}<p class="pl-muted">Take a full NEET mock to see strengths and gaps in every subject.</p>{% endif %}
+    </div>
+  </div>
+  <h2 style="margin:22px 0 8px">Question review with explanations</h2>
+  {% for q in review %}
+  <div class="rv {{ 'ok' if q.right else 'bl' if q.chosen is none else 'no' }}">
+    <small>{{ loop.index }} · {{ q.secname }}{% if q.topic %} · {{ q.topic }}{% endif %}{% if q.conf %} · you rated <span class="pl-pill cf-{{ q.conf }}">{{ CONF_LABEL[q.conf] }}</span>{% endif %} · {{ q.source }}</small>
+    {% if q.view.passage %}<div class="p">{{ q.view.passage }}</div>{% endif %}
+    <p style="margin:6px 0">{{ q.view.text }}</p>
+    {% for o in q.view.options %}<div class="o {{ 'k' if loop.index0 == q.ans else 'w' if loop.index0 == q.chosen }}"><b>{{ LETTERS[loop.index0] }}.</b><span>{{ o.t }}</span>{% if loop.index0 == q.ans %}<span>✓</span>{% endif %}{% if loop.index0 == q.chosen and loop.index0 != q.ans %}<small>(your answer)</small>{% endif %}</div>{% endfor %}
+    {% if q.chosen is none %}<small>Not answered.</small>{% endif %}
+    {% if q.why %}<div class="sol"><strong>Explanation:</strong> {{ q.why }}</div>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,543 @@
+{
+ "years": {
+  "2018": {
+   "code": "AA",
+   "paper_questions": 180,
+   "read": 180,
+   "figure": 11,
+   "unreadable": 4,
+   "unsure": 2,
+   "no_single_key": 0,
+   "key_differs": 1,
+   "kept": 162,
+   "by_sec": {
+    "PHY": 38,
+    "CHEM": 36,
+    "BOT": 43,
+    "ZOO": 45
+   }
+  },
+  "2019": {
+   "code": "P5",
+   "paper_questions": 180,
+   "read": 171,
+   "figure": 10,
+   "unreadable": 0,
+   "unsure": 1,
+   "no_single_key": 3,
+   "key_differs": 5,
+   "kept": 152,
+   "by_sec": {
+    "PHY": 30,
+    "CHEM": 44,
+    "BOT": 43,
+    "ZOO": 35
+   }
+  },
+  "2020": {
+   "code": "E1",
+   "paper_questions": 180,
+   "read": 180,
+   "figure": 7,
+   "unreadable": 1,
+   "unsure": 0,
+   "no_single_key": 0,
+   "key_differs": 2,
+   "kept": 170,
+   "by_sec": {
+    "PHY": 44,
+    "CHEM": 45,
+    "BOT": 40,
+    "ZOO": 41
+   }
+  },
+  "2021": {
+   "code": "M1",
+   "paper_questions": 200,
+   "read": 193,
+   "figure": 13,
+   "unreadable": 4,
+   "unsure": 1,
+   "no_single_key": 0,
+   "key_differs": 0,
+   "kept": 175,
+   "by_sec": {
+    "PHY": 35,
+    "CHEM": 42,
+    "BOT": 48,
+    "ZOO": 50
+   }
+  },
+  "2022": {
+   "code": "Q1",
+   "paper_questions": 200,
+   "read": 189,
+   "figure": 12,
+   "unreadable": 1,
+   "unsure": 2,
+   "no_single_key": 0,
+   "key_differs": 1,
+   "kept": 173,
+   "by_sec": {
+    "PHY": 37,
+    "CHEM": 39,
+    "BOT": 48,
+    "ZOO": 49
+   }
+  },
+  "2023": {
+   "code": "E1",
+   "paper_questions": 200,
+   "read": 192,
+   "figure": 17,
+   "unreadable": 0,
+   "unsure": 2,
+   "no_single_key": 2,
+   "key_differs": 4,
+   "kept": 167,
+   "by_sec": {
+    "BOT": 49,
+    "PHY": 34,
+    "CHEM": 38,
+    "ZOO": 46
+   }
+  },
+  "2024": {
+   "code": "Q5",
+   "paper_questions": 200,
+   "read": 200,
+   "figure": 26,
+   "unreadable": 8,
+   "unsure": 2,
+   "no_single_key": 1,
+   "key_differs": 10,
+   "kept": 153,
+   "by_sec": {
+    "PHY": 33,
+    "CHEM": 36,
+    "BOT": 41,
+    "ZOO": 43
+   }
+  },
+  "2025": {
+   "code": "48",
+   "paper_questions": 180,
+   "read": 173,
+   "figure": 20,
+   "unreadable": 1,
+   "unsure": 0,
+   "no_single_key": 1,
+   "key_differs": 3,
+   "kept": 148,
+   "by_sec": {
+    "PHY": 29,
+    "CHEM": 35,
+    "BOT": 42,
+    "ZOO": 42
+   }
+  }
+ },
+ "secs": {
+  "PHY": 280,
+  "CHEM": 315,
+  "BOT": 352,
+  "ZOO": 351
+ },
+ "questions": 1298,
+ "read": 1478,
+ "repeated": 2,
+ "topics": {
+  "PHY": [
+   [
+    "Current electricity",
+    9
+   ],
+   [
+    "Gravitation",
+    9
+   ],
+   [
+    "Electromagnetic waves",
+    8
+   ],
+   [
+    "Alternating current",
+    8
+   ],
+   [
+    "Motion in a straight line",
+    7
+   ],
+   [
+    "Ray optics",
+    7
+   ],
+   [
+    "Units and dimensions",
+    7
+   ],
+   [
+    "Nuclei",
+    6
+   ],
+   [
+    "Kinetic theory of gases",
+    5
+   ],
+   [
+    "Electromagnetic induction",
+    5
+   ],
+   [
+    "Work, energy and power",
+    5
+   ],
+   [
+    "Units and measurements",
+    5
+   ],
+   [
+    "Moving charges and magnetism",
+    4
+   ],
+   [
+    "Magnetism and matter",
+    4
+   ],
+   [
+    "Simple harmonic motion",
+    4
+   ],
+   [
+    "Rotational motion",
+    4
+   ],
+   [
+    "Laws of motion",
+    3
+   ],
+   [
+    "Surface tension",
+    3
+   ],
+   [
+    "Human health and diseases",
+    3
+   ],
+   [
+    "Animal kingdom",
+    3
+   ],
+   [
+    "Biomolecules",
+    3
+   ],
+   [
+    "Biotechnology",
+    3
+   ],
+   [
+    "Evolution",
+    3
+   ],
+   [
+    "Semiconductor devices",
+    3
+   ]
+  ],
+  "CHEM": [
+   [
+    "Chemical bonding",
+    7
+   ],
+   [
+    "Biomolecules",
+    7
+   ],
+   [
+    "Coordination compounds",
+    7
+   ],
+   [
+    "Solid state",
+    6
+   ],
+   [
+    "Electrochemistry",
+    6
+   ],
+   [
+    "p-block elements",
+    5
+   ],
+   [
+    "s-block elements",
+    5
+   ],
+   [
+    "States of matter",
+    5
+   ],
+   [
+    "Chemical kinetics",
+    5
+   ],
+   [
+    "Amines",
+    4
+   ],
+   [
+    "Carboxylic acids",
+    4
+   ],
+   [
+    "Surface chemistry",
+    4
+   ],
+   [
+    "Molecular basis of inheritance",
+    4
+   ],
+   [
+    "Cell",
+    4
+   ],
+   [
+    "Principles of inheritance",
+    4
+   ],
+   [
+    "Environmental issues",
+    4
+   ],
+   [
+    "Excretory products and their elimination",
+    4
+   ],
+   [
+    "Cell cycle and cell division",
+    4
+   ],
+   [
+    "Structure of atom",
+    4
+   ],
+   [
+    "d- and f-block elements",
+    4
+   ],
+   [
+    "Solutions",
+    4
+   ],
+   [
+    "Environmental chemistry",
+    3
+   ],
+   [
+    "Hydrocarbons",
+    3
+   ],
+   [
+    "Ionic equilibrium",
+    3
+   ]
+  ],
+  "BOT": [
+   [
+    "Molecular basis of inheritance",
+    20
+   ],
+   [
+    "Anatomy of flowering plants",
+    15
+   ],
+   [
+    "Plant kingdom",
+    15
+   ],
+   [
+    "Photosynthesis in higher plants",
+    13
+   ],
+   [
+    "Morphology of flowering plants",
+    12
+   ],
+   [
+    "Sexual reproduction in flowering plants",
+    11
+   ],
+   [
+    "Biomolecules",
+    10
+   ],
+   [
+    "Cell cycle and cell division",
+    10
+   ],
+   [
+    "Biotechnology principles and processes",
+    9
+   ],
+   [
+    "Biotechnology and its applications",
+    9
+   ],
+   [
+    "Plant growth and development",
+    9
+   ],
+   [
+    "Biodiversity and conservation",
+    9
+   ],
+   [
+    "Mineral nutrition",
+    8
+   ],
+   [
+    "Organisms and populations",
+    8
+   ],
+   [
+    "Environmental issues",
+    8
+   ],
+   [
+    "Biological classification",
+    8
+   ],
+   [
+    "Principles of inheritance",
+    8
+   ],
+   [
+    "Respiration in plants",
+    7
+   ],
+   [
+    "Cell",
+    7
+   ],
+   [
+    "Transport in plants",
+    7
+   ],
+   [
+    "Microbes in human welfare",
+    7
+   ],
+   [
+    "Biotechnology",
+    7
+   ],
+   [
+    "Ecosystem",
+    6
+   ],
+   [
+    "Principles of inheritance and variation",
+    5
+   ]
+  ],
+  "ZOO": [
+   [
+    "Animal kingdom",
+    18
+   ],
+   [
+    "Human reproduction",
+    16
+   ],
+   [
+    "Human health and disease",
+    14
+   ],
+   [
+    "Molecular basis of inheritance",
+    14
+   ],
+   [
+    "Structural organisation in animals",
+    13
+   ],
+   [
+    "Evolution",
+    11
+   ],
+   [
+    "Body fluids and circulation",
+    10
+   ],
+   [
+    "Reproductive health",
+    10
+   ],
+   [
+    "Breathing and exchange of gases",
+    9
+   ],
+   [
+    "Cell",
+    9
+   ],
+   [
+    "Biomolecules",
+    9
+   ],
+   [
+    "Cell cycle and cell division",
+    9
+   ],
+   [
+    "Neural control and coordination",
+    8
+   ],
+   [
+    "Chemical coordination and integration",
+    8
+   ],
+   [
+    "Digestion and absorption",
+    8
+   ],
+   [
+    "Locomotion and movement",
+    8
+   ],
+   [
+    "Biotechnology",
+    8
+   ],
+   [
+    "Organisms and populations",
+    7
+   ],
+   [
+    "Biological classification",
+    6
+   ],
+   [
+    "Environmental issues",
+    5
+   ],
+   [
+    "Biotechnology and its applications",
+    5
+   ],
+   [
+    "Excretory products and their elimination",
+    5
+   ],
+   [
+    "Microbes in human welfare",
+    4
+   ],
+   [
+    "p-block elements",
+    4
+   ]
+  ]
+ }
+}

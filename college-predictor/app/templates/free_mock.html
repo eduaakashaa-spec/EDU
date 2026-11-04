@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}EduPulse Free Sample Mock Tests: JEE, UCEED, NID, NIFT, IAT, TN Class 10 | EduAakashaA{% endblock %}
-{% block meta_description %}<meta name="description" content="Try a free EduPulse sample mock test for JEE Main, UCEED, NID DAT, NIFT GAT, IISER Aptitude Test and TN Class 10. Ten questions each, with answers and explanations. Enter your phone and email to start.">{% endblock %}
+{% block meta_description %}<meta name="description" content="Try a free EduPulse sample mock test for JEE Main, NEET (UG), UCEED, NID DAT, NIFT GAT, IISER Aptitude Test and TN Class 10. Ten questions each, with answers and explanations. Enter your phone and email to start.">{% endblock %}
 {% block premium_notice %}{% endblock %}
 {% block head %}
 <style>
@@ -34,7 +34,7 @@
       <span class="eb" style="color:#FFB27A">EduPulse &middot; free sample mock tests</span>
       <h1>Try a real mock test before you join.</h1>
       <p class="lead">One free 10-question sample for each exam, with the right answer and a short explanation for every question. See how an EduPulse mock feels.</p>
-      <ul><li>JEE Main, UCEED, NID DAT, NIFT GAT, IISER Aptitude Test and TN Class 10</li><li>Score and explanations as soon as you finish</li><li>No payment, no card. Phone and email only</li></ul>
+      <ul><li>JEE Main, NEET (UG), UCEED, NID DAT, NIFT GAT, IISER Aptitude Test and TN Class 10</li><li>Score and explanations as soon as you finish</li><li>No payment, no card. Phone and email only</li></ul>
     </div>
     <form class="fm-form" method="post" action="{{ url_for('free_mock.start') }}" id="start">
       <h2>Start your free samples</h2>
@@ -48,7 +48,7 @@
     </form>
   </section>
   <section style="margin-top:20px">
-    <h2 style="font-size:1.2rem;margin:0 0 6px">The six samples</h2>
+    <h2 style="font-size:1.2rem;margin:0 0 6px">The seven samples</h2>
     <div class="fm-grid">
       {% for e in exams %}<div class="fm-card"><span class="k">{{ e.tag }}</span><h3>{{ e.name }}</h3><p>{{ e.blurb }}</p><span class="m">{{ SIZE }} questions &middot; about {{ e.minutes }} min &middot; {{ e.marks }}</span></div>{% endfor %}
     </div>

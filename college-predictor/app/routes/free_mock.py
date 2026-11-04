@@ -1,6 +1,6 @@
 """EduPulse free sample mock tests (public): phone and email once, then one 10-question sample for each exam.
 
-    GET  /edupulse-free-mock-tests/           the form (first visit) or the six samples
+    GET  /edupulse-free-mock-tests/           the form (first visit) or the seven samples
     POST /edupulse-free-mock-tests/start      phone + email (+ name) -> unlocks the samples for this browser
     GET  /edupulse-free-mock-tests/<exam>     the sample test
     POST /edupulse-free-mock-tests/<exam>     finish: score and review

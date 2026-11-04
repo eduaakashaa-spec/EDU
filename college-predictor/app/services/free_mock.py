@@ -21,6 +21,8 @@ EXAMS = [
      'blurb': 'Ten NID-style questions: mirror images, patterns, visual reasoning, language and general awareness.'},
     {'key': 'nift', 'name': 'NIFT GAT', 'tag': 'Quant, English, GK, reasoning', 'minutes': 15, 'marks': '+1 right, -0.25 wrong',
      'blurb': 'Ten questions from the GAT sections: quantitative ability, reasoning, English, comprehension and general knowledge.'},
+    {'key': 'neet', 'name': 'NEET (UG)', 'tag': 'Physics, Chemistry, Biology', 'minutes': 20, 'marks': '+4 right, -1 wrong',
+     'blurb': 'Ten questions from the NEET papers 2018 to 2025: 3 physics, 3 chemistry, 2 botany, 2 zoology.'},
     {'key': 'iat', 'name': 'IISER Aptitude Test', 'tag': 'Bio, Chem, Maths, Physics', 'minutes': 20, 'marks': '+4 right, -1 wrong',
      'blurb': 'Ten IAT-style questions across biology, chemistry, mathematics and physics, shown as in the paper.'},
     {'key': 'tn10', 'name': 'TN Class 10', 'tag': 'Maths and Science', 'minutes': 15, 'marks': '1 mark each',
@@ -93,6 +95,17 @@ def _nift():
     return out
 
 
+def _neet():
+    from app.services import neet
+    out = []
+    for sec, n in (('PHY', 3), ('CHEM', 3), ('BOT', 2), ('ZOO', 2)):
+        pool = [q for q in neet.bank() if q['sec'] == sec and len(q['q']) < 400 and all(len(o) < 120 for o in q['opts'])]
+        for q in _pick(pool, n, 'neet' + sec):
+            out.append({'id': q['id'], 'sec': neet.SEC[sec], 'stem': _t(q['q']), 'fig': '', 'passage': '', 'opts': [{'h': _t(o)} for o in q['opts']], 'ans': q['ans'],
+                        'why': _t(q.get('why'))})
+    return out
+
+
 def _iat():
     from app.services import iat
     names = dict(iat.SUBJECTS)
@@ -116,7 +129,7 @@ def _tn10():
     return out
 
 
-_BUILD = {'jee': _jee, 'uceed': _uceed, 'nid': _nid, 'nift': _nift, 'iat': _iat, 'tn10': _tn10}
+_BUILD = {'jee': _jee, 'uceed': _uceed, 'nid': _nid, 'nift': _nift, 'neet': _neet, 'iat': _iat, 'tn10': _tn10}
 
 
 def sample(key):
