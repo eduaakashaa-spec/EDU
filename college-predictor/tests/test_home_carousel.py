@@ -1,4 +1,4 @@
-"""Homepage banner carousel: six linked slides at the top, assets present, links resolve. Run: python tests/test_home_carousel.py"""
+"""Homepage banner carousel: twelve linked slides at the top, assets present, links resolve. Run: python tests/test_home_carousel.py"""
 import os
 import re
 import sys
@@ -14,11 +14,11 @@ app = create_app()
 app.config['TESTING'] = True
 c = app.test_client()
 page = c.get('/').get_data(as_text=True)
-assert 'class="hc"' in page and page.count('class="hc-slide"') == 6 and 'aria-roledescription="carousel"' in page
+assert 'class="hc"' in page and page.count('class="hc-slide"') == 12 and 'aria-roledescription="carousel"' in page
 assert page.index('class="hc"') < page.index('class="aw-hero"') if 'class="aw-hero"' in page else True       # carousel is above the hero
 assert 'css/home_carousel.css' in page and 'js/home_carousel.js' in page
 slides = re.findall(r'<a class="hc-slide" href="([^"]+)".*?<img src="([^"]+)".*?alt="([^"]+)"', page, re.S)
-assert len(slides) == 6 and all(len(alt) > 30 for _, _, alt in slides)                                             # real descriptions, not empty alt
+assert len(slides) == 12 and all(len(alt) > 30 for _, _, alt in slides)                                             # real descriptions, not empty alt
 for href, src, _alt in slides:
     assert c.get(href).status_code in (200, 302), href                                                          # every slide leads somewhere that works
     r = c.get(src)

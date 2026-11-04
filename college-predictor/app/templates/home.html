@@ -92,6 +92,19 @@
 .aw .bt-ghost{ color:var(--cream); border:1.5px solid rgba(14,27,61,.3); }
 .aw .bt-ghost:hover{ border-color:var(--cream); background:rgba(14,27,61,.05); }
 
+
+/* ═══════ HIRING STRIP ═══════ */
+.aw-hire{ padding:70px 0 20px; }
+.aw-hire .wrap{ max-width:1100px; }
+.aw-hire h2{ font-size:clamp(30px,4.4vw,56px); line-height:1.05; letter-spacing:-.03em; text-align:center; }
+.aw-hire .lead{ color:var(--mist); text-align:center; max-width:560px; margin:14px auto 28px; line-height:1.7; }
+.aw-hire .cards{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.aw-hire .hc2{ display:block; border-radius:18px; overflow:hidden; background:#0E1B3D; border:1px solid rgba(255,255,255,.12); transition:transform .25s, border-color .25s; }
+.aw-hire .hc2:hover{ transform:translateY(-4px); border-color:var(--laser,#FF6B0A); }
+.aw-hire .hc2 img{ display:block; width:100%; height:auto; max-height:300px; object-fit:cover; }
+.aw-hire .hc2 span{ display:block; padding:12px 16px; color:var(--cream,#fff); font-weight:700; font-size:15px; }
+.aw-hire .ctas{ display:flex; justify-content:center; margin-top:24px; }
+@media(max-width:680px){ .aw-hire .cards{ grid-template-columns:1fr; } }
 /* ═══════ CH·01 HERO ═══════ */
 .aw-hero{ position:relative; min-height:100svh; display:flex; flex-direction:column; justify-content:center;
   padding:120px 0 90px; overflow:hidden; }
@@ -264,40 +277,46 @@
   <section class="hc" role="region" aria-roledescription="carousel" aria-label="EduAakashaa highlights">
     <div class="hc-view">
       <div class="hc-track">
-      <a class="hc-slide" href="{{ url_for('main.tnea2026') }}" role="group" aria-roledescription="slide" aria-label="1 of 10">
+      <a class="hc-slide" href="{{ url_for('main.tnea2026') }}" role="group" aria-roledescription="slide" aria-label="1 of 12">
         <img src="{{ url_for('static', filename='img/carousel/slide-1.webp') }}" width="1600" height="900" alt="Choose colleges with real cutoff data: TNEA college explorer, JoSAA guidance and JoSAA assessment. See TNEA and JoSAA." fetchpriority="high" decoding="async">
       </a>
-      <a class="hc-slide" href="{{ url_for('main.enggcolleges_india') }}" role="group" aria-roledescription="slide" aria-label="2 of 10">
+      <a class="hc-slide" href="{{ url_for('main.enggcolleges_india') }}" role="group" aria-roledescription="slide" aria-label="2 of 12">
         <img src="{{ url_for('static', filename='img/carousel/slide-2.webp') }}" width="1600" height="900" alt="Know the college before you commit: engineering colleges across India, NIRF rankings and analytics, NATA and NID. Compare colleges." loading="lazy" decoding="async">
       </a>
-      <a class="hc-slide" href="{{ url_for('main.exam_schedule') }}" role="group" aria-roledescription="slide" aria-label="3 of 10">
+      <a class="hc-slide" href="{{ url_for('main.exam_schedule') }}" role="group" aria-roledescription="slide" aria-label="3 of 12">
         <img src="{{ url_for('static', filename='img/carousel/slide-3.webp') }}" width="1600" height="900" alt="Plan the exam calendar early: CAT and MBA or MCA guidance, the Indian exam schedule at a glance, professional exams. View the exam schedule." loading="lazy" decoding="async">
       </a>
-      <a class="hc-slide" href="{{ url_for('main.student_assessment') }}" role="group" aria-roledescription="slide" aria-label="4 of 10">
+      <a class="hc-slide" href="{{ url_for('main.student_assessment') }}" role="group" aria-roledescription="slide" aria-label="4 of 12">
         <img src="{{ url_for('static', filename='img/carousel/slide-4.webp') }}" width="1600" height="900" alt="A stream and career that actually fits you: student assessment, stream selection, PER and conflict assessment, career path. Take an assessment." loading="lazy" decoding="async">
       </a>
-      <a class="hc-slide" href="{{ url_for('main.contact_alias') }}" role="group" aria-roledescription="slide" aria-label="5 of 10">
+      <a class="hc-slide" href="{{ url_for('main.contact_alias') }}" role="group" aria-roledescription="slide" aria-label="5 of 12">
         <img src="{{ url_for('static', filename='img/carousel/slide-5.webp') }}" width="1600" height="900" alt="Questions? Let us guide you: videos library, counsellor sessions, internships. Book a counselling call." loading="lazy" decoding="async">
       </a>
-      <a class="hc-slide" href="{{ url_for('main.members_registration') }}" role="group" aria-roledescription="slide" aria-label="6 of 10">
+      <a class="hc-slide" href="{{ url_for('main.members_registration') }}" role="group" aria-roledescription="slide" aria-label="6 of 12">
         <img src="{{ url_for('static', filename='img/carousel/slide-6.webp') }}" width="1600" height="900" alt="Expert tools for the big decisions: DASA prediction report, Choice Builder PRO, hostel and culture analytics, expert portal and members report. Join as a member." loading="lazy" decoding="async">
       </a>
-      <a class="hc-slide" href="{{ url_for('main.members_registration') }}#pulse" role="group" aria-roledescription="slide" aria-label="7 of 10">
+      <a class="hc-slide" href="{{ url_for('main.members_registration') }}#pulse" role="group" aria-roledescription="slide" aria-label="7 of 12">
         <img src="{{ url_for('static', filename='img/carousel/edupulse-1.webp') }}" width="1600" height="900" alt="Practice that shows what you really know: EduPulse Reinforcement. Short daily sets chosen by your mentor, weak chapters come back after a few days, mentor approves every next step. Join as a member." loading="lazy" decoding="async">
       </a>
-      <a class="hc-slide" href="{{ url_for('main.members_registration') }}#pulse" role="group" aria-roledescription="slide" aria-label="8 of 10">
+      <a class="hc-slide" href="{{ url_for('main.members_registration') }}#pulse" role="group" aria-roledescription="slide" aria-label="8 of 12">
         <img src="{{ url_for('static', filename='img/carousel/edupulse-2.webp') }}" width="1600" height="900" alt="EduPulse Mock Test Centres: mock tests in the real exam pattern for JEE, UCEED, NID, IAT and TN Class 10, with timed papers, negative-marking tracker and a PDF report. Join as a member." loading="lazy" decoding="async">
       </a>
-      <a class="hc-slide" href="{{ url_for('main.members_registration') }}#pulse" role="group" aria-roledescription="slide" aria-label="9 of 10">
+      <a class="hc-slide" href="{{ url_for('main.members_registration') }}#pulse" role="group" aria-roledescription="slide" aria-label="9 of 12">
         <img src="{{ url_for('static', filename='img/carousel/edupulse-3.webp') }}" width="1600" height="900" alt="EduPulse previous years papers: learn from every past paper with question banks built from earlier papers, answers checked against the official key and topic-wise analysis. Join as a member." loading="lazy" decoding="async">
       </a>
-      <a class="hc-slide" href="{{ url_for('main.members_registration') }}#pulse" role="group" aria-roledescription="slide" aria-label="10 of 10">
+      <a class="hc-slide" href="{{ url_for('main.members_registration') }}#pulse" role="group" aria-roledescription="slide" aria-label="10 of 12">
         <img src="{{ url_for('static', filename='img/carousel/edupulse-4.webp') }}" width="1600" height="900" alt="EduPulse mentor and parent view: a lucky guess or real understanding? Chapter-wise strengths, four learning patterns, a weekly parent report in plain language and a confidence check on every answer. Join as a member." loading="lazy" decoding="async">
+      </a>
+      <a class="hc-slide" href="{{ url_for('main.members_registration') }}#pulse" role="group" aria-roledescription="slide" aria-label="11 of 12">
+        <img src="{{ url_for('static', filename='img/carousel/edupulse-5.webp') }}" width="1600" height="900" alt="EduPulse-NEET: NEET mock tests that show what you know. Full 180-question mocks in the real pattern, questions from the 2018 to 2025 papers and a daily review that brings mistakes back. Join as a member." loading="lazy" decoding="async">
+      </a>
+      <a class="hc-slide" href="{{ url_for('main.join_our_team') }}" role="group" aria-roledescription="slide" aria-label="12 of 12">
+        <img src="{{ url_for('static', filename='img/carousel/hiring-1.webp') }}" width="1600" height="900" alt="We are hiring: teach, mentor and grow with EduAakashaA. Tutors for CBSE, State Boards, JEE and NEET, career counsellors and mentors, working online from anywhere. Join our team." loading="lazy" decoding="async">
       </a>
       </div>
       <button type="button" class="hc-arrow hc-prev" aria-label="Previous slide">&#8249;</button>
       <button type="button" class="hc-arrow hc-next" aria-label="Next slide">&#8250;</button>
-      <span class="hc-count" aria-hidden="true">1 / 10</span>
+      <span class="hc-count" aria-hidden="true">1 / 12</span>
       <div class="hc-bar"><button type="button" class="hc-pp" aria-label="Pause slideshow">&#10074;&#10074;</button></div>
     </div>
     <p class="hc-live" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);"></p>
@@ -489,6 +508,19 @@
       </figure>
     </div>
     <div class="aw-dots" id="awDots"><button class="on" aria-label="Story 1"></button><button aria-label="Story 2"></button><button aria-label="Story 3"></button><button aria-label="Story 4"></button><button aria-label="Story 5"></button><button aria-label="Story 6"></button><button aria-label="Story 7"></button></div>
+    </div>
+  </section>
+
+  <!-- ═══════ HIRING ═══════ -->
+  <section class="aw-hire" id="awHire">
+    <div class="wrap">
+      <h2>Teach. Mentor. <span class="it">Grow with us.</span></h2>
+      <p class="lead">We are hiring tutors and career counsellors to guide students across CBSE, State Boards, JEE, NEET and more. Work online, from anywhere.</p>
+      <div class="cards">
+        <a class="hc2" href="{{ url_for('main.join_our_team') }}"><img src="{{ url_for('static', filename='img/hiring-tutors.webp') }}" width="1280" height="720" alt="Now hiring tutors for Maths, Physics, Chemistry, Biology and more" loading="lazy" decoding="async"><span>Join as a Tutor &rarr;</span></a>
+        <a class="hc2" href="{{ url_for('main.join_our_team') }}"><img src="{{ url_for('static', filename='img/hiring-mentors.webp') }}" width="1280" height="720" alt="Now hiring mentors: career counsellors who guide students and parents" loading="lazy" decoding="async"><span>Join as a Mentor &rarr;</span></a>
+      </div>
+      <div class="ctas"><a href="{{ url_for('main.join_our_team') }}" class="bt bt-ghost" data-mag>See open roles <span class="a">→</span></a></div>
     </div>
   </section>
 
