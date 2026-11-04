@@ -10,7 +10,7 @@ The content lives in app/data/intl_admissions_2027.py with the OFFICIAL / REPORT
 """
 from app.extensions import db
 from app.data import intl_admissions_2027 as P
-from app.models_mentorship import (MsAction, MsEvent, MsExam, MsExamFocus, MsKpi, MsPrefDates, MsPrefEntry, MsPrefList)
+from app.models_mentorship import (MsAction, MsDocCheck, MsDocConfirm, MsEvent, MsExam, MsExamFocus, MsKpi, MsPrefDates, MsPrefEntry, MsPrefList)
 from app.services import exam_docs
 from app.services import mentorship as svc
 
@@ -79,5 +79,45 @@ def apply(e, user_id=None):
         n['entries'] += 1
 
     svc.audit(e, 'intl_pack.applied', P.PACK_KEY + ' ' + ', '.join('%s=%s' % kv for kv in n.items()), role='admin')
+    db.session.commit()
+    return n
+
+
+def _first(e):
+    return (e.preferred_name or (e.student.name or '').split(' ')[0] or 'the student').strip()
+
+
+def present(e):
+    """True when any part of the pack is on this student's record."""
+    return bool(MsPrefList.query.filter_by(enrolment_id=e.id, name=P.LIST_NAME).first()
+                or MsAction.query.filter_by(enrolment_id=e.id, purpose='NUS, NTU and HKU 2027 intake').first()
+                or MsExamFocus.query.join(MsExam).filter(MsExamFocus.enrolment_id == e.id, MsExam.name.in_([x['name'] for x in P.EXAMS])).first())
+
+
+def remove(e, user_id=None):
+    """Take the NUS, NTU and HKU pack off one student's record: the exact reverse of apply().
+    Removes only what the pack adds, found by the same names the pack used: the actions (marked with the pack's purpose), the KPIs and calendar events with the pack's titles,
+    the pack's college list with its entries and dates, the student's follow of the three admission windows and their document ticks.
+    The shared exam catalogue entries stay (other students may follow them); everything else on the record is left alone.
+    Returns a dict of how many rows were removed: followed, events, kpis, actions, lists, doc_ticks."""
+    first = _first(e)
+    T = lambda x: x.replace('Darsh', first) if isinstance(x, str) else x
+    n = {'followed': 0, 'events': 0, 'kpis': 0, 'actions': 0, 'lists': 0, 'doc_ticks': 0}
+    exam_ids = [x.id for x in MsExam.query.filter(MsExam.name.in_([x['name'] for x in P.EXAMS])).all()]
+    if exam_ids:
+        n['doc_ticks'] += MsDocCheck.query.filter(MsDocCheck.enrolment_id == e.id, MsDocCheck.exam_id.in_(exam_ids)).delete(synchronize_session=False)
+        MsDocConfirm.query.filter(MsDocConfirm.enrolment_id == e.id, MsDocConfirm.exam_id.in_(exam_ids)).delete(synchronize_session=False)
+        n['followed'] += MsExamFocus.query.filter(MsExamFocus.enrolment_id == e.id, MsExamFocus.exam_id.in_(exam_ids)).delete(synchronize_session=False)
+    titles = [T(x[0]) for x in P.EVENTS]
+    if titles:
+        n['events'] += MsEvent.query.filter(MsEvent.enrolment_id == e.id, MsEvent.title.in_(titles)).delete(synchronize_session=False)
+    for k in MsKpi.query.filter(MsKpi.enrolment_id == e.id, MsKpi.name.in_([T(x[1]) for x in P.KPIS])).all():
+        db.session.delete(k)                              # its readings go with it
+        n['kpis'] += 1
+    n['actions'] += MsAction.query.filter(MsAction.enrolment_id == e.id, MsAction.purpose == 'NUS, NTU and HKU 2027 intake').delete(synchronize_session=False)
+    for lst in MsPrefList.query.filter_by(enrolment_id=e.id, name=P.LIST_NAME).all():
+        db.session.delete(lst)                            # entries and their dates cascade
+        n['lists'] += 1
+    svc.audit(e, 'intl_pack.removed', P.PACK_KEY + ' ' + ', '.join('%s=%s' % kv for kv in n.items()), role='admin')
     db.session.commit()
     return n

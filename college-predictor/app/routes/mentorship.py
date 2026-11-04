@@ -1076,12 +1076,13 @@ def report_pdf(eid, rid):
 @mentorship_bp.route('/admin')
 @admin_required
 def admin_home():
+    from app.data.meeting_updates import PACKS as MEETING_PACKS
     svc.ensure_futureready_programme()
     from app.services import mentorship_grades
     mentorship_grades.ensure_grade_programmes()
     progs = MsProgramme.query.order_by(MsProgramme.id).all()
     return render_template('admin/mentorship_admin.html', admin_tab='mentorship', programmes=progs,
-                           enrolments=MsEnrolment.query.order_by(MsEnrolment.id.desc()).all(),
+                           enrolments=MsEnrolment.query.order_by(MsEnrolment.id.desc()).all(), meeting_packs=list(MEETING_PACKS.values()),
                            mentors=User.query.filter(User.tier.in_(['ea_mentor', 'admin'])).order_by(User.name).all(),
                            branches=MsBranch.query.order_by(MsBranch.position, MsBranch.id).all(),
                            rules=[(k, svc.rule(k), svc.RULE_HELP[k]) for k in svc.RULES],
@@ -1242,6 +1243,37 @@ def admin_intl_pack(eid):
     else:
         flash(f"NUS, NTU and HKU pack added for {e.student.name}: {n['followed']} admission windows followed (with checklists), {n['events']} calendar dates, "
               f"{n['kpis']} KPIs, {n['actions']} actions, {n['entries']} college-list entries.", 'success')
+    return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
+
+
+@mentorship_bp.route('/admin/enrolment/<int:eid>/intl-pack/remove', methods=['POST'])
+@admin_required
+def admin_intl_pack_remove(eid):
+    """Take the NUS, NTU and HKU admission pack off one student's record (the reverse of the Add button). Only what the pack added is removed."""
+    from app.services import intl_pack
+    e = db.session.get(MsEnrolment, eid) or abort(404)
+    if not intl_pack.present(e):
+        flash(f'{e.student.name} does not have the NUS, NTU and HKU pack; nothing was removed.', 'info')
+    else:
+        r = intl_pack.remove(e, current_user.id)
+        flash(f"NUS, NTU and HKU pack removed from {e.student.name}: {r['kpis']} KPIs, {r['actions']} actions, {r['events']} calendar dates, {r['followed']} followed admission windows, "
+              f"{r['lists']} college list. Nothing else on the record was changed.", 'success')
+    return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
+
+
+@mentorship_bp.route('/admin/enrolment/<int:eid>/meeting-update', methods=['POST'])
+@admin_required
+def admin_meeting_update(eid):
+    """Apply a prepared meeting update (KPIs, actions, sessions, add-on session details) to one student's record. Safe to repeat; nothing is deleted or sent."""
+    from app.data.meeting_updates import PACKS
+    from app.services import meeting_update
+    e = db.session.get(MsEnrolment, eid) or abort(404)
+    pack = PACKS.get(request.form.get('pack', ''))
+    if pack is None:
+        flash('Choose a meeting update.', 'danger')
+    else:
+        r = meeting_update.apply(e, pack, current_user.id)
+        flash(f"{pack['label'].split(':')[0]}: {meeting_update.summary(r)}.", 'success')
     return redirect(url_for('mentorship.admin_home') + f'#e{e.id}')
 
 
