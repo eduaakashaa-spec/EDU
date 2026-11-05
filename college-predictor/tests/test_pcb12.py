@@ -41,10 +41,10 @@ assert 'less than 50 per cent' in ' '.join(eco['rules'])                      # 
 
 # ---- routes ------------------------------------------------------------------------------------------------------------------------------
 rt = pcm12.routes('pcb')
-assert {r['id'] for r in rt} == {'neet_ug', 'bds', 'bvsc', 'bsc_nursing', 'bsc_agri'}
+assert {r['id'] for r in rt} == {'neet_ug', 'bds', 'bvsc', 'bsc_nursing', 'bsc_agri', 'mh_neet_mbbs', 'mh_cet_pcb_eng', 'mh_agri', 'kl_neet_mbbs', 'kl_neet_agri', 'kl_neet_bvsc', 'ap_eapcet_bpharm_bipc', 'dl_ipu_mbbs', 'dl_ipu_bsc_nursing', 'dl_ipu_bpt'}
 for r in rt:
     assert set(r['th']) == {'g', 's', 'b'} and all(lo is not None and lo <= hi for lo, hi in r['th'].values()) and r['confidence'] and r['source'].startswith('https://'), r['id']
-assert next(r for r in rt if r['id'] == 'neet_ug')['confidence'] == 'not confirmed'          # the NEET bulletin could not be read, and the page must say so
+assert next(r for r in rt if r['id'] == 'neet_ug')['confidence'] == 'not confirmed' and next(r for r in rt if r['id'] == 'mh_neet_mbbs')['confidence'].startswith('not confirmed')          # the NEET bulletin could not be read, and the page must say so
 good = {'Pt': 50, 'Pp': 25, 'Ct': 45, 'Cp': 24, 'Bt': 55, 'Bp': 27, 'En': 70, 'Fi': 70}
 e = pcm12.eligibility(good, 'g', 'pcb')
 assert e['entered'] and e['label'] == 'PCB' and e['core_sum'] == 226 and abs(e['core'] - 75.3) < 0.05 and e['tnea'] is None and set(e['totals']) == {'P', 'C', 'B'}
@@ -84,7 +84,7 @@ for s in d['sheets']:
     assert [x['score'] for x in s['sheets']][2] == 3 and all(0 <= x['score'] <= 3 and x['lines'] and x['note'] for x in s['sheets']), s['q'][:30]
     assert s['sheets'][0]['score'] < s['sheets'][1]['score'] < s['sheets'][2]['score']
 assert all(l['target'].startswith('Aim') for l in d['levels'])                               # no promised results
-assert ctx['n_routes'] == 5 and any('Not confirmed' or n for n in ctx['facts']['notes']) and ctx['facts']['facts'] and ctx['sources']
+assert ctx['n_routes'] == 15 and any('Not confirmed' or n for n in ctx['facts']['notes']) and ctx['facts']['facts'] and ctx['sources']
 
 # ---- pages, access and saving -----------------------------------------------------------------------------------------------------------
 app = create_app()
@@ -105,7 +105,7 @@ anon, free, prem = app.test_client(), login('f@x.com'), login('p@x.com')
 hub = anon.get('/class12-pcb/')
 assert hub.status_code == 200 and b'Class 12 PCB' in hub.data and b'Answer Sheet Lab' in hub.data and b'Not confirmed' in hub.data and b'pbData' in hub.data and b'Generate a study plan' in hub.data
 r = anon.post('/class12-pcb/eligibility', json={'marks': good, 'cat': 'g'}).get_json()
-assert r['ok'] and r['elig']['entered'] and len(r['elig']['routes']) == 5 and all(x['source'] for x in r['elig']['routes'])
+assert r['ok'] and r['elig']['entered'] and len(r['elig']['routes']) == 15 and all(x['source'] for x in r['elig']['routes'])
 assert not anon.post('/class12-pcb/eligibility', json={'marks': 'x'}).get_json()['elig']['entered']
 qp = anon.post('/class12-pcb/quick-plan', json={'level': 1, 'exam_date': '2099-02-17', 'hours_wd': 2, 'hours_we': 5}).get_json()
 assert qp['ok'] and qp['plan']['weeks'] > 100 and set(qp['plan']['subject_hours']) == {'P', 'C', 'B'}

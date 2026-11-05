@@ -27,10 +27,12 @@ def context():
     chapters = pcm12.chapters('pcb')
     pb = _read('playbook_pcb.json', {'levels': [], 'sheets': []})
     facts = _read('facts_pcb.json', {'facts': [], 'routes': [], 'biology_units': [], 'notes': []})
-    topics = []
-    for f in facts['facts']:
-        if f['topic'] not in topics:
-            topics.append(f['topic'])
+    states = ['Maharashtra', 'Delhi', 'Kerala', 'Andhra Pradesh']
+    groups = [('National rules and CBSE', [f for f in facts['facts'] if ': ' not in f['topic'] or f['topic'].split(': ')[0] not in states], True)]
+    for st in states:
+        mine = [dict(f, topic=f['topic'].split(': ', 1)[1]) for f in facts['facts'] if f['topic'].startswith(st + ': ')]
+        if mine:
+            groups.append((st, mine, False))
     sources = []
     for f in facts['facts']:
         if f['source'] and f['source'] not in sources:
@@ -40,4 +42,4 @@ def context():
             sources.append(r['source'])
     data = {'chapters': [{k: c[k] for k in ('id', 'subj', 'name', 'unit', 'marks', 'levels', 'why', 'rules', 'hook', 'trap')} for c in chapters], 'levels': pb['levels'], 'sheets': pb['sheets'],
             'cats': pcm12.cfg('pcb')['cats'], 'marks': pcm12.cfg('pcb')['marks'], 'labels': pcm12.cfg('pcb')['labels'], 'marks_order': list(pcm12.cfg('pcb')['marks'])}
-    return {'d': sys.modules[__name__], 'data': data, 'facts': facts, 'topics': topics, 'sources': sources, 'n_chapters': len(chapters), 'n_routes': len(facts['routes']), 'checked': CHECKED}
+    return {'d': sys.modules[__name__], 'data': data, 'facts': facts, 'groups': groups, 'sources': sources, 'n_chapters': len(chapters), 'n_routes': len(facts['routes']), 'checked': CHECKED}

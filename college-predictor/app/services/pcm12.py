@@ -64,6 +64,16 @@ def chapter(cid, stream='pcm'):
     return _cache[cfg(stream)['chapters'] + ':by'].get(cid)
 
 
+def state_facts():
+    """Official facts for the state routes (Maharashtra, Delhi, Kerala, Andhra Pradesh), each with its source page, and what could not be confirmed."""
+    if 'state_facts' not in _cache:
+        try:
+            _cache['state_facts'] = _read('state_facts.json')
+        except (OSError, ValueError):
+            _cache['state_facts'] = {'states': [], 'notes': []}
+    return _cache['state_facts']
+
+
 def routes(stream='pcm'):
     k = cfg(stream)['routes']
     if k not in _cache:

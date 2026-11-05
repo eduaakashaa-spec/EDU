@@ -172,12 +172,12 @@
 },
 {
 "id": "keam",
-"name": "KEAM (Kerala engineering)",
+"name": "KEAM (Kerala): engineering",
 "basis": "pcm",
 "th": {
 "g": [
 45,
-50
+45
 ],
 "s": [
 40,
@@ -185,13 +185,38 @@
 ],
 "b": [
 45,
-50
+45
 ]
-}
+},
+"note": "Aggregate of Physics, Chemistry and Mathematics; SC/ST/SEBC/PwD 40% (OEC follows SEBC). Rank list: 50% normalised KEAM score and 50% normalised Class 12 marks (Maths, Physics and Chemistry at 5:3:2); minimum KEAM score 10 of 300 (SC/ST exempt). Age 17 by 31 December 2026.",
+"source": "https://cee.kerala.gov.in/keam2026/pdf/Prospectus.pdf",
+"confidence": "official page"
 },
 {
 "id": "mht",
-"name": "MHT-CET (Maharashtra)",
+"name": "MHT-CET (Maharashtra): B.E./B.Tech through CAP",
+"basis": "pcm",
+"th": {
+"g": [
+40,
+45
+],
+"s": [
+40,
+40
+],
+"b": [
+45,
+45
+]
+},
+"note": "Open candidates 45%; EWS and reserved categories 40% (the brochure words the 40% for Maharashtra State candidates). A CET score, or JEE Main for All India candidates, is also needed. Merit is the CET score; Class 12 marks are used for the cut-off and as tie-breakers.",
+"source": "https://cetcell.mahacet.org/wp-content/uploads/2023/12/MHT-CET-2026-Information-Brochure-Updated-on-10.02.2026.pdf",
+"confidence": "official page"
+},
+{
+"id": "ap_eapcet_eng",
+"name": "AP EAPCET (Andhra Pradesh): engineering",
 "basis": "pcm",
 "th": {
 "g": [
@@ -206,6 +231,53 @@
 45,
 45
 ]
-}
+},
+"note": "Maths, Physics and Chemistry together: 45% General, 40% reserved. Rank: 75% EAPCET normalised marks and 25% Intermediate marks (the normalisation procedure was under review). EAPCET qualifying mark 25% (none for SC/ST). Local/non-local rules follow a state order for 2026-27 that was not available.",
+"source": "https://cets.apsche.ap.gov.in/EAPCET/PDF/APEAPCET2026_Instruction_Booklet_Engineering_V4.pdf",
+"confidence": "official page"
+},
+{
+"id": "dl_ipu_btech",
+"name": "GGSIPU (Delhi): B.Tech through JEE Main",
+"basis": "pcm",
+"th": {
+"g": [
+55,
+55
+],
+"s": [
+55,
+55
+],
+"b": [
+55,
+55
+]
+},
+"note": "55% aggregate in PCM, each subject passed, plus English. Reserved-category relaxation is \"as per University policy\" and no figure is stated, so the General figure is used for every category. Delhi Region 85% and outside Delhi 15%, by the place of Class 12 school.",
+"source": "https://www.ipu.ac.in/adm2026/adm2026br/br280126ugprg/ch02.pdf",
+"confidence": "official page"
+},
+{
+"id": "dl_jac_btech_nsut_dtu",
+"name": "DTU and NSUT (Delhi): B.Tech through JAC Delhi",
+"basis": "pcm",
+"th": {
+"g": [
+60,
+60
+],
+"s": [
+50,
+55
+],
+"b": [
+60,
+60
+]
+},
+"note": "60% in PCM; SC/ST 50%, OBC-NCL 55%, PwD 50%, Defence 55%; no relaxation for EWS. JAC Delhi, not JoSAA; 85% Delhi and 15% outside Delhi by place of Class 12 school. IIIT-Delhi asks 70% in the best five subjects including PCM and 70% in Maths (OBC-NCL and PwD 65%, SC/ST 60%).",
+"source": "https://cdnbbsr.s3waas.gov.in/s3e45823afe1e5120cec11fc4c379a0c67/uploads/2026/05/202605261990309362.pdf",
+"confidence": "official page"
 }
 ]

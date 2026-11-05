@@ -28,7 +28,7 @@
     <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
     <div class="dg-alert__body">
       <strong>Check every rule on the official notice before you act on it.</strong>
-      The unit marks come from the CBSE syllabus. The entrance-route percentages were read from public coaching and news pages, not the official brochures, and every row says how sure we are. Members also get a saved analytics dashboard with a week-by-week study plan, and a place in the EduAakashaA Members Group.
+      The unit marks come from the CBSE syllabus. The Maharashtra, Delhi, Kerala and Andhra Pradesh routes were read from official brochures and prospectuses; the other entrance-route percentages were read from public coaching and news pages, not the official brochures. Every row says how sure we are. Members also get a saved analytics dashboard with a week-by-week study plan, and a place in the EduAakashaA Members Group.
       {% if current_user.is_authenticated and current_user.is_premium %}
       <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
       {% else %}
@@ -74,6 +74,14 @@
       </div>
       <div id="qOut" aria-live="polite"><p class="pc-n">Enter the date of your first paper to see the plan.</p></div>
     </div>
+  </section>
+
+  <section id="states"><span class="eb">State boards and counselling</span><h2>Maharashtra, Delhi, Kerala and Andhra Pradesh: what the official pages say</h2>
+    <p style="margin:0 0 8px;font-size:.92rem">The Class 12 marks each state route asks for are in the <a href="{{ url_for('pcm12.eligibility') }}">Eligibility Gap Closer</a> and in the members dashboard. These are the facts behind them, each with its official source page. Your state board (HSC, Kerala Higher Secondary, Intermediate or CBSE) decides the marks; the entrance body decides the rank and the seat.</p>
+    {% for s in states %}<details class="pc-c" style="margin-bottom:8px"><summary style="cursor:pointer;font-weight:700">{{ s.state }} <span class="pc-n">({{ s.facts|length }} facts)</span></summary>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.6;font-size:.9rem">{% for f in s.facts %}<li><b>{{ f.topic }}.</b> {{ f.fact }} <a href="{{ f.source }}" rel="noopener nofollow" target="_blank" style="font-size:.78rem">source</a></li>{% endfor %}</ul></details>{% endfor %}
+    {% if state_notes %}<details class="pc-c"><summary style="cursor:pointer;font-weight:700">Not confirmed <span class="pc-n">({{ state_notes|length }})</span></summary><ul style="margin:8px 0 0;padding-left:18px;line-height:1.6;font-size:.9rem">{% for n in state_notes %}<li>{{ n }}</li>{% endfor %}</ul></details>{% endif %}
+    <p class="pc-n">Admission rules change every cycle and the 2027 brochures were not out when we checked. Confirm on the official notice for your year.</p>
   </section>
 
   <section id="members"><span class="eb">Members</span><h2>The PCM Analytics dashboard</h2>

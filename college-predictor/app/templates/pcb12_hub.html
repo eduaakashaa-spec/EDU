@@ -40,7 +40,7 @@
     <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
     <div class="dg-alert__body">
       <strong>Checked {{ checked }} against official pages: confirm every rule on the official notice.</strong>
-      The entrance rules below were read from official pages (NTA, NMC, CBSE and others) and each route shows its source; where an official page did not settle a rule it says so. Chapter marks are indicative; only the unit-group marks are official. Members also get a saved analytics dashboard with a week-by-week study plan, and a place in the EduAakashaA Members Group.
+      The entrance rules below were read from official pages (NTA, NMC, CBSE, and the Maharashtra, Delhi, Kerala and Andhra Pradesh bodies) and each route shows its source; where an official page did not settle a rule it says so. Chapter marks are indicative; only the unit-group marks are official. Members also get a saved analytics dashboard with a week-by-week study plan, and a place in the EduAakashaA Members Group.
       {% if current_user.is_authenticated and current_user.is_premium %}
       <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
       {% else %}
@@ -116,7 +116,8 @@
   </section>
 
   <section id="official"><span class="eb">Official facts</span><h2>What the official pages say</h2>
-    {% if facts.facts %}{% for t in topics %}<h3>{{ t }}</h3><div class="pb-c"><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.9rem">{% for f in facts.facts if f.topic == t %}<li>{{ f.fact }} <a href="{{ f.source }}" rel="noopener nofollow" target="_blank" style="font-size:.78rem">source</a></li>{% endfor %}</ul></div>{% endfor %}{% else %}<div class="pb-c"><p>Official facts are being checked and will appear here.</p></div>{% endif %}
+    {% if facts.facts %}{% for title, items, opened in groups %}<details class="pb-c" style="margin-bottom:8px" {{ 'open' if opened }}><summary style="cursor:pointer;font-weight:700">{{ title }} <span class="pb-n">({{ items|length }} facts)</span></summary>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.6;font-size:.9rem">{% for f in items %}<li>{% if not opened %}<b>{{ f.topic }}.</b> {% endif %}{{ f.fact }} <a href="{{ f.source }}" rel="noopener nofollow" target="_blank" style="font-size:.78rem">source</a></li>{% endfor %}</ul></details>{% endfor %}{% else %}<div class="pb-c"><p>Official facts are being checked and will appear here.</p></div>{% endif %}
     {% if facts.notes %}<h3>Not confirmed</h3><div class="pb-c"><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.9rem">{% for n in facts.notes %}<li>{{ n }}</li>{% endfor %}</ul></div>{% endif %}
     {% if sources %}<h3>Pages read on {{ checked }}</h3><div class="pb-c"><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.84rem;word-break:break-all">{% for u in sources %}<li><a href="{{ u }}" rel="noopener nofollow" target="_blank">{{ u }}</a></li>{% endfor %}</ul></div>{% endif %}
   </section>

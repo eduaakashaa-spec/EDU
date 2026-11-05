@@ -27,9 +27,11 @@ assert {s: sum(1 for c in ch if c['subj'] == s) for s in 'PCM'} == {'P': 14, 'C'
 for c in ch:
     assert c['name'] and c['marks'] > 0 and len(c['levels']) == 4 and set(c['levels']) <= {'Core', 'Build', 'Later'} and c['rules'] and c['hook'] and c['trap'], c['id']
 rt = pcm12.routes()
-assert len(rt) == 11 and {r['id'] for r in rt} >= {'josaa', 'bitsat', 'tnea'}
+assert len(rt) == 14 and {r['id'] for r in rt} >= {'josaa', 'bitsat', 'tnea', 'keam', 'mht', 'ap_eapcet_eng', 'dl_ipu_btech', 'dl_jac_btech_nsut_dtu'}
 for r in rt:
     assert set(r['th']) == {'g', 's', 'b'} and all(lo <= hi for lo, hi in r['th'].values()), r['id']
+    if r['id'] in ('keam', 'mht', 'ap_eapcet_eng', 'dl_ipu_btech', 'dl_jac_btech_nsut_dtu'):
+        assert r['source'].startswith('https://') and r['confidence'] == 'official page' and r['note'], r['id']
 
 # ---- eligibility -------------------------------------------------------------------------------------------------------------------
 m = {'Pt': 56, 'Pp': 27, 'Ct': 56, 'Cp': 27, 'Mt': 64, 'Mi': 18, 'En': 80, 'Fi': 80}
@@ -44,6 +46,15 @@ assert lb['josaa']['status'] == 'short' and lb['josaa']['add'] > 0 and lb['bitsa
 sub = pcm12.eligibility({'Pt': 40, 'Pp': 15, 'Ct': 70, 'Cp': 30, 'Mt': 80, 'Mi': 20}, 'g')
 bs = {r['id']: r for r in sub['routes']}['bitsat']
 assert bs['status'] == 'short' and bs['floor'] and bs['floor'][0]['subject'] == 'Physics'
+# state routes read from official pages: 52% PCM meets AP EAPCET (45), Kerala (45) and MHT-CET Open (45); is short of GGSIPU (55) and DTU/NSUT (60)
+st = {r['id']: r for r in pcm12.eligibility({'Pt': 36, 'Pp': 16, 'Ct': 36, 'Cp': 16, 'Mt': 42, 'Mi': 10}, 'g')['routes']}
+assert abs(st['keam']['have'] - 52.0) < 0.1 and st['keam']['status'] == 'meets' and st['ap_eapcet_eng']['status'] == 'meets' and st['mht']['status'] == 'meets'
+assert st['dl_ipu_btech']['status'] == 'short' and st['dl_ipu_btech']['add'] > 0 and st['dl_jac_btech_nsut_dtu']['status'] == 'short'
+sr = {r['id']: r for r in pcm12.eligibility({'Pt': 36, 'Pp': 16, 'Ct': 36, 'Cp': 16, 'Mt': 42, 'Mi': 10}, 's')['routes']}
+assert sr['dl_jac_btech_nsut_dtu']['status'] == 'check' and sr['mht']['status'] == 'meets'      # SC/ST at DTU: 50% to 55% depending on category, so Check
+sf = pcm12.state_facts()
+assert [s['state'] for s in sf['states']] == ['Maharashtra', 'Delhi', 'Kerala', 'Andhra Pradesh'] and all(s['facts'] for s in sf['states']) and sf['notes']
+assert all(f['source'].startswith('https://') for s in sf['states'] for f in s['facts'])
 # a conflicting rule (DASA 60 to 75) shows Check between the two figures
 mid = {r['id']: r for r in pcm12.eligibility({'Pt': 46, 'Pp': 20, 'Ct': 46, 'Cp': 20, 'Mt': 52, 'Mi': 14, 'En': 66, 'Fi': 66}, 'g')['routes']}
 assert mid['dasa']['status'] == 'check'
@@ -99,7 +110,7 @@ def login(em):
 
 anon, free, prem = app.test_client(), login('f@x.com'), login('p@x.com')
 hub = anon.get('/class12-pcm/')
-assert hub.status_code == 200 and b'Eligibility Gap Closer' in hub.data and b'Generate a study plan' in hub.data
+assert hub.status_code == 200 and b'Eligibility Gap Closer' in hub.data and b'Generate a study plan' in hub.data and b'id="states"' in hub.data and b'Andhra Pradesh' in hub.data and b'Kerala' in hub.data
 for path, needle in (('eligibility', b'Eligibility Gap Closer'), ('board-playbook', b'Board Score Playbook'), ('thumb-rules', b'Thumb Rules Handbook'), ('answer-lab', b'Answer Sheet Lab')):
     r = anon.get('/class12-pcm/' + path)
     assert r.status_code == 200 and needle in r.data and b'claude.ai/artifact' not in r.data and b'EduAakashaA home' in r.data and b'./eduaakashaa_logo.png' not in r.data, path

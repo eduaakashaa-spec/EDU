@@ -108,5 +108,225 @@
 "confidence": "official page (CUET (ICAR-UG) 2026 bulletin)",
 "note": "Counted over all Class 12 subjects, not PCB only; at least three of Physics, Chemistry, Mathematics, Biology and Agriculture. 50% General, OBC-NCL and EWS; 40% SC, ST and PwBD. Universities add their own conditions.",
 "source": "https://icar.org.in/sites/default/files/Circulars/CUET%20(ICAR-UG)%202026_IB_20260114.pdf"
+},
+{
+"id": "mh_neet_mbbs",
+"name": "MBBS/BDS state quota, Maharashtra (State CET Cell, via NEET)",
+"basis": "pcb",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+40,
+40
+],
+"b": [
+45,
+45
+]
+},
+"note": "From the official 2025-26 NEET brochure of the State CET Cell (PCB aggregate: Open and EWS 50%, reserved categories and SEBC 40%, General-category PwD 45%); the 2026-27 brochure could not be retrieved. Domicile of Maharashtra and Maharashtra schooling are required, with listed exceptions.",
+"source": "https://statecetcell.s3.ap-south-1.amazonaws.com/Old+Notifications/NEET-UG25_IB.pdf",
+"confidence": "not confirmed for 2026-27"
+},
+{
+"id": "mh_cet_pcb_eng",
+"name": "B.Tech niche disciplines, Maharashtra (MHT-CET PCB group)",
+"basis": "pcb",
+"th": {
+"g": [
+40,
+45
+],
+"s": [
+40,
+40
+],
+"b": [
+40,
+40
+]
+},
+"note": "Physics and Chemistry compulsory plus Mathematics or Biology; limited to nine disciplines; a non-zero MHT-CET PCB score is needed. Open 45%, EWS and reserved 40%.",
+"source": "https://cetcell.mahacet.org/wp-content/uploads/2023/12/MHT-CET-2026-Information-Brochure-Updated-on-10.02.2026.pdf",
+"confidence": "official page"
+},
+{
+"id": "mh_agri",
+"name": "Agriculture and allied degrees, Maharashtra (MHT-CET, NEET or JEE)",
+"basis": "pcb",
+"th": {
+"g": [
+45,
+45
+],
+"s": [
+40,
+40
+],
+"b": [
+40,
+40
+]
+},
+"note": "Class 12 Science aggregate: 45% General, 40% reserved including EWS and physically handicapped candidates. The brochure still carries some 2025 wording.",
+"source": "https://cetcell.mahacet.org/wp-content/uploads/2023/12/AGRI_MHT_CET_2026_IB.pdf",
+"confidence": "official page"
+},
+{
+"id": "kl_neet_mbbs",
+"name": "MBBS/BDS state quota, Kerala (CEE, via NEET)",
+"basis": "pcb",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+40,
+40
+],
+"b": [
+40,
+40
+]
+},
+"note": "Aggregate of Physics, Chemistry and Biology, with English passed separately; 40% for SC/ST/SEBC and PwD; plus the NEET (UG) 50th percentile (40th for SC/ST/SEBC; PwD 45th unreserved).",
+"source": "https://cee.kerala.gov.in/keam2026/pdf/Prospectus.pdf",
+"confidence": "official page"
+},
+{
+"id": "kl_neet_agri",
+"name": "Agriculture, forestry and fisheries, Kerala (KAU, via NEET)",
+"basis": "pcb",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+0,
+45
+],
+"b": [
+45,
+45
+]
+},
+"note": "General 50% in PCB; SEBC and PwD 45%; SC/ST need only the pass mark (shown as 0 to 45). NEET (UG) minimum 20 marks, SC/ST exempt.",
+"source": "https://cee.kerala.gov.in/keam2026/pdf/Prospectus.pdf",
+"confidence": "official page"
+},
+{
+"id": "kl_neet_bvsc",
+"name": "BVSc & AH, Kerala (via NEET)",
+"basis": "core_eng",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+47.5,
+47.5
+],
+"b": [
+47.5,
+47.5
+]
+},
+"note": "Aggregate of English, Physics, Chemistry and Biology; 47.5% for SC/ST/SEBC/PwD.",
+"source": "https://cee.kerala.gov.in/keam2026/pdf/Prospectus.pdf",
+"confidence": "official page"
+},
+{
+"id": "ap_eapcet_bpharm_bipc",
+"name": "AP EAPCET (Andhra Pradesh): B.Pharm, agriculture, biotech (BiPC)",
+"basis": "pcb",
+"th": {
+"g": [
+45,
+45
+],
+"s": [
+40,
+40
+],
+"b": [
+45,
+45
+]
+},
+"note": "45% General and 40% reserved in the subjects specified (B.Pharm needs Biology, Physics and Chemistry). No PwD figure in the booklet text, so the General figure is used. Rank: 75% EAPCET and 25% Intermediate marks.",
+"source": "https://cets.apsche.ap.gov.in/EAPCET/PDF/APEAPCET2026_Instruction_Booklet_Agriculture_Pharmacy_V4.pdf",
+"confidence": "official page"
+},
+{
+"id": "dl_ipu_mbbs",
+"name": "GGSIPU (Delhi): MBBS",
+"basis": "pcb",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+40,
+40
+],
+"b": [
+50,
+50
+]
+},
+"note": "50% aggregate in PCB (40% SC/ST), English passed, and NEET (UG) qualification. OBC and PwD figures were not stated on the page read, so the General figure is used for the third category. Age 17 by 31 December; NEET merit decides.",
+"source": "https://www.ipu.ac.in/adm2026/adm2026br/br280126ugprg/ch09.pdf",
+"confidence": "official page"
+},
+{
+"id": "dl_ipu_bsc_nursing",
+"name": "GGSIPU (Delhi): B.Sc (Hons) Nursing",
+"basis": "pcb",
+"th": {
+"g": [
+45,
+45
+],
+"s": [
+45,
+45
+],
+"b": [
+45,
+45
+]
+},
+"note": "45% in PCB taken together, English passed; unmarried female candidates only; NEET (UG) 2026 merit first, then the university CET. Reserved-category relaxation is not stated, so the General figure is used.",
+"source": "https://www.ipu.ac.in/adm2026/adm2026br/br280126ugprg/ch02.pdf",
+"confidence": "official page"
+},
+{
+"id": "dl_ipu_bpt",
+"name": "GGSIPU (Delhi): BPT / BOT",
+"basis": "pcb",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+50,
+50
+],
+"b": [
+50,
+50
+]
+},
+"note": "50% aggregate in PCB, each subject passed, English passed; NEET (UG) 2026 merit. Reserved relaxation is not stated, so the General figure is used.",
+"source": "https://www.ipu.ac.in/adm2026/adm2026br/br280126ugprg/ch02.pdf",
+"confidence": "official page"
 }
 ]
