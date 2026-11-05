@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}School Class 8 to 12: PCM, PCB, Boards, Olympiads and Mock Tests | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Tools for Class 8 to 12 students and parents in one place, by class: Grade 7 to 10 Explorer, TN Class 10 mocks, Class 12 PCM and PCB Analytics, board playbook, thumb rules, Olympiad guides and free sample mock tests.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .sc{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278)}
+  .sc h2{font-size:1.3rem;margin:0 0 4px}.sc section{padding:8px 0 18px}
+  .sc-top{margin:6px 0 12px}.sc-top h1{font-size:clamp(1.5rem,3.4vw,2.3rem);margin:2px 0 0}.sc-top p{margin:4px 0 0;font-size:.96rem;color:var(--dim);max-width:68ch}
+  .sc-q{font:700 .8rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A;margin:14px 0 6px}
+  .sc-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 14px}.sc-tabs button{border:1.5px solid var(--ln);background:var(--pp);border-radius:999px;padding:10px 20px;font:700 .95rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}.sc-tabs button[aria-pressed=true]{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .sc-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+  .sc-c{display:flex;flex-direction:column;background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:14px 16px;text-decoration:none;color:inherit;transition:border-color .2s,transform .2s}.sc-c:hover{border-color:var(--navy,#0E3A8A);transform:translateY(-2px)}
+  .sc-c b{font-family:'Fraunces',Georgia,serif;font-size:1.02rem;margin:4px 0}.sc-c p{margin:0 0 8px;font-size:.88rem;line-height:1.5;color:var(--dim)}.sc-c .go{margin-top:auto;font-weight:700;color:var(--navy,#0E3A8A);font-size:.88rem}
+  .sc-b{align-self:flex-start;border-radius:999px;padding:2px 10px;font-size:.7rem;font-weight:700}.sc-b.Free{background:#DDF1E6;color:#146c43}.sc-b.Guide{background:#E7EEFB;color:#0E3A8A}.sc-b.Members{background:#FFF1D6;color:#8a5a00}
+  .sc-panel[hidden]{display:none}
+  .sc-also{margin-top:22px}
+</style>
+{% endblock %}
+{% block content %}
+<div class="jr2 sc">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Tools marked Members need an account; the rest are open to everyone.</strong>
+      Everything here is a planning aid. Check exam dates, eligibility and marking schemes on the official notice for your year. Members also get saved dashboards, mock tests with a daily review, mentoring and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="sc-top"><span class="eb">School &middot; Class 8 to 12</span>
+    <h1>Which class are you in?</h1>
+    <p>Pick your class and stream to see the tools for it: practice, boards, entrance routes, Olympiads and mentoring, all in one place. Your plan changes a lot between Class 9 and Class 12, so the list changes with it.</p></div>
+
+  <div class="sc-q">I am in</div>
+  <div class="sc-tabs" id="scTabs" role="tablist">{% for s in stages %}<button type="button" role="tab" data-id="{{ s.id }}" aria-pressed="{{ 'true' if loop.first else 'false' }}">{{ s.tab }}</button>{% endfor %}</div>
+
+  {% for s in stages %}<section class="sc-panel" id="{{ s.id }}" data-panel="{{ s.id }}" {{ 'hidden' if not loop.first }}>
+    <h2>{{ s.title }}</h2><p style="margin:0 0 10px;font-size:.92rem;color:var(--dim)">{{ s.lead }}</p>
+    <div class="sc-g">{% for c in s.cards %}<a class="sc-c" href="{{ c.url }}"><span class="sc-b {{ c.badge }}">{{ c.badge }}</span><b>{{ c.title }}</b><p>{{ c.desc }}</p><span class="go">Open &rarr;</span></a>{% endfor %}</div>
+  </section>{% endfor %}
+
+  <section class="sc-also"><span class="eb">Also useful</span><h2>Studying abroad, or not sure yet</h2>
+    <div class="sc-g">{% for c in also %}<a class="sc-c" href="{{ c.url }}"><span class="sc-b {{ c.badge }}">{{ c.badge }}</span><b>{{ c.title }}</b><p>{{ c.desc }}</p><span class="go">Open &rarr;</span></a>{% endfor %}</div>
+    <p style="font-size:.8rem;color:var(--dim);margin-top:14px">Looking for college admission after Class 12? See TNEA, JEE / JOSAA, DASA / NRI and Medicine in the menu. EduAakashaA is not affiliated with CBSE, NTA or any state board. Prepared with AI assistance.</p>
+  </section>
+</div>
+<script>
+(function () {
+  var tabs = [].slice.call(document.querySelectorAll('#scTabs button')), panels = [].slice.call(document.querySelectorAll('.sc-panel'));
+  function show(id) {
+    var ok = panels.some(function (p) { return p.id === id; }); if (!ok) id = panels[0].id;
+    tabs.forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-id') === id ? 'true' : 'false'); });
+    panels.forEach(function (p) { p.hidden = p.id !== id; });
+  }
+  tabs.forEach(function (b) { b.addEventListener('click', function () { var id = b.getAttribute('data-id'); show(id); try { history.replaceState(null, '', '#' + id); } catch (e) {} }); });
+  if (location.hash) show(location.hash.slice(1));
+})();
+</script>
+{% endblock %}

@@ -122,6 +122,15 @@
     {% if sources %}<h3>Pages read on {{ checked }}</h3><div class="pb-c"><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.84rem;word-break:break-all">{% for u in sources %}<li><a href="{{ u }}" rel="noopener nofollow" target="_blank">{{ u }}</a></li>{% endfor %}</ul></div>{% endif %}
   </section>
 
+  <section id="next"><span class="eb">What next</span><h2>Aiming for NEET?</h2>
+    <div class="pb-g">
+      <div class="pb-c"><h3>NEET 2027 guide</h3><p>What the National Testing Agency has announced, pattern, eligibility and counselling.</p><a class="pb-go n" href="{{ url_for('main.neet_2027') }}">Open the guide</a></div>
+      <div class="pb-c"><h3>Medicine exams</h3><p>NEET and the other medicine entrance exams in one place.</p><a class="pb-go n" href="{{ url_for('main.medicine') }}">All medicine exams</a></div>
+      <div class="pb-c"><h3>NEET papers analysed</h3><p>Nine papers, 2018 to 2026, by year, subject and topic.</p><a class="pb-go n" href="{{ url_for('main.neet_exam') }}">Open the analysis</a></div>
+      <div class="pb-c"><h3>All school tools</h3><p>Class 8 to 12 tools by class and stream.</p><a class="pb-go n" href="{{ url_for('main.school') }}">See School</a></div>
+    </div>
+  </section>
+
   <section id="members"><span class="eb">Members</span><h2>The PCB Analytics dashboard</h2>
     <div class="pb-g">
       <div class="pb-c"><h3>Your marks against the routes</h3><p>Enter board-style marks once; see which routes you meet and how many marks to add, kept up to date as you improve.</p></div>

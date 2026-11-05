@@ -287,6 +287,8 @@ img { max-width: 100%; display: block; }
 
 /* Visual separator before the de-emphasised items in the "More" menu */
 .nav__dropdown-divider { border-top: 1px solid var(--border); margin-top: 6px; padding-top: 6px; }
+.nav__dropdown-heading { padding: 8px 16px 2px; font-size: .66rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-dim, #5A6278); pointer-events: none; }
+.nav__dropdown-heading:first-child { padding-top: 4px; }
 
 /* Floating WhatsApp click-to-chat */
 .wa-float {

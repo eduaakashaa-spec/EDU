@@ -621,6 +621,14 @@ def neet_exam():
     return render_template('neet_exam.html', **d.context())
 
 
+@main_bp.route('/school-class-8-12')
+@main_bp.route('/school')
+def school():
+    # public page: tools for Class 8 to 12 students and parents by class and stream (Explorer, TN Class 10, PCM and PCB analytics, Olympiads, boards, free mocks); data in app/data/school.py
+    from app.data import school as d
+    return render_template('school.html', **d.context())
+
+
 @main_bp.route('/olympiad-exam-guide')
 def olympiad_exam():
     # public page: Indian Olympiads (IOQM, RMO, INMO, NSE, INO) stages, 2026-27 dates, eligibility, format, selection, practice, free sample questions, read from official pages; data in app/data/olympiad_exam.py

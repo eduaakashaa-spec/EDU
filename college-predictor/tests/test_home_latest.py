@@ -19,8 +19,8 @@ c = app.test_client()
 page = c.get('/').get_data(as_text=True)
 sec = page[page.index('id="awNew"'):page.index('id="awEng"')]
 links = re.findall(r'<a class="aw-ix" href="([^"]+)"', sec)
-assert len(links) == 12 and len(set(links)) == 12, links
-for want in ('/edupulse-free-mock-tests/', '/neet-mock/', '/sat-mock/', '/olympiad-mock/', '/class12-pcm/', '/class12-pcb/', '/sat-exam-guidelines', '/olympiad-exam-guide', '/neet-papers-analysis', '/josaa-2026-analytics'):
+assert len(links) == 13 and len(set(links)) == 13, links
+for want in ('/edupulse-free-mock-tests/', '/neet-mock/', '/sat-mock/', '/olympiad-mock/', '/class12-pcm/', '/class12-pcb/', '/school', '/sat-exam-guidelines', '/olympiad-exam-guide', '/neet-papers-analysis', '/josaa-2026-analytics'):
     assert want in links, want
 for href in links:
     assert c.get(href).status_code in (200, 301, 302, 401, 403), href              # public pages open; member pages send visitors to log in or join

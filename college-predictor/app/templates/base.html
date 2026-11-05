@@ -119,16 +119,39 @@
               <li><a href="{{ url_for('main.nid_papers') }}">NID Papers Analysed</a></li>
               <li><a href="{{ url_for('main.nift_exam') }}">NIFT Papers Analysed</a></li>
               <li><a href="{{ url_for('main.neet_exam') }}">NEET Papers Analysed</a></li>
-              <li><a href="{{ url_for('main.sat_exam') }}">SAT Exam Guidelines</a></li>
-              <li><a href="{{ url_for('main.olympiad_exam') }}">Olympiad Exams Guide</a></li>
-              <li><a href="{{ url_for('pcm12.hub') }}">Class 12 PCM Analytics</a></li>
-              <li><a href="{{ url_for('pcb12.hub') }}">Class 12 PCB Analytics</a></li>
               <li><a href="{{ url_for('main.neet_seats_2025') }}">🔒 NEET MBBS Seat Analytics</a></li>
               <li><a href="{{ url_for('free_mock.home') }}">EduPulse Free Mock Tests</a></li>
-              <li><a href="{{ url_for('main.explorer_landing') }}">Grade 7&ndash;10 Explorer</a></li>
               <li><a href="{{ url_for('main.mbamca_alias') }}">MBA / MCA</a></li>
               <li><a href="{{ url_for('main.cat') }}">CAT</a></li>
               <li><a href="{{ url_for('main.professional_exam') }}">Professional Exams</a></li>
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="{{ url_for('main.school') }}" class="nav__link">School (Class 8&ndash;12)</a>
+            <ul class="nav__dropdown">
+              <li class="nav__dropdown-heading">Class 8&ndash;10</li>
+              <li><a href="{{ url_for('main.explorer_landing') }}">Grade 7&ndash;10 Explorer</a></li>
+              <li><a href="{{ url_for('futureready.index') }}">FutureReady (Class 8&ndash;9)</a></li>
+              <li><a href="{{ url_for('pulse_tn10.home') }}">🔒 TN Class 10 Mock Tests</a></li>
+              <li class="nav__dropdown-heading">Class 11&ndash;12</li>
+              <li><a href="{{ url_for('pcm12.hub') }}">Class 12 PCM Analytics</a></li>
+              <li><a href="{{ url_for('pcb12.hub') }}">Class 12 PCB Analytics</a></li>
+              <li><a href="{{ url_for('pcm12.board_playbook') }}">Board Score Playbook</a></li>
+              <li><a href="{{ url_for('pcm12.thumb_rules') }}">Thumb Rules Handbook</a></li>
+              <li class="nav__dropdown-heading">Olympiads</li>
+              <li><a href="{{ url_for('main.olympiad_exam') }}">Olympiad Exams Guide</a></li>
+              <li><a href="{{ url_for('olympiad_mock.home') }}">🔒 EduPulse-Olympiad</a></li>
+              <li class="nav__dropdown-divider"><a href="{{ url_for('main.school') }}">All school tools &rarr;</a></li>
+            </ul>
+          </li>
+
+          <li class="nav__item nav__item--dropdown">
+            <a href="#" class="nav__link">Study Abroad</a>
+            <ul class="nav__dropdown">
+              <li><a href="{{ url_for('main.sat_exam') }}">SAT Exam Guidelines</a></li>
+              <li><a href="{{ url_for('sat_mock.home') }}">🔒 EduPulse-SAT Practice</a></li>
+              <li><a href="{{ url_for('main.nri_admission') }}">NRI Admission Guide</a></li>
             </ul>
           </li>
 
