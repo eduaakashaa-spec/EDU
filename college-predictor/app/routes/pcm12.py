@@ -1,13 +1,17 @@
-"""Class 12 PCM Analytics.
+"""Class 12 PCM and PCB Analytics.
 
-Public:   /class12-pcm/                  hub: the four tools, a quick study plan, what members get
-          /class12-pcm/eligibility       Eligibility Gap Closer (marks against 11 entrance routes)
-          /class12-pcm/board-playbook    Board Score Playbook (levels, chapter focus, study plan)
-          /class12-pcm/thumb-rules       Thumb Rules Handbook (37 chapter cards, flashcards)
-          /class12-pcm/answer-lab        Answer Sheet Lab (marking-scheme answer sheets)
-          /class12-pcm/quick-plan        POST: a plan for a visitor (nothing saved)
-Members:  /class12-pcm/dashboard         PCM Analytics dashboard (Premium): marks, test log, chapter ratings, route status and a week-by-week plan
-          /class12-pcm/dashboard/save    POST: save the profile, return the analysis
+PCM, public:   /class12-pcm/                  hub: the four tools, a quick study plan, what members get
+               /class12-pcm/eligibility       Eligibility Gap Closer (marks against 11 entrance routes)
+               /class12-pcm/board-playbook    Board Score Playbook (levels, chapter focus, study plan)
+               /class12-pcm/thumb-rules       Thumb Rules Handbook (37 chapter cards, flashcards)
+               /class12-pcm/answer-lab        Answer Sheet Lab (marking-scheme answer sheets)
+               /class12-pcm/quick-plan        POST: a plan for a visitor (nothing saved)
+PCB, public:   /class12-pcb/                  hub: eligibility check, board playbook, thumb rules, answer lab, quick study plan
+               /class12-pcb/eligibility       POST: marks against the PCB routes (nothing saved)
+               /class12-pcb/quick-plan        POST: a plan for a visitor (nothing saved)
+Members (Premium), for each stream:
+               /class12-<stream>/dashboard        marks, test log, chapter ratings, route status and a week-by-week plan
+               /class12-<stream>/dashboard/save   POST: save the profile, return the analysis
 """
 import json
 
@@ -16,18 +20,66 @@ from flask_login import current_user
 
 from app.decorators import premium_required
 from app.extensions import db
-from app.models_pulse import Pcm12Profile
+from app.models_pulse import Class12Profile
 from app.services import pcm12
 
-pcm_bp = Blueprint('pcm12', __name__, url_prefix='/class12-pcm')
 MAX_BODY = 60_000
+TOOL_ENDPOINT = {'eligibility': 'pcm12.eligibility', 'board-playbook': 'pcm12.board_playbook', 'thumb-rules': 'pcm12.thumb_rules', 'answer-lab': 'pcm12.answer_lab'}
 
 
-ENDPOINT = {'eligibility': 'pcm12.eligibility', 'board-playbook': 'pcm12.board_playbook', 'thumb-rules': 'pcm12.thumb_rules', 'answer-lab': 'pcm12.answer_lab'}
+def _stream_routes(bp, stream, ep):
+    """Quick plan, dashboard and save for one stream; `ep` is the blueprint name."""
+    c = pcm12.cfg(stream)
+
+    @bp.route('/quick-plan', methods=['POST'], endpoint='quick_plan')
+    def quick_plan():
+        d = request.get_json(silent=True) or {}
+        try:
+            level = int(d.get('level', 1))
+        except (TypeError, ValueError):
+            level = 1
+        return jsonify(ok=True, **pcm12.quick_plan(level, d.get('exam_date'), d.get('hours_wd', 2), d.get('hours_we', 5), stream=stream))
+
+    def _profile():
+        row = Class12Profile.query.filter_by(user_id=current_user.id, stream=stream).first()
+        try:
+            return row, (json.loads(row.data_json) if row and row.data_json else {})
+        except ValueError:
+            return row, {}
+
+    @bp.route('/dashboard', endpoint='dashboard')
+    @premium_required
+    def dashboard():
+        _, prof = _profile()
+        conf = {'stream': stream, 'name': c['name'], 'order': list(c['order']), 'subj': c['subj'], 'labels': c['labels'], 'marks': c['marks'], 'marks_order': list(c['marks']), 'test_max': c['test_max'], 'cats': c['cats'],
+                'save': url_for(ep + '.save'), 'hub': url_for(ep + '.hub'),
+                'links': {'thumb': url_for('pcm12.thumb_rules') if stream == 'pcm' else url_for('pcb12.hub') + '#rules', 'elig': url_for('pcm12.eligibility') if stream == 'pcm' else url_for('pcb12.hub') + '#eligibility'}}
+        return render_template('pcm12_dashboard.html', conf=conf, profile=prof, analysis=pcm12.analyse(prof, stream=stream))
+
+    @bp.route('/dashboard/save', methods=['POST'], endpoint='save')
+    @premium_required
+    def save():
+        if (request.content_length or 0) > MAX_BODY:
+            return jsonify(ok=False, error='too large'), 413
+        d = request.get_json(silent=True)
+        if not isinstance(d, dict):
+            return jsonify(ok=False, error='bad payload'), 400
+        keep = pcm12.clean_profile(d, stream)
+        row = Class12Profile.query.filter_by(user_id=current_user.id, stream=stream).first()
+        if row is None:
+            row = Class12Profile(user_id=current_user.id, stream=stream)
+            db.session.add(row)
+        row.data_json = json.dumps(keep, separators=(',', ':'))
+        db.session.commit()
+        return jsonify(ok=True, analysis=pcm12.analyse(keep, stream=stream))
+
+
+# ---- PCM ---------------------------------------------------------------------------------------------------------------------------------
+pcm_bp = Blueprint('pcm12', __name__, url_prefix='/class12-pcm')
 
 
 def _urls():
-    u = {p: url_for(ENDPOINT[p]) for p in pcm12.PAGES}
+    u = {p: url_for(TOOL_ENDPOINT[p]) for p in pcm12.PAGES}
     u['_logo'] = url_for('static', filename='images/logo.png')
     u['_contact'] = url_for('main.contact')
     return u
@@ -41,9 +93,9 @@ def _strip():
             % (url_for('main.home'), url_for('pcm12.hub')))
 
 
-@pcm_bp.route('/')
-def hub():
-    return render_template('pcm12_hub.html', pages=pcm12.PAGES, n_chapters=len(pcm12.chapters()), n_routes=len(pcm12.routes()))
+@pcm_bp.route('/', endpoint='hub')
+def pcm_hub():
+    return render_template('pcm12_hub.html', pages=pcm12.PAGES, n_chapters=len(pcm12.chapters('pcm')), n_routes=len(pcm12.routes('pcm')))
 
 
 def _tool(name):
@@ -73,49 +125,22 @@ def answer_lab():
     return _tool('answer-lab')
 
 
-@pcm_bp.route('/quick-plan', methods=['POST'])
-def quick_plan():
+_stream_routes(pcm_bp, 'pcm', 'pcm12')
+
+# ---- PCB ---------------------------------------------------------------------------------------------------------------------------------
+pcb_bp = Blueprint('pcb12', __name__, url_prefix='/class12-pcb')
+
+
+@pcb_bp.route('/', endpoint='hub')
+def pcb_hub():
+    from app.data import pcb12
+    return render_template('pcb12_hub.html', **pcb12.context())
+
+
+@pcb_bp.route('/eligibility', methods=['POST'], endpoint='eligibility')
+def pcb_eligibility():
     d = request.get_json(silent=True) or {}
-    try:
-        level = int(d.get('level', 1))
-    except (TypeError, ValueError):
-        level = 1
-    return jsonify(ok=True, **pcm12.quick_plan(level, d.get('exam_date'), d.get('hours_wd', 2), d.get('hours_we', 5)))
+    return jsonify(ok=True, elig=pcm12.eligibility(d.get('marks') if isinstance(d.get('marks'), dict) else {}, d.get('cat', 'g'), 'pcb'))
 
 
-def _profile():
-    row = Pcm12Profile.query.filter_by(user_id=current_user.id).first()
-    try:
-        return row, (json.loads(row.data_json) if row and row.data_json else {})
-    except ValueError:
-        return row, {}
-
-
-@pcm_bp.route('/dashboard')
-@premium_required
-def dashboard():
-    _, prof = _profile()
-    return render_template('pcm12_dashboard.html', profile=prof, analysis=pcm12.analyse(prof), SUBJ=pcm12.SUBJ, LEVELS=pcm12.LEVELS, MAX=pcm12.MAX_MARKS)
-
-
-@pcm_bp.route('/dashboard/save', methods=['POST'])
-@premium_required
-def save():
-    if (request.content_length or 0) > MAX_BODY:
-        return jsonify(ok=False, error='too large'), 413
-    d = request.get_json(silent=True)
-    if not isinstance(d, dict):
-        return jsonify(ok=False, error='bad payload'), 400
-    keep = {'exam_date': str(d.get('exam_date') or '')[:10], 'hours_wd': pcm12._num(d.get('hours_wd'), 14), 'hours_we': pcm12._num(d.get('hours_we'), 24), 'cat': d.get('cat') if d.get('cat') in ('g', 's', 'b') else 'g',
-            'marks': {k: pcm12._num((d.get('marks') or {}).get(k), v) for k, v in pcm12.MAX_MARKS.items()} if isinstance(d.get('marks'), dict) else {},
-            'tests': pcm12.clean_tests(d.get('tests')),
-            'levels': {s: v for s, v in (d.get('levels') or {}).items() if s in pcm12.SUBJ and isinstance(v, int) and not isinstance(v, bool) and 0 <= v <= 3} if isinstance(d.get('levels'), dict) else {},
-            'ratings': {k: v for k, v in (d.get('ratings') or {}).items() if pcm12.chapter(k) and isinstance(v, int) and not isinstance(v, bool) and 1 <= v <= 5} if isinstance(d.get('ratings'), dict) else {},
-            'done': {k: True for k, v in (d.get('done') or {}).items() if v and isinstance(k, str) and len(k) < 24} if isinstance(d.get('done'), dict) else {}}
-    row = Pcm12Profile.query.filter_by(user_id=current_user.id).first()
-    if row is None:
-        row = Pcm12Profile(user_id=current_user.id)
-        db.session.add(row)
-    row.data_json = json.dumps(keep, separators=(',', ':'))
-    db.session.commit()
-    return jsonify(ok=True, analysis=pcm12.analyse(keep))
+_stream_routes(pcb_bp, 'pcb', 'pcb12')

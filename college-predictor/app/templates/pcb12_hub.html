@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+{% block title %}Class 12 PCB Analytics: NEET Eligibility, Board Playbook, Thumb Rules, Answer Lab and Study Plan | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Class 12 PCB (Physics, Chemistry, Biology) in one place: check your marks against NEET and other entrance rules, see where the board marks sit, learn rules for 37 chapters, study marked answer sheets, and generate a study plan counted back from your exam. Members get a saved analytics dashboard.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap">
+<style>
+  .pb{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278)}
+  .pb h2{font-size:1.3rem;margin:0 0 4px}.pb h3{font-size:1.02rem;margin:8px 0 4px}.pb section{padding:8px 0 18px}
+  .pb-top{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:6px 0 10px}.pb-top h1{font-size:clamp(1.5rem,3.4vw,2.3rem);margin:2px 0 0}.pb-top p{margin:4px 0 0;font-size:.96rem;color:var(--dim);max-width:68ch}
+  .pb-go{display:inline-block;border-radius:999px;padding:10px 22px;font:700 .93rem 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;background:#FF6B0A;color:#fff;border:0;cursor:pointer;margin:6px 8px 0 0}.pb-go.n{background:var(--navy,#0E3A8A)}.pb-go.g{background:var(--pp);color:inherit;border:1.5px solid var(--ln)}
+  .pb-chips{display:flex;gap:8px;flex-wrap:wrap}.pb-chips span{background:var(--pp);border:1px solid var(--ln);border-radius:999px;padding:5px 12px;font-size:.78rem;color:var(--dim)}.pb-chips b{color:var(--navy,#0E3A8A);margin-right:5px}
+  .pb-nav{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 14px;position:sticky;top:0;z-index:5;background:var(--cream,#FBF7EE);padding:6px 0}.pb-nav a{border:1px solid var(--ln);border-radius:999px;padding:4px 12px;font-size:.78rem;text-decoration:none;color:inherit;background:var(--pp)}
+  .pb-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+  .pb-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:14px 16px}.pb-c p{font-size:.9rem;line-height:1.55;margin:0 0 6px}.pb-c .k{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}
+  .pb-t{width:100%;border-collapse:collapse;font-size:.86rem}.pb-t th,.pb-t td{padding:7px 8px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top}.pb-t th{font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dim)}.pb-t .n{text-align:right;font-family:'JetBrains Mono',monospace}
+  .pb-f{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end}.pb-f label{display:block;font-size:.74rem;font-weight:700;color:var(--dim);margin-bottom:3px}
+  .pb input,.pb select{width:100%;padding:8px 10px;border:1.5px solid var(--ln);border-radius:10px;background:var(--cream,#FBF7EE);color:inherit;font:600 .92rem 'Plus Jakarta Sans',system-ui,sans-serif}
+  .pb-k{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.pb-k div{flex:1 1 120px;border:1px solid var(--ln);border-radius:12px;padding:8px 12px;background:var(--pp)}.pb-k b{display:block;font:700 1.25rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.pb-k small{color:var(--dim);font-size:.74rem}
+  .pb-tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}.pb-tabs button{border:1.5px solid var(--ln);background:var(--pp);border-radius:999px;padding:6px 14px;font:700 .82rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit;width:auto}.pb-tabs button[aria-pressed=true]{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .pb-st{display:inline-block;border-radius:999px;padding:2px 10px;font-size:.74rem;font-weight:700}.pb-st.meets{background:#DDF1E6;color:#146c43}.pb-st.check{background:#FFF1D6;color:#8a5a00}.pb-st.short{background:#FBE3E0;color:#a12d2d}
+  .pb-chip{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.72rem;font-weight:700}.pb-chip.Core{background:#DDF1E6;color:#146c43}.pb-chip.Build{background:#FFF1D6;color:#8a5a00}.pb-chip.Later{background:#EEE;color:#666}
+  .pb-bar{display:flex;height:24px;border-radius:7px;overflow:hidden;margin:6px 0;font-size:.7rem;color:#fff;font-weight:700}.pb-bar i{display:flex;align-items:center;justify-content:center;font-style:normal;white-space:nowrap;overflow:hidden}
+  .b1{background:#0E3A8A}.b2{background:#1E56C4}.b3{background:#FF6B0A}.b4{background:#1F8B5C}.b5{background:#8B5CF6}
+  .pb-card{background:var(--pp);border:1px solid var(--ln);border-radius:14px;padding:12px 14px}.pb-card h3{margin:0 0 4px}.pb-card ul{margin:4px 0 6px;padding-left:18px;font-size:.88rem;line-height:1.55}.pb-card .hk{background:#EAF6EF;border-radius:8px;padding:6px 10px;font-size:.86rem;margin:4px 0}.pb-card .tp{background:#FBE9E7;border-radius:8px;padding:6px 10px;font-size:.86rem;margin:4px 0}
+  :root[data-theme="dark"] .pb-card .hk{background:#12301f}:root[data-theme="dark"] .pb-card .tp{background:#3a1a1a}
+  .pb-sheet{background:#FFFEF8;border:1px solid var(--ln);border-radius:10px;padding:12px 16px;font-family:'Kalam','Segoe Print',cursive;font-size:1.02rem;line-height:1.75;color:#1b2a6b;background-image:repeating-linear-gradient(transparent,transparent 27px,#d9e1f2 28px)}
+  :root[data-theme="dark"] .pb-sheet{background:#1d2230;color:#cfd8ff}
+  .pb-sc{font:700 1.15rem 'JetBrains Mono',monospace;color:#C23A3A}
+  .pb-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+  .pb-fl{min-height:150px;border:2px solid var(--ln);border-radius:16px;padding:18px;background:var(--pp);cursor:pointer;display:flex;flex-direction:column;justify-content:center;font-size:.98rem;line-height:1.55}
+  .pb-ph{display:flex;height:26px;border-radius:8px;overflow:hidden;margin:8px 0;font-size:.72rem;color:#fff;font-weight:700}.pb-ph i{display:flex;align-items:center;justify-content:center;font-style:normal;white-space:nowrap;overflow:hidden}
+  .p1{background:#0E3A8A}.p2{background:#1E56C4}.p3{background:#FF6B0A}.p4{background:#1F8B5C}
+  @media(max-width:640px){.pb-t.rsp thead{display:none}.pb-t.rsp tr{display:block;border:1px solid var(--ln);border-radius:12px;margin:8px 0;padding:6px 8px;background:var(--pp)}.pb-t.rsp td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 0}.pb-t.rsp td::before{content:attr(data-l);color:var(--dim);font-size:.72rem;text-transform:uppercase}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="jr2 pb">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Checked {{ checked }} against official pages: confirm every rule on the official notice.</strong>
+      The entrance rules below were read from official pages (NTA, NMC, CBSE and others) and each route shows its source; where an official page did not settle a rule it says so. Chapter marks are indicative; only the unit-group marks are official. Members also get a saved analytics dashboard with a week-by-week study plan, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="pb-top">
+    <div><span class="eb">CBSE Class 12 &middot; Physics, Chemistry, Biology &middot; Boards 2027 and NEET</span>
+      <h1>Class 12 PCB, <em>analysed</em></h1>
+      <p>Know your marks against the NEET and other entrance rules, see where the board marks sit, carry the thumb rules into the exam hall, see how answer sheets are marked, and get a study plan counted back from your first paper.</p>
+      <a class="pb-go" href="#plan">Build my study plan</a><a class="pb-go n" href="{{ url_for('pcb12.dashboard') }}">My PCB dashboard (members)</a></div>
+    <div class="pb-chips"><span><b>{{ n_routes }}</b>entrance routes</span><span><b>{{ n_chapters }}</b>chapters</span><span><b>300</b>PCB board marks</span></div>
+  </div>
+  <nav class="pb-nav" aria-label="On this page"><a href="#glance">At a glance</a><a href="#eligibility">Eligibility</a><a href="#playbook">Board playbook</a><a href="#rules">Thumb rules</a><a href="#lab">Answer lab</a><a href="#plan">Study plan</a><a href="#official">Official facts</a><a href="#members">Members</a></nav>
+
+  <section id="glance"><span class="eb">At a glance</span><h2>Where the 300 PCB marks come from</h2>
+    <div class="pb-c" style="overflow-x:auto"><table class="pb-t"><thead><tr><th>Subject</th><th class="n">Theory</th><th class="n">Practical</th><th class="n">Total</th></tr></thead><tbody>
+      <tr><td>Physics</td><td class="n">70</td><td class="n">30</td><td class="n">100</td></tr><tr><td>Chemistry</td><td class="n">70</td><td class="n">30</td><td class="n">100</td></tr><tr><td>Biology</td><td class="n">70</td><td class="n">30</td><td class="n">100</td></tr>
+      <tr><td><b>PCB</b></td><td class="n"><b>210</b></td><td class="n"><b>90</b></td><td class="n"><b>300</b></td></tr></tbody></table></div>
+    <h3>Biology theory by unit (official unit marks)</h3>
+    <div class="pb-bar" id="bioBar" aria-hidden="true"></div><div id="bioUnits" class="pb-n"></div>
+    <p class="pb-n">90 of the 300 PCB marks come from practicals, the most reachable marks you have. Check the current CBSE circulars for the date sheet and marking scheme.</p>
+  </section>
+
+  <section id="eligibility"><span class="eb">Step 1 &middot; Eligibility</span><h2>Eligibility check: your marks against the entrance rules</h2>
+    <p style="margin:0 0 8px;font-size:.92rem">Enter your Class 12 marks (or expected marks). Nothing is saved. Each route shows the percentage asked, how it is counted, its source and whether the source is official.</p>
+    <div class="pb-c"><div class="pb-f" id="eMarks"></div>
+      <div class="pb-f" style="margin-top:10px;max-width:420px"><div><label for="eCat">My category</label><select id="eCat">{% for k, label in data.cats %}<option value="{{ k }}">{{ label }}</option>{% endfor %}</select></div></div>
+      <div class="pb-k" id="eKpi"></div>
+      <div style="overflow-x:auto"><table class="pb-t"><thead><tr><th>Route</th><th>Needs</th><th>Me</th><th>Status</th><th class="n">Marks to add</th></tr></thead><tbody id="eRows"></tbody></table></div>
+    </div>
+    <p class="pb-n">The percentage is only the Class 12 condition. NEET (UG) rank, counselling rounds, seat matrices and state rules decide the seat. Confirm on the official notice for your year.</p>
+  </section>
+
+  <section id="playbook"><span class="eb">Step 2 &middot; Boards</span><h2>Board Score Playbook</h2>
+    <p style="margin:0 0 8px;font-size:.92rem">The same syllabus asks for a different plan at each level. Pick the band that matches your last two theory tests (students often sit in different bands for different subjects).</p>
+    <div class="pb-tabs" id="lvTabs" role="tablist"></div><div class="pb-c" id="lvPanel"></div>
+    <h3 style="margin-top:16px">Chapter focus: what to start with at your level</h3>
+    <div class="pb-f" style="max-width:520px;margin-bottom:8px"><div><label for="fLevel">My level</label><select id="fLevel"><option value="0">Needs support</option><option value="1" selected>Average</option><option value="2">Good</option><option value="3">Excellent</option></select></div>
+      <div><label for="fSub">Subject</label><select id="fSub"><option value="all">All three</option><option value="P">Physics</option><option value="C">Chemistry</option><option value="B">Biology</option></select></div></div>
+    <div class="pb-c" style="overflow-x:auto"><table class="pb-t"><thead><tr><th>Chapter</th><th class="n">Marks</th><th>Class at my level</th><th>What the marks look like</th></tr></thead><tbody id="fRows"></tbody></table></div>
+    <p class="pb-n">Core = start here. Build = after Core is steady. Later = park it for now. This is EduAakashaA's judgement. Chapter marks are indicative; only the unit-group marks are official.</p>
+  </section>
+
+  <section id="rules"><span class="eb">Step 3 &middot; Rules</span><h2>Thumb rules for {{ n_chapters }} chapters</h2>
+    <p style="margin:0 0 8px;font-size:.92rem">For every chapter: rules that win marks, one memory hook and one trap that costs marks. Check each rule against NCERT before you rely on it in a test.</p>
+    <div class="pb-f" style="max-width:640px;margin-bottom:8px"><div><label for="rSub">Subject</label><select id="rSub"><option value="all">All</option><option value="P">Physics</option><option value="C">Chemistry</option><option value="B">Biology</option></select></div>
+      <div><label for="rQ">Search</label><input id="rQ" type="search" placeholder="e.g. Hardy, Gauss, Nernst"></div></div>
+    <p class="pb-n" id="rCount" aria-live="polite"></p>
+    <div class="pb-g" id="rGrid"></div>
+    <h3 style="margin-top:18px">Flashcards</h3>
+    <div class="pb-c"><div class="pb-tabs" id="fcTabs"><button type="button" data-s="all" aria-pressed="true">All</button><button type="button" data-s="P" aria-pressed="false">Physics</button><button type="button" data-s="C" aria-pressed="false">Chemistry</button><button type="button" data-s="B" aria-pressed="false">Biology</button></div>
+      <div class="pb-fl" id="fcCard" tabindex="0" role="button" aria-label="Flashcard: press to flip"></div>
+      <div style="margin-top:8px"><button class="pb-go g" id="fcGot" type="button">Got it</button><button class="pb-go g" id="fcMiss" type="button">Missed it: show again</button><span class="pb-n" id="fcStat" style="margin-left:8px"></span></div></div>
+  </section>
+
+  <section id="lab"><span class="eb">Step 4 &middot; Writing</span><h2>Answer Sheet Lab</h2>
+    <div class="pb-c" style="margin-bottom:10px"><p><b>Illustrations, not real scripts.</b> Every sheet here was written by EduAakashaA to teach. The handwriting is a typeface and the questions and marking schemes are original, written in CBSE style. They are not CBSE papers or official schemes. What they show is real in kind: the marking scheme pays for steps, so how you write decides how many marks your knowledge earns.</p></div>
+    <div class="pb-tabs" id="shQ"></div>
+    <div class="pb-c" id="shPanel"></div>
+  </section>
+
+  <section id="plan"><span class="eb">Step 5 &middot; Plan</span><h2>Generate a study plan</h2>
+    <p style="margin:0 0 10px;font-size:.92rem">Pick your level, the date of your first board paper (see the CBSE date sheet) and the hours you can give. You get the weeks for each phase, hours for each subject and the chapters to start with. Nothing is saved. Members build a chapter-by-chapter plan from their own test scores.</p>
+    <div class="pb-c"><div class="pb-f">
+      <div><label for="qLevel">My level in PCB</label><select id="qLevel"><option value="0">Needs support (below 50%)</option><option value="1" selected>Average (50 to 65%)</option><option value="2">Good (65 to 80%)</option><option value="3">Excellent (80% and above)</option></select></div>
+      <div><label for="qDate">First board paper</label><input id="qDate" type="date"></div>
+      <div><label for="qWd">Hours on a school day</label><input id="qWd" type="number" min="0" max="14" step="0.5" value="2"></div>
+      <div><label for="qWe">Hours on a weekend day</label><input id="qWe" type="number" min="0" max="24" step="0.5" value="5"></div></div>
+      <div id="qOut" aria-live="polite"><p class="pb-n">Enter the date of your first paper to see the plan.</p></div></div>
+  </section>
+
+  <section id="official"><span class="eb">Official facts</span><h2>What the official pages say</h2>
+    {% if facts.facts %}{% for t in topics %}<h3>{{ t }}</h3><div class="pb-c"><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.9rem">{% for f in facts.facts if f.topic == t %}<li>{{ f.fact }} <a href="{{ f.source }}" rel="noopener nofollow" target="_blank" style="font-size:.78rem">source</a></li>{% endfor %}</ul></div>{% endfor %}{% else %}<div class="pb-c"><p>Official facts are being checked and will appear here.</p></div>{% endif %}
+    {% if facts.notes %}<h3>Not confirmed</h3><div class="pb-c"><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.9rem">{% for n in facts.notes %}<li>{{ n }}</li>{% endfor %}</ul></div>{% endif %}
+    {% if sources %}<h3>Pages read on {{ checked }}</h3><div class="pb-c"><ul style="margin:0;padding-left:18px;line-height:1.6;font-size:.84rem;word-break:break-all">{% for u in sources %}<li><a href="{{ u }}" rel="noopener nofollow" target="_blank">{{ u }}</a></li>{% endfor %}</ul></div>{% endif %}
+  </section>
+
+  <section id="members"><span class="eb">Members</span><h2>The PCB Analytics dashboard</h2>
+    <div class="pb-g">
+      <div class="pb-c"><h3>Your marks against the routes</h3><p>Enter board-style marks once; see which routes you meet and how many marks to add, kept up to date as you improve.</p></div>
+      <div class="pb-c"><h3>Test log and subject levels</h3><p>Log every school or mock test. Your level in each subject comes from your last three tests, with a trend line.</p></div>
+      <div class="pb-c"><h3>Chapter priority map</h3><p>Rate each of the {{ n_chapters }} chapters from 1 to 5. Chapters are ranked by marks, your rating and the playbook class at your level.</p></div>
+      <div class="pb-c"><h3>A week-by-week plan you can tick off</h3><p>Counted back from your first paper in four phases, with a task list for every week, saved to your account.</p></div>
+    </div>
+    <p><a class="pb-go n" href="{{ url_for('pcb12.dashboard') }}">Open my dashboard</a>{% if not (current_user.is_authenticated and current_user.is_premium) %}<a class="pb-go" href="{{ url_for('main.members_registration') }}">Join Premium Membership</a>{% endif %}</p>
+    <p class="pb-n">For Physics and Chemistry the board marking is the same as for PCM students: see also the <a href="{{ url_for('pcm12.hub') }}">Class 12 PCM Analytics</a>. These are planning tools, not predictions. EduAakashaA is not affiliated with CBSE, NTA or any entrance body. Prepared with AI assistance.</p>
+  </section>
+</div>
+<script id="pbData" type="application/json">{{ data|tojson }}</script>
+<script>
+(function () {
+  var D = JSON.parse(document.getElementById('pbData').textContent), $ = function (id) { return document.getElementById(id); };
+  var SUB = {P: 'Physics', C: 'Chemistry', B: 'Biology'}, LV = ['Needs support', 'Average', 'Good', 'Excellent'];
+  function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
+  function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); return n; }
+  function td(t, c, l) { var x = el('td', c || '', t); if (l) x.setAttribute('data-l', l); return x; }
+
+  // ---- Biology units
+  var units = {}; D.chapters.filter(function (c) { return c.subj === 'B'; }).forEach(function (c) { units[c.unit] = (units[c.unit] || 0) + c.marks; });
+  var ub = clear($('bioBar')), ul = [], i0 = 0;
+  Object.keys(units).forEach(function (u) { var m = Math.round(units[u]), s = el('i', 'b' + (++i0), m); s.style.flex = String(m); s.title = u + ': ' + m; ub.appendChild(s); ul.push(u + ' ' + m); });
+  $('bioUnits').textContent = ul.join(' · ') + ' = ' + Math.round(Object.keys(units).reduce(function (a, u) { return a + units[u]; }, 0)) + ' marks';
+
+  // ---- eligibility
+  var M = {}, mk = $('eMarks'), tmr = null;
+  D.marks_order.forEach(function (k) {
+    var w = document.createElement('div'), l = el('label', '', D.labels[k] + ' (of ' + D.marks[k] + ')'), i = document.createElement('input'); i.type = 'number'; i.min = 0; i.max = D.marks[k]; i.step = 0.5; i.id = 'em' + k; l.setAttribute('for', i.id);
+    i.addEventListener('input', function () { M[k] = parseFloat(i.value) || 0; clearTimeout(tmr); tmr = setTimeout(elig, 250); }); w.appendChild(l); w.appendChild(i); mk.appendChild(w);
+  });
+  $('eCat').addEventListener('change', elig);
+  function elig() {
+    fetch('{{ url_for("pcb12.eligibility") }}', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({marks: M, cat: $('eCat').value})}).then(function (r) { return r.json(); }).then(function (j) {
+      var E = j.elig, k = clear($('eKpi')), body = clear($('eRows'));
+      if (!E.entered) { var r0 = el('tr'), c0 = td('Enter your marks to see every route.'); c0.colSpan = 5; r0.appendChild(c0); body.appendChild(r0); return; }
+      [[E.core + '%', 'PCB percentage'], [E.agg + '%', '5-subject percentage'], [E.core_sum, 'PCB marks of 300']].forEach(function (a) { var c = document.createElement('div'); c.appendChild(el('b', '', a[0])); c.appendChild(el('small', '', a[1])); k.appendChild(c); });
+      E.routes.forEach(function (r) {
+        var tr = el('tr'), n = td(''); n.appendChild(el('b', '', r.name)); if (r.note) n.appendChild(el('div', 'pb-n', r.note));
+        var src = el('div', 'pb-n', 'Source: ' + (r.confidence || 'see the official facts below') + ' '); if (r.source) { var a = el('a', '', 'link'); a.href = r.source; a.target = '_blank'; a.rel = 'noopener nofollow'; src.appendChild(a); } n.appendChild(src);
+        tr.appendChild(n); tr.appendChild(td(r.need[0] === r.need[1] ? r.need[1] + '%' : r.need[0] + '% to ' + r.need[1] + '%'));
+        var me = td(r.have + '%'); me.appendChild(el('div', 'pb-n', 'on ' + r.basis)); tr.appendChild(me);
+        var st = td(''); st.appendChild(el('span', 'pb-st ' + r.status, r.status === 'meets' ? 'Meets' : r.status === 'check' ? 'Check' : 'Short')); tr.appendChild(st);
+        tr.appendChild(td(r.status === 'meets' ? '0' : '+' + r.add + ' of ' + r.denom, 'n')); body.appendChild(tr);
+      });
+    });
+  }
+  elig();
+
+  // ---- playbook
+  var lt = $('lvTabs');
+  D.levels.forEach(function (L, i) { var b = el('button', '', L.level); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-pressed', i === 1 ? 'true' : 'false'); b.addEventListener('click', function () { showLevel(i); }); lt.appendChild(b); });
+  function list(title, arr) { var d = document.createElement('div'); d.appendChild(el('h3', '', title)); var u = el('ul'); u.style.cssText = 'margin:4px 0 0;padding-left:18px;line-height:1.6;font-size:.9rem'; arr.forEach(function (x) { u.appendChild(el('li', '', x)); }); d.appendChild(u); return d; }
+  function showLevel(i) {
+    [].forEach.call(lt.children, function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    var L = D.levels[i], p = clear($('lvPanel')); if (!L) return;
+    p.appendChild(el('span', 'k', 'Target by the board exam')); p.appendChild(el('p', '', L.target));
+    var g = el('div', 'pb-g'); g.appendChild(list('What the sheets usually show', L.signs)); g.appendChild(list('Do first', L.first)); g.appendChild(list('Leave for later', L.later)); p.appendChild(g);
+    $('fLevel').value = String(i); focus();
+  }
+  function focus() {
+    var lv = +$('fLevel').value, s = $('fSub').value, b = clear($('fRows'));
+    D.chapters.forEach(function (c) { if (s !== 'all' && c.subj !== s) return;
+      var tr = el('tr'), n = td('', '', 'Chapter'); n.appendChild(el('b', '', c.name)); n.appendChild(el('div', 'pb-n', SUB[c.subj] + ' · ' + c.unit)); tr.appendChild(n); tr.appendChild(td('≈' + c.marks, 'n', 'Marks'));
+      var cl = td('', '', 'Class'); cl.appendChild(el('span', 'pb-chip ' + c.levels[lv], c.levels[lv])); tr.appendChild(cl); tr.appendChild(td(c.why, '', 'Marks look like')); b.appendChild(tr); });
+  }
+  $('fLevel').addEventListener('change', focus); $('fSub').addEventListener('change', focus);
+  showLevel(1);
+
+  // ---- rules and flashcards
+  function rules() {
+    var s = $('rSub').value, q = $('rQ').value.trim().toLowerCase(), g = clear($('rGrid')), n = 0;
+    D.chapters.forEach(function (c) {
+      var txt = (c.name + ' ' + c.rules.join(' ') + ' ' + c.hook + ' ' + c.trap).toLowerCase(); if ((s !== 'all' && c.subj !== s) || (q && txt.indexOf(q) < 0)) return; n++;
+      var d = el('article', 'pb-card'), h = el('div'); h.appendChild(el('span', 'pb-chip Core', SUB[c.subj])); h.appendChild(el('span', 'pb-n', ' ≈' + c.marks + ' marks · ' + c.unit)); d.appendChild(h); d.appendChild(el('h3', '', c.name));
+      var u = el('ul'); c.rules.forEach(function (r) { u.appendChild(el('li', '', r)); }); d.appendChild(u);
+      var hk = el('div', 'hk'); hk.appendChild(el('b', '', 'Memory hook: ')); hk.appendChild(document.createTextNode(c.hook)); d.appendChild(hk);
+      var tp = el('div', 'tp'); tp.appendChild(el('b', '', 'Common trap: ')); tp.appendChild(document.createTextNode(c.trap)); d.appendChild(tp); g.appendChild(d);
+    });
+    $('rCount').textContent = n + ' of ' + D.chapters.length + ' chapters';
+  }
+  $('rSub').addEventListener('change', rules); $('rQ').addEventListener('input', rules); rules();
+  var fcS = 'all', queue = [], cur = null, flipped = false, got = 0, key = 'pcb12:fc';
+  function fcBuild() { queue = D.chapters.filter(function (c) { return fcS === 'all' || c.subj === fcS; }).map(function (c) { return c.id; }); for (var i = queue.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = queue[i]; queue[i] = queue[j]; queue[j] = t; } got = 0; fcNext(); }
+  function fcNext() { cur = queue.length ? D.chapters.filter(function (c) { return c.id === queue[0]; })[0] : null; flipped = false; fcDraw(); }
+  function fcDraw() {
+    var b = clear($('fcCard'));
+    if (!cur) { b.appendChild(el('b', '', 'All cards done. ')); b.appendChild(document.createTextNode('Press a subject tab to go again.')); $('fcStat').textContent = got + ' got it'; return; }
+    if (!flipped) { b.appendChild(el('span', 'pb-n', SUB[cur.subj] + ' · tap to flip')); b.appendChild(el('b', '', cur.name)); b.appendChild(el('span', 'pb-n', 'Say the rules and the trap aloud, then flip.')); }
+    else { cur.rules.forEach(function (r) { b.appendChild(el('div', '', '• ' + r)); }); b.appendChild(el('div', 'pb-n', 'Hook: ' + cur.hook)); b.appendChild(el('div', 'pb-n', 'Trap: ' + cur.trap)); }
+    $('fcStat').textContent = got + ' got it · ' + queue.length + ' left';
+  }
+  $('fcCard').addEventListener('click', function () { if (cur) { flipped = !flipped; fcDraw(); } });
+  $('fcCard').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (cur) { flipped = !flipped; fcDraw(); } } });
+  $('fcGot').addEventListener('click', function () { if (cur) { queue.shift(); got++; fcNext(); } });
+  $('fcMiss').addEventListener('click', function () { if (cur) { var c = queue.shift(); queue.splice(Math.min(3, queue.length), 0, c); fcNext(); } });
+  [].forEach.call($('fcTabs').children, function (b) { b.addEventListener('click', function () { fcS = b.getAttribute('data-s'); [].forEach.call($('fcTabs').children, function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); }); fcBuild(); }); });
+  fcBuild();
+
+  // ---- answer lab
+  var qi = 0, si = 1, ticks = {};
+  var st = $('shQ'); D.sheets.forEach(function (s, i) { var b = el('button', '', (i + 1) + ' · ' + s.subject); b.type = 'button'; b.setAttribute('aria-pressed', i === 0 ? 'true' : 'false'); b.addEventListener('click', function () { qi = i; drawSheet(); }); st.appendChild(b); });
+  function drawSheet() {
+    [].forEach.call(st.children, function (b, k) { b.setAttribute('aria-pressed', k === qi ? 'true' : 'false'); });
+    var s = D.sheets[qi], p = clear($('shPanel')); if (!s) return;
+    p.appendChild(el('span', 'k', s.subject + ' · Section C · ' + s.marks + ' marks')); p.appendChild(el('p', '', s.q));
+    p.appendChild(el('h3', '', 'Marking scheme used for these sheets (illustrative)'));
+    var t = el('table', 'pb-t'), bd = el('tbody'); s.scheme.forEach(function (v) { var r = el('tr'); r.appendChild(td(v.point)); r.appendChild(td(v.marks, 'n')); bd.appendChild(r); }); t.appendChild(bd); var w = el('div'); w.style.overflowX = 'auto'; w.appendChild(t); p.appendChild(w);
+    var tabs = el('div', 'pb-tabs'); s.sheets.forEach(function (sh, i) { var b = el('button', '', sh.style + ' · ' + sh.score + ' / ' + s.marks); b.type = 'button'; b.setAttribute('aria-pressed', i === si ? 'true' : 'false'); b.addEventListener('click', function () { si = i; drawSheet(); }); tabs.appendChild(b); }); p.appendChild(tabs);
+    var sh = s.sheets[si] || s.sheets[0], sd = el('div', 'pb-sheet'); sh.lines.forEach(function (l) { sd.appendChild(el('div', '', l)); }); p.appendChild(sd);
+    var sc = el('p', 'pb-sc', sh.score + ' / ' + s.marks); p.appendChild(sc); p.appendChild(el('p', '', 'Examiner: ' + sh.note));
+    p.appendChild(el('p', 'pb-n', 'Takeaway: ' + s.tip));
+    p.appendChild(el('h3', '', 'Mark your own answer')); var u = el('div'), tot = el('p', 'pb-sc', ''); var cnt = 0;
+    s.scheme.forEach(function (v, k) { var l = el('label'); l.style.cssText = 'display:flex;gap:8px;align-items:flex-start;margin:4px 0;font-size:.9rem;font-weight:500'; var cb = document.createElement('input'); cb.type = 'checkbox'; cb.style.width = 'auto'; cb.checked = !!ticks[qi + ':' + k];
+      cb.addEventListener('change', function () { ticks[qi + ':' + k] = cb.checked; upd(); }); l.appendChild(cb); l.appendChild(document.createTextNode(v.point + ' (' + v.marks + ')')); u.appendChild(l); });
+    function upd() { var n = 0; s.scheme.forEach(function (v, k) { if (ticks[qi + ':' + k]) n += v.marks; }); tot.textContent = n + ' / ' + s.marks; }
+    upd(); p.appendChild(u); p.appendChild(tot);
+  }
+  drawSheet();
+
+  // ---- quick plan
+  var tq = null;
+  function plan() {
+    var date = $('qDate').value, out = clear($('qOut'));
+    if (!date) { out.appendChild(el('p', 'pb-n', 'Enter the date of your first paper to see the plan.')); return; }
+    fetch('{{ url_for("pcb12.quick_plan") }}', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({level: +$('qLevel').value, exam_date: date, hours_wd: +$('qWd').value || 0, hours_we: +$('qWe').value || 0})}).then(function (r) { return r.json(); }).then(function (j) {
+      out = clear($('qOut')); var p = j.plan;
+      if (!p.weeks || !p.phase_weeks) { out.appendChild(el('p', 'pb-n', 'Choose a date after today.')); return; }
+      var k = el('div', 'pb-k'); [[p.weeks, 'weeks to go'], [p.hours_week, 'hours a week'], [p.hours_total, 'hours in all'], [p.weakest, 'gets the extra time']].forEach(function (a) { var c = document.createElement('div'); c.appendChild(el('b', '', a[0])); c.appendChild(el('small', '', a[1])); k.appendChild(c); }); out.appendChild(k);
+      var bar = el('div', 'pb-ph'); p.phase_weeks.forEach(function (w, i) { var s = el('i', 'p' + (i + 1), p.phase_names[i] + ' ' + w + 'w'); s.style.flex = String(Math.max(w, 1)); bar.appendChild(s); }); out.appendChild(bar);
+      var tb = el('table', 'pb-t'), hd = el('thead'), hr = el('tr'); ['Phase', 'Weeks', 'Physics h/wk', 'Chemistry h/wk', 'Biology h/wk'].forEach(function (h, i) { hr.appendChild(el('th', i ? 'n' : '', h)); }); hd.appendChild(hr); tb.appendChild(hd);
+      var bd = el('tbody'); p.phase_weeks.forEach(function (w, i) { var r = el('tr'); r.appendChild(td((i + 1) + ' · ' + p.phase_names[i])); r.appendChild(td(w, 'n')); ['P', 'C', 'B'].forEach(function (s) { r.appendChild(td(p.subject_hours[s], 'n')); }); bd.appendChild(r); }); tb.appendChild(bd);
+      var wr = el('div'); wr.style.overflowX = 'auto'; wr.appendChild(tb); out.appendChild(wr);
+      out.appendChild(el('h3', '', 'Chapters to start with at the ' + j.level + ' level')); var ul2 = el('ul'); ul2.style.cssText = 'margin:4px 0 0;padding-left:18px;line-height:1.7;font-size:.92rem';
+      j.first.forEach(function (c) { var li = el('li', '', c.name + ' (' + c.subj + ', about ' + c.marks + ' marks) '); li.appendChild(el('span', 'pb-chip ' + c.cls, c.cls)); ul2.appendChild(li); }); out.appendChild(ul2);
+      out.appendChild(el('p', 'pb-n', 'Hours are study time outside school. Keep about 2 hours a week for practical records and viva until practicals are done. Members get this plan chapter by chapter, from their own scores.'));
+    });
+  }
+  ['qLevel', 'qDate', 'qWd', 'qWe'].forEach(function (id) { $(id).addEventListener('input', function () { clearTimeout(tq); tq = setTimeout(plan, 250); }); $(id).addEventListener('change', plan); });
+})();
+</script>
+{% endblock %}

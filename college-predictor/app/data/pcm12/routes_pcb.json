@@ -1,0 +1,112 @@
+[
+{
+"id": "neet_ug",
+"name": "NEET (UG) for MBBS: Class 12 marks in PCB",
+"basis": "pcb",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+40,
+40
+],
+"b": [
+45,
+45
+]
+},
+"confidence": "not confirmed",
+"note": "The NMC regulations confirm the subjects (Physics, Chemistry, Biology or Biotechnology, and English) but give no percentage. The 50 / 40 / 45 figures here are the DCI rule for BDS, used as a guide: the NEET bulletin could not be read. Confirm in the NEET (UG) information bulletin.",
+"source": "https://nmc.org.in/storage/cms/rules-regulation-nmc/G83KmfBTvRKFfp99s6"
+},
+{
+"id": "bds",
+"name": "BDS: Class 12 marks in PCB",
+"basis": "pcb",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+40,
+40
+],
+"b": [
+45,
+45
+]
+},
+"confidence": "official page (DCI regulations, 2007 text as amended)",
+"note": "The third figure (45%) is for a lower-limb locomotory disability, not every benchmark disability. Confirm in the current NEET bulletin and DCI notices.",
+"source": "https://dciindia.gov.in/Rule_Regulation/Revised_BDS_Course_Regulation_2007.pdf"
+},
+{
+"id": "bvsc",
+"name": "BVSc & AH, 15% all-India quota (via NEET)",
+"basis": "core_eng",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+47.5,
+47.5
+],
+"b": [
+50,
+50
+]
+},
+"confidence": "official page (VCI bulletin 2026-27)",
+"note": "Aggregate of English, Physics, Chemistry and Biology: 50%, and 47.5% for SC/ST and other special categories. No separate figure for the third category was found, so the General figure is used.",
+"source": "https://vci.dahd.gov.in/sites/default/files/News%20update/CompositIBAY2026-27.pdf"
+},
+{
+"id": "bsc_nursing",
+"name": "B.Sc Nursing: PCB and English",
+"basis": "core_eng",
+"th": {
+"g": [
+45,
+45
+],
+"s": [
+40,
+45
+],
+"b": [
+45,
+45
+]
+},
+"confidence": "official page (INC), with one part not confirmed",
+"note": "The INC page says 45% aggregate and states no category relaxation. A draft 2022 INC corrigendum gives 40% for SC/ST/OBC but is not confirmed in force, so the reserved category shows Check between 40% and 45%. The admission route is set by your state or university.",
+"source": "https://indiannursingcouncil.org/eligibility-criteria"
+},
+{
+"id": "bsc_agri",
+"name": "B.Sc Agriculture (ICAR, via CUET UG 2026)",
+"basis": "agg5",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+40,
+40
+],
+"b": [
+40,
+40
+]
+},
+"confidence": "official page (CUET (ICAR-UG) 2026 bulletin)",
+"note": "Counted over all Class 12 subjects, not PCB only; at least three of Physics, Chemistry, Mathematics, Biology and Agriculture. 50% General, OBC-NCL and EWS; 40% SC, ST and PwBD. Universities add their own conditions.",
+"source": "https://icar.org.in/sites/default/files/Circulars/CUET%20(ICAR-UG)%202026_IB_20260114.pdf"
+}
+]

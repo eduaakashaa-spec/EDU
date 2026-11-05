@@ -495,12 +495,13 @@ class PulseOlyCard(db.Model):
     updated_at = db.Column(db.DateTime, default=_utcnow)
 
 
-class Pcm12Profile(db.Model):
-    """A member's Class 12 PCM Analytics dashboard: exam date, hours, marks, test log, chapter ratings and ticked-off plan tasks, kept as one JSON document."""
-    __tablename__ = 'pcm12_profiles'
+class Class12Profile(db.Model):
+    """A member's Class 12 Analytics dashboard for one stream ('pcm' or 'pcb'): exam date, hours, marks, test log, chapter ratings and ticked-off plan tasks, kept as one JSON document."""
+    __tablename__ = 'class12_profiles'
+    __table_args__ = (db.UniqueConstraint('user_id', 'stream', name='uq_class12_profile'),)
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), unique=True, index=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    stream = db.Column(db.String(8), nullable=False, default='pcm')
     data_json = db.Column(db.Text)
     updated_at = db.Column(db.DateTime, default=_utcnow, onupdate=_utcnow)
     user = db.relationship('User', foreign_keys=[user_id])
-

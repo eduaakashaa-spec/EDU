@@ -16,7 +16,7 @@ os.environ.update(DATABASE_URL='sqlite:///' + _db, SECRET_KEY='test', FLASK_DEBU
 from app import create_app  # noqa: E402
 from app.extensions import bcrypt, db  # noqa: E402
 from app.models import User  # noqa: E402
-from app.models_pulse import Pcm12Profile  # noqa: E402
+from app.models_pulse import Class12Profile  # noqa: E402
 from app.services import pcm12  # noqa: E402
 
 # ---- data --------------------------------------------------------------------------------------------------------------------------------
@@ -48,7 +48,7 @@ assert bs['status'] == 'short' and bs['floor'] and bs['floor'][0]['subject'] == 
 mid = {r['id']: r for r in pcm12.eligibility({'Pt': 46, 'Pp': 20, 'Ct': 46, 'Cp': 20, 'Mt': 52, 'Mi': 14, 'En': 66, 'Fi': 66}, 'g')['routes']}
 assert mid['dasa']['status'] == 'check'
 assert not pcm12.eligibility({}, 'g')['entered']
-assert pcm12.eligibility({'Pt': 999, 'Pp': -4}, 'zz')['P'] == 70.0          # capped, bad category falls back
+assert pcm12.eligibility({'Pt': 999, 'Pp': -4}, 'zz')['totals']['P'] == 70.0          # capped, bad category falls back
 
 # ---- levels and priority -----------------------------------------------------------------------------------------------------------
 tests = pcm12.clean_tests([{'subj': 'P', 'date': '2026-10-01', 'got': 30, 'max': 70}, {'subj': 'P', 'date': '2026-10-15', 'got': 35, 'max': 70}, {'subj': 'C', 'date': '2026-10-02', 'got': 60, 'max': 70},
@@ -118,12 +118,12 @@ body = {'exam_date': '2099-02-17', 'hours_wd': 2, 'hours_we': 5, 'cat': 's', 'ma
 r = prem.post('/class12-pcm/dashboard/save', json=body).get_json()
 assert r['ok'] and r['analysis']['rated'] == 1 and r['analysis']['levels']['P']['band'] == 2 and r['analysis']['progress']['done'] == 1 and len(r['analysis']['tests']) == 1
 with app.app_context():
-    row = Pcm12Profile.query.filter_by(user_id=User.query.filter_by(email='p@x.com').first().id).first()
+    row = Class12Profile.query.filter_by(user_id=User.query.filter_by(email='p@x.com').first().id, stream='pcm').first()
     saved = json.loads(row.data_json)
     assert saved['cat'] == 's' and saved['ratings'] == {'P01': 2} and saved['levels'] == {'P': 2} and saved['done'] == {'p1-P01': True} and len(saved['tests']) == 1
 assert prem.post('/class12-pcm/dashboard/save', json=dict(body, hours_we=6)).get_json()['ok']
 with app.app_context():
-    assert Pcm12Profile.query.count() == 1                                      # saving again updates the one row
+    assert Class12Profile.query.count() == 1                                      # saving again updates the one row
 assert prem.post('/class12-pcm/dashboard/save', data='nope', content_type='text/plain').status_code == 400
 assert b'2099-02-17' in prem.get('/class12-pcm/dashboard').data                  # the saved profile comes back
 assert free.get('/class12-pcm/dashboard').status_code in (301, 302, 403)

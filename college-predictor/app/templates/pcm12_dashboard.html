@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}My PCM Analytics dashboard | EduAakashaA{% endblock %}
+{% block title %}My {{ conf.name }} Analytics dashboard | EduAakashaA{% endblock %}
 {% block premium_notice %}{% endblock %}
 {% block head %}
 {% include "_jr2_css.html" %}
@@ -31,8 +31,8 @@
 {% endblock %}
 {% block content %}
 <div class="pd" id="pd">
-  <div class="pd-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> &rsaquo; <a href="{{ url_for('pcm12.hub') }}">Class 12 PCM Analytics</a> &rsaquo; My dashboard</div>
-  <h1>My PCM Analytics dashboard</h1>
+  <div class="pd-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> &rsaquo; <a href="{{ conf.hub }}">Class 12 {{ conf.name }} Analytics</a> &rsaquo; My dashboard</div>
+  <h1>My {{ conf.name }} Analytics dashboard</h1>
   <p style="margin:2px 0 8px;color:var(--dim);max-width:70ch;font-size:.95rem">Enter your dates, marks and test scores, rate your chapters, and read your route status, subject levels, chapter priorities and a week-by-week plan. Everything saves to your account as you type.</p>
   <div class="pd-st-msg" id="pdMsg" aria-live="polite"></div>
   <nav class="pd-nav" aria-label="On this page"><a href="#setup">Setup</a><a href="#routes">Routes</a><a href="#levels">Subject levels</a><a href="#chapters">Chapters</a><a href="#plan">Study plan</a></nav>
@@ -43,7 +43,7 @@
         <div><label for="fDate">First board paper</label><input id="fDate" type="date"></div>
         <div><label for="fWd">Hours on a school day</label><input id="fWd" type="number" min="0" max="14" step="0.5"></div>
         <div><label for="fWe">Hours on a weekend day</label><input id="fWe" type="number" min="0" max="24" step="0.5"></div>
-        <div><label for="fCat">My category</label><select id="fCat"><option value="g">General, EWS or OBC-NCL (OC in Tamil Nadu)</option><option value="s">SC, ST or PwD</option><option value="b">Tamil Nadu BC, MBC or DNC</option></select></div>
+        <div><label for="fCat">My category</label><select id="fCat">{% for k, label in conf.cats %}<option value="{{ k }}">{{ label }}</option>{% endfor %}</select></div>
       </div>
       <h3>My marks (board-style, or expected)</h3>
       <div class="pd-f" id="fMarks"></div>
@@ -55,7 +55,7 @@
     <div class="pd-k" id="kElig"></div>
     <div class="pd-c" style="overflow-x:auto"><table class="pd-t"><thead><tr><th>Route</th><th>Needs</th><th>Me</th><th>Status</th><th class="n">Marks to add</th></tr></thead><tbody id="eligRows"></tbody></table></div>
     <p class="pd-n" id="tnea"></p>
-    <p class="pd-n">The percentages were read from public coaching and news pages, not the official brochures: some are labelled conflicting or unconfirmed on the <a href="{{ url_for('pcm12.eligibility') }}">Eligibility Gap Closer</a>. Confirm each one on the official notice. A route's entrance exam score is separate from these marks.</p>
+    <p class="pd-n">{% if conf.stream == 'pcm' %}The percentages were read from public coaching and news pages, not the official brochures: some are labelled conflicting or unconfirmed on the{% else %}Each route shows its source and whether it is official or not confirmed on the{% endif %} <a href="{{ conf.links.elig }}">Eligibility check</a>. Confirm each one on the official notice. A route's entrance exam score is separate from these marks.</p>
   </section>
 
   <section id="levels"><h2>3. Subject levels and test log</h2>
@@ -63,7 +63,7 @@
     <div class="pd-c" style="margin-top:12px">
       <h3>Log a test</h3>
       <div class="pd-f">
-        <div><label for="tSub">Subject</label><select id="tSub"><option value="P">Physics</option><option value="C">Chemistry</option><option value="M">Mathematics</option></select></div>
+        <div><label for="tSub">Subject</label><select id="tSub">{% for k in conf.order %}<option value="{{ k }}">{{ conf.subj[k] }}</option>{% endfor %}</select></div>
         <div><label for="tDate">Date</label><input id="tDate" type="date"></div>
         <div><label for="tGot">Marks got</label><input id="tGot" type="number" min="0" step="0.5"></div>
         <div><label for="tMax">Out of</label><input id="tMax" type="number" min="1" step="1" value="70"></div>
@@ -78,9 +78,9 @@
   <section id="chapters"><h2>4. Chapter priority map</h2>
     <p style="margin:0 0 8px;font-size:.92rem">Rate each chapter from 1 (weak) to 5 (strong). The priority score is the chapter's indicative marks &times; (6 &minus; rating) &times; a weight for its class at your level: Core 1, Build 0.7, Later 0.3. Higher means start sooner.</p>
     <div class="pd-c"><h3>Start with these ten</h3><ol id="top10" style="margin:4px 0 0;padding-left:20px;line-height:1.75;font-size:.92rem"></ol></div>
-    <div class="pd-f" style="margin:10px 0 6px;max-width:300px"><div><label for="cSub">Show</label><select id="cSub"><option value="all">All subjects</option><option value="P">Physics</option><option value="C">Chemistry</option><option value="M">Mathematics</option></select></div></div>
+    <div class="pd-f" style="margin:10px 0 6px;max-width:300px"><div><label for="cSub">Show</label><select id="cSub"><option value="all">All subjects</option>{% for k in conf.order %}<option value="{{ k }}">{{ conf.subj[k] }}</option>{% endfor %}</select></div></div>
     <div class="pd-c" style="overflow-x:auto"><table class="pd-t"><thead><tr><th class="n">Rank</th><th>Chapter</th><th class="n">Marks</th><th>Class at my level</th><th>My rating</th><th class="n">Score</th></tr></thead><tbody id="chRows"></tbody></table></div>
-    <p class="pd-n">Chapter marks are indicative (from a coaching-site split); only the unit-group totals are official. Read the rule card for any chapter in the <a href="{{ url_for('pcm12.thumb_rules') }}">Thumb Rules Handbook</a>.</p>
+    <p class="pd-n">Chapter marks are indicative (from a coaching-site split); only the unit-group totals are official. Read the rule card for any chapter in the <a href="{{ conf.links.thumb }}">thumb rules</a>.</p>
   </section>
 
   <section id="plan"><h2>5. My study plan</h2>
@@ -92,15 +92,15 @@
   </section>
   <p class="pd-n">These are planning tools, not predictions. EduAakashaA is not affiliated with CBSE or any entrance body. Prepared with AI assistance.</p>
 </div>
-<script id="pdInit" type="application/json">{{ {'profile': profile, 'analysis': analysis, 'marks': MAX, 'subj': SUBJ, 'levels': LEVELS, 'save': url_for('pcm12.save')}|tojson }}</script>
+<script id="pdInit" type="application/json">{{ {'conf': conf, 'profile': profile, 'analysis': analysis}|tojson }}</script>
 <script>
 (function () {
-  var I = JSON.parse(document.getElementById('pdInit').textContent), A = I.analysis, SUBJ = I.subj;
+  var I = JSON.parse(document.getElementById('pdInit').textContent), A = I.analysis, C = I.conf, SUBJ = C.subj;
   var S = {exam_date: '', hours_wd: 2, hours_we: 5, cat: 'g', marks: {}, tests: [], levels: {}, ratings: {}, done: {}};
   var P = I.profile || {};
   Object.keys(S).forEach(function (k) { if (P[k] !== undefined && P[k] !== null && P[k] !== '') S[k] = P[k]; });
   var $ = function (id) { return document.getElementById(id); }, timer = null, seq = 0;
-  var LABEL = {Pt: 'Physics theory', Pp: 'Physics practical', Ct: 'Chemistry theory', Cp: 'Chemistry practical', Mt: 'Maths theory', Mi: 'Maths internal', En: 'English', Fi: 'Fifth subject'};
+  var LABEL = C.labels;
   function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
   function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); return n; }
   function f1(x) { return (Math.round(x * 10) / 10).toString(); }
@@ -109,9 +109,9 @@
   // ---- setup
   $('fDate').value = S.exam_date; $('fWd').value = S.hours_wd; $('fWe').value = S.hours_we; $('fCat').value = S.cat;
   var mk = $('fMarks');
-  Object.keys(LABEL).forEach(function (k) {
-    var w = document.createElement('div'), l = el('label', '', LABEL[k] + ' (of ' + I.marks[k] + ')'), i = document.createElement('input');
-    i.type = 'number'; i.min = 0; i.max = I.marks[k]; i.step = 0.5; i.id = 'm' + k; i.value = S.marks[k] ? S.marks[k] : ''; l.setAttribute('for', i.id);
+  C.marks_order.forEach(function (k) {
+    var w = document.createElement('div'), l = el('label', '', LABEL[k] + ' (of ' + C.marks[k] + ')'), i = document.createElement('input');
+    i.type = 'number'; i.min = 0; i.max = C.marks[k]; i.step = 0.5; i.id = 'm' + k; i.value = S.marks[k] ? S.marks[k] : ''; l.setAttribute('for', i.id);
     i.addEventListener('input', function () { S.marks[k] = parseFloat(i.value) || 0; queue(); });
     w.appendChild(l); w.appendChild(i); mk.appendChild(w);
   });
@@ -119,8 +119,8 @@
   $('fWd').addEventListener('input', function () { S.hours_wd = parseFloat(this.value) || 0; queue(); });
   $('fWe').addEventListener('input', function () { S.hours_we = parseFloat(this.value) || 0; queue(); });
   $('fCat').addEventListener('change', function () { S.cat = this.value; queue(); });
-  $('tMax').value = 70;
-  $('tSub').addEventListener('change', function () { $('tMax').value = this.value === 'M' ? 80 : 70; });
+  $('tMax').value = C.test_max[$('tSub').value];
+  $('tSub').addEventListener('change', function () { $('tMax').value = C.test_max[this.value]; });
   $('tDate').value = new Date().toISOString().slice(0, 10);
   $('tAdd').addEventListener('click', function () {
     var got = parseFloat($('tGot').value), max = parseFloat($('tMax').value);
@@ -135,7 +135,7 @@
   function queue() { clearTimeout(timer); $('pdMsg').textContent = 'Saving…'; timer = setTimeout(save, 450); }
   function save() {
     var my = ++seq;
-    fetch(I.save, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(S)}).then(function (r) { return r.json(); }).then(function (j) {
+    fetch(C.save, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(S)}).then(function (r) { return r.json(); }).then(function (j) {
       if (my !== seq) return;
       if (!j.ok) { $('pdMsg').textContent = 'Could not save: ' + (j.error || 'try again'); return; }
       A = j.analysis; $('pdMsg').textContent = 'Saved'; render();
@@ -145,13 +145,17 @@
   // ---- routes
   function drawRoutes() {
     var E = A.elig, k = clear($('kElig'));
-    [[E.pcm + '%', 'PCM percentage'], [E.agg + '%', '5-subject percentage'], [f1(E.pcm_sum), 'PCM marks of 300'], [f1(E.tnea) + ' / 200', 'TNEA cut-off']].forEach(function (a) { var c = document.createElement('div'); c.appendChild(el('b', '', a[0])); c.appendChild(el('small', '', a[1])); k.appendChild(c); });
+    var kp = [[E.core + '%', E.label + ' percentage'], [E.agg + '%', '5-subject percentage'], [f1(E.core_sum), E.label + ' marks of 300']];
+    if (E.tnea !== null && E.tnea !== undefined) kp.push([f1(E.tnea) + ' / 200', 'TNEA cut-off']);
+    kp.forEach(function (a) { var c = document.createElement('div'); c.appendChild(el('b', '', a[0])); c.appendChild(el('small', '', a[1])); k.appendChild(c); });
     var body = clear($('eligRows'));
     if (!E.entered) { var r0 = el('tr'); var c0 = td('Enter your marks in the setup to see every route.'); c0.colSpan = 5; r0.appendChild(c0); body.appendChild(r0); }
     E.routes.forEach(function (r) {
       if (!E.entered) return;
       var tr = el('tr'), name = td(''); name.appendChild(el('b', '', r.name));
       r.floor.forEach(function (f) { name.appendChild(el('div', 'pd-n', 'Also needs 60 in ' + f.subject + ' (short by ' + f.short + ')')); });
+      if (r.note) name.appendChild(el('div', 'pd-n', r.note));
+      if (r.confidence) name.appendChild(el('div', 'pd-n', 'Source: ' + r.confidence));
       tr.appendChild(name);
       tr.appendChild(td(r.need[0] === r.need[1] ? r.need[1] + '%' : r.need[0] + '% to ' + r.need[1] + '%'));
       var me = td(r.have + '%'); me.appendChild(el('div', 'pd-n', 'on ' + r.basis)); tr.appendChild(me);
@@ -159,7 +163,7 @@
       tr.appendChild(td(r.status === 'meets' ? '0' : '+' + r.add + ' of ' + r.denom, 'n'));
       body.appendChild(tr);
     });
-    $('tnea').textContent = E.entered ? 'TNEA cut-off on your marks: ' + E.tnea + ' of 200 (Maths + Physics ÷ 2 + Chemistry ÷ 2, using totals out of 100).' : '';
+    $('tnea').textContent = (E.entered && E.tnea !== null && E.tnea !== undefined) ? 'TNEA cut-off on your marks: ' + E.tnea + ' of 200 (Maths + Physics ÷ 2 + Chemistry ÷ 2, using totals out of 100).' : '';
   }
 
   // ---- subjects and tests
@@ -176,7 +180,7 @@
   }
   function drawSubjects() {
     var box = clear($('subjCards'));
-    ['P', 'C', 'M'].forEach(function (s) {
+    C.order.forEach(function (s) {
       var L = A.levels[s], c = el('div', 'pd-sub');
       c.appendChild(el('b', '', L.name)); c.appendChild(el('small', '', L.level + (L.pct !== null ? ' · ' + L.pct + '%' : '') + ' · from ' + L.source));
       c.appendChild(spark(A.trend[s]));
