@@ -621,6 +621,20 @@ def neet_exam():
     return render_template('neet_exam.html', **d.context())
 
 
+@main_bp.route('/olympiad-exam-guide')
+def olympiad_exam():
+    # public page: Indian Olympiads (IOQM, RMO, INMO, NSE, INO) stages, 2026-27 dates, eligibility, format, selection, practice, free sample questions, read from official pages; data in app/data/olympiad_exam.py
+    from app.data import olympiad_exam as d
+    return render_template('olympiad_exam.html', **d.context())
+
+
+@main_bp.route('/olympiad-exams')
+@main_bp.route('/olympiads')
+@main_bp.route('/olympiad-mock-test')
+def olympiad_exam_alias():
+    return redirect(url_for('main.olympiad_exam'), code=301)
+
+
 @main_bp.route('/sat-exam-guidelines')
 def sat_exam():
     # public page: Digital SAT guidelines (dates, fees, registration, ID, test day, format, content, scoring, preparation) from College Board pages, free sample questions, links to EduPulse-SAT; data in app/data/sat_exam.py

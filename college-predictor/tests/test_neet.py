@@ -146,7 +146,7 @@ ctx = neet_exam.context()
 assert len(ctx['samples']) == 6 and all(len(s['opts']) == 4 for s in ctx['samples'])
 s = free_mock.sample('neet')
 assert len(s) == 10 and len({q['id'] for q in s}) == 10 and all(len(q['opts']) == 4 for q in s)
-assert 'neet' in free_mock.BY_KEY and len(free_mock.EXAMS) == 8
+assert 'neet' in free_mock.BY_KEY and len(free_mock.EXAMS) == 9
 a = anon.post('/edupulse-free-mock-tests/start', data={'email': 'neet-t@example.com', 'phone': '9876543210'})
 assert a.status_code == 302 and anon.get('/edupulse-free-mock-tests/neet').status_code == 200
 with app.app_context():

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Progress | EduPulse-Olympiad{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.ex-sk{display:grid;grid-template-columns:200px 1fr 130px;gap:8px;align-items:center;margin:7px 0;font-size:.92rem}.ex-bar{height:10px;background:var(--hairline,#E8DFC8);border-radius:5px;overflow:hidden}.ex-bar i{display:block;height:100%;background:#1F8B5C}.ex-bar i.mid{background:#E89A1C}.ex-bar i.low{background:#C23A3A}.ex-sk em{font-style:normal;color:var(--muted,#5A6278);font-size:.8rem}
+.ex-box{display:flex;gap:8px;align-items:flex-end;height:110px;margin:8px 0}.ex-box div{flex:1;text-align:center;font-size:.78rem}.ex-box i{display:block;background:var(--navy,#0E3A8A);border-radius:6px 6px 0 0;min-height:3px;margin-bottom:4px}
+.ex-bd{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}.ex-b{border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:10px 12px;background:var(--paper,#FFFDF7);opacity:.5}.ex-b.got{opacity:1;border-color:#1F8B5C;background:#EAF6EF}.ex-b b{display:block;font-family:'Fraunces',Georgia,serif}.ex-b small{color:var(--muted,#5A6278)}
+:root[data-theme="dark"] .ex-b.got{background:#12301f}
+.ex-go{display:inline-block;border-radius:999px;padding:9px 20px;font:700 .9rem 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;background:#FF6B0A;color:#fff}
+@media(max-width:560px){.ex-sk{grid-template-columns:120px 1fr 90px}}</style>{% endblock %}
+{% block content %}
+{% set mx = (tr.boxes|max) or 1 %}
+<div class="pl">
+  <div class="pl-crumb">{% if own %}<a href="{{ url_for('olympiad_mock.home') }}">EduPulse-Olympiad</a>{% else %}<a href="{{ url_for('pulse.mentor_student', uid=student.id) }}">{{ student.name }}</a>{% endif %} › progress</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">{{ tr.attempts }} test{{ 's' if tr.attempts != 1 }} · {{ tr.answers }} answers</span><h1>{{ 'My progress' if own else student.name ~ '’s Olympiad progress' }}</h1>
+      <p>Section levels use the last 20 answers in each subject, so they move as you improve. Review cards are the questions you got wrong or were unsure of; each right answer moves a card up a box and pushes its next review out.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ tr.streak }}</b><span>day streak (best {{ tr.best_streak }})</span></div>
+      <div class="pl-kpi"><b>{{ tr.cards }}</b><span>review cards</span></div>
+      <div class="pl-kpi"><b>{{ tr.due }}</b><span>due now</span></div>
+      <div class="pl-kpi"><b>{{ tr.mocks|length }}</b><span>mocks and papers</span></div>
+    </div>
+  </section>
+  {% if own and tr.due %}<p><a class="ex-go" href="{{ url_for('olympiad_mock.daily') }}">Do today&rsquo;s Daily Review ({{ tr.due }} due)</a></p>{% endif %}
+  <div class="pl-grid pl-g2">
+    <div class="pl-card"><span class="pl-eyebrow">Subjects</span><h3>Subject levels</h3>
+      {% for s, v in tr.secs.items() %}<div class="ex-sk"><span>{{ v.name }}</span><div class="ex-bar"><i class="{{ 'low' if v.acc is not none and v.acc < 50 else 'mid' if v.acc is not none and v.acc < 75 else '' }}" style="width:{{ v.acc or 0 }}%"></i></div>
+        <em>{{ v.level }}{% if v.acc is not none %} · {{ v.acc }}%{% endif %}{% if v.delta %} · {{ '+' if v.delta > 0 }}{{ v.delta }}{% endif %}</em></div>{% endfor %}
+      <p class="pl-muted" style="margin:8px 0 0">The change shown is against the 20 answers before.</p>
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Reinforcement</span><h3>Review boxes</h3>
+      <div class="ex-box">{% for n in tr.boxes %}<div><i style="height:{{ (90 * n / mx)|int }}px"></i>{{ n }}<br><small>box {{ loop.index0 }}</small></div>{% endfor %}</div>
+      <p class="pl-muted" style="margin:6px 0 0">Box 0 means new or just missed; box 5 is checked once a month. Cards in boxes 4 and 5 are secure.</p>
+    </div>
+  </div>
+  <div class="pl-grid pl-g2" style="margin-top:12px">
+    <div class="pl-card"><span class="pl-eyebrow">Topics</span><h3>Topics to reinforce</h3>
+      {% if tr.weak_topics %}<table class="pl-tbl"><thead><tr><th>Topic</th><th>Answers</th><th>Right</th></tr></thead><tbody>
+      {% for t in tr.weak_topics %}<tr><td>{{ t.topic }}</td><td>{{ t.n }}</td><td>{{ t.acc }}%</td></tr>{% endfor %}</tbody></table>
+      {% else %}<p class="pl-muted">Topics appear after a few tests (three answers or more in a topic).</p>{% endif %}
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Trend</span><h3>Mocks and papers (marks as percent)</h3>
+      {% if tr.mocks %}{% set n = tr.mocks|length %}<svg viewBox="0 0 {{ [n * 60, 240]|max }} 120" style="width:100%;max-height:170px" role="img" aria-label="Mock scores over time">
+        <line x1="0" y1="100" x2="{{ [n * 60, 240]|max }}" y2="100" stroke="#C8BFA6" stroke-width="1"/>
+        {% for p in tr.mocks %}{% set x = 30 + loop.index0 * 60 %}{% set y = 100 - [p.pct, 0]|max * 0.9 %}
+          <circle cx="{{ x }}" cy="{{ y }}" r="4.5" fill="#0E3A8A"><title>{{ p.title }}: {{ p.score }} / {{ p.max|int }}</title></circle>
+          {% if not loop.first %}{% set px = 30 + (loop.index0 - 1) * 60 %}{% set py = 100 - [tr.mocks[loop.index0 - 1].pct, 0]|max * 0.9 %}<line x1="{{ px }}" y1="{{ py }}" x2="{{ x }}" y2="{{ y }}" stroke="#0E3A8A" stroke-width="2"/>{% endif %}
+          <text x="{{ x }}" y="{{ y - 9 }}" font-size="9" text-anchor="middle" fill="currentColor">{{ p.pct }}</text><text x="{{ x }}" y="114" font-size="8" text-anchor="middle" fill="currentColor">{{ p.date }}</text>{% endfor %}</svg>
+      {% else %}<p class="pl-muted">Finish a full mock or a previous-year paper to see the trend.</p>{% endif %}
+    </div>
+  </div>
+  <h2 style="margin:22px 0 8px;font-family:'Fraunces',Georgia,serif">Badges</h2>
+  <div class="ex-bd">{% for b in tr.badges %}<div class="ex-b {{ 'got' if b.got }}"><b>{{ '✓ ' if b.got }}{{ b.name }}</b><small>{{ b.desc }}</small></div>{% endfor %}</div>
+</div>
+{% endblock %}

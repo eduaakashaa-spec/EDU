@@ -25,6 +25,8 @@ EXAMS = [
      'blurb': 'Ten questions from the NEET papers 2018 to 2026: 3 physics, 3 chemistry, 2 botany, 2 zoology.'},
     {'key': 'sat', 'name': 'Digital SAT', 'tag': 'Reading and Writing, Math', 'minutes': 15, 'marks': '1 mark each, no negative',
      'blurb': 'Ten original SAT-style questions: 5 Reading and Writing and 5 Math (multiple choice), in the official domains.'},
+    {'key': 'olympiad', 'name': 'Olympiads', 'tag': 'Physics, Chemistry, Biology, Junior Science', 'minutes': 20, 'marks': '+3 right, -1 wrong',
+     'blurb': 'Ten Olympiad-style multiple-choice questions: 3 physics, 3 chemistry, 2 biology and 2 junior science, some from official INBO and INJSO papers.'},
     {'key': 'iat', 'name': 'IISER Aptitude Test', 'tag': 'Bio, Chem, Maths, Physics', 'minutes': 20, 'marks': '+4 right, -1 wrong',
      'blurb': 'Ten IAT-style questions across biology, chemistry, mathematics and physics, shown as in the paper.'},
     {'key': 'tn10', 'name': 'TN Class 10', 'tag': 'Maths and Science', 'minutes': 15, 'marks': '1 mark each',
@@ -129,6 +131,16 @@ def _sat():
     return out
 
 
+def _olympiad():
+    from app.services import olympiad
+    out = []
+    for sec, n in (('PHY', 3), ('CHEM', 3), ('BIO', 2), ('JS', 2)):
+        pool = [q for q in olympiad.bank() if q['sec'] == sec and q['kind'] == 'mcq' and len(q['q']) < 420 and all(len(o) < 120 for o in q['opts'])]
+        for q in _pick(pool, n, 'oly' + sec):
+            out.append({'id': q['id'], 'sec': olympiad.SEC[sec], 'stem': _t(q['q']), 'fig': '', 'passage': '', 'opts': [{'h': _t(o)} for o in q['opts']], 'ans': q['ans'], 'why': _t(q.get('why'))})
+    return out
+
+
 def _iat():
     from app.services import iat
     names = dict(iat.SUBJECTS)
@@ -152,7 +164,7 @@ def _tn10():
     return out
 
 
-_BUILD = {'jee': _jee, 'uceed': _uceed, 'nid': _nid, 'nift': _nift, 'neet': _neet, 'sat': _sat, 'iat': _iat, 'tn10': _tn10}
+_BUILD = {'jee': _jee, 'uceed': _uceed, 'nid': _nid, 'nift': _nift, 'neet': _neet, 'sat': _sat, 'olympiad': _olympiad, 'iat': _iat, 'tn10': _tn10}
 
 
 def sample(key):

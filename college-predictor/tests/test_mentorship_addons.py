@@ -40,7 +40,7 @@ admin, stu, free, anon = login('a@x.com'), login('s@x.com'), login('f@x.com'), a
 titles = ' '.join(a['title'] for a in ADDONS)
 for need in ('UCEED', 'NID', 'NIFT', 'Abu Dhabi', 'TNEA', 'State-specific', 'SRM', 'Amrita', 'VIT', 'B.Arch', 'B.Planning', 'IISER'):
     assert need in titles, need
-assert len(ADDONS) == 13 and len({a['key'] for a in ADDONS}) == 13 and all(len(a['sessions']) >= 6 and a['verify'] for a in ADDONS)
+assert len(ADDONS) == 15 and len({a["key"] for a in ADDONS}) == 15 and all(len(a['sessions']) >= 6 and a['verify'] for a in ADDONS)
 blob = json.dumps(ADDONS)
 assert not re.search(r'₹|\bRs\.?\s?\d|\b\d+\s?lakh|\bcut-?off of \d|guaranteed', blob, re.I)
 
@@ -54,13 +54,13 @@ with app.app_context():
     old = MsProgramme(name='IIT Delhi – Abu Dhabi admission', tier=TIER, description='old')      # a site that loaded the first version
     db.session.add(old)
     db.session.commit()
-    assert svc.ensure_addon_programmes() == 12                                                      # renamed in place, no duplicate
+    assert svc.ensure_addon_programmes() == 14                                                      # renamed in place, no duplicate
     assert MsProgramme.query.filter_by(name=iitd['title']).count() == 1 and MsProgramme.query.filter_by(name='IIT Delhi – Abu Dhabi admission').count() == 0
     assert MsProgramme.query.filter_by(name=iitd['title']).one().templates.count() == 7 and 'CAET' in MsProgramme.query.filter_by(name=iitd['title']).one().description
     assert svc.ensure_addon_programmes() == 0
-    assert MsProgramme.query.filter_by(tier=TIER).count() == 13
+    assert MsProgramme.query.filter_by(tier=TIER).count() == 15
     base = svc.ensure_default_programme()                                   # add-ons exist first: the standard programme must still be created
-    assert base.tier == 'Elite Mentorship' and MsProgramme.query.count() == 14
+    assert base.tier == 'Elite Mentorship' and MsProgramme.query.count() == 16
     assert svc.ensure_default_programme().id == base.id
     tn = MsProgramme.query.filter_by(name='TNEA (Tamil Nadu engineering counselling)').one()
     assert tn.templates.count() == 8 and 'tneaonline.org' in tn.description

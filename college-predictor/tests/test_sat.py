@@ -166,7 +166,7 @@ assert sat_exam.dates(date(2026, 11, 8))[0]['kind'] == 'past' and sat_exam.dates
 assert all(r[1] < r[2] < r[0] < r[3] for r in sat_exam.DATES)
 s = free_mock.sample('sat')
 assert len(s) == 10 and len({q['id'] for q in s}) == 10 and all(len(q['opts']) == 4 for q in s) and sum(1 for q in s if q['sec'] == 'Math') == 5
-assert 'sat' in free_mock.BY_KEY and len(free_mock.EXAMS) == 8
+assert 'sat' in free_mock.BY_KEY and len(free_mock.EXAMS) == 9
 a = anon.post('/edupulse-free-mock-tests/start', data={'email': 'sat-t@example.com', 'phone': '9876543210'})
 assert a.status_code == 302 and anon.get('/edupulse-free-mock-tests/sat').status_code == 200
 with app.app_context():

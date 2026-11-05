@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}EduPulse-Olympiad: subject mocks, official papers and daily review | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.tn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.tn-t{display:block;text-decoration:none;color:inherit;background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;position:relative}.tn-t:hover{border-color:var(--navy,#0E3A8A)}.tn-t b{display:block;font-family:'Fraunces',Georgia,serif;padding-right:64px}.tn-t small{color:var(--muted,#5A6278)}.tn-s{position:absolute;right:12px;top:10px;font:700 .8rem 'JetBrains Mono',monospace;color:#1F8B5C}.tn-h{margin:22px 0 8px;font-family:'Fraunces',Georgia,serif}
+.ex-daily{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,#0E3A8A,#1E56C4);color:#fff;border-radius:16px;padding:18px 22px;margin:14px 0}.ex-daily h3{margin:0 0 4px;font-family:'Fraunces',Georgia,serif;color:#fff}.ex-daily p{margin:0;opacity:.92;font-size:.95rem}
+.ex-go{display:inline-block;border-radius:999px;padding:10px 22px;font:700 .92rem 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;background:#FF6B0A;color:#fff;border:0;cursor:pointer}.ex-go.n{background:var(--navy,#0E3A8A)}
+.ex-sk{display:grid;grid-template-columns:200px 1fr 70px;gap:8px;align-items:center;margin:6px 0;font-size:.92rem}.ex-bar{height:9px;background:var(--hairline,#E8DFC8);border-radius:5px;overflow:hidden}.ex-bar i{display:block;height:100%;background:#1F8B5C}.ex-sk em{font-style:normal;color:var(--muted,#5A6278);font-size:.8rem}
+@media(max-width:560px){.ex-sk{grid-template-columns:120px 1fr 56px}}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-Olympiad</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">Maths, Physics, Chemistry, Biology, Junior Science · mocks · official papers · spaced review</span><h1>EduPulse-Olympiad</h1>
+      <p>Subject mocks of 30 questions, practice on questions from official HBCSE and Mathematical Association of India papers (IOQM, PRMO, INBO, INJSO), original Physics and Chemistry questions, subject sets and a Daily Review that brings back every question you missed or guessed. Multiple choice is +{{ RIGHT_MARKS }} right and &minus;{{ WRONG }} wrong; integer answers in Mathematics are +{{ RIGHT_MARKS }} with no negative marking.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ tr.streak }}</b><span>day streak</span></div>
+      <div class="pl-kpi"><b>{{ tr.due }}</b><span>review cards due</span></div>
+      <div class="pl-kpi"><b>{{ tr.answers }}</b><span>answers so far</span></div>
+      <div class="pl-kpi"><b>{{ st.n }}</b><span>questions in the bank</span></div>
+    </div>
+  </section>
+
+  <div class="ex-daily"><div><h3>Daily Review</h3><p>{% if tr.due %}{{ tr.due }} review card{{ 's' if tr.due != 1 }} due today, plus new questions from the subjects that need most practice.{% else %}New questions from the subjects that need most practice. Wrong and unsure answers will return here on a schedule.{% endif %} About 10 minutes.</p></div>
+    <a class="ex-go" href="{{ url_for('olympiad_mock.daily') }}">Start Daily Review</a></div>
+
+  <h2 class="tn-h">1. Subject mocks</h2>
+  <p style="margin:0 0 8px;font-size:.92rem">Each attempt is a fresh paper drawn from the bank, avoiding questions you saw recently. Each attempt is a fresh set of 30 questions from the subject. Mathematics allows 6 minutes a question (IOQM gives 3 hours for 30); science multiple choice allows 2 minutes (the NSE gives 2 hours for 60 questions). Practice timing, not the timing of any particular year.</p>
+  <div class="tn-grid">
+    {% for m in mocks %}<a class="tn-t" href="{{ url_for('olympiad_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score|int }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }} {{ m.count }} questions · {{ m.minutes }} min</small></a>{% endfor %}
+  </div>
+
+  <h2 class="tn-h">2. Official papers</h2>
+  <p style="margin:0 0 8px;font-size:.92rem">The usable questions of one earlier paper, in paper order: IOQM and PRMO integer-answer questions, INBO Section A and INJSO multiple-choice questions. Long-answer problems, multiple-correct questions and questions that need a figure are not included, so the count is below the full paper.</p>
+  <div class="tn-grid">
+    {% for m in papers %}<a class="tn-t" href="{{ url_for('olympiad_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score|int }}{% endif %}</span><b>{{ m.exam }} {{ m.year }}</b><small>{{ m.count }} questions · {{ m.minutes }} min</small></a>{% endfor %}
+  </div>
+
+  <h2 class="tn-h">3. Subject sets</h2>
+  <div class="tn-grid">
+    {% for m in sets %}<a class="tn-t" href="{{ url_for('olympiad_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score|int }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }}</small></a>{% endfor %}
+  </div>
+
+  <h2 class="tn-h">4. More</h2>
+  <div class="tn-grid">
+    <a class="tn-t" href="{{ url_for('main.olympiad_exam') }}"><b>Olympiad guide</b><small>Stages, eligibility, syllabus and how to prepare for the Indian Olympiads, with free sample questions.</small></a>
+    <a class="tn-t" href="{{ url_for('olympiad_mock.progress') }}"><b>My progress</b><small>Subject levels, review boxes, mock trend, streak and badges.</small></a>
+  </div>
+
+  <h2 class="tn-h">My subject map</h2>
+  <div class="pl-card"><span class="pl-eyebrow">Last 20 answers per subject</span><h3>Where I am strong</h3>
+    {% for s, v in tr.secs.items() %}<div class="ex-sk"><span>{{ v.name }}</span><div class="ex-bar"><i style="width:{{ v.acc or 0 }}%"></i></div><em>{{ (v.acc ~ '%') if v.acc is not none else '—' }}</em></div>{% endfor %}
+    <p class="pl-muted" style="margin:8px 0 0">A level needs at least 5 answers in a subject. <a href="{{ url_for('olympiad_mock.progress') }}">Full progress page</a></p>
+  </div>
+
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>My recent tests</h3>
+    {% if tr.recent %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Test</th><th>Marks</th><th>Right</th><th>Wrong</th><th>Sure but wrong</th><th></th></tr></thead><tbody>
+    {% for r in tr.recent %}<tr><td>{{ r.finished_at.strftime('%d %b %Y') }}</td><td>{{ r.title }}</td><td>{{ r.score|int }} / {{ r.max_score|int }}</td><td>{{ r.right }}</td><td>{{ r.wrong }}</td><td>{{ r.sure_wrong }}</td><td><a href="{{ url_for('olympiad_mock.report', rid=r.id) }}">Report</a></td></tr>{% endfor %}</tbody></table>
+    {% else %}<p class="pl-muted">No tests yet. Start with a subject set.</p>{% endif %}
+  </div>
+  <p style="font-size:.84rem;color:var(--muted);margin-top:14px">Official questions are from papers published by HBCSE (TIFR) and the Mathematical Association of India, with answers from the published key of the same paper, kept only where an independent solve agreed with the key. Physics and Chemistry questions are original EduAakashaA questions written in the style of the stage-1 papers and kept only where an independent solve agreed. Explanations are written by EduAakashaA with AI assistance. Long-answer olympiad problems are not auto-marked and are not here. The Olympiads are conducted by HBCSE, the Mathematical Association of India and partner bodies; EduAakashaA is not affiliated with them. Check the official pages for the current stages, dates and eligibility.</p>
+</div>
+{% endblock %}
