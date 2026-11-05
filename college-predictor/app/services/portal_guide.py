@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-04'
+UPDATED = '2026-11-05'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -28,8 +28,9 @@ ROLE_BLURB = {
 COVERED_BLUEPRINTS = {
     'explorer': 'EduPulse-Explorer (Grades 7 to 10): discovery test, interest check, exam tasters, skill sets, Daily 10 review, progress, creative challenges',
     'nift_mock': 'EduPulse-NIFT (NIFT GAT and CAT): GAT mocks per programme, earlier-year questions, section sets, Daily Review, progress, CAT studio tasks',
+    'sat_mock': 'EduPulse-SAT (Digital SAT): full practice SAT, Reading and Writing and Math halves, domain sets, Daily Review, progress',
     'neet_mock': 'EduPulse-NEET (NEET UG): full and half mocks, 2018 to 2026 previous-year papers, subject sets, Daily Review, progress',
-    'free_mock': 'EduPulse free sample mock tests (public): phone and email once, then one 10-question sample each for JEE, NEET, UCEED, NID, NIFT, IAT and TN Class 10',
+    'free_mock': 'EduPulse free sample mock tests (public): phone and email once, then one 10-question sample each for JEE, NEET, SAT, UCEED, NID, NIFT, IAT and TN Class 10',
     'nid_mock': 'EduPulse-NID mock tests (NID DAT): mocks, official sample papers, section sets, studio practice',
     'main': 'Public pages, guides, predictors and premium analytics pages',
     'auth': 'Sign in, register, password',
@@ -58,6 +59,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-05', 'New public page SAT Exam Guidelines (Colleges and Exams menu, /sat-exam-guidelines): test dates with live status, fees (the $68 plus $43 international fee for India and the UAE), registration steps, ID rules, test-day checklist, format, the eight content domains, scoring, accommodations, preparation, eight free practice questions and the College Board pages it was read from. New Premium EduPulse-SAT Practice Centre (Member Home tile): full practice SAT of 98 questions in 134 minutes, Reading and Writing and Math halves, domain sets, Daily Review and progress, with 199 checked Reading and Writing questions and Math questions generated afresh for every attempt (including type-the-number answers). A Digital SAT sample added to the free sample mock tests (eight samples).'),
     ('2026-11-04', 'Mentorship admin: new Remove NUS, NTU and HKU admission pack button on each enrolment (the reverse of the Add button; only what the pack added is removed). New Apply a meeting update button with the first update, for Yusra Kazi after the 2 Nov 2026 call with her father: it logs the meeting, updates KPIs and actions, cancels the UCEED items, adds the next planned sessions and updates B.Arch and NID add-on session details.'),
     ('2026-11-04', 'EduPulse-NEET: the NEET (UG) 2026 paper (3 May 2026, booklet code 13) added, 163 more questions (bank now 1,461). Only the provisional answer key was supplied, so 2026 questions are kept only where an independent solve agrees with it, and the pages say so. The 2026 re-exam papers are not used yet: no answer key was supplied. Mocks, the 2026 previous-year paper, subject sets and the Daily Review all draw on the larger bank; NEET Papers Analysed, the homepage NEET banner and the free sample mock test are updated.'),
     ('2026-11-04', 'Admin Email templates: new Recruitment template "Invite tutors and mentors to register" (three versions: tutors and mentors, tutors, mentors) with the logo, a hiring banner and a Register your interest button. New Register your interest form on the Join our Team page; each submission is saved in Leads as source join-team.'),
@@ -118,7 +120,7 @@ GUIDE = [
     # ------------------------------------------------------------------ everyone
     dict(id='a-free-mock', role='admin', group='Programmes', title='EduPulse free sample mock tests (public leads)', summary='A public page where visitors try one free sample per exam after leaving phone and email.',
          where=[('EduPulse Free Mock Tests', 'free_mock.home')],
-         steps=['Share the page link with prospects: /edupulse-free-mock-tests. A visitor enters phone and email (name optional) once, then opens seven samples: JEE Main, NEET, UCEED, NID, NIFT, IAT and TN Class 10, ten questions each, with the score and an explanation for every question.',
+         steps=['Share the page link with prospects: /edupulse-free-mock-tests. A visitor enters phone and email (name optional) once, then opens eight samples: JEE Main, NEET, Digital SAT, UCEED, NID, NIFT, IAT and TN Class 10, ten questions each, with the score and an explanation for every question.',
                 'Every unlock and every finished sample is saved as a lead with source edupulse-free-mock (open the Leads inbox). A finished sample records the exam and the right, wrong and blank counts, so you can see who tried what.',
                 'The samples are fixed (the same ten questions for everyone) and come from the member mock banks; to change a sample, change the seed or sizes in services/free_mock.py.'],
          tips=['The page asks for contact details only to share results and help with preparation; do not use them for anything else.'],
@@ -260,6 +262,16 @@ GUIDE = [
                 'Open Progress for subject levels (last 20 answers), the mock trend, review boxes, topics to reinforce, streak and badges. Mentors and admins can open a student\'s progress from the mentor student view.'],
          tips=['Each answer is the National Testing Agency key for the booklet code we transcribed (the 2026 paper uses the provisional key, which the final key can change), kept only when an independent solve agreed. Tell your mentor if you doubt one.', 'Confirm the current pattern and marking in the NEET (UG) information bulletin.'],
          tiles=['EduPulse-NEET Mock Test Centre'], added='2026-11-04', updated='2026-11-04'),
+    dict(id='s-sat', role='student', group='EduPulse', title='EduPulse-SAT Practice Centre', summary='Digital SAT practice: a full practice SAT, Reading and Writing and Math halves, sets for the eight content domains and a Daily Review that brings back what you missed.',
+         where=[('EduPulse-SAT', 'sat_mock.home'), ('Progress', 'sat_mock.progress'), ('SAT exam guidelines', 'main.sat_exam'), ('Free sample mock tests', 'free_mock.home')],
+         steps=['Open "EduPulse-SAT Practice Centre" (Premium). Choose the full practice SAT (54 Reading and Writing and 44 Math questions in the official domain shares, 134 minutes), the Reading and Writing half (64 minutes), the Math half (70 minutes) or a 15-question set for one of the eight content domains.',
+                'Reading and Writing questions have four options. Math has multiple-choice questions and student-produced response questions: type a number, a decimal or a fraction such as 3/4. A calculator is allowed in Math. There is no negative marking, so answer every question.',
+                'After each answer rate your confidence: Guess, Low, Medium or High. A timed test submits itself when time is up.',
+                'Submit and open the report: questions right and percent right by section and by domain, the confidence table, and every question with the correct answer and an explanation. These papers are not adaptive and do not give an official SAT score.',
+                'Every wrong answer, and every right answer rated Guess or Low, becomes a review card. Open "Daily Review" each day. A Reading and Writing card returns as the same question; a Math card returns as a new question of the same kind with new numbers. Cards move up a box after each right answer (reviews after 0, 1, 3, 7, 14 and 30 days).',
+                'Open Progress for section levels (last 20 answers), domains to reinforce, the practice-test trend, review boxes, streak and badges. Mentors and admins can open a student progress page from the mentor student view.'],
+         tips=['The questions are original EduAakashaA practice questions, not College Board questions. Reading and Writing questions were kept only when an independent solve agreed; Math questions are generated so the answer is correct by construction. Tell your mentor if you doubt one.', 'For the real adaptive test and an official score, use the free practice tests in the Bluebook app; the SAT Exam Guidelines page lists dates, fees, ID and test-day rules read from College Board pages.'],
+         tiles=['EduPulse-SAT Practice Centre'], added='2026-11-05', updated='2026-11-05'),
     dict(id='s-nift', role='student', group='EduPulse', title='EduPulse-NIFT Mock Test Centre', summary='NIFT GAT mocks, questions from earlier papers, section sets, a Daily Review that brings back what you missed, and CAT studio practice.',
          where=[('EduPulse-NIFT', 'nift_mock.home'), ('Progress', 'nift_mock.progress'), ('CAT studio', 'nift_mock.studio'), ('NIFT papers analysed', 'main.nift_exam')],
          steps=['Open "EduPulse-NIFT Mock Test Centre" (Premium). Choose a GAT mock for your programme (B.Des 100 questions in 120 minutes, B.F.Tech Part A or Part B, M.Des, M.F.M or M.F.Tech), a previous-year paper (2016 to 2023), or a 15-question section set (quantitative, English, comprehension, analytical, GK).',

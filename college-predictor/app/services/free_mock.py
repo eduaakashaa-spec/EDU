@@ -23,6 +23,8 @@ EXAMS = [
      'blurb': 'Ten questions from the GAT sections: quantitative ability, reasoning, English, comprehension and general knowledge.'},
     {'key': 'neet', 'name': 'NEET (UG)', 'tag': 'Physics, Chemistry, Biology', 'minutes': 20, 'marks': '+4 right, -1 wrong',
      'blurb': 'Ten questions from the NEET papers 2018 to 2026: 3 physics, 3 chemistry, 2 botany, 2 zoology.'},
+    {'key': 'sat', 'name': 'Digital SAT', 'tag': 'Reading and Writing, Math', 'minutes': 15, 'marks': '1 mark each, no negative',
+     'blurb': 'Ten original SAT-style questions: 5 Reading and Writing and 5 Math (multiple choice), in the official domains.'},
     {'key': 'iat', 'name': 'IISER Aptitude Test', 'tag': 'Bio, Chem, Maths, Physics', 'minutes': 20, 'marks': '+4 right, -1 wrong',
      'blurb': 'Ten IAT-style questions across biology, chemistry, mathematics and physics, shown as in the paper.'},
     {'key': 'tn10', 'name': 'TN Class 10', 'tag': 'Maths and Science', 'minutes': 15, 'marks': '1 mark each',
@@ -106,6 +108,27 @@ def _neet():
     return out
 
 
+def _sat():
+    import random as _r
+    from app.services import sat, sat_gen
+    out = []
+    for dom, n in (('Information and Ideas', 1), ('Craft and Structure', 2), ('Expression of Ideas', 1), ('Standard English Conventions', 1)):
+        pool = [q for q in sat.bank() if q['domain'] == dom]
+        for q in _pick(pool, n, 'sat' + dom):
+            out.append({'id': q['id'], 'sec': 'Reading and Writing', 'stem': _t(q['stem']), 'fig': '', 'passage': _t(q['passage']), 'opts': [{'h': _t(o)} for o in q['opts']], 'ans': q['ans'], 'why': _t(q.get('why'))})
+    for dom, n in (('Algebra', 2), ('Advanced Math', 1), ('Problem-Solving and Data Analysis', 1), ('Geometry and Trigonometry', 1)):
+        rng = _r.Random('satfree' + dom)
+        got = 0
+        while got < n:
+            qid = sat_gen.pick(dom, rng)
+            q = sat_gen.from_id(qid)
+            if q['kind'] != 'mcq':
+                continue
+            out.append({'id': qid, 'sec': 'Math', 'stem': _t(q['stem']), 'fig': '', 'passage': '', 'opts': [{'h': _t(o)} for o in q['opts']], 'ans': q['ans'], 'why': _t(q.get('why'))})
+            got += 1
+    return out
+
+
 def _iat():
     from app.services import iat
     names = dict(iat.SUBJECTS)
@@ -129,7 +152,7 @@ def _tn10():
     return out
 
 
-_BUILD = {'jee': _jee, 'uceed': _uceed, 'nid': _nid, 'nift': _nift, 'neet': _neet, 'iat': _iat, 'tn10': _tn10}
+_BUILD = {'jee': _jee, 'uceed': _uceed, 'nid': _nid, 'nift': _nift, 'neet': _neet, 'sat': _sat, 'iat': _iat, 'tn10': _tn10}
 
 
 def sample(key):

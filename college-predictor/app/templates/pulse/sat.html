@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}EduPulse-SAT: practice SATs, domain sets and daily review | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.tn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.tn-t{display:block;text-decoration:none;color:inherit;background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;position:relative}.tn-t:hover{border-color:var(--navy,#0E3A8A)}.tn-t b{display:block;font-family:'Fraunces',Georgia,serif;padding-right:64px}.tn-t small{color:var(--muted,#5A6278)}.tn-s{position:absolute;right:12px;top:10px;font:700 .8rem 'JetBrains Mono',monospace;color:#1F8B5C}.tn-h{margin:22px 0 8px;font-family:'Fraunces',Georgia,serif}
+.ex-daily{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,#0E3A8A,#1E56C4);color:#fff;border-radius:16px;padding:18px 22px;margin:14px 0}.ex-daily h3{margin:0 0 4px;font-family:'Fraunces',Georgia,serif;color:#fff}.ex-daily p{margin:0;opacity:.92;font-size:.95rem}
+.ex-go{display:inline-block;border-radius:999px;padding:10px 22px;font:700 .92rem 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;background:#FF6B0A;color:#fff;border:0;cursor:pointer}.ex-go.n{background:var(--navy,#0E3A8A)}
+.ex-sk{display:grid;grid-template-columns:200px 1fr 70px;gap:8px;align-items:center;margin:6px 0;font-size:.92rem}.ex-bar{height:9px;background:var(--hairline,#E8DFC8);border-radius:5px;overflow:hidden}.ex-bar i{display:block;height:100%;background:#1F8B5C}.ex-sk em{font-style:normal;color:var(--muted,#5A6278);font-size:.8rem}
+@media(max-width:560px){.ex-sk{grid-template-columns:120px 1fr 56px}}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-SAT</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">Digital SAT · practice tests · reading, writing and math · spaced review</span><h1>EduPulse-SAT</h1>
+      <p>A full practice SAT in the official shape (54 Reading and Writing and 44 Math questions, 134 minutes), half papers, sets for each of the eight content domains and a Daily Review that brings back every question you missed or guessed. All questions are original EduAakashaA practice questions. No negative marking, as in the real SAT.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ tr.streak }}</b><span>day streak</span></div>
+      <div class="pl-kpi"><b>{{ tr.due }}</b><span>review cards due</span></div>
+      <div class="pl-kpi"><b>{{ tr.answers }}</b><span>answers so far</span></div>
+      <div class="pl-kpi"><b>{{ st.rw }}+</b><span>R&amp;W questions; Math is generated</span></div>
+    </div>
+  </section>
+
+  <div class="ex-daily"><div><h3>Daily Review</h3><p>{% if tr.due %}{{ tr.due }} review card{{ 's' if tr.due != 1 }} due today, plus new questions from the subjects that need most practice.{% else %}New questions from the subjects that need most practice. Wrong and unsure answers will return here on a schedule.{% endif %} About 10 minutes.</p></div>
+    <a class="ex-go" href="{{ url_for('sat_mock.daily') }}">Start Daily Review</a></div>
+
+  <h2 class="tn-h">1. Mock tests</h2>
+  <p style="margin:0 0 8px;font-size:.92rem">Each attempt is a fresh paper drawn from the bank, avoiding questions you saw recently. Reading and Writing questions come from the bank, avoiding ones you saw recently; Math questions are generated afresh with new numbers each time. These papers are not adaptive: the real SAT adjusts the second module of each section to your first.</p>
+  <div class="tn-grid">
+    {% for m in mocks %}<a class="tn-t" href="{{ url_for('sat_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score|int }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }} {{ m.count }} questions · {{ m.minutes }} min</small></a>{% endfor %}
+  </div>
+
+  <h2 class="tn-h">2. Domain sets</h2>
+  <p style="margin:0 0 8px;font-size:.92rem">15 questions on one content domain: four domains in Reading and Writing, four in Math.</p>
+  <div class="tn-grid">
+    {% for m in sets %}<a class="tn-t" href="{{ url_for('sat_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score|int }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }}</small></a>{% endfor %}
+  </div>
+
+  <h2 class="tn-h">3. More</h2>
+  <div class="tn-grid">
+    <a class="tn-t" href="{{ url_for('main.sat_exam') }}"><b>SAT exam guidelines</b><small>Dates, fees, ID, test format, scoring and how to prepare, from College Board pages.</small></a>
+    <a class="tn-t" href="{{ url_for('sat_mock.progress') }}"><b>My progress</b><small>Section levels, review boxes, mock trend, streak and badges.</small></a>
+  </div>
+
+  <h2 class="tn-h">My section map</h2>
+  <div class="pl-card"><span class="pl-eyebrow">Last 20 answers per section</span><h3>Where I am strong</h3>
+    {% for s, v in tr.secs.items() %}<div class="ex-sk"><span>{{ v.name }}</span><div class="ex-bar"><i style="width:{{ v.acc or 0 }}%"></i></div><em>{{ (v.acc ~ '%') if v.acc is not none else '—' }}</em></div>{% endfor %}
+    <p class="pl-muted" style="margin:8px 0 0">A level needs at least 5 answers in a section. <a href="{{ url_for('sat_mock.progress') }}">Full progress page</a></p>
+  </div>
+
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>My recent tests</h3>
+    {% if tr.recent %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Test</th><th>Score</th><th>Right</th><th>Missed</th><th>Sure but wrong</th><th></th></tr></thead><tbody>
+    {% for r in tr.recent %}<tr><td>{{ r.finished_at.strftime('%d %b %Y') }}</td><td>{{ r.title }}</td><td>{{ r.score|int }} / {{ r.max_score|int }}</td><td>{{ r.right }}</td><td>{{ r.wrong + r.blank }}</td><td>{{ r.sure_wrong }}</td><td><a href="{{ url_for('sat_mock.report', rid=r.id) }}">Report</a></td></tr>{% endfor %}</tbody></table>
+    {% else %}<p class="pl-muted">No tests yet. Start with a domain set or a half paper.</p>{% endif %}
+  </div>
+  <p style="font-size:.84rem;color:var(--muted);margin-top:14px">These are original EduAakashaA practice questions written to match the published SAT content domains; they are not College Board questions. Reading and Writing questions were kept only when an independent solve agreed with the intended answer; Math questions are generated so that the answer is correct by construction; explanations are written by EduAakashaA with AI assistance. These practice papers are not adaptive and do not give an official SAT score: for that, use the free full-length practice tests in College Board&rsquo;s Bluebook app. The SAT is a trademark of College Board; EduAakashaA is not affiliated with it. Check the College Board website for the current format, dates and fees.</p>
+</div>
+{% endblock %}

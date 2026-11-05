@@ -621,6 +621,20 @@ def neet_exam():
     return render_template('neet_exam.html', **d.context())
 
 
+@main_bp.route('/sat-exam-guidelines')
+def sat_exam():
+    # public page: Digital SAT guidelines (dates, fees, registration, ID, test day, format, content, scoring, preparation) from College Board pages, free sample questions, links to EduPulse-SAT; data in app/data/sat_exam.py
+    from app.data import sat_exam as d
+    return render_template('sat_exam.html', **d.context())
+
+
+@main_bp.route('/sat-exam')
+@main_bp.route('/sat-guidelines')
+@main_bp.route('/sat-mock-test')
+def sat_exam_alias():
+    return redirect(url_for('main.sat_exam'), code=301)
+
+
 @main_bp.route('/neet-previous-papers')
 @main_bp.route('/neet-mock-test')
 @main_bp.route('/neet-question-papers')

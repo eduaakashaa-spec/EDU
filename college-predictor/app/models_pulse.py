@@ -410,3 +410,45 @@ class PulseNeetCard(db.Model):
     last_right = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, default=_utcnow)
     updated_at = db.Column(db.DateTime, default=_utcnow)
+
+
+class PulseSatResult(db.Model):
+    """One finished EduPulse-SAT test: a full practice SAT, a section half, a domain set or a Daily Review. One mark for each right answer, no negative marking.
+    `payload_json` keeps one row per question: id, section, domain, skill, chosen option (or typed response), right or wrong, confidence (G/L/M/H) and seconds."""
+    __tablename__ = 'pulse_sat_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    mock = db.Column(db.String(24), index=True)                  # M-FULL, M-RW, M-MATH, S-ALG, DAILY ...
+    title = db.Column(db.String(140))
+    score = db.Column(db.Float, default=0)
+    max_score = db.Column(db.Float, default=0)
+    right = db.Column(db.Integer, default=0)
+    wrong = db.Column(db.Integer, default=0)
+    blank = db.Column(db.Integer, default=0)
+    rated = db.Column(db.Integer, default=0)
+    sure_wrong = db.Column(db.Integer, default=0)
+    lucky = db.Column(db.Integer, default=0)
+    duration_sec = db.Column(db.Integer)
+    timed = db.Column(db.Boolean, default=True)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
+    user = db.relationship('User', foreign_keys=[user_id])
+
+
+class PulseSatCard(db.Model):
+    """Spaced reinforcement for the SAT: one card per question missed or answered with low confidence. `qkey` is a bank id, or 'g:<family>' for a generated Math question
+    (which returns with new numbers). Leitner boxes 0 to 5 (0, 1, 3, 7, 14, 30 days)."""
+    __tablename__ = 'pulse_sat_cards'
+    __table_args__ = (db.UniqueConstraint('user_id', 'qkey', name='uq_sat_card'),)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    qkey = db.Column(db.String(48), nullable=False)
+    sec = db.Column(db.String(6))
+    topic = db.Column(db.String(120))
+    box = db.Column(db.Integer, default=0)
+    due = db.Column(db.Date, index=True)
+    seen = db.Column(db.Integer, default=0)
+    right_run = db.Column(db.Integer, default=0)
+    last_right = db.Column(db.Boolean)
+    created_at = db.Column(db.DateTime, default=_utcnow)
+    updated_at = db.Column(db.DateTime, default=_utcnow)
