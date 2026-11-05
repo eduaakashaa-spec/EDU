@@ -177,6 +177,8 @@
 .aw-light h2{ color:var(--inkl); font-size:clamp(34px,4.4vw,60px); line-height:1.05; }
 .aw-light .lead{ color:var(--mutl); max-width:600px; font-size:16.5px; line-height:1.7; margin-top:16px; }
 .aw-index{ margin-top:56px; border-top:1.5px solid var(--hairl); }
+.aw-new{ padding-top:20px; }
+.aw-new .aw-sub{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--laser); margin:46px 0 0; font-weight:600; }
 .aw-ix{ display:grid; grid-template-columns:110px 1fr auto 40px; gap:26px; align-items:center;
   padding:26px 6px; border-bottom:1.5px solid var(--hairl); text-decoration:none; color:inherit;
   position:relative; transition:padding .3s; }
@@ -443,6 +445,59 @@
     </div>
   </section>
 
+  <!-- ═══════ LATEST ADDITIONS ═══════ -->
+  <section class="aw-light aw-new" id="awNew">
+    <div class="wrap">
+      <p class="eb">New on EduAakashaA</p>
+      <h2 style="margin-top:20px;">Practise it. <span class="it">Then analyse it.</span></h2>
+      <p class="lead">EduPulse mock tests with a daily review for every wrong or unsure answer, and analytics that turn official data into a plan. Try the free samples first.</p>
+
+      <h3 class="aw-sub">EduPulse practice</h3>
+      <div class="aw-index" style="margin-top:18px;">
+        <a class="aw-ix" href="{{ url_for('free_mock.home') }}">
+          <span class="tg">Free</span><span class="tt">Free Sample Mock Tests</span>
+          <span class="ds">Nine free 10-question samples: JEE Main, NEET, SAT, Olympiads, UCEED, NID, NIFT, IAT and TN Class 10. Phone and email only.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('neet_mock.home') }}">
+          <span class="tg">Members</span><span class="tt">EduPulse-NEET</span>
+          <span class="ds">Full 180-question mocks, questions from the 2018 to 2026 papers and a daily review that brings mistakes back.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('sat_mock.home') }}">
+          <span class="tg">Members</span><span class="tt">EduPulse-SAT</span>
+          <span class="ds">A full practice SAT, domain sets and fresh Math numbers every attempt, with a daily review.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('olympiad_mock.home') }}">
+          <span class="tg">Members</span><span class="tt">EduPulse-Olympiad</span>
+          <span class="ds">Subject mocks and official IOQM, PRMO, INBO and INJSO questions, with a daily review.</span><span class="ar">→</span></a>
+      </div>
+
+      <h3 class="aw-sub">Guides and analytics</h3>
+      <div class="aw-index" style="margin-top:18px;">
+        <a class="aw-ix" href="{{ url_for('pcm12.hub') }}">
+          <span class="tg">Analyse</span><span class="tt">Class 12 PCM Analytics</span>
+          <span class="ds">Your marks against 11 routes plus Maharashtra, Delhi, Kerala, Andhra Pradesh and NRI rules, board playbook, thumb rules, study plan.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('pcb12.hub') }}">
+          <span class="tg">Analyse</span><span class="tt">Class 12 PCB Analytics</span>
+          <span class="ds">NEET and state medical routes, Biology thumb rules, answer sheets and a study plan counted back from your exam.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('main.sat_exam') }}">
+          <span class="tg">Guide</span><span class="tt">SAT Exam Guidelines</span>
+          <span class="ds">Dates and deadlines, fees, ID rules, format and scoring, read from College Board pages.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('main.olympiad_exam') }}">
+          <span class="tg">Guide</span><span class="tt">Olympiad Exams Guide</span>
+          <span class="ds">IOQM, RMO, INMO, NSE and INO stages, 2026-27 dates and eligibility, from official pages.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('main.neet_exam') }}">
+          <span class="tg">Analyse</span><span class="tt">NEET Papers Analysed</span>
+          <span class="ds">Nine papers, 2018 to 2026: questions by year, subject and topic, with free sample questions.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('main.neet_seats_2025') }}">
+          <span class="tg">Analyse</span><span class="tt">NEET MBBS Seat Analytics</span>
+          <span class="ds">Every MBBS college in the NMC seat matrix: seats by state and management, new colleges, seat cuts.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('main.josaa_2026_analytics') }}">
+          <span class="tg">Analyse</span><span class="tt">JoSAA 2026 Analytics</span>
+          <span class="ds">Seat allotment and closing ranks for 138 institutes, in charts and a college explorer.</span><span class="ar">→</span></a>
+        <a class="aw-ix" href="{{ url_for('main.nift_exam') }}">
+          <span class="tg">Analyse</span><span class="tt">NIFT and NID Papers Analysed</span>
+          <span class="ds">What the design entrance papers really ask, with mocks and a daily review for members.</span><span class="ar">→</span></a>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════ CH·04 ENGINES ═══════ -->
   <section class="aw-eng" id="awEng">
     <div class="stage">
@@ -463,6 +518,12 @@
             <h3>NIRF Explorer</h3><p>300 ranked institutes mapped to admission reality, not press releases.</p><span class="go">Open →</span></a>
           <a class="aw-ecard" href="{{ url_for('main.free_report') }}"><span class="no">ENG·05</span>
             <h3>Free TNEA Report</h3><p>3,448 college × branch cut-off rows — yours, free, no sign-up.</p><span class="go">Open →</span></a>
+          <a class="aw-ecard" href="{{ url_for('pcm12.hub') }}"><span class="no">ENG·06</span>
+            <h3>Class 12 PCM Analytics</h3><p>Marks against 11 entrance routes, state and NRI rules, and a study plan counted back from your exam.</p><span class="go">Open →</span></a>
+          <a class="aw-ecard" href="{{ url_for('pcb12.hub') }}"><span class="no">ENG·07</span>
+            <h3>Class 12 PCB Analytics</h3><p>NEET and state medical routes with sources, Biology thumb rules, answer sheets and a study plan.</p><span class="go">Open →</span></a>
+          <a class="aw-ecard" href="{{ url_for('free_mock.home') }}"><span class="no">ENG·08</span>
+            <h3>Free Sample Mock Tests</h3><p>Ten questions each for nine exams, scored with an explanation for every answer.</p><span class="go">Open →</span></a>
         </div>
       </div>
     </div>
