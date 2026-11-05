@@ -2650,10 +2650,7 @@ function generatePDFReport(opts){
       <a href="https://www.eduaakashaa.com">www.eduaakashaa.com</a>
     </div>
     <div class="rpt-footer-block">
-      <strong>Hours</strong>
-      <span>Mon – Fri · 9:00 – 22:00</span>
-      <span>Saturday · 9:00 – 16:00</span>
-      <span>Sunday · 9:00 – 16:00</span>
+      <strong>Office</strong>
       <span>Coimbatore, TN</span>
     </div>
     <div class="rpt-footer-block">
@@ -2721,7 +2718,6 @@ function generateExcelReport(){
     ['Email',     'info@eduaakashaa.com'],
     ['Website',   'www.eduaakashaa.com'],
     ['WhatsApp',  'https://wa.me/918015722706'],
-    ['Hours',     'Mon–Fri 9:00–22:00 · Sat & Sun 9:00–16:00'],
     ['Locations', 'Coimbatore, Tamil Nadu'],
     [''],
     ['📞 Book a free 30-minute counselling call — we will review this report with you.'],

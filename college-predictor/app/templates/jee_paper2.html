@@ -196,7 +196,7 @@
 
   <div class="jr2-cta">
     <div style="flex:1;min-width:260px"><h2>Talk to a counsellor about B.Arch or B.Planning</h2>
-      <p>We can look at your child&rsquo;s sketches, marks and interests, and help you choose between 2A, 2B and both. Mon to Fri 9:00 to 22:00, Sat and Sun 9:00 to 16:00 IST.</p>
+      <p>We can look at your child&rsquo;s sketches, marks and interests, and help you choose between 2A, 2B and both.</p>
       <p style="margin-top:8px;font-size:.92rem">{% if current_user.is_authenticated and current_user.is_premium %}Ask in the <b>EduAakashaA Members Group</b>: counsellors and experienced parents answer there.{% else %}Members are added to the <b>EduAakashaA Members Group</b>, where counsellors and experienced parents answer questions like these.{% endif %}</p></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap">
       {% if current_user.is_authenticated and current_user.is_premium %}<a class="b" href="{{ url_for('memberhub.home') }}">Open Member Home</a>{% else %}<a class="b" href="{{ url_for('main.members_registration') }}">Join the Members Group</a>{% endif %}

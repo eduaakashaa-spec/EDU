@@ -636,7 +636,6 @@ html+=`<div class="page pagebreak">
 <div style="text-align:center;margin-top:20px;padding:16px;background:#FBF7EE;border-radius:14px;border:1.5px solid #E8DFC8">
 <div style="font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#FF6B0A;margin-bottom:4px">EduAakashaA &middot; Coimbatore</div>
 <div style="font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:#071A44">Guiding students towards the right future</div>
-<div style="font-size:11px;color:#5A6278;margin-top:4px">Mon-Fri 9:00-22:00 | Sat &amp; Sun 9:00-16:00</div>
 </div>
 
 <div class="footer"><div>India: +91-80157 22706</div><div><a href="https://www.eduaakashaa.com">www.eduaakashaa.com</a> &middot; info@eduaakashaa.com</div></div>
