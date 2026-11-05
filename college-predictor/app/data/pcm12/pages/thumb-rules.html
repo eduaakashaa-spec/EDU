@@ -1,0 +1,830 @@
+<title>Thumb Rules Handbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&family=Plus+Jakarta+Sans:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap">
+<style>
+/* Layout concept: left-aligned editorial pages on cream paper, navy does the work, orange is the accent pop. */
+:root{
+  --navy:#0E3A8A; --navy-deep:#0A2560; --navy-ink:#071A44; --orange:#FF6B0A; --orange-soft:#FF8A3D;
+  --cream:#FBF7EE; --cream-2:#F5EFDF; --paper:#FFFDF7; --ink:#0E1B3D; --muted:#5A6278; --hairline:#E8DFC8;
+  --green:#1F8B5C; --red:#C23A3A; --amber:#E89A1C;
+  --shadow-1:0 1px 2px rgba(14,27,61,.05),0 4px 12px rgba(14,27,61,.04);
+  --shadow-2:0 10px 30px rgba(14,27,61,.10),0 2px 6px rgba(14,27,61,.06);
+  --radius:18px; --radius-sm:10px; --max:1240px;
+  /* semantic tokens used by components */
+  --bg:var(--cream); --surface:var(--paper); --surface-2:var(--cream-2); --text:var(--ink); --head:var(--navy-ink);
+  --brand:var(--navy); --line:var(--hairline); --btn-bg:var(--navy); --btn-fg:#FFFFFF;
+  --orange-ink:#B9420A; --green-ink:#14694A; --red-ink:#A32B2B; --amber-ink:#8A5A00;
+  --green-bg:#E3F3EA; --red-bg:#F8E4E2; --amber-bg:#FBEFD6; --blue-bg:#E4ECFA;
+  --nav-bg:rgba(251,247,238,.86); --nav-solid:#FBF7EE; --grain:rgba(14,27,61,.16); --grain-opacity:.35;
+  --hover-card:#FFF8EA; --focus-ring:rgba(14,58,138,.14); --input-bg:#FBF7EE;
+  --dark-a:#0E3A8A; --dark-b:#0A2560; --on-dark:#FBF7EE; --on-dark-muted:#C9D4EE; --on-dark-line:rgba(255,255,255,.16);
+  --chart-1:#0E3A8A; --chart-2:#FF6B0A; --chart-3:#1F8B5C; --chart-grid:rgba(14,27,61,.10);
+  /* handwritten sheet tokens (a physical page: same in both themes) */
+  --sheet-bg:#FFFEF8; --sheet-line:#CFE0F2; --sheet-margin:#F3B6B6; --sheet-ink:#1B2E7A; --sheet-red:#C8262B;
+  --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-body:'Plus Jakarta Sans','Segoe UI',Helvetica,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1430; --surface:#101C3F; --surface-2:#15244E; --text:#E6E3D8; --head:#FBF7EE; --brand:#8DB0F5; --line:#26376A;
+    --btn-bg:#2D5BC9; --btn-fg:#FFFFFF; --muted:#A5AEC6; --orange-ink:#FF9A55; --green-ink:#6FD3A3; --red-ink:#FF9C94; --amber-ink:#F2C26A;
+    --green-bg:#12382B; --red-bg:#40201F; --amber-bg:#3E3112; --blue-bg:#16295A;
+    --nav-bg:rgba(10,20,48,.86); --nav-solid:#0A1430; --grain:rgba(255,255,255,.10); --grain-opacity:.25;
+    --hover-card:#16264F; --focus-ring:rgba(141,176,245,.22); --input-bg:#0D1938;
+    --shadow-1:0 1px 2px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2); --shadow-2:0 10px 30px rgba(0,0,0,.4),0 2px 6px rgba(0,0,0,.3);
+    --chart-1:#8DB0F5; --chart-2:#FF8A3D; --chart-3:#6FD3A3; --chart-grid:rgba(255,255,255,.12);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1430; --surface:#101C3F; --surface-2:#15244E; --text:#E6E3D8; --head:#FBF7EE; --brand:#8DB0F5; --line:#26376A;
+  --btn-bg:#2D5BC9; --btn-fg:#FFFFFF; --muted:#A5AEC6; --orange-ink:#FF9A55; --green-ink:#6FD3A3; --red-ink:#FF9C94; --amber-ink:#F2C26A;
+  --green-bg:#12382B; --red-bg:#40201F; --amber-bg:#3E3112; --blue-bg:#16295A;
+  --nav-bg:rgba(10,20,48,.86); --nav-solid:#0A1430; --grain:rgba(255,255,255,.10); --grain-opacity:.25;
+  --hover-card:#16264F; --focus-ring:rgba(141,176,245,.22); --input-bg:#0D1938;
+  --shadow-1:0 1px 2px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2); --shadow-2:0 10px 30px rgba(0,0,0,.4),0 2px 6px rgba(0,0,0,.3);
+  --chart-1:#8DB0F5; --chart-2:#FF8A3D; --chart-3:#6FD3A3; --chart-grid:rgba(255,255,255,.12);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--nav-solid)}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(var(--grain) 1px,transparent 1px);background-size:3px 3px;opacity:var(--grain-opacity);mix-blend-mode:multiply}
+:root[data-theme="dark"] body::after{mix-blend-mode:screen}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body::after{mix-blend-mode:screen}}
+header,main,section,footer,nav{position:relative;z-index:1}
+img{max-width:100%}
+a{color:var(--brand)}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--head);margin:0;text-wrap:balance;letter-spacing:-.025em;line-height:1.1}
+h1{font-size:clamp(38px,6.4vw,88px);font-weight:700;letter-spacing:-.035em;line-height:1.02}
+h2{font-size:clamp(30px,4.2vw,56px);font-weight:600}
+h3{font-size:clamp(20px,2.2vw,26px);font-weight:600;letter-spacing:-.02em}
+h4{font-size:18px;font-weight:600;letter-spacing:-.01em}
+p{margin:0}
+em{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--orange-ink)}
+.dark em{color:var(--orange-soft)}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(clamp(16px,4vw,28px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,4vw,28px),env(safe-area-inset-right,0px))}
+.mono{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.2em}
+.muted{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px}
+
+/* eyebrow */
+.eyebrow{display:inline-flex;align-self:flex-start;width:fit-content;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:var(--brand);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px;max-width:100%}
+.eyebrow::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 3px rgba(255,107,10,.15)}
+.dark .eyebrow{background:rgba(255,255,255,.08);border-color:var(--on-dark-line);color:var(--on-dark)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--nav-bg);backdrop-filter:saturate(150%) blur(12px);-webkit-backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--head);min-width:0}
+.logo{position:relative;width:42px;height:42px;flex:none;display:block}
+.logo svg,.logo img{position:absolute;inset:0;width:42px;height:42px;object-fit:contain}
+.logo.has-img svg{display:none}
+.brand-txt{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.brand-name{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing:-.02em;color:var(--head)}
+.brand-name span{color:var(--orange)}
+.brand-tag{font-family:var(--font-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-links{display:flex;align-items:center;gap:4px;margin:0 0 0 auto}
+.nav-links a{font-size:14px;font-weight:600;text-decoration:none;color:var(--text);padding:8px 12px;border-radius:999px;transition:background .2s,color .2s;white-space:nowrap}
+.nav-links a:hover{background:var(--surface-2)}
+.nav-links a[aria-current="page"]{background:var(--blue-bg);color:var(--brand)}
+.nav-cta{font-size:14px;font-weight:700;text-decoration:none;background:var(--btn-bg);color:var(--btn-fg);padding:10px 18px;border-radius:999px;transition:background .2s,transform .2s;white-space:nowrap}
+.nav-cta:hover{background:var(--orange);color:#fff;transform:translateY(-1px)}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--head);cursor:pointer;align-items:center;justify-content:center}
+.burger svg{width:22px;height:22px}
+@media (max-width:1080px){.brand-tag{display:none}}
+@media (max-width:920px){
+  .burger{display:inline-flex}
+  .nav-cta{display:none}
+  .nav-links{position:fixed;left:0;right:0;top:calc(68px + env(safe-area-inset-top,0px));margin:0;flex-direction:column;align-items:stretch;gap:2px;padding:12px max(16px,env(safe-area-inset-right,0px)) 18px max(16px,env(safe-area-inset-left,0px));background:var(--nav-solid);border-bottom:1px solid var(--line);box-shadow:var(--shadow-2);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility .25s}
+  .nav-links.open{opacity:1;visibility:visible;transform:none}
+  .nav-links a{padding:13px 14px;font-size:16px}
+  .nav-links .nav-cta-m{display:block;margin-top:8px;background:var(--btn-bg);color:var(--btn-fg);text-align:center}
+}
+@media (min-width:921px){.nav-cta-m{display:none!important}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:700 15px/1 var(--font-body);text-decoration:none;border-radius:999px;padding:16px 28px;border:1.5px solid transparent;cursor:pointer;transition:background .2s,color .2s,transform .2s,box-shadow .2s,border-color .2s}
+.btn .ar{transition:transform .2s}
+.btn:hover .ar{transform:translateX(4px)}
+.btn-primary{background:var(--btn-bg);color:var(--btn-fg)}
+.btn-primary:hover{background:var(--orange);color:#fff;transform:translateY(-2px);box-shadow:var(--shadow-2)}
+.btn-ghost{background:transparent;color:var(--head);border-color:var(--head)}
+.btn-ghost:hover{background:var(--head);color:var(--bg)}
+.btn-sm{padding:11px 18px;font-size:14px}
+.dark .btn-primary{background:var(--orange);color:#fff}
+.dark .btn-primary:hover{background:var(--orange-soft)}
+.dark .btn-ghost{color:var(--on-dark);border-color:var(--on-dark)}
+.dark .btn-ghost:hover{background:var(--on-dark);color:var(--navy-deep)}
+
+/* sections */
+section{padding:90px 0}
+.sec-head{max-width:780px;display:flex;flex-direction:column;gap:18px;margin-bottom:44px}
+.sec-head p{color:var(--muted);font-size:18px;max-width:64ch}
+.dark{background:linear-gradient(135deg,var(--dark-a) 0%,var(--dark-b) 100%);color:var(--on-dark);overflow:hidden}
+.dark h2,.dark h3,.dark h4{color:var(--on-dark)}
+.dark .sec-head p,.dark .muted{color:var(--on-dark-muted)}
+.dark::before{content:"";position:absolute;right:-120px;top:-120px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,10,.18) 0%,transparent 65%);pointer-events:none}
+.dark::after{content:"";position:absolute;left:-160px;bottom:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.07) 0%,transparent 65%);pointer-events:none}
+.dark>.wrap{position:relative;z-index:1}
+.alt{background:var(--surface-2)}
+.alt{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* hero */
+.hero{padding:72px 0 64px}
+.hero-grid{display:grid;grid-template-columns:1.2fr .9fr;gap:56px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:26px;min-width:0}
+.hero-copy .lede{font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:56ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px}
+.highlight{position:relative;white-space:normal;z-index:0}
+.highlight::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.04em;height:14px;background:var(--orange);opacity:.22;transform:skew(-6deg);z-index:-1}
+@media (max-width:920px){.hero-grid{grid-template-columns:1fr;gap:36px}.hero{padding:44px 0 40px}section{padding:64px 0}}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-2);padding:28px;position:relative;overflow:hidden;min-width:0}
+.card.hero-card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,10,.15),transparent 50%);pointer-events:none}
+.card>*{position:relative}
+.card-flat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-1);min-width:0}
+
+/* stats strip */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:26px 24px;display:flex;flex-direction:column;gap:6px;border-left:1px solid var(--line);min-width:0}
+.stat:first-child{border-left:0;padding-left:0}
+.stat b{font-family:var(--font-display);font-weight:600;font-size:clamp(32px,4vw,44px);color:var(--head);letter-spacing:-.03em;line-height:1}
+.stat b span{color:var(--orange)}
+.stat small{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);line-height:1.5}
+@media (max-width:920px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(3){border-left:0;padding-left:0}.stat:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:420px){.stat{padding:20px 14px}}
+
+/* 1px gap grid */
+.grid-gap{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.grid-gap.c2{grid-template-columns:repeat(2,1fr)}.grid-gap.c3{grid-template-columns:repeat(3,1fr)}.grid-gap.c4{grid-template-columns:repeat(4,1fr)}
+.gcard{background:var(--surface);padding:28px;position:relative;display:flex;flex-direction:column;gap:12px;min-width:0;transition:background .2s}
+.gcard:hover{background:var(--hover-card)}
+.gcard .stamp{position:absolute;right:20px;top:20px;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;color:var(--muted)}
+.ico{width:44px;height:44px;border-radius:12px;background:var(--surface-2);display:grid;place-items:center;color:var(--brand)}
+.ico svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gcard p,.gcard li{color:var(--muted);font-size:15px}
+.gcard ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+@media (max-width:920px){.grid-gap.c3,.grid-gap.c4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.grid-gap.c2,.grid-gap.c3,.grid-gap.c4{grid-template-columns:1fr}}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:999px;white-space:nowrap;border:1px solid transparent}
+.chip.green{background:var(--green-bg);color:var(--green-ink)}.chip.red{background:var(--red-bg);color:var(--red-ink)}
+.chip.amber{background:var(--amber-bg);color:var(--amber-ink)}.chip.blue{background:var(--blue-bg);color:var(--brand)}
+.chip.line{background:transparent;color:var(--muted);border-color:var(--line)}
+.chip.core{background:var(--btn-bg);color:var(--btn-fg)}
+.chip.build{background:var(--blue-bg);color:var(--brand)}
+.chip.later{background:transparent;color:var(--muted);border-color:var(--line)}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;padding:5px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;width:fit-content;max-width:100%}
+.tab{font:600 14px/1 var(--font-body);color:var(--text);background:transparent;border:0;border-radius:999px;padding:11px 18px;cursor:pointer;transition:background .2s,color .2s}
+.tab:hover{background:var(--surface)}
+.tab[aria-selected="true"]{background:var(--btn-bg);color:var(--btn-fg)}
+@media (max-width:560px){.tabs{border-radius:18px;width:100%}.tab{flex:1 1 auto;padding:11px 12px;font-size:13px}}
+.panel[hidden]{display:none}
+.panel{animation:fadein .4s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* tables */
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow-1)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:500;background:var(--surface-2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td b{color:var(--head)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* forms */
+label{font-size:13px;font-weight:600;color:var(--head)}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+input[type=number],input[type=date],select,input[type=text],input[type=search]{font:500 15px var(--font-body);color:var(--text);background:var(--input-bg);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;width:100%;min-width:0;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus{outline:0;border-color:var(--brand);box-shadow:0 0 0 4px var(--focus-ring)}
+input[type=range]{width:100%;accent-color:var(--orange)}
+.hint{font-size:12.5px;color:var(--muted)}
+
+/* faq */
+.faq{display:flex;flex-direction:column;gap:12px;max-width:860px}
+.faq-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-1)}
+.faq-q{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px}
+.faq-q:focus-visible{outline:2px solid var(--brand);outline-offset:-2px;border-radius:var(--radius)}
+.faq-q .qn{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-ink);margin-bottom:4px}
+.faq-q .qt{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--head);letter-spacing:-.01em;line-height:1.25}
+.faq-tog{flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;color:var(--head);transition:transform .35s,background .35s,color .35s,border-color .35s}
+.faq-item.open .faq-tog{transform:rotate(45deg);background:var(--orange);border-color:var(--orange);color:#fff}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-a>div{padding:0 24px 22px;color:var(--muted);font-size:15.5px;display:flex;flex-direction:column;gap:10px}
+
+/* notes and callouts */
+.note{display:flex;gap:12px;align-items:flex-start;background:var(--amber-bg);color:var(--text);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;font-size:14px}
+.note b{color:var(--head)}
+.note.info{background:var(--blue-bg)}
+.note.ok{background:var(--green-bg)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:13px;color:var(--muted)}
+
+/* footer */
+footer{background:var(--navy-ink);color:#C9D4EE;padding:64px 0 36px}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px}
+.foot-grid h4{color:#FBF7EE;font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.2em;font-weight:500;margin-bottom:14px}
+.foot-grid p,.foot-grid li{font-size:14.5px;line-height:1.7}
+.foot-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.foot-grid a{color:#FBF7EE;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+.foot-grid a:hover{border-color:var(--orange-soft)}
+.foot-brand .brand-name{color:#FBF7EE}
+.foot-fine{margin-top:40px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);font-size:12.5px;color:#93A3C8;display:flex;flex-direction:column;gap:6px}
+@media (max-width:820px){.foot-grid{grid-template-columns:1fr;gap:28px}}
+.copy{all:unset;cursor:pointer;font:600 12px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--orange-soft);margin-left:8px}
+.copy:focus-visible{outline:2px solid var(--orange-soft);outline-offset:2px}
+
+/* reveal */
+.reveal{transition:opacity .7s ease,transform .7s ease}
+.reveal.pre{opacity:0;transform:translateY(20px)}
+@media (prefers-reduced-motion:reduce){.reveal,.panel,.faq-a,.btn,.nav-links{transition:none;animation:none}.reveal.pre{opacity:1;transform:none}html{scroll-behavior:auto}}
+
+
+.step-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--on-dark-line);border:1px solid var(--on-dark-line);border-radius:var(--radius);overflow:hidden}
+.step-grid>div{background:rgba(10,37,96,.5);padding:26px 24px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.step-grid .n{font-family:var(--font-mono);font-size:12px;letter-spacing:.2em;color:var(--orange-soft)}
+.step-grid h4{color:#fff}
+.step-grid p{color:var(--on-dark-muted);font-size:15px}
+@media (max-width:920px){.step-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.step-grid{grid-template-columns:1fr}}
+.four{margin-top:26px;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;background:rgba(255,255,255,.08);border:1px solid var(--on-dark-line);border-radius:var(--radius);padding:22px 26px}
+.four b{font-family:var(--font-display);font-size:clamp(40px,6vw,64px);font-weight:600;color:var(--orange-soft);letter-spacing:-.04em;line-height:1}
+.four p{color:var(--on-dark-muted);font-size:16px}
+.four p strong{color:#fff}
+@media (max-width:560px){.four{grid-template-columns:1fr}}
+.rl-bar{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:end;margin-bottom:28px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font:600 14px/1 var(--font-body);background:var(--surface);color:var(--text);border:1.5px solid var(--line);border-radius:999px;padding:11px 18px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.pill:hover{border-color:var(--brand)}
+.pill[aria-pressed="true"]{background:var(--btn-bg);color:var(--btn-fg);border-color:var(--btn-bg)}
+.rl-count{font-family:var(--font-mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 16px}
+.rules-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+@media (max-width:860px){.rules-grid{grid-template-columns:minmax(0,1fr)}}
+.rule-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:26px;box-shadow:var(--shadow-1);display:flex;flex-direction:column;gap:12px;min-width:0}
+.rule-card[hidden]{display:none}
+.rule-card header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.rule-card .mk{font-family:var(--font-mono);font-size:12px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase}
+.rule-card h3{font-size:24px}
+.lbl{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.18em;font-weight:500;color:var(--orange-ink);margin:0}
+.rule-card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.hook{background:var(--blue-bg);border-radius:var(--radius-sm);padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.hook p{font-family:var(--font-display);font-size:18px;font-weight:500;color:var(--head);line-height:1.35;letter-spacing:-.01em}
+.trap{border:1px dashed var(--line);border-radius:var(--radius-sm);padding:10px 16px;display:flex;flex-direction:column;gap:3px}
+.trap .lbl{color:var(--red-ink)}
+.trap p{font-size:14.5px;color:var(--muted)}
+.empty{padding:30px;border:1px dashed var(--line);border-radius:var(--radius);color:var(--muted)}
+.flash{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:start}
+@media (max-width:920px){.flash{grid-template-columns:1fr}}
+.fc{perspective:1200px}
+.fc-card{all:unset;box-sizing:border-box;display:block;width:100%;min-height:290px;cursor:pointer;position:relative;border-radius:var(--radius);background:var(--paper);color:var(--navy-ink);box-shadow:var(--shadow-2);padding:30px 32px;transition:transform .35s}
+.fc-card:focus-visible{outline:3px solid var(--orange-soft);outline-offset:4px}
+.fc-card .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#B9420A;display:block;margin-bottom:16px}
+.fc-card .txt{font-family:var(--font-display);font-size:clamp(22px,2.6vw,30px);font-weight:500;letter-spacing:-.02em;line-height:1.25;display:block}
+.fc-card .hint2{position:absolute;left:32px;bottom:20px;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#5A6278}
+.fc-card.back{background:#FFF1E2}
+.fc-ctl{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+.fc-side{background:rgba(255,255,255,.07);border:1px solid var(--on-dark-line);border-radius:var(--radius);padding:24px;display:flex;flex-direction:column;gap:16px;color:var(--on-dark-muted)}
+.fc-side .k{font-family:var(--font-display);font-size:40px;color:#fff;letter-spacing:-.03em;line-height:1}
+.fc-side small{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.fc-side .row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.fc-side select{background:rgba(255,255,255,.1);border-color:var(--on-dark-line);color:#fff}
+.fc-side select option{color:#0E1B3D;background:#FFFDF7}
+.fc-side label{color:var(--on-dark)}
+.btn.known{background:var(--green);color:#fff}
+.btn.known:hover{background:#27A56F}
+.btn.miss{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.btn.miss:hover{background:#fff;color:#0A2560}
+.dark .btn-ghost{color:#fff;border-color:rgba(255,255,255,.55)}
+.sched{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;margin-top:6px}
+.sched div{background:var(--surface);padding:18px 20px;display:flex;flex-direction:column;gap:4px}
+.sched b{font-family:var(--font-display);font-size:26px;color:var(--head);letter-spacing:-.02em}
+.sched span{font-size:13.5px;color:var(--muted)}
+@media (max-width:760px){.sched{grid-template-columns:repeat(2,1fr)}}
+
+</style>
+<a id="top"></a>
+<nav class="nav" aria-label="Main"><div class="wrap nav-in">
+<a class="brand" href="#top" aria-label="EduAakashaa home"><span class="logo"><svg viewBox="0 0 42 42" aria-hidden="true"><polygon points="21,3 37,12 21,21 5,12" fill="#FF6B0A"/><polygon points="5,12 21,21 21,39 5,30" fill="#0E3A8A"/><polygon points="21,21 37,12 37,30 21,39" fill="#0A2560"/><polyline points="5,12 21,21 37,12" fill="none" stroke="#FBF7EE" stroke-width="1" opacity=".5"/></svg><img src="./eduaakashaa_logo.png" alt="EduAakashaa" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()"></span><span class="brand-txt"><span class="brand-name">Edu<span>Aakashaa</span></span><span class="brand-tag">Guiding students towards the right future</span></span></a>
+<div class="nav-links" id="navlinks"><a href="https://claude.ai/artifact/6Qu8BNPhQd1AQJJK8PJPM8" target="_blank" rel="noopener">Playbook</a><a href="https://claude.ai/artifact/R39jk652ZTvWJjyBWyNJLn" target="_blank" rel="noopener">Answer lab</a><a href="#top" aria-current="page">Thumb rules</a><a href="https://claude.ai/artifact/Jc292a1ouMx6Hds1VFT1nj" target="_blank" rel="noopener">Eligibility</a><a class="nav-cta-m" href="#contact">Talk to a counsellor</a></div>
+<a class="nav-cta" href="#contact">Talk to a counsellor</a>
+<button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></nav>
+
+<header class="hero"><div class="wrap hero-grid">
+<div class="hero-copy">
+<span class="eyebrow">Thumb rules &middot; Memory hacks &middot; Class 12 PCM</span>
+<h1>Short rules you can <span class="highlight">carry into the exam hall</span>.</h1>
+<p class="lede">Every chapter of Physics, Chemistry and Maths gets the same three things: the rules that win marks, one memory hook and one trap that costs marks. Below them is a method for the moment a question looks impossible, and a flashcard drill.</p>
+<div class="hero-cta"><a class="btn btn-primary" href="#rules">Open the chapter rules <span class="ar">&rarr;</span></a><a class="btn btn-ghost" href="#drill">Start the flashcards</a></div>
+</div>
+<aside class="card hero-card"><span class="eyebrow">What is inside</span>
+<div class="tbl-scroll" style="margin-top:16px;box-shadow:none"><table><tbody>
+<tr><td><b>37</b></td><td>chapter cards: 14 Physics, 10 Chemistry, 13 Maths</td></tr>
+<tr><td><b>37</b></td><td>flashcards, one per chapter, with a missed-card queue</td></tr>
+<tr><td><b>6</b></td><td>steps to attack a hard question, and a 4-minute rule</td></tr>
+<tr><td><b>6</b></td><td>memory methods with a revision schedule</td></tr></tbody></table></div>
+<p class="hint" style="margin-top:12px">Written for the 2026-27 syllabus topics. Check each rule against NCERT before you rely on it in a test.</p></aside>
+</div></header>
+
+<section id="hard" class="dark"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">When a question looks hard</span><h2>Six steps that <em>always</em> get you started.</h2>
+<p>A hard question usually breaks into a diagram, a principle and a substitution. The marking scheme pays for each of those, even if the final answer goes wrong.</p></div>
+<div class="step-grid reveal">
+<div><span class="n">STEP 1</span><h4>Underline what is asked</h4><p>Circle the quantity and its unit. Many wrong answers solve a neighbouring question.</p></div>
+<div><span class="n">STEP 2</span><h4>List what is given</h4><p>Write every value with its unit. Convert units now, not later.</p></div>
+<div><span class="n">STEP 3</span><h4>Draw or tabulate</h4><p>A circuit, a ray diagram, a Gaussian surface, a graph, a tree for probability.</p></div>
+<div><span class="n">STEP 4</span><h4>Name the principle</h4><p>Write the law or formula in symbols before using numbers. This line earns marks by itself.</p></div>
+<div><span class="n">STEP 5</span><h4>Substitute, one line at a time</h4><p>One change per line. Carry units. Keep fractions until the last step.</p></div>
+<div><span class="n">STEP 6</span><h4>Check size, sign and unit</h4><p>Is the answer reasonable? A speed above c or a negative mass means a slip.</p></div>
+</div>
+<div class="four reveal"><b>4 min</b><p><strong>The 4-minute rule.</strong> If a 3 or 5 mark question has not moved in four minutes, write the diagram, the principle and the set-up, then leave a gap and move on. You keep the early marks and return with fresh eyes during review.</p></div>
+<p class="plan-msg" style="margin-top:14px;font-size:13.5px;color:var(--on-dark-muted)">These steps are a general method, written by EduAakashaa. Time limits are suggestions and not CBSE rules.</p>
+</div></section>
+
+<section id="rules"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Chapter by chapter</span><h2>The rule, the <em>hook</em> and the trap.</h2>
+<p>Filter by subject or search for a word, such as "Lucas", "Gauss" or "Bayes".</p></div>
+<div class="rl-bar">
+<div class="pills" role="group" aria-label="Subject filter" id="subjPills"><button class="pill" type="button" data-s="all" aria-pressed="true">All 37</button><button class="pill" type="button" data-s="P" aria-pressed="false">Physics</button><button class="pill" type="button" data-s="C" aria-pressed="false">Chemistry</button><button class="pill" type="button" data-s="M" aria-pressed="false">Mathematics</button></div>
+<div class="field" style="min-width:240px;flex:1;max-width:380px"><label for="rlSearch">Search rules</label><input type="search" id="rlSearch" placeholder="Try: Nernst, SN1, ILATE"></div>
+</div>
+<p class="rl-count" id="rlCount" aria-live="polite"></p>
+<div class="rules-grid" id="rulesGrid">
+<article class="rule-card reveal" data-subj="P" data-text="electric charges and fields pick the gaussian surface by symmetry: sphere for a point or shell, cylinder for a line, pillbox for a sheet. line charge e = λ/(2πε₀r). infinite sheet e = σ/(2ε₀). inside a uniformly charged thin shell the field is zero. far from a dipole, the axial field is twice the equatorial field, and the equatorial field points opposite to p. axial is double. using the point-charge 1/r² for a line charge. it falls as 1/r.">
+<header><span class="chip line">Physics</span><span class="mk">≈5 marks</span></header>
+<h3>Electric Charges and Fields</h3>
+<h4 class="lbl">Rules</h4><ul><li>Pick the Gaussian surface by symmetry: sphere for a point or shell, cylinder for a line, pillbox for a sheet.</li><li>Line charge E = λ/(2πε₀r). Infinite sheet E = σ/(2ε₀). Inside a uniformly charged thin shell the field is zero.</li><li>Far from a dipole, the axial field is twice the equatorial field, and the equatorial field points opposite to p.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Axial is Double.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Using the point-charge 1/r² for a line charge. It falls as 1/r.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="electrostatic potential and capacitance capacitors in series: 1/c adds. in parallel: c adds. this is the reverse of resistors. battery connected: v stays fixed. battery disconnected: q stays fixed. decide which before using any formula. energy stored u = ½cv² = q²/2c. a dielectric of constant k multiplies c by k. battery on, v stays. battery off, q stays. after disconnecting the battery, a dielectric lowers v. it does not raise q.">
+<header><span class="chip line">Physics</span><span class="mk">≈5 marks</span></header>
+<h3>Electrostatic Potential and Capacitance</h3>
+<h4 class="lbl">Rules</h4><ul><li>Capacitors in series: 1/C adds. In parallel: C adds. This is the reverse of resistors.</li><li>Battery connected: V stays fixed. Battery disconnected: Q stays fixed. Decide which before using any formula.</li><li>Energy stored U = ½CV² = Q²/2C. A dielectric of constant K multiplies C by K.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Battery on, V stays. Battery off, Q stays.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>After disconnecting the battery, a dielectric lowers V. It does not raise Q.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="current electricity terminal voltage v = e − ir. power to the load is maximum when r = r. metre bridge at balance: r/s = l/(100 − l). a potentiometer draws no current at balance. kirchhoff: the junction rule is charge conservation and the loop rule is energy conservation. fix a loop direction and keep it. colour code: b b roy of great britain has a very good wife (black, brown, red, orange, yellow, green, blue, violet, grey, white). flipping the sign of ir when the cell is being charged.">
+<header><span class="chip line">Physics</span><span class="mk">≈6 marks</span></header>
+<h3>Current Electricity</h3>
+<h4 class="lbl">Rules</h4><ul><li>Terminal voltage V = E − Ir. Power to the load is maximum when R = r.</li><li>Metre bridge at balance: R/S = l/(100 − l). A potentiometer draws no current at balance.</li><li>Kirchhoff: the junction rule is charge conservation and the loop rule is energy conservation. Fix a loop direction and keep it.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Colour code: B B ROY of Great Britain has a Very Good Wife (Black, Brown, Red, Orange, Yellow, Green, Blue, Violet, Grey, White).</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Flipping the sign of Ir when the cell is being charged.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="moving charges and magnetism straight wire: thumb along the current, fingers curl along b. loop: fingers along the current, thumb along b. f = qv × b and r = mv/qb. the period t = 2πm/qb does not depend on speed. galvanometer to ammeter: a small shunt in parallel. to voltmeter: a large resistance in series. fbi for fleming's left hand: force thumb, b first finger, i second finger. apsv: ammeter parallel, series voltmeter. applying the force rule to a negative charge without reversing the direction.">
+<header><span class="chip line">Physics</span><span class="mk">≈6 marks</span></header>
+<h3>Moving Charges and Magnetism</h3>
+<h4 class="lbl">Rules</h4><ul><li>Straight wire: thumb along the current, fingers curl along B. Loop: fingers along the current, thumb along B.</li><li>F = qv × B and r = mv/qB. The period T = 2πm/qB does not depend on speed.</li><li>Galvanometer to ammeter: a small shunt in parallel. To voltmeter: a large resistance in series.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>FBI for Fleming's left hand: Force thumb, B first finger, I second finger. APSV: Ammeter Parallel, Series Voltmeter.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Applying the force rule to a negative charge without reversing the direction.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="magnetism and matter diamagnetic: weak repulsion, small negative susceptibility, independent of temperature. paramagnetic: weak attraction, small positive susceptibility, χ ∝ 1/t (curie). ferromagnetic: strong attraction, large positive susceptibility. magnetic field lines form closed loops. inside a bar magnet they run from s to n. torque on a magnetic dipole in a field: τ = mb sinθ. dia = denied (repelled). para = pulled weakly. ferro = fiercely pulled. saying field lines start at n and end at s.">
+<header><span class="chip line">Physics</span><span class="mk">≈5 marks</span></header>
+<h3>Magnetism and Matter</h3>
+<h4 class="lbl">Rules</h4><ul><li>Diamagnetic: weak repulsion, small negative susceptibility, independent of temperature. Paramagnetic: weak attraction, small positive susceptibility, χ ∝ 1/T (Curie). Ferromagnetic: strong attraction, large positive susceptibility.</li><li>Magnetic field lines form closed loops. Inside a bar magnet they run from S to N.</li><li>Torque on a magnetic dipole in a field: τ = mB sinθ.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Dia = Denied (repelled). Para = Pulled weakly. Ferro = Fiercely pulled.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Saying field lines start at N and end at S.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="electromagnetic induction lenz's law: the induced current opposes the change in flux, not the flux itself. emf = −dφ/dt. motional emf = blv. energy in an inductor u = ½li². flux increasing: the induced field opposes it. flux decreasing: the induced field supports it. nature dislikes change. writing 'opposes the flux' instead of 'opposes the change in flux'.">
+<header><span class="chip line">Physics</span><span class="mk">≈4 marks</span></header>
+<h3>Electromagnetic Induction</h3>
+<h4 class="lbl">Rules</h4><ul><li>Lenz's law: the induced current opposes the change in flux, not the flux itself.</li><li>emf = −dΦ/dt. Motional emf = Blv. Energy in an inductor U = ½LI².</li><li>Flux increasing: the induced field opposes it. Flux decreasing: the induced field supports it.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Nature dislikes change.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Writing 'opposes the flux' instead of 'opposes the change in flux'.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="alternating current vrms = v₀/√2 and irms = i₀/√2. meters read rms values. z = √(r² + (x_l − x_c)²). at resonance x_l = x_c, z = r, current is maximum and ω₀ = 1/√(lc). power factor cos φ = r/z. a pure inductor or capacitor uses no average power. transformer: vs/vp = ns/np. a step-up transformer raises voltage and lowers current. civil: in a capacitor i leads v. in an inductor v leads i. using peak values in average power formulas.">
+<header><span class="chip line">Physics</span><span class="mk">≈2 marks</span></header>
+<h3>Alternating Current</h3>
+<h4 class="lbl">Rules</h4><ul><li>Vrms = V₀/√2 and Irms = I₀/√2. Meters read rms values.</li><li>Z = √(R² + (X_L − X_C)²). At resonance X_L = X_C, Z = R, current is maximum and ω₀ = 1/√(LC).</li><li>Power factor cos φ = R/Z. A pure inductor or capacitor uses no average power.</li><li>Transformer: Vs/Vp = Ns/Np. A step-up transformer raises voltage and lowers current.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>CIVIL: in a capacitor I leads V. In an inductor V leads I.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Using peak values in average power formulas.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="electromagnetic waves displacement current i_d = ε₀ dφ_e/dt. it keeps ampere's law consistent across a capacitor gap. e and b are perpendicular to each other and to the direction of travel, in phase, with e/b = c = 1/√(μ₀ε₀). in order of increasing frequency: radio, microwave, infrared, visible, ultraviolet, x-ray, gamma. raging martians invaded venus using x-ray guns. listing the spectrum in wavelength order when the question asks for frequency order.">
+<header><span class="chip line">Physics</span><span class="mk">≈4 marks</span></header>
+<h3>Electromagnetic Waves</h3>
+<h4 class="lbl">Rules</h4><ul><li>Displacement current I_d = ε₀ dΦ_E/dt. It keeps Ampere's law consistent across a capacitor gap.</li><li>E and B are perpendicular to each other and to the direction of travel, in phase, with E/B = c = 1/√(μ₀ε₀).</li><li>In order of increasing frequency: radio, microwave, infrared, visible, ultraviolet, X-ray, gamma.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Raging Martians Invaded Venus Using X-ray Guns.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Listing the spectrum in wavelength order when the question asks for frequency order.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="ray optics and optical instruments new cartesian convention: distances from the pole, positive along the direction of the incident light. mirror: 1/v + 1/u = 1/f. lens: 1/v − 1/u = 1/f. lens maker's formula: 1/f = (n − 1)(1/r₁ − 1/r₂). total internal reflection needs light going from denser to rarer and an angle above the critical angle, sin c = 1/n. telescope in normal adjustment: m = f_o/f_e. a compound microscope has a short-focus objective. mirror plus, lens minus. forgetting that u is negative for a real object.">
+<header><span class="chip line">Physics</span><span class="mk">≈10 marks</span></header>
+<h3>Ray Optics and Optical Instruments</h3>
+<h4 class="lbl">Rules</h4><ul><li>New Cartesian convention: distances from the pole, positive along the direction of the incident light.</li><li>Mirror: 1/v + 1/u = 1/f. Lens: 1/v − 1/u = 1/f. Lens maker's formula: 1/f = (n − 1)(1/R₁ − 1/R₂).</li><li>Total internal reflection needs light going from denser to rarer and an angle above the critical angle, sin C = 1/n.</li><li>Telescope in normal adjustment: M = f_o/f_e. A compound microscope has a short-focus objective.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Mirror plus, Lens minus.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Forgetting that u is negative for a real object.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="wave optics fringe width β = λd/d. bright at path difference nλ, dark at (n + ½)λ. single slit: the first minimum is at a sinθ = λ. the central maximum is twice as wide as the others. interference fringes are equal in width. diffraction fringes are not. interference is even. diffraction has a fat middle. swapping d (slit separation) with d (screen distance).">
+<header><span class="chip line">Physics</span><span class="mk">≈4 marks</span></header>
+<h3>Wave Optics</h3>
+<h4 class="lbl">Rules</h4><ul><li>Fringe width β = λD/d. Bright at path difference nλ, dark at (n + ½)λ.</li><li>Single slit: the first minimum is at a sinθ = λ. The central maximum is twice as wide as the others.</li><li>Interference fringes are equal in width. Diffraction fringes are not.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Interference is even. Diffraction has a fat middle.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Swapping d (slit separation) with D (screen distance).</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="dual nature of radiation and matter einstein: k_max = hν − φ. stopping potential: ev₀ = k_max. frequency sets k_max. intensity sets the photocurrent. below the threshold frequency there is no emission at any intensity. de broglie: λ = h/p = h/√(2mk). for an electron through v volts, λ ≈ 12.27/√v å. frequency fixes energy. intensity fixes count. saying a brighter light gives faster photoelectrons.">
+<header><span class="chip line">Physics</span><span class="mk">≈4 marks</span></header>
+<h3>Dual Nature of Radiation and Matter</h3>
+<h4 class="lbl">Rules</h4><ul><li>Einstein: K_max = hν − φ. Stopping potential: eV₀ = K_max.</li><li>Frequency sets K_max. Intensity sets the photocurrent. Below the threshold frequency there is no emission at any intensity.</li><li>de Broglie: λ = h/p = h/√(2mK). For an electron through V volts, λ ≈ 12.27/√V Å.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Frequency fixes energy. Intensity fixes count.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Saying a brighter light gives faster photoelectrons.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="atoms bohr: r ∝ n², v ∝ 1/n and e_n = −13.6/n² ev. series end at n = 1 (lyman, ultraviolet), n = 2 (balmer, visible) and n = 3 (paschen, infrared). 1/λ = r(1/n₁² − 1/n₂²), with r = 1.097 × 10⁷ m⁻¹. lyman uv, balmer visible, paschen infrared: lower levels 1, 2, 3. using the upper level where the question gives the lower.">
+<header><span class="chip line">Physics</span><span class="mk">≈4 marks</span></header>
+<h3>Atoms</h3>
+<h4 class="lbl">Rules</h4><ul><li>Bohr: r ∝ n², v ∝ 1/n and E_n = −13.6/n² eV.</li><li>Series end at n = 1 (Lyman, ultraviolet), n = 2 (Balmer, visible) and n = 3 (Paschen, infrared).</li><li>1/λ = R(1/n₁² − 1/n₂²), with R = 1.097 × 10⁷ m⁻¹.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Lyman UV, Balmer visible, Paschen infrared: lower levels 1, 2, 3.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Using the upper level where the question gives the lower.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="nuclei nuclear radius r = r₀a^(1/3), so density is the same for all nuclei. 1 u = 931.5 mev/c². binding energy = mass defect (in u) × 931.5 mev. binding energy per nucleon peaks near iron. light nuclei release energy by fusion and heavy ones by fission. n = n₀(½)^(t/t) and the decay constant λ = 0.693/t. light fuse, heavy split, iron is the middle. mixing mass in kg and in u within one calculation.">
+<header><span class="chip line">Physics</span><span class="mk">≈4 marks</span></header>
+<h3>Nuclei</h3>
+<h4 class="lbl">Rules</h4><ul><li>Nuclear radius R = R₀A^(1/3), so density is the same for all nuclei.</li><li>1 u = 931.5 MeV/c². Binding energy = mass defect (in u) × 931.5 MeV.</li><li>Binding energy per nucleon peaks near iron. Light nuclei release energy by fusion and heavy ones by fission.</li><li>N = N₀(½)^(t/T) and the decay constant λ = 0.693/T.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Light fuse, heavy split, iron is the middle.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Mixing mass in kg and in u within one calculation.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="P" data-text="semiconductor electronics n-type: pentavalent donor (p, as, sb), electrons are the majority carriers. p-type: trivalent acceptor (b, al, in), holes are the majority carriers. forward bias narrows the depletion layer. reverse bias widens it. a rectifier uses the one-way conduction of a diode. half-wave uses one diode. full-wave uses two or four. pentavalent gives negative carriers. trivalent gives positive holes. drawing the diode symbol with the arrow reversed.">
+<header><span class="chip line">Physics</span><span class="mk">≈7 marks</span></header>
+<h3>Semiconductor Electronics</h3>
+<h4 class="lbl">Rules</h4><ul><li>N-type: pentavalent donor (P, As, Sb), electrons are the majority carriers. P-type: trivalent acceptor (B, Al, In), holes are the majority carriers.</li><li>Forward bias narrows the depletion layer. Reverse bias widens it.</li><li>A rectifier uses the one-way conduction of a diode. Half-wave uses one diode. Full-wave uses two or four.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Pentavalent gives Negative carriers. Trivalent gives Positive holes.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Drawing the diode symbol with the arrow reversed.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="solutions raoult's law: p = p°x. colligative properties depend on the number of particles, not their identity. with the van't hoff factor i: δt_f = ik_f m and π = icrt. i &gt; 1 for dissociation and i &lt; 1 for association. positive deviation: weaker a–b attraction, δh_mix &gt; 0, vapour pressure above ideal. negative deviation is the opposite. colligative = count, not character. using masses where moles are needed.">
+<header><span class="chip line">Chemistry</span><span class="mk">7 marks</span></header>
+<h3>Solutions</h3>
+<h4 class="lbl">Rules</h4><ul><li>Raoult's law: p = p°x. Colligative properties depend on the number of particles, not their identity.</li><li>With the van't Hoff factor i: ΔT_f = iK_f m and π = iCRT. i &gt; 1 for dissociation and i &lt; 1 for association.</li><li>Positive deviation: weaker A–B attraction, ΔH_mix &gt; 0, vapour pressure above ideal. Negative deviation is the opposite.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Colligative = Count, not Character.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Using masses where moles are needed.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="electrochemistry e°cell = e°cathode − e°anode. oxidation at the anode, reduction at the cathode. nernst at 298 k: e = e° − (0.059/n) log q. δg° = −nfe°. λm = κ × 1000/m in s cm² mol⁻¹, with m in mol l⁻¹. kohlrausch: λ°m is the sum of the ion contributions. faraday: m = zit, and 1 f = 96,500 c. leo says ger: lose electrons is oxidation, gain electrons is reduction. an ox, red cat. subtracting the wrong way round. write cathode minus anode every time.">
+<header><span class="chip line">Chemistry</span><span class="mk">9 marks</span></header>
+<h3>Electrochemistry</h3>
+<h4 class="lbl">Rules</h4><ul><li>E°cell = E°cathode − E°anode. Oxidation at the anode, reduction at the cathode.</li><li>Nernst at 298 K: E = E° − (0.059/n) log Q. ΔG° = −nFE°.</li><li>Λm = κ × 1000/M in S cm² mol⁻¹, with M in mol L⁻¹. Kohlrausch: Λ°m is the sum of the ion contributions.</li><li>Faraday: m = ZIt, and 1 F = 96,500 C.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>LEO says GER: Lose Electrons is Oxidation, Gain Electrons is Reduction. AN OX, RED CAT.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Subtracting the wrong way round. Write cathode minus anode every time.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="chemical kinetics order comes from experiment, not from the balanced equation. units of k: zero order mol l⁻¹ s⁻¹, first order s⁻¹, second order l mol⁻¹ s⁻¹. first order: t½ = 0.693/k, independent of concentration, and k = (2.303/t) log([r]₀/[r]). zero order: t½ = [r]₀/2k. arrhenius: k = ae^(−ea/rt) and log(k₂/k₁) = (ea/2.303r)(1/t₁ − 1/t₂). first order: the half-life never changes. reading the order off the coefficients of the equation.">
+<header><span class="chip line">Chemistry</span><span class="mk">7 marks</span></header>
+<h3>Chemical Kinetics</h3>
+<h4 class="lbl">Rules</h4><ul><li>Order comes from experiment, not from the balanced equation.</li><li>Units of k: zero order mol L⁻¹ s⁻¹, first order s⁻¹, second order L mol⁻¹ s⁻¹.</li><li>First order: t½ = 0.693/k, independent of concentration, and k = (2.303/t) log([R]₀/[R]). Zero order: t½ = [R]₀/2k.</li><li>Arrhenius: k = Ae^(−Ea/RT) and log(k₂/k₁) = (Ea/2.303R)(1/T₁ − 1/T₂).</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>First order: the half-life never changes.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Reading the order off the coefficients of the equation.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="the d- and f-block elements exceptions: cr is 3d⁵4s¹ and cu is 3d¹⁰4s¹. the highest oxidation state in the 3d series is +7 for mn. it rises up to mn and then falls. colour comes from d–d transitions, so d⁰ and d¹⁰ ions such as sc³⁺ and zn²⁺ are colourless. lanthanoid contraction is a steady fall in size across the 4f series. it makes 4d and 5d elements of a group alike in size. mn is the multi-valent king. counting zn, cd and hg as transition elements in a 'why' question.">
+<header><span class="chip line">Chemistry</span><span class="mk">7 marks</span></header>
+<h3>The d- and f-Block Elements</h3>
+<h4 class="lbl">Rules</h4><ul><li>Exceptions: Cr is 3d⁵4s¹ and Cu is 3d¹⁰4s¹.</li><li>The highest oxidation state in the 3d series is +7 for Mn. It rises up to Mn and then falls.</li><li>Colour comes from d–d transitions, so d⁰ and d¹⁰ ions such as Sc³⁺ and Zn²⁺ are colourless.</li><li>Lanthanoid contraction is a steady fall in size across the 4f series. It makes 4d and 5d elements of a group alike in size.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Mn is the multi-valent king.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Counting Zn, Cd and Hg as transition elements in a 'why' question.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="coordination compounds name ligands in alphabetical order, then the metal. anionic complexes end in -ate. show the oxidation state in roman numerals. [ni(cn)₄]²⁻ is square planar (dsp², diamagnetic). [nicl₄]²⁻ is tetrahedral (sp³, paramagnetic). strong-field ligands (cn⁻, co, en, nh₃) pair electrons and give low spin. halides and h₂o are weak field. isomerism to know: linkage, ionisation, hydrate, coordination, geometrical and optical. c and n donors are strong. halides are weak. ordering ligands alphabetically by prefix, such as di- or tri-. ignore prefixes.">
+<header><span class="chip line">Chemistry</span><span class="mk">7 marks</span></header>
+<h3>Coordination Compounds</h3>
+<h4 class="lbl">Rules</h4><ul><li>Name ligands in alphabetical order, then the metal. Anionic complexes end in -ate. Show the oxidation state in Roman numerals.</li><li>[Ni(CN)₄]²⁻ is square planar (dsp², diamagnetic). [NiCl₄]²⁻ is tetrahedral (sp³, paramagnetic).</li><li>Strong-field ligands (CN⁻, CO, en, NH₃) pair electrons and give low spin. Halides and H₂O are weak field.</li><li>Isomerism to know: linkage, ionisation, hydrate, coordination, geometrical and optical.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>C and N donors are strong. Halides are weak.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Ordering ligands alphabetically by prefix, such as di- or tri-. Ignore prefixes.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="haloalkanes and haloarenes sn1 order is 3° &gt; 2° &gt; 1° (carbocation stability) with racemisation. sn2 order is 1° &gt; 2° &gt; 3° with inversion. leaving-group ability i⁻ &gt; br⁻ &gt; cl⁻ &gt; f⁻, so reactivity is ri &gt; rbr &gt; rcl. finkelstein gives iodides (nai in dry acetone). swarts gives fluorides (agf, hg₂f₂, sbf₃). chlorobenzene resists nucleophilic substitution: resonance gives the c–cl bond partial double-bond character, and the carbon is sp². sn1 counts 3-2-1. sn2 counts 1-2-3. treating a racemic product as a sign of sn2.">
+<header><span class="chip line">Chemistry</span><span class="mk">6 marks</span></header>
+<h3>Haloalkanes and Haloarenes</h3>
+<h4 class="lbl">Rules</h4><ul><li>SN1 order is 3° &gt; 2° &gt; 1° (carbocation stability) with racemisation. SN2 order is 1° &gt; 2° &gt; 3° with inversion.</li><li>Leaving-group ability I⁻ &gt; Br⁻ &gt; Cl⁻ &gt; F⁻, so reactivity is RI &gt; RBr &gt; RCl.</li><li>Finkelstein gives iodides (NaI in dry acetone). Swarts gives fluorides (AgF, Hg₂F₂, SbF₃).</li><li>Chlorobenzene resists nucleophilic substitution: resonance gives the C–Cl bond partial double-bond character, and the carbon is sp².</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>SN1 counts 3-2-1. SN2 counts 1-2-3.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Treating a racemic product as a sign of SN2.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="alcohols, phenols and ethers lucas test (zncl₂/conc. hcl): 3° turns turbid at once, 2° in about 5 minutes and 1° does not at room temperature. phenol is more acidic than an alcohol because the phenoxide ion is stabilised by resonance. electron-withdrawing groups raise acidity. dehydration with conc. h₂so₄: 443 k gives an alkene and 413 k gives an ether. williamson synthesis: sodium alkoxide plus a primary alkyl halide. lower temperature, ether: two molecules join. higher temperature, alkene. using a tertiary halide in the williamson synthesis. it eliminates.">
+<header><span class="chip line">Chemistry</span><span class="mk">6 marks</span></header>
+<h3>Alcohols, Phenols and Ethers</h3>
+<h4 class="lbl">Rules</h4><ul><li>Lucas test (ZnCl₂/conc. HCl): 3° turns turbid at once, 2° in about 5 minutes and 1° does not at room temperature.</li><li>Phenol is more acidic than an alcohol because the phenoxide ion is stabilised by resonance. Electron-withdrawing groups raise acidity.</li><li>Dehydration with conc. H₂SO₄: 443 K gives an alkene and 413 K gives an ether.</li><li>Williamson synthesis: sodium alkoxide plus a primary alkyl halide.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Lower temperature, ether: two molecules join. Higher temperature, alkene.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Using a tertiary halide in the Williamson synthesis. It eliminates.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="aldehydes, ketones and carboxylic acids tollens' (silver mirror) and fehling's (red precipitate, aliphatic aldehydes only) detect aldehydes. iodoform detects ch₃co– and ch₃ch(oh)–. rosenmund: acid chloride to aldehyde (h₂, pd/baso₄). stephen: nitrile to aldehyde (sncl₂/hcl). etard: toluene to benzaldehyde. aldol needs an α-hydrogen. cannizzaro needs none (conc. naoh). acid strength: carboxylic acid &gt; phenol &gt; alcohol. electron-withdrawing groups raise acid strength. aldol asks for alpha-h. cannizzaro cannot have it. saying that benzaldehyde gives fehling's test.">
+<header><span class="chip line">Chemistry</span><span class="mk">8 marks</span></header>
+<h3>Aldehydes, Ketones and Carboxylic Acids</h3>
+<h4 class="lbl">Rules</h4><ul><li>Tollens' (silver mirror) and Fehling's (red precipitate, aliphatic aldehydes only) detect aldehydes. Iodoform detects CH₃CO– and CH₃CH(OH)–.</li><li>Rosenmund: acid chloride to aldehyde (H₂, Pd/BaSO₄). Stephen: nitrile to aldehyde (SnCl₂/HCl). Etard: toluene to benzaldehyde.</li><li>Aldol needs an α-hydrogen. Cannizzaro needs none (conc. NaOH).</li><li>Acid strength: carboxylic acid &gt; phenol &gt; alcohol. Electron-withdrawing groups raise acid strength.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Aldol Asks for alpha-H. Cannizzaro Cannot have it.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Saying that benzaldehyde gives Fehling's test.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="amines in water: methylamines 2° &gt; 1° &gt; 3° &gt; nh₃. ethylamines 2° &gt; 3° &gt; 1° &gt; nh₃. aromatic amines are weaker than aliphatic ones. hinsberg: the 1° product dissolves in alkali, the 2° product does not, and 3° does not react. carbylamine test: only primary amines (foul smell). gabriel phthalimide gives pure 1° aliphatic amines. hoffmann bromamide gives an amine with one carbon fewer. diazonium salts: sandmeyer (cucl, cubr, cucn), gattermann (cu powder) and coupling to azo dyes. methyl: 2-1-3. ethyl: 2-3-1. hoffmann hands over a carbon. using the gabriel synthesis for aromatic amines.">
+<header><span class="chip line">Chemistry</span><span class="mk">6 marks</span></header>
+<h3>Amines</h3>
+<h4 class="lbl">Rules</h4><ul><li>In water: methylamines 2° &gt; 1° &gt; 3° &gt; NH₃. Ethylamines 2° &gt; 3° &gt; 1° &gt; NH₃. Aromatic amines are weaker than aliphatic ones.</li><li>Hinsberg: the 1° product dissolves in alkali, the 2° product does not, and 3° does not react. Carbylamine test: only primary amines (foul smell).</li><li>Gabriel phthalimide gives pure 1° aliphatic amines. Hoffmann bromamide gives an amine with one carbon fewer.</li><li>Diazonium salts: Sandmeyer (CuCl, CuBr, CuCN), Gattermann (Cu powder) and coupling to azo dyes.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Methyl: 2-1-3. Ethyl: 2-3-1. Hoffmann hands over a carbon.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Using the Gabriel synthesis for aromatic amines.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="C" data-text="biomolecules sucrose is non-reducing because both anomeric carbons are tied up in the glycosidic bond. maltose and lactose are reducing. starch is amylose plus amylopectin (α-links). cellulose has β-links, which humans cannot digest. dna pairs: a=t with two hydrogen bonds and g≡c with three. rna has uracil and ribose. deficiency: vitamin a night blindness, b₁ beri-beri, c scurvy, d rickets, k delayed clotting. a=t two, g≡c three. stating that rna contains thymine.">
+<header><span class="chip line">Chemistry</span><span class="mk">7 marks</span></header>
+<h3>Biomolecules</h3>
+<h4 class="lbl">Rules</h4><ul><li>Sucrose is non-reducing because both anomeric carbons are tied up in the glycosidic bond. Maltose and lactose are reducing.</li><li>Starch is amylose plus amylopectin (α-links). Cellulose has β-links, which humans cannot digest.</li><li>DNA pairs: A=T with two hydrogen bonds and G≡C with three. RNA has uracil and ribose.</li><li>Deficiency: vitamin A night blindness, B₁ beri-beri, C scurvy, D rickets, K delayed clotting.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>A=T two, G≡C three.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Stating that RNA contains thymine.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="relations and functions an equivalence relation is reflexive, symmetric and transitive. check all three. bijective means one-one and onto. only bijective functions have inverses. from a set of m elements to a set of n elements there are nᵐ functions. rst: reflexive, symmetric, transitive. checking symmetry with a single example instead of a general proof.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit I · 8 marks</span></header>
+<h3>Relations and Functions</h3>
+<h4 class="lbl">Rules</h4><ul><li>An equivalence relation is reflexive, symmetric and transitive. Check all three.</li><li>Bijective means one-one and onto. Only bijective functions have inverses.</li><li>From a set of m elements to a set of n elements there are nᵐ functions.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>RST: Reflexive, Symmetric, Transitive.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Checking symmetry with a single example instead of a general proof.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="inverse trigonometric functions principal values: sin⁻¹ ∈ [−π/2, π/2], tan⁻¹ ∈ (−π/2, π/2), cos⁻¹ ∈ [0, π], cot⁻¹ ∈ (0, π). sin⁻¹x + cos⁻¹x = π/2 and tan⁻¹x + cot⁻¹x = π/2. tan⁻¹x + tan⁻¹y = tan⁻¹((x + y)/(1 − xy)) only when xy &lt; 1. the sine family sits around zero. the cosine family sits from 0 to π. dropping the condition xy &lt; 1.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit I · 8 marks</span></header>
+<h3>Inverse Trigonometric Functions</h3>
+<h4 class="lbl">Rules</h4><ul><li>Principal values: sin⁻¹ ∈ [−π/2, π/2], tan⁻¹ ∈ (−π/2, π/2), cos⁻¹ ∈ [0, π], cot⁻¹ ∈ (0, π).</li><li>sin⁻¹x + cos⁻¹x = π/2 and tan⁻¹x + cot⁻¹x = π/2.</li><li>tan⁻¹x + tan⁻¹y = tan⁻¹((x + y)/(1 − xy)) only when xy &lt; 1.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>The sine family sits around zero. The cosine family sits from 0 to π.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Dropping the condition xy &lt; 1.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="matrices (ab)ᵀ = bᵀaᵀ and (ab)⁻¹ = b⁻¹a⁻¹. reverse the order, like shoes and socks. an m×n matrix times an n×p matrix is m×p. the inner numbers must match. every square matrix is a symmetric part plus a skew-symmetric part: a = ½(a + aᵀ) + ½(a − aᵀ). shoes and socks: reverse the order. writing ab = ba.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit II · 10 marks</span></header>
+<h3>Matrices</h3>
+<h4 class="lbl">Rules</h4><ul><li>(AB)ᵀ = BᵀAᵀ and (AB)⁻¹ = B⁻¹A⁻¹. Reverse the order, like shoes and socks.</li><li>An m×n matrix times an n×p matrix is m×p. The inner numbers must match.</li><li>Every square matrix is a symmetric part plus a skew-symmetric part: A = ½(A + Aᵀ) + ½(A − Aᵀ).</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Shoes and socks: reverse the order.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Writing AB = BA.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="determinants |ka| = kⁿ|a| for an n×n matrix. |adj a| = |a|ⁿ⁻¹. a·adj a = |a|i. a⁻¹ exists only if |a| ≠ 0. for ax = b: |a| ≠ 0 gives a unique solution. |a| = 0 with (adj a)b = 0 gives infinitely many solutions, and (adj a)b ≠ 0 gives none. area of a triangle = ½ times the absolute value of the coordinate determinant. zero determinant: ask what (adj a)b is. forgetting the cofactor sign pattern + − +.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit II · 10 marks</span></header>
+<h3>Determinants</h3>
+<h4 class="lbl">Rules</h4><ul><li>|kA| = kⁿ|A| for an n×n matrix. |adj A| = |A|ⁿ⁻¹.</li><li>A·adj A = |A|I. A⁻¹ exists only if |A| ≠ 0.</li><li>For AX = B: |A| ≠ 0 gives a unique solution. |A| = 0 with (adj A)B = 0 gives infinitely many solutions, and (adj A)B ≠ 0 gives none.</li><li>Area of a triangle = ½ times the absolute value of the coordinate determinant.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Zero determinant: ask what (adj A)B is.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Forgetting the cofactor sign pattern + − +.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="continuity and differentiability continuity at a: lhl = rhl = f(a). differentiable implies continuous, not the other way round. for x^x, (sin x)^x and similar forms, take logarithms first. for inverse trigonometric derivatives, substitute x = tanθ or sinθ to simplify before differentiating. chain rule: differentiate the outside, then multiply by the derivative of the inside. differentiable ⇒ continuous. not the reverse (|x| at 0). skipping the derivative of the inside function.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit III · 35 marks</span></header>
+<h3>Continuity and Differentiability</h3>
+<h4 class="lbl">Rules</h4><ul><li>Continuity at a: LHL = RHL = f(a). Differentiable implies continuous, not the other way round.</li><li>For x^x, (sin x)^x and similar forms, take logarithms first.</li><li>For inverse trigonometric derivatives, substitute x = tanθ or sinθ to simplify before differentiating.</li><li>Chain rule: differentiate the outside, then multiply by the derivative of the inside.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Differentiable ⇒ continuous. Not the reverse (|x| at 0).</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Skipping the derivative of the inside function.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="applications of derivatives rates: dv/dt = (dv/dr)(dr/dt). write down what is changing before differentiating. tangent slope m = dy/dx. normal slope = −1/m. maxima and minima: write the quantity as a function of one variable, set the derivative to zero, then test with the second derivative. f′(x) &gt; 0 means increasing and f′(x) &lt; 0 means decreasing. express, differentiate, zero, test, answer with units. declaring a maximum without checking the second derivative.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit III · 35 marks</span></header>
+<h3>Applications of Derivatives</h3>
+<h4 class="lbl">Rules</h4><ul><li>Rates: dV/dt = (dV/dr)(dr/dt). Write down what is changing before differentiating.</li><li>Tangent slope m = dy/dx. Normal slope = −1/m.</li><li>Maxima and minima: write the quantity as a function of one variable, set the derivative to zero, then test with the second derivative.</li><li>f′(x) &gt; 0 means increasing and f′(x) &lt; 0 means decreasing.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Express, differentiate, zero, test, answer with units.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Declaring a maximum without checking the second derivative.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="integrals for integration by parts choose u by ilate: inverse, logarithmic, algebraic, trigonometric, exponential. ∫eˣ[f(x) + f′(x)]dx = eˣf(x) + c. ∫₀ᵃ f(x)dx = ∫₀ᵃ f(a − x)dx. an even function on [−a, a] gives 2∫₀ᵃ and an odd function gives 0. factor the denominator first. partial fractions split distinct linear factors as a/(x − a) + b/(x − b). ilate picks u. leaving out + c on an indefinite integral.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit III · 35 marks</span></header>
+<h3>Integrals</h3>
+<h4 class="lbl">Rules</h4><ul><li>For integration by parts choose u by ILATE: Inverse, Logarithmic, Algebraic, Trigonometric, Exponential.</li><li>∫eˣ[f(x) + f′(x)]dx = eˣf(x) + C.</li><li>∫₀ᵃ f(x)dx = ∫₀ᵃ f(a − x)dx. An even function on [−a, a] gives 2∫₀ᵃ and an odd function gives 0.</li><li>Factor the denominator first. Partial fractions split distinct linear factors as A/(x − a) + B/(x − b).</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>ILATE picks u.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Leaving out + C on an indefinite integral.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="applications of integrals sketch, shade, find the intersection points, then choose between a vertical and a horizontal strip. area between curves = ∫(upper − lower) dx. a circle x² + y² = a² has area πa². an ellipse has area πab. sketch first, integrate second. taking the lower curve minus the upper curve and getting a negative area.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit III · 35 marks</span></header>
+<h3>Applications of Integrals</h3>
+<h4 class="lbl">Rules</h4><ul><li>Sketch, shade, find the intersection points, then choose between a vertical and a horizontal strip.</li><li>Area between curves = ∫(upper − lower) dx.</li><li>A circle x² + y² = a² has area πa². An ellipse has area πab.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Sketch first, integrate second.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Taking the lower curve minus the upper curve and getting a negative area.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="differential equations order is the highest derivative. degree is its power when the equation is a polynomial in derivatives. variable separable: put all y terms with dy and all x terms with dx. homogeneous: put y = vx. linear: dy/dx + py = q, with integrating factor e^(∫p dx). a general solution has as many arbitrary constants as the order. linear form: p and q depend only on x. leaving the integrating factor off the right-hand side.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit III · 35 marks</span></header>
+<h3>Differential Equations</h3>
+<h4 class="lbl">Rules</h4><ul><li>Order is the highest derivative. Degree is its power when the equation is a polynomial in derivatives.</li><li>Variable separable: put all y terms with dy and all x terms with dx.</li><li>Homogeneous: put y = vx. Linear: dy/dx + Py = Q, with integrating factor e^(∫P dx).</li><li>A general solution has as many arbitrary constants as the order.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Linear form: P and Q depend only on x.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Leaving the integrating factor off the right-hand side.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="vectors the dot product is a scalar and uses cosθ. the cross product is a vector and uses sinθ. projection of a on b = a·b/|b|. parallelogram area = |a × b|. triangle area = ½|a × b|. the scalar triple product [a b c] is the volume of a parallelepiped. zero means coplanar. dot gives cosine. cross gives sine. writing a × b = b × a. the sign reverses.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit IV · 14 marks</span></header>
+<h3>Vectors</h3>
+<h4 class="lbl">Rules</h4><ul><li>The dot product is a scalar and uses cosθ. The cross product is a vector and uses sinθ.</li><li>Projection of a on b = a·b/|b|. Parallelogram area = |a × b|. Triangle area = ½|a × b|.</li><li>The scalar triple product [a b c] is the volume of a parallelepiped. Zero means coplanar.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Dot gives Cosine. Cross gives Sine.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Writing a × b = b × a. The sign reverses.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="three dimensional geometry the angle between two lines, or two planes, uses cosine of the angle between direction vectors, or normals. the angle between a line and a plane uses sine: sinθ = |b·n|/(|b||n|). distance from a point to a plane: |ax₁ + by₁ + cz₁ + d|/√(a² + b² + c²). shortest distance between skew lines: |(a₂ − a₁)·(b₁ × b₂)|/|b₁ × b₂|. for parallel lines use |(a₂ − a₁) × b|/|b|. line and plane: use sine. reading direction ratios from an equation that is not in standard form.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit IV · 14 marks</span></header>
+<h3>Three Dimensional Geometry</h3>
+<h4 class="lbl">Rules</h4><ul><li>The angle between two lines, or two planes, uses cosine of the angle between direction vectors, or normals.</li><li>The angle between a line and a plane uses sine: sinθ = |b·n|/(|b||n|).</li><li>Distance from a point to a plane: |ax₁ + by₁ + cz₁ + d|/√(a² + b² + c²).</li><li>Shortest distance between skew lines: |(a₂ − a₁)·(b₁ × b₂)|/|b₁ × b₂|. For parallel lines use |(a₂ − a₁) × b|/|b|.</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Line and plane: use Sine.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Reading direction ratios from an equation that is not in standard form.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="linear programming steps: define the variables, write the objective and constraints, draw the lines, shade the feasible region, list the corner points and evaluate z at each. for a bounded region the optimum is at a corner point. for an unbounded region, test the value against the open half-plane given by the objective before accepting it (the ncert method). corners decide. shading the wrong side of a constraint.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit V · 5 marks</span></header>
+<h3>Linear Programming</h3>
+<h4 class="lbl">Rules</h4><ul><li>Steps: define the variables, write the objective and constraints, draw the lines, shade the feasible region, list the corner points and evaluate Z at each.</li><li>For a bounded region the optimum is at a corner point.</li><li>For an unbounded region, test the value against the open half-plane given by the objective before accepting it (the NCERT method).</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Corners decide.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Shading the wrong side of a constraint.</p></div>
+</article>
+<article class="rule-card reveal" data-subj="M" data-text="probability conditional: p(a|b) = p(a∩b)/p(b). independent: p(a∩b) = p(a)p(b). bayes: draw the tree. p(eᵢ|a) = p(eᵢ)p(a|eᵢ) / σp(eⱼ)p(a|eⱼ). the denominator is the total probability of a. binomial: p(x = k) = ⁿcₖ pᵏ qⁿ⁻ᵏ, with mean np and variance npq. variance of a distribution = e(x²) − [e(x)]². bayes: tree, then total, then ratio. putting the probability of the cause, not of the effect, in the denominator.">
+<header><span class="chip line">Mathematics</span><span class="mk">Unit VI · 8 marks</span></header>
+<h3>Probability</h3>
+<h4 class="lbl">Rules</h4><ul><li>Conditional: P(A|B) = P(A∩B)/P(B). Independent: P(A∩B) = P(A)P(B).</li><li>Bayes: draw the tree. P(Eᵢ|A) = P(Eᵢ)P(A|Eᵢ) / ΣP(Eⱼ)P(A|Eⱼ). The denominator is the total probability of A.</li><li>Binomial: P(X = k) = ⁿCₖ pᵏ qⁿ⁻ᵏ, with mean np and variance npq.</li><li>Variance of a distribution = E(X²) − [E(X)]².</li></ul>
+<div class="hook"><span class="lbl">Memory hook</span><p>Bayes: Tree, then Total, then Ratio.</p></div>
+<div class="trap"><span class="lbl">Common trap</span><p>Putting the probability of the cause, not of the effect, in the denominator.</p></div>
+</article>
+</div>
+<div class="empty" id="rlEmpty" hidden>No chapter matches that search. Try a shorter word.</div>
+<p class="hint" style="margin-top:20px">Memory hooks are study aids. Some, such as the resistor colour-code sentence, are widely taught. Others were written by us. The syllabus topics follow the 2026-27 list reproduced on public pages, and chapters on the official PDF are the final word.</p>
+</div></section>
+
+<section id="drill" class="dark"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Flashcard drill</span><h2>Say it out loud, <em>then flip</em>.</h2>
+<p>One card per chapter. Cards you miss come back after a few others. Cards you know leave the deck until you reset it.</p></div>
+<div class="flash">
+<div><div class="fc"><button class="fc-card" id="fcCard" type="button" aria-live="polite"></button></div>
+<div class="fc-ctl"><button class="btn btn-ghost btn-sm" id="fcFlip" type="button">Flip card</button><button class="btn btn-sm known" id="fcKnow" type="button">I knew it</button><button class="btn btn-sm miss" id="fcMiss" type="button">I missed it</button></div></div>
+<div class="fc-side">
+<div class="field"><label for="fcSubj">Deck</label><select id="fcSubj"><option value="all">All subjects</option><option value="P">Physics</option><option value="C">Chemistry</option><option value="M">Mathematics</option></select></div>
+<div class="row"><div><span class="k" id="fcLeft">0</span><br><small>left</small></div><div><span class="k" id="fcKnown">0</span><br><small>known</small></div><div><span class="k" id="fcMissed">0</span><br><small>missed</small></div></div>
+<button class="btn btn-ghost btn-sm" id="fcReset" type="button" style="align-self:flex-start">Reset deck</button>
+<p style="font-size:13.5px">Progress is kept in this browser only, when your browser allows it.</p></div>
+</div></div></section>
+
+<section id="memory"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Memory methods</span><h2>How to make the rules <em>stay</em>.</h2><p>Reading again feels productive and fades fast. These methods take recall from the page to the head.</p></div>
+<div class="grid-gap c3 reveal">
+<div class="gcard"><span class="stamp">1</span><div class="ico"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 8h6M9 12h6"/></svg></div><h4>Blank-page recall</h4><p>Close the book. Write everything you remember about a chapter on a blank page, then add what you missed in another colour.</p></div>
+<div class="gcard"><span class="stamp">2</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h10"/></svg></div><h4>Formula, unit, condition</h4><p>Store each formula as a triple: the formula, its unit and when it applies. "ΔT_f = iK_f m: K_f in K kg mol⁻¹, m in mol per kg, dilute solution".</p></div>
+<div class="gcard"><span class="stamp">3</span><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></div><h4>Spaced revision</h4><p>Revisit new material after 1 day, 3 days, 7 days and 21 days. Each pass can be 10 minutes. A common study pattern, not a CBSE rule.</p></div>
+<div class="gcard"><span class="stamp">4</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0v4a2 2 0 0 1-2 2h-1v-6h3M5 12v4a2 2 0 0 0 2 2h1v-6H5"/></svg></div><h4>Teach it in two minutes</h4><p>Explain a derivation or a reaction to a friend or to a wall. Where you stumble is where to revise.</p></div>
+<div class="gcard"><span class="stamp">5</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg></div><h4>Derivation tick-list</h4><p>List the derivations and name reactions in each subject. Tick one only after writing it from scratch and comparing it with NCERT.</p></div>
+<div class="gcard"><span class="stamp">6</span><div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 15l3-4 3 2 4-6"/></svg></div><h4>Error log</h4><p>Write each mistake with its cause: concept, calculation, units, reading or time. Read the log before every test.</p></div>
+</div>
+<div class="sched reveal"><div><b>Day 1</b><span>Learn it and write the one-page summary.</span></div><div><b>Day 3</b><span>Blank-page recall, 10 minutes.</span></div><div><b>Day 7</b><span>Solve 5 questions without notes.</span></div><div><b>Day 21</b><span>Flashcards plus the error log.</span></div></div>
+</div></section>
+
+<section class="alt" id="hardest"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Hard chapters</span><h2>Why some chapters <em>feel</em> hard, and the first fix.</h2><p>This is EduAakashaa counselling judgement from common student difficulties, not exam data.</p></div>
+<div class="tbl-scroll reveal"><table><thead><tr><th>Chapter</th><th>Why it feels hard</th><th>First fix</th></tr></thead><tbody>
+<tr><td><b>Ray Optics</b><div class="hint">Physics</div></td><td>Sign conventions change every answer.</td><td>Draw the axis, mark the pole, write signs next to every given value before substituting.</td></tr>
+<tr><td><b>Alternating Current</b><div class="hint">Physics</div></td><td>Phasors and phase angles are abstract.</td><td>Learn the series LCR triangle and CIVIL, then do five resonance numericals.</td></tr>
+<tr><td><b>Electromagnetic Induction</b><div class="hint">Physics</div></td><td>Direction questions need a clear rule.</td><td>Use "flux up, oppose; flux down, support" and draw the induced field.</td></tr>
+<tr><td><b>Electrochemistry</b><div class="hint">Chemistry</div></td><td>Many formulas, and unit slips.</td><td>Make a one-page sheet with units: Nernst, ΔG°, κ, Λm, Faraday. Solve ten mixed numericals.</td></tr>
+<tr><td><b>Aldehydes, Ketones, Acids</b><div class="hint">Chemistry</div></td><td>Many name reactions with similar names.</td><td>Build one table: reaction, reactant, reagent, product. Learn 3 a day.</td></tr>
+<tr><td><b>Coordination Compounds</b><div class="hint">Chemistry</div></td><td>Naming and hybridisation rules together.</td><td>Practise naming 20 complexes aloud. Then do hybridisation with the strong-field and weak-field list.</td></tr>
+<tr><td><b>Three Dimensional Geometry</b><div class="hint">Maths</div></td><td>Many formulas that look alike.</td><td>Group formulas by what they find: angles, distances, planes. Write the three "uses sine or cosine" rules at the top.</td></tr>
+<tr><td><b>Probability</b><div class="hint">Maths</div></td><td>Reading the story, then choosing the formula.</td><td>Always draw the tree first. Bayes is the tree read backwards.</td></tr>
+<tr><td><b>Applications of Derivatives</b><div class="hint">Maths</div></td><td>Setting up the word problem.</td><td>Define variables, write the quantity, remove one variable with the constraint, then differentiate.</td></tr></tbody></table></div>
+</div></section>
+
+<section id="limits"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Limits</span><h2>How to use this <em>page</em> well.</h2></div>
+<div class="grid-gap c3 reveal">
+<div class="gcard"><span class="chip line">Our judgement</span><h4>Study aids, not the syllabus</h4><p>The rules summarise NCERT-level content so you can revise quickly. When a rule here and your NCERT text differ, follow NCERT and tell us.</p></div>
+<div class="gcard"><span class="chip line">Our judgement</span><h4>Hooks work if they are yours</h4><p>A memory hook helps only if you can recall it. Change the words to something that makes sense to you.</p></div>
+<div class="gcard"><span class="chip amber">Syllabus check</span><h4>Chapters follow the 2026-27 list</h4><p>We followed topic lists reproduced on public pages. Some topics, such as polarisation in Wave Optics and logic gates in Semiconductors, were not in those lists, so we left them out. Check the official PDF.</p></div>
+</div>
+<div class="hero-cta reveal" style="margin-top:30px"><a class="btn btn-primary" href="https://claude.ai/artifact/R39jk652ZTvWJjyBWyNJLn" target="_blank" rel="noopener">See rules turned into marks <span class="ar">&rarr;</span></a><a class="btn btn-ghost" href="https://claude.ai/artifact/6Qu8BNPhQd1AQJJK8PJPM8" target="_blank" rel="noopener">Back to the playbook</a></div>
+</div></section>
+
+<footer id="contact"><div class="wrap">
+<div class="foot-grid">
+<div class="foot-brand"><a class="brand" href="#top" aria-label="EduAakashaa"><span class="logo"><svg viewBox="0 0 42 42" aria-hidden="true"><polygon points="21,3 37,12 21,21 5,12" fill="#FF6B0A"/><polygon points="5,12 21,21 21,39 5,30" fill="#0E3A8A"/><polygon points="21,21 37,12 37,30 21,39" fill="#0A2560"/><polyline points="5,12 21,21 37,12" fill="none" stroke="#FBF7EE" stroke-width="1" opacity=".5"/></svg><img src="./eduaakashaa_logo.png" alt="EduAakashaa" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()"></span><span class="brand-txt"><span class="brand-name">Edu<span>Aakashaa</span></span></span></a>
+<p style="margin-top:16px;max-width:38ch">Education counselling for students and parents in Coimbatore and Dubai. Honest numbers, no hype, one clear next step.</p></div>
+<div><h4>Talk to us</h4><ul>
+<li>India: <span>+91-80157 22706</span><button class="copy" type="button" data-copy="+91-80157 22706">Copy</button></li>
+<li>UAE: <span>+971 50 516 8081</span><button class="copy" type="button" data-copy="+971 50 516 8081">Copy</button></li>
+<li><span>info@eduaakashaa.com</span><button class="copy" type="button" data-copy="info@eduaakashaa.com">Copy</button></li>
+<li><span>www.eduaakashaa.com</span><button class="copy" type="button" data-copy="www.eduaakashaa.com">Copy</button></li>
+<li>Coimbatore, Tamil Nadu &middot; Dubai, UAE</li></ul></div>
+<div><h4>More in this series</h4><ul><li><a href="https://claude.ai/artifact/6Qu8BNPhQd1AQJJK8PJPM8" target="_blank" rel="noopener">Board Score Playbook</a></li><li><a href="https://claude.ai/artifact/R39jk652ZTvWJjyBWyNJLn" target="_blank" rel="noopener">Answer Sheet Lab</a></li><li><a href="https://claude.ai/artifact/Jc292a1ouMx6Hds1VFT1nj" target="_blank" rel="noopener">Eligibility Gap Closer</a></li></ul></div>
+</div>
+<div class="foot-fine"><span>AI-assisted draft prepared for EduAakashaa counsellors and families. Dates, fees and cut-offs change each year, so confirm them on the official CBSE, JoSAA, NTA and university notices before you act.</span><span>&copy; EduAakashaa. Coimbatore &middot; Dubai.</span></div>
+</div></footer>
+<script>
+(function(){
+  var d=document, w=window;
+  var EA=w.EA={};
+  EA.cssVar=function(n){return getComputedStyle(d.documentElement).getPropertyValue(n).trim();};
+  EA.onTheme=function(cb){
+    try{var mq=w.matchMedia('(prefers-color-scheme: dark)');(mq.addEventListener?mq.addEventListener('change',cb):mq.addListener(cb));}catch(e){}
+    try{new MutationObserver(cb).observe(d.documentElement,{attributes:true,attributeFilter:['data-theme']});}catch(e){}
+  };
+  EA.store={
+    get:function(k,def){try{var v=w.localStorage.getItem(k);return v===null?def:JSON.parse(v);}catch(e){return def;}},
+    set:function(k,v){try{w.localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  };
+  EA.initTabs=function(root,cb){
+    var tabs=[].slice.call(root.querySelectorAll('[role=tab]'));
+    function sel(t){
+      tabs.forEach(function(x){
+        var on=x===t; x.setAttribute('aria-selected',on?'true':'false'); x.tabIndex=on?0:-1;
+        var p=d.getElementById(x.getAttribute('aria-controls')); if(p&&!on) p.hidden=true;
+      });
+      var sp=d.getElementById(t.getAttribute('aria-controls')); if(sp) sp.hidden=false;
+      if(cb) cb(t.getAttribute('data-tab'),t);
+    }
+    tabs.forEach(function(t,i){
+      t.addEventListener('click',function(){sel(t);});
+      t.addEventListener('keydown',function(e){
+        var n=null;
+        if(e.key==='ArrowRight')n=tabs[(i+1)%tabs.length];
+        if(e.key==='ArrowLeft')n=tabs[(i-1+tabs.length)%tabs.length];
+        if(n){e.preventDefault();n.focus();sel(n);}
+      });
+    });
+    return {select:function(id){var t=tabs.filter(function(x){return x.getAttribute('data-tab')===id;})[0];if(t)sel(t);}};
+  };
+  // burger
+  var b=d.querySelector('.burger'), nl=d.querySelector('.nav-links');
+  if(b&&nl){
+    b.addEventListener('click',function(){var o=nl.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});
+    nl.addEventListener('click',function(e){if(e.target.closest('a')){nl.classList.remove('open');b.setAttribute('aria-expanded','false');}});
+  }
+  // FAQ accordion
+  [].slice.call(d.querySelectorAll('.faq-item')).forEach(function(it){
+    var q=it.querySelector('.faq-q'), a=it.querySelector('.faq-a');
+    q.setAttribute('aria-expanded','false');
+    q.addEventListener('click',function(){
+      var open=it.classList.toggle('open');
+      q.setAttribute('aria-expanded',open?'true':'false');
+      a.style.maxHeight=open?Math.max(600,a.scrollHeight+40)+'px':'0px';
+    });
+  });
+  // reveal on scroll, always resolves to visible
+  var els=[].slice.call(d.querySelectorAll('.reveal'));
+  if('IntersectionObserver' in w && els.length){
+    var scrolled=false;
+    w.addEventListener('scroll',function(){scrolled=true;},{passive:true,once:true});
+    els.forEach(function(el){if(el.getBoundingClientRect().top>w.innerHeight*0.95)el.classList.add('pre');});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target);}});},{threshold:.06});
+    els.forEach(function(el){if(el.classList.contains('pre'))io.observe(el);});
+    setTimeout(function(){if(!scrolled)els.forEach(function(el){el.classList.remove('pre');});},2000);
+  }
+  // copy buttons
+  [].slice.call(d.querySelectorAll('[data-copy]')).forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var txt=btn.getAttribute('data-copy'), old=btn.textContent;
+      function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent=old;},1400);}
+      try{w.navigator.clipboard.writeText(txt).then(done,function(){sel();});}catch(e){sel();}
+      function sel(){var t=btn.previousElementSibling;if(t&&w.getSelection){var r=d.createRange();r.selectNodeContents(t);var s=w.getSelection();s.removeAllRanges();s.addRange(r);}btn.textContent='Selected';setTimeout(function(){btn.textContent=old;},1400);}
+    });
+  });
+})();
+
+</script>
+<script>
+
+(function(){
+  var d=document, DECK=[{"id": 0, "s": "P", "ch": "Electric Charges and Fields", "q": "Dipole: axial and equatorial field at the same large distance?", "a": "Axial = 2kp/r³ and equatorial = kp/r³ (opposite to p). Axial is double."}, {"id": 1, "s": "P", "ch": "Electrostatic Potential and Capacitance", "q": "Which capacitor combination adds directly?", "a": "Parallel. In series the reciprocals add, which is the reverse of resistors."}, {"id": 2, "s": "P", "ch": "Current Electricity", "q": "Metre bridge balance condition?", "a": "R/S = l/(100 − l), with l measured from the end where R is connected."}, {"id": 3, "s": "P", "ch": "Moving Charges and Magnetism", "q": "Galvanometer to ammeter, and to voltmeter?", "a": "Ammeter: small shunt in parallel. Voltmeter: large resistance in series."}, {"id": 4, "s": "P", "ch": "Magnetism and Matter", "q": "Which substance follows the Curie law, χ ∝ 1/T?", "a": "Paramagnetic. Diamagnetic susceptibility does not depend on temperature."}, {"id": 5, "s": "P", "ch": "Electromagnetic Induction", "q": "What does Lenz's law say?", "a": "The induced current flows so as to oppose the change in flux that produced it."}, {"id": 6, "s": "P", "ch": "Alternating Current", "q": "Resonance in a series LCR circuit?", "a": "ω₀ = 1/√(LC). Z = R, its minimum, so current is maximum."}, {"id": 7, "s": "P", "ch": "Electromagnetic Waves", "q": "Spectrum in order of increasing frequency?", "a": "Radio, microwave, infrared, visible, ultraviolet, X-ray, gamma."}, {"id": 8, "s": "P", "ch": "Ray Optics and Optical Instruments", "q": "Mirror formula and lens formula?", "a": "Mirror: 1/v + 1/u = 1/f. Lens: 1/v − 1/u = 1/f. Mirror plus, lens minus."}, {"id": 9, "s": "P", "ch": "Wave Optics", "q": "Young's double slit: fringe width?", "a": "β = λD/d, with D the screen distance and d the slit separation."}, {"id": 10, "s": "P", "ch": "Dual Nature of Radiation and Matter", "q": "What does the intensity of light change in the photoelectric effect?", "a": "The number of photoelectrons, so the photocurrent. K_max depends on frequency."}, {"id": 11, "s": "P", "ch": "Atoms", "q": "Which series is in the visible region?", "a": "Balmer: transitions down to n = 2."}, {"id": 12, "s": "P", "ch": "Nuclei", "q": "Why does fusion release energy for light nuclei?", "a": "Binding energy per nucleon rises towards iron, so joining light nuclei moves them up the curve."}, {"id": 13, "s": "P", "ch": "Semiconductor Electronics", "q": "Which dopant gives an n-type semiconductor?", "a": "A pentavalent donor such as P, As or Sb. Electrons become the majority carriers."}, {"id": 14, "s": "C", "ch": "Solutions", "q": "van't Hoff factor for dissociation and for association?", "a": "i > 1 for dissociation and i < 1 for association."}, {"id": 15, "s": "C", "ch": "Electrochemistry", "q": "How do you get E°cell?", "a": "E°cell = E°cathode − E°anode."}, {"id": 16, "s": "C", "ch": "Chemical Kinetics", "q": "First order half-life?", "a": "t½ = 0.693/k. It does not depend on the starting concentration."}, {"id": 17, "s": "C", "ch": "The d- and f-Block Elements", "q": "Which 3d element shows the highest oxidation state?", "a": "Mn, at +7."}, {"id": 18, "s": "C", "ch": "Coordination Compounds", "q": "[Ni(CN)₄]²⁻ and [NiCl₄]²⁻: geometry?", "a": "[Ni(CN)₄]²⁻ is square planar. [NiCl₄]²⁻ is tetrahedral."}, {"id": 19, "s": "C", "ch": "Haloalkanes and Haloarenes", "q": "SN1 and SN2 reactivity orders?", "a": "SN1: 3° > 2° > 1°. SN2: 1° > 2° > 3°."}, {"id": 20, "s": "C", "ch": "Alcohols, Phenols and Ethers", "q": "Ethanol with conc. H₂SO₄ at 443 K and at 413 K?", "a": "443 K gives ethene. 413 K gives ethoxyethane (ether)."}, {"id": 21, "s": "C", "ch": "Aldehydes, Ketones and Carboxylic Acids", "q": "Aldol or Cannizzaro: which needs an α-hydrogen?", "a": "Aldol needs an α-hydrogen. Cannizzaro is for aldehydes that have none."}, {"id": 22, "s": "C", "ch": "Amines", "q": "Which test is positive only for primary amines?", "a": "The carbylamine test (CHCl₃ with alcoholic KOH gives a foul-smelling isocyanide)."}, {"id": 23, "s": "C", "ch": "Biomolecules", "q": "Why is sucrose non-reducing?", "a": "Both anomeric carbons are used in the glycosidic link, so no free aldehyde or ketone group is left."}, {"id": 24, "s": "M", "ch": "Relations and Functions", "q": "When does a function have an inverse?", "a": "When it is bijective: both one-one and onto."}, {"id": 25, "s": "M", "ch": "Inverse Trigonometric Functions", "q": "Principal value ranges of sin⁻¹ and cos⁻¹?", "a": "sin⁻¹: [−π/2, π/2]. cos⁻¹: [0, π]."}, {"id": 26, "s": "M", "ch": "Matrices", "q": "Inverse of a product (AB)⁻¹?", "a": "B⁻¹A⁻¹. The order reverses."}, {"id": 27, "s": "M", "ch": "Determinants", "q": "If |A| = 0, how do you decide between no solution and infinite solutions?", "a": "Compute (adj A)B. Zero gives infinitely many solutions. Non-zero gives none."}, {"id": 28, "s": "M", "ch": "Continuity and Differentiability", "q": "Differentiable or continuous: which implies the other?", "a": "Differentiable implies continuous. The reverse is false, for example |x| at 0."}, {"id": 29, "s": "M", "ch": "Applications of Derivatives", "q": "Steps for an optimisation word problem?", "a": "Express as one variable, differentiate, set to zero, test with the second derivative, answer with units."}, {"id": 30, "s": "M", "ch": "Integrals", "q": "What does ILATE stand for?", "a": "Inverse, Logarithmic, Algebraic, Trigonometric, Exponential. It picks u in integration by parts."}, {"id": 31, "s": "M", "ch": "Applications of Integrals", "q": "Area between two curves?", "a": "∫(upper − lower) dx between the intersection points."}, {"id": 32, "s": "M", "ch": "Differential Equations", "q": "Integrating factor for dy/dx + Py = Q?", "a": "e^(∫P dx). The solution is y × IF = ∫Q × IF dx + C."}, {"id": 33, "s": "M", "ch": "Vectors", "q": "Scalar triple product equal to zero means?", "a": "The three vectors are coplanar."}, {"id": 34, "s": "M", "ch": "Three Dimensional Geometry", "q": "Angle between a line and a plane?", "a": "sinθ = |b·n|/(|b||n|), where b is the line's direction and n the plane's normal."}, {"id": 35, "s": "M", "ch": "Linear Programming", "q": "Where does the optimum of a bounded feasible region lie?", "a": "At a corner point of the feasible region."}, {"id": 36, "s": "M", "ch": "Probability", "q": "Denominator of Bayes' theorem?", "a": "Total probability of the observed event: the sum of P(Eⱼ)P(A|Eⱼ) over all causes."}];
+  // ---------- rule filters ----------
+  var grid=d.getElementById('rulesGrid'), cards=[].slice.call(grid.children), subj='all';
+  var cnt=d.getElementById('rlCount'), empty=d.getElementById('rlEmpty'), q=d.getElementById('rlSearch');
+  function filt(){
+    var t=q.value.trim().toLowerCase(), n=0;
+    cards.forEach(function(c){
+      var ok=(subj==='all'||c.getAttribute('data-subj')===subj)&&(!t||c.getAttribute('data-text').indexOf(t)>-1);
+      c.hidden=!ok; if(ok)n++;
+    });
+    cnt.textContent='Showing '+n+' of '+cards.length+' chapters';
+    empty.hidden=n>0;
+  }
+  [].slice.call(d.querySelectorAll('#subjPills .pill')).forEach(function(b){
+    b.addEventListener('click',function(){
+      subj=b.getAttribute('data-s');
+      [].slice.call(d.querySelectorAll('#subjPills .pill')).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      filt();
+    });
+  });
+  q.addEventListener('input',filt); filt();
+
+  // ---------- flashcards ----------
+  var NAMES={P:'Physics',C:'Chemistry',M:'Mathematics'};
+  var card=d.getElementById('fcCard'), sel=d.getElementById('fcSubj');
+  var queue=[], known={}, missed={}, flipped=false, cur=null;
+  var saved=EA.store.get('ea_c_known',{});
+  function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function build(){
+    var s=sel.value;
+    queue=shuffle(DECK.filter(function(c){return (s==='all'||c.s===s)&&!saved[c.id];}).map(function(c){return c.id;}));
+    known={};missed={};
+    next();
+  }
+  function get(id){return DECK[id];}
+  function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function stats(){
+    d.getElementById('fcLeft').textContent=queue.length+(cur!==null?1:0);
+    d.getElementById('fcKnown').textContent=Object.keys(known).length;
+    d.getElementById('fcMissed').textContent=Object.keys(missed).length;
+  }
+  function render(){
+    if(cur===null){
+      card.className='fc-card';
+      card.innerHTML='<span class="tag">Deck complete</span><span class="txt">You have been through every card in this deck.</span><span class="hint2">Press reset to go again</span>';
+      stats();return;
+    }
+    var c=get(cur);
+    card.className='fc-card'+(flipped?' back':'');
+    card.innerHTML='<span class="tag">'+NAMES[c.s]+' &middot; '+esc(c.ch)+(flipped?' &middot; answer':'')+'</span><span class="txt">'+esc(flipped?c.a:c.q)+'</span><span class="hint2">'+(flipped?'Did you say this?':'Say your answer, then flip')+'</span>';
+    stats();
+  }
+  function next(){flipped=false;cur=queue.length?queue.shift():null;render();}
+  function flip(){if(cur===null)return;flipped=!flipped;render();}
+  card.addEventListener('click',flip);
+  d.getElementById('fcFlip').addEventListener('click',flip);
+  d.getElementById('fcKnow').addEventListener('click',function(){
+    if(cur===null)return; known[cur]=1; saved[cur]=1; EA.store.set('ea_c_known',saved); delete missed[cur]; next();
+  });
+  d.getElementById('fcMiss').addEventListener('click',function(){
+    if(cur===null)return; missed[cur]=1; queue.splice(Math.min(3,queue.length),0,cur); next();
+  });
+  d.getElementById('fcReset').addEventListener('click',function(){saved={};EA.store.set('ea_c_known',saved);build();});
+  sel.addEventListener('change',build);
+  build();
+})();
+
+</script>

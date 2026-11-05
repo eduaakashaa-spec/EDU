@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Class 12 PCM Analytics: Eligibility Gap, Board Score Playbook, Thumb Rules, Answer Lab and Study Plan | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Class 12 PCM in one place: check your marks against 11 entrance routes, see where the board marks sit, learn the thumb rules for 37 chapters, study marked answer sheets, and generate a study plan counted back from your exam. Members get a saved analytics dashboard.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .pc{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278)}
+  .pc h2{font-size:1.3rem;margin:0 0 4px}.pc h3{font-size:1.02rem;margin:8px 0 4px}.pc section{padding:8px 0 16px}
+  .pc-top{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:flex-end;margin:6px 0 14px}.pc-top h1{font-size:clamp(1.5rem,3.4vw,2.3rem);margin:2px 0 0}.pc-top p{margin:4px 0 0;font-size:.96rem;color:var(--dim);max-width:68ch}
+  .pc-go{display:inline-block;border-radius:999px;padding:10px 22px;font:700 .93rem 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;background:#FF6B0A;color:#fff;border:0;cursor:pointer;margin:6px 8px 0 0}.pc-go.n{background:var(--navy,#0E3A8A)}.pc-go.g{background:var(--pp);color:inherit;border:1.5px solid var(--ln)}
+  .pc-chips{display:flex;gap:8px;flex-wrap:wrap}.pc-chips span{background:var(--pp);border:1px solid var(--ln);border-radius:999px;padding:5px 12px;font-size:.78rem;color:var(--dim)}.pc-chips b{color:var(--navy,#0E3A8A);margin-right:5px}
+  .pc-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+  .pc-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column}.pc-c p{font-size:.9rem;line-height:1.55;margin:0 0 8px}.pc-c .k{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#FF6B0A}
+  .pc-c .go{margin-top:auto;font-weight:700;color:var(--navy,#0E3A8A);text-decoration:none}.pc-c .go:hover{text-decoration:underline}
+  .pc-t{width:100%;border-collapse:collapse;font-size:.88rem}.pc-t th,.pc-t td{padding:7px 8px;border-bottom:1px solid var(--ln);text-align:left}.pc-t th{font-size:.7rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dim)}.pc-t td.n,.pc-t th.n{text-align:right;font-family:'JetBrains Mono',monospace}
+  .pc-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;align-items:end}.pc-form label{display:block;font-size:.76rem;font-weight:700;color:var(--dim);margin-bottom:3px}
+  .pc-form select,.pc-form input{width:100%;padding:9px 10px;border:1.5px solid var(--ln);border-radius:10px;background:var(--cream,#FBF7EE);color:inherit;font:600 .95rem 'Plus Jakarta Sans',system-ui,sans-serif}
+  .pc-k{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.pc-k div{flex:1 1 120px;border:1px solid var(--ln);border-radius:12px;padding:8px 12px;background:var(--pp)}.pc-k b{display:block;font:700 1.25rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.pc-k small{color:var(--dim);font-size:.74rem}
+  .pc-ph{display:flex;height:26px;border-radius:8px;overflow:hidden;margin:8px 0;font-size:.72rem;color:#fff;font-weight:700}.pc-ph i{display:flex;align-items:center;justify-content:center;font-style:normal;white-space:nowrap;overflow:hidden}
+  .p1{background:#0E3A8A}.p2{background:#1E56C4}.p3{background:#FF6B0A}.p4{background:#1F8B5C}
+  .pc-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+  .pc-chip{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.72rem;font-weight:700}.pc-chip.core{background:#DDF1E6;color:#146c43}.pc-chip.build{background:#FFF1D6;color:#8a5a00}.pc-chip.later{background:#EEE;color:#666}
+</style>
+{% endblock %}
+{% block content %}
+<div class="jr2 pc">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Check every rule on the official notice before you act on it.</strong>
+      The unit marks come from the CBSE syllabus. The entrance-route percentages were read from public coaching and news pages, not the official brochures, and every row says how sure we are. Members also get a saved analytics dashboard with a week-by-week study plan, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="pc-top">
+    <div><span class="eb">CBSE Class 12 &middot; Physics, Chemistry, Mathematics &middot; Boards 2027</span>
+      <h1>Class 12 PCM, <em>analysed</em></h1>
+      <p>Know your marks gap, know where the board marks sit, carry the thumb rules into the exam hall, see how answer sheets are marked, and get a study plan counted back from your first paper.</p>
+      <a class="pc-go" href="#plan">Build my study plan</a><a class="pc-go n" href="{{ url_for('pcm12.dashboard') }}">My PCM dashboard (members)</a></div>
+    <div class="pc-chips"><span><b>{{ n_routes }}</b>entrance routes</span><span><b>{{ n_chapters }}</b>chapters</span><span><b>300</b>PCM board marks</span></div>
+  </div>
+
+  <section id="tools"><span class="eb">The tools</span><h2>Four tools, one plan</h2>
+    <div class="pc-g">
+      <div class="pc-c"><span class="k">Step 1 &middot; Eligibility</span><h3>Eligibility Gap Closer</h3><p>The Class 12 percentage that JoSAA, DASA, BITSAT, VIT, SRM, MET, TNEA, KCET, KEAM and MHT-CET ask for, your marks against each, and how many marks to add. Every rule carries a confidence label.</p><a class="go" href="{{ url_for('pcm12.eligibility') }}">Check my marks &rarr;</a></div>
+      <div class="pc-c"><span class="k">Step 2 &middot; Boards</span><h3>Board Score Playbook</h3><p>What to study first at each level (needs support, average, good, excellent), chapter focus by marks, how to write each paper, the 2026-27 calendar and a study-plan builder.</p><a class="go" href="{{ url_for('pcm12.board_playbook') }}">Open the playbook &rarr;</a></div>
+      <div class="pc-c"><span class="k">Step 3 &middot; Rules</span><h3>Thumb Rules Handbook</h3><p>For all {{ n_chapters }} chapters: the rules that win marks, a memory hook and the trap that costs marks, plus six steps for a hard question and a flashcard drill.</p><a class="go" href="{{ url_for('pcm12.thumb_rules') }}">Open the rules &rarr;</a></div>
+      <div class="pc-c"><span class="k">Step 4 &middot; Writing</span><h3>Answer Sheet Lab</h3><p>The same question answered in three styles (needs support, good, excellent) with the examiner's marks, so you see how steps earn marks. Mark your own answer against the scheme.</p><a class="go" href="{{ url_for('pcm12.answer_lab') }}">Open the lab &rarr;</a></div>
+    </div>
+  </section>
+
+  <section id="glance"><span class="eb">At a glance</span><h2>Where the 300 PCM marks come from</h2>
+    <div class="pc-c" style="overflow-x:auto"><table class="pc-t"><thead><tr><th>Subject</th><th class="n">Theory</th><th class="n">Practical / internal</th><th class="n">Total</th><th class="n">Time</th></tr></thead><tbody>
+      <tr><td>Physics</td><td class="n">70</td><td class="n">30</td><td class="n">100</td><td class="n">3 h</td></tr>
+      <tr><td>Chemistry</td><td class="n">70</td><td class="n">30</td><td class="n">100</td><td class="n">3 h</td></tr>
+      <tr><td>Mathematics</td><td class="n">80</td><td class="n">20</td><td class="n">100</td><td class="n">3 h</td></tr>
+      <tr><td><b>PCM</b></td><td class="n"><b>220</b></td><td class="n"><b>80</b></td><td class="n"><b>300</b></td><td class="n"></td></tr></tbody></table></div>
+    <p class="pc-n">Source: the CBSE 2026-27 syllabus as read in the Board Score Playbook. Check the current CBSE circulars for the date sheet and marking scheme. 80 of the 300 marks come from practicals and internal assessment, the most reachable marks you have.</p>
+  </section>
+
+  <section id="plan"><span class="eb">Study plan</span><h2>Generate a study plan</h2>
+    <p style="margin:0 0 10px;font-size:.92rem">Pick your level, the date of your first board paper (see the CBSE date sheet) and the hours you can give. You get the weeks for each phase, hours for each subject, and the chapters to start with. Nothing is saved. Members build a chapter-by-chapter plan from their own test scores.</p>
+    <div class="pc-c">
+      <div class="pc-form">
+        <div><label for="qLevel">My level in PCM</label><select id="qLevel"><option value="0">Needs support (below 50%)</option><option value="1" selected>Average (50 to 65%)</option><option value="2">Good (65 to 80%)</option><option value="3">Excellent (80% and above)</option></select></div>
+        <div><label for="qDate">First board paper</label><input id="qDate" type="date"></div>
+        <div><label for="qWd">Hours on a school day</label><input id="qWd" type="number" min="0" max="14" step="0.5" value="2"></div>
+        <div><label for="qWe">Hours on a weekend day</label><input id="qWe" type="number" min="0" max="24" step="0.5" value="5"></div>
+      </div>
+      <div id="qOut" aria-live="polite"><p class="pc-n">Enter the date of your first paper to see the plan.</p></div>
+    </div>
+  </section>
+
+  <section id="members"><span class="eb">Members</span><h2>The PCM Analytics dashboard</h2>
+    <div class="pc-g">
+      <div class="pc-c"><h3>Your marks against 11 routes</h3><p>Enter board-style marks once; see which routes you meet, which need a check and how many marks to add, kept up to date as you improve.</p></div>
+      <div class="pc-c"><h3>Test log and subject levels</h3><p>Log every school or mock test. Your level in each subject comes from your last three tests and moves as you improve, with a trend line.</p></div>
+      <div class="pc-c"><h3>Chapter priority map</h3><p>Rate each of the {{ n_chapters }} chapters from 1 to 5. Chapters are ranked by marks, your rating and how the playbook classes them at your level (Core, Build or Later).</p></div>
+      <div class="pc-c"><h3>A week-by-week plan you can tick off</h3><p>Counted back from your first paper in four phases, with a task list for every week. Your ticks are saved and the plan redraws when your scores change.</p></div>
+    </div>
+    <p><a class="pc-go n" href="{{ url_for('pcm12.dashboard') }}">Open my dashboard</a>{% if not (current_user.is_authenticated and current_user.is_premium) %}<a class="pc-go" href="{{ url_for('main.members_registration') }}">Join Premium Membership</a>{% endif %}</p>
+  </section>
+
+  <section id="limits"><span class="eb">Read this</span><h2>What these tools can and cannot do</h2>
+    <div class="pc-c"><p>They organise your time and show where marks usually sit. They do not predict your result, and a plan only works if you follow it. Entrance-route percentages come from public sources: confirm each one in the official brochure or notice for your year. Chapter marks are indicative; only the unit-group totals are official. The sheets in the Answer Sheet Lab are illustrations written by EduAakashaA in CBSE style; they are not CBSE papers or real students' scripts. Prepared with AI assistance by EduAakashaA.</p></div>
+  </section>
+</div>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); }, t = null;
+  var d = new Date(); d.setDate(d.getDate() + 120);
+  function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
+  function run() {
+    var date = $('qDate').value, out = $('qOut');
+    out.innerHTML = '';
+    if (!date) { out.appendChild(el('p', 'pc-n', 'Enter the date of your first paper to see the plan.')); return; }
+    fetch('{{ url_for("pcm12.quick_plan") }}', {method: 'POST', headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({level: +$('qLevel').value, exam_date: date, hours_wd: +$('qWd').value || 0, hours_we: +$('qWe').value || 0})})
+      .then(function (r) { return r.json(); }).then(function (j) {
+        out.innerHTML = '';
+        var p = j.plan;
+        if (!p.weeks || !p.phase_weeks) { out.appendChild(el('p', 'pc-n', 'Choose a date after today.')); return; }
+        var k = el('div', 'pc-k');
+        [[p.weeks, 'weeks to go'], [p.hours_week, 'hours a week'], [p.hours_total, 'hours in all'], [p.weakest, 'gets the extra time']].forEach(function (a) { var c = document.createElement('div'); c.appendChild(el('b', '', a[0])); c.appendChild(el('small', '', a[1])); k.appendChild(c); });
+        out.appendChild(k);
+        var bar = el('div', 'pc-ph'); p.phase_weeks.forEach(function (w, i) { var s = el('i', 'p' + (i + 1), p.phase_names[i] + ' ' + w + 'w'); s.style.flex = String(Math.max(w, 1)); bar.appendChild(s); });
+        out.appendChild(bar);
+        var tb = el('table', 'pc-t'), th = el('thead'), hr = el('tr');
+        ['Phase', 'Weeks', 'Physics h/wk', 'Chemistry h/wk', 'Maths h/wk'].forEach(function (h, i) { hr.appendChild(el('th', i ? 'n' : '', h)); }); th.appendChild(hr); tb.appendChild(th);
+        var body = el('tbody');
+        p.phase_weeks.forEach(function (w, i) { var r = el('tr'); r.appendChild(el('td', '', (i + 1) + ' · ' + p.phase_names[i])); r.appendChild(el('td', 'n', w));
+          ['P', 'C', 'M'].forEach(function (s) { r.appendChild(el('td', 'n', p.subject_hours[s])); }); body.appendChild(r); });
+        tb.appendChild(body); var wrap = el('div'); wrap.style.overflowX = 'auto'; wrap.appendChild(tb); out.appendChild(wrap);
+        out.appendChild(el('h3', '', 'Chapters to start with at the ' + j.level + ' level'));
+        var ul = el('ul', ''); ul.style.cssText = 'margin:4px 0 0;padding-left:18px;line-height:1.7;font-size:.92rem';
+        j.first.forEach(function (c) { var li = el('li', '', c.name + ' (' + c.subj + ', about ' + c.marks + ' marks) '); li.appendChild(el('span', 'pc-chip ' + c.cls.toLowerCase(), c.cls)); ul.appendChild(li); });
+        out.appendChild(ul);
+        out.appendChild(el('p', 'pc-n', 'Hours are study time outside school. Keep about 2 hours a week for practical records and viva until practicals are done. Members get this plan chapter by chapter, from their own scores.'));
+      }).catch(function () { out.appendChild(el('p', 'pc-n', 'Could not build the plan. Please try again.')); });
+  }
+  ['qLevel', 'qDate', 'qWd', 'qWe'].forEach(function (id) { $(id).addEventListener('input', function () { clearTimeout(t); t = setTimeout(run, 250); }); $(id).addEventListener('change', run); });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,246 @@
+{% extends "base.html" %}
+{% block title %}My PCM Analytics dashboard | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .pd{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);max-width:1100px;margin:0 auto;padding:6px 16px 60px}
+  .pd h1{font-size:clamp(1.4rem,3vw,2rem);margin:2px 0}.pd h2{font-size:1.2rem;margin:0 0 6px}.pd h3{font-size:1rem;margin:8px 0 4px}.pd section{padding:10px 0 14px}
+  .pd-crumb{font-size:.84rem;color:var(--dim)}.pd-crumb a{color:inherit}
+  .pd-nav{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 12px;position:sticky;top:0;z-index:5;background:var(--cream,#FBF7EE);padding:6px 0}.pd-nav a{border:1px solid var(--ln);border-radius:999px;padding:4px 12px;font-size:.78rem;text-decoration:none;color:inherit;background:var(--pp)}
+  .pd-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:14px 16px}
+  .pd-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+  .pd-f{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;align-items:end}.pd-f label{display:block;font-size:.74rem;font-weight:700;color:var(--dim);margin-bottom:3px}
+  .pd input,.pd select{width:100%;padding:8px 10px;border:1.5px solid var(--ln);border-radius:10px;background:var(--cream,#FBF7EE);color:inherit;font:600 .92rem 'Plus Jakarta Sans',system-ui,sans-serif}
+  .pd-btn{border:0;border-radius:999px;padding:9px 20px;font:700 .88rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;background:var(--navy,#0E3A8A);color:#fff;width:auto}.pd-btn.o{background:#FF6B0A}.pd-btn.g{background:var(--pp);color:inherit;border:1.5px solid var(--ln)}
+  .pd-k{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.pd-k div{flex:1 1 130px;border:1px solid var(--ln);border-radius:12px;padding:8px 12px;background:var(--pp)}.pd-k b{display:block;font:700 1.3rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.pd-k small{color:var(--dim);font-size:.74rem}
+  .pd-t{width:100%;border-collapse:collapse;font-size:.86rem}.pd-t th,.pd-t td{padding:7px 8px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top}.pd-t th{font-size:.68rem;text-transform:uppercase;letter-spacing:.04em;color:var(--dim)}.pd-t .n{text-align:right;font-family:'JetBrains Mono',monospace}
+  .pd-st{display:inline-block;border-radius:999px;padding:2px 10px;font-size:.74rem;font-weight:700}.pd-st.meets{background:#DDF1E6;color:#146c43}.pd-st.check{background:#FFF1D6;color:#8a5a00}.pd-st.short{background:#FBE3E0;color:#a12d2d}
+  .pd-chip{display:inline-block;border-radius:999px;padding:2px 9px;font-size:.72rem;font-weight:700}.pd-chip.Core{background:#DDF1E6;color:#146c43}.pd-chip.Build{background:#FFF1D6;color:#8a5a00}.pd-chip.Later{background:#EEE;color:#666}
+  .pd-sub{border:1px solid var(--ln);border-radius:14px;padding:10px 12px;background:var(--pp)}.pd-sub b{font-family:'Fraunces',Georgia,serif}.pd-sub small{display:block;color:var(--dim)}
+  .pd-bar{height:9px;background:var(--ln);border-radius:5px;overflow:hidden;margin:6px 0}.pd-bar i{display:block;height:100%;background:#1F8B5C;width:0}
+  .pd-rt{display:inline-flex;gap:3px}.pd-rt button{width:26px;height:26px;border-radius:7px;border:1.5px solid var(--ln);background:var(--pp);font:700 .75rem 'JetBrains Mono',monospace;cursor:pointer;color:inherit;padding:0}.pd-rt button.on{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .pd-wk{border:1px solid var(--ln);border-radius:12px;margin:8px 0;background:var(--pp)}.pd-wk summary{cursor:pointer;padding:9px 12px;font-weight:700;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.pd-wk .ph{font-size:.7rem;border-radius:999px;padding:2px 9px;color:#fff}
+  .ph1{background:#0E3A8A}.ph2{background:#1E56C4}.ph3{background:#FF6B0A}.ph4{background:#1F8B5C}
+  .pd-wk ul{list-style:none;margin:0;padding:0 12px 10px}.pd-wk li{display:flex;gap:9px;align-items:flex-start;padding:5px 0;font-size:.9rem;line-height:1.45}.pd-wk li input{width:auto;margin-top:3px}.pd-wk li.done span{text-decoration:line-through;opacity:.55}
+  .pd-st-msg{font-size:.8rem;color:var(--dim);min-height:1.2em}
+  .pd-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+  .pd-sv{width:100%;max-height:70px}
+  @media print{.pd-nav,.pd-setup,.pd-no-print,header,footer,.header,.footer{display:none!important}.pd-wk{break-inside:avoid}.pd-wk[open] summary{background:#eee}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="pd" id="pd">
+  <div class="pd-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> &rsaquo; <a href="{{ url_for('pcm12.hub') }}">Class 12 PCM Analytics</a> &rsaquo; My dashboard</div>
+  <h1>My PCM Analytics dashboard</h1>
+  <p style="margin:2px 0 8px;color:var(--dim);max-width:70ch;font-size:.95rem">Enter your dates, marks and test scores, rate your chapters, and read your route status, subject levels, chapter priorities and a week-by-week plan. Everything saves to your account as you type.</p>
+  <div class="pd-st-msg" id="pdMsg" aria-live="polite"></div>
+  <nav class="pd-nav" aria-label="On this page"><a href="#setup">Setup</a><a href="#routes">Routes</a><a href="#levels">Subject levels</a><a href="#chapters">Chapters</a><a href="#plan">Study plan</a></nav>
+
+  <section id="setup" class="pd-setup"><h2>1. Setup</h2>
+    <div class="pd-c">
+      <div class="pd-f">
+        <div><label for="fDate">First board paper</label><input id="fDate" type="date"></div>
+        <div><label for="fWd">Hours on a school day</label><input id="fWd" type="number" min="0" max="14" step="0.5"></div>
+        <div><label for="fWe">Hours on a weekend day</label><input id="fWe" type="number" min="0" max="24" step="0.5"></div>
+        <div><label for="fCat">My category</label><select id="fCat"><option value="g">General, EWS or OBC-NCL (OC in Tamil Nadu)</option><option value="s">SC, ST or PwD</option><option value="b">Tamil Nadu BC, MBC or DNC</option></select></div>
+      </div>
+      <h3>My marks (board-style, or expected)</h3>
+      <div class="pd-f" id="fMarks"></div>
+      <p class="pd-n">Marks drive the route table below and, until you log tests, your subject levels. The numbers you enter are saved to your account only. Check the CBSE date sheet for the real paper dates.</p>
+    </div>
+  </section>
+
+  <section id="routes"><h2>2. Entrance routes: where my marks stand</h2>
+    <div class="pd-k" id="kElig"></div>
+    <div class="pd-c" style="overflow-x:auto"><table class="pd-t"><thead><tr><th>Route</th><th>Needs</th><th>Me</th><th>Status</th><th class="n">Marks to add</th></tr></thead><tbody id="eligRows"></tbody></table></div>
+    <p class="pd-n" id="tnea"></p>
+    <p class="pd-n">The percentages were read from public coaching and news pages, not the official brochures: some are labelled conflicting or unconfirmed on the <a href="{{ url_for('pcm12.eligibility') }}">Eligibility Gap Closer</a>. Confirm each one on the official notice. A route's entrance exam score is separate from these marks.</p>
+  </section>
+
+  <section id="levels"><h2>3. Subject levels and test log</h2>
+    <div class="pd-g" id="subjCards"></div>
+    <div class="pd-c" style="margin-top:12px">
+      <h3>Log a test</h3>
+      <div class="pd-f">
+        <div><label for="tSub">Subject</label><select id="tSub"><option value="P">Physics</option><option value="C">Chemistry</option><option value="M">Mathematics</option></select></div>
+        <div><label for="tDate">Date</label><input id="tDate" type="date"></div>
+        <div><label for="tGot">Marks got</label><input id="tGot" type="number" min="0" step="0.5"></div>
+        <div><label for="tMax">Out of</label><input id="tMax" type="number" min="1" step="1" value="70"></div>
+        <div><label for="tNote">Note (optional)</label><input id="tNote" type="text" maxlength="80" placeholder="Unit test 2"></div>
+        <div><button class="pd-btn o" id="tAdd" type="button">Add test</button></div>
+      </div>
+      <div style="overflow-x:auto;margin-top:8px"><table class="pd-t"><thead><tr><th>Date</th><th>Subject</th><th class="n">Marks</th><th class="n">%</th><th>Note</th><th></th></tr></thead><tbody id="testRows"></tbody></table></div>
+      <p class="pd-n">Your level in each subject is the average of its last three tests (below 50 needs support, 50 to 65 average, 65 to 80 good, 80 and above excellent). You can override it above.</p>
+    </div>
+  </section>
+
+  <section id="chapters"><h2>4. Chapter priority map</h2>
+    <p style="margin:0 0 8px;font-size:.92rem">Rate each chapter from 1 (weak) to 5 (strong). The priority score is the chapter's indicative marks &times; (6 &minus; rating) &times; a weight for its class at your level: Core 1, Build 0.7, Later 0.3. Higher means start sooner.</p>
+    <div class="pd-c"><h3>Start with these ten</h3><ol id="top10" style="margin:4px 0 0;padding-left:20px;line-height:1.75;font-size:.92rem"></ol></div>
+    <div class="pd-f" style="margin:10px 0 6px;max-width:300px"><div><label for="cSub">Show</label><select id="cSub"><option value="all">All subjects</option><option value="P">Physics</option><option value="C">Chemistry</option><option value="M">Mathematics</option></select></div></div>
+    <div class="pd-c" style="overflow-x:auto"><table class="pd-t"><thead><tr><th class="n">Rank</th><th>Chapter</th><th class="n">Marks</th><th>Class at my level</th><th>My rating</th><th class="n">Score</th></tr></thead><tbody id="chRows"></tbody></table></div>
+    <p class="pd-n">Chapter marks are indicative (from a coaching-site split); only the unit-group totals are official. Read the rule card for any chapter in the <a href="{{ url_for('pcm12.thumb_rules') }}">Thumb Rules Handbook</a>.</p>
+  </section>
+
+  <section id="plan"><h2>5. My study plan</h2>
+    <div class="pd-k" id="kPlan"></div>
+    <div class="pd-bar" aria-hidden="true"><i id="planBar"></i></div>
+    <p class="pd-n" id="planMsg"></p>
+    <div class="pd-no-print" style="margin:6px 0"><button class="pd-btn g" id="pPrint" type="button">Print the plan</button> <button class="pd-btn g" id="pOpen" type="button">Open all weeks</button></div>
+    <div id="weeks"></div>
+  </section>
+  <p class="pd-n">These are planning tools, not predictions. EduAakashaA is not affiliated with CBSE or any entrance body. Prepared with AI assistance.</p>
+</div>
+<script id="pdInit" type="application/json">{{ {'profile': profile, 'analysis': analysis, 'marks': MAX, 'subj': SUBJ, 'levels': LEVELS, 'save': url_for('pcm12.save')}|tojson }}</script>
+<script>
+(function () {
+  var I = JSON.parse(document.getElementById('pdInit').textContent), A = I.analysis, SUBJ = I.subj;
+  var S = {exam_date: '', hours_wd: 2, hours_we: 5, cat: 'g', marks: {}, tests: [], levels: {}, ratings: {}, done: {}};
+  var P = I.profile || {};
+  Object.keys(S).forEach(function (k) { if (P[k] !== undefined && P[k] !== null && P[k] !== '') S[k] = P[k]; });
+  var $ = function (id) { return document.getElementById(id); }, timer = null, seq = 0;
+  var LABEL = {Pt: 'Physics theory', Pp: 'Physics practical', Ct: 'Chemistry theory', Cp: 'Chemistry practical', Mt: 'Maths theory', Mi: 'Maths internal', En: 'English', Fi: 'Fifth subject'};
+  function el(tag, cls, text) { var x = document.createElement(tag); if (cls) x.className = cls; if (text != null) x.textContent = text; return x; }
+  function clear(n) { while (n.firstChild) n.removeChild(n.firstChild); return n; }
+  function f1(x) { return (Math.round(x * 10) / 10).toString(); }
+  function td(text, cls) { return el('td', cls || '', text); }
+
+  // ---- setup
+  $('fDate').value = S.exam_date; $('fWd').value = S.hours_wd; $('fWe').value = S.hours_we; $('fCat').value = S.cat;
+  var mk = $('fMarks');
+  Object.keys(LABEL).forEach(function (k) {
+    var w = document.createElement('div'), l = el('label', '', LABEL[k] + ' (of ' + I.marks[k] + ')'), i = document.createElement('input');
+    i.type = 'number'; i.min = 0; i.max = I.marks[k]; i.step = 0.5; i.id = 'm' + k; i.value = S.marks[k] ? S.marks[k] : ''; l.setAttribute('for', i.id);
+    i.addEventListener('input', function () { S.marks[k] = parseFloat(i.value) || 0; queue(); });
+    w.appendChild(l); w.appendChild(i); mk.appendChild(w);
+  });
+  $('fDate').addEventListener('change', function () { S.exam_date = this.value; queue(); });
+  $('fWd').addEventListener('input', function () { S.hours_wd = parseFloat(this.value) || 0; queue(); });
+  $('fWe').addEventListener('input', function () { S.hours_we = parseFloat(this.value) || 0; queue(); });
+  $('fCat').addEventListener('change', function () { S.cat = this.value; queue(); });
+  $('tMax').value = 70;
+  $('tSub').addEventListener('change', function () { $('tMax').value = this.value === 'M' ? 80 : 70; });
+  $('tDate').value = new Date().toISOString().slice(0, 10);
+  $('tAdd').addEventListener('click', function () {
+    var got = parseFloat($('tGot').value), max = parseFloat($('tMax').value);
+    if (isNaN(got) || isNaN(max) || max <= 0 || got < 0 || got > max) { $('pdMsg').textContent = 'Enter marks between 0 and the maximum.'; return; }
+    S.tests.push({subj: $('tSub').value, date: $('tDate').value, got: got, max: max, note: $('tNote').value}); $('tGot').value = ''; $('tNote').value = ''; queue();
+  });
+  $('cSub').addEventListener('change', function () { drawChapters(); });
+  $('pPrint').addEventListener('click', function () { [].forEach.call(document.querySelectorAll('#weeks details'), function (d) { d.open = true; }); window.print(); });
+  $('pOpen').addEventListener('click', function () { var all = [].every.call(document.querySelectorAll('#weeks details'), function (d) { return d.open; }); [].forEach.call(document.querySelectorAll('#weeks details'), function (d) { d.open = !all; }); this.textContent = all ? 'Open all weeks' : 'Close all weeks'; });
+
+  // ---- saving
+  function queue() { clearTimeout(timer); $('pdMsg').textContent = 'Saving…'; timer = setTimeout(save, 450); }
+  function save() {
+    var my = ++seq;
+    fetch(I.save, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(S)}).then(function (r) { return r.json(); }).then(function (j) {
+      if (my !== seq) return;
+      if (!j.ok) { $('pdMsg').textContent = 'Could not save: ' + (j.error || 'try again'); return; }
+      A = j.analysis; $('pdMsg').textContent = 'Saved'; render();
+    }).catch(function () { $('pdMsg').textContent = 'Network problem. Your entries are kept; they will save on your next change.'; });
+  }
+
+  // ---- routes
+  function drawRoutes() {
+    var E = A.elig, k = clear($('kElig'));
+    [[E.pcm + '%', 'PCM percentage'], [E.agg + '%', '5-subject percentage'], [f1(E.pcm_sum), 'PCM marks of 300'], [f1(E.tnea) + ' / 200', 'TNEA cut-off']].forEach(function (a) { var c = document.createElement('div'); c.appendChild(el('b', '', a[0])); c.appendChild(el('small', '', a[1])); k.appendChild(c); });
+    var body = clear($('eligRows'));
+    if (!E.entered) { var r0 = el('tr'); var c0 = td('Enter your marks in the setup to see every route.'); c0.colSpan = 5; r0.appendChild(c0); body.appendChild(r0); }
+    E.routes.forEach(function (r) {
+      if (!E.entered) return;
+      var tr = el('tr'), name = td(''); name.appendChild(el('b', '', r.name));
+      r.floor.forEach(function (f) { name.appendChild(el('div', 'pd-n', 'Also needs 60 in ' + f.subject + ' (short by ' + f.short + ')')); });
+      tr.appendChild(name);
+      tr.appendChild(td(r.need[0] === r.need[1] ? r.need[1] + '%' : r.need[0] + '% to ' + r.need[1] + '%'));
+      var me = td(r.have + '%'); me.appendChild(el('div', 'pd-n', 'on ' + r.basis)); tr.appendChild(me);
+      var st = td(''); st.appendChild(el('span', 'pd-st ' + r.status, r.status === 'meets' ? 'Meets' : r.status === 'check' ? 'Check' : 'Short')); tr.appendChild(st);
+      tr.appendChild(td(r.status === 'meets' ? '0' : '+' + r.add + ' of ' + r.denom, 'n'));
+      body.appendChild(tr);
+    });
+    $('tnea').textContent = E.entered ? 'TNEA cut-off on your marks: ' + E.tnea + ' of 200 (Maths + Physics ÷ 2 + Chemistry ÷ 2, using totals out of 100).' : '';
+  }
+
+  // ---- subjects and tests
+  function spark(points) {
+    var NS = 'http://www.w3.org/2000/svg', svg = document.createElementNS(NS, 'svg'); svg.setAttribute('viewBox', '0 0 200 60'); svg.setAttribute('class', 'pd-sv'); svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', 'Test percentages over time');
+    function mkl(n, a) { var e = document.createElementNS(NS, n); Object.keys(a).forEach(function (k) { e.setAttribute(k, a[k]); }); return e; }
+    svg.appendChild(mkl('line', {x1: 0, y1: 50, x2: 200, y2: 50, stroke: '#C8BFA6', 'stroke-width': 1}));
+    if (!points.length) return svg;
+    var step = points.length > 1 ? 180 / (points.length - 1) : 0, d = '';
+    points.forEach(function (p, i) { var x = 10 + i * step, y = 50 - Math.min(p.pct, 100) * 0.45; d += (i ? 'L' : 'M') + x + ' ' + y;
+      var c = mkl('circle', {cx: x, cy: y, r: 3.5, fill: '#0E3A8A'}); var t = document.createElementNS(NS, 'title'); t.textContent = p.pct + '%' + (p.date ? ' on ' + p.date : ''); c.appendChild(t); svg.appendChild(c); });
+    svg.insertBefore(mkl('path', {d: d, fill: 'none', stroke: '#0E3A8A', 'stroke-width': 2}), svg.children[1]);
+    return svg;
+  }
+  function drawSubjects() {
+    var box = clear($('subjCards'));
+    ['P', 'C', 'M'].forEach(function (s) {
+      var L = A.levels[s], c = el('div', 'pd-sub');
+      c.appendChild(el('b', '', L.name)); c.appendChild(el('small', '', L.level + (L.pct !== null ? ' · ' + L.pct + '%' : '') + ' · from ' + L.source));
+      c.appendChild(spark(A.trend[s]));
+      var sel = document.createElement('select'); sel.setAttribute('aria-label', L.name + ' level');
+      [['', 'Level from my tests'], ['0', 'Needs support'], ['1', 'Average'], ['2', 'Good'], ['3', 'Excellent']].forEach(function (o) { var op = el('option', '', o[1]); op.value = o[0]; sel.appendChild(op); });
+      sel.value = (S.levels[s] === undefined) ? '' : String(S.levels[s]);
+      sel.addEventListener('change', function () { if (sel.value === '') delete S.levels[s]; else S.levels[s] = parseInt(sel.value, 10); queue(); });
+      c.appendChild(sel); box.appendChild(c);
+    });
+    var body = clear($('testRows'));
+    if (!S.tests.length) { var r = el('tr'); var c0 = td('No tests logged yet.'); c0.colSpan = 6; r.appendChild(c0); body.appendChild(r); }
+    S.tests.forEach(function (t, i) {
+      var tr = el('tr'); tr.appendChild(td(t.date || '')); tr.appendChild(td(SUBJ[t.subj])); tr.appendChild(td(t.got + ' / ' + t.max, 'n')); tr.appendChild(td(f1(100 * t.got / t.max), 'n')); tr.appendChild(td(t.note || ''));
+      var x = td(''), b = el('button', 'pd-btn g', 'Remove'); b.type = 'button'; b.addEventListener('click', function () { S.tests.splice(i, 1); queue(); }); x.appendChild(b); tr.appendChild(x); body.appendChild(tr);
+    });
+  }
+
+  // ---- chapters
+  function drawChapters() {
+    var list = A.chapters.slice(), top = clear($('top10'));
+    list.slice(0, 10).forEach(function (c) { var li = el('li', '', c.name + ' (' + SUBJ[c.subj] + ', about ' + c.marks + ' marks, rated ' + c.rating + ') '); li.appendChild(el('span', 'pd-chip ' + c.cls, c.cls)); top.appendChild(li); });
+    var f = $('cSub').value, body = clear($('chRows'));
+    list.sort(function (a, b) { return a.id < b.id ? -1 : 1; });
+    list.forEach(function (c) {
+      if (f !== 'all' && c.subj !== f) return;
+      var tr = el('tr'); tr.appendChild(td(c.rank, 'n'));
+      var n = td(''); n.appendChild(el('b', '', c.name)); n.appendChild(el('div', 'pd-n', SUBJ[c.subj] + ' · ' + c.unit)); tr.appendChild(n);
+      tr.appendChild(td('≈' + c.marks, 'n'));
+      var cl = td(''); cl.appendChild(el('span', 'pd-chip ' + c.cls, c.cls)); tr.appendChild(cl);
+      var rt = td(''), box = el('span', 'pd-rt'); box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'Rating for ' + c.name);
+      for (var r = 1; r <= 5; r++) (function (r) { var b = el('button', (c.rated && c.rating === r) ? 'on' : '', r); b.type = 'button'; b.addEventListener('click', function () { S.ratings[c.id] = r; queue(); }); box.appendChild(b); })(r);
+      rt.appendChild(box); tr.appendChild(rt); tr.appendChild(td(c.score, 'n')); body.appendChild(tr);
+    });
+  }
+
+  // ---- plan
+  function drawPlan() {
+    var prevOpen = {}, hadAny = false;
+    [].forEach.call(document.querySelectorAll('#weeks details'), function (x) { hadAny = true; if (x.open) prevOpen[x.dataset.n] = 1; });
+    var P2 = A.plan, k = clear($('kPlan')), box = clear($('weeks'));
+    if (!P2.phase_weeks) {
+      $('planBar').style.width = '0%'; $('planMsg').textContent = P2.exam ? 'Choose a first-paper date after today.' : 'Enter the date of your first board paper in the setup to get your plan.';
+      return;
+    }
+    [[P2.weeks, 'weeks to go'], [P2.hours_week, 'hours a week'], [P2.hours_total, 'hours in all'], [A.progress.pct + '%', 'of tasks done (' + A.progress.done + '/' + A.progress.tasks + ')']].forEach(function (a) { var c = document.createElement('div'); c.appendChild(el('b', '', a[0])); c.appendChild(el('small', '', a[1])); k.appendChild(c); });
+    $('planBar').style.width = A.progress.pct + '%';
+    $('planMsg').textContent = 'Phases (weeks): ' + P2.phase_names.map(function (n, i) { return n + ' ' + P2.phase_weeks[i]; }).join(' · ') + '. Study hours a week: Physics ' + P2.subject_hours.P + ', Chemistry ' + P2.subject_hours.C + ', Maths ' + P2.subject_hours.M + ' (extra time to ' + P2.weakest + '). Keep about 2 hours a week for practical records and viva until practicals are done.';
+    var today = new Date().toISOString().slice(0, 10), openIdx = -1;
+    A.weeks.forEach(function (w, i) { var next = A.weeks[i + 1]; if (openIdx < 0 && (!next || next.start > today)) openIdx = i; });
+    A.weeks.forEach(function (w, i) {
+      var d = el('details', 'pd-wk'); d.dataset.n = w.n; if (hadAny ? prevOpen[w.n] : i === openIdx) d.open = true;
+      var s = el('summary'); s.appendChild(el('span', '', 'Week ' + w.n)); s.appendChild(el('span', 'ph ph' + w.phase, w.phase_name)); s.appendChild(el('small', 'pd-n', 'from ' + w.start));
+      var dn = w.tasks.filter(function (t) { return t.done; }).length; s.appendChild(el('small', 'pd-n', dn + '/' + w.tasks.length + ' done')); d.appendChild(s);
+      var ul = el('ul');
+      w.tasks.forEach(function (t) {
+        var li = el('li', t.done ? 'done' : ''), cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = t.done; cb.id = 'tk-' + t.id; cb.setAttribute('aria-label', t.text);
+        cb.addEventListener('change', function () { if (cb.checked) S.done[t.id] = true; else delete S.done[t.id]; queue(); });
+        li.appendChild(cb); li.appendChild(el('span', '', t.text)); ul.appendChild(li);
+      });
+      d.appendChild(ul); box.appendChild(d);
+    });
+  }
+  function render() { drawRoutes(); drawSubjects(); drawChapters(); drawPlan(); }
+  render();
+})();
+</script>
+{% endblock %}

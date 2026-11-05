@@ -1,0 +1,611 @@
+<title>Eligibility Gap Closer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..900;1,9..144,500&family=Plus+Jakarta+Sans:wght@300..800&family=JetBrains+Mono:wght@400..600&display=swap">
+<style>
+/* Layout concept: left-aligned editorial pages on cream paper, navy does the work, orange is the accent pop. */
+:root{
+  --navy:#0E3A8A; --navy-deep:#0A2560; --navy-ink:#071A44; --orange:#FF6B0A; --orange-soft:#FF8A3D;
+  --cream:#FBF7EE; --cream-2:#F5EFDF; --paper:#FFFDF7; --ink:#0E1B3D; --muted:#5A6278; --hairline:#E8DFC8;
+  --green:#1F8B5C; --red:#C23A3A; --amber:#E89A1C;
+  --shadow-1:0 1px 2px rgba(14,27,61,.05),0 4px 12px rgba(14,27,61,.04);
+  --shadow-2:0 10px 30px rgba(14,27,61,.10),0 2px 6px rgba(14,27,61,.06);
+  --radius:18px; --radius-sm:10px; --max:1240px;
+  /* semantic tokens used by components */
+  --bg:var(--cream); --surface:var(--paper); --surface-2:var(--cream-2); --text:var(--ink); --head:var(--navy-ink);
+  --brand:var(--navy); --line:var(--hairline); --btn-bg:var(--navy); --btn-fg:#FFFFFF;
+  --orange-ink:#B9420A; --green-ink:#14694A; --red-ink:#A32B2B; --amber-ink:#8A5A00;
+  --green-bg:#E3F3EA; --red-bg:#F8E4E2; --amber-bg:#FBEFD6; --blue-bg:#E4ECFA;
+  --nav-bg:rgba(251,247,238,.86); --nav-solid:#FBF7EE; --grain:rgba(14,27,61,.16); --grain-opacity:.35;
+  --hover-card:#FFF8EA; --focus-ring:rgba(14,58,138,.14); --input-bg:#FBF7EE;
+  --dark-a:#0E3A8A; --dark-b:#0A2560; --on-dark:#FBF7EE; --on-dark-muted:#C9D4EE; --on-dark-line:rgba(255,255,255,.16);
+  --chart-1:#0E3A8A; --chart-2:#FF6B0A; --chart-3:#1F8B5C; --chart-grid:rgba(14,27,61,.10);
+  /* handwritten sheet tokens (a physical page: same in both themes) */
+  --sheet-bg:#FFFEF8; --sheet-line:#CFE0F2; --sheet-margin:#F3B6B6; --sheet-ink:#1B2E7A; --sheet-red:#C8262B;
+  --font-display:'Fraunces',Georgia,'Times New Roman',serif;
+  --font-body:'Plus Jakarta Sans','Segoe UI',Helvetica,Arial,sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0A1430; --surface:#101C3F; --surface-2:#15244E; --text:#E6E3D8; --head:#FBF7EE; --brand:#8DB0F5; --line:#26376A;
+    --btn-bg:#2D5BC9; --btn-fg:#FFFFFF; --muted:#A5AEC6; --orange-ink:#FF9A55; --green-ink:#6FD3A3; --red-ink:#FF9C94; --amber-ink:#F2C26A;
+    --green-bg:#12382B; --red-bg:#40201F; --amber-bg:#3E3112; --blue-bg:#16295A;
+    --nav-bg:rgba(10,20,48,.86); --nav-solid:#0A1430; --grain:rgba(255,255,255,.10); --grain-opacity:.25;
+    --hover-card:#16264F; --focus-ring:rgba(141,176,245,.22); --input-bg:#0D1938;
+    --shadow-1:0 1px 2px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2); --shadow-2:0 10px 30px rgba(0,0,0,.4),0 2px 6px rgba(0,0,0,.3);
+    --chart-1:#8DB0F5; --chart-2:#FF8A3D; --chart-3:#6FD3A3; --chart-grid:rgba(255,255,255,.12);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0A1430; --surface:#101C3F; --surface-2:#15244E; --text:#E6E3D8; --head:#FBF7EE; --brand:#8DB0F5; --line:#26376A;
+  --btn-bg:#2D5BC9; --btn-fg:#FFFFFF; --muted:#A5AEC6; --orange-ink:#FF9A55; --green-ink:#6FD3A3; --red-ink:#FF9C94; --amber-ink:#F2C26A;
+  --green-bg:#12382B; --red-bg:#40201F; --amber-bg:#3E3112; --blue-bg:#16295A;
+  --nav-bg:rgba(10,20,48,.86); --nav-solid:#0A1430; --grain:rgba(255,255,255,.10); --grain-opacity:.25;
+  --hover-card:#16264F; --focus-ring:rgba(141,176,245,.22); --input-bg:#0D1938;
+  --shadow-1:0 1px 2px rgba(0,0,0,.3),0 4px 12px rgba(0,0,0,.2); --shadow-2:0 10px 30px rgba(0,0,0,.4),0 2px 6px rgba(0,0,0,.3);
+  --chart-1:#8DB0F5; --chart-2:#FF8A3D; --chart-3:#6FD3A3; --chart-grid:rgba(255,255,255,.12);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:16px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--nav-solid)}
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(var(--grain) 1px,transparent 1px);background-size:3px 3px;opacity:var(--grain-opacity);mix-blend-mode:multiply}
+:root[data-theme="dark"] body::after{mix-blend-mode:screen}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body::after{mix-blend-mode:screen}}
+header,main,section,footer,nav{position:relative;z-index:1}
+img{max-width:100%}
+a{color:var(--brand)}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--head);margin:0;text-wrap:balance;letter-spacing:-.025em;line-height:1.1}
+h1{font-size:clamp(38px,6.4vw,88px);font-weight:700;letter-spacing:-.035em;line-height:1.02}
+h2{font-size:clamp(30px,4.2vw,56px);font-weight:600}
+h3{font-size:clamp(20px,2.2vw,26px);font-weight:600;letter-spacing:-.02em}
+h4{font-size:18px;font-weight:600;letter-spacing:-.01em}
+p{margin:0}
+em{font-family:var(--font-display);font-style:italic;font-weight:500;color:var(--orange-ink)}
+.dark em{color:var(--orange-soft)}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:max(clamp(16px,4vw,28px),env(safe-area-inset-left,0px));padding-right:max(clamp(16px,4vw,28px),env(safe-area-inset-right,0px))}
+.mono{font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.2em}
+.muted{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:6px}
+
+/* eyebrow */
+.eyebrow{display:inline-flex;align-self:flex-start;width:fit-content;align-items:center;gap:10px;font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.2em;color:var(--brand);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 14px;max-width:100%}
+.eyebrow::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 3px rgba(255,107,10,.15)}
+.dark .eyebrow{background:rgba(255,255,255,.08);border-color:var(--on-dark-line);color:var(--on-dark)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--nav-bg);backdrop-filter:saturate(150%) blur(12px);-webkit-backdrop-filter:saturate(150%) blur(12px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:68px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--head);min-width:0}
+.logo{position:relative;width:42px;height:42px;flex:none;display:block}
+.logo svg,.logo img{position:absolute;inset:0;width:42px;height:42px;object-fit:contain}
+.logo.has-img svg{display:none}
+.brand-txt{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.brand-name{font-family:var(--font-display);font-weight:700;font-size:21px;letter-spacing:-.02em;color:var(--head)}
+.brand-name span{color:var(--orange)}
+.brand-tag{font-family:var(--font-mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nav-links{display:flex;align-items:center;gap:4px;margin:0 0 0 auto}
+.nav-links a{font-size:14px;font-weight:600;text-decoration:none;color:var(--text);padding:8px 12px;border-radius:999px;transition:background .2s,color .2s;white-space:nowrap}
+.nav-links a:hover{background:var(--surface-2)}
+.nav-links a[aria-current="page"]{background:var(--blue-bg);color:var(--brand)}
+.nav-cta{font-size:14px;font-weight:700;text-decoration:none;background:var(--btn-bg);color:var(--btn-fg);padding:10px 18px;border-radius:999px;transition:background .2s,transform .2s;white-space:nowrap}
+.nav-cta:hover{background:var(--orange);color:#fff;transform:translateY(-1px)}
+.burger{display:none;width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--head);cursor:pointer;align-items:center;justify-content:center}
+.burger svg{width:22px;height:22px}
+@media (max-width:1080px){.brand-tag{display:none}}
+@media (max-width:920px){
+  .burger{display:inline-flex}
+  .nav-cta{display:none}
+  .nav-links{position:fixed;left:0;right:0;top:calc(68px + env(safe-area-inset-top,0px));margin:0;flex-direction:column;align-items:stretch;gap:2px;padding:12px max(16px,env(safe-area-inset-right,0px)) 18px max(16px,env(safe-area-inset-left,0px));background:var(--nav-solid);border-bottom:1px solid var(--line);box-shadow:var(--shadow-2);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s,transform .25s,visibility .25s}
+  .nav-links.open{opacity:1;visibility:visible;transform:none}
+  .nav-links a{padding:13px 14px;font-size:16px}
+  .nav-links .nav-cta-m{display:block;margin-top:8px;background:var(--btn-bg);color:var(--btn-fg);text-align:center}
+}
+@media (min-width:921px){.nav-cta-m{display:none!important}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:10px;font:700 15px/1 var(--font-body);text-decoration:none;border-radius:999px;padding:16px 28px;border:1.5px solid transparent;cursor:pointer;transition:background .2s,color .2s,transform .2s,box-shadow .2s,border-color .2s}
+.btn .ar{transition:transform .2s}
+.btn:hover .ar{transform:translateX(4px)}
+.btn-primary{background:var(--btn-bg);color:var(--btn-fg)}
+.btn-primary:hover{background:var(--orange);color:#fff;transform:translateY(-2px);box-shadow:var(--shadow-2)}
+.btn-ghost{background:transparent;color:var(--head);border-color:var(--head)}
+.btn-ghost:hover{background:var(--head);color:var(--bg)}
+.btn-sm{padding:11px 18px;font-size:14px}
+.dark .btn-primary{background:var(--orange);color:#fff}
+.dark .btn-primary:hover{background:var(--orange-soft)}
+.dark .btn-ghost{color:var(--on-dark);border-color:var(--on-dark)}
+.dark .btn-ghost:hover{background:var(--on-dark);color:var(--navy-deep)}
+
+/* sections */
+section{padding:90px 0}
+.sec-head{max-width:780px;display:flex;flex-direction:column;gap:18px;margin-bottom:44px}
+.sec-head p{color:var(--muted);font-size:18px;max-width:64ch}
+.dark{background:linear-gradient(135deg,var(--dark-a) 0%,var(--dark-b) 100%);color:var(--on-dark);overflow:hidden}
+.dark h2,.dark h3,.dark h4{color:var(--on-dark)}
+.dark .sec-head p,.dark .muted{color:var(--on-dark-muted)}
+.dark::before{content:"";position:absolute;right:-120px;top:-120px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,10,.18) 0%,transparent 65%);pointer-events:none}
+.dark::after{content:"";position:absolute;left:-160px;bottom:-160px;width:420px;height:420px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.07) 0%,transparent 65%);pointer-events:none}
+.dark>.wrap{position:relative;z-index:1}
+.alt{background:var(--surface-2)}
+.alt{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+/* hero */
+.hero{padding:72px 0 64px}
+.hero-grid{display:grid;grid-template-columns:1.2fr .9fr;gap:56px;align-items:center}
+.hero-copy{display:flex;flex-direction:column;gap:26px;min-width:0}
+.hero-copy .lede{font-size:clamp(17px,1.5vw,20px);color:var(--muted);max-width:56ch}
+.hero-cta{display:flex;flex-wrap:wrap;gap:14px}
+.highlight{position:relative;white-space:normal;z-index:0}
+.highlight::after{content:"";position:absolute;left:-2px;right:-2px;bottom:.04em;height:14px;background:var(--orange);opacity:.22;transform:skew(-6deg);z-index:-1}
+@media (max-width:920px){.hero-grid{grid-template-columns:1fr;gap:36px}.hero{padding:44px 0 40px}section{padding:64px 0}}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-2);padding:28px;position:relative;overflow:hidden;min-width:0}
+.card.hero-card::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,107,10,.15),transparent 50%);pointer-events:none}
+.card>*{position:relative}
+.card-flat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-1);min-width:0}
+
+/* stats strip */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.stat{padding:26px 24px;display:flex;flex-direction:column;gap:6px;border-left:1px solid var(--line);min-width:0}
+.stat:first-child{border-left:0;padding-left:0}
+.stat b{font-family:var(--font-display);font-weight:600;font-size:clamp(32px,4vw,44px);color:var(--head);letter-spacing:-.03em;line-height:1}
+.stat b span{color:var(--orange)}
+.stat small{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.16em;color:var(--muted);line-height:1.5}
+@media (max-width:920px){.stats{grid-template-columns:repeat(2,1fr)}.stat:nth-child(3){border-left:0;padding-left:0}.stat:nth-child(n+3){border-top:1px solid var(--line)}}
+@media (max-width:420px){.stat{padding:20px 14px}}
+
+/* 1px gap grid */
+.grid-gap{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.grid-gap.c2{grid-template-columns:repeat(2,1fr)}.grid-gap.c3{grid-template-columns:repeat(3,1fr)}.grid-gap.c4{grid-template-columns:repeat(4,1fr)}
+.gcard{background:var(--surface);padding:28px;position:relative;display:flex;flex-direction:column;gap:12px;min-width:0;transition:background .2s}
+.gcard:hover{background:var(--hover-card)}
+.gcard .stamp{position:absolute;right:20px;top:20px;font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;color:var(--muted)}
+.ico{width:44px;height:44px;border-radius:12px;background:var(--surface-2);display:grid;place-items:center;color:var(--brand)}
+.ico svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gcard p,.gcard li{color:var(--muted);font-size:15px}
+.gcard ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+@media (max-width:920px){.grid-gap.c3,.grid-gap.c4{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:620px){.grid-gap.c2,.grid-gap.c3,.grid-gap.c4{grid-template-columns:1fr}}
+
+/* chips */
+.chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:999px;white-space:nowrap;border:1px solid transparent}
+.chip.green{background:var(--green-bg);color:var(--green-ink)}.chip.red{background:var(--red-bg);color:var(--red-ink)}
+.chip.amber{background:var(--amber-bg);color:var(--amber-ink)}.chip.blue{background:var(--blue-bg);color:var(--brand)}
+.chip.line{background:transparent;color:var(--muted);border-color:var(--line)}
+.chip.core{background:var(--btn-bg);color:var(--btn-fg)}
+.chip.build{background:var(--blue-bg);color:var(--brand)}
+.chip.later{background:transparent;color:var(--muted);border-color:var(--line)}
+
+/* tabs */
+.tabs{display:flex;flex-wrap:wrap;gap:6px;padding:5px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;width:fit-content;max-width:100%}
+.tab{font:600 14px/1 var(--font-body);color:var(--text);background:transparent;border:0;border-radius:999px;padding:11px 18px;cursor:pointer;transition:background .2s,color .2s}
+.tab:hover{background:var(--surface)}
+.tab[aria-selected="true"]{background:var(--btn-bg);color:var(--btn-fg)}
+@media (max-width:560px){.tabs{border-radius:18px;width:100%}.tab{flex:1 1 auto;padding:11px 12px;font-size:13px}}
+.panel[hidden]{display:none}
+.panel{animation:fadein .4s ease}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* tables */
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);box-shadow:var(--shadow-1)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.14em;color:var(--muted);font-weight:500;background:var(--surface-2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td b{color:var(--head)}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* forms */
+label{font-size:13px;font-weight:600;color:var(--head)}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+input[type=number],input[type=date],select,input[type=text],input[type=search]{font:500 15px var(--font-body);color:var(--text);background:var(--input-bg);border:1.5px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;width:100%;min-width:0;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus{outline:0;border-color:var(--brand);box-shadow:0 0 0 4px var(--focus-ring)}
+input[type=range]{width:100%;accent-color:var(--orange)}
+.hint{font-size:12.5px;color:var(--muted)}
+
+/* faq */
+.faq{display:flex;flex-direction:column;gap:12px;max-width:860px}
+.faq-item{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow-1)}
+.faq-q{all:unset;box-sizing:border-box;width:100%;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 24px}
+.faq-q:focus-visible{outline:2px solid var(--brand);outline-offset:-2px;border-radius:var(--radius)}
+.faq-q .qn{display:block;font-family:var(--font-mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--orange-ink);margin-bottom:4px}
+.faq-q .qt{font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--head);letter-spacing:-.01em;line-height:1.25}
+.faq-tog{flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;color:var(--head);transition:transform .35s,background .35s,color .35s,border-color .35s}
+.faq-item.open .faq-tog{transform:rotate(45deg);background:var(--orange);border-color:var(--orange);color:#fff}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.faq-a>div{padding:0 24px 22px;color:var(--muted);font-size:15.5px;display:flex;flex-direction:column;gap:10px}
+
+/* notes and callouts */
+.note{display:flex;gap:12px;align-items:flex-start;background:var(--amber-bg);color:var(--text);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;font-size:14px}
+.note b{color:var(--head)}
+.note.info{background:var(--blue-bg)}
+.note.ok{background:var(--green-bg)}
+.legend{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;font-size:13px;color:var(--muted)}
+
+/* footer */
+footer{background:var(--navy-ink);color:#C9D4EE;padding:64px 0 36px}
+.foot-grid{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:40px}
+.foot-grid h4{color:#FBF7EE;font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.2em;font-weight:500;margin-bottom:14px}
+.foot-grid p,.foot-grid li{font-size:14.5px;line-height:1.7}
+.foot-grid ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.foot-grid a{color:#FBF7EE;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+.foot-grid a:hover{border-color:var(--orange-soft)}
+.foot-brand .brand-name{color:#FBF7EE}
+.foot-fine{margin-top:40px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);font-size:12.5px;color:#93A3C8;display:flex;flex-direction:column;gap:6px}
+@media (max-width:820px){.foot-grid{grid-template-columns:1fr;gap:28px}}
+.copy{all:unset;cursor:pointer;font:600 12px var(--font-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--orange-soft);margin-left:8px}
+.copy:focus-visible{outline:2px solid var(--orange-soft);outline-offset:2px}
+
+/* reveal */
+.reveal{transition:opacity .7s ease,transform .7s ease}
+.reveal.pre{opacity:0;transform:translateY(20px)}
+@media (prefers-reduced-motion:reduce){.reveal,.panel,.faq-a,.btn,.nav-links{transition:none;animation:none}.reveal.pre{opacity:1;transform:none}html{scroll-behavior:auto}}
+
+
+.glance td,.glance th{padding:11px 10px}
+.kinds{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.pill{font:600 14px/1 var(--font-body);background:var(--surface);color:var(--text);border:1.5px solid var(--line);border-radius:999px;padding:11px 18px;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.pill:hover{border-color:var(--brand)}
+.pill[aria-pressed="true"]{background:var(--btn-bg);color:var(--btn-fg);border-color:var(--btn-bg)}
+table.ex{min-width:880px}
+.m-only{display:none;margin-top:8px}
+@media (max-width:720px){.m-only{display:inline-flex}}
+table.ex td.why{color:var(--muted);font-size:13.5px;min-width:260px}
+table.ex tr[hidden]{display:none}
+.calc{display:grid;grid-template-columns:.85fr 1.15fr;gap:28px;align-items:start}
+@media (max-width:980px){.calc{grid-template-columns:1fr}}
+.calc-form{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-2)}
+.calc-form .full{grid-column:1/-1}
+.calc-form h4{grid-column:1/-1;font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.18em;color:var(--orange-ink);font-weight:500}
+@media (max-width:480px){.calc-form{grid-template-columns:1fr;padding:18px}}
+.err{font-size:12.5px;color:var(--red-ink);min-height:0}
+.calc-out{display:flex;flex-direction:column;gap:18px;min-width:0}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.kpis div{background:var(--surface);padding:16px 18px}
+.kpis b{display:block;font-family:var(--font-display);font-size:30px;font-weight:600;letter-spacing:-.03em;color:var(--head);line-height:1.1}
+.kpis small{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+@media (max-width:520px){.kpis{grid-template-columns:1fr}}
+table.res td.st{white-space:nowrap}
+.mo{display:none}
+@media (max-width:720px){table.res th:nth-child(4),table.res td:nth-child(4){display:none}.mo{display:block}}
+table.res .need{font-size:13px;color:var(--muted)}
+.fix{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow-1);display:flex;flex-direction:column;gap:14px}
+.fix h3{font-size:22px}
+.fix .lead{font-family:var(--font-display);font-size:clamp(20px,2.2vw,26px);font-weight:500;letter-spacing:-.02em;line-height:1.25;color:var(--head)}
+.fix .lead b{color:var(--orange-ink)}
+.alloc{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius-sm);overflow:hidden}
+.alloc div{background:var(--surface-2);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.alloc b{font-family:var(--font-display);font-size:28px;letter-spacing:-.03em;color:var(--head)}
+.alloc small{font-size:13px;color:var(--muted)}
+.tnea{background:var(--blue-bg);border-radius:var(--radius-sm);padding:14px 18px;font-size:14.5px;color:var(--text)}
+.tnea b{color:var(--head)}
+.ladder-t td,.ladder-t th{text-align:right;font-variant-numeric:tabular-nums}
+.ladder-t td:first-child,.ladder-t th:first-child{text-align:left}
+.routes{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--on-dark-line);border:1px solid var(--on-dark-line);border-radius:var(--radius);overflow:hidden}
+.routes>div{background:rgba(10,37,96,.5);padding:26px 24px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.routes h4{color:#fff}
+.routes p{color:var(--on-dark-muted);font-size:15px}
+.routes .chip{align-self:flex-start}
+@media (max-width:920px){.routes{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.routes{grid-template-columns:1fr}}
+.dark .chip.line{color:var(--on-dark-muted);border-color:var(--on-dark-line)}
+.dark .chip.amber{background:#3E3112;color:#F2C26A}
+
+</style>
+<a id="top"></a>
+<nav class="nav" aria-label="Main"><div class="wrap nav-in">
+<a class="brand" href="#top" aria-label="EduAakashaa home"><span class="logo"><svg viewBox="0 0 42 42" aria-hidden="true"><polygon points="21,3 37,12 21,21 5,12" fill="#FF6B0A"/><polygon points="5,12 21,21 21,39 5,30" fill="#0E3A8A"/><polygon points="21,21 37,12 37,30 21,39" fill="#0A2560"/><polyline points="5,12 21,21 37,12" fill="none" stroke="#FBF7EE" stroke-width="1" opacity=".5"/></svg><img src="./eduaakashaa_logo.png" alt="EduAakashaa" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()"></span><span class="brand-txt"><span class="brand-name">Edu<span>Aakashaa</span></span><span class="brand-tag">Guiding students towards the right future</span></span></a>
+<div class="nav-links" id="navlinks"><a href="https://claude.ai/artifact/6Qu8BNPhQd1AQJJK8PJPM8" target="_blank" rel="noopener">Playbook</a><a href="https://claude.ai/artifact/R39jk652ZTvWJjyBWyNJLn" target="_blank" rel="noopener">Answer lab</a><a href="https://claude.ai/artifact/5RpsotpWjtxPsNAGw2koXJ" target="_blank" rel="noopener">Thumb rules</a><a href="#top" aria-current="page">Eligibility</a><a class="nav-cta-m" href="#contact">Talk to a counsellor</a></div>
+<a class="nav-cta" href="#contact">Talk to a counsellor</a>
+<button class="burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navlinks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></nav>
+
+<header class="hero"><div class="wrap hero-grid">
+<div class="hero-copy">
+<span class="eyebrow">Eligibility &middot; Board-marks cut-offs &middot; Class 12 PCM</span>
+<h1>Find your <span class="highlight">marks gap</span>, then <em>close it</em>.</h1>
+<p class="lede">Each entrance route asks for a different percentage in Class 12. See the rule for JoSAA, DASA, BITSAT, VIT, SRM, MET, TNEA, KCET, KEAM and MHT-CET, enter your marks to see how far you are, and get a plan for the gap.</p>
+<div class="hero-cta"><a class="btn btn-primary" href="#calc">Check my marks <span class="ar">&rarr;</span></a><a class="btn btn-ghost" href="#table">See all the rules</a></div>
+</div>
+<aside class="card hero-card"><span class="eyebrow">How the percentages are counted</span>
+<div class="tbl-scroll" style="margin-top:16px;box-shadow:none"><table class="glance"><tbody>
+<tr><td><b>PCM %</b></td><td>(Physics + Chemistry + Maths totals) &divide; 300. Totals include practical or internal marks.</td></tr>
+<tr><td><b>5-subject %</b></td><td>(PCM + English + one more subject) &divide; 500. Used by JoSAA.</td></tr>
+<tr><td><b>TNEA cut-off</b></td><td>Maths + Physics &divide; 2 + Chemistry &divide; 2, out of 200.</td></tr></tbody></table></div>
+<p class="hint" style="margin-top:12px">Marks on your mark sheet decide. Confirm which subjects each body counts on its own notice.</p></aside>
+</div></header>
+
+<div class="wrap"><div class="stats reveal">
+<div class="stat"><b>75<span>%</span></b><small>JoSAA and BITSAT. JoSAA is 65% for SC/ST/PwD</small></div>
+<div class="stat"><b>60<span>%</span></b><small>VIT Vellore and SRM Kattankulathur</small></div>
+<div class="stat"><b>50<span>%</span></b><small>MET Manipal, and SRM other campuses on some pages</small></div>
+<div class="stat"><b>45<span>%</span></b><small>TNEA and MHT-CET, general category</small></div>
+</div></div>
+
+<section id="table"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Step 1 &middot; The rules</span><h2>What each route asks for, and <em>how sure we are</em>.</h2>
+<p>We read these from public pages written by coaching and news sites. We did not check the official brochures, so every row carries a label.</p></div>
+<div class="kinds" role="group" aria-label="Route type" id="kinds"><button class="pill" data-k="all" aria-pressed="true" type="button">All routes</button><button class="pill" data-k="National" aria-pressed="false" type="button">National</button><button class="pill" data-k="NRI" aria-pressed="false" type="button">NRI and Gulf</button><button class="pill" data-k="Private" aria-pressed="false" type="button">Private universities</button><button class="pill" data-k="State" aria-pressed="false" type="button">State counselling</button></div>
+<div class="tbl-scroll reveal"><table class="ex" id="ex"><thead><tr><th>Route</th><th>Board-marks rule</th><th>Our confidence</th><th>Notes</th></tr></thead><tbody>
+<tr data-kind="National"><td><b>JEE Main and JEE Advanced (sitting the exam)</b><div class="hint">National</div><span class="chip amber m-only">Third-party</span></td><td>No minimum board marks to sit the exam. You need to have passed Class 12 in 2025 or 2026, or be appearing in 2027.</td><td><span class="chip amber">Third-party</span></td><td class="why">The marks rule applies later, at JoSAA seat allotment. JEE Main allows 3 consecutive years after passing Class 12, with 2 sessions a year.</td></tr><tr data-kind="National"><td><b>JoSAA: IITs, NITs, IIITs and GFTIs</b><div class="hint">National</div><span class="chip amber m-only">Third-party</span></td><td>75% aggregate in Class 12 (65% for SC/ST/PwD), or being in the top 20 percentile of your board.</td><td><span class="chip amber">Third-party</span></td><td class="why">Applied when a seat is allotted. Reports say the aggregate is counted over five subjects as your board counts them. In 2026 the condition had to be met by 15 July, and IIT Roorkee let candidates below the mark join choice filling if they sent a revised scorecard meeting the rule by that date. Each board's top-20-percentile cut-off is published after results.</td></tr><tr data-kind="NRI"><td><b>DASA and CIWG (NRI, OCI, foreign; CIWG for Gulf)</b><div class="hint">NRI</div><span class="chip red m-only">Conflicting</span></td><td>Sources disagree: 75% in recent pages, 60% in older ones. Physics, Chemistry and Maths required.</td><td><span class="chip red">Conflicting</span></td><td class="why">Some pages count PCM only and others the aggregate. We test against the lower of your two percentages. CIWG also needs Class 11 and 12 studied in a Gulf country. A JEE Main score is needed for the engineering route.</td></tr><tr data-kind="Private"><td><b>BITSAT (BITS Pilani, Goa, Hyderabad)</b><div class="hint">Private</div><span class="chip amber m-only">Previous rules</span></td><td>75% aggregate in PCM and at least 60% in each of Physics, Chemistry and Maths.</td><td><span class="chip amber">Previous rules</span></td><td class="why">The 2027 brochure was not out when we checked. Confirm the figures there.</td></tr><tr data-kind="Private"><td><b>VITEEE (VIT Vellore)</b><div class="hint">Private</div><span class="chip amber m-only">Third-party</span></td><td>60% in PCM. 50% for reserved categories and for the North-East, J&amp;K and Ladakh.</td><td><span class="chip amber">Third-party</span></td><td class="why">Rank still depends on the entrance score.</td></tr><tr data-kind="Private"><td><b>SRMJEEE: Kattankulathur campus</b><div class="hint">Private</div><span class="chip amber m-only">Third-party</span></td><td>60% aggregate in PCM.</td><td><span class="chip amber">Third-party</span></td><td class="why">Physics and Maths are compulsory subjects.</td></tr><tr data-kind="Private"><td><b>SRMJEEE: other campuses (Ramapuram, Vadapalani, NCR and others)</b><div class="hint">Private</div><span class="chip red m-only">Conflicting</span></td><td>50% in PCM on some pages, and 60% for all B.Tech on others.</td><td><span class="chip red">Conflicting</span></td><td class="why">We show Check when you meet 50% but not 60%. Ask the campus before applying.</td></tr><tr data-kind="Private"><td><b>MET (Manipal, B.Tech)</b><div class="hint">Private</div><span class="chip amber m-only">Third-party</span></td><td>50% aggregate in Physics, Maths and the optional subject (Chemistry for PCM students).</td><td><span class="chip amber">Third-party</span></td><td class="why">Confirm in the MET 2027 brochure.</td></tr><tr data-kind="State"><td><b>TNEA (Tamil Nadu engineering counselling)</b><div class="hint">State</div><span class="chip amber m-only">Third-party</span></td><td>45% aggregate in PCM for OC. 40% for BC, MBC, DNC, SC, SCA and ST.</td><td><span class="chip amber">Third-party</span></td><td class="why">No entrance exam. Rank comes from the cut-off, Maths + Physics/2 + Chemistry/2 out of 200. Confirm in the Anna University bulletin.</td></tr><tr data-kind="State"><td><b>KCET (Karnataka)</b><div class="hint">State</div><span class="chip amber m-only">Confirm</span></td><td>45% in PCM for general merit and 40% for reserved categories.</td><td><span class="chip amber">Confirm</span></td><td class="why">This figure is from our general knowledge and was not confirmed in this round. Rank uses 50% KCET score and 50% Class 12 marks, per one report. Check with KEA.</td></tr><tr data-kind="State"><td><b>KEAM (Kerala engineering)</b><div class="hint">State</div><span class="chip red m-only">Conflicting</span></td><td>Some pages say 45% in PCM, others 50%. SC/ST: 40%.</td><td><span class="chip red">Conflicting</span></td><td class="why">Engineering rank mixes 50% normalised KEAM score and 50% Class 12 PCM marks (reported). Check the CEE Kerala prospectus.</td></tr><tr data-kind="State"><td><b>MHT-CET (Maharashtra)</b><div class="hint">State</div><span class="chip amber m-only">Third-party</span></td><td>45% in PCM for General and 40% for reserved categories.</td><td><span class="chip amber">Third-party</span></td><td class="why">Both the Class 12 minimum and the CET result are needed.</td></tr><tr data-kind="National"><td><b>CUET UG, NATA and other routes</b><div class="hint">National</div><span class="chip line m-only">Not checked</span></td><td>Not checked in this research. Rules differ by university and course.</td><td><span class="chip line">Not checked</span></td><td class="why">Confirm on the NTA, Council of Architecture or university notice.</td></tr>
+</tbody></table></div>
+<div class="legend" style="margin-top:14px"><span class="chip amber">Third-party</span> read from a coaching or news page <span class="chip red">Conflicting</span> sources disagree <span class="chip line">Not checked</span> outside this research</div>
+</div></section>
+
+<section id="calc" class="alt"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Step 2 &middot; Your gap</span><h2>Enter your marks. See the <em>gap</em> for every route.</h2>
+<p>The numbers in the boxes are an example. Replace them with your own marks or your expected marks. Nothing you enter leaves this page.</p></div>
+<div class="calc">
+<form class="calc-form" id="calcForm" onsubmit="return false" novalidate>
+<h4>Physics</h4>
+<div class="field"><label for="iPt">Theory (of 70)</label><input type="number" id="iPt" min="0" max="70" step="0.5" value="48" inputmode="decimal"></div>
+<div class="field"><label for="iPp">Practical (of 30)</label><input type="number" id="iPp" min="0" max="30" step="0.5" value="27" inputmode="decimal"></div>
+<h4>Chemistry</h4>
+<div class="field"><label for="iCt">Theory (of 70)</label><input type="number" id="iCt" min="0" max="70" step="0.5" value="50" inputmode="decimal"></div>
+<div class="field"><label for="iCp">Practical (of 30)</label><input type="number" id="iCp" min="0" max="30" step="0.5" value="27" inputmode="decimal"></div>
+<h4>Mathematics</h4>
+<div class="field"><label for="iMt">Theory (of 80)</label><input type="number" id="iMt" min="0" max="80" step="0.5" value="52" inputmode="decimal"></div>
+<div class="field"><label for="iMi">Internal assessment (of 20)</label><input type="number" id="iMi" min="0" max="20" step="0.5" value="18" inputmode="decimal"></div>
+<h4>Other subjects, for the 5-subject percentage</h4>
+<div class="field"><label for="iEn">English (of 100)</label><input type="number" id="iEn" min="0" max="100" step="0.5" value="78" inputmode="decimal"></div>
+<div class="field"><label for="iFi">Fifth subject (of 100)</label><input type="number" id="iFi" min="0" max="100" step="0.5" value="80" inputmode="decimal"></div>
+<div class="field full"><label for="iCat">My category</label><select id="iCat"><option value="g">General, EWS or OBC-NCL (OC in Tamil Nadu)</option><option value="s">SC, ST or PwD</option><option value="b">Tamil Nadu BC, MBC or DNC</option></select></div>
+<div class="field full"><label for="iTarget">Route I want a plan for</label><select id="iTarget"></select><span class="hint">Example numbers are not your marks. Replace them first.</span></div>
+<div class="err full" id="calcErr" role="alert"></div>
+</form>
+<div class="calc-out" aria-live="polite">
+<div class="kpis"><div><b id="kPcm">0%</b><small>PCM percentage</small></div><div><b id="kAgg">0%</b><small>5-subject percentage</small></div><div><b id="kSum">0</b><small>PCM marks of 300</small></div></div>
+<div class="tbl-scroll"><table class="res"><thead><tr><th>Route</th><th>Needs</th><th>Status</th><th class="num">Marks to add</th></tr></thead><tbody id="resRows"></tbody></table></div>
+<div class="legend"><span class="chip green">Meets</span> clears the rule <span class="chip amber">Check</span> clears a lower figure only <span class="chip red">Short</span> below the rule</div>
+<div class="fix" id="fix"></div>
+<div class="tnea" id="tnea"></div>
+</div></div>
+</div></section>
+
+<section id="ladder"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Quick reference</span><h2>The marks behind each <em>percentage</em>.</h2><p>Useful when you want a number to aim for in each paper.</p></div>
+<div class="tbl-scroll reveal" style="max-width:760px"><table class="ladder-t"><thead><tr><th>Percentage</th><th>PCM total (of 300)</th><th>5 subjects (of 500)</th><th>One subject (of 100)</th></tr></thead><tbody>
+<tr><td>45%</td><td>135</td><td>225</td><td>45</td></tr>
+<tr><td>50%</td><td>150</td><td>250</td><td>50</td></tr>
+<tr><td>60%</td><td>180</td><td>300</td><td>60</td></tr>
+<tr><td>65%</td><td>195</td><td>325</td><td>65</td></tr>
+<tr><td>75%</td><td>225</td><td>375</td><td>75</td></tr></tbody></table></div>
+<p class="hint" style="margin-top:12px;max-width:760px">Keep a buffer of 3 to 5 marks above any cut-off. A threshold that you meet exactly leaves no room for a surprise in one paper.</p>
+</div></section>
+
+<section id="routes" class="dark"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Step 3 &middot; If the gap is too big</span><h2>Other <em>routes</em> and what to check first.</h2><p>No route is a guaranteed fallback. Each one has its own rules, fees and seats, so check the current notice and speak to a counsellor.</p></div>
+<div class="routes reveal">
+<div><span class="chip line">Reported 2026</span><h4>Improve one subject</h4><p>In 2026, CBSE let Class 12 students choose one subject for improvement in the July supplementary exam. Before you rely on it, check whether JoSAA, DASA or the university counts improved marks.</p></div>
+<div><span class="chip line">Third-party</span><h4>State counselling with lower cut-offs</h4><p>TNEA asks for 45% in PCM, and 40% for BC, MBC and SC/ST. Your rank comes from Maths + Physics/2 + Chemistry/2, so a Maths mark counts double.</p></div>
+<div><span class="chip line">Third-party</span><h4>Private universities at 50 to 60%</h4><p>MET asks for 50%, SRM between 50% and 60% depending on the campus, and VIT 60%. Entrance scores, fees and seat counts decide more than the cut-off.</p></div>
+<div><span class="chip line">Third-party</span><h4>Top 20 percentile of your board</h4><p>JoSAA accepts being in the top 20 percentile of your board instead of 75%. The board cut-off is published after results, so it cannot be planned on in advance.</p></div>
+<div><span class="chip line">Third-party</span><h4>DASA and CIWG for NRI students</h4><p>Check which percentage and which subjects your year's brochure counts. The sources we found disagree between 60% and 75%.</p></div>
+<div><span class="chip line">Our judgement</span><h4>Ask before you drop a year</h4><p>JEE Main allows 3 consecutive years after Class 12, but a repeat year is a large decision. Talk through marks, rank targets and costs with a counsellor first.</p></div>
+</div>
+<div class="hero-cta reveal" style="margin-top:28px"><a class="btn btn-primary" href="https://claude.ai/artifact/6Qu8BNPhQd1AQJJK8PJPM8" target="_blank" rel="noopener">Plan the marks: Board Score Playbook <span class="ar">&rarr;</span></a><a class="btn btn-ghost" href="https://claude.ai/artifact/5RpsotpWjtxPsNAGw2koXJ" target="_blank" rel="noopener">Thumb rules for hard chapters</a></div>
+</div></section>
+
+<section id="faq" class="alt"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Questions &middot; Students and parents</span><h2>Quick <em>answers</em>.</h2></div>
+<div class="faq reveal">
+<div class="faq-item"><button class="faq-q" type="button"><span><span class="qn">Q&middot;01 &middot; For students</span><span class="qt">Do I need 75% to write JEE Main or JEE Advanced?</span></span><span class="faq-tog" aria-hidden="true">+</span></button><div class="faq-a"><div><p>Reports on the 2026 cycle describe the 75% rule as an admission rule and not an exam rule. It applies when a seat is formally allotted through JoSAA. You can sit the exams and then need the percentage, or a top-20-percentile place in your board, at that stage.</p></div></div></div>
+<div class="faq-item"><button class="faq-q" type="button"><span><span class="qn">Q&middot;02 &middot; For students</span><span class="qt">Do practical marks count in these percentages?</span></span><span class="faq-tog" aria-hidden="true">+</span></button><div class="faq-a"><div><p>Subject totals on a CBSE mark sheet include practical or internal marks, so this page counts them. Some bodies may count a different set of subjects. Read the notice for your route.</p></div></div></div>
+<div class="faq-item"><button class="faq-q" type="button"><span><span class="qn">Q&middot;03 &middot; For parents</span><span class="qt">Which percentage should we plan for, PCM or five subjects?</span></span><span class="faq-tog" aria-hidden="true">+</span></button><div class="faq-a"><div><p>Plan for both. JoSAA is described as a five-subject aggregate. Most private and state routes in the table use PCM. A strong English or fifth-subject score can lift the five-subject figure above PCM, as in the example numbers.</p></div></div></div>
+<div class="faq-item"><button class="faq-q" type="button"><span><span class="qn">Q&middot;04 &middot; For Gulf families</span><span class="qt">Our 2026 result came from the special scheme. What now?</span></span><span class="faq-tog" aria-hidden="true">+</span></button><div class="faq-a"><div><p>News reports say CBSE cancelled Class 12 exams in seven West Asian countries in March 2026 (UAE, Bahrain, Iran, Kuwait, Oman, Qatar and Saudi Arabia) and gave results under a special assessment scheme. It then held optional exams from 23 to 28 October 2026 for students who wanted to improve, and said the new result is final and replaces the earlier one. The reports we read do not say how JoSAA, DASA or any university treats the new marks. Ask each body in writing before you rely on them.</p></div></div></div>
+<div class="faq-item"><button class="faq-q" type="button"><span><span class="qn">Q&middot;05 &middot; For students</span><span class="qt">How do I improve my marks in the time left?</span></span><span class="faq-tog" aria-hidden="true">+</span></button><div class="faq-a"><div><p>Start from the Board Score Playbook. It has a study plan counted back from your exam date, and the Answer Sheet Lab shows how writing style changes marks. The gap plan on this page tells you how many marks to find in each paper.</p><p><a href="https://claude.ai/artifact/6Qu8BNPhQd1AQJJK8PJPM8" target="_blank" rel="noopener">Open the Board Score Playbook</a></p></div></div></div>
+</div></div></section>
+
+<section id="limits"><div class="wrap">
+<div class="sec-head reveal"><span class="eyebrow">Limits</span><h2>Read this before you <em>act</em> on a number.</h2></div>
+<div class="grid-gap c3 reveal">
+<div class="gcard"><span class="chip amber">Third-party</span><h4>No official brochure was checked</h4><p>The rules come from coaching and news pages. NTA, JoSAA, DASA and each university publish the rule that counts. Brochures for 2027 were not all out when we checked.</p></div>
+<div class="gcard"><span class="chip red">Conflicting</span><h4>Some sources disagree</h4><p>DASA is 60% or 75%, KEAM is 45% or 50%, and SRM campuses differ. We show a range and the status Check where you land between the two.</p></div>
+<div class="gcard"><span class="chip line">Our judgement</span><h4>The gap plan is a planning aid</h4><p>It assumes you can reach about 90% of the marks in each practical and paper. That is a planning assumption and not a prediction. Results depend on your preparation.</p></div>
+</div>
+<ul class="src-list" style="margin:22px 0 0;padding-left:18px;font-size:14px;color:var(--muted);display:flex;flex-direction:column;gap:6px">
+<li>JoSAA and the 75% rule: motion.ac.in, pw.live and iquanta.in summaries of the 2026 criteria.</li>
+<li>JEE Main and Advanced 2027: aglasem.com and pw.live. DASA and CIWG: allenoverseas.com and careers360.com.</li>
+<li>BITSAT: careers360.com. VITEEE, SRMJEEE, MET: careers360.com and pw.live. TNEA, KEAM, MHT-CET: coaching and news pages. KCET: general knowledge, unconfirmed.</li>
+<li>Supplementary and improvement rules: freepressjournal.in and pw.live, 2026 reports. Gulf special exams of 23 to 28 October 2026: Khaleej Times and Onmanorama reports. IIT Roorkee scorecard note: Careers360 News.</li></ul>
+</div></section>
+
+<footer id="contact"><div class="wrap">
+<div class="foot-grid">
+<div class="foot-brand"><a class="brand" href="#top" aria-label="EduAakashaa"><span class="logo"><svg viewBox="0 0 42 42" aria-hidden="true"><polygon points="21,3 37,12 21,21 5,12" fill="#FF6B0A"/><polygon points="5,12 21,21 21,39 5,30" fill="#0E3A8A"/><polygon points="21,21 37,12 37,30 21,39" fill="#0A2560"/><polyline points="5,12 21,21 37,12" fill="none" stroke="#FBF7EE" stroke-width="1" opacity=".5"/></svg><img src="./eduaakashaa_logo.png" alt="EduAakashaa" onload="this.parentNode.classList.add('has-img')" onerror="this.remove()"></span><span class="brand-txt"><span class="brand-name">Edu<span>Aakashaa</span></span></span></a>
+<p style="margin-top:16px;max-width:38ch">Education counselling for students and parents in Coimbatore and Dubai. Honest numbers, no hype, one clear next step.</p></div>
+<div><h4>Talk to us</h4><ul>
+<li>India: <span>+91-80157 22706</span><button class="copy" type="button" data-copy="+91-80157 22706">Copy</button></li>
+<li>UAE: <span>+971 50 516 8081</span><button class="copy" type="button" data-copy="+971 50 516 8081">Copy</button></li>
+<li><span>info@eduaakashaa.com</span><button class="copy" type="button" data-copy="info@eduaakashaa.com">Copy</button></li>
+<li><span>www.eduaakashaa.com</span><button class="copy" type="button" data-copy="www.eduaakashaa.com">Copy</button></li>
+<li>Coimbatore, Tamil Nadu &middot; Dubai, UAE</li></ul></div>
+<div><h4>More in this series</h4><ul><li><a href="https://claude.ai/artifact/6Qu8BNPhQd1AQJJK8PJPM8" target="_blank" rel="noopener">Board Score Playbook</a></li><li><a href="https://claude.ai/artifact/R39jk652ZTvWJjyBWyNJLn" target="_blank" rel="noopener">Answer Sheet Lab</a></li><li><a href="https://claude.ai/artifact/5RpsotpWjtxPsNAGw2koXJ" target="_blank" rel="noopener">Thumb Rules Handbook</a></li></ul></div>
+</div>
+<div class="foot-fine"><span>AI-assisted draft prepared for EduAakashaa counsellors and families. Dates, fees and cut-offs change each year, so confirm them on the official CBSE, JoSAA, NTA and university notices before you act.</span><span>&copy; EduAakashaa. Coimbatore &middot; Dubai.</span></div>
+</div></footer>
+<script>
+(function(){
+  var d=document, w=window;
+  var EA=w.EA={};
+  EA.cssVar=function(n){return getComputedStyle(d.documentElement).getPropertyValue(n).trim();};
+  EA.onTheme=function(cb){
+    try{var mq=w.matchMedia('(prefers-color-scheme: dark)');(mq.addEventListener?mq.addEventListener('change',cb):mq.addListener(cb));}catch(e){}
+    try{new MutationObserver(cb).observe(d.documentElement,{attributes:true,attributeFilter:['data-theme']});}catch(e){}
+  };
+  EA.store={
+    get:function(k,def){try{var v=w.localStorage.getItem(k);return v===null?def:JSON.parse(v);}catch(e){return def;}},
+    set:function(k,v){try{w.localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+  };
+  EA.initTabs=function(root,cb){
+    var tabs=[].slice.call(root.querySelectorAll('[role=tab]'));
+    function sel(t){
+      tabs.forEach(function(x){
+        var on=x===t; x.setAttribute('aria-selected',on?'true':'false'); x.tabIndex=on?0:-1;
+        var p=d.getElementById(x.getAttribute('aria-controls')); if(p&&!on) p.hidden=true;
+      });
+      var sp=d.getElementById(t.getAttribute('aria-controls')); if(sp) sp.hidden=false;
+      if(cb) cb(t.getAttribute('data-tab'),t);
+    }
+    tabs.forEach(function(t,i){
+      t.addEventListener('click',function(){sel(t);});
+      t.addEventListener('keydown',function(e){
+        var n=null;
+        if(e.key==='ArrowRight')n=tabs[(i+1)%tabs.length];
+        if(e.key==='ArrowLeft')n=tabs[(i-1+tabs.length)%tabs.length];
+        if(n){e.preventDefault();n.focus();sel(n);}
+      });
+    });
+    return {select:function(id){var t=tabs.filter(function(x){return x.getAttribute('data-tab')===id;})[0];if(t)sel(t);}};
+  };
+  // burger
+  var b=d.querySelector('.burger'), nl=d.querySelector('.nav-links');
+  if(b&&nl){
+    b.addEventListener('click',function(){var o=nl.classList.toggle('open');b.setAttribute('aria-expanded',o?'true':'false');});
+    nl.addEventListener('click',function(e){if(e.target.closest('a')){nl.classList.remove('open');b.setAttribute('aria-expanded','false');}});
+  }
+  // FAQ accordion
+  [].slice.call(d.querySelectorAll('.faq-item')).forEach(function(it){
+    var q=it.querySelector('.faq-q'), a=it.querySelector('.faq-a');
+    q.setAttribute('aria-expanded','false');
+    q.addEventListener('click',function(){
+      var open=it.classList.toggle('open');
+      q.setAttribute('aria-expanded',open?'true':'false');
+      a.style.maxHeight=open?Math.max(600,a.scrollHeight+40)+'px':'0px';
+    });
+  });
+  // reveal on scroll, always resolves to visible
+  var els=[].slice.call(d.querySelectorAll('.reveal'));
+  if('IntersectionObserver' in w && els.length){
+    var scrolled=false;
+    w.addEventListener('scroll',function(){scrolled=true;},{passive:true,once:true});
+    els.forEach(function(el){if(el.getBoundingClientRect().top>w.innerHeight*0.95)el.classList.add('pre');});
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.remove('pre');io.unobserve(e.target);}});},{threshold:.06});
+    els.forEach(function(el){if(el.classList.contains('pre'))io.observe(el);});
+    setTimeout(function(){if(!scrolled)els.forEach(function(el){el.classList.remove('pre');});},2000);
+  }
+  // copy buttons
+  [].slice.call(d.querySelectorAll('[data-copy]')).forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var txt=btn.getAttribute('data-copy'), old=btn.textContent;
+      function done(){btn.textContent='Copied';setTimeout(function(){btn.textContent=old;},1400);}
+      try{w.navigator.clipboard.writeText(txt).then(done,function(){sel();});}catch(e){sel();}
+      function sel(){var t=btn.previousElementSibling;if(t&&w.getSelection){var r=d.createRange();r.selectNodeContents(t);var s=w.getSelection();s.removeAllRanges();s.addRange(r);}btn.textContent='Selected';setTimeout(function(){btn.textContent=old;},1400);}
+    });
+  });
+})();
+
+</script>
+<script>
+
+(function(){
+  var d=document, EXAMS=[{"id": "josaa", "name": "JoSAA: IITs, NITs, IIITs and GFTIs", "basis": "agg5", "th": {"g": [75, 75], "s": [65, 65], "b": [75, 75]}}, {"id": "dasa", "name": "DASA and CIWG (NRI, OCI, foreign; CIWG for Gulf)", "basis": "min", "th": {"g": [60, 75], "s": [60, 75], "b": [60, 75]}}, {"id": "bitsat", "name": "BITSAT (BITS Pilani, Goa, Hyderabad)", "basis": "pcmsub60", "th": {"g": [75, 75], "s": [75, 75], "b": [75, 75]}}, {"id": "vit", "name": "VITEEE (VIT Vellore)", "basis": "pcm", "th": {"g": [60, 60], "s": [50, 50], "b": [60, 60]}}, {"id": "srm_k", "name": "SRMJEEE: Kattankulathur campus", "basis": "pcm", "th": {"g": [60, 60], "s": [60, 60], "b": [60, 60]}}, {"id": "srm_o", "name": "SRMJEEE: other campuses (Ramapuram, Vadapalani, NCR and others)", "basis": "pcm", "th": {"g": [50, 60], "s": [50, 60], "b": [50, 60]}}, {"id": "met", "name": "MET (Manipal, B.Tech)", "basis": "pcm", "th": {"g": [50, 50], "s": [50, 50], "b": [50, 50]}}, {"id": "tnea", "name": "TNEA (Tamil Nadu engineering counselling)", "basis": "pcm", "th": {"g": [45, 45], "s": [40, 40], "b": [40, 40]}}, {"id": "kcet", "name": "KCET (Karnataka)", "basis": "pcm", "th": {"g": [45, 45], "s": [40, 40], "b": [45, 45]}}, {"id": "keam", "name": "KEAM (Kerala engineering)", "basis": "pcm", "th": {"g": [45, 50], "s": [40, 40], "b": [45, 50]}}, {"id": "mht", "name": "MHT-CET (Maharashtra)", "basis": "pcm", "th": {"g": [45, 45], "s": [40, 40], "b": [45, 45]}}];
+  function $(id){return d.getElementById(id);}
+  // ----- table filter -----
+  var kind='all';
+  [].slice.call(d.querySelectorAll('#kinds .pill')).forEach(function(b){
+    b.addEventListener('click',function(){
+      kind=b.getAttribute('data-k');
+      [].slice.call(d.querySelectorAll('#kinds .pill')).forEach(function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      [].slice.call(d.querySelectorAll('#ex tbody tr')).forEach(function(r){r.hidden=(kind!=='all'&&r.getAttribute('data-kind')!==kind);});
+    });
+  });
+  // ----- calculator -----
+  var tsel=$('iTarget');
+  EXAMS.forEach(function(e){var o=d.createElement('option');o.value=e.id;o.textContent=e.name;tsel.appendChild(o);});
+  tsel.value='bitsat';
+  var LBL={iPt:'Physics theory',iPp:'Physics practical',iCt:'Chemistry theory',iCp:'Chemistry practical',iMt:'Maths theory',iMi:'Maths internal assessment',iEn:'English',iFi:'Fifth subject'};
+  var MAX={iPt:70,iPp:30,iCt:70,iCp:30,iMt:80,iMi:20,iEn:100,iFi:100};
+  function val(id){var el=$(id),v=parseFloat(el.value);if(isNaN(v))v=0;return Math.min(Math.max(v,0),MAX[id]);}
+  function f1(x){return (Math.round(x*10)/10).toFixed(1).replace(/\.0$/,'');}
+  function chip(c,t){return '<span class="chip '+c+'">'+t+'</span>';}
+  function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function rng(t){return t[0]===t[1]?t[1]+'%':t[0]+'% to '+t[1]+'%';}
+  function judge(have,lo,hi,denom,sum){
+    var need=Math.ceil(hi*denom/100-sum-1e-9);
+    if(have>=hi-1e-9)return {c:'green',t:'Meets',add:0};
+    if(lo<hi&&have>=lo-1e-9)return {c:'amber',t:'Check',add:need};
+    return {c:'red',t:'Short',add:need};
+  }
+  function calc(){
+    var bad=[];
+    Object.keys(MAX).forEach(function(id){var raw=parseFloat($(id).value);if(!isNaN(raw)&&(raw>MAX[id]||raw<0))bad.push(LBL[id]+' is outside 0 to '+MAX[id]);});
+    $('calcErr').textContent=bad.length?'Check: '+bad.join('; ')+'. Values were capped.':'';
+    var P=val('iPt')+val('iPp'), C=val('iCt')+val('iCp'), M=val('iMt')+val('iMi'), En=val('iEn'), Fi=val('iFi');
+    var pcmSum=P+C+M, pcm=pcmSum/3, agg=(pcmSum+En+Fi)/5;
+    $('kPcm').textContent=f1(pcm)+'%'; $('kAgg').textContent=f1(agg)+'%'; $('kSum').textContent=f1(pcmSum);
+    var cat=$('iCat').value, rows='', tgt=null;
+    EXAMS.forEach(function(e){
+      var th=e.th[cat], lo=th[0], hi=th[1], have, denom, sum, basis='';
+      if(e.basis==='agg5'){have=agg;denom=500;sum=pcmSum+En+Fi;basis='5-subject';}
+      else if(e.basis==='min'){var a=pcm,b=agg;if(b<a){have=b;denom=500;sum=pcmSum+En+Fi;basis='5-subject (lower)';}else{have=a;denom=300;sum=pcmSum;basis='PCM (lower)';}}
+      else{have=pcm;denom=300;sum=pcmSum;basis='PCM';}
+      var j=judge(have,lo,hi,denom,sum), extra='', subs=[];
+      if(e.basis==='pcmsub60'){
+        subs=[['Physics',P],['Chemistry',C],['Maths',M]].filter(function(s){return s[1]<60;});
+        if(subs.length){
+          var subNeed=subs.reduce(function(a,s){return a+Math.ceil(60-s[1]-1e-9);},0);
+          extra='<div class="need">Also needs 60 in each subject: '+subs.map(function(s){return s[0]+' is '+f1(s[1])+' (short by '+Math.ceil(60-s[1]-1e-9)+')';}).join(', ')+'</div>';
+          j={c:'red',t:'Short',add:Math.max(j.c==='green'?0:j.add,subNeed)};
+        }
+      }
+      var chipHtml=chip(j.c,j.t);
+      var addTxt=j.c==='green'?'0':(j.add>0?'+'+j.add+' of '+denom:'see note');
+      rows+='<tr><td><b>'+esc(e.name)+'</b>'+extra+'</td><td>'+rng(th)+'<div class="need">on '+basis+'</div></td><td class="st">'+chipHtml+'<div class="need">you: '+f1(have)+'%</div>'+(addTxt==='0'?'':'<div class="need mo"><b>add '+addTxt+'</b></div>')+'</td><td class="num"><b>'+addTxt+'</b></td></tr>';
+      if(e.id===tsel.value)tgt={e:e,th:th,lo:lo,hi:hi,have:have,denom:denom,sum:sum,j:j,subs:subs};
+    });
+    $('resRows').innerHTML=rows;
+    plan(tgt,{P:val('iPt'),Pp:val('iPp'),C:val('iCt'),Cp:val('iCp'),M:val('iMt'),Mi:val('iMi'),En:En,Fi:Fi});
+    var tn=(M)+(P/2)+(C/2);
+    $('tnea').innerHTML='<b>TNEA cut-off on your marks: '+f1(tn)+' of 200</b> ('+f1(tn/2)+'%). It is Maths + Physics &divide; 2 + Chemistry &divide; 2, using your totals out of 100. One mark in Maths adds 1 to the cut-off, and one in Physics or Chemistry adds 0.5.';
+  }
+  function alloc(total,rooms){
+    var sum=rooms.reduce(function(a,r){return a+r.room;},0), out=rooms.map(function(r){return {k:r.k,n:0,room:r.room};});
+    if(sum<=0||total<=0)return out;
+    var raw=rooms.map(function(r){return total*r.room/sum;}), base=raw.map(Math.floor);
+    var left=total-base.reduce(function(a,b){return a+b;},0);
+    var ord=raw.map(function(x,i){return {i:i,r:x-Math.floor(x)};}).sort(function(a,b){return b.r-a.r;});
+    for(var k=0;left>0&&k<200;k++){var i=ord[k%ord.length].i;if(base[i]<rooms[i].room){base[i]++;left--;}}
+    out.forEach(function(o,i){o.n=base[i];});
+    return out;
+  }
+  function plan(t,v){
+    var box=$('fix');
+    if(!t){box.innerHTML='';return;}
+    var need=Math.max(0,t.j.c==='green'?0:t.j.add);
+    if(t.j.c==='green'){
+      box.innerHTML='<h3>'+esc(t.e.name)+'</h3><p class="lead">On these numbers you <b>meet</b> the rule at '+f1(t.have)+'%.</p><p class="hint">Keep a buffer of 3 to 5 marks. Confirm the rule on the official notice for your year.</p>';return;
+    }
+    if(t.subs&&t.subs.length&&t.have>=t.hi-1e-9){
+      box.innerHTML='<h3>'+esc(t.e.name)+'</h3><p class="lead">Your PCM percentage clears <b>'+t.hi+'%</b>, but a subject is below the <b>60%</b> floor.</p><p class="note"><span><b>Subject floor.</b> '+t.subs.map(function(s){return s[0]+' needs '+Math.ceil(60-s[1]-1e-9)+' more (practical or internal marks first)';}).join('; ')+'.</span></p>';
+      return;
+    }
+    var pr=['Pp','Cp','Mi'], prMax={Pp:30,Cp:30,Mi:20}, pcap=0;
+    pr.forEach(function(k){pcap+=Math.max(0,Math.floor(prMax[k]*0.9)-v[k]);});
+    var useP=Math.min(need,pcap), rest=need-useP;
+    var rooms=[{k:'Physics theory',room:Math.max(0,Math.floor(63)-v.P)},{k:'Chemistry theory',room:Math.max(0,63-v.C)},{k:'Maths theory',room:Math.max(0,Math.floor(72)-v.M)}];
+    if(t.denom===500){rooms.push({k:'English',room:Math.max(0,90-v.En)});rooms.push({k:'Fifth subject',room:Math.max(0,90-v.Fi)});}
+    var totalRoom=rooms.reduce(function(a,r){return a+r.room;},0);
+    var a=alloc(Math.min(rest,totalRoom),rooms);
+    var html='<h3>'+esc(t.e.name)+'</h3><p class="lead">You need <b>'+need+' more marks</b> out of '+t.denom+' to reach '+t.hi+'%.</p><div class="alloc">';
+    if(pcap>0)html+='<div><b>+'+useP+'</b><small>Practicals and internals (room for '+pcap+' up to 90%)</small></div>';
+    a.forEach(function(x){if(x.n>0){var ans=Math.ceil(x.n/3);html+='<div><b>+'+x.n+'</b><small>'+x.k+', about '+ans+' more 3-mark answer'+(ans>1?'s':'')+'</small></div>';}});
+    html+='</div>';
+    if(rest>totalRoom)html+='<p class="note"><span><b>Not reachable on marks alone.</b> At a 90% ceiling in every paper you would still be '+(rest-totalRoom)+' marks short for this route. Look at the other routes below.</span></p>';
+    else html+='<p class="hint">Where the marks come from: practicals first, because they are the most controllable. In theory papers the usual sources are careful MCQs, units and signs, and step marks in long answers. The split follows how much room each paper has below a 90% ceiling. It is a planning assumption, not a prediction.</p>';
+    if(t.e.basis==='pcmsub60'){
+      if(t.subs&&t.subs.length)html+='<p class="note"><span><b>Subject floor.</b> '+t.subs.map(function(s){return s[0]+' needs '+Math.ceil(60-s[1]-1e-9)+' more (practical or internal marks first)';}).join('; ')+'. Put those marks in the named subject. The split above is a general guide and does not reflect this floor.</span></p>';
+      else html+='<p class="hint">BITSAT also needs 60% in each subject. Every subject is at or above 60 on these numbers.</p>';
+    }
+    box.innerHTML=html;
+  }
+  ['iPt','iPp','iCt','iCp','iMt','iMi','iEn','iFi','iCat','iTarget'].forEach(function(id){var el=$(id);el.addEventListener('input',calc);el.addEventListener('change',calc);});
+  calc();
+})();
+
+</script>

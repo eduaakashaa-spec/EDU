@@ -1,0 +1,211 @@
+[
+{
+"id": "josaa",
+"name": "JoSAA: IITs, NITs, IIITs and GFTIs",
+"basis": "agg5",
+"th": {
+"g": [
+75,
+75
+],
+"s": [
+65,
+65
+],
+"b": [
+75,
+75
+]
+}
+},
+{
+"id": "dasa",
+"name": "DASA and CIWG (NRI, OCI, foreign; CIWG for Gulf)",
+"basis": "min",
+"th": {
+"g": [
+60,
+75
+],
+"s": [
+60,
+75
+],
+"b": [
+60,
+75
+]
+}
+},
+{
+"id": "bitsat",
+"name": "BITSAT (BITS Pilani, Goa, Hyderabad)",
+"basis": "pcmsub60",
+"th": {
+"g": [
+75,
+75
+],
+"s": [
+75,
+75
+],
+"b": [
+75,
+75
+]
+}
+},
+{
+"id": "vit",
+"name": "VITEEE (VIT Vellore)",
+"basis": "pcm",
+"th": {
+"g": [
+60,
+60
+],
+"s": [
+50,
+50
+],
+"b": [
+60,
+60
+]
+}
+},
+{
+"id": "srm_k",
+"name": "SRMJEEE: Kattankulathur campus",
+"basis": "pcm",
+"th": {
+"g": [
+60,
+60
+],
+"s": [
+60,
+60
+],
+"b": [
+60,
+60
+]
+}
+},
+{
+"id": "srm_o",
+"name": "SRMJEEE: other campuses (Ramapuram, Vadapalani, NCR and others)",
+"basis": "pcm",
+"th": {
+"g": [
+50,
+60
+],
+"s": [
+50,
+60
+],
+"b": [
+50,
+60
+]
+}
+},
+{
+"id": "met",
+"name": "MET (Manipal, B.Tech)",
+"basis": "pcm",
+"th": {
+"g": [
+50,
+50
+],
+"s": [
+50,
+50
+],
+"b": [
+50,
+50
+]
+}
+},
+{
+"id": "tnea",
+"name": "TNEA (Tamil Nadu engineering counselling)",
+"basis": "pcm",
+"th": {
+"g": [
+45,
+45
+],
+"s": [
+40,
+40
+],
+"b": [
+40,
+40
+]
+}
+},
+{
+"id": "kcet",
+"name": "KCET (Karnataka)",
+"basis": "pcm",
+"th": {
+"g": [
+45,
+45
+],
+"s": [
+40,
+40
+],
+"b": [
+45,
+45
+]
+}
+},
+{
+"id": "keam",
+"name": "KEAM (Kerala engineering)",
+"basis": "pcm",
+"th": {
+"g": [
+45,
+50
+],
+"s": [
+40,
+40
+],
+"b": [
+45,
+50
+]
+}
+},
+{
+"id": "mht",
+"name": "MHT-CET (Maharashtra)",
+"basis": "pcm",
+"th": {
+"g": [
+45,
+45
+],
+"s": [
+40,
+40
+],
+"b": [
+45,
+45
+]
+}
+}
+]
