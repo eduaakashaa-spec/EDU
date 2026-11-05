@@ -74,6 +74,16 @@ def state_facts():
     return _cache['state_facts']
 
 
+def nri_facts():
+    """Official facts on NRI, OCI/PIO, foreign-national and Gulf (CIWG) admission for each stream, each with its source page, and what could not be confirmed."""
+    if 'nri_facts' not in _cache:
+        try:
+            _cache['nri_facts'] = _read('nri_facts.json')
+        except (OSError, ValueError):
+            _cache['nri_facts'] = {'pcm': [], 'pcb': [], 'notes_pcm': [], 'notes_pcb': []}
+    return _cache['nri_facts']
+
+
 def routes(stream='pcm'):
     k = cfg(stream)['routes']
     if k not in _cache:

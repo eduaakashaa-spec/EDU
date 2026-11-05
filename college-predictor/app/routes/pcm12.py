@@ -96,7 +96,7 @@ def _strip():
 @pcm_bp.route('/', endpoint='hub')
 def pcm_hub():
     sf = pcm12.state_facts()
-    return render_template('pcm12_hub.html', pages=pcm12.PAGES, n_chapters=len(pcm12.chapters('pcm')), n_routes=len(pcm12.routes('pcm')), states=sf['states'], state_notes=sf['notes'])
+    return render_template('pcm12_hub.html', pages=pcm12.PAGES, n_chapters=len(pcm12.chapters('pcm')), n_routes=len(pcm12.routes('pcm')), states=sf['states'], state_notes=sf['notes'], nri=pcm12.nri_facts()['pcm'], nri_notes=pcm12.nri_facts()['notes_pcm'])
 
 
 def _tool(name):

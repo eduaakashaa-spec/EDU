@@ -28,8 +28,9 @@ def context():
     pb = _read('playbook_pcb.json', {'levels': [], 'sheets': []})
     facts = _read('facts_pcb.json', {'facts': [], 'routes': [], 'biology_units': [], 'notes': []})
     states = ['Maharashtra', 'Delhi', 'Kerala', 'Andhra Pradesh']
-    groups = [('National rules and CBSE', [f for f in facts['facts'] if ': ' not in f['topic'] or f['topic'].split(': ')[0] not in states], True)]
-    for st in states:
+    special = states + ['NRI, OCI and foreign']
+    groups = [('National rules and CBSE', [f for f in facts['facts'] if ': ' not in f['topic'] or f['topic'].split(': ')[0] not in special], True)]
+    for st in special:
         mine = [dict(f, topic=f['topic'].split(': ', 1)[1]) for f in facts['facts'] if f['topic'].startswith(st + ': ')]
         if mine:
             groups.append((st, mine, False))

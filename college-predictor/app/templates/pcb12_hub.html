@@ -40,7 +40,7 @@
     <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
     <div class="dg-alert__body">
       <strong>Checked {{ checked }} against official pages: confirm every rule on the official notice.</strong>
-      The entrance rules below were read from official pages (NTA, NMC, CBSE, and the Maharashtra, Delhi, Kerala and Andhra Pradesh bodies) and each route shows its source; where an official page did not settle a rule it says so. Chapter marks are indicative; only the unit-group marks are official. Members also get a saved analytics dashboard with a week-by-week study plan, and a place in the EduAakashaA Members Group.
+      The entrance rules below were read from official pages (NTA, NMC, CBSE, the Maharashtra, Delhi, Kerala and Andhra Pradesh bodies, and for NRI, OCI/PIO and foreign-national seats) and each route shows its source; where an official page did not settle a rule it says so. Chapter marks are indicative; only the unit-group marks are official. Members also get a saved analytics dashboard with a week-by-week study plan, and a place in the EduAakashaA Members Group.
       {% if current_user.is_authenticated and current_user.is_premium %}
       <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
       {% else %}

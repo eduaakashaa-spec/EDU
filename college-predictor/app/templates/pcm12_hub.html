@@ -84,6 +84,14 @@
     <p class="pc-n">Admission rules change every cycle and the 2027 brochures were not out when we checked. Confirm on the official notice for your year.</p>
   </section>
 
+  <section id="nri"><span class="eb">NRI, OCI/PIO and foreign students</span><h2>If you studied abroad or hold an OCI or PIO card</h2>
+    <p style="margin:0 0 8px;font-size:.92rem">The percentages for DASA and CIWG, the Maharashtra NRI and foreign-national seats, VIT and BITS (international) are in the <a href="{{ url_for('pcm12.eligibility') }}">Eligibility Gap Closer</a> and the members dashboard. Here are the official facts behind them, with their source pages. Whether you count as an NRI, an OCI/PIO or a foreign national decides which seats you can use, so read the definition before the marks.</p>
+    <details class="pc-c" style="margin-bottom:8px" open><summary style="cursor:pointer;font-weight:700">Official facts <span class="pc-n">({{ nri|length }})</span></summary>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.6;font-size:.9rem">{% for f in nri %}<li><b>{{ f.topic }}.</b> {{ f.fact }} <a href="{{ f.source }}" rel="noopener nofollow" target="_blank" style="font-size:.78rem">source</a></li>{% endfor %}</ul></details>
+    {% if nri_notes %}<details class="pc-c"><summary style="cursor:pointer;font-weight:700">Not confirmed <span class="pc-n">({{ nri_notes|length }})</span></summary><ul style="margin:8px 0 0;padding-left:18px;line-height:1.6;font-size:.9rem">{% for n in nri_notes %}<li>{{ n }}</li>{% endfor %}</ul></details>{% endif %}
+    <p class="pc-n">Rules for NRI and foreign candidates change every cycle, and the 2027 brochures were not out when we checked. Confirm with the counselling body and the institution.</p>
+  </section>
+
   <section id="members"><span class="eb">Members</span><h2>The PCM Analytics dashboard</h2>
     <div class="pc-g">
       <div class="pc-c"><h3>Your marks against 11 routes</h3><p>Enter board-style marks once; see which routes you meet, which need a check and how many marks to add, kept up to date as you improve.</p></div>

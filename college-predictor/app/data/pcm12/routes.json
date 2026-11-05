@@ -20,22 +20,25 @@
 },
 {
 "id": "dasa",
-"name": "DASA and CIWG (NRI, OCI, foreign; CIWG for Gulf)",
-"basis": "min",
+"name": "DASA UG and CIWG (NRI, foreign, OCI/PIO(F); CIWG for Gulf)",
+"basis": "agg5",
 "th": {
 "g": [
-60,
+75,
 75
 ],
 "s": [
-60,
+75,
 75
 ],
 "b": [
-60,
+75,
 75
 ]
-}
+},
+"confidence": "official page",
+"source": "https://cdnbbsr.s3waas.gov.in/s305a70454516ecd9194c293b0e415777f/uploads/2026/06/202607281804466532.pdf",
+"note": "DASA UG 2026 brochure: 75% aggregate in five subjects with Maths, Physics and one of Chemistry, Biotechnology, Computer Science or Biology; JEE Main 2026 is mandatory (no SAT route). NRIs need two years of Class 11-12 abroad in the last eight; foreign nationals may study anywhere. CIWG is for NRIs whose parent works in a Gulf country. Born on or after 1 October 2001. Supernumerary seats up to 15% (5% CIWG). OCI/PIO cards issued after 4 March 2021 count as foreign; older cards can choose to be treated at par with Indians through JoSAA/CSAB."
 },
 {
 "id": "bitsat",
@@ -279,5 +282,71 @@
 "note": "60% in PCM; SC/ST 50%, OBC-NCL 55%, PwD 50%, Defence 55%; no relaxation for EWS. JAC Delhi, not JoSAA; 85% Delhi and 15% outside Delhi by place of Class 12 school. IIIT-Delhi asks 70% in the best five subjects including PCM and 70% in Maths (OBC-NCL and PwD 65%, SC/ST 60%).",
 "source": "https://cdnbbsr.s3waas.gov.in/s3e45823afe1e5120cec11fc4c379a0c67/uploads/2026/05/202605261990309362.pdf",
 "confidence": "official page"
+},
+{
+"id": "nri_maha",
+"name": "Maharashtra NRI / OCI / PIO / CIWG / foreign national (supernumerary seats)",
+"basis": "pcm",
+"th": {
+"g": [
+45,
+45
+],
+"s": [
+45,
+45
+],
+"b": [
+45,
+45
+]
+},
+"confidence": "official page",
+"source": "https://fe2026.mahacet.org/PublicPages/Information_Brochure_UG_PG_2026_27_dt_2_7_2026_DHG_1_Display.pdf?did=82533",
+"note": "45% in Physics, Maths and a third subject together. Supernumerary seats up to 15% (one third CIWG, two thirds OCI/PIO/foreign national) and an NRI institutional quota up to 5%; separate portal. The exemption from MHT-CET was seen only in a search summary of the brochure and is not confirmed."
+},
+{
+"id": "nri_vit",
+"name": "VIT B.Tech: NRI and foreign national",
+"basis": "pcm",
+"th": {
+"g": [
+55,
+60
+],
+"s": [
+55,
+60
+],
+"b": [
+55,
+60
+]
+},
+"confidence": "official page (the page shows both 55% and 60%)",
+"source": "https://vit.ac.in/admissions/international/btech-eligibilityandprocedure",
+"note": "NRI 60% in PCM and foreign national 55%, with at least 50% in Maths and English medium (the page also shows 55% for NRI, so the range 55 to 60 shows Check). 2027-28 page."
+},
+{
+"id": "bits_isa",
+"name": "BITS Pilani International Students Admission (foreign passport)",
+"basis": "pcmsub60",
+"th": {
+"g": [
+75,
+75
+],
+"s": [
+75,
+75
+],
+"b": [
+75,
+75
+]
+},
+"confidence": "official page",
+"source": "https://www.bitsadmission.com/ISA/downloads/ISA_Brochure.pdf?06012025=",
+"note": "Foreign passport; 75% aggregate with 60% in each of Physics, Chemistry and Maths; SAT of at least 1160 out of 1600. 2026-27 brochure."
 }
 ]
