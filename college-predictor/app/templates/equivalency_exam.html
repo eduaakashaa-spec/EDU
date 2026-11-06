@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ e.name }}: qualification and subject equivalency rules | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="{{ e.name }}: which qualifications and subjects are accepted, minimum marks, and the official source for each rule.">{% endblock %}
+{% block head %}
+<style>
+  .ex{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);max-width:900px;margin:0 auto;padding:6px 16px 60px}
+  .ex h1{font-size:clamp(1.4rem,3vw,2rem);margin:4px 0}.ex-crumb{font-size:.84rem;color:var(--dim)}.ex-crumb a{color:inherit}
+  .ex-r{border:1px solid var(--ln);border-radius:14px;background:var(--pp);padding:10px 14px;margin:8px 0}.ex-r p{margin:0;font-size:.92rem;line-height:1.55}.ex-r a{font-size:.8rem;word-break:break-all}
+  .ex-tag{display:inline-block;font:700 .62rem 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:#FF6B0A;margin-bottom:2px}
+  .ex-q{width:100%;border-collapse:collapse;font-size:.86rem}.ex-q th,.ex-q td{padding:7px 8px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top}
+  .eq-st{display:inline-block;border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:700;white-space:nowrap}
+  .eq-st.yes{background:#DDF1E6;color:#146c43}.eq-st.equiv{background:#E3EEFF;color:#1E56C4}.eq-st.check{background:#FFF1D6;color:#8a5a00}.eq-st.no{background:#FBDADA;color:#a12828}
+  @media(max-width:700px){.ex-q,.ex-q tbody,.ex-q tr,.ex-q td{display:block;width:100%}.ex-q thead{display:none}.ex-q tr{border:1px solid var(--ln);border-radius:12px;margin:8px 0;padding:8px 11px}.ex-q td{border:0;padding:3px 0}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="ex">
+  <div class="ex-crumb"><a href="{{ url_for('main.home') }}">Home</a> › <a href="{{ url_for('equivalency.hub') }}">Entrance exam equivalency</a> › {{ e.name }}</div>
+  <h1>{{ e.name }}</h1>
+  <p style="margin:2px 0 4px;font-size:.92rem;">{{ e.summary }}</p>
+  <p class="ex-crumb">{{ e.body }} · {{ e.cycle }} · Courses: {{ e.courses|join(', ') }}</p>
+  {% if e.quals %}<h2 style="font-size:1.15rem;margin:16px 0 4px;">Qualifications</h2>
+  <table class="ex-q"><thead><tr><th>Qualification</th><th>Verdict</th><th>Note</th></tr></thead><tbody>
+    {% for k, label in quals %}{% set q = e.quals.get(k) %}<tr><td><b>{{ label }}</b></td>
+      <td>{% if q %}<span class="eq-st {{ q[0] }}">{{ status_label[q[0]] }}</span>{% else %}<span class="eq-st check">Not named in the notice</span>{% endif %}</td>
+      <td>{{ q[1] if q else 'The notice does not name this qualification. Ask the exam body in writing.' }}</td></tr>{% endfor %}
+  </tbody></table>{% endif %}
+  {% if e.needs %}<h2 style="font-size:1.15rem;margin:16px 0 4px;">Subjects needed</h2>
+  <ul style="font-size:.92rem;line-height:1.6;">{% for n in e.needs %}<li>{{ n.label }}</li>{% endfor %}</ul>{% endif %}
+  <h2 style="font-size:1.15rem;margin:16px 0 4px;">Rules and sources</h2>
+  {% for r in e.rules %}<div class="ex-r"><span class="ex-tag">{{ r.topic }}</span><p>{{ r.text }}</p>{% if r.source %}<a href="{{ r.source }}" rel="noopener" target="_blank">{{ r.source }}</a>{% endif %}</div>{% endfor %}
+  {% if e.not_found %}<h2 style="font-size:1.15rem;margin:16px 0 4px;">Not confirmed in the official notice</h2>
+  <ul style="font-size:.9rem;line-height:1.6;">{% for n in e.not_found %}<li>{{ n }}</li>{% endfor %}</ul>{% endif %}
+  <p class="ex-crumb" style="margin-top:14px;">Prepared with AI assistance. The notice for the year you apply is final.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% from "_how.html" import how %}
+{% block title %}Entrance Exam Equivalency Checker: Class 12 equivalents and subject rules for JEE, NEET, B.Arch, UCEED, NID, NIFT, CUET and CLAT | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Check whether your qualification (CBSE, state board, NIOS, diploma, IB, Cambridge, foreign board) and the subjects you studied are accepted by JEE, NEET, B.Arch, UCEED, NID, NIFT, CUET and CLAT, with the official source for every rule.">{% endblock %}
+{% block head %}
+<style>
+  .eq{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);max-width:1100px;margin:0 auto;padding:6px 16px 60px}
+  .eq h1{font-size:clamp(1.5rem,3.4vw,2.3rem);margin:4px 0}.eq h2{font-size:1.25rem;margin:0 0 6px}.eq section{padding:8px 0 18px}
+  .eq-crumb{font-size:.84rem;color:var(--dim)}.eq-crumb a{color:inherit}
+  .eq-nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:8px 0 12px;position:sticky;top:0;z-index:5;background:var(--cream,#FBF7EE);padding:6px 0}.eq-nav a{flex:0 0 auto;border:1px solid var(--ln);border-radius:999px;padding:5px 13px;font-size:.8rem;font-weight:700;text-decoration:none;color:inherit;background:var(--pp)}
+  .eq-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:14px 16px}
+  .eq-f{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;align-items:end}.eq-f label.l{display:block;font-size:.74rem;font-weight:700;color:var(--dim);margin-bottom:3px}
+  .eq select{width:100%;padding:9px 10px;border:1.5px solid var(--ln);border-radius:10px;background:var(--cream,#FBF7EE);color:inherit;font:600 .92rem 'Plus Jakarta Sans',system-ui,sans-serif}
+  .eq-subs{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}.eq-subs label{display:inline-flex;gap:6px;align-items:center;border:1.5px solid var(--ln);border-radius:999px;padding:5px 12px;font-size:.84rem;font-weight:600;cursor:pointer;background:var(--pp)}.eq-subs input{width:auto}
+  .eq-go{border:0;border-radius:999px;padding:10px 24px;font:700 .93rem 'Plus Jakarta Sans',system-ui,sans-serif;background:#FF6B0A;color:#fff;cursor:pointer}
+  .eq-st{display:inline-block;border-radius:999px;padding:3px 11px;font-size:.74rem;font-weight:700;white-space:nowrap}
+  .eq-st.yes{background:#DDF1E6;color:#146c43}.eq-st.equiv{background:#E3EEFF;color:#1E56C4}.eq-st.check{background:#FFF1D6;color:#8a5a00}.eq-st.subjects{background:#FFE3D1;color:#a24200}.eq-st.no{background:#FBDADA;color:#a12828}
+  .eq-r{display:flex;gap:12px;justify-content:space-between;flex-wrap:wrap;align-items:flex-start;border:1px solid var(--ln);border-radius:14px;padding:10px 14px;margin:8px 0;background:var(--pp)}.eq-r b{font-size:.98rem}.eq-r p{margin:3px 0 0;font-size:.86rem;line-height:1.5;color:var(--dim)}
+  .eq-r a{font-size:.78rem}
+  .eq-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px}
+  .eq-x{border:1px solid var(--ln);border-radius:14px;background:var(--pp);padding:12px 14px}.eq-x h3{margin:0 0 4px;font-size:1.02rem}.eq-x .meta{font-size:.78rem;color:var(--dim)}.eq-x ul{margin:6px 0;padding-left:18px;font-size:.86rem;line-height:1.5}
+  .eq-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+  .eq-tag{display:inline-block;font:700 .62rem 'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.06em;color:#FF6B0A;margin-right:4px}
+  @media(max-width:640px){.eq-r{flex-direction:column}.eq-r>div{flex:0 0 auto!important}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="eq">
+  <div class="eq-crumb"><a href="{{ url_for('main.home') }}">Home</a> › Entrance exam equivalency</div>
+  <h1>Entrance Exam Equivalency Checker</h1>
+  <p style="margin:2px 0 8px;max-width:760px;">Which qualifications and subject combinations do JEE, NEET, B.Arch, UCEED, NID, NIFT, CUET and CLAT accept? Choose what you studied and see the verdict for every exam, with the official source behind each rule. {{ cycle_note }}</p>
+  {{ how('eq-hub', 'How this page works',
+         'A checker plus a reference. You enter the qualification you hold and the subjects you studied; the page compares them with the rules published by each exam body and shows whether each exam accepts you, accepts you after an equivalence certificate, depends on the notice, or needs a subject you lack.',
+         student='Pick your qualification and tick the subjects you studied, then read each verdict and open the exam page for the rule and source. Where it says check the notice, ask the exam body in writing before you apply.',
+         parent='Use it before choosing a board, open school or a foreign curriculum, so that the route to the courses you want stays open. Keep the certificates and mark sheets the exam asks for.',
+         mentor='Use the verdicts to settle eligibility questions in a session, then record the source link in the action for the student. Re-read the current notice for the cycle before advising anyone.',
+         outcome='You know early whether a qualification or subject choice keeps an exam open, which certificate you will need, and what to confirm in writing. This is a guide; the exam notice for the year you apply is final.') }}
+  <nav class="eq-nav" aria-label="On this page"><a href="#check">Checker</a><a href="#exams">Exams and sources</a><a href="#frameworks">Equivalence frameworks</a><a href="#notes">Notes</a></nav>
+
+  <section id="check"><h2>1. Check my qualification</h2>
+    <form class="eq-c" method="get" action="{{ url_for('equivalency.hub') }}#results">
+      <div class="eq-f">
+        <div><label class="l" for="qual">My qualification</label>
+          <select id="qual" name="qual" required><option value="">Choose…</option>{% for k, label in quals %}<option value="{{ k }}" {{ 'selected' if k == sel_qual }}>{{ label }}</option>{% endfor %}</select></div>
+        <div><label class="l" for="group">Show</label>
+          <select id="group" name="group"><option value="">All exams</option>{% for k, label in groups %}<option value="{{ k }}" {{ 'selected' if k == sel_group }}>{{ label }}</option>{% endfor %}</select></div>
+      </div>
+      <div style="margin-top:10px;"><label class="l" style="font-size:.74rem;font-weight:700;color:var(--dim);">Subjects I studied (Class 11 and 12)</label>
+        <div class="eq-subs">{% for s in subjects %}<label><input type="checkbox" name="sub" value="{{ s }}" {{ 'checked' if s in sel_sub }}>{{ s }}</label>{% endfor %}</div></div>
+      <p style="margin:12px 0 0;"><button class="eq-go" type="submit">Check</button></p>
+    </form>
+
+    {% if results is not none %}
+    <div id="results" class="fwrap" style="margin-top:14px;">
+      <div class="fbar"><div class="fchips" role="group" aria-label="Filter verdicts">
+        <button type="button" class="fchip" data-key="st" data-val="" data-default="1">All<span class="n"></span></button>
+        {% for k in ['yes','equiv','check','subjects','no'] %}<button type="button" class="fchip" data-key="st" data-val="{{ k }}">{{ status_label[k] }}<span class="n"></span></button>{% endfor %}
+      </div><input type="search" data-search placeholder="Search exams" aria-label="Search exams"><span class="fcount"></span></div>
+      {% for r in results %}
+      <div class="eq-r fi" data-st="{{ r.status }}" data-text="{{ (r.exam.name ~ ' ' ~ r.exam.courses|join(' '))|lower }}">
+        <div style="flex:1 1 320px;"><b>{{ r.exam.name }}</b> <span class="eq-st {{ r.status }}">{{ r.label }}</span>
+          <p>{{ r.note }}{% if r.missing %} <b>Needs:</b> {{ r.missing|join('; ') }}.{% endif %}</p>
+          <p style="margin-top:4px;">{{ r.exam.courses|join(' · ') }}</p></div>
+        <div><a href="{{ url_for('equivalency.exam', exam_id=r.exam.id) }}">Rules and source →</a></div>
+      </div>{% endfor %}
+      <div class="fnone">No exam matches these filters.</div>
+    </div>
+    <p class="eq-n">Verdicts come from the published notices listed under each exam. Always confirm against the notice for the year you apply.</p>
+    {% endif %}
+  </section>
+
+  <section id="exams"><h2>2. Exams and sources</h2>
+    <div class="fwrap">
+      <div class="fbar"><div class="fchips" role="group" aria-label="Exam group">
+        <button type="button" class="fchip" data-key="grp" data-val="" data-default="1">All<span class="n"></span></button>
+        {% for k, label in groups %}<button type="button" class="fchip" data-key="grp" data-val="{{ k }}">{{ label }}<span class="n"></span></button>{% endfor %}
+      </div><input type="search" data-search placeholder="Search rules" aria-label="Search rules"><span class="fcount"></span></div>
+      <div class="eq-g">
+        {% for e in exams %}
+        <div class="eq-x fi" data-grp="{{ e.group }}" data-text="{{ (e.name ~ ' ' ~ e.courses|join(' ') ~ ' ' ~ e.rules|map(attribute='text')|join(' '))|lower }}">
+          <h3><a href="{{ url_for('equivalency.exam', exam_id=e.id) }}" style="color:inherit;">{{ e.name }}</a></h3>
+          <div class="meta">{{ e.body }} · {{ e.cycle }}</div>
+          <p style="margin:6px 0 0;font-size:.86rem;">{{ e.summary }}</p>
+          <ul>{% for r in e.rules[:3] %}<li><span class="eq-tag">{{ r.topic }}</span>{{ r.text }}</li>{% endfor %}</ul>
+          <a href="{{ url_for('equivalency.exam', exam_id=e.id) }}" style="font-size:.84rem;">All rules and sources ({{ e.rules|length }}) →</a>
+        </div>{% endfor %}
+        <div class="fnone">No rule matches the search.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="frameworks"><h2>3. Equivalence frameworks</h2>
+    <p class="eq-n" style="margin:0 0 8px;">How a qualification that is not a regular Indian Class 12 gets treated as one.</p>
+    <div class="eq-g">
+      {% for f in frameworks %}<div class="eq-x"><h3>{{ f.title }}</h3><p style="margin:4px 0;font-size:.88rem;line-height:1.5;">{{ f.text }}</p>
+        {% if f.source %}<a href="{{ f.source }}" rel="noopener" target="_blank" style="font-size:.8rem;">Official source</a>{% endif %}</div>{% endfor %}
+    </div>
+  </section>
+
+  <section id="notes"><h2>4. Notes</h2>
+    <ul style="font-size:.9rem;line-height:1.6;margin:0;padding-left:20px;">
+      {% for n in checked.notes %}<li>{{ n }}</li>{% endfor %}
+    </ul>
+    <p class="eq-n">Last checked {{ checked.date }}. EduAakashaA is not affiliated with any exam body. Prepared with AI assistance; confirm every rule on the official notice.</p>
+  </section>
+</div>
+{% endblock %}

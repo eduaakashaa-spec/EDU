@@ -52,7 +52,7 @@ def create_app():
     # public information pages. Hidden on membership / account / admin pages, on
     # contact pages, and for members who already have Premium.
     NOTICE_SKIP_BLUEPRINTS = {'membership', 'admin_portal', 'auth', 'members', 'invoices',
-                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup', 'pulse_jee', 'pulse_tn10', 'iat', 'nid_mock', 'nift_mock', 'neet_mock', 'sat_mock', 'olympiad_mock', 'pcm12', 'pcb12', 'free_mock', 'explorer', 'impersonate', 'reinforce', 'portal_guide', 'planner'}
+                              'onboarding', 'alumni', 'survey', 'api', 'assessments', 'memberhub', 'mentorship', 'pulse', 'futureready', 'wagroup', 'pulse_jee', 'pulse_tn10', 'iat', 'nid_mock', 'nift_mock', 'neet_mock', 'sat_mock', 'olympiad_mock', 'pcm12', 'pcb12', 'equivalency', 'free_mock', 'explorer', 'impersonate', 'reinforce', 'portal_guide', 'planner'}
     NOTICE_SKIP_ENDPOINTS = {'main.members_registration', 'main.premium_membership',
                              'main.members_login', 'main.contact', 'main.contact_alias',
                              'main.contactus_alias', 'main.dasa_guide', 'main.nirf_ranking', 'main.josaa', 'main.iiits', 'main.annanri', 'main.nirf_analytic', 'main.tnea_colleges', 'main.dasa_2026', 'main.dasa_2026_analytics', 'main.josaa_ea_members', 'main.josaa_assessment', 'main.choice_builder_pro', 'main.tnea_expert', 'main.neet_2027', 'main.medicine', 'main.jee_registration', 'main.jee_paper2', 'main.iat', 'main.nid_papers', 'main.explorer_landing', 'main.nift_exam', 'main.neet_exam', 'main.sat_exam', 'main.olympiad_exam', 'main.school', 'main.neet_seats_2025', 'main.josaa_2026_analytics', 'static'}
@@ -149,6 +149,8 @@ def create_app():
     from app.routes.pcm12 import pcb_bp, pcm_bp
     app.register_blueprint(pcm_bp)
     app.register_blueprint(pcb_bp)
+    from app.routes.equivalency import equivalency_bp
+    app.register_blueprint(equivalency_bp)
     from app.routes.impersonate import impersonate_bp
     app.register_blueprint(impersonate_bp)
 

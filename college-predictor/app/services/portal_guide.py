@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-06'
+UPDATED = '2026-11-07'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -26,6 +26,7 @@ ROLE_BLURB = {
 
 # blueprints that the guide covers (value = what they are, shown to admins); a new blueprint must be added here or the test fails
 COVERED_BLUEPRINTS = {
+    'equivalency': 'Entrance Exam Equivalency (public): qualification and subject equivalency checker for JEE, JoSAA, NATA, NEET, UCEED, NID, NIFT, CUET and CLAT, with the official source for each rule',
     'explorer': 'EduPulse-Explorer (Grades 7 to 10): discovery test, interest check, exam tasters, skill sets, Daily 10 review, progress, creative challenges',
     'nift_mock': 'EduPulse-NIFT (NIFT GAT and CAT): GAT mocks per programme, earlier-year questions, section sets, Daily Review, progress, CAT studio tasks',
     'pcb12': 'Class 12 PCB Analytics (public hub; Premium dashboard): NEET and entrance eligibility check, board playbook, thumb rules, answer lab, study plan',
@@ -62,6 +63,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-07', 'New Entrance Exam Equivalency Checker (menu Colleges and Exams, /entrance-equivalency, public): choose your qualification (CBSE, CISCE or state board, intermediate, NIOS, diploma, vocational, IB, Cambridge, foreign board) and the subjects you studied to see, for JEE Main, JEE Advanced, JoSAA, NATA, JEE Main Paper 2, NEET UG, UCEED, NID, NIFT, CUET and CLAT, whether you are accepted, accepted with an equivalence certificate, need to check the notice or lack a subject. Each exam page lists every rule with its official source and what could not be confirmed.'),
     ('2026-11-06', 'Phone-friendly pages and instructions: a How this page works panel (what the page is, what students, parents and mentors do, the outcome) on the weekly plan, action tracker, study planner, PCM and PCB dashboards, EduPulse reinforcement and the UCEED, NEET and JEE mock centres; long lists now fold into compact items with filters (status, owner, search, day, week, chapter class); tables become cards on a phone and the tab bars swipe. In the weekly plan a student can now choose EduPulse reinforcement from their assessment results, weak chapters and Class 12 dashboard ratings (up to three a week); the mentor approves or declines and approval sets the practice.'),
     ('2026-11-05', 'New School (Class 8 to 12) group: a top menu School with Class 8 to 10, Class 11 to 12 and Olympiads sections, a public page /school that asks which class you are in (8 to 10, 11 to 12 PCM, 11 to 12 PCB) and lists the tools for it, and a Member Home category School (Class 8 to 12) that now holds the Explorer, FutureReady, TN Class 10, Class 12 PCM and PCB, Olympiad practice and the two Olympiad mentorship tiles (moved out of EduPulse AI Tools and Mentorship Portal). Colleges and Exams is shorter, and a small Study Abroad menu holds the SAT guide and practice. The PCM hub now points to JEE pages and the PCB hub to NEET and Medicine pages.'),
     ('2026-11-05', 'Class 12 PCM and PCB Analytics: NRI, OCI/PIO, foreign-national and Gulf (CIWG) eligibility added. PCM: the DASA and CIWG row is now the official DASA UG 2026 rule (75 percent over five subjects, JEE Main mandatory, replacing the earlier conflicting 60 to 75 range), plus Maharashtra NRI/OCI/foreign seats, VIT NRI and foreign, and BITS international admission, with an NRI section of official facts and sources on the hub. PCB: Kerala MBBS/BDS NRI quota and OCI/PIO rule and an NRI, OCI and foreign facts group; the national NEET and MCC rules for NRI candidates could not be read and are listed as not confirmed.'),
@@ -304,6 +306,15 @@ GUIDE = [
                 'Read the week-by-week plan, tick tasks as you finish them and print it. Everything saves to your account and the plan redraws when your scores, ratings or date change.'],
          tips=['The entrance-route percentages were read from public coaching and news pages, not the official brochures: each row says how sure we are, some are conflicting. Always confirm on the official notice. Chapter marks are indicative; only the unit-group totals are official.', 'For mentors: ask a student to share the dashboard on screen in a session; the plan and the rated chapters make a good agenda.'],
          tiles=['Class 12 PCM Analytics'], added='2026-11-05', updated='2026-11-05'),
+    dict(id='s-equivalency', role='student', group='Exams', title='Entrance Exam Equivalency Checker', summary='Check whether your qualification and subjects are accepted by JEE, NEET, B.Arch, UCEED, NID, NIFT, CUET and CLAT, with the official source for every rule.',
+         where=[('Entrance Exam Equivalency', 'equivalency.hub')],
+         steps=['Open Entrance Exam Equivalency from the Colleges and Exams menu (open to everyone).',
+                'Choose your qualification (for example NIOS, diploma, IB or a foreign board), tick the subjects you studied in Class 11 and 12, optionally pick a group of exams, and press Check.',
+                'Read each verdict: Accepted, Accepted with equivalence certificate, Check the notice, Subject requirement not met or Not accepted. Use the chips to filter and the search box to find an exam.',
+                'Open Rules and source on any exam to see every rule, the official link and what the notice does not confirm. Where it says Check the notice, ask the exam body in writing and keep the reply.',
+                'Parents and mentors can use the same page when choosing a board or an open school, so that the route to the wanted courses stays open.'],
+         tips=['Rules come from the latest official notice of each exam and each one shows its source. The notice for the year you apply is final; minimum marks differ by exam, university and category.', 'Equivalence certificates for foreign or unlisted boards come from the AIU or the UGC; apply early.'],
+         added='2026-11-07', updated='2026-11-07'),
     dict(id='s-pcb12', role='student', group='Exams', title='Class 12 PCB Analytics', summary='For Class 12 Physics, Chemistry and Biology students and parents: your marks against NEET and other entrance rules, where the board marks sit, thumb rules for 37 chapters, marked answer sheets and a study plan counted back from your exam.',
          where=[('Class 12 PCB Analytics', 'pcb12.hub'), ('My PCB dashboard', 'pcb12.dashboard')],
          steps=['Open Class 12 PCB Analytics from the Colleges and Exams menu (open to everyone). The page has an eligibility check, the board playbook, thumb rules with flashcards, the Answer Sheet Lab and a quick study plan.',
