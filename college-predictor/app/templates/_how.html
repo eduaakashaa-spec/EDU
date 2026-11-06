@@ -1,0 +1,18 @@
+{# "How this page works": what the page is, what each person is expected to do, and the outcome. Usage:
+   {% from "_how.html" import how %}  {{ how('actions', 'How the action tracker works', 'What it is…', student='…', parent='…', mentor='…', outcome='…') }}
+   The reader's open/closed choice is remembered (static/js/uikit.js). Text is escaped, so pass plain sentences. #}
+{% macro how(id, title, what, student=None, parent=None, mentor=None, outcome=None, extra=None, extra_label='Also', opened=True, focus=None) %}
+<details class="how" data-how="{{ id }}" data-focus="{{ 'mentor' if focus == 'admin' else (focus or '') }}" {{ 'open' if opened }}>
+  <summary>{{ title }}</summary>
+  <div class="how-b">
+    <p class="how-what">{{ what }}</p>
+    <div class="how-g">
+      {% if student %}<div class="how-r" data-role="student"><b>Student</b>{{ student }}</div>{% endif %}
+      {% if parent %}<div class="how-r" data-role="parent"><b>Parent</b>{{ parent }}</div>{% endif %}
+      {% if mentor %}<div class="how-r" data-role="mentor"><b>Mentor</b>{{ mentor }}</div>{% endif %}
+      {% if extra %}<div class="how-r"><b>{{ extra_label }}</b>{{ extra }}</div>{% endif %}
+    </div>
+    {% if outcome %}<div class="how-out"><b>Outcome</b>{{ outcome }}</div>{% endif %}
+  </div>
+</details>
+{% endmacro %}

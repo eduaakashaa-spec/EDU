@@ -20,6 +20,7 @@ from flask_login import current_user
 
 from app.decorators import premium_required
 from app.extensions import db
+from app.models_mentorship import MsEnrolment
 from app.models_pulse import Class12Profile
 from app.services import pcm12
 
@@ -54,6 +55,12 @@ def _stream_routes(bp, stream, ep):
         conf = {'stream': stream, 'name': c['name'], 'order': list(c['order']), 'subj': c['subj'], 'labels': c['labels'], 'marks': c['marks'], 'marks_order': list(c['marks']), 'test_max': c['test_max'], 'cats': c['cats'],
                 'save': url_for(ep + '.save'), 'hub': url_for(ep + '.hub'),
                 'links': {'thumb': url_for('pcm12.thumb_rules') if stream == 'pcm' else url_for('pcb12.hub') + '#rules', 'elig': url_for('pcm12.eligibility') if stream == 'pcm' else url_for('pcb12.hub') + '#eligibility'}}
+        enr = MsEnrolment.query.filter(MsEnrolment.student_id == current_user.id, MsEnrolment.status != 'removed').first()
+        conf['weekly'] = url_for('mentorship.workspace', eid=enr.id, tab='weekly') + '#edupulse' if enr else ''
+        conf['practice'] = url_for('reinforce.home')
+        enr = MsEnrolment.query.filter(MsEnrolment.student_id == current_user.id, MsEnrolment.status != 'Removed').first()
+        conf['weekly'] = (url_for('mentorship.workspace', eid=enr.id, tab='weekly') + '#edupulse') if enr else ''
+        conf['practice'] = url_for('reinforce.home')
         return render_template('pcm12_dashboard.html', conf=conf, profile=prof, analysis=pcm12.analyse(prof, stream=stream))
 
     @bp.route('/dashboard/save', methods=['POST'], endpoint='save')

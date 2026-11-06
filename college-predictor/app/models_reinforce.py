@@ -254,3 +254,29 @@ class RfAudit(db.Model):
     action = db.Column(db.String(60), nullable=False)
     detail = db.Column(db.String(500))
     created_at = db.Column(db.DateTime, default=_now, index=True)
+
+
+class RfChoice(db.Model):
+    """An EduPulse reinforcement option a student chose for a week of the plan. It is a request: the mentor approves it (which creates the assignment when the question bank allows) or declines it.
+    `key` identifies the offered option (for example 'w:JEE:electrostatics', 'a:stream', 'd:pcm:P01'), so choosing the same option twice in a week does nothing."""
+    __tablename__ = 'rf_choices'
+    __table_args__ = (db.UniqueConstraint('user_id', 'key', 'week_start', name='uq_rf_choice'),)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    mentor_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'), index=True)
+    key = db.Column(db.String(80), nullable=False)
+    source = db.Column(db.String(12))                                  # weak | assessment | dashboard
+    target = db.Column(db.String(10))                                  # reinforce | mock
+    exam = db.Column(db.String(8))
+    subject = db.Column(db.String(40))
+    chapter = db.Column(db.String(80))
+    title = db.Column(db.String(200), nullable=False)
+    why = db.Column(db.Text)
+    week_start = db.Column(db.Date, nullable=False, index=True)
+    status = db.Column(db.String(10), default='requested', index=True)   # requested | approved | declined
+    assignment_id = db.Column(db.Integer)
+    mentor_note = db.Column(db.Text)
+    created_at = db.Column(db.DateTime, default=_now)
+    decided_at = db.Column(db.DateTime)
+    user = db.relationship('User', foreign_keys=[user_id])
+

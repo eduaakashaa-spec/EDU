@@ -23,16 +23,26 @@
   .pd-wk{border:1px solid var(--ln);border-radius:12px;margin:8px 0;background:var(--pp)}.pd-wk summary{cursor:pointer;padding:9px 12px;font-weight:700;display:flex;gap:10px;align-items:center;flex-wrap:wrap}.pd-wk .ph{font-size:.7rem;border-radius:999px;padding:2px 9px;color:#fff}
   .ph1{background:#0E3A8A}.ph2{background:#1E56C4}.ph3{background:#FF6B0A}.ph4{background:#1F8B5C}
   .pd-wk ul{list-style:none;margin:0;padding:0 12px 10px}.pd-wk li{display:flex;gap:9px;align-items:flex-start;padding:5px 0;font-size:.9rem;line-height:1.45}.pd-wk li input{width:auto;margin-top:3px}.pd-wk li.done span{text-decoration:line-through;opacity:.55}
+  .pd-fb{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}.pd-fl{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;max-width:100%}.pd-fl button{flex:0 0 auto;border:1.5px solid var(--ln);background:var(--pp);border-radius:999px;padding:6px 13px;font:700 .8rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit;width:auto}.pd-fl button.on{background:var(--navy,#0E3A8A);border-color:var(--navy,#0E3A8A);color:#fff}
+  .pd-fb input[type=search]{flex:1 1 160px;max-width:280px}.pd-wk[hidden]{display:none}
+  @media(max-width:700px){.pd-rt2,.pd-rt2 tbody,.pd-rt2 tr,.pd-rt2 td{display:block;width:100%}.pd-rt2 thead{display:none}.pd-rt2 tr{border:1px solid var(--ln);border-radius:12px;margin:8px 0;padding:8px 11px;background:var(--pp)}.pd-rt2 td{border:0;padding:3px 0;text-align:left}.pd-rt2 td.n{display:inline-block;width:auto;margin-right:12px}.pd-rt2 td.n::before{content:attr(data-l);font:700 .62rem 'JetBrains Mono',monospace;text-transform:uppercase;color:var(--dim);margin-right:5px}.pd-c{overflow-x:visible!important}}
   .pd-st-msg{font-size:.8rem;color:var(--dim);min-height:1.2em}
   .pd-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
   .pd-sv{width:100%;max-height:70px}
   @media print{.pd-nav,.pd-setup,.pd-no-print,header,footer,.header,.footer{display:none!important}.pd-wk{break-inside:avoid}.pd-wk[open] summary{background:#eee}}
 </style>
 {% endblock %}
+{% from "_how.html" import how %}
 {% block content %}
 <div class="pd" id="pd">
   <div class="pd-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> &rsaquo; <a href="{{ conf.hub }}">Class 12 {{ conf.name }} Analytics</a> &rsaquo; My dashboard</div>
   <h1>My {{ conf.name }} Analytics dashboard</h1>
+  {{ how('pd-' ~ conf.stream, 'How this dashboard works',
+         'Your own copy of the Class 12 ' ~ conf.name ~ ' analytics: enter your marks and test scores, rate each chapter, see where your marks stand against the entrance routes, and follow a week-by-week study plan that saves as you tick tasks.',
+         student='Fill the setup once, log every test, rate chapters honestly from 1 to 5 and tick tasks as you finish them. Come back weekly: the priority list and plan update from what you enter.',
+         parent='Help your child keep the dates and hours realistic, and read the route status together. You do not need to enter anything.',
+         mentor='Open this with the student in a review: check the ratings against test marks, agree the top ten chapters, and approve the EduPulse practice the student requests for their weak chapters.',
+         outcome='A clear order of chapters to study, an honest view of route eligibility, and a plan you can follow. It is a planning tool, not a prediction of marks or a seat.') }}
   <p style="margin:2px 0 8px;color:var(--dim);max-width:70ch;font-size:.95rem">Enter your dates, marks and test scores, rate your chapters, and read your route status, subject levels, chapter priorities and a week-by-week plan. Everything saves to your account as you type.</p>
   <div class="pd-st-msg" id="pdMsg" aria-live="polite"></div>
   <nav class="pd-nav" aria-label="On this page"><a href="#setup">Setup</a><a href="#routes">Routes</a><a href="#levels">Subject levels</a><a href="#chapters">Chapters</a><a href="#plan">Study plan</a></nav>
@@ -78,8 +88,15 @@
   <section id="chapters"><h2>4. Chapter priority map</h2>
     <p style="margin:0 0 8px;font-size:.92rem">Rate each chapter from 1 (weak) to 5 (strong). The priority score is the chapter's indicative marks &times; (6 &minus; rating) &times; a weight for its class at your level: Core 1, Build 0.7, Later 0.3. Higher means start sooner.</p>
     <div class="pd-c"><h3>Start with these ten</h3><ol id="top10" style="margin:4px 0 0;padding-left:20px;line-height:1.75;font-size:.92rem"></ol></div>
+    <div class="pd-c" id="pdRf"><h3>EduPulse reinforcement for my weak chapters</h3>
+      <p class="pd-n" style="margin:0 0 6px">Chapters you rated 1 or 2 appear here. {% if conf.weekly %}Pick them in your weekly plan; your mentor approves and sets the practice.{% else %}Practise them in EduPulse Reinforcement.{% endif %}</p>
+      <div id="rfWeak" class="pd-fl" style="flex-wrap:wrap"></div>
+      <a class="pd-btn o" style="display:inline-block;margin-top:8px;text-decoration:none" href="{{ conf.weekly or conf.practice }}">{% if conf.weekly %}Choose in my weekly plan{% else %}Open EduPulse practice{% endif %}</a>
+    </div>
+    <div class="pd-fb"><div class="pd-fl" id="cCls" role="group" aria-label="Class at my level"><button type="button" class="on" data-v="">All</button><button type="button" data-v="Core">Core</button><button type="button" data-v="Build">Build</button><button type="button" data-v="Later">Later</button></div>
+      <input type="search" id="cQ" placeholder="Search chapters" aria-label="Search chapters"></div>
     <div class="pd-f" style="margin:10px 0 6px;max-width:300px"><div><label for="cSub">Show</label><select id="cSub"><option value="all">All subjects</option>{% for k in conf.order %}<option value="{{ k }}">{{ conf.subj[k] }}</option>{% endfor %}</select></div></div>
-    <div class="pd-c" style="overflow-x:auto"><table class="pd-t"><thead><tr><th class="n">Rank</th><th>Chapter</th><th class="n">Marks</th><th>Class at my level</th><th>My rating</th><th class="n">Score</th></tr></thead><tbody id="chRows"></tbody></table></div>
+    <div class="pd-c" style="overflow-x:auto"><table class="pd-t pd-rt2"><thead><tr><th class="n">Rank</th><th>Chapter</th><th class="n">Marks</th><th>Class at my level</th><th>My rating</th><th class="n">Score</th></tr></thead><tbody id="chRows"></tbody></table></div>
     <p class="pd-n">Chapter marks are indicative (from a coaching-site split); only the unit-group totals are official. Read the rule card for any chapter in the <a href="{{ conf.links.thumb }}">thumb rules</a>.</p>
   </section>
 
@@ -88,6 +105,7 @@
     <div class="pd-bar" aria-hidden="true"><i id="planBar"></i></div>
     <p class="pd-n" id="planMsg"></p>
     <div class="pd-no-print" style="margin:6px 0"><button class="pd-btn g" id="pPrint" type="button">Print the plan</button> <button class="pd-btn g" id="pOpen" type="button">Open all weeks</button></div>
+    <div class="pd-fb"><div class="pd-fl" id="wFlt" role="group" aria-label="Show weeks"><button type="button" class="on" data-v="">All weeks</button><button type="button" data-v="now">This week</button><button type="button" data-v="todo">Not done</button><button type="button" data-v="done">Done</button></div><span class="pd-n" id="wCnt"></span></div>
     <div id="weeks"></div>
   </section>
   <p class="pd-n">These are planning tools, not predictions. EduAakashaA is not affiliated with CBSE or any entrance body. Prepared with AI assistance.</p>
@@ -127,7 +145,17 @@
     if (isNaN(got) || isNaN(max) || max <= 0 || got < 0 || got > max) { $('pdMsg').textContent = 'Enter marks between 0 and the maximum.'; return; }
     S.tests.push({subj: $('tSub').value, date: $('tDate').value, got: got, max: max, note: $('tNote').value}); $('tGot').value = ''; $('tNote').value = ''; queue();
   });
+  var CLS = '', WF = '';
   $('cSub').addEventListener('change', function () { drawChapters(); });
+  $('cQ').addEventListener('input', function () { drawChapters(); });
+  function bar(id, set) { [].forEach.call($(id).querySelectorAll('button'), function (b) { b.addEventListener('click', function () { [].forEach.call($(id).querySelectorAll('button'), function (x) { x.classList.toggle('on', x === b); }); set(b.dataset.v); }); }); }
+  bar('cCls', function (v) { CLS = v; drawChapters(); });
+  bar('wFlt', function (v) { WF = v; applyWeeks(); });
+  function applyWeeks() {
+    var shown = 0, all = document.querySelectorAll('#weeks details');
+    [].forEach.call(all, function (d) { var ok = !WF || (d.dataset.st || '').split(' ').indexOf(WF) >= 0; d.hidden = !ok; if (ok) shown++; });
+    $('wCnt').textContent = shown + ' of ' + all.length + ' weeks';
+  }
   $('pPrint').addEventListener('click', function () { [].forEach.call(document.querySelectorAll('#weeks details'), function (d) { d.open = true; }); window.print(); });
   $('pOpen').addEventListener('click', function () { var all = [].every.call(document.querySelectorAll('#weeks details'), function (d) { return d.open; }); [].forEach.call(document.querySelectorAll('#weeks details'), function (d) { d.open = !all; }); this.textContent = all ? 'Open all weeks' : 'Close all weeks'; });
 
@@ -202,17 +230,22 @@
   function drawChapters() {
     var list = A.chapters.slice(), top = clear($('top10'));
     list.slice(0, 10).forEach(function (c) { var li = el('li', '', c.name + ' (' + SUBJ[c.subj] + ', about ' + c.marks + ' marks, rated ' + c.rating + ') '); li.appendChild(el('span', 'pd-chip ' + c.cls, c.cls)); top.appendChild(li); });
-    var f = $('cSub').value, body = clear($('chRows'));
+    var f = $('cSub').value, cf = CLS, q = ($('cQ').value || '').trim().toLowerCase(), body = clear($('chRows'));
+    var weak = clear($('rfWeak'));
+    A.chapters.filter(function (c) { return c.rated && c.rating <= 2; }).slice(0, 8).forEach(function (c) { weak.appendChild(el('span', 'pd-chip Build', c.name)); });
+    if (!weak.firstChild) weak.appendChild(el('span', 'pd-n', 'No chapter is rated 1 or 2 yet. Rate chapters below to see them here.'));
     list.sort(function (a, b) { return a.id < b.id ? -1 : 1; });
     list.forEach(function (c) {
       if (f !== 'all' && c.subj !== f) return;
-      var tr = el('tr'); tr.appendChild(td(c.rank, 'n'));
+      if (cf && c.cls !== cf) return;
+      if (q && (c.name + ' ' + SUBJ[c.subj] + ' ' + c.unit).toLowerCase().indexOf(q) < 0) return;
+      var tr = el('tr'); var tdr = td(c.rank, 'n'); tdr.dataset.l = 'Rank'; tr.appendChild(tdr);
       var n = td(''); n.appendChild(el('b', '', c.name)); n.appendChild(el('div', 'pd-n', SUBJ[c.subj] + ' · ' + c.unit)); tr.appendChild(n);
-      tr.appendChild(td('≈' + c.marks, 'n'));
+      var tdm = td('≈' + c.marks, 'n'); tdm.dataset.l = 'Marks'; tr.appendChild(tdm);
       var cl = td(''); cl.appendChild(el('span', 'pd-chip ' + c.cls, c.cls)); tr.appendChild(cl);
       var rt = td(''), box = el('span', 'pd-rt'); box.setAttribute('role', 'group'); box.setAttribute('aria-label', 'Rating for ' + c.name);
       for (var r = 1; r <= 5; r++) (function (r) { var b = el('button', (c.rated && c.rating === r) ? 'on' : '', r); b.type = 'button'; b.addEventListener('click', function () { S.ratings[c.id] = r; queue(); }); box.appendChild(b); })(r);
-      rt.appendChild(box); tr.appendChild(rt); tr.appendChild(td(c.score, 'n')); body.appendChild(tr);
+      rt.appendChild(box); tr.appendChild(rt); var tds = td(c.score, 'n'); tds.dataset.l = 'Score'; tr.appendChild(tds); body.appendChild(tr);
     });
   }
 
@@ -231,7 +264,7 @@
     var today = new Date().toISOString().slice(0, 10), openIdx = -1;
     A.weeks.forEach(function (w, i) { var next = A.weeks[i + 1]; if (openIdx < 0 && (!next || next.start > today)) openIdx = i; });
     A.weeks.forEach(function (w, i) {
-      var d = el('details', 'pd-wk'); d.dataset.n = w.n; if (hadAny ? prevOpen[w.n] : i === openIdx) d.open = true;
+      var d = el('details', 'pd-wk'); d.dataset.n = w.n; d.dataset.st = (w.tasks.length && w.tasks.every(function (t) { return t.done; }) ? 'done' : 'todo') + (i === openIdx ? ' now' : ''); if (hadAny ? prevOpen[w.n] : i === openIdx) d.open = true;
       var s = el('summary'); s.appendChild(el('span', '', 'Week ' + w.n)); s.appendChild(el('span', 'ph ph' + w.phase, w.phase_name)); s.appendChild(el('small', 'pd-n', 'from ' + w.start));
       var dn = w.tasks.filter(function (t) { return t.done; }).length; s.appendChild(el('small', 'pd-n', dn + '/' + w.tasks.length + ' done')); d.appendChild(s);
       var ul = el('ul');
@@ -242,6 +275,7 @@
       });
       d.appendChild(ul); box.appendChild(d);
     });
+    applyWeeks();
   }
   function render() { drawRoutes(); drawSubjects(); drawChapters(); drawPlan(); }
   render();

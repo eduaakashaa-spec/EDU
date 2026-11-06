@@ -6,6 +6,7 @@
 {% set an = sm.an %}
 <div class="pl">
   <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('pulse.home') }}">EduPulse-UCEED</a> › EduPulse-JEE</div>
+  {% from "_how.html" import how %}{{ how('pl-jee', 'How the EduPulse-JEE Mock Test Centre works', 'Timed JEE Main style mocks with a chapter-level report and a link to reinforcement practice for weak chapters.', student='Attempt each mock under exam timing, check the report for chapters with repeated errors, and choose reinforcement for them in your weekly plan.', parent='Keep mock days free and ask which chapters the report flags, not only the percentile.', mentor='Use the chapter report in reviews and approve the reinforcement the student requests.', outcome='A list of chapters that cost the most marks and the practice to fix them. It supports preparation; it does not predict a rank.', focus=(current_user.role if current_user.is_authenticated and current_user.role in ('student', 'parent', 'mentor') else 'student')) }}
   <section class="pl-hero">
     <div><span class="pl-chip">JEE Main · Paper 1 · 2027 pattern · +4 / −1</span><h1>EduPulse-JEE Mock Test Centre</h1>
       <p>Full 75-question, 3-hour mocks in Mathematics, Physics and Chemistry. Rate your confidence on every answer, then see exactly what negative marking cost you, which losses were avoidable and where you were sure but wrong.</p></div>

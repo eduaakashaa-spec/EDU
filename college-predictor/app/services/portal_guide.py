@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-05'
+UPDATED = '2026-11-06'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -62,6 +62,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-06', 'Phone-friendly pages and instructions: a How this page works panel (what the page is, what students, parents and mentors do, the outcome) on the weekly plan, action tracker, study planner, PCM and PCB dashboards, EduPulse reinforcement and the UCEED, NEET and JEE mock centres; long lists now fold into compact items with filters (status, owner, search, day, week, chapter class); tables become cards on a phone and the tab bars swipe. In the weekly plan a student can now choose EduPulse reinforcement from their assessment results, weak chapters and Class 12 dashboard ratings (up to three a week); the mentor approves or declines and approval sets the practice.'),
     ('2026-11-05', 'New School (Class 8 to 12) group: a top menu School with Class 8 to 10, Class 11 to 12 and Olympiads sections, a public page /school that asks which class you are in (8 to 10, 11 to 12 PCM, 11 to 12 PCB) and lists the tools for it, and a Member Home category School (Class 8 to 12) that now holds the Explorer, FutureReady, TN Class 10, Class 12 PCM and PCB, Olympiad practice and the two Olympiad mentorship tiles (moved out of EduPulse AI Tools and Mentorship Portal). Colleges and Exams is shorter, and a small Study Abroad menu holds the SAT guide and practice. The PCM hub now points to JEE pages and the PCB hub to NEET and Medicine pages.'),
     ('2026-11-05', 'Class 12 PCM and PCB Analytics: NRI, OCI/PIO, foreign-national and Gulf (CIWG) eligibility added. PCM: the DASA and CIWG row is now the official DASA UG 2026 rule (75 percent over five subjects, JEE Main mandatory, replacing the earlier conflicting 60 to 75 range), plus Maharashtra NRI/OCI/foreign seats, VIT NRI and foreign, and BITS international admission, with an NRI section of official facts and sources on the hub. PCB: Kerala MBBS/BDS NRI quota and OCI/PIO rule and an NRI, OCI and foreign facts group; the national NEET and MCC rules for NRI candidates could not be read and are listed as not confirmed.'),
     ('2026-11-05', 'Class 12 PCM and PCB Analytics: Maharashtra, Delhi, Kerala and Andhra Pradesh state routes added to the eligibility checks, read from the official brochures and prospectuses (MHT-CET 2026-27, KEAM 2026, AP EAPCET 2026, GGSIPU 2026, JAC Delhi 2026) with the source and an official or not-confirmed label on each row: PCM gets AP EAPCET, GGSIPU and DTU/NSUT and corrected KEAM and MHT-CET rows; PCB gets MBBS/BDS state quota, agriculture, B.Pharm and nursing routes for the four states. Each hub shows the state facts with source links and what could not be confirmed (for example the 2026-27 Maharashtra MBBS brochure, the NTRUHS pages and any 2027 brochure).'),
@@ -188,7 +189,8 @@ GUIDE = [
          tiles=['Stream selection'], added='2026-10-26', updated='2026-10-26'),
     dict(id='s-mentorship', role='student', group='Mentorship', title='My Mentorship portal', summary='Your plan, sessions, actions, KPIs, reviews and reports (Elite members).',
          where=[('My Mentorship', 'mentorship.index')],
-         steps=['Open "My Mentorship". It is part of Elite Mentorship: a Premium-only account sees an Elite page instead, and the team can move you to Elite. If you are not enrolled yet it says so; ask the team to enrol you.',
+         steps=['Weekly plan: open the EduPulse reinforcement card, read the options built from your assessment results, weak chapters and Class 12 dashboard, and press Add to my week for up to three. Your mentor approves them. Actions are folded into compact items you can filter by This week, Open, Overdue or Done.',
+                'Open "My Mentorship". It is part of Elite Mentorship: a Premium-only account sees an Elite page instead, and the team can move you to Elite. If you are not enrolled yet it says so; ask the team to enrol you.',
                 'Home: your journey and next steps. Weekly plan, Sessions and Actions list what to do and when.',
                 'Actions have an owner (student, parent or mentor) and a due date. Mark yours done when finished.',
                 'KPIs, Reviews and Reports show progress against agreed targets; download a report as PDF.',
@@ -437,6 +439,8 @@ GUIDE = [
     dict(id='m-mentorship', role='mentor', group='Daily work', title='Running a student\'s mentorship', summary='Sessions, weekly plan, actions, KPIs, reviews, reports and preferences.',
          where=[('Mentorship workspace', 'mentorship.mentor_home'), ('Action tracker', 'mentorship.action_tracker')],
          steps=['Open Mentorship and choose a student.',
+                'Weekly plan tab: under EduPulse reinforcement you see the options your student chose from their results. Approve or decline each one with a short note; approving sets the practice when the student is on your reinforcement roster.',
+                'Action tracker: filter by status, owner or member; on a phone every row is a card. Every page has a How this page works panel that says what you, the student and the parent are expected to do.',
                 'Sessions: record each meeting with date, agenda and notes. Weekly plan: set the focus for the week.',
                 'Actions: add actions with an owner (student, parent or mentor) and due date; the student or parent marks them done. Action tracker shows all actions across your students and can be sent by e-mail or WhatsApp.',
                 'KPIs and Reviews: set targets, record progress and the quarterly review, then publish a report.',

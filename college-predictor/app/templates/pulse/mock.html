@@ -5,6 +5,7 @@
 {% block content %}
 <div class="pl">
   <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('pulse.home') }}">EduPulse-UCEED</a> › Mock Test Centre</div>
+  {% from "_how.html" import how %}{{ how('pl-uceed-mock', 'How the UCEED Mock Test Centre works', 'Timed UCEED mock papers with solutions and a report you can compare across attempts.', student='Take the paper in one sitting, mark questions you were unsure about, then read the report and solutions the same day.', parent='Give the student a quiet, uninterrupted slot and ask what they learned from the report.', mentor='Compare reports across attempts and agree which sections need extra practice.', outcome='A repeatable mock routine and a record of progress by section. It is a practice tool, not a prediction.', focus=(current_user.role if current_user.is_authenticated and current_user.role in ('student', 'parent', 'mentor') else 'student')) }}
   <section class="pl-hero">
     <div><span class="pl-chip">UCEED Part A · previous-year papers + EduAakashaA mocks</span><h1>UCEED Mock Test Centre</h1>
       <p>Take the official papers from 2018 to 2026 or an EduAakashaA practice paper, timed or untimed. Rate your confidence on every answer, then get a report on scores, topics and where you were sure but wrong.</p></div>

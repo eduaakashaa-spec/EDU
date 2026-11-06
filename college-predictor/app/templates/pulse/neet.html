@@ -10,6 +10,7 @@
 {% block content %}
 <div class="pl">
   <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-NEET</div>
+  {% from "_how.html" import how %}{{ how('pl-neet', 'How EduPulse-NEET works', 'Full-length NEET mocks, previous-year papers and a daily review, with a report after each attempt.', student='Attempt full mocks on a fixed day, review every wrong and guessed answer in the report, and use the daily review for short revision.', parent='Protect the mock day, keep the room quiet, and talk about what the report shows rather than the score alone.', mentor='Read the report with the student, mark the chapters to reinforce and approve the practice they request each week.', outcome='Clear evidence of weak chapters and timing habits, turned into a short list of what to practise next. It is practice, not a prediction of a rank or a seat.', focus=(current_user.role if current_user.is_authenticated and current_user.role in ('student', 'parent', 'mentor') else 'student')) }}
   <section class="pl-hero">
     <div><span class="pl-chip">NEET (UG) · full mocks · previous-year papers · spaced review</span><h1>EduPulse-NEET</h1>
       <p>Full NEET mocks in the real shape (45 questions each in Physics, Chemistry, Botany and Zoology), questions from the 2018 to 2026 papers, subject sets and a Daily Review that brings back every question you missed or guessed. Marking is as in NEET: +{{ RIGHT_MARKS }} right, &minus;{{ WRONG }} wrong.</p></div>

@@ -15,6 +15,19 @@
     {% if current_user.is_staff %}<a href="{{ url_for('planner.mentor_home') }}" class="{{ 'on' if ep and ep.startswith('planner.mentor') }}">Mentor view</a>{% endif %}
     {% if current_user.is_admin %}<a href="{{ url_for('planner.admin') }}" class="{{ 'on' if ep == 'planner.admin' }}">Admin</a>{% endif %}
   </nav>
+  {% from "_how.html" import how %}
+  {% if ep == 'planner.home' %}{{ how('sp-home', 'How the study planner works',
+      'The Smart Study Planner turns your exam, dates and weekly hours into a day-by-day plan, then tracks what you finish.',
+      student='Set the plan once, open My plan each day, tick tasks as you finish them and move missed ones forward. Check Reports on Sunday to see what slipped.',
+      parent='Look at the weekly report with your child, keep their study hours protected, and ask what is planned for tomorrow. You do not need to check the work.',
+      mentor='Use the Mentor view to see who is behind, adjust a plan with the student, and approve the EduPulse practice they request for weak chapters.',
+      outcome='A realistic daily routine, a record of what was actually done, and early warning when a student is falling behind. It supports preparation; it does not predict a rank.') }}
+  {% elif ep == 'planner.plan_view' %}{{ how('sp-plan', 'How to use My plan',
+      'One week at a time, with a card for each day and a task list under it. Today is highlighted.',
+      student='Pick a day below, tick tasks when finished, and use Previous and Next to look at other weeks. Be honest: a missed task moved forward is better than one ticked by habit.',
+      parent='Ask which tasks are planned for the day and make sure the study time is free.',
+      mentor='Compare the ticked tasks with the weekly check-in and talk about the pattern, not one missed day.',
+      outcome='You always know what to do today, and the week ends with a clear record of what was done.') }}{% endif %}
   {% block sp_body %}{% endblock %}
 </div>
 {% endblock %}

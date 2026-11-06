@@ -5,8 +5,14 @@
 <div class="sp-row"><h2 style="margin:0">{{ plan.title }}</h2>
   <span><a class="sp-btn ghost sm" href="{{ url_for('planner.plan_view', week=prev) }}">← Previous</a> <b>Week of {{ w0.strftime('%d %b %Y') }}</b> <a class="sp-btn ghost sm" href="{{ url_for('planner.plan_view', week=nxt) }}">Next →</a>
     <a class="sp-btn sm" href="{{ url_for('planner.dl_week', week=w0) }}">Download this week (PDF)</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_plan_csv') }}">Whole plan (CSV)</a></span></div>
+<div class="fwrap">
+<div class="fbar"><div class="fchips" role="group" aria-label="Show day">
+  <button type="button" class="fchip" data-key="day" data-val="" data-default=1>Whole week<span class="n"></span></button>
+  {% for d in days %}<button type="button" class="fchip" data-key="day" data-val="{{ d.strftime('%a')|lower }}" {{ 'data-default-phone=1' if d == today }}>{{ d.strftime('%a') }} {{ d.strftime('%d') }}<span class="n"></span></button>{% endfor %}
+</div><span class="fcount"></span></div>
 <div class="sp-week">
-  {% for d in days %}<section class="sp-day {{ 'today' if d == today }}"><h3>{{ d.strftime('%A') }} <small>{{ d.strftime('%d %b') }}</small></h3>
+  {% for d in days %}<section class="sp-day fi {{ 'today' if d == today }}" data-day="{{ d.strftime('%a')|lower }}"><h3>{{ d.strftime('%A') }} <small>{{ d.strftime('%d %b') }}</small></h3>
     {% for t in tasks[d] %}{% include "planner/_task.html" %}{% else %}<p class="sp-muted">Nothing planned.</p>{% endfor %}</section>{% endfor %}
+</div>
 </div>
 {% endblock %}

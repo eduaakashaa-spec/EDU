@@ -1,0 +1,93 @@
+/* EduAakashaA UI kit: "how this page works" panels, compact filterable lists, phone-friendly tables and horizontal tab bars.
+   Used with static/js/uikit.js and templates/_how.html. Colours follow the site tokens (--paper, --border, --navy, --text-dim). */
+
+/* ---- how this page works ------------------------------------------------------------------------------------------------------------- */
+.how{border:1px solid var(--border,#E8DFC8);border-left:5px solid #FF6B0A;border-radius:14px;background:var(--paper,#FFFDF7);margin:14px 0;color:var(--text,#0E1B3D)}
+.how>summary{cursor:pointer;list-style:none;padding:11px 14px;font:700 .95rem 'Plus Jakarta Sans',system-ui,sans-serif;display:flex;gap:8px;align-items:center}
+.how>summary::-webkit-details-marker{display:none}
+.how>summary::before{content:'i';display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:#FF6B0A;color:#fff;font:700 .78rem 'Fraunces',Georgia,serif;flex:0 0 20px}
+.how>summary::after{content:'Show';margin-left:auto;font-size:.72rem;font-weight:700;color:var(--text-dim,#5A6278);border:1px solid var(--border,#E8DFC8);border-radius:999px;padding:2px 10px}
+.how[open]>summary::after{content:'Hide'}
+.how .how-b{padding:0 14px 14px}
+.how .how-what{margin:0 0 10px;font-size:.92rem;line-height:1.55}
+.how .how-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px}
+.how .how-r{border:1px solid var(--border,#E8DFC8);border-radius:10px;padding:8px 11px;font-size:.86rem;line-height:1.5;background:rgba(255,255,255,.55)}
+.how .how-r b{display:block;font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.09em;text-transform:uppercase;color:#FF6B0A;margin-bottom:2px}
+.how .how-out{margin-top:8px;font-size:.88rem;line-height:1.5;background:#EAF6EF;border-radius:10px;padding:8px 12px}
+.how .how-out b{font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.09em;text-transform:uppercase;color:#1F8B5C;margin-right:6px}
+/* role tabs (phones): the cards are stacked one at a time; on wider screens all cards show and the tab bar is hidden */
+.how .how-tabs{display:none;gap:6px;margin:0 0 8px}
+.how .how-tabs button{flex:1 1 0;border:1.5px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:999px;padding:6px 8px;font:700 .78rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}
+.how .how-tabs button[aria-pressed=true]{background:var(--navy,#0E3A8A);border-color:var(--navy,#0E3A8A);color:#fff}
+@media(max-width:640px){.how .how-tabs{display:flex}.how.how-tabbed .how-r{display:none}.how.how-tabbed .how-r.on{display:block}}
+html[data-theme="dark"] .how{background:#121c3a;border-color:#26325a;color:#E6E9F2}
+html[data-theme="dark"] .how .how-r{background:#0e1730;border-color:#26325a}
+html[data-theme="dark"] .how .how-out{background:#12301f}
+
+/* ---- filter bar and compact lists ------------------------------------------------------------------------------------------------------ */
+.fbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:10px 0}
+.fchips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;max-width:100%;padding:2px 0}
+.fchips::-webkit-scrollbar{display:none}
+.fchip{flex:0 0 auto;border:1.5px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:999px;padding:6px 13px;font:700 .8rem 'Plus Jakarta Sans',system-ui,sans-serif;white-space:nowrap;cursor:pointer;color:inherit}
+.fchip[aria-pressed=true]{background:var(--navy,#0E3A8A);border-color:var(--navy,#0E3A8A);color:#fff}
+.fchip .n{opacity:.7;margin-left:5px;font-family:'JetBrains Mono',monospace;font-size:.72rem}
+.fbar select,.fbar input[type=search]{padding:7px 10px;border:1.5px solid var(--border,#E8DFC8);border-radius:10px;background:var(--cream,#FBF7EE);color:inherit;font:600 .86rem 'Plus Jakarta Sans',system-ui,sans-serif;min-width:0;max-width:100%;width:auto}
+.fbar input[type=search]{flex:1 1 150px}
+.fcount{font-size:.78rem;color:var(--text-dim,#5A6278);margin-left:auto}
+.fnone{display:none;padding:14px;text-align:center;color:var(--text-dim,#5A6278);font-size:.9rem}
+.fnone.on{display:block}
+.fi[hidden]{display:none!important}
+
+details.citem{border:1px solid var(--border,#E8DFC8);border-radius:12px;margin:8px 0;background:var(--paper,#FFFDF7)}
+details.citem>summary{list-style:none;cursor:pointer;display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px}
+details.citem>summary::-webkit-details-marker{display:none}
+details.citem>summary::before{content:'+';flex:0 0 18px;height:18px;border-radius:50%;background:var(--navy,#0E3A8A);color:#fff;font:700 .85rem/18px monospace;text-align:center}
+details.citem[open]>summary::before{content:'\2212'}
+details.citem .t{flex:1 1 180px;font-weight:700;font-size:.92rem;line-height:1.35;min-width:0}
+details.citem .m{display:flex;gap:5px;flex-wrap:wrap;align-items:center;font-size:.76rem;color:var(--text-dim,#5A6278)}
+details.citem .cb{padding:2px 12px 12px 38px;font-size:.88rem}
+details.citem.done .t{text-decoration:line-through;opacity:.6}
+details.citem.over{border-left:4px solid #C23A3A}
+@media(max-width:560px){details.citem .cb{padding-left:12px}}
+
+/* ---- tables that become cards on a phone ------------------------------------------------------------------------------------------------ */
+@media(max-width:760px){
+  table.rt,table.rt tbody,table.rt tr,table.rt td{display:block;width:100%}
+  table.rt thead{display:none}
+  table.rt tr{border:1px solid var(--border,#E8DFC8)!important;border-radius:12px;margin:8px 0;padding:8px 11px;background:var(--paper,#FFFDF7)}
+  table.rt td{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:4px 0!important;border:0!important;text-align:right!important;white-space:normal!important}
+  table.rt td::before{content:attr(data-l);flex:0 0 76px;font:700 .66rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--text-dim,#5A6278);text-align:left;padding-top:2px}
+  table.rt td.full{display:block;text-align:left!important}
+  table.rt td.full::before{display:block;margin-bottom:2px}
+  table.rt td.first{display:block;text-align:left!important;font-size:1rem}
+  table.rt td.first::before{display:none}
+  .ms-scroll{overflow-x:visible!important}
+}
+
+/* ---- horizontal tab bars (one swipeable row on a phone) ---------------------------------------------------------------------------------- */
+@media(max-width:760px){
+  .ms-tabs{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;position:sticky;top:0;z-index:20;background:var(--cream,#FBF7EE);padding:8px 2px!important;margin:10px 0 14px!important;border-bottom:1px solid var(--border,#E8DFC8)}
+  .ms-tabs::-webkit-scrollbar{display:none}
+  .ms-tab{flex:0 0 auto;scroll-snap-align:center;padding:8px 13px!important}
+  .ms-head{padding:14px 16px!important;gap:10px!important}
+  .ms-head h1{font-size:1.2rem!important}
+}
+.subnav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:8px 0 12px;padding:2px 0}
+.subnav::-webkit-scrollbar{display:none}
+.subnav a{flex:0 0 auto;border:1px solid var(--border,#E8DFC8);border-radius:999px;padding:5px 12px;font-size:.78rem;font-weight:700;text-decoration:none;color:inherit;background:var(--paper,#FFFDF7)}
+.subnav a:hover{border-color:var(--navy,#0E3A8A)}
+
+/* three owner summary cards: a swipeable row on a phone */
+@media(max-width:760px){
+  .ms-owners{display:flex!important;overflow-x:auto;gap:10px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .ms-owners::-webkit-scrollbar{display:none}
+  .ms-owners>.ms-card{flex:0 0 82%;scroll-snap-align:start}
+  .ms form[method=get] select,.ms form[method=get] input[type=text]{min-width:0;max-width:100%}
+}
+
+/* planner section nav: one swipeable row on a phone */
+@media(max-width:760px){
+  .sp-nav{flex-wrap:nowrap!important;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .sp-nav::-webkit-scrollbar{display:none}
+  .sp-nav a{flex:0 0 auto;white-space:nowrap}
+}

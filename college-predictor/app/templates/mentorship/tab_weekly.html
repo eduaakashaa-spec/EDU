@@ -1,19 +1,41 @@
 {% extends "mentorship/ws.html" %}
 {% import "mentorship/_macros.html" as m %}
+{% from "_how.html" import how %}
 {% block body %}
+{{ how('ms-weekly', 'How the weekly plan works',
+       'The weekly plan is the list of actions that are due or open this week, a short check-in at the end of the week, and the EduPulse practice you choose to support it.',
+       student='Finish the actions you own, tick them off with a short note, choose up to three EduPulse reinforcement options that fit your results, and submit the check-in before the week ends. Be honest about what got in the way.',
+       parent='Do the actions marked Parent, read the summary your mentor shares, and help your child keep a regular time for practice. You do not need to check answers.',
+       mentor='Add and review actions, approve or decline the reinforcement options your student picks (approving sets the work), read the check-in and answer it with specific feedback, and schedule an intervention if help is needed.',
+       focus=role, outcome='A steady weekly rhythm: clear actions, practice aimed at the weak areas the evidence shows, and a record your mentor can use in reviews. It supports preparation; it does not predict a rank or a seat.') }}
+<nav class="subnav" aria-label="On this page"><a href="#actions">Actions</a><a href="#edupulse">EduPulse reinforcement</a>{% if role == 'student' %}<a href="#checkin">Check-in</a>{% endif %}<a href="#history">History</a></nav>
 
 <div class="ms-grid ms-g2" style="align-items:start;">
   <!-- action plan -->
-  <div class="ms-card">
+  <div class="ms-card" id="actions">
     <div class="ms-eyebrow">Action plan</div>
     <h2>This week &amp; open actions</h2>
     <p class="hint">Progress counts completed ÷ total actions; cancelled actions are excluded.</p>
-    {% for a in actions %}
-    <div id="a{{ a.id }}" style="padding:12px 0;border-bottom:1px solid #F1EAD7;">
-      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;">
-        <strong>{{ a.title }}</strong>
-        <span>{{ m.state_pill(action_state(a)) }} <span class="ms-pill {{ 'bad' if a.priority == 'High' else '' }}">{{ a.priority }}</span> <span class="ms-pill">{{ a.owner }}</span></span>
+    <div class="fwrap">
+    <div class="fbar">
+      <div class="fchips" role="group" aria-label="Show">
+        <button type="button" class="fchip" data-key="st" data-val="">All<span class="n"></span></button>
+        <button type="button" class="fchip" data-key="st" data-val="week">This week<span class="n"></span></button>
+        <button type="button" class="fchip" data-key="st" data-val="open" data-default="1">Open<span class="n"></span></button>
+        <button type="button" class="fchip" data-key="st" data-val="overdue">Overdue<span class="n"></span></button>
+        <button type="button" class="fchip" data-key="st" data-val="done">Done<span class="n"></span></button>
       </div>
+    </div>
+    <div class="fbar">
+      <select data-key="own" aria-label="Owner"><option value="">Everyone</option><option value="student">Student</option><option value="parent">Parent</option><option value="mentor">Mentor</option></select>
+      <input type="search" data-search placeholder="Search actions" aria-label="Search actions"><span class="fcount"></span>
+    </div>
+    {% for a in actions %}
+    {% set st = action_state(a) %}{% set isdone = a.status in ('Completed', 'Closed') %}{% set over = (st == 'Overdue') %}
+    <details class="citem fi {{ 'done' if isdone }} {{ 'over' if over }}" id="a{{ a.id }}" data-own="{{ a.owner or 'student' }}" data-st="{{ 'done' if isdone else 'open' }}{{ ' overdue' if over }}{{ ' week' if a.due_date and not isdone and (a.due_date - today).days <= 7 }}" data-text="{{ a.title|lower }}" >
+      <summary><span class="t">{{ a.title }}</span>
+        <span class="m">{{ m.state_pill(st) }}<span class="ms-pill {{ 'bad' if a.priority == 'High' else '' }}">{{ a.priority }}</span><span class="ms-pill">{{ a.owner }}</span>{% if a.due_date %}<span>Due {{ a.due_date.strftime('%d %b') }}</span>{% endif %}</span></summary>
+      <div class="cb">
       {% if a.purpose %}<div class="hint" style="margin:2px 0;">Why it matters: {{ a.purpose }}</div>{% endif %}
       {% if a.instruction %}<div style="font-size:.86rem;">{{ a.instruction }}</div>{% endif %}
       <div style="font-size:.8rem;color:var(--text-dim);">{% if a.due_date %}Due {{ a.due_date.strftime('%d %b %Y') }} · {% endif %}{% if a.est_minutes %}~{{ a.est_minutes }} min · {% endif %}Status: <strong>{{ a.status }}</strong>{% if a.completed_at %} · done {{ a.completed_at.strftime('%d %b') }}{% endif %}</div>
@@ -46,8 +68,11 @@
         </form>
       </details>
       {% endif %}
-    </div>
+      </div>
+    </details>
     {% else %}<div class="ms-empty">No actions yet. {% if staff %}Add the first one below.{% else %}Your mentor will add actions after your session.{% endif %}</div>{% endfor %}
+    <div class="fnone">No actions match these filters.</div>
+    </div>
 
     {% if staff %}
     <details class="ms-fold"><summary>＋ Assign a new action</summary>
@@ -71,8 +96,47 @@
     {% endif %}
   </div>
 
-  <!-- weekly check-in -->
+  <!-- right column: EduPulse reinforcement, check-in, history -->
   <div>
+    <div class="ms-card" id="edupulse">
+      <div class="ms-eyebrow">EduPulse reinforcement · week of {{ week.strftime('%d %b %Y') }}</div>
+      <h2>Practise what the evidence says you need</h2>
+      {% set rf_links = {'reinforce': url_for('reinforce.home'), 'NEET': url_for('neet_mock.home'), 'JEE': url_for('pulse_jee.home')} %}
+      {% set rf_src = {'weak': 'From your practice', 'assessment': 'From your assessment', 'dashboard': 'From your dashboard'} %}
+      {% if role == 'student' %}
+      <p class="hint">Options come from your assessment results, the chapters EduPulse flags as weak and the chapters you rated low on your Class 12 dashboards. Choose up to three for this week. Your mentor approves them and sets the work.</p>
+      {% for o in rf_opts %}
+      <details class="citem fi" {{ 'open' if o.state == '' and loop.first }}>
+        <summary><span class="t">{{ o.title }}</span>
+          <span class="m"><span class="ms-pill info">{{ rf_src.get(o.source, o.source) }}</span>{% if o.state == 'requested' %}<span class="ms-pill warn">Waiting for mentor</span>{% elif o.state == 'approved' %}<span class="ms-pill ok">Approved</span>{% elif o.state == 'declined' %}<span class="ms-pill bad">Not this week</span>{% endif %}</span></summary>
+        <div class="cb">
+          <div class="hint" style="margin:0 0 8px;">{{ o.why }}</div>
+          {% if o.state == 'requested' %}
+            <form method="post" action="{{ url_for('mentorship.edupulse_withdraw', eid=e.id, cid=o.choice_id) }}"><button class="ms-btn g sm">Withdraw request</button></form>
+          {% elif o.state == 'approved' %}
+            <a class="ms-btn p sm" href="{{ rf_links['reinforce'] if o.target == 'reinforce' else rf_links.get(o.exam, rf_links['JEE']) }}">Open practice</a>
+          {% elif o.state == '' %}
+            <form method="post" action="{{ url_for('mentorship.edupulse_choose', eid=e.id) }}"><input type="hidden" name="key" value="{{ o.key }}"><button class="ms-btn o sm">Add to my week</button></form>
+          {% endif %}
+        </div>
+      </details>
+      {% else %}<div class="ms-empty">No options yet. Complete a Stream Selection or Student Assessment, rate chapters on your Class 12 PCM or PCB dashboard, or do an EduPulse Reinforcement set, and options appear here.</div>{% endfor %}
+      {% elif staff %}
+      <p class="hint">Requests the student made from their results. Approving creates the assignment when the student is on your EduPulse roster and the bank has questions for the chapter; otherwise set the work yourself.</p>
+      {% for c in rf_pending %}
+      <div style="padding:10px 0;border-bottom:1px solid #F1EAD7;"><strong>{{ c.title }}</strong><div class="hint">{{ c.why }}</div>
+        <form method="post" action="{{ url_for('mentorship.edupulse_decide', eid=e.id, cid=c.id) }}" style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
+          <input type="text" name="note" maxlength="300" placeholder="Note to the student (optional)" style="flex:1 1 180px;">
+          <button class="ms-btn o sm" name="decision" value="approve">Approve</button><button class="ms-btn g sm" name="decision" value="decline">Decline</button></form></div>
+      {% else %}<div class="ms-empty">No requests waiting.</div>{% endfor %}
+      {% else %}
+      {% for c in rf_mine %}<div style="padding:8px 0;border-bottom:1px solid #F1EAD7;"><strong>{{ c.title }}</strong> <span class="ms-pill {{ 'ok' if c.status == 'approved' else 'bad' if c.status == 'declined' else 'warn' }}">{{ c.status }}</span></div>
+      {% else %}<div class="ms-empty">Your child has not chosen any EduPulse practice for this week yet.</div>{% endfor %}
+      {% endif %}
+      {% if role == 'student' and rf_mine %}<p class="hint" style="margin-top:8px;">This week you asked for {{ rf_mine|length }} of 3.</p>{% endif %}
+    </div>
+
+    <!-- weekly check-in -->
     {% if role == 'student' %}
     <div class="ms-card" id="checkin">
       <div class="ms-eyebrow">Weekly check-in · week of {{ week.strftime('%d %b %Y') }}</div>
@@ -82,6 +146,7 @@
         {% if checkin.mentor_comment %}<div class="ms-note info">💬 {{ checkin.mentor_comment }}</div>{% endif %}
       {% else %}
       <div class="ms-note priv">Your reflections are private to you and your mentor. Parents only see a summary if your mentor shares one. This is an academic check-in, not a mental-health assessment.</div>
+      <details class="citem" id="checkin-form" open data-phone-closed><summary><span class="t">Open the check-in form</span></summary><div class="cb" style="padding-left:12px;">
       <form method="post" action="{{ url_for('mentorship.checkin_save', eid=e.id) }}">
         {% if actions %}<label class="f">1 · Review last week's commitments</label>
         {% for a in actions if a.owner == 'student' %}
@@ -105,6 +170,7 @@
           <button class="ms-btn o" name="submit" value="1">Submit to mentor</button>
         </div>
       </form>
+      </div></details>
       {% endif %}
       {% if prev %}<p class="hint" style="margin-top:10px;">Last week you planned: <em>{{ prev.next_priority or 'no priority recorded' }}</em></p>{% endif %}
     </div>

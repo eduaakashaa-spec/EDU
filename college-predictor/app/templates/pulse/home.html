@@ -5,6 +5,7 @@
 {% block content %}
 <div class="pl">
   <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-UCEED</div>
+  {% from "_how.html" import how %}{{ how('pl-uceed', 'How EduPulse-UCEED works', 'Practice and progress for the UCEED design entrance: timed mock papers, section practice and a record of how your scores change.', student='Take a mock under exam timing, read the solutions the same day, and note the questions you guessed. Repeat every week and watch the trend, not one score.', parent='Keep the mock slot free and calm. Ask about the trend and the plan for the next week; do not compare marks with other students.', mentor='Review the report with the student, pick two topics to revisit, and approve the reinforcement the student requests in the weekly plan.', outcome='A steady record of mock scores and weak topics that guides the next week of practice. It supports preparation and does not predict a rank.', focus=(current_user.role if current_user.is_authenticated and current_user.role in ('student', 'parent', 'mentor') else 'student')) }}
   {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<ul class="pl-flash" role="status">{% for cat, msg in messages %}<li class="flash-{{ cat }}">{{ msg }}</li>{% endfor %}</ul>{% endif %}{% endwith %}
 
   <section class="pl-hero">

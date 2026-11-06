@@ -1,6 +1,7 @@
 {% extends "reinforce/base.html" %}
 {% block rf_title %}My reinforcement{% endblock %}
 {% block rf_body %}
+  {% from "_how.html" import how %}{{ how('rf-home', 'How EduPulse Reinforcement works', 'Short practice sets set by your mentor on the chapters you need most, with a confidence rating on every answer.', student='Do the pending set each day, rate how sure you are before you see the answer, and ask for more practice from your weekly plan when a chapter still feels weak.', parent='See the sets and accuracy, make sure there is a regular time for practice, and leave the checking to the app and the mentor.', mentor='Approve the practice your student requests, review confidence against accuracy, and move on from chapters that are secure.', outcome='Secure concepts in the weak chapters, shown as rising accuracy and matching confidence. It supports learning; it does not predict a result.', focus=(current_user.role if current_user.is_authenticated and current_user.role in ('student', 'parent', 'mentor') else 'student')) }}
 {% if rs.demo %}<div class="rf-demo" role="note">DEMONSTRATION: sample student and sample data. Not a real child; excluded from exports.</div>{% endif %}
 <section class="pl-hero">
   <div><span class="pl-chip">EduPulse – Reinforcement · {{ rs.exam }}</span><h1>Small steps today. Stronger concepts tomorrow.</h1>

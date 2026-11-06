@@ -20,6 +20,7 @@ from app.decorators import admin_required, staff_required
 from app.extensions import db
 from app.models import User
 from app.models_membership import Setting
+from app.models_reinforce import RfChoice
 from app.models_mentorship import (
     ACTION_STATUSES, ADMISSION_ROUTES, ELIGIBILITY, EVENT_CATEGORIES, KPI_DIRECTIONS, PREF_LIST_STATUSES,
     REVIEW_STATUSES, SESSION_STATUSES, MsAction, MsAudit, MsBranch, MsBranchFit, MsBranchRating, MsCheckin,
@@ -29,6 +30,7 @@ from app.models_mentorship import (
 from app.services import exam_calendar as xc
 from app.services import exam_docs as xd
 from app.services import mailer
+from app.services import rf_choice
 from app.services import mentorship as svc
 
 mentorship_bp = Blueprint('mentorship', __name__, url_prefix='/mentorship')
@@ -287,7 +289,10 @@ def _tab_weekly(e, role):
     open_actions = e.actions.filter(MsAction.status.notin_(['Cancelled'])).order_by(MsAction.due_date).all()
     cur = [a for a in open_actions if a.status not in ('Completed', 'Closed') or (a.completed_at and a.completed_at.date() >= wk)]
     history = MsCheckin.query.filter(MsCheckin.enrolment_id == e.id, MsCheckin.status != 'Draft').order_by(MsCheckin.week_start.desc()).limit(12).all()
-    return dict(checkin=ci, prev=prev, actions=cur, week=wk, history=history, ACTION_STATUSES=ACTION_STATUSES,
+    rf_opts = rf_choice.options(e.student, wk) if role == 'student' else []
+    rf_mine = rf_choice.for_week(e.student, wk) if role in ('student', 'parent') else []
+    rf_pending = rf_choice.pending_for(e) if role in STAFF else []
+    return dict(checkin=ci, prev=prev, actions=cur, week=wk, history=history, ACTION_STATUSES=ACTION_STATUSES, rf_opts=rf_opts, rf_mine=rf_mine, rf_pending=rf_pending, today=svc.today(),
                 STUDENT_ACTION_STATUSES=STUDENT_ACTION_STATUSES, action_state=svc.action_state,
                 outcomes=svc.jload(ci.outcomes_json) if ci else {}, outcome_notes=svc.jload(ci.outcome_notes_json) if ci else {},
                 sessions_for_link=e.sessions.order_by(MsSession.position).all(), cal_actions=cur)
@@ -1687,6 +1692,41 @@ def action_tracker():
     return render_template('mentorship/action_tracker.html', items=items, progress=svc.owner_progress(all_rows), flt=flt, owner_f=owner, q=q,
                            ACTION_FILTERS=svc.ACTION_FILTERS, OWNERS=svc.OWNERS, OWNER_LABEL=svc.OWNER_LABEL, action_state=svc.action_state,
                            total=len(all_rows), per_member=per_member, alerts=xc.unread_alerts(current_user))
+
+
+# --------------------------------------------------------------------------- #
+# EduPulse reinforcement chosen for the week (the mentor approves)
+# --------------------------------------------------------------------------- #
+@mentorship_bp.route('/e/<int:eid>/edupulse/choose', methods=['POST'])
+@login_required
+def edupulse_choose(eid):
+    e, role = _ctx(eid, ('student',))
+    c, err = rf_choice.choose(e.student, request.form.get('key', ''), svc.week_start())
+    if err:
+        flash(err, 'danger')
+    elif c.status == 'requested':
+        flash('Sent to your mentor. They will approve it or suggest something else.', 'success')
+    return _back(e, request.form.get('back') or 'weekly', 'edupulse')
+
+
+@mentorship_bp.route('/e/<int:eid>/edupulse/<int:cid>/withdraw', methods=['POST'])
+@login_required
+def edupulse_withdraw(eid, cid):
+    e, role = _ctx(eid, ('student',))
+    if rf_choice.withdraw(e.student, cid):
+        flash('Request withdrawn.', 'success')
+    return _back(e, 'weekly', 'edupulse')
+
+
+@mentorship_bp.route('/e/<int:eid>/edupulse/<int:cid>/decide', methods=['POST'])
+@login_required
+def edupulse_decide(eid, cid):
+    e, role = _ctx(eid, STAFF)
+    c = db.session.get(RfChoice, cid) or abort(404)
+    if c.user_id != e.student_id or c.status != 'requested':
+        abort(404)
+    flash(rf_choice.decide(c, current_user, request.form.get('decision') == 'approve', (request.form.get('note') or '').strip()), 'success')
+    return _back(e, 'weekly', 'edupulse')
 
 
 # --------------------------------------------------------------------------- #
