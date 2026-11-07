@@ -13,9 +13,9 @@ LEVEL_WEIGHTS = {
 
 UCEED = {
     'key': 'ea-uceed27-v1', 'examName': 'UCEED 2027', 'leadSource': 'uceed-roadmap', 'page': 'uceed-2027-roadmap',
-    'targets': None, 'exam': '2027-01-17', 'examText': '17 Jan 2027', 'regClose': '2026-10-31',
-    'regText': '31 Oct 2026', 'regNote': 'check uceed.iitb.ac.in for any late-fee window',
-    'official': [['Registration closes', '2026-10-31', '31 Oct 2026'], ['UCEED 2027 exam', '2027-01-17', '17 Jan 2027 · 9 am–12 noon'],
+    'targets': None, 'exam': '2027-01-17', 'examText': '17 Jan 2027', 'regClose': '2026-11-10',
+    'regText': '5 Nov 2026 (late fee to 10 Nov)', 'regNote': 'the late-fee window ends 10 Nov, 5 pm; no further extension (uceed.iitb.ac.in)',
+    'official': [['Registration closes', '2026-11-05', '5 Nov 2026 (late fee to 10 Nov)'], ['UCEED 2027 exam', '2027-01-17', '17 Jan 2027 · 9 am–12 noon'],
                  ['Results', '2027-03-06', '6 Mar 2027'], ['B.Des application', '2027-03-15', '15 Mar 2027'], ['Admission rounds', '2027-04-21', 'From 21 Apr 2027']],
     'afterText': 'After the exam — results 6 Mar, B.Des application 15 Mar, admission rounds from 21 Apr 2027 (official)',
     'weights': LEVEL_WEIGHTS,
@@ -70,8 +70,8 @@ LAW = {
         {'id': 'slat27', 'label': 'SLAT 2027 — 19 / 26 Dec 2026 (reported)', 'date': '2026-12-19', 'official': True},
         {'id': 'next', 'label': 'Next cycle (CLAT 2028) — date not announced; planning assumption: first Sunday of Dec 2027', 'date': '2027-12-05', 'official': False},
     ],
-    'exam': '2026-12-06', 'examText': '6 Dec 2026', 'regClose': '2026-10-31', 'regText': '31 Oct 2026', 'regNote': 'check consortiumofnlus.ac.in for any extension',
-    'official': [['CLAT registration closes', '2026-10-31', '31 Oct 2026'], ['CLAT 2027 exam', '2026-12-06', '6 Dec 2026 · 2–4 pm'],
+    'exam': '2026-12-06', 'examText': '6 Dec 2026', 'regClose': '2026-11-07', 'regText': '7 Nov 2026 (extended from 31 Oct)', 'regNote': 'extension reported; check consortiumofnlus.ac.in',
+    'official': [['CLAT registration closes', '2026-11-07', '7 Nov 2026 (extended, reported)'], ['CLAT 2027 exam', '2026-12-06', '6 Dec 2026 · 2–4 pm'],
                  ['AILET 2027 exam', '2026-12-13', '13 Dec 2026 · 2–4 pm'], ['SLAT 2027 tests', '2026-12-19', '19 & 26 Dec 2026 (reported)'],
                  ['SLAT registration closes', '2026-12-04', '4 Dec 2026 (reported)']],
     'afterText': 'After the exam — results, merit lists and counselling dates are announced by each exam body (CLAT counselling schedule awaited)',

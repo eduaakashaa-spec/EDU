@@ -38,7 +38,7 @@ r = prem.get('/uceed-2027-roadmap')
 t = r.get_data(as_text=True)
 assert r.status_code == 200 and '{%' not in t and 'UCEED 2027: Your Roadmap to a' in t
 # official facts (uceed.iitb.ac.in/2027, 17 Oct 2026)
-for fact in ('17 Jan 2027', '9 am–12 noon', '6 Mar 2027', '15 Mar 2027', '21 Apr 2027', '1–31 Oct 2026'):
+for fact in ('17 Jan 2027', '9 am–12 noon', '6 Mar 2027', '15 Mar 2027', '21 Apr 2027', '1 Oct – 5 Nov 2026'):
     assert fact in t, fact
 for inst in ('IIT Bombay', 'IIT Delhi', 'IIT Guwahati', 'IIT Hyderabad', 'IIT Indore', 'IIT Roorkee', 'IIITDM Jabalpur'):
     assert t.count(inst) >= 2, inst                                          # in the overview and the institute table

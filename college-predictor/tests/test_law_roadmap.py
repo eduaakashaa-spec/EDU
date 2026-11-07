@@ -40,7 +40,7 @@ assert free.get('/law-2027-roadmap').status_code == 403
 r = prem.get('/law-2027-roadmap')
 t = r.get_data(as_text=True)
 assert r.status_code == 200 and '{%' not in t and 'Law Entrance Exams 2027: Your Roadmap to a' in t
-for fact in ('6 Dec 2026', '13 Dec 2026', '19 &amp; 26 Dec 2026', '3 Aug – 31 Oct 2026', '26 National Law Universities'):
+for fact in ('6 Dec 2026', '13 Dec 2026', '19 &amp; 26 Dec 2026', '3 Aug – 7 Nov 2026', '26 National Law Universities'):
     assert fact in t, fact
 assert len(CLAT_NLUS) == 26 and len({a for a, _ in CLAT_NLUS}) == 26
 for abbr, _city in CLAT_NLUS:

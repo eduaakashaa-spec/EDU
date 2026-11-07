@@ -98,7 +98,7 @@ for eid, ms in exam_page.DEADLINES.items():
         assert row and (row[7] is None or by['result'] >= row[7] or eid == 'cat'), eid          # a result never precedes its exam
 # the facts the user asked for
 u = {k: d for k, d, _s2, _n in exam_page.DEADLINES['uceed'] if d}
-assert u['open'] == '2026-10-01' and u['close'] == '2026-10-31' and u['late'] == '2026-11-06' and u['result'] == '2027-03-06'
+assert u['open'] == '2026-10-01' and u['close'] == '2026-11-05' and u['late'] == '2026-11-10' and u['result'] == '2027-03-06'
 assert {k: d for k, d, _s2, _n in exam_page.DEADLINES['nid-prelims']}['close'] == '2026-11-30'
 assert {k: d for k, d, _s2, _n in exam_page.DEADLINES['slat']}['close'] == '2026-12-04'
 assert 'data-a="open"' in t and 'Late-fee window' in t and 'Applications:' in t and 'xs-next' in t and 'xs-deadlines' in t
@@ -108,7 +108,7 @@ dics = c.get('/exam-schedule/deadlines.ics')
 db_ = dics.data.decode().replace(chr(13) + chr(10) + ' ', '')
 assert dics.status_code == 200 and db_.count('BEGIN:VEVENT') == len(exam_page.milestone_events()) > 30
 assert 'Late-fee' in db_ or 'late fee' in db_.lower()
-assert 'DTSTART;VALUE=DATE:20261106' in db_ and 'DTSTART;VALUE=DATE:20270306' in db_      # UCEED late-fee date and result
+assert 'DTSTART;VALUE=DATE:20261110' in db_ and 'DTSTART;VALUE=DATE:20270306' in db_      # UCEED late-fee date and result
 assert any('EXPECTED' in ev for ev in db_.split('BEGIN:VEVENT'))                          # expected dates are flagged in the event text
 js2 = open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'app/static/js/exam_schedule.js'), encoding='utf-8').read()
 assert 'Expected' in js2 and 'never' in js2.lower()                                      # the script documents that expected dates don't open applications
