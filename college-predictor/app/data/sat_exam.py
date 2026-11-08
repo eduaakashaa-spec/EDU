@@ -61,11 +61,11 @@ SCORING = [
 # (item, amount, note), amounts as printed on the College Board fee pages, which show the $ symbol.
 FEES = [
     ('Registration fee', '$68', 'Every test taker.'),
-    ('International registration fee', '$43', 'Added to the $68 when you test outside the U.S. and U.S. territories, which includes India and the UAE.'),
+    ('International registration fee', '$43', 'Added to the $68 when you test outside the U.S. and U.S. territories, which includes India.'),
     ('Late registration', '$38', 'Registering after the regular deadline and before the late deadline.'),
     ('Change test centre', '$34', 'Changes the centre only. To change the date you cancel and register again.'),
     ('Cancel registration', '$34', 'By the change deadline. A late cancellation, up to Thursday 11:59 p.m. ET before test day, is $44.'),
-    ('Test centre fee', '$24', 'Charged only at a few listed locations (Hong Kong SAR, Macau SAR, Singapore, South Korea and Taiwan on the current page). India and the UAE are not on that list.'),
+    ('Test centre fee', '$24', 'Charged only at a few listed locations (Hong Kong SAR, Macau SAR, Singapore, South Korea and Taiwan on the current page). India is not on that list.'),
     ('Waitlist', '$0', 'You are placed into an open seat within your chosen radius if one opens.'),
     ('Additional score reports', '$15 each', 'The first four are free if ordered within nine days after test day.'),
     ('Rush, archived scores, scores by phone', '$31, $35, $15', 'Rush reports are $31 and archived scores $35, each plus report fees; scores by phone are $15 a call.'),
@@ -85,7 +85,6 @@ ID_RULES = [
     'The full legal name on it must match your admission ticket exactly (middle names and initials are optional). If they differ you may be turned away. For a name change contact College Board Customer Service at least 30 days before the test.',
     'Testing outside your home country: a valid passport is generally required.',
     'India: a passport or a valid Aadhaar PVC card showing your name and photo. An Aadhaar letter is accepted only as the hard copy issued by the Government of India in its original form.',
-    'United Arab Emirates: a valid national ID card of the country where you are testing, or a valid passport from any country.',
     'Not accepted: birth certificates, credit or debit cards, employee IDs and temporary IDs. Students 21 or over may use only government-issued photo ID.',
 ]
 
@@ -122,7 +121,7 @@ FAQ = [
     ('What is the total score?', '400 to 1600, the sum of two section scores of 200 to 800 each.'),
     ('How many times can I take it?', 'This page does not give a limit because the College Board pages we checked do not state one. Each sitting needs its own registration and fees. Check the College Board website for current policy, and the requirements of each university you apply to.'),
     ('Which scores do universities see?', 'Score Choice lets you pick which test dates to send, but some colleges require all scores, and it does not apply to the free score sends you choose at registration. Check each university\'s policy.'),
-    ('Is the SAT offered in India and the UAE?', 'Yes. The College Board dates page applies to both US and international students and does not list India or the UAE separately. Which centres have seats on a date is shown in your account when you search; we cannot list them here.'),
+    ('Is the SAT offered in India?', 'Yes. The College Board dates page applies to both US and international students and does not list India separately. Which centres have seats on a date is shown in your account when you search; we cannot list them here.'),
     ('When is the next test I can register for?', 'The 5 December 2026 test: regular registration closes 20 November and late registration 24 November (11:59 p.m. U.S. Eastern time). The 7 November 2026 test has closed.'),
     ('Do these EduAakashaA tests give an official SAT score?', 'No. They are original practice questions without adaptive modules; we show questions right and percent right per section and domain, not a College Board scaled score.'),
 ]

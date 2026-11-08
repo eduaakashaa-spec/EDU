@@ -690,7 +690,7 @@ def build_mentorship_templates(SITE, WHATSAPP, btn):
     add('mp_mentor_assign', '🧑‍🏫', 'Mentor — new student assignment brief', C,
         'Internal email to a lead / domain mentor / admissions specialist.', [
         {'fields': [_f('name', 'Mentor first name', 'there'), STUDENT,
-                    _f('role', 'Role', 'Lead mentor'), _f('grade', 'Grade · board · country', 'Grade 12 · CBSE · UAE'),
+                    _f('role', 'Role', 'Lead mentor'), _f('grade', 'Grade · board · country', 'Grade 12 · CBSE · India'),
                     _f('parent', 'Parent contact', '[name · phone · email]'), _f('routes', 'Routes of interest', 'DASA / CIWG / JoSAA'),
                     _f('flags', 'Eligibility flags', '[e.g., OCI holder — no CIWG]'), _f('start', 'Programme start', '[Date]'),
                     _f('first', 'First session by', '[Date]'), _f('link', 'Assessments link', SITE + '/admin')],

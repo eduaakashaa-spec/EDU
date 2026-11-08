@@ -19,6 +19,19 @@ for f in files:
                 continue
             hits.append((os.path.relpath(f, ROOT), ctx))
 assert not hits, hits[:5]
+# nothing the company says about itself or its audience mentions the UAE: testimonials, audience wording, phone placeholders, country lists, sample data
+COMPANY = [re.compile(r'\+971'), re.compile(r'Sharjah,\s*UAE|Dubai,\s*UAE'), re.compile(r'India(?: and| or) the UAE'), re.compile(r'UAE\s*(?:&amp;|&)\s*overseas'), re.compile(r'Gulf-based students'),
+           re.compile(r'<option>(?:UAE|United Arab Emirates)</option>'), re.compile(r'placeholder="e\.g\.[^"]*UAE'), re.compile(r'We live in UAE'), re.compile(r'dirhams?', re.I)]
+more = files + glob.glob(os.path.join(ROOT, 'app', 'static', 'js', '*.js')) + glob.glob(os.path.join(ROOT, 'app', 'data', '*.py')) + glob.glob(os.path.join(ROOT, 'app', 'services', '*.py')) + [os.path.join(ROOT, 'manage.py')]
+hits = []
+for f in more:
+    t = open(f, encoding='utf-8', errors='ignore').read()
+    t = re.sub(r'data:[a-z/+-]+;base64,[A-Za-z0-9+/=]+', '', t)
+    for b in COMPANY:
+        for m in b.finditer(t):
+            hits.append((os.path.relpath(f, ROOT), t[max(0, m.start() - 30):m.end() + 30].replace('\n', ' ')))
+hits = [h for h in hits if not h[0].endswith('test_no_uae_contact.py')]
+assert not hits, hits[:5]
 # the four PCM pages keep the India contact details
 for n in ('answer-lab', 'board-playbook', 'eligibility', 'thumb-rules'):
     s = open(os.path.join(ROOT, 'app', 'data', 'pcm12', 'pages', n + '.html'), encoding='utf-8').read()

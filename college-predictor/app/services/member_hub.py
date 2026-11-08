@@ -82,7 +82,7 @@ CATEGORIES = [
          {'title': 'NEET MBBS seat matrix analytics', 'desc': 'All MBBS colleges in the NMC matrix for 2025–26: seats by state and management, new colleges, seat cuts, growth and a college explorer.', 'icon': '📊', 'endpoint': 'main.neet_seats_2025', 'access': 'premium'},
      ]},
     {'key': 'gulf', 'title': 'Engineering in Gulf', 'icon': '🌴', 'color': '#0F766E', 'tint': '#E0F5F1', 'img': 'gulf.svg',
-     'blurb': 'Routes, exams and guides for studying engineering in the UAE and the Gulf.',
+     'blurb': 'Routes, exams and guides for studying engineering in the Gulf.',
      'tiles': [
          {'title': 'CAET · IIT Delhi – Abu Dhabi guide', 'desc': 'Eligibility checker, deadlines, pattern, practice paper, fees, seats, cut-offs and checklist.', 'icon': '🏛️', 'endpoint': 'main.gulf_caet_guide', 'access': 'premium'},
          {'title': 'IIT Delhi – Abu Dhabi mentoring', 'desc': 'Ready-made add-on programme: route check, CAET preparation, documents and decision.', 'icon': '🧑‍🏫', 'endpoint': 'mentorship.addons', 'anchor': 'iitd-ad', 'access': 'free'},

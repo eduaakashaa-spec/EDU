@@ -803,7 +803,7 @@ function renderReport(sub) {
           <div class="report-why-card">
             <div class="icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
             <h5>Indian + international expertise</h5>
-            <p>We understand both Indian boards / JEE / NEET and the UAE / international applications our Gulf-based students bring us.</p>
+            <p>We understand Indian boards / JEE / NEET and the international applications our students bring us.</p>
           </div>
           <div class="report-why-card">
             <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg></div>
@@ -818,7 +818,7 @@ function renderReport(sub) {
           <div class="report-service-item"><div class="num">01 · DIAGNOSTIC</div><div class="title">PER-based assessments</div><div class="desc">Topic-by-topic for Physics, Chemistry, Math &amp; Biology — JEE, NEET, CBSE, IB.</div></div>
           <div class="report-service-item"><div class="num">02 · COACHING</div><div class="title">JEE / NEET strategy mentorship</div><div class="desc">Personalised 90-day plans. Fortnightly mentor reviews. Test analytics.</div></div>
           <div class="report-service-item"><div class="num">03 · CAREER</div><div class="title">Career &amp; college counselling</div><div class="desc">Stream selection, college shortlisting, JoSAA / NEET counselling support.</div></div>
-          <div class="report-service-item"><div class="num">04 · ABROAD</div><div class="title">UAE &amp; overseas applications</div><div class="desc">SAT prep, university applications, visa &amp; documentation guidance.</div></div>
+          <div class="report-service-item"><div class="num">04 · ABROAD</div><div class="title">Overseas applications</div><div class="desc">SAT prep, university applications, visa &amp; documentation guidance.</div></div>
           <div class="report-service-item"><div class="num">05 · PARENTS</div><div class="title">Parent counselling sessions</div><div class="desc">For parents navigating board pressure, career conversations, and exam anxiety.</div></div>
           <div class="report-service-item"><div class="num">06 · COMMUNITY</div><div class="title">Free WhatsApp daily drills</div><div class="desc">15K+ aspirants. One question, one solution, every weekday.</div></div>
         </div>

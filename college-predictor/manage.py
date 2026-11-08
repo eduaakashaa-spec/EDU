@@ -46,7 +46,7 @@ def seed_demo():
         seed_sequences()
         samples = [
             ('Aarav Sharma', 'aarav@example.com', '9000000001', 'Coimbatore', 'Tamil Nadu', 'Aspirant Path'),
-            ('Diya Nair', 'diya@example.com', '9000000002', 'Dubai', 'UAE', 'NRI / Global'),
+            ('Diya Nair', 'diya@example.com', '9000000002', 'Coimbatore', 'Tamil Nadu', 'NRI / Global'),
             ('Rohan Gupta', 'rohan@example.com', '9000000003', 'Chennai', 'Tamil Nadu', 'Foundation Path'),
         ]
         seq = db.session.query(DocSequence).filter_by(name='reference').first()

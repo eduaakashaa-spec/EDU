@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}SAT Exam Guidelines 2026-27: Dates, Fees, Format, ID, Scoring and Practice | EduAakashaA{% endblock %}
-{% block meta_description %}<meta name="description" content="The Digital SAT in one page for students in India and the UAE: test dates and deadlines, fees, registration, ID rules, test-day checklist, format, content domains, scoring, official practice, and free sample questions. Read from College Board pages.">{% endblock %}
+{% block meta_description %}<meta name="description" content="The Digital SAT in one page for students in India: test dates and deadlines, fees, registration, ID rules, test-day checklist, format, content domains, scoring, official practice, and free sample questions. Read from College Board pages.">{% endblock %}
 {% block head %}
 {% include "_jr2_css.html" %}
 <style>
@@ -42,7 +42,7 @@
   </div>
 
   <div class="nf-top">
-    <div><span class="eb">Digital SAT &middot; guidelines for students in India and the UAE &middot; checked {{ d.CHECKED }}</span>
+    <div><span class="eb">Digital SAT &middot; guidelines for students in India &middot; checked {{ d.CHECKED }}</span>
       <h1>The SAT, <em>in one page</em></h1>
       <p>When to test and register, what it costs, which ID to carry, how the test runs, what it covers, how it is scored and how to prepare. Written for students and parents applying to universities abroad.</p>
       <a class="nf-go" href="#dates">Test dates</a><a class="nf-go n" href="{{ url_for('free_mock.home') }}">Free sample mock test</a><a class="nf-go n" href="{{ url_for('sat_mock.home') }}">EduPulse-SAT (members)</a></div>
@@ -54,13 +54,13 @@
   <section id="dates"><span class="eb">When</span><h2>Test dates and deadlines</h2>
     <div class="nf-c" style="overflow-x:auto"><table class="nf-t rsp"><thead><tr><th>Test day (Saturday)</th><th>Register by</th><th>Late registration by</th><th>Scores out</th><th>Status today</th></tr></thead><tbody>
       {% for r in dates %}<tr><td data-l="Test day"><b>{{ r.test.strftime('%d %b %Y') }}</b></td><td data-l="Register by">{{ r.regular.strftime('%d %b %Y') }}</td><td data-l="Late by">{{ r.late.strftime('%d %b %Y') }}</td><td data-l="Scores out">{{ r.scores.strftime('%d %b %Y') }}</td><td data-l="Status"><span class="nf-st {{ r.kind }}">{{ r.status }}</span></td></tr>{% endfor %}</tbody></table></div>
-    <p class="nf-n">Deadlines end at 11:59 p.m. U.S. Eastern time. Late registration is open worldwide for an extra fee. The 5 December 2026 test is shown by College Board as the last test before many college deadlines. The same dates apply to students in India and the UAE; whether a seat is free at a centre near you is shown only when you search inside your College Board account. Check the dates page again before you plan.</p>
+    <p class="nf-n">Deadlines end at 11:59 p.m. U.S. Eastern time. Late registration is open worldwide for an extra fee. The 5 December 2026 test is shown by College Board as the last test before many college deadlines. The same dates apply to students in India; whether a seat is free at a centre near you is shown only when you search inside your College Board account. Check the dates page again before you plan.</p>
   </section>
 
   <section id="fees"><span class="eb">Cost</span><h2>Fees (shown by College Board in $)</h2>
     <div class="nf-c" style="overflow-x:auto"><table class="nf-t rsp"><thead><tr><th>Item</th><th>Amount</th><th>Note</th></tr></thead><tbody>
       {% for a, b, c in d.FEES %}<tr><td data-l="Item"><b>{{ a }}</b></td><td data-l="Amount">{{ b }}</td><td data-l="Note">{{ c }}</td></tr>{% endfor %}</tbody></table></div>
-    <p class="nf-n">So a student in India or the UAE who registers on time pays $68 + $43 = $111 before any extras. College Board fee waivers are for low-income 11th and 12th graders in the U.S. and U.S. territories (students at schools outside the country must also be U.S. citizens), so they do not normally apply here. The fee page lists these amounts through June 2027; the amount charged in rupees or dirhams depends on your card and bank.</p>
+    <p class="nf-n">So a student in India who registers on time pays $68 + $43 = $111 before any extras. College Board fee waivers are for low-income 11th and 12th graders in the U.S. and U.S. territories (students at schools outside the country must also be U.S. citizens), so they do not normally apply here. The fee page lists these amounts through June 2027; the amount charged in rupees depends on your card and bank.</p>
   </section>
 
   <section id="register"><span class="eb">How</span><h2>Registration in five steps</h2>
