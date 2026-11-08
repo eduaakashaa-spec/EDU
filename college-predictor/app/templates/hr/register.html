@@ -1,0 +1,23 @@
+{% extends "hr/base.html" %}
+{% block hr_title %}Register{% endblock %}
+{% block hr_crumb %} › Register{% endblock %}
+{% block hr_body %}
+<h1>Letter register</h1>
+<p style="margin:2px 0 8px;">Every letter issued, newest first. Void letters stay listed so their numbers are never reused.</p>
+<form method="get" class="hr-c" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:12px;">
+  <div><label style="font-size:.74rem;font-weight:700;color:var(--dim);display:block;">Type</label><select name="kind"><option value="">All types</option>{% for k, v in kinds.items() %}<option value="{{ k }}" {{ 'selected' if sel.kind == k }}>{{ v.title }}</option>{% endfor %}</select></div>
+  <div><label style="font-size:.74rem;font-weight:700;color:var(--dim);display:block;">Financial year</label><select name="fy"><option value="">All</option>{% for y in fys %}<option value="{{ y }}" {{ 'selected' if sel.fy|string == y|string }}>{{ y }}-{{ (y + 1) % 100 }}</option>{% endfor %}</select></div>
+  <div><label style="font-size:.74rem;font-weight:700;color:var(--dim);display:block;">Status</label><select name="status"><option value="">All</option><option value="issued" {{ 'selected' if sel.status == 'issued' }}>Issued</option><option value="void" {{ 'selected' if sel.status == 'void' }}>Void</option></select></div>
+  <div style="flex:1 1 200px;"><label style="font-size:.74rem;font-weight:700;color:var(--dim);display:block;">Name, reference or designation</label><input type="search" name="q" value="{{ sel.q }}"></div>
+  <button class="hr-btn sm" type="submit">Filter</button> <a class="hr-btn g sm" href="{{ url_for('hr.register') }}">Reset</a>
+  <a class="hr-btn g sm" href="{{ url_for('hr.register_csv', kind=sel.kind, fy=sel.fy, status=sel.status, q=sel.q) }}">Export CSV</a>
+</form>
+<div class="hr-c">
+  <table class="hr-t rt"><thead><tr><th>Reference</th><th>Type</th><th>Name</th><th>Designation</th><th>Issued</th><th>Status</th><th></th></tr></thead><tbody>
+  {% for r in rows %}<tr><td class="first"><b>{{ r.ref_no }}</b></td><td data-l="Type">{{ kinds[r.kind].title }}</td><td data-l="Name">{{ r.person_name }}</td><td data-l="Role">{{ r.designation or '—' }}</td>
+    <td data-l="Issued">{{ r.issue_date.strftime('%d %b %Y') }}</td><td data-l="Status"><span class="hr-pill {{ 'void' if r.status == 'void' }}">{{ r.status }}</span></td>
+    <td><a href="{{ url_for('hr.letter', letter_id=r.id) }}">Open</a> · <a href="{{ url_for('hr.letter_pdf', letter_id=r.id) }}" target="_blank">PDF</a></td></tr>
+  {% else %}<tr><td colspan="7" style="padding:16px;color:var(--dim);">No letters match.</td></tr>{% endfor %}
+  </tbody></table>
+</div>
+{% endblock %}

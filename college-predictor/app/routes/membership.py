@@ -496,7 +496,7 @@ def admin_users():
     if q:
         like = f'%{q}%'
         query = query.filter(db.or_(User.name.ilike(like), User.email.ilike(like)))
-    if tier_filter in ('free', 'premium', 'elite', 'ea_mentor', 'admin'):
+    if tier_filter in ('free', 'premium', 'elite', 'ea_mentor', 'hr_admin', 'admin'):
         query = query.filter(User.tier == tier_filter)
     from app.services import signup_guard
     suspects_only = request.args.get('suspect') == '1'

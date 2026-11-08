@@ -38,6 +38,7 @@ CATEGORIES = [
          {'title': 'NIFT GAT and CAT mentorship', 'desc': 'Sixteen weekly sessions for B.Des, B.F.Tech, M.Des, M.F.M and M.F.Tech: GAT sections, creative ability, situation test, mocks and counselling.', 'icon': '🧵', 'endpoint': 'mentorship.addons', 'anchor': 'nift', 'access': 'free'},
          {'title': 'NEET (UG) mentorship', 'desc': 'Sixteen weekly sessions for MBBS, BDS and other NEET-based courses: Physics, Chemistry, Botany and Zoology, negative marking, mocks and counselling.', 'icon': '🩺', 'endpoint': 'mentorship.addons', 'anchor': 'neet', 'access': 'free'},
          {'title': 'B.Arch and B.Planning mentorship', 'desc': 'JEE Paper 2A and 2B, NATA and college routes: two tracks, weekly sessions, mocks and parent reports.', 'icon': '📐', 'endpoint': 'main.barch_mentorship', 'access': 'premium'},
+         {'title': 'HR letters', 'desc': 'Issue offer letters, experience certificates and relieving letters on the EduAakashaA letterhead, with a numbered register and editable templates.', 'icon': '📄', 'endpoint': 'hr.home', 'access': 'premium', 'hr': True},
          {'title': 'Action tracker', 'desc': 'Meeting actions for every member: owner, due date, completion — share by email or WhatsApp.', 'icon': '📌', 'endpoint': 'mentorship.action_tracker', 'access': 'premium', 'staff': True},
          {'title': 'Mentor dashboard', 'desc': 'Assigned students, sessions, follow-ups and interventions.', 'icon': '📋', 'endpoint': 'mentorship.mentor_home', 'access': 'premium', 'staff': True},
      ]},
@@ -204,6 +205,8 @@ def build(user, today=None):
         tiles = []
         for t in cat['tiles']:
             t = dict(t)
+            if t.get('hr') and not user.is_hr:
+                continue
             if t.get('staff') and (not user.is_staff or tool_access.mode_for(user, slugify(t['title'])) == 'deny'):
                 continue
             if t['access'] == 'soon':
@@ -216,7 +219,7 @@ def build(user, today=None):
                 if t.get('anchor'):
                     url += '#' + t['anchor']
                 t['url'] = url
-                t['locked'] = not tool_access.can_open(user, t)
+                t['locked'] = False if t.get('hr') else not tool_access.can_open(user, t)
             tiles.append(_decorate(t, today))
         if tiles:
             out.append({**cat, 'ic': CATEGORY_ICON.get(cat['key'], 'grid'), 'tiles': tiles,

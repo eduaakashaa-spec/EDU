@@ -43,7 +43,7 @@ from app.services.queries import count_if as _n, sum_if as _sum_if
 
 admin_portal_bp = Blueprint('admin_portal', __name__)
 
-TIERS = ('free', 'premium', 'elite', 'ea_mentor', 'admin')
+TIERS = ('free', 'premium', 'elite', 'ea_mentor', 'hr_admin', 'admin')
 AUDIENCES = ('all', 'students', 'parents')
 EVENT_TYPES = ('Exam', 'Counselling', 'Deadline', 'Webinar', 'Other')
 
@@ -635,7 +635,7 @@ def _announcement_recipients(scope):
     members only; 'all' = every member account except College Guides (they have
     their own portal and their own comms)."""
     now = _utcnow_naive()
-    q = User.query.filter(User.tier.notin_(('mentor', 'ea_mentor')))   # members only — not staff or College Guides
+    q = User.query.filter(User.tier.notin_(('mentor', 'ea_mentor', 'hr_admin')))   # members only — not staff or College Guides
     if scope == 'premium':
         q = q.filter(User.tier.in_(('premium', 'elite')),
                      db.or_(User.tier_expires_at.is_(None), User.tier_expires_at > now))

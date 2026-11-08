@@ -59,6 +59,16 @@ class User(UserMixin, db.Model):
     def is_staff(self):
         return self.tier in ('admin', 'ea_mentor')
 
+    @property
+    def is_hr_admin(self):
+        """HR Admin: issues offer, experience and relieving letters. Sees HR records only, not student records or member tools."""
+        return self.tier == 'hr_admin'
+
+    @property
+    def is_hr(self):
+        """May use the HR section: HR Admin and Admin."""
+        return self.tier in ('admin', 'hr_admin')
+
 
 class DasaLead(db.Model):
     __tablename__ = 'dasa_leads'

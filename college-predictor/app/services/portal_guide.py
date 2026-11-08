@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-07'
+UPDATED = '2026-11-08'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -26,6 +26,7 @@ ROLE_BLURB = {
 
 # blueprints that the guide covers (value = what they are, shown to admins); a new blueprint must be added here or the test fails
 COVERED_BLUEPRINTS = {
+    'hr': 'HR letters (HR Admin and Admin): offer, experience and relieving letters with numbered register, PDF and editable templates',
     'equivalency': 'Entrance Exam Equivalency (public): qualification and subject equivalency checker for JEE, JoSAA, NATA, NEET, UCEED, NID, NIFT, CUET and CLAT, with the official source for each rule',
     'explorer': 'EduPulse-Explorer (Grades 7 to 10): discovery test, interest check, exam tasters, skill sets, Daily 10 review, progress, creative challenges',
     'nift_mock': 'EduPulse-NIFT (NIFT GAT and CAT): GAT mocks per programme, earlier-year questions, section sets, Daily Review, progress, CAT studio tasks',
@@ -63,6 +64,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-08', 'New HR Admin role and HR letters (menu HR, /hr): an HR Admin account (account type hr_admin, set by an Admin) can issue offer letters, experience certificates and relieving letters on the EduAakashaA letterhead, with automatic reference numbers (EA/HR/TYPE/FY/NNNN, restarting each 1 April), a register with filters, CSV export and void with reason, the A4 PDF of each letter, and editable templates. HR Admin sees only the HR section.'),
     ('2026-11-07', 'Exam dates validated against official sources on 7 Nov 2026 and updated on the Exam Schedule page, its calendar downloads and the UCEED and Law roadmaps: UCEED and CEED registration closed 5 Nov (late fee to 10 Nov), CLAT registration extended to 7 Nov (reported), GATE deadlines corrected, JEE Main registration clarifications added, ICAI January 2027 exams, FMGE, CUET PG, SLAT and the 2026 cycle dates of the state exams added, and exams that are not officially announced stay marked Expected or Tentative.'),
     ('2026-11-07', 'New Entrance Exam Equivalency Checker (menu Colleges and Exams, /entrance-equivalency, public): choose your qualification (CBSE, CISCE or state board, intermediate, NIOS, diploma, vocational, IB, Cambridge, foreign board) and the subjects you studied to see, for JEE Main, JEE Advanced, JoSAA, NATA, JEE Main Paper 2, NEET UG, UCEED, NID, NIFT, CUET and CLAT, whether you are accepted, accepted with an equivalence certificate, need to check the notice or lack a subject. Each exam page lists every rule with its official source and what could not be confirmed.'),
     ('2026-11-06', 'Phone-friendly pages and instructions: a How this page works panel (what the page is, what students, parents and mentors do, the outcome) on the weekly plan, action tracker, study planner, PCM and PCB dashboards, EduPulse reinforcement and the UCEED, NEET and JEE mock centres; long lists now fold into compact items with filters (status, owner, search, day, week, chapter class); tables become cards on a phone and the tab bars swipe. In the weekly plan a student can now choose EduPulse reinforcement from their assessment results, weak chapters and Class 12 dashboard ratings (up to three a week); the mentor approves or declines and approval sets the practice.'),
@@ -307,6 +309,15 @@ GUIDE = [
                 'Read the week-by-week plan, tick tasks as you finish them and print it. Everything saves to your account and the plan redraws when your scores, ratings or date change.'],
          tips=['The entrance-route percentages were read from public coaching and news pages, not the official brochures: each row says how sure we are, some are conflicting. Always confirm on the official notice. Chapter marks are indicative; only the unit-group totals are official.', 'For mentors: ask a student to share the dashboard on screen in a session; the plan and the rated chapters make a good agenda.'],
          tiles=['Class 12 PCM Analytics'], added='2026-11-05', updated='2026-11-05'),
+    dict(id='a-hr', role='admin', group='People', title='HR Admin role and HR letters', summary='Give someone the HR Admin role, then issue offer, experience and relieving letters from templates, with a numbered register.',
+         where=[('HR letters', 'hr.home'), ('Letter register', 'hr.register'), ('Templates', 'hr.templates')],
+         steps=['Create the HR person: Admin > People > Users > Add member, choose plan hr_admin (HR Admin), or change an existing user to hr_admin. HR Admin sees only the HR section, not student records or member tools; an Admin can also use it.',
+                'Open HR letters (menu HR, or the HR letters tile on Member Home). Choose Issue offer letter, Issue experience certificate or Issue relieving letter and fill in every field. Offer letters take the annual salary components; the monthly figures, gross, total CTC and the CTC in the letter are worked out.',
+                'Press Issue and preview. The letter gets the next reference number, for example EA/HR/OFFER/2026/0001, and is saved in the register. Download the A4 PDF or print it, then sign, stamp and email it from the HR mailbox and file the signed copy (keep it for seven years).',
+                'Register: filter by type, financial year, status or name, open or download any letter, export the list as CSV, or Copy to a new letter. Void a wrong letter with a reason; the number stays in the register and is never reused.',
+                'Templates: edit the wording of each letter (one paragraph per line, fields written as double curly brackets around the field name). New letters use the new text; issued letters keep the text they were issued with. Reset to default is available.'],
+         tips=['Have labour counsel review the wording before the first live letter: probation and notice periods, leave entitlement, the non-solicitation clause, confidentiality against the DPDP Act, and the salary components in Annexure A.', 'Reference numbers restart at 0001 on 1 April for each letter type. Letters hold personal and salary data: only HR Admin and Admin can open them.'],
+         tiles=['HR letters'], added='2026-11-08', updated='2026-11-08'),
     dict(id='s-equivalency', role='student', group='Exams', title='Entrance Exam Equivalency Checker', summary='Check whether your qualification and subjects are accepted by JEE, NEET, B.Arch, UCEED, NID, NIFT, CUET and CLAT, with the official source for every rule.',
          where=[('Entrance Exam Equivalency', 'equivalency.hub')],
          steps=['Open Entrance Exam Equivalency from the Colleges and Exams menu (open to everyone).',

@@ -38,6 +38,7 @@
           <option value="premium" selected>premium</option>
           <option value="elite">elite (Elite Mentorship — premium tools + mentorship portal)</option>
           <option value="ea_mentor">ea_mentor (EA mentor — student records)</option>
+          <option value="hr_admin">hr_admin (HR Admin — offer, experience and relieving letters)</option>
           <option value="admin">admin</option>
         </select>
       </div>
@@ -55,7 +56,7 @@
     <input type="text" name="q" value="{{ q }}" placeholder="Search name or email…" style="flex:1; min-width:200px;">
     <select name="tier">
       <option value="">All tiers</option>
-      {% for t in ['free','premium','elite','ea_mentor','admin'] %}
+      {% for t in ['free','premium','elite','ea_mentor','hr_admin','admin'] %}
       <option value="{{ t }}" {{ 'selected' if tier_filter == t }}>{{ t }}</option>
       {% endfor %}
     </select>
@@ -107,7 +108,7 @@
                   <div>
                     <label>Plan</label>
                     <select name="tier">
-                      {% for t in ['free','premium','elite','ea_mentor','admin'] %}
+                      {% for t in ['free','premium','elite','ea_mentor','hr_admin','admin'] %}
                       <option value="{{ t }}" {{ 'selected' if u.tier == t }}>{{ t }}</option>
                       {% endfor %}
                     </select>

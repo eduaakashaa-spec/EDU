@@ -1,0 +1,28 @@
+{% extends "hr/base.html" %}
+{% block hr_title %}HR home{% endblock %}
+{% block hr_body %}
+<h1>HR letters</h1>
+<p style="margin:2px 0 8px;max-width:760px;">Issue offer letters, experience certificates and relieving letters on the EduAakashaA letterhead, keep a register with a reference number for each, and edit the template wording.</p>
+{{ how('hr-home', 'How the HR section works',
+       'The HR section turns the EduAakashaA letter templates into a form. You fill in the details, the app gives the letter the next reference number (EA/HR/TYPE/FY/NNNN), and you print it or save the A4 PDF. Every letter is kept in the register.',
+       mentor='A reporting manager gives HR the details for the letter: key responsibilities, conduct words and the handover. HR enters them and issues the letter.',
+       outcome='Consistent, numbered letters with no skipped or reused numbers, a register you can filter and export, and signed PDF copies ready for the HR vault (keep them for seven years). HR Admin sees only this section; an Admin can also use it.',
+       extra='Pick the letter, fill in every field, press Issue, then Download PDF. Print, sign and stamp it, email it from the HR mailbox and file the signed copy. If a letter is wrong, void it with a reason and issue a new one.', extra_label='HR Admin', focus='extra') }}
+<div class="hr-g">
+  {% for k, v in kinds.items() %}
+  <div class="hr-c"><h2>{{ v.title }}</h2><p style="font-size:.88rem;line-height:1.5;margin:0 0 8px;">{{ v.blurb }}</p>
+    <p class="hint" style="font-size:.78rem;color:var(--dim);margin:0 0 10px;">{{ counts[k] }} issued in the register</p>
+    <a class="hr-btn o sm" href="{{ url_for('hr.new', kind=k) }}">Issue {{ v.title|lower }}</a> <a class="hr-btn g sm" href="{{ url_for('hr.template_edit', kind=k) }}">Edit template</a></div>
+  {% endfor %}
+</div>
+<h2 style="margin-top:20px;">Recent letters</h2>
+<div class="hr-c">
+  <table class="hr-t rt"><thead><tr><th>Reference</th><th>Type</th><th>Name</th><th>Date</th><th>Status</th><th></th></tr></thead><tbody>
+  {% for r in recent %}<tr><td class="first"><b>{{ r.ref_no }}</b></td><td data-l="Type">{{ kinds[r.kind].title }}</td><td data-l="Name">{{ r.person_name }}</td><td data-l="Date">{{ r.issue_date.strftime('%d %b %Y') }}</td>
+    <td data-l="Status"><span class="hr-pill {{ 'void' if r.status == 'void' }}">{{ r.status }}</span></td><td><a href="{{ url_for('hr.letter', letter_id=r.id) }}">Open</a></td></tr>
+  {% else %}<tr><td colspan="6" style="padding:16px;color:var(--dim);">No letters yet. Issue the first one above.</td></tr>{% endfor %}
+  </tbody></table>
+  <p style="margin:10px 0 0;"><a href="{{ url_for('hr.register') }}">Open the full register →</a></p>
+</div>
+<div class="hr-note" style="margin-top:16px;"><b>Before the first live letter:</b> have your labour counsel review the wording (probation and notice periods, leave entitlement, the non-solicitation clause, confidentiality against the DPDP Act, and the salary components in Annexure A). Keep signed copies for seven years; reference numbers restart at 0001 each 1 April ({{ fy }}-{{ (fy + 1) % 100 }} is the current year).</div>
+{% endblock %}

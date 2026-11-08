@@ -1,0 +1,29 @@
+{% extends "hr/base.html" %}
+{% block hr_title %}{{ row.ref_no }}{% endblock %}
+{% block hr_crumb %} › <a href="{{ url_for('hr.register') }}">Register</a> › {{ row.ref_no }}{% endblock %}
+{% block hr_body %}
+<div class="hr-no-print">
+  <h1>{{ info.title }} <span class="hr-pill {{ 'void' if row.status == 'void' }}">{{ row.status }}</span></h1>
+  <p style="margin:2px 0 10px;"><b>{{ row.ref_no }}</b> · {{ row.person_name }} · issued {{ row.issue_date.strftime('%d %b %Y') }} · template version {{ row.template_version }}</p>
+  <p>
+    <a class="hr-btn o" href="{{ url_for('hr.letter_pdf', letter_id=row.id) }}" target="_blank">Download PDF</a>
+    <button class="hr-btn g" type="button" onclick="window.print()">Print</button>
+    <a class="hr-btn g" href="{{ url_for('hr.new', kind=row.kind, copy=row.id) }}">Copy to a new letter</a>
+  </p>
+  {% if row.status == 'void' %}<div class="hr-note">Void: {{ row.void_reason }}. The number {{ row.ref_no }} stays in the register and is not reused.</div>
+  {% else %}
+  <details style="margin:8px 0 14px;"><summary style="cursor:pointer;font-weight:700;font-size:.88rem;">Void this letter</summary>
+    <form method="post" action="{{ url_for('hr.void', letter_id=row.id) }}" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+      <input type="text" name="reason" maxlength="300" placeholder="Reason (required)" aria-label="Reason" style="flex:1 1 260px" required>
+      <button class="hr-btn g sm" type="submit" onclick="return confirm('Void {{ row.ref_no }}? This cannot be undone.')">Void letter</button></form></details>
+  {% endif %}
+</div>
+<article class="hl-page {{ 'hl-void' if row.status == 'void' }}">
+  <div class="hl-head">
+    <div style="display:flex;gap:10px;align-items:center;"><img src="{{ url_for('static', filename='images/logo.png') }}" alt=""><div class="nm">Edu<b>Aakashaa</b><small>Guiding students towards the right future</small></div></div>
+    <div class="ct">Coimbatore, Tamil Nadu, India<br>+91 80157 22706 | info@eduaakashaa.com<br>www.eduaakashaa.com</div>
+  </div>
+  {{ html|safe }}
+  <div class="hl-foot">Coimbatore, Tamil Nadu &nbsp;-&nbsp; +91 80157 22706 &nbsp;|&nbsp; info@eduaakashaa.com &nbsp;|&nbsp; www.eduaakashaa.com</div>
+</article>
+{% endblock %}

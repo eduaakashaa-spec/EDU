@@ -1,0 +1,24 @@
+{% extends "hr/base.html" %}
+{% block hr_title %}New {{ info.title|lower }}{% endblock %}
+{% block hr_crumb %} › New {{ info.title|lower }}{% endblock %}
+{% block hr_body %}
+<h1>New {{ info.title|lower }}</h1>
+<p style="margin:2px 0 8px;">{{ info.blurb }} The next reference number will be <b>{{ next_ref }}</b> (it is fixed when you press Issue).</p>
+<form method="post" class="hr-c" novalidate>
+  <div class="hr-f">
+    {% for f in fields %}
+    <div {% if f.kind == 'textarea' %}style="grid-column:1/-1"{% endif %}>
+      <label for="f_{{ f.key }}">{{ f.label }}{% if f.required %} *{% endif %}</label>
+      {% if f.kind == 'date' %}<input type="date" id="f_{{ f.key }}" name="{{ f.key }}" value="{{ form[f.key] }}">
+      {% elif f.kind == 'textarea' %}<textarea id="f_{{ f.key }}" name="{{ f.key }}" rows="2" maxlength="400" style="font-family:inherit;font-size:.92rem;font-weight:600">{{ form[f.key] }}</textarea>
+      {% elif f.kind == 'money' %}<input type="text" inputmode="numeric" id="f_{{ f.key }}" name="{{ f.key }}" value="{{ form[f.key] }}" placeholder="e.g. 336000">
+      {% else %}<input type="text" id="f_{{ f.key }}" name="{{ f.key }}" value="{{ form[f.key] }}" maxlength="400">{% endif %}
+      {% if errors.get(f.key) %}<div class="err">{{ errors[f.key] }}</div>{% endif %}
+      {% if f.help %}<div class="hint">{{ f.help }}</div>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if kind == 'offer' %}<p class="hint" style="margin:10px 0 0;">Enter the annual amounts. The monthly figures, gross salary, total CTC and the CTC in the letter are worked out for you (annual divided by 12, rounded).</p>{% endif %}
+  <p style="margin:14px 0 0;"><button class="hr-btn o" type="submit">Issue and preview</button> <a class="hr-btn g" href="{{ url_for('hr.home') }}">Cancel</a></p>
+</form>
+{% endblock %}

@@ -76,6 +76,19 @@ def staff_required(f):
     return wrapped
 
 
+def hr_required(f):
+    """HR Admin or Admin: the HR section (offer, experience and relieving letters). Everyone else gets 403; anonymous visitors are sent to log in."""
+    @wraps(f)
+    def wrapped(*args, **kwargs):
+        if not current_user.is_authenticated:
+            flash('Please log in to continue.', 'info')
+            return redirect(url_for('auth.login', next=request.path))
+        if not current_user.is_hr:
+            abort(403)
+        return f(*args, **kwargs)
+    return wrapped
+
+
 def mentor_required(f):
     """Allow only logged-in mentor-tier users (the alumni mentor portal)."""
     @wraps(f)

@@ -1,0 +1,19 @@
+{% extends "hr/base.html" %}
+{% block hr_title %}Edit {{ info.title|lower }} template{% endblock %}
+{% block hr_crumb %} › <a href="{{ url_for('hr.templates') }}">Templates</a> › {{ info.title }}{% endblock %}
+{% block hr_body %}
+<h1>{{ info.title }} template</h1>
+<p style="margin:2px 0 10px;">Version {{ tpl.version }}. One paragraph per line. Write <code>{{ '{{field}}' }}</code> where a value goes. Preview below uses sample data.</p>
+{% if errors %}<div class="hr-note" style="border-color:#C23A3A;margin-bottom:10px;">{% for e in errors %}<div>{{ e }}</div>{% endfor %}</div>{% endif %}
+<div class="hr-g" style="grid-template-columns:repeat(auto-fit,minmax(320px,1fr));align-items:start;">
+  <form method="post" class="hr-c">
+    <textarea name="body" rows="26" aria-label="Template text" spellcheck="true">{{ body }}</textarea>
+    <p style="margin:10px 0 0;"><button class="hr-btn o" type="submit" name="action" value="save">Save template</button>
+      {% if default_differs %}<button class="hr-btn g" type="submit" name="action" value="reset" onclick="return confirm('Replace this template with the default text?')">Reset to default</button>{% endif %}</p>
+    <details style="margin-top:12px;"><summary style="cursor:pointer;font-weight:700;font-size:.86rem;">Fields and formatting you can use</summary>
+      <p class="hint" style="font-size:.78rem;line-height:1.6;color:var(--dim);">Fields: {% for k in keys %}<code>{{ '{{' }}{{ k }}{{ '}}' }}</code> {% endfor %}</p>
+      <p class="hint" style="font-size:.78rem;line-height:1.6;color:var(--dim);">Lines starting with <code>@meta Left | Right</code> (date and reference line), <code>@title</code>, <code>@center</code>, <code>@h</code> (heading), <code>@subject</code>, <code>@sign</code> (signature block){% if kind == 'offer' %}, <code>@table comp</code> (compensation table) and <code>@accept</code> (candidate acceptance){% endif %}. Wrap words in <code>**double asterisks**</code> for bold.</p></details>
+  </form>
+  <div><div class="hl-page" style="padding:20px 22px;font-size:.84rem;">{{ preview|safe }}</div><p class="hint" style="font-size:.76rem;color:var(--dim);margin-top:6px;">Sample preview without the letterhead.</p></div>
+</div>
+{% endblock %}

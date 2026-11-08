@@ -24,7 +24,7 @@ app = create_app()
 pw = lambda: bcrypt.generate_password_hash('demo1234').decode()  # noqa: E731
 with app.app_context():
     db.create_all()
-    for n, e, t in (('Admin', 'a@demo.test', 'admin'), ('Meera Mentor', 'm@demo.test', 'ea_mentor'), ('Aarav Kumar', 's1@demo.test', 'elite'), ('Priya Kumar', 'p1@demo.test', 'free')):
+    for n, e, t in (('Admin', 'a@demo.test', 'admin'), ('Meera Mentor', 'm@demo.test', 'ea_mentor'), ('Aarav Kumar', 's1@demo.test', 'elite'), ('Priya Kumar', 'p1@demo.test', 'free'), ('Hira HR', 'hr@demo.test', 'hr_admin')):
         db.session.add(User(name=n, email=e, tier=t, password_hash=pw()))
     db.session.commit()
     u = lambda e: User.query.filter_by(email=e).one()  # noqa: E731

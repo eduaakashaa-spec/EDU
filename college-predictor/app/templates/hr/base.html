@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "_how.html" import how %}
+{% block title %}{% block hr_title %}HR{% endblock %} | HR Letters | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+<style>
+  .hr{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);max-width:1100px;margin:0 auto;padding:6px 16px 60px}
+  .hr h1{font-size:clamp(1.4rem,3vw,2rem);margin:4px 0}.hr h2{font-size:1.15rem;margin:0 0 6px}
+  .hr-crumb{font-size:.84rem;color:var(--dim)}.hr-crumb a{color:inherit}
+  .hr-nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:10px 0 14px}.hr-nav a{flex:0 0 auto;border:1px solid var(--ln);border-radius:999px;padding:6px 14px;font-size:.82rem;font-weight:700;text-decoration:none;color:inherit;background:var(--pp)}.hr-nav a.on{background:var(--navy,#0E3A8A);border-color:var(--navy,#0E3A8A);color:#fff}
+  .hr-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:14px 16px}
+  .hr-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+  .hr-btn{display:inline-block;border:0;border-radius:999px;padding:9px 20px;font:700 .88rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;background:var(--navy,#0E3A8A);color:#fff;text-decoration:none;width:auto}.hr-btn.o{background:#FF6B0A}.hr-btn.g{background:var(--pp);color:inherit;border:1.5px solid var(--ln)}.hr-btn.sm{padding:6px 14px;font-size:.8rem}
+  .hr-f{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.hr-f label{display:block;font-size:.76rem;font-weight:700;color:var(--dim);margin-bottom:3px}
+  .hr input[type=text],.hr input[type=date],.hr input[type=search],.hr select,.hr textarea{width:100%;padding:9px 10px;border:1.5px solid var(--ln);border-radius:10px;background:var(--cream,#FBF7EE);color:inherit;font:600 .92rem 'Plus Jakarta Sans',system-ui,sans-serif}
+  .hr textarea{font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.5;font-weight:500}
+  .hr .err{color:#C23A3A;font-size:.78rem;margin-top:2px}.hr .hint{font-size:.76rem;color:var(--dim);margin-top:2px;font-weight:500}
+  .hr-pill{display:inline-block;border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:700;background:#DDF1E6;color:#146c43}.hr-pill.void{background:#FBDADA;color:#a12828}
+  .hr-t{width:100%;border-collapse:collapse;font-size:.88rem}.hr-t th,.hr-t td{padding:8px;border-bottom:1px solid var(--ln);text-align:left;vertical-align:top}.hr-t th{font-size:.68rem;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+  .hr-note{background:#FFF4E8;border:1px solid #F3D3B0;border-radius:12px;padding:10px 14px;font-size:.86rem;line-height:1.5}
+  /* the letter on screen (and when printed) */
+  .hl-page{background:#fff;color:#0E1B3D;border:1px solid var(--ln);border-radius:6px;max-width:794px;margin:0 auto;padding:32px 44px 36px;font:400 .94rem/1.65 'Plus Jakarta Sans',system-ui,sans-serif;box-shadow:0 6px 24px rgba(14,27,61,.08);position:relative}
+  .hl-head{display:flex;justify-content:space-between;gap:12px;align-items:center;border-bottom:3px solid #FF6B0A;padding-bottom:10px;margin-bottom:16px}.hl-head img{height:46px}.hl-head .nm{font:700 1.3rem 'Fraunces',Georgia,serif;color:#0E3A8A}.hl-head .nm b{color:#FF6B0A}.hl-head small{display:block;color:#5A6278;font-style:italic}.hl-head .ct{text-align:right;font-size:.74rem;color:#5A6278;line-height:1.5}
+  .hl-meta{display:flex;justify-content:space-between;gap:12px;font-weight:700;margin-bottom:10px;flex-wrap:wrap}.hl-subject{margin:8px 0}.hl-title{text-align:center;color:#0E3A8A;margin:10px 0;font-size:1.25rem}.hl-center{text-align:center}.hl-h{color:#0E3A8A;font-size:1rem;margin:14px 0 6px}
+  .hl-page p{margin:0 0 9px;text-align:justify}.hl-item{padding-left:20px;text-indent:-20px}
+  .hl-tbl{width:100%;border-collapse:collapse;margin:6px 0 12px;font-size:.88rem}.hl-tbl th{background:#0E3A8A;color:#fff;text-align:left;padding:6px 8px;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase}.hl-tbl th:nth-child(n+2),.hl-tbl td:nth-child(n+2){text-align:right}.hl-tbl td{padding:6px 8px;border-bottom:1px solid #E8DFC8}.hl-tbl tr.tot td{background:#FFF4E8;font-weight:700}
+  .hl-sign{margin-top:18px;break-inside:avoid}.hl-seal{width:240px;height:76px;border:1px solid #E8DFC8;display:flex;align-items:center;justify-content:center;color:#8a93a8;font-size:.78rem;margin:6px 0}.hl-accept{margin-top:18px;border-top:1px dashed #E8DFC8;padding-top:6px;break-inside:avoid}
+  .hl-foot{margin-top:22px;border-top:1px solid #E8DFC8;padding-top:8px;font-size:.74rem;color:#5A6278;text-align:center}
+  .hl-void:after{content:'VOID';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font:900 120px sans-serif;color:rgba(194,58,58,.14);transform:rotate(-30deg);pointer-events:none}
+  @media(max-width:640px){.hl-page{padding:18px 16px}.hl-head{flex-direction:column;align-items:flex-start}.hl-head .ct{text-align:left}}
+  @media print{header,footer,.header,.footer,.hr-nav,.hr-crumb,.hr-no-print,.how,.wa-float,[class*=whatsapp]{display:none!important}.hl-page{border:0;box-shadow:none;max-width:none;padding:0}}
+</style>
+{% endblock %}
+{% block content %}
+<div class="hr">
+  <div class="hr-crumb hr-no-print"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › <a href="{{ url_for('hr.home') }}">HR</a>{% block hr_crumb %}{% endblock %}</div>
+  {% set ep = request.endpoint %}
+  <nav class="hr-nav hr-no-print" aria-label="HR sections">
+    <a href="{{ url_for('hr.home') }}" class="{{ 'on' if ep == 'hr.home' }}">HR home</a>
+    {% for k, v in hr_kinds %}<a href="{{ url_for('hr.new', kind=k) }}" class="{{ 'on' if ep == 'hr.new' and kind == k }}">New {{ v.title|lower }}</a>{% endfor %}
+    <a href="{{ url_for('hr.register') }}" class="{{ 'on' if ep == 'hr.register' }}">Register</a>
+    <a href="{{ url_for('hr.templates') }}" class="{{ 'on' if ep in ('hr.templates', 'hr.template_edit') }}">Templates</a>
+    <a href="{{ url_for('portal_guide.index') }}">Guide</a>
+  </nav>
+  {% block hr_body %}{% endblock %}
+</div>
+{% endblock %}

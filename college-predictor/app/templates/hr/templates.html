@@ -1,0 +1,14 @@
+{% extends "hr/base.html" %}
+{% block hr_title %}Templates{% endblock %}
+{% block hr_crumb %} › Templates{% endblock %}
+{% block hr_body %}
+<h1>Letter templates</h1>
+<p style="margin:2px 0 10px;max-width:760px;">The wording of each letter. Edit a template to change the text for new letters; letters already issued keep the text they were issued with.</p>
+<div class="hr-g">
+  {% for k, info, tpl in rows %}
+  <div class="hr-c"><h2>{{ info.title }}</h2><p style="font-size:.86rem;line-height:1.5;margin:0 0 8px;">{{ info.blurb }}</p>
+    <p class="hint" style="font-size:.78rem;color:var(--dim);margin:0 0 10px;">Version {{ tpl.version }}{% if tpl.updated_at %} · updated {{ tpl.updated_at.strftime('%d %b %Y') }}{% endif %}</p>
+    <a class="hr-btn sm" href="{{ url_for('hr.template_edit', kind=k) }}">Edit template</a> <a class="hr-btn o sm" href="{{ url_for('hr.new', kind=k) }}">Issue</a></div>
+  {% endfor %}
+</div>
+{% endblock %}
