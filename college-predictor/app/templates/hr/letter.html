@@ -17,6 +17,29 @@
       <input type="text" name="reason" maxlength="300" placeholder="Reason (required)" aria-label="Reason" style="flex:1 1 260px" required>
       <button class="hr-btn g sm" type="submit" onclick="return confirm('Void {{ row.ref_no }}? This cannot be undone.')">Void letter</button></form></details>
   {% endif %}
+  {% if row.status != 'void' %}
+  <section id="email" class="hr-c" style="margin:6px 0 16px;">
+    <h2>Email this letter</h2>
+    <p class="hint" style="font-size:.8rem;color:var(--dim);margin:0 0 8px;">The PDF is attached automatically. {% if not mail_ok %}<b>Email is not set up on the server</b>, so use <i>Open in my email app</i> and attach the downloaded PDF.{% endif %}</p>
+    <form method="post" action="{{ url_for('hr.email', letter_id=row.id) }}" class="hr-f">
+      <div><label for="m_to">To *</label><input type="text" id="m_to" name="to" value="{{ mail.to }}" placeholder="name@example.com" maxlength="300"></div>
+      <div><label for="m_cc">Cc</label><input type="text" id="m_cc" name="cc" value="{{ mail.cc }}" placeholder="optional, comma separated" maxlength="300"></div>
+      <div><label for="m_from">From</label><select id="m_from" name="from">{% for s in senders %}<option value="{{ s }}">{{ s }}</option>{% endfor %}</select></div>
+      <div style="grid-column:1/-1"><label for="m_sub">Subject *</label><input type="text" id="m_sub" name="subject" value="{{ mail.subject }}" maxlength="200"></div>
+      <div style="grid-column:1/-1"><label for="m_body">Message *</label><textarea id="m_body" name="body" rows="7" maxlength="4000" style="font-family:inherit;font-size:.9rem;font-weight:500">{{ mail.body }}</textarea></div>
+      <div style="grid-column:1/-1;display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+        <label style="display:inline-flex;gap:6px;align-items:center;margin:0;font-size:.84rem;"><input type="checkbox" name="copy_me" value="1" style="width:auto"> Send me a copy</label>
+        <button class="hr-btn o" type="submit" {{ 'disabled' if not mail_ok }}>Send email with PDF</button>
+        <a class="hr-btn g" href="{{ mailto }}">Open in my email app</a>
+      </div>
+    </form>
+    {% if sent %}<h3 style="font-size:.95rem;margin:14px 0 4px;">Sent so far</h3>
+    <table class="hr-t rt"><thead><tr><th>When</th><th>To</th><th>Subject</th><th>Result</th></tr></thead><tbody>
+      {% for m in sent %}<tr><td class="first">{{ m.sent_at.strftime('%d %b %Y %H:%M') }} UTC</td><td data-l="To">{{ m.to_addr }}{% if m.cc_addr %}<br><small>Cc {{ m.cc_addr }}</small>{% endif %}</td><td data-l="Subject">{{ m.subject }}</td>
+        <td data-l="Result"><span class="hr-pill {{ '' if m.ok else 'void' }}">{{ 'sent' if m.ok else 'failed' }}</span>{% if m.error %}<br><small>{{ m.error }}</small>{% endif %}</td></tr>{% endfor %}
+    </tbody></table>{% endif %}
+  </section>
+  {% endif %}
 </div>
 <article class="hl-page {{ 'hl-void' if row.status == 'void' }}">
   <div class="hl-head">

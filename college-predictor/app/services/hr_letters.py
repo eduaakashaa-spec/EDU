@@ -17,8 +17,8 @@ KINDS = {
     'experience': {'title': 'Experience certificate', 'code': 'EXP', 'name': 'employee_full_name', 'blurb': 'On or after the last working day, for future employers: tenure, designation, conduct and last drawn CTC.'},
     'relieving': {'title': 'Relieving letter', 'code': 'REL', 'name': 'employee_full_name', 'blurb': 'On the last working day: confirms notice served, handover, property returned and dues settled.'},
 }
+EMAIL_RE = re.compile(r'^[^@\s,;<>]+@[^@\s,;<>]+\.[^@\s,;<>]+$')
 SIGNATORY = ('Dr. Muruganandam', 'Founder & Director')
-WORKING_HOURS = 'Monday to Friday, 9:00 AM to 6:00 PM'
 
 # ---- fields ----------------------------------------------------------------------------------------------------------------------------------
 # kind: text | date | money | textarea ; money is entered as an annual INR amount
@@ -30,14 +30,15 @@ _SIGN = [_f('authorized_signatory_name', 'Signatory name', default=SIGNATORY[0])
 FIELDS = {
     'offer': [
         _f('issue_date', 'Issue date', 'date'), _f('candidate_full_name', 'Candidate full name', help='Used in the acceptance block and the register.'),
+        _f('recipient_email', 'Email address (to send the letter)', required=False, help='Optional. Used to fill the To box when you email the letter.'),
         _f('candidate_first_name', 'First name', required=False, help='Used in the salutation. Left blank, the first word of the full name is used.'),
         _f('designation', 'Designation offered'), _f('office_location', 'Office location', default='Coimbatore'), _f('date_of_joining', 'Date of joining', 'date'),
-        _f('working_hours', 'Working hours', default=WORKING_HOURS, help='Written into term 2 of the offer.'),
         _f('basic_annual', 'Basic salary, annual (INR)', 'money'), _f('hra_annual', 'HRA, annual (INR)', 'money'), _f('special_annual', 'Special allowance, annual (INR)', 'money'),
         _f('bonus_annual', 'Statutory bonus, annual (INR)', 'money'), _f('pf_annual', 'Employer PF contribution, annual (INR)', 'money'), _f('gratuity_annual', 'Gratuity provision, annual (INR)', 'money'),
         _f('reporting_manager_name', 'Reporting manager'), _f('reporting_manager_designation', 'Manager designation')] + _SIGN,
     'experience': [
-        _f('issue_date', 'Issue date', 'date'), _f('employee_full_name', 'Employee full name'), _f('designation', 'Last designation held'),
+        _f('issue_date', 'Issue date', 'date'), _f('employee_full_name', 'Employee full name'), _f('recipient_email', 'Email address (to send the letter)', required=False, help='Optional. Used to fill the To box when you email the letter.'),
+        _f('designation', 'Last designation held'),
         _f('office_location', 'Office location', default='Coimbatore'), _f('date_of_joining', 'Date of joining', 'date'), _f('date_of_leaving', 'Date of leaving (last working day)', 'date'),
         _f('key_responsibilities', 'Key responsibilities', 'textarea', help='One sentence, for example: student admissions counselling, parent engagement and follow-up.'),
         _f('reporting_manager', 'Reporting manager, with designation', help='For example: Arjun Krishnan, Head of Admissions.'),
@@ -45,6 +46,7 @@ FIELDS = {
         _f('last_drawn_ctc', 'Last drawn annual CTC (INR)', 'money')] + _SIGN,
     'relieving': [
         _f('issue_date', 'Issue date', 'date', help='Normally the last working day.'), _f('employee_full_name', 'Employee full name'),
+        _f('recipient_email', 'Email address (to send the letter)', required=False, help='Optional. Used to fill the To box when you email the letter.'),
         _f('employee_first_name', 'First name', required=False, help='Used in the salutation. Left blank, the first word of the full name is used.'),
         _f('designation', 'Last designation held'), _f('date_of_joining', 'Date of joining', 'date'), _f('resignation_date', 'Resignation date', 'date'),
         _f('last_working_day', 'Last working day', 'date'), _f('notice_period_served', 'Notice period served', default='30 days'),
@@ -66,7 +68,7 @@ Your date of joining shall be {{date_of_joining}}. Your Total Annual Cost to Com
 @table comp
 @h Terms & Conditions of Employment
 1. **Probation.** You will be on probation for a period of six (6) months from the date of joining. Confirmation of employment is subject to satisfactory performance.
-2. **Working Hours.** Standard working hours are {{working_hours}}. Additional hours may be required based on student counselling schedules, outreach events and academic cycles.
+2. **Working Hours.** Working days and hours are as notified by the company from time to time. Additional hours may be required based on student counselling schedules, outreach events and academic cycles.
 3. **Reporting Manager.** You will report to {{reporting_manager_name}}, {{reporting_manager_designation}}. Reporting lines may change in accordance with business requirements.
 4. **Notice Period.** Either party may terminate this employment by providing one (1) month's written notice during probation and two (2) months' written notice after confirmation, or salary in lieu thereof.
 5. **Confidentiality & Non-Disclosure.** You shall maintain strict confidentiality of all student personal data, parent contact information, mentorship intellectual property, counselling frameworks, pricing and proprietary methodologies, both during and after employment. This obligation survives termination.
@@ -184,6 +186,8 @@ def clean(kind, form):
             vals[f['key']] = re.sub(r'\s*\n\s*', ' ', raw)[:400]
         if len(raw) > 400 and f['kind'] in ('text', 'textarea'):
             errors[f['key']] = 'Keep it under 400 characters.'
+    if vals.get('recipient_email') and not EMAIL_RE.match(vals['recipient_email']):
+        errors['recipient_email'] = 'Enter a valid email address.'
     d = lambda k: vals.get(k + '__d')                                                                       # noqa: E731
     if kind == 'experience' and d('date_of_joining') and d('date_of_leaving') and d('date_of_leaving') < d('date_of_joining'):
         errors['date_of_leaving'] = 'The date of leaving is before the date of joining.'
@@ -332,3 +336,53 @@ def to_html(bl):
             h.append('<div class="hl-accept"><h3 class="hl-h">Candidate Acceptance</h3><p>I, %s, have read and understood the terms of this offer letter including Annexure A and accept the same unconditionally.</p>'
                      '<p>Signature: ______________________________ &nbsp;&nbsp;&nbsp; Date: ______________</p></div>' % _esc(b[1]))
     return ''.join(h)
+
+
+# ---- emailing a letter ---------------------------------------------------------------------------------------------------------------------------------
+def parse_emails(text, limit=5):
+    """'a@x.com, b@y.com' -> (list, error or None)."""
+    items = [x for x in re.split(r'[,;\s]+', (text or '').strip()) if x]
+    bad = [x for x in items if not EMAIL_RE.match(x)]
+    if bad:
+        return [], 'Not a valid email address: %s' % bad[0]
+    if len(items) > limit:
+        return [], 'Use at most %d addresses.' % limit
+    return items, None
+
+
+def default_email(row):
+    """(to, subject, body) suggested for a letter."""
+    v = row.values
+    first = v.get('candidate_first_name') or v.get('employee_first_name') or (row.person_name or '').split(' ')[0]
+    subject = {'offer': 'Offer of Appointment - EduAakashaa', 'experience': 'Experience Certificate - EduAakashaa', 'relieving': 'Relieving Letter - EduAakashaa'}[row.kind]
+    lead = {'offer': 'Please find attached your offer letter (%s). Kindly sign the acceptance block and return a signed copy within seven days of the date of issue.' % row.ref_no,
+            'experience': 'Please find attached your experience certificate (%s).' % row.ref_no,
+            'relieving': 'Please find attached your relieving letter (%s).' % row.ref_no}[row.kind]
+    body = 'Dear %s,\n\n%s\n\nWe wish you the very best.\n\nRegards,\nHR Team\nEduAakashaa' % (first, lead)
+    return v.get('recipient_email', ''), subject, body
+
+
+def send_letter(row, to, cc, subject, body, from_addr, user):
+    """Email the PDF of an issued letter and log the attempt. Returns (ok, message)."""
+    from app.models_hr import HrLetterEmail
+    from app.services import hr_pdf, mailer
+    from app.services.email_templates import branded_shell
+    log = HrLetterEmail(letter_id=row.id, to_addr=', '.join(to), cc_addr=', '.join(cc) or None, from_addr=from_addr, subject=subject, sent_by=user.id)
+    if not mailer.is_configured():
+        log.error = 'Email is not set up on the server'
+        db.session.add(log)
+        db.session.commit()
+        return False, 'Email is not set up on the server (SMTP or Resend). Use "Open in my email app" and attach the PDF instead.'
+    pdf = hr_pdf.build(render(row), title='%s - %s' % (KINDS[row.kind]['title'], row.ref_no))
+    html = branded_shell(''.join('<p style="margin:0 0 12px;font-size:15px;line-height:1.55">%s</p>' % _esc(p).replace('\n', '<br>') for p in body.split('\n\n')))
+    try:
+        mailer.send_now(to, subject, body, html, from_name='EduAakashaa HR', cc=cc or None, from_addr=from_addr, reply_to=from_addr,
+                        attachments=[(row.ref_no.replace('/', '-') + '.pdf', pdf, 'application/pdf')])
+        log.ok = True
+        msg = 'Letter emailed to %s.' % ', '.join(to)
+    except Exception as ex:
+        log.error = str(ex)[:290]
+        msg = 'The email could not be sent: %s' % log.error
+    db.session.add(log)
+    db.session.commit()
+    return log.ok, msg

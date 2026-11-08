@@ -10,14 +10,17 @@ import csv
 from datetime import date, datetime
 from io import StringIO
 
+from urllib.parse import quote
+
 from flask import Blueprint, Response, abort, flash, redirect, render_template, request, url_for
 from flask_login import current_user
 
 from app.decorators import hr_required
 from app.extensions import db
 from app.models import User
-from app.models_hr import HrLetter
+from app.models_hr import HrLetter, HrLetterEmail
 from app.services import hr_letters as hl
+from app.services import mailer
 from app.services import hr_pdf
 
 hr_bp = Blueprint('hr', __name__, url_prefix='/hr')
@@ -129,7 +132,13 @@ def _letter(letter_id):
 @hr_required
 def letter(letter_id):
     row = _letter(letter_id)
-    return render_template('hr/letter.html', row=row, info=hl.KINDS[row.kind], html=hl.to_html(hl.render(row)))
+    to, subject, body = hl.default_email(row)
+    f = request.args if request.args.get('compose') else {}
+    mail = dict(to=f.get('to', to), cc=f.get('cc', ''), subject=f.get('subject', subject), body=f.get('body', body))
+    sent = HrLetterEmail.query.filter_by(letter_id=row.id).order_by(HrLetterEmail.id.desc()).all()
+    senders = mailer.allowed_senders()
+    mailto = 'mailto:%s?subject=%s&body=%s' % (quote(to), quote(subject), quote(body))
+    return render_template('hr/letter.html', row=row, info=hl.KINDS[row.kind], html=hl.to_html(hl.render(row)), mail=mail, sent=sent, senders=senders, mail_ok=mailer.is_configured(), mailto=mailto)
 
 
 @hr_bp.route('/letters/<int:letter_id>.pdf', endpoint='letter_pdf')
@@ -155,6 +164,31 @@ def void(letter_id):
         db.session.commit()
         flash('%s marked void. The number stays in the register and is not reused.' % row.ref_no, 'success')
     return redirect(url_for('hr.letter', letter_id=row.id))
+
+
+@hr_bp.route('/letters/<int:letter_id>/email', methods=['POST'], endpoint='email')
+@hr_required
+def email(letter_id):
+    row = _letter(letter_id)
+    if row.status == 'void':
+        flash('A void letter cannot be emailed.', 'danger')
+        return redirect(url_for('hr.letter', letter_id=row.id))
+    to, e1 = hl.parse_emails(request.form.get('to'))
+    cc, e2 = hl.parse_emails(request.form.get('cc'))
+    if request.form.get('copy_me') and current_user.email and current_user.email.lower() not in [x.lower() for x in cc + to]:
+        cc = cc + [current_user.email]
+    subject = (request.form.get('subject') or '').strip()[:200]
+    body = (request.form.get('body') or '').replace('\r\n', '\n').strip()[:4000]
+    senders = mailer.allowed_senders()
+    from_addr = request.form.get('from') or (senders[0] if senders else None)
+    err = e1 or e2 or (None if to else 'Enter the email address to send to.') or (None if subject else 'Enter a subject.') or (None if body else 'Write a short message.') or \
+        (None if from_addr in senders else 'Choose one of the allowed sender addresses.')
+    if err:
+        flash(err, 'danger')
+        return redirect(url_for('hr.letter', letter_id=row.id, compose=1, to=', '.join(to), cc=request.form.get('cc', ''), subject=subject, body=body) + '#email')
+    ok, msg = hl.send_letter(row, to, cc, subject, body, from_addr, current_user)
+    flash(msg, 'success' if ok else 'danger')
+    return redirect(url_for('hr.letter', letter_id=row.id) + '#email')
 
 
 @hr_bp.route('/templates', endpoint='templates')

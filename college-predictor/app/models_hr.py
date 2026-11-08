@@ -23,6 +23,22 @@ class HrLetterTemplate(db.Model):
     updated_at = db.Column(db.DateTime, default=_now)
 
 
+class HrLetterEmail(db.Model):
+    """One attempt to email a letter (the PDF is attached). Kept so HR can see what was sent, to whom and when."""
+    __tablename__ = 'hr_letter_emails'
+
+    id = db.Column(db.Integer, primary_key=True)
+    letter_id = db.Column(db.Integer, db.ForeignKey('hr_letters.id'), nullable=False, index=True)
+    to_addr = db.Column(db.String(400), nullable=False)
+    cc_addr = db.Column(db.String(400))
+    from_addr = db.Column(db.String(200))
+    subject = db.Column(db.String(200), nullable=False)
+    ok = db.Column(db.Boolean, nullable=False, default=False)
+    error = db.Column(db.String(300))
+    sent_by = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    sent_at = db.Column(db.DateTime, default=_now)
+
+
 class HrLetter(db.Model):
     __tablename__ = 'hr_letters'
     __table_args__ = (db.UniqueConstraint('kind', 'fy', 'serial', name='uq_hr_letter_serial'),)

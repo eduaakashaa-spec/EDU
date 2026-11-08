@@ -197,6 +197,61 @@ with app.app_context():
 c, _ = login('f@t.test')
 assert c.get('/hr/').status_code == 200
 
+# ---- email ------------------------------------------------------------------------------------------------------------------------------------------
+from app.models_hr import HrLetterEmail  # noqa: E402
+from app.services import mailer  # noqa: E402
+assert '9:00' not in hl.DEFAULTS['offer'] and 'working_hours' not in hl.DEFAULTS['offer'] and 'AM to' not in hl.DEFAULTS['offer']                  # no fixed working hours in the offer
+assert hl.parse_emails('a@x.com, b@y.org') == (['a@x.com', 'b@y.org'], None) and hl.parse_emails('bad')[1] and hl.parse_emails('a@x.com b@y.com c@z.com d@z.com e@z.com f@z.com')[1]
+with app.app_context():
+    r0 = HrLetter.query.filter_by(person_name='Next Candidate').one()
+    NID = r0.id
+assert hr.post('/hr/new/offer', data=dict(OFFER, candidate_full_name='Mail Me', recipient_email='mail.me@example.com')).status_code == 302
+assert hr.post('/hr/new/offer', data=dict(OFFER, candidate_full_name='Bad Mail', recipient_email='not-an-email')).status_code == 200
+with app.app_context():
+    MID = HrLetter.query.filter_by(person_name='Mail Me').one().id
+    assert HrLetter.query.filter_by(person_name='Bad Mail').count() == 0
+page = hr.get('/hr/letters/%d' % MID).get_data(as_text=True)
+assert 'Email this letter' in page and 'value="mail.me@example.com"' in page and 'Dear Mail,' in page and 'mailto:mail.me%40example.com' in page and 'EA/HR/OFFER' in page
+sent = []
+real_cfg, real_send = mailer.is_configured, mailer.send_now
+mailer.is_configured = lambda: True
+mailer.send_now = lambda to, subject, text, html=None, **kw: sent.append(dict(to=to, subject=subject, text=text, html=html, **kw)) or True
+try:
+    base = {'to': 'mail.me@example.com', 'cc': 'boss@example.com', 'subject': 'Offer of Appointment - EduAakashaa', 'body': 'Dear Mail,\n\nPlease find attached.\n\nRegards,\nHR Team', 'copy_me': '1'}
+    assert hr.post('/hr/letters/%d/email' % MID, data=dict(base, to='nope'), follow_redirects=True).status_code == 200 and not sent                # invalid address: nothing sent
+    assert not sent and hr.post('/hr/letters/%d/email' % MID, data=dict(base, subject=''), follow_redirects=True).status_code == 200 and not sent
+    assert not sent and hr.post('/hr/letters/%d/email' % MID, data=dict(base, **{'from': 'someone@evil.test'}), follow_redirects=True).status_code == 200 and not sent   # sender must be allowed
+    r = hr.post('/hr/letters/%d/email' % MID, data=base, follow_redirects=True)
+    assert r.status_code == 200 and len(sent) == 1 and 'emailed to mail.me@example.com' in r.get_data(as_text=True)
+    m = sent[0]
+    assert m['to'] == ['mail.me@example.com'] and 'boss@example.com' in m['cc'] and 'hr@t.test' in m['cc'] and m['subject'].startswith('Offer of Appointment')    # Send me a copy adds the sender to Cc
+    name, data, mime = m['attachments'][0]
+    assert name == 'EA-HR-OFFER-2026-0003.pdf' and data[:4] == b'%PDF' and mime == 'application/pdf' and 'Please find attached' in m['text'] and 'Please find attached' in m['html']
+    with app.app_context():
+        log = HrLetterEmail.query.filter_by(letter_id=MID).one()
+        assert log.ok and log.to_addr == 'mail.me@example.com' and 'boss@example.com' in log.cc_addr and log.sent_by
+    assert 'Sent so far' in hr.get('/hr/letters/%d' % MID).get_data(as_text=True)
+    def boom(*a, **k):
+        raise RuntimeError('smtp down')
+    mailer.send_now = boom
+    r = hr.post('/hr/letters/%d/email' % MID, data=base, follow_redirects=True)
+    assert 'could not be sent' in r.get_data(as_text=True)
+    with app.app_context():
+        assert HrLetterEmail.query.filter_by(letter_id=MID, ok=False).one().error == 'smtp down'
+    mailer.is_configured = lambda: False
+    r = hr.post('/hr/letters/%d/email' % MID, data=base, follow_redirects=True)
+    assert 'not set up' in r.get_data(as_text=True) and 'disabled' in hr.get('/hr/letters/%d' % MID).get_data(as_text=True)
+    mailer.is_configured = lambda: True
+    mailer.send_now = lambda *a, **k: sent.append(1) or True
+    n = len(sent)
+    assert 'void' and hr.post('/hr/letters/%d/void' % MID, data={'reason': 'test'}).status_code == 302
+    hr.post('/hr/letters/%d/email' % MID, data=base, follow_redirects=True)
+    assert len(sent) == n                                                                                  # a void letter cannot be emailed
+    c3, _ = login('e@t.test')
+    assert c3.post('/hr/letters/%d/email' % NID, data=base).status_code == 403                             # other roles cannot email letters
+finally:
+    mailer.is_configured, mailer.send_now = real_cfg, real_send
+
 low = hr.get('/hr/').get_data(as_text=True).lower()
 assert 'office hours' not in low and 'working hours' not in low
 print('hr letters checks passed')
