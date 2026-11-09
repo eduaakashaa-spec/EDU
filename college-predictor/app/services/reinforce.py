@@ -328,7 +328,7 @@ def seed_recreated():
             continue
         for q in d['qs']:
             qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
-            if RfQuestion.query.filter_by(qid=qid).first():
+            if q.get('fig') or RfQuestion.query.filter_by(qid=qid).first():                                   # a redrawn figure is not carried into the bank stem
                 continue
             tx = RfTaxonomy.query.filter_by(exam='JEE', code=q.get('cat')).first()
             if not tx:
@@ -338,7 +338,7 @@ def seed_recreated():
             else:
                 qt, opts, ans = 'mcq', [sanitize(o) for o in q['opts']], q['acc']['sets'][0]
             expl = '<ol>%s</ol>' % ''.join('<li>%s</li>' % x for x in q.get('steps', [])) if q.get('steps') else ''
-            db.session.add(RfQuestion(qid=qid, exam='JEE', subject=tx.subject, chapter=tx.chapter, topic=tx.chapter, concept=tx.chapter, difficulty=2, qtype=qt, stem=sanitize(q['stem']),
+            db.session.add(RfQuestion(qid=qid, exam='JEE', subject=tx.subject, chapter=tx.chapter, topic=tx.chapter, concept=tx.chapter, difficulty=q.get('lvl') or 2, qtype=qt, stem=sanitize(q['stem']),
                                       options_json=json.dumps(opts), answer_json=json.dumps(ans), explanation=sanitize(expl), misconception='', marks=4, neg_marks=1,
                                       est_sec=150 if qt == 'nat' else 100, source='%s, question %d (source question %s). %s' % (meta['title'], q['n'], q.get('src', '-'), '; '.join((d.get('notes') or [])[:1])),
                                       status='approved'))

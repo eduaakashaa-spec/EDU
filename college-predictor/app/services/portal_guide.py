@@ -64,6 +64,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-09', 'JEE Main 2026 Session 1 (January) pilot: 21 Jan Shift 1 is now in the EduPulse-JEE mock centre as a retyped NTA paper (71 of 75 questions, the four that need a drawn structure are left out) with our own worked steps; numerical answers match the NTA final key. Other January shifts follow.'),
     ('2026-11-09', 'JEE Main 2026 Session 2 (April) papers are now live: the nine B.Tech shifts (2, 4, 5, 6 and 8 April 2026) are in the EduPulse-JEE mock centre with the official NTA final key, every question is tagged by chapter (so the test report is broken down by chapter), and the same questions are in EduPulse Reinforcement for chapter practice. New public page JEE Main 2026 Chapter Analysis (menu JEE / JOSAA) shows which Mathematics, Physics and Chemistry chapters carried the questions, shift by shift.'),
     ('2026-11-08', 'UAE references removed from everything the company says about itself or its audience: testimonial locations, India-only wording on the SAT guide and assessment pages, phone placeholders, country lists and sample data. Official facts that name the UAE (DASA and CIWG eligible countries, JEE Main overseas centres, the IIT Delhi Abu Dhabi campus data and CAET guide) are unchanged.'),
     ('2026-11-08', 'New HR Admin role and HR letters (menu HR, /hr): an HR Admin account (account type hr_admin, set by an Admin) can issue offer letters, experience certificates and relieving letters on the EduAakashaA letterhead, with automatic reference numbers (EA/HR/TYPE/FY/NNNN, restarting each 1 April), a register with filters, CSV export and void with reason, the A4 PDF of each letter, email sending with the PDF attached (with a send log), and editable templates. HR Admin sees only the HR section.'),
@@ -259,7 +260,8 @@ GUIDE = [
                 'Previous-year papers marked "solved" show a worked solution after submission. Section B of those papers is "attempt any 5 of 10": only the first 5 numerical answers in a subject are marked.',
                 'The nine JEE Main 2026 Session 2 (April) B.Tech shifts are available with the official NTA final key. Every question is tagged by chapter, so the report shows marks by chapter. A question NTA dropped (full marks to all) counts as correct for everyone.',
                 'Submit and open the report: negative-marking tracker, confidence table, chapters to revisit, and a PDF.',
-                'To see which chapters carried the marks in those nine papers, open JEE Main 2026 Chapter Analysis (menu JEE / JOSAA, public page).'],
+                'To see which chapters carried the marks in those nine papers, open JEE Main 2026 Chapter Analysis (menu JEE / JOSAA, public page).',
+                'JEE Main 2026 21 Jan Shift 1 (January session) is also there, retyped as text with worked steps after each question; it is marked "recreated" and four questions that need a drawn structure are not included.'],
          tips=['A paper that says "Not yet available" is waiting for its answer key.'],
          tiles=['EduPulse-JEE Mock Test Centre'], added='2026-10-26', updated='2026-10-26'),
     dict(id='s-explorer', role='student', group='EduPulse', title='EduPulse-Explorer (Grades 7 to 10)', summary='Discovery and practice for Grade 7 to 10 students interested in engineering and design: tests in the style of later exams, an interest check and a daily spaced review.',
