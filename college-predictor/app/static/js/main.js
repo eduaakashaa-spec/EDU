@@ -96,6 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const target = document.querySelector(anchor.getAttribute('href'));
       if (target) {
         e.preventDefault();
+        // Keep the URL in step and tell pages that switch tabs or panels on the hash (admin mentorship tabs, guide, city explorer); a pushState alone does not fire hashchange.
+        const href = anchor.getAttribute('href');
+        if (location.hash !== href) {
+          history.pushState(null, '', href);
+          window.dispatchEvent(new HashChangeEvent('hashchange'));
+        }
         target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     });
