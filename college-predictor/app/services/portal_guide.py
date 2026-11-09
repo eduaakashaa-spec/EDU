@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-08'
+UPDATED = '2026-11-09'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -64,6 +64,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-09', 'JEE Main 2026 Session 2 (April) papers are now live: the nine B.Tech shifts (2, 4, 5, 6 and 8 April 2026) are in the EduPulse-JEE mock centre with the official NTA final key, every question is tagged by chapter (so the test report is broken down by chapter), and the same questions are in EduPulse Reinforcement for chapter practice. New public page JEE Main 2026 Chapter Analysis (menu JEE / JOSAA) shows which Mathematics, Physics and Chemistry chapters carried the questions, shift by shift.'),
     ('2026-11-08', 'UAE references removed from everything the company says about itself or its audience: testimonial locations, India-only wording on the SAT guide and assessment pages, phone placeholders, country lists and sample data. Official facts that name the UAE (DASA and CIWG eligible countries, JEE Main overseas centres, the IIT Delhi Abu Dhabi campus data and CAET guide) are unchanged.'),
     ('2026-11-08', 'New HR Admin role and HR letters (menu HR, /hr): an HR Admin account (account type hr_admin, set by an Admin) can issue offer letters, experience certificates and relieving letters on the EduAakashaA letterhead, with automatic reference numbers (EA/HR/TYPE/FY/NNNN, restarting each 1 April), a register with filters, CSV export and void with reason, the A4 PDF of each letter, email sending with the PDF attached (with a send log), and editable templates. HR Admin sees only the HR section.'),
     ('2026-11-07', 'Exam dates validated against official sources on 7 Nov 2026 and updated on the Exam Schedule page, its calendar downloads and the UCEED and Law roadmaps: UCEED and CEED registration closed 5 Nov (late fee to 10 Nov), CLAT registration extended to 7 Nov (reported), GATE deadlines corrected, JEE Main registration clarifications added, ICAI January 2027 exams, FMGE, CUET PG, SLAT and the 2026 cycle dates of the state exams added, and exams that are not officially announced stay marked Expected or Tentative.'),
@@ -250,13 +251,15 @@ GUIDE = [
          tips=['The PDF report uses the EduAakashaA report template and can be shared with your mentor and parent.'],
          tiles=['UCEED Mock Test Centre'], added='2026-10-26', updated='2026-10-26'),
     dict(id='s-jee-mock', role='student', group='EduPulse', title='EduPulse-JEE Mock Test Centre', summary='JEE Main 2027-pattern mocks, previous-year papers and the negative-marking tracker.',
-         where=[('EduPulse-JEE', 'pulse_jee.home')],
+         where=[('EduPulse-JEE', 'pulse_jee.home'), ('JEE Main 2026 chapter analysis', 'pulse_jee.analysis')],
          steps=['Open "EduPulse-JEE Mock Test Centre". Choose one of the five EduAakashaA mocks (2027 pattern) or a previous-year paper that shows as available.',
                 'Marking is +4 for a right answer, -1 for a wrong one and 0 for a blank, in both multiple-choice and numerical sections.',
                 'Rate your confidence on each answer: the report shows how many marks guesses cost or earned.',
                 'Papers marked "recreated" (JEE Main 2023, 24 Jan Shift 2 so far) are NTA questions retyped as clean text with worked steps. Questions that need a figure, or whose answer we could not confirm, are left out, so such a paper has fewer than 90 questions and a lower maximum. Their answers were checked by EduAakashaA and are not the NTA final key. The same questions are in EduPulse - Reinforcement.',
                 'Previous-year papers marked "solved" show a worked solution after submission. Section B of those papers is "attempt any 5 of 10": only the first 5 numerical answers in a subject are marked.',
-                'Submit and open the report: negative-marking tracker, confidence table, chapters to revisit, and a PDF.'],
+                'The nine JEE Main 2026 Session 2 (April) B.Tech shifts are available with the official NTA final key. Every question is tagged by chapter, so the report shows marks by chapter. A question NTA dropped (full marks to all) counts as correct for everyone.',
+                'Submit and open the report: negative-marking tracker, confidence table, chapters to revisit, and a PDF.',
+                'To see which chapters carried the marks in those nine papers, open JEE Main 2026 Chapter Analysis (menu JEE / JOSAA, public page).'],
          tips=['A paper that says "Not yet available" is waiting for its answer key.'],
          tiles=['EduPulse-JEE Mock Test Centre'], added='2026-10-26', updated='2026-10-26'),
     dict(id='s-explorer', role='student', group='EduPulse', title='EduPulse-Explorer (Grades 7 to 10)', summary='Discovery and practice for Grade 7 to 10 students interested in engineering and design: tests in the style of later exams, an interest check and a daily spaced review.',

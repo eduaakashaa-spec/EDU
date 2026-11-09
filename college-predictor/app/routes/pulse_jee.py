@@ -30,6 +30,12 @@ def _can_see(r):
     return bool(current_user.is_staff and prof and prof.mentor_id == current_user.id)
 
 
+@pulse_jee_bp.route('/analysis', endpoint='analysis')
+def analysis():
+    """Public: chapter-wise analysis of the JEE Main 2026 Session 2 (April) B.Tech papers (counts by chapter and shift; no question content)."""
+    return render_template('pulse/jee_analysis.html', a=pj.analysis_2026s2())
+
+
 @pulse_jee_bp.route('/')
 @premium_required
 def home():

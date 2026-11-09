@@ -1,0 +1,1991 @@
+{
+ "title": "JEE Main 2026 Session 2 (April) chapter analysis",
+ "papers": [
+  {
+   "y": "P0402S1",
+   "short": "2 Apr Shift 1"
+  },
+  {
+   "y": "P0402S2",
+   "short": "2 Apr Shift 2"
+  },
+  {
+   "y": "P0404S1",
+   "short": "4 Apr Shift 1"
+  },
+  {
+   "y": "P0404S2",
+   "short": "4 Apr Shift 2"
+  },
+  {
+   "y": "P0405S1",
+   "short": "5 Apr Shift 1"
+  },
+  {
+   "y": "P0405S2",
+   "short": "5 Apr Shift 2"
+  },
+  {
+   "y": "P0406S1",
+   "short": "6 Apr Shift 1"
+  },
+  {
+   "y": "P0406S2",
+   "short": "6 Apr Shift 2"
+  },
+  {
+   "y": "P0408S2",
+   "short": "8 Apr Shift 2"
+  }
+ ],
+ "n_papers": 9,
+ "subjects": [
+  {
+   "key": "MATH",
+   "name": "Mathematics",
+   "total": 225,
+   "chapters": [
+    {
+     "code": "COG",
+     "name": "Coordinate geometry",
+     "per": [
+      3,
+      4,
+      4,
+      4,
+      3,
+      4,
+      4,
+      4,
+      4
+     ],
+     "total": 34,
+     "avg": 3.8,
+     "share": 15.1,
+     "mcq": 25,
+     "nat": 9,
+     "lvl": 2.35,
+     "in_every": true,
+     "topics": [
+      [
+       "Ellipse",
+       3
+      ],
+      [
+       "Hyperbola",
+       3
+      ],
+      [
+       "Circles",
+       2
+      ],
+      [
+       "Triangle incentre, straight lines",
+       1
+      ],
+      [
+       "Circle, chord length",
+       1
+      ],
+      [
+       "Parabola",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "VEC",
+     "name": "Vectors & 3D geometry",
+     "per": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+     ],
+     "total": 27,
+     "avg": 3.0,
+     "share": 12.0,
+     "mcq": 23,
+     "nat": 4,
+     "lvl": 2.04,
+     "in_every": true,
+     "topics": [
+      [
+       "Lines in 3D",
+       4
+      ],
+      [
+       "Vector algebra",
+       3
+      ],
+      [
+       "Shortest distance between lines",
+       2
+      ],
+      [
+       "3D lines intersection",
+       1
+      ],
+      [
+       "Lines in 3D, foot of perpendicular",
+       1
+      ],
+      [
+       "Vector algebra (parallelogram)",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "INT",
+     "name": "Integral calculus",
+     "per": [
+      2,
+      3,
+      2,
+      2,
+      3,
+      3,
+      3,
+      4,
+      4
+     ],
+     "total": 26,
+     "avg": 2.9,
+     "share": 11.6,
+     "mcq": 22,
+     "nat": 4,
+     "lvl": 2.38,
+     "in_every": true,
+     "topics": [
+      [
+       "Area under curves",
+       8
+      ],
+      [
+       "Definite integrals",
+       5
+      ],
+      [
+       "Definite integrals with greatest integer",
+       2
+      ],
+      [
+       "Indefinite integration",
+       1
+      ],
+      [
+       "Definite integral with inverse trig",
+       1
+      ],
+      [
+       "Definite integrals, improper",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "PNC",
+     "name": "Permutations, combinations & binomial",
+     "per": [
+      2,
+      2,
+      3,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ],
+     "total": 19,
+     "avg": 2.1,
+     "share": 8.4,
+     "mcq": 16,
+     "nat": 3,
+     "lvl": 2.05,
+     "in_every": true,
+     "topics": [
+      [
+       "Binomial theorem",
+       3
+      ],
+      [
+       "Permutations and combinations",
+       1
+      ],
+      [
+       "Binomial coefficients / combinations",
+       1
+      ],
+      [
+       "Binomial coefficient identities",
+       1
+      ],
+      [
+       "Combinations",
+       1
+      ],
+      [
+       "Onto functions counting",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "CNQ",
+     "name": "Complex numbers & quadratics",
+     "per": [
+      2,
+      2,
+      2,
+      3,
+      1,
+      2,
+      2,
+      2,
+      2
+     ],
+     "total": 18,
+     "avg": 2.0,
+     "share": 8.0,
+     "mcq": 17,
+     "nat": 1,
+     "lvl": 2.0,
+     "in_every": true,
+     "topics": [
+      [
+       "Quadratic equations",
+       3
+      ],
+      [
+       "Complex numbers",
+       1
+      ],
+      [
+       "Complex numbers (circles in complex plane)",
+       1
+      ],
+      [
+       "Modulus equation and inequalities",
+       1
+      ],
+      [
+       "Complex numbers locus and argument",
+       1
+      ],
+      [
+       "Complex numbers (roots of quadratic)",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "STP",
+     "name": "Statistics & probability",
+     "per": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+     ],
+     "total": 18,
+     "avg": 2.0,
+     "share": 8.0,
+     "mcq": 15,
+     "nat": 3,
+     "lvl": 1.72,
+     "in_every": true,
+     "topics": [
+      [
+       "Probability",
+       2
+      ],
+      [
+       "Mean and variance",
+       2
+      ],
+      [
+       "Bayes theorem",
+       2
+      ],
+      [
+       "Mean of grouped data",
+       1
+      ],
+      [
+       "Probability with quadratic inequality",
+       1
+      ],
+      [
+       "Mean and mean deviation",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "MAT",
+     "name": "Matrices & determinants",
+     "per": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2
+     ],
+     "total": 17,
+     "avg": 1.9,
+     "share": 7.6,
+     "mcq": 15,
+     "nat": 2,
+     "lvl": 2.0,
+     "in_every": true,
+     "topics": [
+      [
+       "System of linear equations",
+       3
+      ],
+      [
+       "Linear equations / determinants",
+       1
+      ],
+      [
+       "Matrices (Cayley-Hamilton, adjoint)",
+       1
+      ],
+      [
+       "Matrices",
+       1
+      ],
+      [
+       "Matrices quadratic relation",
+       1
+      ],
+      [
+       "Adjoint and inverse of matrices",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "LCD",
+     "name": "Limits & derivatives",
+     "per": [
+      2,
+      2,
+      3,
+      1,
+      2,
+      2,
+      1,
+      2,
+      1
+     ],
+     "total": 16,
+     "avg": 1.8,
+     "share": 7.1,
+     "mcq": 12,
+     "nat": 4,
+     "lvl": 2.62,
+     "in_every": true,
+     "topics": [
+      [
+       "Limits",
+       3
+      ],
+      [
+       "Critical points, differentiability",
+       1
+      ],
+      [
+       "Maxima-minima and limits",
+       1
+      ],
+      [
+       "Continuity (greatest integer function)",
+       1
+      ],
+      [
+       "Differentiation of inverse trigonometric functions",
+       1
+      ],
+      [
+       "Differentiation with polynomial functional equation",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "SEQ",
+     "name": "Sequences & series",
+     "per": [
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      3,
+      1,
+      1
+     ],
+     "total": 15,
+     "avg": 1.7,
+     "share": 6.7,
+     "mcq": 13,
+     "nat": 2,
+     "lvl": 2.0,
+     "in_every": true,
+     "topics": [
+      [
+       "Sum of series",
+       2
+      ],
+      [
+       "AP and GP",
+       2
+      ],
+      [
+       "Arithmetic progression",
+       2
+      ],
+      [
+       "Telescoping series",
+       2
+      ],
+      [
+       "Arithmetic progressions",
+       1
+      ],
+      [
+       "Infinite GP with logarithms",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "TRG",
+     "name": "Trigonometry",
+     "per": [
+      2,
+      1,
+      1,
+      1,
+      3,
+      1,
+      2,
+      1,
+      1
+     ],
+     "total": 13,
+     "avg": 1.4,
+     "share": 5.8,
+     "mcq": 10,
+     "nat": 3,
+     "lvl": 2.38,
+     "in_every": true,
+     "topics": [
+      [
+       "Trigonometric equations",
+       5
+      ],
+      [
+       "Inverse trigonometric functions",
+       4
+      ],
+      [
+       "Trigonometric identities",
+       2
+      ],
+      [
+       "Trigonometric identities and sums",
+       1
+      ],
+      [
+       "Maximum of trigonometric expression",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "SRF",
+     "name": "Sets, relations & functions",
+     "per": [
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      2
+     ],
+     "total": 12,
+     "avg": 1.3,
+     "share": 5.3,
+     "mcq": 6,
+     "nat": 6,
+     "lvl": 2.42,
+     "in_every": true,
+     "topics": [
+      [
+       "Relations",
+       3
+      ],
+      [
+       "Domain of inverse trig with greatest integer",
+       2
+      ],
+      [
+       "Domain of functions",
+       1
+      ],
+      [
+       "Inverse functions",
+       1
+      ],
+      [
+       "Functional equation",
+       1
+      ],
+      [
+       "One-one functions counting",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "DEQ",
+     "name": "Differential equations",
+     "per": [
+      2,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      0,
+      1
+     ],
+     "total": 10,
+     "avg": 1.1,
+     "share": 4.4,
+     "mcq": 6,
+     "nat": 4,
+     "lvl": 2.4,
+     "in_every": false,
+     "topics": [
+      [
+       "Linear differential equations",
+       2
+      ],
+      [
+       "Differential equations",
+       2
+      ],
+      [
+       "Linear differential equation",
+       2
+      ],
+      [
+       "Differential equations (variable separable)",
+       1
+      ],
+      [
+       "First order differential equations",
+       1
+      ],
+      [
+       "Integral equation to differential equation",
+       1
+      ]
+     ]
+    }
+   ],
+   "diff": {
+    "1": 27,
+    "2": 128,
+    "3": 70
+   },
+   "avg_lvl": 2.19
+  },
+  {
+   "key": "PHY",
+   "name": "Physics",
+   "total": 225,
+   "chapters": [
+    {
+     "code": "MAG",
+     "name": "Magnetism & EMI",
+     "per": [
+      4,
+      4,
+      2,
+      4,
+      4,
+      5,
+      4,
+      3,
+      3
+     ],
+     "total": 33,
+     "avg": 3.7,
+     "share": 14.7,
+     "mcq": 24,
+     "nat": 9,
+     "lvl": 1.79,
+     "in_every": true,
+     "topics": [
+      [
+       "Electromagnetic waves",
+       5
+      ],
+      [
+       "Electromagnetic induction",
+       3
+      ],
+      [
+       "Torque on current loop",
+       2
+      ],
+      [
+       "Magnetic field of current arcs",
+       1
+      ],
+      [
+       "Force on moving charge in magnetic field",
+       1
+      ],
+      [
+       "Lorentz force",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "DUA",
+     "name": "Modern physics",
+     "per": [
+      3,
+      3,
+      4,
+      4,
+      4,
+      3,
+      3,
+      3,
+      4
+     ],
+     "total": 31,
+     "avg": 3.4,
+     "share": 13.8,
+     "mcq": 27,
+     "nat": 4,
+     "lvl": 1.55,
+     "in_every": true,
+     "topics": [
+      [
+       "Logic gates",
+       5
+      ],
+      [
+       "de Broglie wavelength",
+       4
+      ],
+      [
+       "Photoelectric effect",
+       3
+      ],
+      [
+       "Bohr model of hydrogen atom",
+       2
+      ],
+      [
+       "Nuclear binding energy",
+       2
+      ],
+      [
+       "Semiconductor diodes, Zener",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "OPT",
+     "name": "Optics",
+     "per": [
+      3,
+      3,
+      4,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+     ],
+     "total": 28,
+     "avg": 3.1,
+     "share": 12.4,
+     "mcq": 21,
+     "nat": 7,
+     "lvl": 1.64,
+     "in_every": true,
+     "topics": [
+      [
+       "Young's double slit experiment",
+       3
+      ],
+      [
+       "Refraction at spherical surface",
+       2
+      ],
+      [
+       "Prism",
+       1
+      ],
+      [
+       "Diffraction of light",
+       1
+      ],
+      [
+       "Total internal reflection in prism",
+       1
+      ],
+      [
+       "Lens maker formula",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "PMB",
+     "name": "Properties of matter",
+     "per": [
+      3,
+      2,
+      3,
+      2,
+      3,
+      2,
+      3,
+      2,
+      2
+     ],
+     "total": 22,
+     "avg": 2.4,
+     "share": 9.8,
+     "mcq": 16,
+     "nat": 6,
+     "lvl": 1.64,
+     "in_every": true,
+     "topics": [
+      [
+       "Surface tension, surface energy",
+       2
+      ],
+      [
+       "Viscosity and terminal velocity",
+       2
+      ],
+      [
+       "Young's modulus",
+       2
+      ],
+      [
+       "Elasticity, stress in wire",
+       1
+      ],
+      [
+       "Fluids, buoyancy",
+       1
+      ],
+      [
+       "Surface tension",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "THM",
+     "name": "Thermodynamics (physics)",
+     "per": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2
+     ],
+     "total": 17,
+     "avg": 1.9,
+     "share": 7.6,
+     "mcq": 14,
+     "nat": 3,
+     "lvl": 1.82,
+     "in_every": true,
+     "topics": [
+      [
+       "Adiabatic process",
+       2
+      ],
+      [
+       "Ideal gas mixture",
+       2
+      ],
+      [
+       "Thermodynamics of ideal gas",
+       1
+      ],
+      [
+       "Specific heats and internal energy",
+       1
+      ],
+      [
+       "Thermodynamic process PV relation",
+       1
+      ],
+      [
+       "Kinetic theory of gases (assertion-reason)",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "UNM",
+     "name": "Units & errors",
+     "per": [
+      2,
+      2,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2
+     ],
+     "total": 16,
+     "avg": 1.8,
+     "share": 7.1,
+     "mcq": 16,
+     "nat": 0,
+     "lvl": 1.31,
+     "in_every": true,
+     "topics": [
+      [
+       "Dimensional analysis",
+       5
+      ],
+      [
+       "Errors in measurement",
+       4
+      ],
+      [
+       "Screw gauge",
+       1
+      ],
+      [
+       "Screw gauge least count",
+       1
+      ],
+      [
+       "Dimensions of physical quantities",
+       1
+      ],
+      [
+       "Vernier calipers, zero error",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "ELS",
+     "name": "Electrostatics",
+     "per": [
+      3,
+      2,
+      1,
+      3,
+      0,
+      1,
+      2,
+      2,
+      2
+     ],
+     "total": 16,
+     "avg": 1.8,
+     "share": 7.1,
+     "mcq": 14,
+     "nat": 2,
+     "lvl": 1.88,
+     "in_every": false,
+     "topics": [
+      [
+       "Capacitors with dielectric",
+       1
+      ],
+      [
+       "Conducting spheres, electric field",
+       1
+      ],
+      [
+       "Electric dipoles",
+       1
+      ],
+      [
+       "Charged particle equilibrium in field",
+       1
+      ],
+      [
+       "Gauss law and flux",
+       1
+      ],
+      [
+       "Parallel plate capacitor energy",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "KIN",
+     "name": "Kinematics",
+     "per": [
+      1,
+      0,
+      1,
+      3,
+      1,
+      1,
+      0,
+      1,
+      3
+     ],
+     "total": 11,
+     "avg": 1.2,
+     "share": 4.9,
+     "mcq": 8,
+     "nat": 3,
+     "lvl": 1.45,
+     "in_every": false,
+     "topics": [
+      [
+       "Projectile motion",
+       2
+      ],
+      [
+       "Acceleration from velocity field",
+       1
+      ],
+      [
+       "Projectile motion range",
+       1
+      ],
+      [
+       "Relative velocity",
+       1
+      ],
+      [
+       "Projectile range",
+       1
+      ],
+      [
+       "Free fall",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "ROT",
+     "name": "Rotational motion",
+     "per": [
+      2,
+      1,
+      1,
+      0,
+      0,
+      2,
+      2,
+      1,
+      1
+     ],
+     "total": 10,
+     "avg": 1.1,
+     "share": 4.4,
+     "mcq": 9,
+     "nat": 1,
+     "lvl": 2.1,
+     "in_every": false,
+     "topics": [
+      [
+       "Moment of inertia",
+       2
+      ],
+      [
+       "Angular momentum and torque",
+       1
+      ],
+      [
+       "Angular kinematics",
+       1
+      ],
+      [
+       "Rotational kinematics",
+       1
+      ],
+      [
+       "Rolling motion, energy",
+       1
+      ],
+      [
+       "Rotational dynamics of sphere",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "CUR",
+     "name": "Current electricity",
+     "per": [
+      0,
+      1,
+      2,
+      0,
+      2,
+      1,
+      1,
+      2,
+      1
+     ],
+     "total": 10,
+     "avg": 1.1,
+     "share": 4.4,
+     "mcq": 5,
+     "nat": 5,
+     "lvl": 1.9,
+     "in_every": false,
+     "topics": [
+      [
+       "Series circuits and power",
+       1
+      ],
+      [
+       "Voltmeter range extension",
+       1
+      ],
+      [
+       "Kirchhoff circuit network",
+       1
+      ],
+      [
+       "Kirchhoff's laws",
+       1
+      ],
+      [
+       "Cells and resistors network",
+       1
+      ],
+      [
+       "Internal resistance of cell",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "LOM",
+     "name": "Laws of motion",
+     "per": [
+      0,
+      2,
+      1,
+      1,
+      2,
+      0,
+      1,
+      1,
+      1
+     ],
+     "total": 9,
+     "avg": 1.0,
+     "share": 4.0,
+     "mcq": 8,
+     "nat": 1,
+     "lvl": 1.78,
+     "in_every": false,
+     "topics": [
+      [
+       "Friction on inclined plane",
+       2
+      ],
+      [
+       "Circular motion and friction",
+       1
+      ],
+      [
+       "Pulley systems and centre of mass",
+       1
+      ],
+      [
+       "Newton's laws with force vector",
+       1
+      ],
+      [
+       "Pulley system, tension",
+       1
+      ],
+      [
+       "Wedge and pseudo force",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "OSW",
+     "name": "Oscillations & waves",
+     "per": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "total": 9,
+     "avg": 1.0,
+     "share": 4.0,
+     "mcq": 7,
+     "nat": 2,
+     "lvl": 1.44,
+     "in_every": true,
+     "topics": [
+      [
+       "Wave equation",
+       2
+      ],
+      [
+       "Simple harmonic motion",
+       1
+      ],
+      [
+       "Simple harmonic motion period",
+       1
+      ],
+      [
+       "Physical pendulum time period",
+       1
+      ],
+      [
+       "Periodic and SHM functions",
+       1
+      ],
+      [
+       "Simple harmonic motion time",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "WEP",
+     "name": "Work, energy & power",
+     "per": [
+      0,
+      1,
+      2,
+      0,
+      0,
+      1,
+      2,
+      2,
+      0
+     ],
+     "total": 8,
+     "avg": 0.9,
+     "share": 3.6,
+     "mcq": 6,
+     "nat": 2,
+     "lvl": 1.62,
+     "in_every": false,
+     "topics": [
+      [
+       "Work-energy theorem",
+       2
+      ],
+      [
+       "Work done by constant forces",
+       1
+      ],
+      [
+       "Power from time dependent force",
+       1
+      ],
+      [
+       "Work done by friction",
+       1
+      ],
+      [
+       "Vertical circular motion and energy",
+       1
+      ],
+      [
+       "Work done with variable velocity",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "GRA",
+     "name": "Gravitation",
+     "per": [
+      1,
+      1,
+      0,
+      1,
+      1,
+      1,
+      0,
+      0,
+      0
+     ],
+     "total": 5,
+     "avg": 0.6,
+     "share": 2.2,
+     "mcq": 5,
+     "nat": 0,
+     "lvl": 1.8,
+     "in_every": false,
+     "topics": [
+      [
+       "Gravitational potential energy",
+       2
+      ],
+      [
+       "Kepler's third law",
+       1
+      ],
+      [
+       "Variation of g with height",
+       1
+      ],
+      [
+       "Variation of g",
+       1
+      ]
+     ]
+    }
+   ],
+   "diff": {
+    "1": 87,
+    "2": 123,
+    "3": 15
+   },
+   "avg_lvl": 1.68
+  },
+  {
+   "key": "CHEM",
+   "name": "Chemistry",
+   "total": 225,
+   "chapters": [
+    {
+     "code": "ORG",
+     "name": "General organic chemistry",
+     "per": [
+      5,
+      5,
+      4,
+      6,
+      5,
+      5,
+      6,
+      6,
+      6
+     ],
+     "total": 48,
+     "avg": 5.3,
+     "share": 21.3,
+     "mcq": 41,
+     "nat": 7,
+     "lvl": 2.02,
+     "in_every": true,
+     "topics": [
+      [
+       "Purification, distillation",
+       1
+      ],
+      [
+       "IUPAC nomenclature",
+       1
+      ],
+      [
+       "Electrophilic substitution in amides",
+       1
+      ],
+      [
+       "Distinguishing tests for organic compounds",
+       1
+      ],
+      [
+       "Diazo coupling, steric inhibition of resonance",
+       1
+      ],
+      [
+       "Electronic effects and carbocation/carbanion stability",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "PER",
+     "name": "Periodic properties",
+     "per": [
+      3,
+      5,
+      4,
+      5,
+      3,
+      3,
+      3,
+      3,
+      4
+     ],
+     "total": 33,
+     "avg": 3.7,
+     "share": 14.7,
+     "mcq": 31,
+     "nat": 2,
+     "lvl": 1.91,
+     "in_every": true,
+     "topics": [
+      [
+       "d- and f-block elements",
+       2
+      ],
+      [
+       "Ionization enthalpy",
+       2
+      ],
+      [
+       "Ionisation enthalpy",
+       1
+      ],
+      [
+       "Halogens, redox displacement",
+       1
+      ],
+      [
+       "Qualitative salt analysis",
+       1
+      ],
+      [
+       "Classification of oxides",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "EQU",
+     "name": "Equilibrium & pH",
+     "per": [
+      1,
+      2,
+      2,
+      2,
+      3,
+      1,
+      1,
+      2,
+      2
+     ],
+     "total": 16,
+     "avg": 1.8,
+     "share": 7.1,
+     "mcq": 11,
+     "nat": 5,
+     "lvl": 2.12,
+     "in_every": true,
+     "topics": [
+      [
+       "Solubility product",
+       2
+      ],
+      [
+       "Ionic equilibrium of weak acids",
+       1
+      ],
+      [
+       "pH and weak acid titration",
+       1
+      ],
+      [
+       "Equilibrium constant relations",
+       1
+      ],
+      [
+       "Buffer pH",
+       1
+      ],
+      [
+       "Buffer solutions pH",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "COO",
+     "name": "Coordination compounds",
+     "per": [
+      2,
+      1,
+      1,
+      1,
+      2,
+      3,
+      2,
+      2,
+      1
+     ],
+     "total": 15,
+     "avg": 1.7,
+     "share": 6.7,
+     "mcq": 11,
+     "nat": 4,
+     "lvl": 1.8,
+     "in_every": true,
+     "topics": [
+      [
+       "Crystal field splitting, spectrochemical series",
+       1
+      ],
+      [
+       "Werner's theory, coordination compounds",
+       1
+      ],
+      [
+       "Isomerism in coordination compounds",
+       1
+      ],
+      [
+       "Magnetic moment of complexes",
+       1
+      ],
+      [
+       "Complexes unpaired electrons and spectrochemical series",
+       1
+      ],
+      [
+       "Metal carbonyls",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "MOL",
+     "name": "Mole concept",
+     "per": [
+      1,
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      1,
+      1
+     ],
+     "total": 13,
+     "avg": 1.4,
+     "share": 5.8,
+     "mcq": 11,
+     "nat": 2,
+     "lvl": 1.46,
+     "in_every": true,
+     "topics": [
+      [
+       "Stoichiometry",
+       1
+      ],
+      [
+       "Empirical formula and combustion",
+       1
+      ],
+      [
+       "Combustion analysis",
+       1
+      ],
+      [
+       "Mole concept gas at STP",
+       1
+      ],
+      [
+       "Carius analysis empirical formula",
+       1
+      ],
+      [
+       "Mole concept and number of atoms",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "CKN",
+     "name": "Chemical kinetics",
+     "per": [
+      2,
+      2,
+      1,
+      2,
+      2,
+      1,
+      1,
+      1,
+      1
+     ],
+     "total": 13,
+     "avg": 1.4,
+     "share": 5.8,
+     "mcq": 6,
+     "nat": 7,
+     "lvl": 1.62,
+     "in_every": true,
+     "topics": [
+      [
+       "First order kinetics",
+       3
+      ],
+      [
+       "Arrhenius equation",
+       2
+      ],
+      [
+       "Zero and first order reactions",
+       1
+      ],
+      [
+       "Order and half-life",
+       1
+      ],
+      [
+       "Gas phase kinetics with pressure",
+       1
+      ],
+      [
+       "Order and rate constant graphs",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "BIO",
+     "name": "Biomolecules",
+     "per": [
+      1,
+      1,
+      2,
+      1,
+      1,
+      2,
+      2,
+      1,
+      2
+     ],
+     "total": 13,
+     "avg": 1.4,
+     "share": 5.8,
+     "mcq": 13,
+     "nat": 0,
+     "lvl": 1.54,
+     "in_every": true,
+     "topics": [
+      [
+       "Amino acids",
+       2
+      ],
+      [
+       "Vitamins",
+       1
+      ],
+      [
+       "Amino acids and hormones",
+       1
+      ],
+      [
+       "Carbohydrates reducing sugars",
+       1
+      ],
+      [
+       "Carbohydrates structure",
+       1
+      ],
+      [
+       "Carbohydrates, glucose anomers",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "ATS",
+     "name": "Atomic structure",
+     "per": [
+      1,
+      1,
+      2,
+      1,
+      2,
+      1,
+      2,
+      1,
+      1
+     ],
+     "total": 12,
+     "avg": 1.3,
+     "share": 5.3,
+     "mcq": 10,
+     "nat": 2,
+     "lvl": 1.42,
+     "in_every": true,
+     "topics": [
+      [
+       "Hydrogen-like ionisation energy",
+       1
+      ],
+      [
+       "Photoelectric effect",
+       1
+      ],
+      [
+       "Hydrogen spectrum series",
+       1
+      ],
+      [
+       "Quantum numbers",
+       1
+      ],
+      [
+       "Bohr model radii",
+       1
+      ],
+      [
+       "Quantum numbers, orbital energy",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "HYD",
+     "name": "Hydrocarbons",
+     "per": [
+      2,
+      1,
+      2,
+      0,
+      2,
+      2,
+      1,
+      1,
+      1
+     ],
+     "total": 12,
+     "avg": 1.3,
+     "share": 5.3,
+     "mcq": 8,
+     "nat": 4,
+     "lvl": 2.0,
+     "in_every": false,
+     "topics": [
+      [
+       "Cycloalkanes, free radical chlorination",
+       1
+      ],
+      [
+       "Combustion of alkanes",
+       1
+      ],
+      [
+       "Alkane/alkene reactions and isomerisation",
+       1
+      ],
+      [
+       "Ozonolysis of alkenes",
+       1
+      ],
+      [
+       "Aromatic electrophilic substitution and oxidation",
+       1
+      ],
+      [
+       "Ozonolysis, alkenes",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "BON",
+     "name": "Chemical bonding",
+     "per": [
+      1,
+      1,
+      1,
+      2,
+      1,
+      1,
+      1,
+      2,
+      1
+     ],
+     "total": 11,
+     "avg": 1.2,
+     "share": 4.9,
+     "mcq": 9,
+     "nat": 2,
+     "lvl": 2.0,
+     "in_every": true,
+     "topics": [
+      [
+       "Molecular orbital theory",
+       1
+      ],
+      [
+       "VSEPR and molecular geometry",
+       1
+      ],
+      [
+       "Lewis structure of XeO6 4-",
+       1
+      ],
+      [
+       "Molecular orbital theory pi antibonding",
+       1
+      ],
+      [
+       "Bond length resonance",
+       1
+      ],
+      [
+       "Hybridization",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "THE",
+     "name": "Chemical thermodynamics",
+     "per": [
+      2,
+      1,
+      1,
+      1,
+      0,
+      2,
+      2,
+      1,
+      1
+     ],
+     "total": 11,
+     "avg": 1.2,
+     "share": 4.9,
+     "mcq": 7,
+     "nat": 4,
+     "lvl": 1.91,
+     "in_every": false,
+     "topics": [
+      [
+       "Enthalpy of formation, Hess's law",
+       1
+      ],
+      [
+       "Gibbs energy, transition temperature",
+       1
+      ],
+      [
+       "First law of thermodynamics",
+       1
+      ],
+      [
+       "Heat capacity and first law",
+       1
+      ],
+      [
+       "Enthalpy of formation and calorimetry",
+       1
+      ],
+      [
+       "Gibbs energy of reaction",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "RDX",
+     "name": "Redox & electrochemistry",
+     "per": [
+      2,
+      1,
+      1,
+      1,
+      0,
+      2,
+      1,
+      2,
+      1
+     ],
+     "total": 11,
+     "avg": 1.2,
+     "share": 4.9,
+     "mcq": 7,
+     "nat": 4,
+     "lvl": 2.27,
+     "in_every": false,
+     "topics": [
+      [
+       "Electrochemical cell",
+       1
+      ],
+      [
+       "Redox reactions of dichromate",
+       1
+      ],
+      [
+       "Fuel cell and electrochemistry",
+       1
+      ],
+      [
+       "Redox titration with KMnO4",
+       1
+      ],
+      [
+       "Nernst equation",
+       1
+      ],
+      [
+       "Nernst equation, galvanic cell",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "SOL",
+     "name": "Solutions",
+     "per": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2
+     ],
+     "total": 10,
+     "avg": 1.1,
+     "share": 4.4,
+     "mcq": 8,
+     "nat": 2,
+     "lvl": 1.8,
+     "in_every": true,
+     "topics": [
+      [
+       "Osmotic pressure",
+       2
+      ],
+      [
+       "Colligative properties",
+       2
+      ],
+      [
+       "Depression in freezing point, Van't Hoff",
+       1
+      ],
+      [
+       "Osmosis and colligative properties",
+       1
+      ],
+      [
+       "Mole fraction",
+       1
+      ],
+      [
+       "Relative lowering of vapour pressure",
+       1
+      ]
+     ]
+    },
+    {
+     "code": "HAL",
+     "name": "Haloalkanes",
+     "per": [
+      1,
+      1,
+      1,
+      0,
+      1,
+      0,
+      1,
+      1,
+      1
+     ],
+     "total": 7,
+     "avg": 0.8,
+     "share": 3.1,
+     "mcq": 7,
+     "nat": 0,
+     "lvl": 2.0,
+     "in_every": false,
+     "topics": [
+      [
+       "SN1 reactivity, carbocation stability",
+       1
+      ],
+      [
+       "Alkyl halides and aryl halides",
+       1
+      ],
+      [
+       "Named reactions of haloalkanes",
+       1
+      ],
+      [
+       "Isocyanides, haloalkanes",
+       1
+      ],
+      [
+       "Electrophilic addition and Sandmeyer reaction",
+       1
+      ],
+      [
+       "Alkyl halides, elimination and tests for carbonyl",
+       1
+      ]
+     ]
+    }
+   ],
+   "diff": {
+    "1": 58,
+    "2": 137,
+    "3": 30
+   },
+   "avg_lvl": 1.88
+  }
+ ]
+}

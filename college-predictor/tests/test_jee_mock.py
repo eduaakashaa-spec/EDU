@@ -131,7 +131,8 @@ for u in (B + '/', B + '/app', B + '/data/M1.json', B + '/data/index.json'):
     assert r.status_code != 200 or b'JEE Main' not in r.data, u                      # a free account gets neither the centre nor the papers
 assert s1.get(B + '/data/M1.json').status_code == 200 and s1.get(B + '/data/index.json').status_code == 200
 idx = s1.get(B + '/data/index.json').get_json()['papers']
-assert [p['y'] for p in idx if p['ready']] == ['M1', 'M2', 'M3', 'M4', 'M5', 'J2401S1', 'J2301S2'] and sum(1 for p in idx if p['kind'] == 'pyq') == 11 and all(not p['ready'] for p in idx if p['kind'] == 'pyq' and p['y'] not in ('J2401S1', 'J2301S2'))
+P26 = ['P0402S1', 'P0402S2', 'P0404S1', 'P0404S2', 'P0405S1', 'P0405S2', 'P0406S1', 'P0406S2', 'P0408S2']
+assert [p['y'] for p in idx if p['ready']] == ['M1', 'M2', 'M3', 'M4', 'M5'] + P26 + ['J2401S1', 'J2301S2'] and sum(1 for p in idx if p['kind'] == 'pyq') == 11 and all(p.get('tagged') for p in idx if p['y'] in P26)   # the nine April 2026 shifts are live with the official key
 # the solved 2024 paper: 90 image questions, key present, "attempt any 5" numerical sections, a worked-solution image for every question
 r24 = s1.get(B + '/data/J2401S1.json')
 assert r24.status_code == 200
@@ -142,7 +143,10 @@ assert all(q.get('acc') and q['img'].startswith('data:image/webp') and q['sol'].
 assert g['qs'][47]['acc'] == {'bonus': True}                                      # Q48: no printed option is correct
 assert g['qs'][0]['acc'] == {'sets': ['B']} and g['qs'][20]['acc']['ranges'] == [[46, 46]]
 
-for bad in ('P0402S1.json', 'M9.json', '..%2fapp.html', 'x.json', 'app.html'):
+r26 = s1.get(B + '/data/P0402S1.json')                                                # a 2026 April paper: official key and a chapter tag on every question
+g26 = r26.get_json()
+assert r26.status_code == 200 and len(g26['qs']) == 75 and all(q.get('acc') and q.get('cat') and q.get('chapter') and q['img'].startswith('data:image/webp') for q in g26['qs'])
+for bad in ('P0409S1.json', 'M9.json', '..%2fapp.html', 'x.json', 'app.html'):
     assert s1.get(B + '/data/' + bad).status_code == 404, bad                         # papers awaiting an answer key are never served
 html = s1.get(B + '/app').get_data(as_text=True)
 assert '"memberName": "Stu One"' in html and B + '/results' in html and 'no-store' in s1.get(B + '/app').headers['Cache-Control']
@@ -162,7 +166,7 @@ def attempt(paper='M1', mode='mock'):
             'startedAt': '2026-10-25T10:00:00.000Z', 'finishedAt': '2026-10-25T12:55:00.000Z', 'autoSubmitted': False, 'questions': qs}
 
 assert anon.post(B + '/results', json=attempt()).status_code in (302, 401, 403)
-assert s1.post(B + '/results', json={'paper': 'P0402S1'}).status_code == 400            # a paper without its key cannot be submitted
+assert s1.post(B + '/results', json={'paper': 'P0409S1'}).status_code == 400            # an unknown paper, or one without its key, cannot be submitted
 assert s1.post(B + '/results', json={'paper': '1999'}).status_code == 400
 assert s1.post(B + '/results', data='nope', content_type='application/json').status_code == 400
 r = s1.post(B + '/results', json=attempt())

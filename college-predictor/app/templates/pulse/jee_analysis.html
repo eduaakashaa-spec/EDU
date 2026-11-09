@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% from "_how.html" import how %}
+{% block title %}JEE Main 2026 Session 2 Chapter Analysis: which chapters carried the marks in the April papers | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Chapter-wise analysis of the nine JEE Main 2026 Session 2 (April) B.Tech shifts: how many questions each Mathematics, Physics and Chemistry chapter carried, shift by shift, with difficulty and the topics seen. Read from the official papers and answer key.">{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+<style>
+  .ja{--ln:var(--border,#E8DFC8);--pp:var(--paper,#FFFDF7);--dim:var(--text-dim,#5A6278);max-width:1100px;margin:0 auto;padding:6px 16px 60px}
+  .ja h1{font-size:clamp(1.5rem,3.4vw,2.3rem);margin:4px 0}.ja h2{font-size:1.25rem;margin:0 0 6px}.ja section{padding:8px 0 20px}
+  .ja-crumb{font-size:.84rem;color:var(--dim)}.ja-crumb a{color:inherit}
+  .ja-nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:8px 0 12px;position:sticky;top:0;z-index:5;background:var(--cream,#FBF7EE);padding:6px 0}.ja-nav a{flex:0 0 auto;border:1px solid var(--ln);border-radius:999px;padding:5px 13px;font-size:.8rem;font-weight:700;text-decoration:none;color:inherit;background:var(--pp)}
+  .ja-k{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}.ja-k div{flex:1 1 140px;border:1px solid var(--ln);border-radius:12px;padding:9px 13px;background:var(--pp)}.ja-k b{display:block;font:700 1.4rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.ja-k span{font-size:.74rem;color:var(--dim)}
+  .ja-c{background:var(--pp);border:1px solid var(--ln);border-radius:16px;padding:14px 16px}
+  .ja-top{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin:8px 0 12px}.ja-top div{border:1px solid var(--ln);border-radius:12px;padding:8px 11px;background:var(--pp);font-size:.84rem}.ja-top b{display:block;font-size:.95rem}.ja-top i{font-style:normal;color:#FF6B0A;font-weight:700}
+  .ja-t{width:100%;border-collapse:collapse;font-size:.84rem}.ja-t th,.ja-t td{padding:6px 7px;border-bottom:1px solid var(--ln);text-align:center;vertical-align:middle}.ja-t th{font-size:.64rem;text-transform:uppercase;letter-spacing:.05em;color:var(--dim);font-weight:700}.ja-t td.nm,.ja-t th.nm{text-align:left}
+  .ja-t td.h{font-weight:700;color:#fff;border-left:2px solid var(--pp)}.ja-t td.z{color:var(--dim);background:rgba(14,58,138,.04)}
+  .ja-bar{display:inline-block;height:8px;border-radius:4px;background:#FF6B0A;vertical-align:middle}
+  .ja-top-t{font-size:.76rem;color:var(--dim);line-height:1.45}
+  .ja-n{font-size:.8rem;color:var(--dim);margin:6px 0 0}
+  .ja-go{display:inline-block;border-radius:999px;padding:9px 20px;font:700 .9rem 'Plus Jakarta Sans',system-ui,sans-serif;text-decoration:none;background:#FF6B0A;color:#fff;margin:4px 8px 4px 0}.ja-go.g{background:var(--pp);color:inherit;border:1.5px solid var(--ln)}
+  .ja-scroll{overflow-x:auto}
+  .ja-t{min-width:680px}.ja-t td.nm,.ja-t th.nm{min-width:170px;position:sticky;left:0;background:var(--pp);z-index:1}
+</style>
+{% endblock %}
+{% block content %}
+<div class="ja">
+  <div class="ja-crumb"><a href="{{ url_for('main.home') }}">Home</a> › JEE Main 2026 chapter analysis</div>
+  <h1>JEE Main 2026 Session 2: which chapters carried the marks</h1>
+  {% if not a %}<p>The analysis is being prepared. Please check back soon.</p>
+  {% else %}
+  <p style="margin:2px 0 8px;max-width:780px;">A chapter-by-chapter count of the {{ a.n_papers }} B.Tech shifts of the April 2026 session (2 to 8 April): {{ a.n_papers * 75 }} questions, 25 each in Mathematics, Physics and Chemistry per shift. Use it to decide what to revise first and where a mock test should spend its time.</p>
+  {{ how('ja-2026', 'How to read this page',
+         'Every question of the nine papers was read from the official question papers and placed in a chapter. The tables count questions per chapter, shift by shift, and show how hard they felt on a 1 to 3 scale. Counts are what the papers asked, not a forecast of the next paper.',
+         student='Start with the chapters at the top of each table: they appeared in the most shifts. Then practise them in the EduPulse-JEE mock centre (the nine papers are there with the official key) and in EduPulse Reinforcement, which now holds the same questions by chapter.',
+         parent='This shows where marks come from, so you can ask your child which of the top chapters feel secure. You do not need to read the questions.',
+         mentor='Use the heat tables in a review: pick the three top chapters per subject where the student is weak and set reinforcement for them.',
+         outcome='A short, evidence-based revision order for the chapters that carried the most marks in this session. It supports planning; it does not predict a future paper or a rank.') }}
+  <nav class="ja-nav" aria-label="On this page"><a href="#summary">Summary</a>{% for s in a.subjects %}<a href="#{{ s.key|lower }}">{{ s.name }}</a>{% endfor %}<a href="#practice">Practise</a><a href="#notes">Notes</a></nav>
+
+  <section id="summary">
+    <div class="ja-k">
+      <div><b>{{ a.n_papers }}</b><span>shifts analysed</span></div>
+      <div><b>{{ a.n_papers * 75 }}</b><span>questions read</span></div>
+      {% for s in a.subjects %}<div><b>{{ '%.1f'|format(s.avg_lvl) }}</b><span>{{ s.name }} difficulty (1 easy, 3 hard)</span></div>{% endfor %}
+    </div>
+    <div class="ja-c"><h2>Top chapters in each subject</h2>
+      <div class="ja-top-t" style="margin-bottom:6px;">Average questions per shift (out of 25) and the number of shifts in which the chapter appeared.</div>
+      <div class="ja-top" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
+        {% for s in a.subjects %}<div><b>{{ s.name }}</b>{% for c in s.chapters[:5] %}<span style="display:block;margin-top:3px;">{{ c.name }} <i>{{ c.avg }}</i> <small style="color:var(--dim)">in {{ c.per|select|list|length }} of {{ a.n_papers }}</small></span>{% endfor %}</div>{% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% for s in a.subjects %}
+  {% set mx = s.chapters[0].per|max if s.chapters else 1 %}
+  <section id="{{ s.key|lower }}"><h2>{{ s.name }}</h2>
+    <p class="ja-top-t">Difficulty mix: {{ s.diff['1'] }} easy, {{ s.diff['2'] }} medium, {{ s.diff['3'] }} hard of {{ s.total }} questions. Darker cells mean more questions in that shift.</p>
+    <div class="ja-c ja-scroll"><table class="ja-t">
+      <thead><tr><th class="nm">Chapter</th>{% for p in a.papers %}<th>{{ p.short.replace('Apr ', '').replace('Shift ', 'S') }}</th>{% endfor %}<th>Total</th><th>Avg / shift</th><th>Difficulty</th></tr></thead>
+      <tbody>
+      {% for c in s.chapters %}
+        <tr><td class="nm first"><b>{{ c.name }}</b>{% if c.topics %}<div class="ja-top-t">{{ c.topics[:3]|map(attribute=0)|join(' · ') }}</div>{% endif %}</td>
+          {% for n in c.per %}<td class="{{ 'h' if n else 'z' }}" {% if n %}style="background:rgba(14,58,138,{{ (0.28 + 0.72 * n / [mx, 1]|max)|round(2) }})"{% endif %}>{{ n or '·' }}</td>{% endfor %}
+          <td><b>{{ c.total }}</b></td><td>{{ c.avg }} <span class="ja-bar" style="width:{{ (c.avg * 10)|int }}px"></span></td>
+          <td>{{ c.lvl if c.lvl else '—' }}</td></tr>
+      {% endfor %}
+      </tbody></table></div>
+  </section>
+  {% endfor %}
+
+  <section id="practice"><h2>Practise what the papers asked</h2>
+    <p style="font-size:.92rem;max-width:760px;">All nine papers are in the EduPulse-JEE mock centre as timed tests with the official NTA key; the report after each test is broken down by chapter. The same questions are in EduPulse Reinforcement by chapter, for short daily practice set by your mentor or chosen in your weekly plan.</p>
+    <a class="ja-go" href="{{ url_for('pulse_jee.home') }}">Open the JEE mock centre</a><a class="ja-go g" href="{{ url_for('reinforce.home') }}">EduPulse Reinforcement</a>
+  </section>
+
+  <section id="notes"><h2>Notes</h2>
+    <ul style="font-size:.9rem;line-height:1.6;margin:0;padding-left:20px;">
+      <li>Source: the nine official B.Tech question papers of JEE Main 2026 Session 2 (2, 4, 5, 6 and 8 April 2026) and NTA's final answer key.</li>
+      <li>Chapter and difficulty are EduAakashaA's reading of each question, placed in our chapter list (for example, p-block and d-block inorganic chemistry sit under periodic properties). They are not NTA figures.</li>
+      <li>Counts show what these papers asked; the paper changes every year. Use them to order your revision, not to skip chapters.</li>
+    </ul>
+    <p class="ja-n">EduAakashaA is not affiliated with NTA. Prepared with AI assistance.</p>
+  </section>
+  {% endif %}
+</div>
+{% endblock %}

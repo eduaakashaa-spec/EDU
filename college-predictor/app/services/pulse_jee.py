@@ -31,6 +31,15 @@ def papers():
         return []
 
 
+def analysis_2026s2():
+    """Chapter analysis of the tagged 2026 Session 2 papers, built by tools/jee_mock/build_analysis.py; None until it exists."""
+    try:
+        with open(os.path.join(os.path.dirname(DATA_DIR), 'analysis_2026s2.json'), encoding='utf-8') as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
 def valid_papers():
     return {p['y']: p for p in papers() if p.get('ready')}
 

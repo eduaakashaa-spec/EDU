@@ -261,6 +261,48 @@ def seed_guides():
     return n
 
 
+def seed_pyq():
+    """Official previous-year papers of the JEE mock centre that carry the NTA answer key and a chapter tag on every question (question as the printed image,
+    no worked solution yet). Idempotent by qid. Questions dropped with full marks to all, and the rare question with two accepted options, are left out:
+    there is nothing single to grade them against."""
+    import base64
+    data_dir = os.path.join(_MOCK, 'jee_mock', 'data')
+    try:
+        papers = json.load(open(os.path.join(data_dir, 'index.json'), encoding='utf-8'))['papers']
+    except (OSError, ValueError):
+        return 0
+    n = 0
+    for meta in papers:
+        if not (meta.get('tagged') and meta.get('ready')) or meta.get('solved') or meta.get('recreated'):
+            continue
+        try:
+            d = json.load(open(os.path.join(data_dir, meta['y'] + '.json'), encoding='utf-8'))
+        except (OSError, ValueError):
+            continue
+        for q in d['qs']:
+            qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
+            acc = q.get('acc') or {}
+            if acc.get('bonus') or (q['t'] != 'NAT' and len(acc.get('sets') or []) != 1) or RfQuestion.query.filter_by(qid=qid).first():
+                continue
+            tx = RfTaxonomy.query.filter_by(exam='JEE', code=q.get('cat')).first()
+            if not tx or not q.get('img'):
+                continue
+            if q['t'] == 'NAT':
+                qt, opts, ans = 'nat', [], acc['ranges']
+            else:
+                qt, opts, ans = 'mcq', ['1', '2', '3', '4'], acc['sets'][0]
+            db.session.add(RfQuestionImage(qid=qid, kind='q', data=base64.b64decode(q['img'].split(',', 1)[1])))
+            stem = '<img class="rf-qimg" src="/edupulse-reinforce/qimg/%s/q" alt="Question as printed in the paper">' % qid
+            expl = '<p>The answer follows the official NTA final answer key. A worked solution for this question is not available yet.</p>'
+            db.session.add(RfQuestion(qid=qid, exam='JEE', subject=tx.subject, chapter=tx.chapter, topic=q.get('chapter') or tx.chapter, concept=tx.chapter, difficulty=q.get('lvl') or 2,
+                                      qtype=qt, stem=stem, options_json=json.dumps(opts), answer_json=json.dumps(ans), explanation=expl, misconception='', marks=4, neg_marks=1,
+                                      est_sec=150 if qt == 'nat' else 100, source='%s, question %d (NTA question ID %s). Official NTA key.' % (meta['title'], q['n'], q.get('qid') or '-'),
+                                      status='approved'))
+            n += 1
+    db.session.commit()
+    return n
+
+
 EXAMS = ('JEE', 'UCEED', 'TN10')                          # TN10 = Tamil Nadu Class 10 (SSLC / Matriculation) Mathematics and Science, in English
 
 
@@ -315,6 +357,7 @@ def seed_bank():
     db.session.commit()
     n += seed_guides()
     n += seed_recreated()
+    n += seed_pyq()
     from app.services import tn10
     n += tn10.seed_reinforcement()
     return n
