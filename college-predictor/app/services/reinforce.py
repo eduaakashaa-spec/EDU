@@ -328,7 +328,7 @@ def seed_recreated():
             continue
         for q in d['qs']:
             qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
-            if q.get('fig') or RfQuestion.query.filter_by(qid=qid).first():                                   # a redrawn figure is not carried into the bank stem
+            if q.get('fig') or any('<svg' in o for o in (q.get('opts') or [])) or RfQuestion.query.filter_by(qid=qid).first():                                   # a redrawn figure is not carried into the bank stem
                 continue
             tx = RfTaxonomy.query.filter_by(exam='JEE', code=q.get('cat')).first()
             if not tx:

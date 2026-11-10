@@ -131,8 +131,9 @@ for u in (B + '/', B + '/app', B + '/data/M1.json', B + '/data/index.json'):
     assert r.status_code != 200 or b'JEE Main' not in r.data, u                      # a free account gets neither the centre nor the papers
 assert s1.get(B + '/data/M1.json').status_code == 200 and s1.get(B + '/data/index.json').status_code == 200
 idx = s1.get(B + '/data/index.json').get_json()['papers']
+JAN = ['J0121S1', 'J0121S2', 'J0122S1', 'J0122S2', 'J0123S1', 'J0123S2', 'J0124S1', 'J0124S2', 'J0128S1', 'J0128S2']
 P26 = ['P0402S1', 'P0402S2', 'P0404S1', 'P0404S2', 'P0405S1', 'P0405S2', 'P0406S1', 'P0406S2', 'P0408S2']
-assert [p['y'] for p in idx if p['ready']] == ['M1', 'M2', 'M3', 'M4', 'M5'] + P26 + ['J2401S1', 'J2301S2', 'J0121S1'] and sum(1 for p in idx if p['kind'] == 'pyq') == 12 and all(p.get('tagged') for p in idx if p['y'] in P26)   # the nine April 2026 shifts are live with the official key
+assert [p['y'] for p in idx if p['ready'] and p['y'] not in JAN] == ['M1', 'M2', 'M3', 'M4', 'M5'] + P26 + ['J2401S1', 'J2301S2'] and sorted(p['y'] for p in idx if p['ready'] and p['y'] in JAN) == sorted(JAN) and sum(1 for p in idx if p['kind'] == 'pyq') == 11 + len(JAN) and all(p.get('tagged') for p in idx if p['y'] in P26)   # the nine April 2026 shifts are live with the official key
 # the solved 2024 paper: 90 image questions, key present, "attempt any 5" numerical sections, a worked-solution image for every question
 r24 = s1.get(B + '/data/J2401S1.json')
 assert r24.status_code == 200
