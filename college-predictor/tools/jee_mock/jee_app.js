@@ -89,6 +89,30 @@ function paperCard(o){
     <div><div class="best">${b?`Best timed mock: <b>${fmt(b.score)} / ${o.max}</b>`:'No timed mock yet'}</div><div class="bar" style="margin-top:6px"><i style="width:${pct}%"></i></div></div>
     ${o.note?`<div class="best" style="font-size:12.5px">${esc(o.note)}</div>`:''}<div class="acts"><button class="btn pri" data-act="start" data-y="${o.y}" data-mode="mock">Timed mock</button><button class="btn sec" data-act="start" data-y="${o.y}" data-mode="practice">Practise</button></div></article>`;
 }
+
+function yearOf(y){
+  let m=/^P(\d{2})(\d{4})S\d$/.exec(y); if(m) return 2000+ +m[1];
+  if(/^P\d{4}S\d$/.test(y)) return 2026;
+  m=/^J(\d{2})(\d{2})S\d$/.exec(y); if(m) return (+m[1]>=20)?2000+ +m[1]:2026;
+  return 0;
+}
+function dayKey(y){
+  let m=/^P\d{2}(\d{4})S(\d)$/.exec(y)||/^P(\d{4})S(\d)$/.exec(y)||/^J01(\d{2})S(\d)$/.exec(y);
+  if(!m) return 0;
+  const md=m[1].length===4?+m[1]:100+ +m[1];
+  return md*10+ +m[2];
+}
+function pyqBlock(pyq){
+  const by={};pyq.forEach(o=>{(by[yearOf(o.y)||0]=by[yearOf(o.y)||0]||[]).push(o);});
+  const yrs=Object.keys(by).map(Number).sort((a,b)=>b-a);
+  const sel=S.yrf&&by[S.yrf]?S.yrf:0;
+  const chips=`<div class="yfilter" role="group" aria-label="Filter previous-year papers by year"><button type="button" class="yf${sel?'':' on'}" data-act="yf" data-yr="0">All · ${pyq.length}</button>${yrs.map(n=>`<button type="button" class="yf${sel===n?' on':''}" data-act="yf" data-yr="${n}">${n||'Other'} · ${by[n].length}</button>`).join('')}</div>`;
+  const parts=(sel?[sel]:yrs).map(n=>{
+    const list=by[n].slice().sort((a,b)=>dayKey(a.y)-dayKey(b.y));
+    return `<div class="ygroup"><h3 class="yhead">${n||'Other'} <span>${list.length} paper${list.length===1?'':'s'}</span></h3><div class="years">${list.map(paperCard).join('')}</div></div>`;
+  }).join('');
+  return `<div class="secthead"><h2>Previous-year papers</h2><span>NTA JEE Main B.Tech papers with answer keys; some with worked solutions</span></div>${chips}${parts}`;
+}
 function renderHome(){
   S.view='home';
   const a=S.att;let resume='';
@@ -104,7 +128,7 @@ function renderHome(){
   <div class="modes"><div><h3>Timed mock</h3><p>Exam conditions: 3 hours, answers stay hidden, marked +4 / −1 when you submit. Move between subjects freely.</p></div><div><h3>Practice</h3><p>No clock. Check each answer as you go and read the working straight away.</p></div><div><h3>Review</h3><p>Rate your confidence on every answer. The report shows negative marks, avoidable losses on guesses and answers you were sure of but got wrong.</p></div></div>
   <div class="secthead"><h2>EduAakashaa practice mocks</h2><span>Five original papers, 75 questions each</span></div>
   <div class="years">${mocks.map(paperCard).join('')}</div>
-  ${pyq.length?`<div class="secthead"><h2>Previous-year papers</h2><span>NTA JEE Main B.Tech papers with answer keys and worked solutions</span></div><div class="years">${pyq.map(paperCard).join('')}</div>`:''}
+  ${pyq.length?pyqBlock(pyq):''}
   <div class="secthead"><h2>How negative marking works</h2><span>+4 for right, −1 for wrong, 0 for blank</span></div>
   <div class="pattern"><div class="insights" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr))">
    <div><b>Break-even is 1 in 5</b><p>An answer that is right more than 20% of the time adds marks on average. A blind guess in a 4-option question is right 25% of the time, so it is worth about +0.25 marks; a numerical guess is almost never right, so it costs about −1.</p></div>
@@ -412,6 +436,7 @@ document.addEventListener('click',async e=>{
     case 'start': newAttempt(t.dataset.y,t.dataset.mode);await openTest();window.scrollTo(0,0);break;
     case 'resume': if(a)a.qstart=Date.now();await openTest();break;
     case 'discard': S.att=null;save();renderHome();break;
+    case 'yf': S.yrf=+t.dataset.yr||0;renderHome();break;
     case 'jump': go(D().qs.findIndex(q=>q.n===+t.dataset.n));break;
     case 'prev': go(a.cur-1);break;
     case 'next': go(a.cur+1);break;

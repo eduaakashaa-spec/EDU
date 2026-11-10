@@ -20,6 +20,10 @@ extra = '''
 .negpanel .sm{font-size:12.5px;color:var(--muted);margin:6px 0 0}
 .yr.pend{opacity:.7}
 .tabs button{white-space:nowrap}
+.yfilter{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 4px;position:sticky;top:0;z-index:4;background:var(--bg,#fbf7ee);padding:6px 0}
+.yf{border:1px solid var(--line);background:var(--paper,#fffdf7);border-radius:999px;padding:6px 14px;font:700 13px var(--f-sans,system-ui);cursor:pointer;color:inherit}
+.yf.on{background:var(--navy,#0e3a8a);border-color:var(--navy,#0e3a8a);color:#fff}
+.yhead{margin:18px 0 6px;font:700 20px var(--f-serif,Georgia,serif)}.yhead span{font:600 12.5px var(--f-sans,system-ui);color:var(--muted)}
 '''
 head = head.replace('</style>\n\n</head>', extra + '</style>\n\n</head>')
 assert extra in head, 'style block not found'

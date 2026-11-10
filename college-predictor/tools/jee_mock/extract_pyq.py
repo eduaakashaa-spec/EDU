@@ -76,7 +76,12 @@ def parse(pdf):
             cur['oids'].append(e[1])
         elif k == 'IMG' and cur is not None and region in ('stem', 'opts'):
             cur['stem' if region == 'stem' else 'opts'].append((e[1], e[2]))
-    return qs, secs
+    seen, first = set(), []                                            # 2024-25 exports print each question twice (English, then Hindi): keep the English one
+    for q in qs:
+        if q['qid'] not in seen:
+            seen.add(q['qid'])
+            first.append(q)
+    return first, secs
 
 
 def compose(q, pages):

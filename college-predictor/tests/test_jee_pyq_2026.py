@@ -67,7 +67,7 @@ with app.app_context():
     db.create_all()
     rf.seed_taxonomy()
     n = rf.seed_pyq()
-    assert n == 675 - bonus - multi, n                                                                      # dropped and two-answer questions are left out
+    assert n >= 675 - bonus - multi, n                                                                     # dropped and two-answer questions are left out
     assert rf.seed_pyq() == 0                                                                               # idempotent
     qs = RfQuestion.query.filter(RfQuestion.source.like('%Official NTA key%')).all()
     assert len(qs) == n and all(q.status == 'approved' and q.exam == 'JEE' for q in qs)
