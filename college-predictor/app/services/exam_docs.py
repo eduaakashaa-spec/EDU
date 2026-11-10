@@ -89,14 +89,31 @@ def items_for(exam):
     return COMMON[:-1] + extra + COMMON[-1:]          # keep the NRI line last
 
 
-def checklist(e, exam):
-    """Items with their ticked state plus progress and confirmation for one student record and exam."""
-    ticked = {c.item_key for c in MsDocCheck.query.filter_by(enrolment_id=e.id, exam_id=exam.id).all()}
-    conf = MsDocConfirm.query.filter_by(enrolment_id=e.id, exam_id=exam.id).first()
+def checklists(e, exams):
+    """{exam.id: checklist} for several exams using two queries in total (checklist() costs two per exam)."""
+    ids = [x.id for x in exams]
+    if not ids:
+        return {}
+    ticked, confs = {}, {}
+    for c in MsDocCheck.query.filter(MsDocCheck.enrolment_id == e.id, MsDocCheck.exam_id.in_(ids)).all():
+        ticked.setdefault(c.exam_id, set()).add(c.item_key)
+    for c in MsDocConfirm.query.filter(MsDocConfirm.enrolment_id == e.id, MsDocConfirm.exam_id.in_(ids)).all():
+        confs.setdefault(c.exam_id, c)
+    return {x.id: _build(x, ticked.get(x.id, set()), confs.get(x.id)) for x in exams}
+
+
+def _build(exam, ticked, conf):
     items = [{'key': k, 'label': lbl, 'hint': hint, 'required': req, 'ticked': k in ticked} for k, lbl, hint, req in items_for(exam)]
     req = [i for i in items if i['required']]
     done = sum(1 for i in req if i['ticked'])
     return {'items': items, 'done': done, 'total': len(req), 'ready': done == len(req), 'confirmed': conf}
+
+
+def checklist(e, exam):
+    """Items with their ticked state plus progress and confirmation for one student record and exam."""
+    ticked = {c.item_key for c in MsDocCheck.query.filter_by(enrolment_id=e.id, exam_id=exam.id).all()}
+    conf = MsDocConfirm.query.filter_by(enrolment_id=e.id, exam_id=exam.id).first()
+    return _build(exam, ticked, conf)
 
 
 def save(e, exam, keys, user_id, confirm=False):

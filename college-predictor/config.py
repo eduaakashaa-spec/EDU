@@ -1,5 +1,6 @@
 import os
 import re
+from datetime import timedelta
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -23,6 +24,13 @@ class Config:
     SESSION_COOKIE_SAMESITE = 'Lax'
     SESSION_COOKIE_SECURE = not DEBUG
 
+    # The "remember me" cookie is a long-lived credential; Flask-Login leaves it
+    # without Secure/SameSite unless we pin them, so match the session cookie.
+    REMEMBER_COOKIE_HTTPONLY = True
+    REMEMBER_COOKIE_SAMESITE = 'Lax'
+    REMEMBER_COOKIE_SECURE = not DEBUG
+    REMEMBER_COOKIE_DURATION = timedelta(days=30)
+
     # Neon (and most managed Postgres) hand out URLs starting with `postgres://`,
     # but SQLAlchemy 2.x requires the `postgresql://` scheme.
     # Also tolerate a `+driver` suffix (e.g. `postgresql+psycopg://` selects psycopg v3,
@@ -41,7 +49,9 @@ class Config:
     # Validate each connection before use and recycle below Neon's idle timeout.
     SQLALCHEMY_ENGINE_OPTIONS = {
         'pool_pre_ping': True,   # validate connections before use (fixes Neon SSL drops)
-        'pool_recycle': 280,     # recycle below Neon's idle timeout
+        # pre_ping already replaces a connection Neon has dropped, so recycle only rarely: every reconnect is a
+        # full TLS + login handshake (several round trips to the database region), paid by whichever visitor comes next.
+        'pool_recycle': 1800,
     }
 
     # Cap request bodies. The only large uploads are alumni resume (≤5 MB) +

@@ -13,7 +13,7 @@ services:
     region: singapore
     rootDir: college-predictor
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn run:app --workers 2 --timeout 120 --access-logfile - --error-logfile -
+    startCommand: gunicorn run:app --workers 2 --threads 4 --timeout 120 --access-logfile - --error-logfile -
     healthCheckPath: /
     autoDeploy: true
     envVars:

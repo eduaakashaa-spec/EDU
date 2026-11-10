@@ -69,7 +69,10 @@ def _float(name):
 
 def _ctx(eid, need=None, gate=True):
     """Load an enrolment and the caller's role, or 404/403. Students need Elite Mentorship access (Premium alone is not enough); the workspace page passes gate=False to show its own explanation."""
-    e = db.session.get(MsEnrolment, eid) or abort(404)
+    from sqlalchemy.orm import joinedload
+    # the page header shows programme, mentor and student on every tab: fetch them with the enrolment, not one by one
+    e = db.session.get(MsEnrolment, eid, options=[joinedload(MsEnrolment.programme), joinedload(MsEnrolment.mentor),
+                                                  joinedload(MsEnrolment.student)]) or abort(404)
     role = svc.role_for(e, current_user)
     if role is None:
         abort(404)
@@ -225,7 +228,7 @@ def workspace(eid, tab):
         abort(404)
     ctx = dict(e=e, role=role, tab=tab, tabs=tabs, svc=svc, fmt_dt=svc.fmt_dt, today=svc.today(),
                alerts=xc.unread_alerts(current_user), xc=xc,
-               followed_ids={f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()},
+               followed_ids=svc.focus_ids(e),
                unread=svc.unread_count(e, current_user, role), staff=role in STAFF,
                SESSION_STATUSES=SESSION_STATUSES, PRIORITIES=PRIORITIES)
     ctx['pa_pending'] = (role == 'parent' and not MsParentAssessment.query.filter(MsParentAssessment.enrolment_id == e.id, MsParentAssessment.parent_id == current_user.id, MsParentAssessment.submitted_at != None).count())  # noqa: E711
@@ -245,12 +248,11 @@ def _tab_home(e, role):
     ss = svc.session_stats(e)
     ast = svc.action_stats(e, only_visible_to_parent=(role == 'parent'))
     t = svc.today()
-    week = (_visible_actions(e, role).filter(MsAction.status != 'Cancelled')
-            .filter(db.or_(MsAction.due_date <= t + timedelta(days=7), MsAction.due_date == None))  # noqa: E711
-            .filter(db.or_(MsAction.status.notin_(['Completed', 'Closed']), MsAction.completed_at >= svc.utcnow() - timedelta(days=7)))
-            .order_by(MsAction.due_date).all())
-    if role == 'parent':
-        week = [a for a in week if a.parent_visible]
+    acts, recent = svc._actions(e), svc.utcnow() - timedelta(days=7)   # already read for the stats above; a few dozen rows per student
+    week = sorted((a for a in acts if a.status != 'Cancelled' and (role != 'parent' or a.parent_visible)
+                   and (a.due_date is None or a.due_date <= t + timedelta(days=7))
+                   and (a.status not in ('Completed', 'Closed') or (a.completed_at and a.completed_at >= recent))),
+                  key=lambda a: (a.due_date is not None, a.due_date or t))
     kpis = [(k, svc.kpi_view(k)) for k in e.kpis_q().filter(MsKpi.status == 'Active').all()][:6]
     upcoming = [i for i in svc.events_for(e) if i['date'] >= t and (role != 'parent' or i['kind'] != 'action')][:6]
     ci = (MsCheckin.query.filter(MsCheckin.enrolment_id == e.id, MsCheckin.status != 'Draft')
@@ -264,13 +266,18 @@ def _tab_home(e, role):
     msgs = (MsMessage.query.filter(MsMessage.enrolment_id == e.id, MsMessage.audience.in_(svc.visible_audiences(role)))
             .order_by(MsMessage.created_at.desc()).limit(3).all())
     review = e.reviews.filter(MsReview.status.in_(['Shared'])).order_by(MsReview.shared_at.desc()).first()
-    # plain queries: `e.sessions` carries an ORDER BY position, which PostgreSQL rejects next to max()
-    last_update = max([x for x in (
-        db.session.query(db.func.max(MsSession.updated_at)).filter(MsSession.enrolment_id == e.id).scalar(),
-        db.session.query(db.func.max(MsAction.updated_at)).filter(MsAction.enrolment_id == e.id).scalar()) if x], default=None)
+    last_update = max([x.updated_at for x in list(svc._sessions(e)) + list(acts) if x.updated_at], default=None)
     return dict(timeline=rows, current=cur, ss=ss, ast=ast, week=week, kpis=kpis, upcoming=upcoming, last_checkin=ci,
                 priority=priority, nxt=svc.next_session(e), level=level, reasons=reasons, msgs=msgs, shared_review=review,
                 last_update=last_update, action_state=svc.action_state)
+
+
+def _actions_by_session(e, rows):
+    out = {s.id: [] for s in rows}
+    if out:
+        for a in e.actions.filter(MsAction.session_id.in_(list(out))).all():
+            out[a.session_id].append(a)
+    return out
 
 
 def _tab_sessions(e, role):
@@ -279,7 +286,7 @@ def _tab_sessions(e, role):
         rows = [s for s in rows if role == 'student' or s.parent_visible]
     return dict(core=[s for s in rows if s.kind == 'core'], extra=[s for s in rows if s.kind != 'core'],
                 ss=svc.session_stats(e), can_extra=svc.can_add_extra(e, role), used=svc.extras_used(e),
-                to_input=svc.to_input, actions_by_session={s.id: e.actions.filter_by(session_id=s.id).all() for s in rows})
+                to_input=svc.to_input, actions_by_session=_actions_by_session(e, rows))
 
 
 def _tab_weekly(e, role):
@@ -352,15 +359,17 @@ def _tab_calendar(e, role):
     # catalogue of exams to choose from (search / category / status filters)
     q = (request.args.get('q') or '').strip().lower()
     xcat, xstatus = request.args.get('xcat', ''), request.args.get('xstatus', '')
-    exams = MsExam.query.filter_by(active=True).order_by(MsExam.starts_on, MsExam.name).all()
-    xcats = sorted({x.category for x in exams})
+    xq_ = MsExam.query.filter_by(active=True)
+    xcats = sorted(c for (c,) in db.session.query(MsExam.category).filter_by(active=True).distinct())
     if q:
-        exams = [x for x in exams if q in x.name.lower() or q in (x.stream or '').lower()]
+        like = '%' + q.replace('%', r'\%').replace('_', r'\_') + '%'
+        xq_ = xq_.filter(db.or_(MsExam.name.ilike(like, escape='\\'), MsExam.stream.ilike(like, escape='\\')))
     if xcat:
-        exams = [x for x in exams if x.category == xcat]
+        xq_ = xq_.filter(MsExam.category == xcat)
     if xstatus:
-        exams = [x for x in exams if x.status == xstatus]
-    docs = {x.id: xd.checklist(e, x) for x in _focused_exams(e)}
+        xq_ = xq_.filter(MsExam.status == xstatus)
+    exams = xq_.order_by(MsExam.starts_on, MsExam.name).all()
+    docs = xd.checklists(e, _focused_exams(e))
     return dict(months=months, cats=cats, cat=cat, EVENT_CATEGORIES=EVENT_CATEGORIES, exams=exams, xcats=xcats, docs=docs,
                 xq=q, xcat=xcat, xstatus=xstatus, EXAM_STATUSES=EXAM_STATUSES,
                 mail_ready=mailer.is_configured())
@@ -858,7 +867,7 @@ def pref_entry_add(eid, lid):
 
 
 def _followed_exams(e):
-    ids = [f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()]
+    ids = list(svc.focus_ids(e))
     return MsExam.query.filter(MsExam.id.in_(ids), MsExam.active == True).order_by(MsExam.starts_on).all() if ids else []  # noqa: E712
 
 
@@ -1090,7 +1099,7 @@ def admin_home():
                            enrolments=MsEnrolment.query.order_by(MsEnrolment.id.desc()).all(), meeting_packs=list(MEETING_PACKS.values()),
                            mentors=User.query.filter(User.tier.in_(['ea_mentor', 'admin'])).order_by(User.name).all(),
                            branches=MsBranch.query.order_by(MsBranch.position, MsBranch.id).all(),
-                           rules=[(k, svc.rule(k), svc.RULE_HELP[k]) for k in svc.RULES],
+                           rules=[(k, v, svc.RULE_HELP[k]) for k, v in svc.all_rules().items()],
                            prog_events=MsEvent.query.filter(MsEvent.programme_id != None).order_by(MsEvent.starts_on).all(),  # noqa: E711
                            EVENT_CATEGORIES=EVENT_CATEGORIES, links=MsParentLink.query.all(), today=svc.today(),
                            pa_done={(a.enrolment_id, a.parent_id): True for a in MsParentAssessment.query.filter(MsParentAssessment.submitted_at != None).all()},  # noqa: E711
@@ -1733,7 +1742,7 @@ def edupulse_decide(eid, cid):
 # exam focus, calendar invitations, alerts
 # --------------------------------------------------------------------------- #
 def _focused_exams(e):
-    ids = [f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()]
+    ids = list(svc.focus_ids(e))
     return MsExam.query.filter(MsExam.id.in_(ids), MsExam.active == True).order_by(MsExam.starts_on).all() if ids else []  # noqa: E712
 
 

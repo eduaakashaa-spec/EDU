@@ -186,6 +186,65 @@ def create_app():
         if host in legacy_hosts:
             return redirect(canonical + request.full_path.rstrip('?'), code=301)
 
+    # Static files: every url_for('static', ...) gets ?v=<file mtime>, and a request that carries v is cached for a
+    # year (browser and Cloudflare). A changed file gets a new address, so nothing goes stale; un-versioned requests
+    # (addresses written by hand in CSS / JS) keep Flask's revalidate-every-time default.
+    import os
+    _mtimes = {}
+
+    @app.url_defaults
+    def _static_version(endpoint, values):
+        if endpoint == 'static' and 'filename' in values and 'v' not in values:
+            fn = values['filename']
+            if fn not in _mtimes or app.debug:
+                try:
+                    _mtimes[fn] = int(os.stat(os.path.join(app.static_folder, fn)).st_mtime)
+                except OSError:
+                    _mtimes[fn] = 0
+            if _mtimes[fn]:
+                values['v'] = _mtimes[fn]
+
+    @app.after_request
+    def _static_cache(resp):
+        if request.endpoint == 'static' and request.args.get('v') and resp.status_code == 200:
+            resp.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+        return resp
+
+    # Baseline security headers on every response. frame-ancestors / X-Frame-Options stop the site
+    # (including member and admin pages) being framed for clickjacking; the rest are cheap hardening.
+    # ponytail: CSP intentionally only restricts framing/base/plugins — script-src is left open because
+    # the pages use inline scripts and CDN libraries; tightening it needs per-script nonces (upgrade path).
+    from flask import request as _rq
+
+    @app.after_request
+    def _security_headers(resp):
+        resp.headers.setdefault('X-Frame-Options', 'SAMEORIGIN')
+        resp.headers.setdefault('X-Content-Type-Options', 'nosniff')
+        resp.headers.setdefault('Referrer-Policy', 'strict-origin-when-cross-origin')
+        resp.headers.setdefault('Content-Security-Policy', "frame-ancestors 'self'; object-src 'none'; base-uri 'self'")
+        if not app.debug and (_rq.is_secure or _rq.headers.get('X-Forwarded-Proto', '') == 'https'):
+            resp.headers.setdefault('Strict-Transport-Security', 'max-age=31536000; includeSubDomains')
+        return resp
+
+    # Defence-in-depth CSRF: cookies ride every request, so a form posted from another site would carry
+    # the victim's session. SameSite=Lax already blocks that cross-site POST; this adds an Origin/Referer
+    # same-site check for state-changing methods. It fails open when a browser sends neither header (rare),
+    # leaving SameSite as the backstop, and so breaks no normal form or same-origin fetch().
+    from urllib.parse import urlparse
+    from flask import abort
+    _CSRF_EXEMPT = {'pulse.cron_reports', 'reinforce.cron_events'}   # token-authenticated, called by schedulers (no Origin)
+
+    @app.before_request
+    def _csrf_same_origin():
+        if request.method in ('GET', 'HEAD', 'OPTIONS', 'TRACE'):
+            return None
+        if (request.endpoint or '') in _CSRF_EXEMPT:
+            return None
+        stated = request.headers.get('Origin') or request.headers.get('Referer')
+        if stated and urlparse(stated).netloc != request.host:
+            abort(403, description='Cross-site request blocked.')
+        return None
+
     from app.routes.onboarding import onboarding_bp
     app.register_blueprint(onboarding_bp)
 
@@ -209,6 +268,7 @@ def create_app():
         if wants_json:
             return jsonify({'ok': False, 'error': msg}), 413
         return msg, 413
+
 
     # Custom on-brand line icons available in every template as ea_icon('name').
     app.jinja_env.globals['ea_icon'] = (

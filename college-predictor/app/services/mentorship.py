@@ -37,12 +37,41 @@ RULE_HELP = {
 }
 
 
+def all_rules():
+    """{name: value} for every rule using one query (rule() costs one query per name the first time)."""
+    rows = {r.key: r.value for r in Setting.query.filter(Setting.key.in_(['ms_rule_' + n for n in RULES])).all()}
+    out = {}
+    for n in RULES:
+        try:
+            v = rows.get('ms_rule_' + n)
+            out[n] = int(v) if v not in (None, '') else RULES[n]
+        except (TypeError, ValueError):
+            out[n] = RULES[n]
+    return out
+
+
+def _memo(key, fn):
+    """fn() once per GET request (kept on flask.g). Anything that writes (POST) or runs outside a request always re-queries."""
+    from flask import g, has_request_context, request
+    if not (has_request_context() and request.method == 'GET'):
+        return fn()
+    store = g.__dict__.setdefault('_ms_memo', {})
+    if key not in store:
+        store[key] = fn()
+    return store[key]
+
+
 def rule(name):
-    row = db.session.get(Setting, 'ms_rule_' + name)
-    try:
-        return int(row.value) if row and row.value not in (None, '') else RULES[name]
-    except (TypeError, ValueError):
-        return RULES[name]
+    return _memo('rules', all_rules).get(name, RULES[name])
+
+
+def _sessions(e):
+    """This enrolment's sessions in position order: a few dozen rows at most, read once per page."""
+    return _memo(('sessions', e.id), lambda: e.sessions.order_by(MsSession.position).all())
+
+
+def _actions(e):
+    return _memo(('actions', e.id), lambda: e.actions.all())
 
 
 # --------------------------------------------------------------------------- #
@@ -436,7 +465,7 @@ def next_position(e):
 
 
 def extras_used(e):
-    return e.sessions.filter(MsSession.kind != 'core', MsSession.status != 'Cancelled').count()
+    return sum(1 for s in _sessions(e) if s.kind != 'core' and s.status != 'Cancelled')
 
 
 def can_add_extra(e, role):
@@ -450,7 +479,7 @@ def can_add_extra(e, role):
 # Sessions, actions, KPIs — derived status
 # --------------------------------------------------------------------------- #
 def session_stats(e):
-    rows = e.sessions.all()
+    rows = _sessions(e)
     core = [s for s in rows if s.kind == 'core' and s.status != 'Cancelled']
     done_core = [s for s in core if s.status == 'Completed']
     return {
@@ -467,8 +496,7 @@ def session_stats(e):
 
 def next_session(e):
     now = utcnow()
-    upcoming = (e.sessions.filter(MsSession.status.in_(['Planned', 'Rescheduled']), MsSession.planned_at != None)  # noqa: E711
-                .order_by(MsSession.planned_at).all())
+    upcoming = sorted((s for s in _sessions(e) if s.status in ('Planned', 'Rescheduled') and s.planned_at), key=lambda s: s.planned_at)
     for s in upcoming:
         if s.planned_at >= now - timedelta(hours=1):
             return s
@@ -501,10 +529,8 @@ def action_state(a, ref=None):
 
 
 def action_stats(e, only_visible_to_parent=False):
-    q = e.actions.filter(MsAction.status != 'Cancelled')            # cancelled leave the denominator
-    if only_visible_to_parent:
-        q = q.filter(MsAction.parent_visible == True)  # noqa: E712
-    rows = q.all()
+    # cancelled leave the denominator
+    rows = [a for a in _actions(e) if a.status != 'Cancelled' and (a.parent_visible or not only_visible_to_parent)]
     done = [a for a in rows if a.status in ('Completed', 'Closed')]
     overdue = [a for a in rows if action_state(a) == 'Overdue']
     return {'total': len(rows), 'done': len(done), 'overdue': len(overdue),
@@ -548,6 +574,12 @@ def kpi_view(k):
 # --------------------------------------------------------------------------- #
 # Calendar, attention, journey
 # --------------------------------------------------------------------------- #
+def focus_ids(e):
+    """Exam ids this enrolment follows. Read once per GET request; writes always re-query."""
+    from app.models_mentorship import MsExamFocus
+    return _memo(('focus', e.id), lambda: {x for (x,) in db.session.query(MsExamFocus.exam_id).filter_by(enrolment_id=e.id)})
+
+
 def events_for(e, include_all=True):
     """Programme template events + this student's events (+ sessions, action due dates, review dates)."""
     items = []
@@ -557,23 +589,22 @@ def events_for(e, include_all=True):
                       'verified': x.verified_on, 'notes': x.notes, 'done': x.done, 'kind': 'event', 'id': x.id,
                       'scope': 'Programme' if x.programme_id else 'Student'})
     from app.models_mentorship import MsExam, MsExamFocus
-    for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all():
-        x = db.session.get(MsExam, f.exam_id)
-        if x and x.active:
+    fids = focus_ids(e)
+    for x in (MsExam.query.filter(MsExam.id.in_(fids), MsExam.active == True).all() if fids else []):  # noqa: E712
             items.append({'date': x.starts_on, 'end': x.ends_on, 'title': x.name, 'category': x.category, 'source': x.source,
                           'verified': x.verified_on, 'notes': ((x.window_note + ' · ') if x.window_note else '') + x.status,
                           'done': False, 'kind': 'event', 'id': None, 'scope': 'Following', 'status': x.status})
-    for s in e.sessions.filter(MsSession.planned_at != None, MsSession.status.in_(['Planned', 'Rescheduled', 'Completed'])).all():  # noqa: E711
+    for s in (s for s in _sessions(e) if s.planned_at and s.status in ('Planned', 'Rescheduled', 'Completed')):
         items.append({'date': to_local(s.planned_at, e.timezone).date(), 'title': s.title, 'category': 'Mentorship session',
                       'notes': fmt_dt(s.planned_at, e.timezone), 'done': s.status == 'Completed', 'kind': 'session', 'id': s.id})
-    for a in e.actions.filter(MsAction.due_date != None, MsAction.status != 'Cancelled').all():  # noqa: E711
+    for a in (a for a in _actions(e) if a.due_date and a.status != 'Cancelled'):
         items.append({'date': a.due_date, 'title': 'Due: ' + a.title, 'category': 'Action due', 'done': a.status in ('Completed', 'Closed'),
                       'notes': action_state(a), 'kind': 'action', 'id': a.id})
     for r in e.reviews.filter(MsReview.next_review_date != None).all() if hasattr(e, 'reviews') else []:  # noqa: E711
         items.append({'date': r.next_review_date, 'title': 'Next review after ' + r.label, 'category': 'Quarterly review',
                       'kind': 'review', 'id': r.id})
     from app.models_mentorship import MsPrefDates, MsPrefEntry, MsPrefList
-    followed = {f.exam_id for f in MsExamFocus.query.filter_by(enrolment_id=e.id).all()}
+    followed = fids
     for d, x in (db.session.query(MsPrefDates, MsPrefEntry).join(MsPrefEntry, MsPrefEntry.id == MsPrefDates.entry_id)
                  .join(MsPrefList, MsPrefList.id == MsPrefEntry.list_id).filter(MsPrefList.enrolment_id == e.id).all()):
         src = d.source or 'recorded by mentor / family'
@@ -622,7 +653,7 @@ def attention(e):
         reasons.append('Student asked for urgent help')
     if last and last.confidence is not None and last.confidence <= rule('low_confidence'):
         reasons.append('Low confidence reported — worth a conversation')
-    if e.sessions.filter(MsSession.status == 'Missed').count():
+    if any(s.status == 'Missed' for s in _sessions(e)):
         reasons.append('A session was missed')
     window = today() + timedelta(days=rule('exam_window_days'))
     exam_cats = ('Board exam', 'JEE Main', 'JEE Advanced', 'School exam')
@@ -639,7 +670,7 @@ def attention(e):
 
 def journey(e):
     """Timeline of every session (core + extra) with a derived current stage."""
-    rows = e.sessions.order_by(MsSession.position).all()
+    rows = _sessions(e)
     current = None
     for s in rows:
         if s.kind == 'core' and s.status not in ('Completed', 'Cancelled'):
@@ -651,11 +682,8 @@ def journey(e):
 def unread_count(e, user, role):
     q = MsMessage.query.filter(MsMessage.enrolment_id == e.id, MsMessage.sender_id != user.id)
     q = q.filter(MsMessage.audience.in_(visible_audiences(role)))
-    ids = [m.id for m in q.all()]
-    if not ids:
-        return 0
-    read = {r.message_id for r in MsMessageRead.query.filter(MsMessageRead.user_id == user.id, MsMessageRead.message_id.in_(ids))}
-    return len(ids) - len(read)
+    read = db.session.query(MsMessageRead.message_id).filter(MsMessageRead.user_id == user.id)
+    return q.filter(~MsMessage.id.in_(read)).count()
 
 
 def visible_audiences(role):

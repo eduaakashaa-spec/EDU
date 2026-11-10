@@ -13,6 +13,16 @@ class SignupLog(db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None), index=True)
 
 
+class LoginAttempt(db.Model):
+    """One failed sign-in, kept briefly so login_guard can throttle brute-force / credential-stuffing
+    by IP and by e-mail (new table; created by db.create_all). Successful logins clear an account's rows."""
+    __tablename__ = 'login_attempts'
+    id = db.Column(db.Integer, primary_key=True)
+    ip = db.Column(db.String(64), index=True)
+    email = db.Column(db.String(200), index=True)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None), index=True)
+
+
 class AdminImpersonation(db.Model):
     """Every time an admin used "View as" on another account (Admin -> Members -> View as): who, whom, read-only or not, and when it started and ended."""
     __tablename__ = 'admin_impersonations'

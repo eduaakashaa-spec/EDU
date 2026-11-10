@@ -4,7 +4,9 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.decorators import safe_next
 from app.extensions import db, bcrypt
 from app.models import User, ContactInquiry
-from app.services import signup_guard
+from app.services import signup_guard, login_guard
+
+_THROTTLE_MSG = 'Too many sign-in attempts. Please wait a few minutes and try again, or reset your password.'
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -27,14 +29,20 @@ def mentor_login():
     if request.method == 'POST':
         email = (request.form.get('email') or '').strip().lower()
         password = request.form.get('password') or ''
+        ip = login_guard.client_ip(request)
+        if login_guard.blocked(ip, email):
+            flash(_THROTTLE_MSG, 'danger')
+            return render_template('auth/mentor_login.html'), 429
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password_hash, password):
             if not (user.is_mentor or user.is_ea_mentor):
                 flash('This account is not registered as a mentor. Please use the member login.', 'danger')
                 return render_template('auth/mentor_login.html')
+            login_guard.clear(ip, email)
             login_user(user, remember=request.form.get('remember'))
             flash('Logged in successfully.', 'success')
             return redirect(safe_next(request.args.get('next')) or _mentor_landing(user))
+        login_guard.record_failure(ip, email)
         flash('Invalid email or password.', 'danger')
 
     return render_template('auth/mentor_login.html')
@@ -49,8 +57,14 @@ def login():
         email = (request.form.get('email') or '').strip().lower()
         password = request.form.get('password') or ''
 
+        ip = login_guard.client_ip(request)
+        if login_guard.blocked(ip, email):
+            flash(_THROTTLE_MSG, 'danger')
+            return render_template('auth/login.html'), 429
+
         user = User.query.filter_by(email=email).first()
         if user and bcrypt.check_password_hash(user.password_hash, password):
+            login_guard.clear(ip, email)
             login_user(user, remember=request.form.get('remember'))
             next_page = safe_next(request.args.get('next'))
             flash('Logged in successfully.', 'success')
@@ -60,6 +74,7 @@ def login():
                 return redirect(url_for('hr.home'))
             return redirect(next_page or url_for('memberhub.home'))
 
+        login_guard.record_failure(ip, email)
         flash('Invalid email or password.', 'danger')
 
     return render_template('auth/login.html')
@@ -92,8 +107,8 @@ def register():
             errors.append('Name is required.')
         if not email:
             errors.append('Email is required.')
-        if len(password) < 6:
-            errors.append('Password must be at least 6 characters.')
+        if len(password) < 8:
+            errors.append('Password must be at least 8 characters.')
         if password != confirm:
             errors.append('Passwords do not match.')
         if User.query.filter_by(email=email).first():
