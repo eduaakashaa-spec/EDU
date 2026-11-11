@@ -44,6 +44,8 @@
       count.textContent = shown === total && !state.text && state.cat === 'all' && state.type === 'all'
         ? 'Showing ' + total + ' resources' : 'Showing ' + shown + ' of ' + total + ' resources';
       empty.hidden = shown !== 0;
+      var filtering = state.text !== '' || state.cat !== 'all' || state.type !== 'all';
+      sections.forEach(function (s) { s.classList.toggle('is-open', filtering || s.dataset.open === '1'); var m = s.querySelector('[data-more]'); if (m) { m.hidden = filtering; m.setAttribute('aria-expanded', s.dataset.open === '1' ? 'true' : 'false'); m.textContent = s.dataset.open === '1' ? 'Show fewer' : 'Show all ' + s.querySelectorAll('.md-card').length; } });
       var rec = document.getElementById('md-recent');
       if (rec) rec.hidden = rec.dataset.has !== '1' || state.text !== '' || state.cat !== 'all' || state.type !== 'all';
     }
@@ -61,6 +63,9 @@
       apply();
     }
 
+    document.querySelectorAll('[data-more]').forEach(function (b) {
+      b.addEventListener('click', function () { var s = b.closest('.md-cat'); s.dataset.open = s.dataset.open === '1' ? '0' : '1'; apply(); });
+    });
     q.addEventListener('input', function () { state.text = q.value.trim().toLowerCase(); apply(); });
     document.querySelectorAll('.md-fchip').forEach(function (b) { b.addEventListener('click', function () { setCat(b.dataset.cat, false); }); });
     document.querySelectorAll('.md-tchip').forEach(function (b) { b.addEventListener('click', function () { setType(b.dataset.type); }); });
@@ -104,7 +109,7 @@
     ids.forEach(function (id) {
       var src = document.querySelector('.md-card[data-id="' + id + '"]');
       if (!src || src.tagName !== 'A' || src.dataset.locked === '1') return;
-      var clone = src.cloneNode(true); clone.removeAttribute('data-id'); clone.removeAttribute('data-text'); clone.removeAttribute('data-cat');
+      var clone = src.cloneNode(true); clone.removeAttribute('data-id'); clone.removeAttribute('data-text'); clone.removeAttribute('data-cat'); clone.classList.remove('md-extra');
       grid.appendChild(clone); n++;
     });
     if (n) { recBox.dataset.has = '1'; recBox.hidden = false; }

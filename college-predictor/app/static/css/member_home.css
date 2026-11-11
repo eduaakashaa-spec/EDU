@@ -177,3 +177,31 @@ a.md-card:hover .md-act svg { transform:translateX(3px); }
 .md-card--banner { padding-top:0; overflow:hidden; }
 .md-card-art { display:block; margin:0 -18px 0; height:130px; background-size:cover; background-position:center; background-color:#3a4fe0; }
 .md-card--banner.is-locked .md-card-art { filter:saturate(.7) brightness(.95); }
+
+
+/* ---------- compact tiles (override of the card layout above) ---------- */
+.md-cat { margin:18px 0 4px; }
+.md-cat-head { gap:10px; margin-bottom:10px; }
+.md-cat-ic { width:32px; height:32px; border-radius:9px; background:var(--t,var(--tint)); color:var(--c,var(--navy)); }
+.md-cat-head h2 { font-size:1rem; }
+.md-cat-count { margin-left:0; font-size:.72rem; padding:3px 9px; background:var(--t,var(--tint)); color:var(--c,var(--navy)); }
+.md-more { margin-left:auto; font:600 .8rem 'Inter',sans-serif; color:var(--navy); background:none; border:1px solid var(--line); border-radius:999px; padding:5px 12px; cursor:pointer; min-height:32px; }
+.md-more:hover { border-color:var(--navy); background:var(--tint); }
+.md-grid { grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+.md-card { flex-direction:row; align-items:center; gap:11px; min-height:62px; padding:10px 12px; border-radius:12px; }
+.md-card-ic { width:38px; height:38px; flex:none; border-radius:10px; background:var(--t,var(--tint)); color:var(--c,var(--navy)); }
+.md-card-body { gap:1px; min-width:0; flex:1; }
+.md-card-title { font-size:.88rem; line-height:1.25; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+.md-card-desc { font-size:.74rem; line-height:1.3; -webkit-line-clamp:1; }
+.md-badges { flex:none; flex-direction:column; align-items:flex-end; gap:3px; }
+.md-b { font-size:.62rem; padding:2px 7px; }
+.md-b-lock { padding:3px 6px; }
+.md-card.is-locked { background:#FBFBFD; }
+.md-card.is-locked .md-card-title { color:#4a5169; }
+.md-extra { display:none; }
+.md-cat.is-open .md-extra { display:flex; }
+.md-card[hidden], .md-cat.is-open .md-card[hidden] { display:none; }
+.md-recent .md-extra { display:flex; }
+.md-filters { padding:8px 0 6px; }
+.md-typerow { margin-top:6px; }
+@media (max-width:767px) { .md-grid { grid-template-columns:minmax(0,1fr); gap:8px; } .md-card { min-height:58px; } }

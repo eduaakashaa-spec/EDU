@@ -40,16 +40,16 @@ assert anon.get('/member-home').status_code in (302, 401)
 c, r = client('free@ex.com')
 assert r.status_code == 302 and r.headers['Location'].endswith('/member-home')       # login lands on the hub
 page = c.get('/member-home').get_data(as_text=True)
-for cat in ('My Journey', 'Mentorship Portal', 'Admission Intelligence', 'Choice-Filling Tools', 'Engineering Insights',
-            'Free Resources', 'Support &amp; Membership'):
+for cat in ('My Journey', 'Mentorship Portal', 'Admission Intelligence', 'Exam Roadmaps &amp; Guides', 'Engineering Insights &amp; Choice Tools',
+            'Free Resources &amp; Help'):
     assert cat in page, cat
 assert 'md-b-lock' in page and 'Free plan' in page and 'Unlock with membership' in page       # locks + plan badge for a free member
 assert '/free-guides' in page and '/dasa-2026-analytics' in page
 assert 'Upgrade to premium' in page and 'id="md-q"' in page                                    # search + upgrade call to action
-assert 'data-cat="intel"' in page and page.count('class="md-fchip') == 11                       # All + 10 category filters
-assert '0 of 11 open' in page and '0 of 5 open' in page and 'EduPulse AI Tools' in page                                    # intelligence: all premium tiles locked
-assert 'mh-tile' not in page and 'banner_art' in page              # old patterned tiles are gone
-for k in ('journey', 'mentorship', 'intel', 'gulf', 'tools', 'insights', 'free', 'support'):
+assert 'data-cat="intel"' in page and page.count('class="md-fchip') == 11                       # All + 10 category filters (staff tools are hidden from students)
+assert '0 of 10 open' in page and '0 of 6 open' in page and 'EduPulse Practice &amp; Mock Tests' in page   # practice centres and insights: every tile is members-only
+assert 'mh-tile' not in page and 'md-card-art' not in page and 'data-more' in page      # uniform compact tiles, long groups fold behind "Show all"
+for k in ('journey', 'mentorship', 'intel', 'roadmaps', 'gulf', 'insights', 'free'):
     assert f'id="cat-{k}"' in page, k
 # locked cards go to the membership page, open cards go to their real destination
 assert page.count('href="/members-registration"') >= 20

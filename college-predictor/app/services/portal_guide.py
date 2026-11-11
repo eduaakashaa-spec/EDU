@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-10'
+UPDATED = '2026-11-11'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -64,6 +64,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-11', 'Member Home is now compact: every tile is the same small size (no blank picture areas), repeated tiles are removed, and each group shows its first six tiles with a Show all button. Groups were reorganised: new Exam Roadmaps and Guides, Mentor and Staff Tools (staff only), Choice Builder moved into Engineering Insights and Choice Tools, and Free Resources and Help now holds the portal guide, contact and plans. Search and the filter chips still search everything.'),
     ('2026-11-10', 'JEE Main 2025 (April: 2, 3, 4, 7, 8 April, seven shifts) and JEE Main 2024 (April: 6, 8, 9 April, five shifts) B.Tech papers are live in the EduPulse-JEE mock centre with the official NTA key, chapter tags and difficulty, and the same questions in EduPulse - Reinforcement. The paper list is now grouped by year with a year filter. Question NTA dropped counts as correct for everyone.'),
     ('2026-11-10', 'JEE Main 2026 Session 1 (January) papers are live in the EduPulse-JEE mock centre: all ten B.Tech shifts (21, 22, 23, 24 and 28 January, two shifts each) retyped from the NTA papers with our own worked steps after each question. Numerical answers match the NTA final key (a question the key shows as dropped, or with several accepted options, is left out, and so are questions we could not read reliably from a drawn figure). The same questions are in EduPulse Reinforcement by chapter.'),
     ('2026-11-09', 'JEE Main 2026 Session 1 (January) pilot: 21 Jan Shift 1 is now in the EduPulse-JEE mock centre as a retyped NTA paper (71 of 75 questions, the four that need a drawn structure are left out) with our own worked steps; numerical answers match the NTA final key. Other January shifts follow.'),

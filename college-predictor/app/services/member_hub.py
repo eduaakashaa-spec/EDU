@@ -128,8 +128,49 @@ CATEGORIES = [
 ]
 
 
+# ---- regroup: fewer, clearer categories. The tile definitions above stay as written; this assigns each to its final category, merges the small groups and drops duplicates. ----
+_EXTRA = {
+    'roadmaps': {'key': 'roadmaps', 'title': 'Exam Roadmaps & Guides', 'icon': '🗺️', 'color': '#D97706', 'tint': '#FFF3DD',
+                 'blurb': 'Roadmaps, registration guides and exam schedules for JEE, UCEED, law, IPM, IAT, NID and TNEA.'},
+    'staff': {'key': 'staff', 'title': 'Mentor & Staff Tools', 'icon': '🧑‍💼', 'color': '#475569', 'tint': '#EEF0F4',
+              'blurb': 'Mentor dashboards, planners, trackers and HR letters (shown to staff only).'},
+}
+_MOVE = {
+    'roadmaps': ['UCEED 2027 Roadmap', 'Law Entrance 2027 Roadmap', 'IPM 2027 Roadmap', 'JEE 2027 Roadmap', 'JEE Main syllabus map & formulas', 'TNEA expert',
+                 'JEE Main 2027 registration guide', 'JEE Paper 2: B.Arch and B.Planning guide', 'IISER Aptitude Test (IAT) guide', 'NID past papers analysed', 'Exam schedule'],
+    'staff': ['HR letters', 'Action tracker', 'Mentor dashboard', 'Study planner mentor view', 'Reinforcement mentor view', 'EduPulse mentor view'],
+    'intel': ['Architecture and Planning colleges in India', 'Architecture and Planning analytics'],
+    'insights': ['Choice Builder Simulator'],
+    'free': ['Portal guide', 'Contact the team', 'Membership plans', 'Free student guides'],
+}
+_RENAME = {'edupulse': ('EduPulse Practice & Mock Tests', 'Daily practice, planner and mock test centres with a confidence check on every answer.'),
+           'insights': ('Engineering Insights & Choice Tools', 'Branch, location and campus-life analytics, plus the choice-filling simulator.'),
+           'gulf': ('Gulf & NRI Routes', 'DASA, CAET, NRI quota and city-wise college guides for studying in India or the Gulf.'),
+           'free': ('Free Resources & Help', 'Open to every member: guides, the portal guide, contact and membership plans.')}
+_ORDER = ['journey', 'school', 'edupulse', 'intel', 'roadmaps', 'medicine', 'gulf', 'insights', 'mentorship', 'staff', 'free']
+
+
+def _regroup(cats):
+    where = {t: k for k, titles in _MOVE.items() for t in titles}
+    base = {c['key']: dict(c, tiles=[]) for c in cats}
+    base.update({k: dict(v, tiles=[]) for k, v in _EXTRA.items()})
+    seen = set()
+    for c in cats:
+        for t in c['tiles']:
+            if t['access'] == 'soon' or t['title'] in seen:         # the "coming soon" placeholder and repeated tiles go
+                continue
+            seen.add(t['title'])
+            base[where.get(t['title'], c['key'])]['tiles'].append(t)
+    for k, (title, blurb) in _RENAME.items():
+        base[k]['title'], base[k]['blurb'] = title, blurb
+    return [base[k] for k in _ORDER if base[k]['tiles']]
+
+
+CATEGORIES = _regroup(CATEGORIES)
+
+
 # ---- presentation metadata for the dashboard (icons, labels, "New" window). Not business logic: access rules stay in each tile's `access`. ----
-CATEGORY_ICON = {'journey': 'route', 'mentorship': 'cap', 'intel': 'bar', 'edupulse': 'target', 'medicine': 'life-buoy', 'gulf': 'globe', 'tools': 'sliders', 'insights': 'bulb', 'free': 'download', 'support': 'life-buoy'}
+CATEGORY_ICON = {'roadmaps': 'map', 'staff': 'dashboard', 'school': 'book', 'journey': 'route', 'mentorship': 'users', 'intel': 'bar', 'edupulse': 'target', 'medicine': 'life-buoy', 'gulf': 'globe', 'tools': 'sliders', 'insights': 'bulb', 'free': 'download', 'support': 'life-buoy'}
 TILE_ICON = {
     'Profile & sessions': 'user', 'Document verification': 'file-check', 'My assessments': 'clipboard', 'Stream selection': 'compass',
     'My Mentorship': 'cap', 'Add-on programmes': 'puzzle', 'FutureReady (Class 8–9)': 'compass', 'Action tracker': 'check-square', 'Mentor dashboard': 'dashboard',

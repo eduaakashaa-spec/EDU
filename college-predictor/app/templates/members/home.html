@@ -143,36 +143,27 @@
 
     <!-- categories + cards -->
     {% for cat in categories %}
-    <section class="md-cat" id="cat-{{ cat.key }}" data-cat-section="{{ cat.key }}" aria-labelledby="h-{{ cat.key }}">
+    {% set LIMIT = 6 %}
+    <section class="md-cat" id="cat-{{ cat.key }}" data-cat-section="{{ cat.key }}" aria-labelledby="h-{{ cat.key }}" style="--c:{{ cat.color }};--t:{{ cat.tint }}">
       <header class="md-cat-head">
-        <span class="md-cat-ic">{{ icon(cat.ic, 22) }}</span>
-        <div><h2 id="h-{{ cat.key }}">{{ cat.title }}</h2><p>{{ cat.blurb }}</p></div>
-        <span class="md-cat-count">{{ cat.open }} of {{ cat.tiles|length }} open</span>
+        <span class="md-cat-ic">{{ icon(cat.ic, 18) }}</span>
+        <h2 id="h-{{ cat.key }}">{{ cat.title }}</h2>
+        <span class="md-cat-count" title="{{ cat.blurb }}">{{ cat.open }} of {{ cat.tiles|length }} open</span>
+        {% if cat.tiles|length > LIMIT %}<button type="button" class="md-more" data-more aria-expanded="false">Show all {{ cat.tiles|length }}</button>{% endif %}
       </header>
       <div class="md-grid">
         {% for t in cat.tiles %}
         {% set cid = cat.key ~ '-' ~ loop.index %}
-        {% if t.access == 'soon' %}
-        <div class="md-card is-soon" data-id="{{ cid }}" data-cat="{{ cat.key }}" data-tag="" data-locked="0" data-text="{{ (t.title ~ ' ' ~ t.desc ~ ' ' ~ cat.title)|lower }}">
-          <span class="md-card-top"><span class="md-card-ic">{{ icon(t.ic) }}</span><span class="md-badges"><b class="md-b">Soon</b></span></span>
+        {% set xtra = ' md-extra' if loop.index > LIMIT else '' %}
+        <a class="md-card{{ ' is-locked' if t.locked }}{{ xtra }}" href="{{ url_for('main.members_registration') if t.locked else t.url }}" title="{{ t.desc }}" data-id="{{ cid }}" data-cat="{{ cat.key }}" data-tag="{{ t.tag }}" data-locked="{{ '1' if t.locked else '0' }}" data-text="{{ (t.title ~ ' ' ~ t.desc ~ ' ' ~ cat.title)|lower }}">
+          <span class="md-card-ic">{{ icon(t.ic, 20) }}</span>
           <span class="md-card-body"><span class="md-card-title">{{ t.title }}</span><span class="md-card-desc">{{ t.desc }}</span></span>
-          <span class="md-card-foot"><span class="md-act">Coming soon</span></span>
-        </div>
-        {% else %}
-        <a class="md-card{{ ' is-locked' if t.locked }}{{ ' md-card--banner' if t.banner }}" href="{{ url_for('main.members_registration') if t.locked else t.url }}" data-id="{{ cid }}" data-cat="{{ cat.key }}" data-tag="{{ t.tag }}" data-locked="{{ '1' if t.locked else '0' }}" data-text="{{ (t.title ~ ' ' ~ t.desc ~ ' ' ~ cat.title)|lower }}">
-          {% if t.banner %}<span class="md-card-art" style="background-image:url('{{ url_for('static', filename='img/' ~ t.banner) }}'){{ ';background-position:' ~ t.banner_pos if t.banner_pos }}" aria-hidden="true"></span>{% endif %}
-          <span class="md-card-top">
-            <span class="md-card-ic">{{ icon(t.ic) }}</span>
-            <span class="md-badges">
-              {% if t.new %}<b class="md-b md-b-new">New</b>{% endif %}
-              {% if t.locked %}<b class="md-b md-b-lock">{{ icon('lock', 12) }} Locked</b>
-              {% elif t.access == 'premium' %}<b class="md-b md-b-mem">Members only</b>{% endif %}
-            </span>
+          <span class="md-badges">
+            {% if t.new %}<b class="md-b md-b-new">New</b>{% endif %}
+            {% if t.locked %}<b class="md-b md-b-lock" title="{{ t.action }}">{{ icon('lock', 12) }}</b>
+            {% elif t.access == 'premium' %}<b class="md-b md-b-mem">Members</b>{% endif %}
           </span>
-          <span class="md-card-body"><span class="md-card-title">{{ t.title }}</span><span class="md-card-desc">{{ t.desc }}</span></span>
-          <span class="md-card-foot"><span class="md-act">{{ t.action }} {{ icon('arrow', 16) }}</span></span>
         </a>
-        {% endif %}
         {% endfor %}
       </div>
     </section>
