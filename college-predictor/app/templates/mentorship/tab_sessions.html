@@ -49,7 +49,7 @@
       </div>
       <label>Agenda (one topic per line)</label><textarea name="agenda">{{ s.agenda or '' }}</textarea>
       <label style="margin-top:8px;">Recap shared with student {% if s.parent_visible %}(and parent){% endif %}</label><textarea name="shared_summary">{{ s.shared_summary or '' }}</textarea>
-      <label style="margin-top:8px;">🔒 Private mentor notes (never shown to student or parent)</label><textarea name="mentor_notes">{{ s.mentor_notes or '' }}</textarea>
+      <label style="margin-top:8px;">{{ ea_icon_i('lock') }} Private mentor notes (never shown to student or parent)</label><textarea name="mentor_notes">{{ s.mentor_notes or '' }}</textarea>
       <label style="text-transform:none;margin-top:8px;"><input type="checkbox" name="parent_visible" value="1" {{ 'checked' if s.parent_visible }}> Show this session's recap to the parent</label>
       <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;">
         <button class="ms-btn p sm">Save session</button>

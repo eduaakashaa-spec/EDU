@@ -122,7 +122,7 @@
 <div class="oa">
 {% if request.args.get('done') %}
   <div class="oa-wrap"><div class="oa-done">
-    <div class="ic">✅</div>
+    <div class="ic">{{ ea_icon_i('check') }}</div>
     <h1>Thank you — that's submitted.</h1>
     <p>Your counsellor now has your answers and will use them to prepare for your first
     1-on-1. {% if is_student %}Ask your parent to fill their short version too, if they

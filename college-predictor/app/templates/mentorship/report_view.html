@@ -8,7 +8,7 @@
   <div class="ms-noprint" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
     <a class="ms-btn g sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='reports') }}">← Reports</a>
     <a class="ms-btn p sm" href="{{ url_for('mentorship.report_pdf', eid=e.id, rid=rep.id) }}">⬇ Download PDF</a>
-    <button class="ms-btn g sm" onclick="window.print()">🖨 Print / Save as PDF</button>
+    <button class="ms-btn g sm" onclick="window.print()">{{ ea_icon_i('file') }} Print / Save as PDF</button>
   </div>
   <section class="ms-head"><div class="grow"><span class="ms-chip">{{ rep.status }}</span>
     <h1 style="margin-top:8px;">Mentorship Progress Report</h1>

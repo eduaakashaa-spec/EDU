@@ -1,8 +1,8 @@
-{#- Custom on-brand line icons (navy stroke, 2px). Replaces emoji across the site.
-    Usage: {% import "_ea_icons.html" as icons %} … {{ icons.ic('globe') }} -#}
-{% macro ic(name) -%}
-<svg class="ea-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+{#- Custom on-brand line icons (navy stroke). Replaces emoji across the site.
+    Inline:  {{ ea_icon('globe') }}   (registered global; no import needed)
+    Sprite (dense tables): {{ icons.sprite(['monitor','globe',...]) }} once,
+            then {{ icons.ic_use('monitor') }} per cell — one <use>, tiny markup. -#}
+{% macro _p(name) -%}
 {%- if name == 'globe' -%}
 <circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/>
 {%- elif name == 'chart' -%}
@@ -89,8 +89,35 @@
 <rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>
 {%- elif name == 'star' -%}
 <path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.8 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/>
+{%- elif name == 'pin' -%}
+<path d="M12 21s-6-5.3-6-10a6 6 0 0 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/>
 {%- else -%}
 <circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01" stroke-width="1.4"/>
 {%- endif -%}
-</svg>
+{%- endmacro %}
+
+{#- Inline icon: one self-contained <svg> per call. -#}
+{% macro ic(name) -%}
+<svg class="ea-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{{ _p(name) }}</svg>
+{%- endmacro %}
+
+{#- Inline icon that scales with surrounding text (emoji replacement in copy). -#}
+{% macro ic_i(name) -%}
+<svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">{{ _p(name) }}</svg>
+{%- endmacro %}
+
+{#- Sprite reference: tiny markup, needs sprite(names) emitted once on the page. -#}
+{% macro ic_use(name) -%}
+<svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#eas-{{ name }}"/></svg>
+{%- endmacro %}
+
+{#- Hidden symbol defs. Emit once near the top of a dense table's content. -#}
+{% macro sprite(names) -%}
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+{%- for n in names|unique %}
+<symbol id="eas-{{ n }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">{{ _p(n) }}</symbol>
+{%- endfor %}
+</defs></svg>
 {%- endmacro %}

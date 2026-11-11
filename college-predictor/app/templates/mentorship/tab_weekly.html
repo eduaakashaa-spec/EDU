@@ -39,8 +39,8 @@
       {% if a.purpose %}<div class="hint" style="margin:2px 0;">Why it matters: {{ a.purpose }}</div>{% endif %}
       {% if a.instruction %}<div style="font-size:.86rem;">{{ a.instruction }}</div>{% endif %}
       <div style="font-size:.8rem;color:var(--text-dim);">{% if a.due_date %}Due {{ a.due_date.strftime('%d %b %Y') }} · {% endif %}{% if a.est_minutes %}~{{ a.est_minutes }} min · {% endif %}Status: <strong>{{ a.status }}</strong>{% if a.completed_at %} · done {{ a.completed_at.strftime('%d %b') }}{% endif %}</div>
-      {% if a.mentor_feedback %}<div style="font-size:.84rem;margin-top:4px;">💬 Mentor: {{ a.mentor_feedback }}</div>{% endif %}
-      {% if a.student_comment %}<div style="font-size:.84rem;margin-top:4px;">📝 Student: {{ a.student_comment }}</div>{% endif %}
+      {% if a.mentor_feedback %}<div style="font-size:.84rem;margin-top:4px;">{{ ea_icon_i('message') }} Mentor: {{ a.mentor_feedback }}</div>{% endif %}
+      {% if a.student_comment %}<div style="font-size:.84rem;margin-top:4px;">{{ ea_icon_i('edit') }} Student: {{ a.student_comment }}</div>{% endif %}
 
       {% if role == 'student' and a.owner == 'student' and a.status not in ('Cancelled', 'Blocked') %}
       <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}" style="margin-top:8px;">
@@ -143,7 +143,7 @@
       <h2>{{ 'Submitted ✓' if checkin and checkin.status != 'Draft' else 'How did the week go?' }}</h2>
       {% if checkin and checkin.status != 'Draft' %}
         <p class="hint">Submitted {{ fmt_dt(checkin.submitted_at, e.timezone) }}. {% if checkin.mentor_comment %}Mentor feedback below.{% else %}Your mentor will review it.{% endif %}</p>
-        {% if checkin.mentor_comment %}<div class="ms-note info">💬 {{ checkin.mentor_comment }}</div>{% endif %}
+        {% if checkin.mentor_comment %}<div class="ms-note info">{{ ea_icon_i('message') }} {{ checkin.mentor_comment }}</div>{% endif %}
       {% else %}
       <div class="ms-note priv">Your reflections are private to you and your mentor. Parents only see a summary if your mentor shares one. This is an academic check-in, not a mental-health assessment.</div>
       <details class="citem" id="checkin-form" open data-phone-closed><summary><span class="t">Open the check-in form</span></summary><div class="cb" style="padding-left:12px;">
@@ -186,7 +186,7 @@
           <div style="font-size:.86rem;">Confidence {{ c.confidence or '—' }}/5{% if c.urgent_help %} · <span class="ms-pill bad">urgent help</span>{% endif %}</div>
           {% for lbl, v in (('Went well', c.went_well), ('Difficult', c.difficult), ('Barriers', c.barriers), ('Help needed', c.help_needed), ('Next priority', c.next_priority)) if v %}<div style="font-size:.84rem;"><strong>{{ lbl }}:</strong> {{ v }}</div>{% endfor %}
         {% endif %}
-        {% if c.mentor_comment and (staff or role == 'student') %}<div class="ms-note info" style="margin-top:6px;">💬 {{ c.mentor_comment }}</div>{% endif %}
+        {% if c.mentor_comment and (staff or role == 'student') %}<div class="ms-note info" style="margin-top:6px;">{{ ea_icon_i('message') }} {{ c.mentor_comment }}</div>{% endif %}
         {% if staff %}
         <details class="ms-fold"><summary>{{ 'Edit review' if c.status == 'Reviewed' else 'Review this check-in' }}</summary>
           <form method="post" action="{{ url_for('mentorship.checkin_review', eid=e.id, cid=c.id) }}">

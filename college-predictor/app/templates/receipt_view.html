@@ -74,12 +74,12 @@
 <div class="inv-actions">
   <a class="btn btn-ghost btn-sm" href="{{ url_for('invoices.admin_receipts') }}">← All receipts</a>
   {% if r.invoice_id %}<a class="btn btn-ghost btn-sm" href="{{ url_for('invoices.admin_detail', inv_id=r.invoice_id) }}">Invoice {{ r.invoice_no }}</a>{% endif %}
-  <button class="btn btn-navy btn-sm" onclick="window.print()">🖨 Print / Save PDF</button>
+  <button class="btn btn-navy btn-sm" onclick="window.print()">{{ ea_icon_i('file') }} Print / Save PDF</button>
   <a class="btn btn-ghost btn-sm" href="{{ public_url }}" target="_blank" rel="noopener">Customer link ↗</a>
 </div>
 <div class="inv-actbar no-print">
   <form method="post" action="{{ url_for('invoices.admin_receipt_email', rid=r.id) }}" style="margin-right:14px;">
-    <button class="btn btn-navy btn-sm" type="submit">✉ Email to customer</button>
+    <button class="btn btn-navy btn-sm" type="submit">{{ ea_icon_i('mail') }} Email to customer</button>
     <span style="font-size:12px; color:var(--muted);">{{ r.customer_email or 'no email on file' }}{% if r.emailed_at %} · last sent {{ r.emailed_at.strftime('%d %b %H:%M') }}{% endif %}</span>
   </form>
   <form method="post" action="{{ url_for('invoices.admin_receipt_delete', rid=r.id) }}" onsubmit="return confirm('Delete receipt {{ r.receipt_no }}? This cannot be undone.');" style="margin-left:auto;">

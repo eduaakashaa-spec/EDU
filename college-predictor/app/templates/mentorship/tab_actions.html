@@ -47,13 +47,14 @@
     <tr id="a{{ a.id }}" class="fi" data-own="{{ a.owner or 'student' }}" data-text="{{ a.title|lower }}" style="border-bottom:1px solid #F1EAD7;vertical-align:top;">
       <td class="first" style="padding:8px;"><strong>{{ a.title }}</strong>
         {% if a.instruction %}<div class="hint">{{ a.instruction }}</div>{% endif %}
-        {% if a.student_comment %}<div class="hint">📝 {{ a.student_comment }}</div>{% endif %}
-        {% if a.mentor_feedback %}<div class="hint">💬 {{ a.mentor_feedback }}</div>{% endif %}</td>
+        {% if a.student_comment %}<div class="hint">{{ ea_icon_i('edit') }} {{ a.student_comment }}</div>{% endif %}
+        {% if a.mentor_feedback %}<div class="hint">{{ ea_icon_i('message') }} {{ a.mentor_feedback }}</div>{% endif %}</td>
       <td data-l="Owner"><span class="ms-pill">{{ OWNER_LABEL.get(a.owner or 'student', a.owner) }}</span></td>
       <td data-l="Due" style="white-space:nowrap;">{{ a.due_date.strftime('%d %b %Y') if a.due_date else '—' }}</td>
       <td data-l="Priority"><span class="ms-pill {{ 'bad' if a.priority == 'High' else '' }}">{{ a.priority }}</span></td>
       <td data-l="Status">{{ m.state_pill(action_state(a)) }}<div class="hint">{{ a.status }}{% if a.completed_at %} · {{ a.completed_at.strftime('%d %b') }}{% endif %}</div></td>
       <td class="full" data-l="Update">
+
         {% set mine = staff or (role == 'student' and a.owner == 'student') or (role == 'parent' and a.owner == 'parent') %}
         {% if mine and a.status not in ('Cancelled',) and not (not staff and a.status in ('Blocked', 'Closed')) %}
         <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}" style="display:flex;gap:4px;flex-wrap:wrap;align-items:center;">

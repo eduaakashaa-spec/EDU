@@ -70,7 +70,7 @@
       </div>
       {% if a.purpose %}<div class="hint" style="margin:2px 0;">Why: {{ a.purpose }}</div>{% endif %}
       <div style="font-size:.8rem;color:var(--text-dim);">{% if a.due_date %}Due {{ a.due_date.strftime('%d %b') }}{% endif %}{% if a.est_minutes %} · ~{{ a.est_minutes }} min{% endif %} · {{ a.status }}</div>
-      {% if a.mentor_feedback %}<div style="font-size:.84rem;margin-top:4px;">💬 Mentor: {{ a.mentor_feedback }}</div>{% endif %}
+      {% if a.mentor_feedback %}<div style="font-size:.84rem;margin-top:4px;">{{ ea_icon_i('message') }} Mentor: {{ a.mentor_feedback }}</div>{% endif %}
       {% if (role == 'student' and a.owner == 'student') and a.status not in ('Completed', 'Closed', 'Cancelled', 'Blocked') %}
       <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;">
         <form method="post" action="{{ url_for('mentorship.action_update', eid=e.id, aid=a.id) }}"><input type="hidden" name="back" value="home"><input type="hidden" name="status" value="Completed"><button class="ms-btn p sm">✓ Mark complete</button></form>
@@ -116,10 +116,10 @@
   <div class="ms-card">
     <div class="ms-eyebrow">Messages & updates</div>
     {% for msg in msgs %}
-    <div class="ms-msg {{ 'internal' if msg.audience == 'internal' }}"><div class="who">{{ msg.sender.name if msg.sender else 'System' }} · {{ fmt_dt(msg.created_at, e.timezone) }}{% if msg.kind == 'announcement' %} · 📣 announcement{% endif %}</div>{{ msg.body[:240] }}</div>
+    <div class="ms-msg {{ 'internal' if msg.audience == 'internal' }}"><div class="who">{{ msg.sender.name if msg.sender else 'System' }} · {{ fmt_dt(msg.created_at, e.timezone) }}{% if msg.kind == 'announcement' %} · {{ ea_icon_i('message') }} announcement{% endif %}</div>{{ msg.body[:240] }}</div>
     {% else %}<div class="ms-empty" style="margin-top:10px;">No messages yet.</div>{% endfor %}
     <p style="margin-top:10px;"><a class="ms-btn g sm" href="{{ url_for('mentorship.workspace', eid=e.id, tab='messages') }}">Open messages{% if unread %} ({{ unread }} new){% endif %} →</a></p>
-    {% if shared_review %}<p style="font-size:.86rem;margin-top:8px;">🧾 Latest shared review: <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='reviews') }}">{{ shared_review.label }}</a></p>{% endif %}
+    {% if shared_review %}<p style="font-size:.86rem;margin-top:8px;">{{ ea_icon_i('file') }} Latest shared review: <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='reviews') }}">{{ shared_review.label }}</a></p>{% endif %}
   </div>
 </div>
 {% endblock %}

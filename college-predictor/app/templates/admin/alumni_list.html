@@ -53,7 +53,7 @@
             {% elif a.status == 'Rejected' %}<span class="pill pill-expired">Rejected</span>
             {% else %}<span class="pill s-New">New</span>{% endif %}
           </td>
-          <td>{% if a.has_photo %}📷{% endif %}{% if a.has_resume %} 📄{% endif %}{% if not a.has_photo and not a.has_resume %}—{% endif %}</td>
+          <td>{% if a.has_photo %}{{ ea_icon_i('file') }}{% endif %}{% if a.has_resume %} {{ ea_icon_i('file') }}{% endif %}{% if not a.has_photo and not a.has_resume %}—{% endif %}</td>
           <td><a class="ref" href="{{ url_for('alumni.admin_detail', alum_id=a.id) }}">View →</a></td>
         </tr>
         {% else %}

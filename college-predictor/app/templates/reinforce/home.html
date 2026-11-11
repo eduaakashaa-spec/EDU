@@ -14,7 +14,7 @@
   </div>
 </section>
 
-{% if notices %}<div style="margin-top:14px">{% for n in notices %}<div class="rf-notice">🔔 <span>{% if n.url %}<a href="{{ n.url }}">{{ n.text }}</a>{% else %}{{ n.text }}{% endif %} <span class="rf-muted">{{ n.created_at|ist }}</span></span></div>{% endfor %}
+{% if notices %}<div style="margin-top:14px">{% for n in notices %}<div class="rf-notice">{{ ea_icon_i('alert') }} <span>{% if n.url %}<a href="{{ n.url }}">{{ n.text }}</a>{% else %}{{ n.text }}{% endif %} <span class="rf-muted">{{ n.created_at|ist }}</span></span></div>{% endfor %}
   <form method="post" action="{{ url_for('reinforce.notices_read') }}"><button class="rf-btn sm ghost">Mark notices read</button></form></div>{% endif %}
 
 <h2 style="margin:22px 0 8px">Today's practice</h2>

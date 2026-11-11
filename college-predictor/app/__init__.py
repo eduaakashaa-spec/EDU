@@ -269,9 +269,10 @@ def create_app():
             return jsonify({'ok': False, 'error': msg}), 413
         return msg, 413
 
-
-    # Custom on-brand line icons available in every template as ea_icon('name').
-    app.jinja_env.globals['ea_icon'] = (
-        app.jinja_env.get_template('_ea_icons.html').module.ic)
+    # Custom on-brand line icons available in every template as ea_icon('name')
+    # (block, 22px) and ea_icon_i('name') (inline, scales with text).
+    _icons = app.jinja_env.get_template('_ea_icons.html').module
+    app.jinja_env.globals['ea_icon'] = _icons.ic
+    app.jinja_env.globals['ea_icon_i'] = _icons.ic_i
 
     return app

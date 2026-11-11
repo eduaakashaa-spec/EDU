@@ -56,7 +56,7 @@
     <ul class="ql">
     {% for q in questions %}<li class="ql-row">
       <span class="ql-id">#{{ q.id }}</span>
-      <div class="ql-main"><div class="ql-stem">{{ q.stem }}{% if q.has_image %} <span title="Has a figure">🖼</span>{% endif %}</div>
+      <div class="ql-main"><div class="ql-stem">{{ q.stem }}{% if q.has_image %} <span title="Has a figure">{{ ea_icon_i('file') }}</span>{% endif %}</div>
         <div class="ql-meta"><span class="ql-ch">{{ q.chapter.title }}</span><span>{{ q.difficulty }}</span><span>Answer {{ q.correct }}</span>{% if q.source %}<span title="{{ q.source }}">{{ q.source[:34] }}{{ '…' if q.source|length > 34 }}{% if q.year %} ({{ q.year }}){% endif %}</span>{% endif %}</div></div>
       <span class="pill {{ 'pub' if q.status == 'published' }}">{{ q.status }}</span>
       <div class="ql-act"><a href="{{ url_for('pulse.admin_question', qid=q.id) }}">Edit</a>

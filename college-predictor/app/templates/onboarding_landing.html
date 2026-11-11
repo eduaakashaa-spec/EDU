@@ -43,14 +43,14 @@
 
   <div class="oal-cards">
     <a class="oal-card" href="{{ url_for('onboarding.assessment', role='student') }}">
-      <div class="ic">🎓</div>
+      <div class="ic">{{ ea_icon_i('cap') }}</div>
       <h2>I'm the student</h2>
       <p>About 15 to 20 minutes — your marks and confidence, interests, how you work, the stream or career you lean to, and where you hope
       this goes. Honest answers only.</p>
       <span class="go">Start the student assessment →</span>
     </a>
     <a class="oal-card" href="{{ url_for('onboarding.assessment', role='parent') }}">
-      <div class="ic">👪</div>
+      <div class="ic">{{ ea_icon_i('users') }}</div>
       <h2>I'm the parent</h2>
       <p>About 10 to 12 minutes — your read on your child, your hopes, an honest self-check on streams, exams and
       colleges, and your budget.</p>

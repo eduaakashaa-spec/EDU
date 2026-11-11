@@ -52,9 +52,9 @@
       <h3 style="font-size:1.02rem;">{{ b.name }}</h3>
       {% for lbl, v in (('What you study', b.studies), ('Core subjects', b.subjects), ('Useful skills', b.skills), ('Example projects', b.projects), ('Career directions', b.careers)) if v %}<div style="font-size:.82rem;margin-top:4px;"><strong>{{ lbl }}:</strong> {{ v }}</div>{% endfor %}
       {% if b.questions %}<div style="font-size:.82rem;margin-top:4px;color:var(--navy)"><strong>Ask yourself:</strong> {{ b.questions }}</div>{% endif %}
-      {% if r and r.student_note %}<div style="font-size:.82rem;margin-top:4px;">📝 Student: {{ r.student_note }}</div>{% endif %}
-      {% if r and r.mentor_note %}<div style="font-size:.82rem;margin-top:4px;">🧑‍🏫 Mentor: {{ r.mentor_note }}</div>{% endif %}
-      {% if r and r.family_concern %}<div style="font-size:.82rem;margin-top:4px;">👪 Family: {{ r.family_concern }}</div>{% endif %}
+      {% if r and r.student_note %}<div style="font-size:.82rem;margin-top:4px;">{{ ea_icon_i('edit') }} Student: {{ r.student_note }}</div>{% endif %}
+      {% if r and r.mentor_note %}<div style="font-size:.82rem;margin-top:4px;">{{ ea_icon_i('users') }}‍{{ ea_icon_i('institution') }} Mentor: {{ r.mentor_note }}</div>{% endif %}
+      {% if r and r.family_concern %}<div style="font-size:.82rem;margin-top:4px;">{{ ea_icon_i('users') }} Family: {{ r.family_concern }}</div>{% endif %}
       <details class="ms-fold"><summary>{{ 'Rate this branch' if role == 'student' else ('Add family view' if role == 'parent' else 'Mentor assessment') }}</summary>
         <form method="post" action="{{ url_for('mentorship.branch_rate', eid=e.id) }}"><input type="hidden" name="branch" value="{{ b.name }}">
           {% if role == 'student' %}

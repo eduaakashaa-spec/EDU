@@ -32,7 +32,7 @@
   <div class="hlock"><span class="brandmark sm"></span><div><div class="logo">Edu<span>AakashaA</span></div><div class="tag">DASA 2026 · Choice Builder PRO + Allotment Analyzer</div></div></div>
   <div style="display:flex;gap:8px">
     <button class="btn" onclick="exportCsv()">⬇ CSV</button>
-    <button class="btn pri" onclick="window.print()">📄 PDF Report</button>
+    <button class="btn pri" onclick="window.print()"><svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 12h6M9 16h6"/></svg> PDF Report</button>
     <button class="btn" id="themeBtn" onclick="toggleTheme()">🌙</button>
   </div>
 </div></header>
@@ -44,7 +44,7 @@
     <div class="htag">“And let EduAakashaA guide you towards the right future.”</div>
     <div class="hctas">
       <button class="btn pri" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'})">Start — enter your rank →</button>
-      <button class="btn" onclick="loadAll()">📥 Load all institutes</button>
+      <button class="btn" onclick="loadAll()"><svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 12h6M9 16h6"/></svg> Load all institutes</button>
     </div>
   </div>
 </section>
@@ -60,7 +60,7 @@
     <div class="field"><label>Email</label><input id="fEmail" type="email" placeholder="you@example.com"></div>
     <div class="field"><label>WhatsApp</label><input id="fWa" type="tel" placeholder="+91 9x xxx xxxxx"></div>
     <div class="varbox">
-      <div class="vh"><b>📈 Expected JEE-rank / cutoff variation 2026 vs 2025</b><span class="vv" id="varV">0%</span></div>
+      <div class="vh"><b><svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 17 9 11l4 4 8-8"/><path d="M16 7h5v5"/></svg> Expected JEE-rank / cutoff variation 2026 vs 2025</b><span class="vv" id="varV">0%</span></div>
       <input type="range" id="varSlide" min="0" max="30" step="1" value="0" oninput="recompute()" style="width:100%">
       <small><b>0%</b> = assume 2025 closing ranks hold exactly. Higher % loosens cutoffs by that margin. CIWG seats close at a different (typically easier) rank than Non-CIWG — both shown per choice.</small>
     </div>
@@ -94,7 +94,7 @@
   </div>
   <div class="legend">
     <span class="lg safe"><span class="dot safe"></span>Safe (k ≤ 0.95)</span><span class="lg reach"><span class="dot reach"></span>Reach (0.95 &lt; k ≤ 1.05)</span><span class="lg dream"><span class="dot dream"></span>Dream (k &gt; 1.05)</span>
-    <span class="ldisc">🪪 <b>C ₹</b> = CIWG seat (₹62,500 + $300 route) · <b>NC $</b> = Non-CIWG seat ($ route). ✅ Closing CRL uses <b>actual DASA 2025</b> figures where the rank sheet covers that institute+branch+category (shown as "DASA 2025 close"); everything else falls back to an indicative model ("~est"). NIRF figures are verified NIRF 2025 Engineering.</span>
+    <span class="ldisc">🪪 <b>C ₹</b> = CIWG seat (₹62,500 + $300 route) · <b>NC $</b> = Non-CIWG seat ($ route). <svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5L16 9"/></svg> Closing CRL uses <b>actual DASA 2025</b> figures where the rank sheet covers that institute+branch+category (shown as "DASA 2025 close"); everything else falls back to an indicative model ("~est"). NIRF figures are verified NIRF 2025 Engineering.</span>
   </div>
   <div class="rescount"><span id="cnt"></span> &nbsp;·&nbsp; <button class="clearf" onclick="bulkAdd()">+ Add all filtered</button> &nbsp; <button class="clearf" onclick="clearFilters()">Clear filters</button></div>
   <div class="clist" id="list"></div>
@@ -103,8 +103,8 @@
 <section class="card" id="s3">
   <div class="sectitle"><div class="snum">3</div><h2>Preference Tiers &amp; Order</h2>
     <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
-    <button class="btn noprint" onclick="loadAll()" title="Fill all tiers with every institute × branch at the chosen seat category">📥 Load all institutes &amp; branches</button>
-    <button class="btn pri noprint" onclick="autoArrange()">⚙ Auto-arrange</button></div></div>
+    <button class="btn noprint" onclick="loadAll()" title="Fill all tiers with every institute × branch at the chosen seat category"><svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 12h6M9 16h6"/></svg> Load all institutes &amp; branches</button>
+    <button class="btn pri noprint" onclick="autoArrange()"><svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg> Auto-arrange</button></div></div>
   <p class="subt">Each row shows seat category (<b>C ₹</b> = CIWG · <b>NC $</b> = Non-CIWG), NIRF 2025 rank and the DASA 2025 / estimated closing CRL. Use the <b>smart-order</b> bar below: keep <b>Tier view</b>, switch to <b>Custom order</b> (drag rows, tick several and drag them together, or type a position number), or apply an <b>intelligence mode</b> (College/Branch/Economy). Set your <b>branch priority</b> with ◀ ▶ and the modes follow it.</p>
   <div id="rounds"></div>
 </section>
@@ -115,7 +115,7 @@
   <div class="zgrid" id="zoneCards" style="margin-bottom:13px"></div>
   <div class="tscroll"><table class="tbl" id="covTbl"></table></div>
   <div id="exclWrap" style="display:none;margin-top:18px">
-    <h3 style="font-size:1.02rem;color:var(--warn);margin-bottom:6px">🚫 Excluded Colleges <span class="mono" id="exclCount" style="font-size:.85rem"></span></h3>
+    <h3 style="font-size:1.02rem;color:var(--warn);margin-bottom:6px"><svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></svg> Excluded Colleges <span class="mono" id="exclCount" style="font-size:.85rem"></span></h3>
     <p class="subt" style="margin:0 0 10px 0">Deliberately removed — not treated as coverage gaps and not in any prediction.</p>
     <div class="tscroll"><table class="tbl" id="exclTbl"></table></div>
   </div>
@@ -123,7 +123,7 @@
 
 <section class="card" id="s5">
   <div class="sectitle"><div class="snum">5</div><h2>Allotment Prediction @ <span id="curVar" class="mono" style="color:var(--orange)">0%</span></h2></div>
-  <p class="subt">DASA fills seats strictly in <b>your choice preference order</b> (top → bottom). It allots the <b>first (highest-preference) choice you clear</b> — i.e. your rank is at or beyond that choice's last-year closing CRL (after the variation assumption). The Top 10 below are listed <b>in your preference order</b>; ⭐ marks the predicted seat. Last-year closing CRL is shown for each.</p>
+  <p class="subt">DASA fills seats strictly in <b>your choice preference order</b> (top → bottom). It allots the <b>first (highest-preference) choice you clear</b> — i.e. your rank is at or beyond that choice's last-year closing CRL (after the variation assumption). The Top 10 below are listed <b>in your preference order</b>; <svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m12 3 2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.8 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z"/></svg> marks the predicted seat. Last-year closing CRL is shown for each.</p>
   <div id="predictBox"></div>
   <div class="tscroll"><table class="tbl" id="top10Tbl"></table></div>
 </section>
@@ -189,7 +189,7 @@
   <p class="subt">Download the full analysis as a spreadsheet (sorted Dream → Reach → Safe, then by NIRF rank) or print the on-screen report to PDF.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap">
     <button class="btn pri" onclick="exportCsv()">⬇ Download CSV</button>
-    <button class="btn pri" onclick="window.print()">📄 Print / Save as PDF</button>
+    <button class="btn pri" onclick="window.print()"><svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 2h8l4 4v16H6z"/><path d="M14 2v4h4"/><path d="M9 12h6M9 16h6"/></svg> Print / Save as PDF</button>
   </div>
 </section>
 
@@ -197,8 +197,8 @@
   <div class="sectitle"><div class="snum">14</div><h2>After Allotment — <em>Freeze</em>, <em>Float</em> or <em>Slide</em>?</h2></div>
   <p class="subt">Once Round I allots you a seat, DASA asks for your <b>willingness</b>. These three choices decide what happens in the next round. Below the explainer, we map <b>your predicted seat</b> to the exact choices you could still move up to.</p>
   <div class="wcards">
-    <div class="wcard freeze"><div class="wc-ic">🔒</div><div class="wc-h">FREEZE</div><div class="wc-d">Accept the allotted seat as <b>final</b>. You exit all further rounds — the seat is locked in and can't change. Pick this when your allotted seat is genuinely what you want.</div><div class="wc-t">Result: seat confirmed, no upgrade, no risk.</div></div>
-    <div class="wcard float"><div class="wc-ic">🌊</div><div class="wc-h">FLOAT</div><div class="wc-d">Keep the current seat <b>but stay in the running for any higher-preference choice across all institutes</b>. If one opens in the next round you're upgraded; if not, you keep the current seat.</div><div class="wc-t">Result: current seat safe, may upgrade to a better preference anywhere.</div></div>
+    <div class="wcard freeze"><div class="wc-ic"><svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div><div class="wc-h">FREEZE</div><div class="wc-d">Accept the allotted seat as <b>final</b>. You exit all further rounds — the seat is locked in and can't change. Pick this when your allotted seat is genuinely what you want.</div><div class="wc-t">Result: seat confirmed, no upgrade, no risk.</div></div>
+    <div class="wcard float"><div class="wc-ic"><svg class="ea-ic ea-ic--inline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 2.5 15.4 0 18M12 3c-2.5 2.6-2.5 15.4 0 18"/></svg></div><div class="wc-h">FLOAT</div><div class="wc-d">Keep the current seat <b>but stay in the running for any higher-preference choice across all institutes</b>. If one opens in the next round you're upgraded; if not, you keep the current seat.</div><div class="wc-t">Result: current seat safe, may upgrade to a better preference anywhere.</div></div>
     <div class="wcard slide"><div class="wc-ic">➡️</div><div class="wc-h">SLIDE</div><div class="wc-d">Keep the current seat <b>but stay in the running only for higher preferences within the same institute</b>. Safer than Float — you'll never be moved to a different campus.</div><div class="wc-t">Result: current seat safe, may upgrade to a better branch in the same college.</div></div>
   </div>
   <div id="willBox"></div>

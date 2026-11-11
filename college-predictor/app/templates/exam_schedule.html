@@ -22,7 +22,7 @@
         {% for m in dl[id] %}<li><span class="xs-dl-k">{{ m.icon }} {{ m.label }}</span><span class="xs-dl-d">{% if m.d %}{{ m.dt }}{% else %}awaited{% endif %}</span><span class="xs-st {{ m.s }}">{{ m.s }}</span>{% if m.n %}<em>{{ m.n }}</em>{% endif %}</li>{% endfor %}
       </ul>{% endif %}
       {% if note %}<span class="xs-note">{{ note }}</span>{% endif %}
-      {% if start %}<a class="xs-cal" href="{{ url_for('main.exam_schedule_one_ics', exam_id=id) }}" aria-label="Add {{ name }} to calendar">📅 Add to calendar</a>{% endif %}
+      {% if start %}<a class="xs-cal" href="{{ url_for('main.exam_schedule_one_ics', exam_id=id) }}" aria-label="Add {{ name }} to calendar">{{ ea_icon_i('calendar') }} Add to calendar</a>{% endif %}
     </article>
     {% endfor %}
   </div>
@@ -125,13 +125,13 @@
     <aside class="xs-side">
       <div class="xs-cta"><h3>Which exams are right for you?</h3><p>Not every student needs every exam. A mentor can shortlist the 4–6 that fit your marks, goals and eligibility.</p>
         <a class="xs-btn w" href="{{ url_for('main.members_registration') }}">Talk to a Mentor →</a></div>
-      <div class="xs-box"><h3>📅 Add to your calendar</h3>
+      <div class="xs-box"><h3>{{ ea_icon_i('calendar') }} Add to your calendar</h3>
         <p>One .ics file with every dated exam &mdash; works in Google, Apple and Outlook calendars, with 1-day reminders. Entries marked &ldquo;expected&rdquo; are windows, not exam days.</p>
         <div style="display:grid;gap:8px;">
           <a class="xs-btn n" href="{{ url_for('main.exam_schedule_ics') }}">⬇ Download all exams</a>
           <a class="xs-btn g" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">WhatsApp for updates</a>
         </div></div>
-      <div class="xs-box"><h3>⏰ Next deadlines</h3><p>The next dates that need action — applications opening, closing, late-fee cut-offs and results.</p><div id="xs-next" aria-live="polite"></div>
+      <div class="xs-box"><h3>{{ ea_icon_i('clock') }} Next deadlines</h3><p>The next dates that need action — applications opening, closing, late-fee cut-offs and results.</p><div id="xs-next" aria-live="polite"></div>
         <a class="xs-btn n" href="{{ url_for('main.exam_schedule_deadlines_ics') }}" style="margin-top:8px;">⬇ Deadlines calendar (.ics)</a></div>
       <div class="xs-box"><h3>Key milestones</h3>
         {% for when, what in milestones %}<div class="xs-ms"><b>{{ when }}</b><span>{{ what }}</span></div>{% endfor %}</div>

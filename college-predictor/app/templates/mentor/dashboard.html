@@ -64,7 +64,7 @@
   {% endwith %}
 
   <div class="mp-head">
-    <h1>Hi, {{ profile.name.split(' ')[0] }} 👋</h1>
+    <h1>Hi, {{ profile.name.split(' ')[0] }} {{ ea_icon_i('users') }}</h1>
     {% if profile.status == 'Active' %}<span class="mp-badge mp-badge--active">Active guide</span>
     {% elif profile.status == 'Verified' %}<span class="mp-badge mp-badge--active">Verified</span>
     {% elif profile.status == 'Rejected' %}<span class="mp-badge mp-badge--rej">Not approved</span>
@@ -100,10 +100,10 @@
 
   {% if announcements %}
   <div class="mp-panel">
-    <h2>📣 From the EduAakashaa team</h2>
+    <h2>{{ ea_icon_i('message') }} From the EduAakashaa team</h2>
     {% for a in announcements %}
     <div style="padding:8px 0; border-bottom:1px dashed var(--border);">
-      <strong>{% if a.pinned %}📌 {% endif %}{{ a.title }}</strong>
+      <strong>{% if a.pinned %}{{ ea_icon_i('pin') }} {% endif %}{{ a.title }}</strong>
       <div style="color:var(--text-dim); font-size:.9rem;">{{ a.body }}</div>
     </div>
     {% endfor %}
@@ -177,7 +177,7 @@
       {% endfor %}
     </div>
     {% else %}
-    <p style="color:var(--text-dim); font-size:.9rem; margin-bottom:14px;">No messages yet — say hello 👋</p>
+    <p style="color:var(--text-dim); font-size:.9rem; margin-bottom:14px;">No messages yet — say hello {{ ea_icon_i('users') }}</p>
     {% endif %}
     <form method="post" action="{{ url_for('alumni.mentor_message') }}" class="mp-form">
       <div class="fg"><textarea name="body" rows="2" required maxlength="4000" placeholder="Type your message to the EduAakashaa team…"></textarea></div>

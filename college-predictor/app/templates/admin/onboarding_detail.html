@@ -55,7 +55,7 @@
     Confidential items (S50/P34) are included here for you — the rubric keeps them out of any
     family-facing copy.</p>
     <div class="tpl-actions" style="display:flex; gap:10px; margin-bottom:12px; flex-wrap:wrap;">
-      <button type="button" class="btn btn-navy" id="obCopy">📋 Copy for AI</button>
+      <button type="button" class="btn btn-navy" id="obCopy">{{ ea_icon_i('clipboard') }} Copy for AI</button>
       <a class="btn btn-ghost" href="{{ url_for('onboarding.admin_download', sub_id=sub.id) }}">⬇ Download .md (with rubric)</a>
     </div>
     <div class="ob-ai"><textarea id="obBundle" readonly>{{ ai_bundle }}</textarea></div>
@@ -75,7 +75,7 @@
           {% for it in mod['items'] if when_met(it, resp) %}
             {% set ans = resp.get(it.id) %}
             <div class="ob-item {{ 'ob-conf' if it.get('confidential') }}">
-              {% if it.get('confidential') %}<div class="warn">🔒 Confidential — counsellor only</div>{% endif %}
+              {% if it.get('confidential') %}<div class="warn">{{ ea_icon_i('lock') }} Confidential — counsellor only</div>{% endif %}
               <span class="qid">{{ it.id }}</span> <span class="tag">{{ it.tag }}</span>
               <div class="q">{{ it.text }}</div>
               {% if ans in (None, '', {}, []) %}

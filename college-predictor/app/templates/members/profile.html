@@ -48,7 +48,7 @@
   {% endwith %}
 
   <div class="mp-head">
-    <h1>Hi, {{ current_user.name.split(' ')[0] }} 👋</h1>
+    <h1>Hi, {{ current_user.name.split(' ')[0] }} {{ ea_icon_i('users') }}</h1>
     {% if current_user.is_admin %}<span class="mp-badge mp-badge--admin">Admin</span>
     {% elif current_user.is_premium %}<span class="mp-badge mp-badge--premium">Premium member</span>
     {% else %}<span class="mp-badge mp-badge--free">Free plan</span>{% endif %}
@@ -65,10 +65,10 @@
 
   {% if announcements %}
   <div class="mp-panel">
-    <h2>📣 From the EduAakashaa team</h2>
+    <h2>{{ ea_icon_i('message') }} From the EduAakashaa team</h2>
     {% for a in announcements %}
     <div style="padding:8px 0; border-bottom:1px dashed var(--border);">
-      <strong>{% if a.pinned %}📌 {% endif %}{{ a.title }}</strong>
+      <strong>{% if a.pinned %}{{ ea_icon_i('pin') }} {% endif %}{{ a.title }}</strong>
       <div style="color:var(--text-dim); font-size:.9rem;">{{ a.body }}</div>
     </div>
     {% endfor %}
@@ -77,7 +77,7 @@
 
   <!-- ASSESSMENT RESULTS -->
   <div class="mp-panel" id="assessments">
-    <h2>🧭 My assessments</h2>
+    <h2>{{ ea_icon_i('compass') }} My assessments</h2>
     <p class="hint">Results of every assessment you or your parent completed with EduAakashaa. Your mentor sees the same record.</p>
     {% if assessments %}
     <table class="mp-tbl">
@@ -125,7 +125,7 @@
                   <button type="submit" class="btn-main" style="padding:7px 14px; font-size:.82rem;">{{ 'Replace' if d.has_file else 'Upload' }}</button>
                 </form>
                 {% if d.file_name %}<div style="font-size:.78rem; color:var(--text-dim); margin-top:4px;">Current: {{ d.file_name }}</div>{% endif %}
-                {% if d.status == 'Rejected' and d.admin_comment %}<div class="mp-note">⚠ {{ d.admin_comment }}</div>{% endif %}
+                {% if d.status == 'Rejected' and d.admin_comment %}<div class="mp-note">{{ ea_icon_i('alert') }} {{ d.admin_comment }}</div>{% endif %}
               {% endif %}
             </td>
           </tr>
@@ -176,10 +176,10 @@
 
   {% if events %}
   <div class="mp-panel">
-    <h2>🗓 Upcoming exams &amp; events</h2>
+    <h2>{{ ea_icon_i('calendar') }} Upcoming exams &amp; events</h2>
     {% for e in events %}
     <div style="padding:8px 0; border-bottom:1px dashed var(--border);">
-      <strong>{{ e.starts_at.strftime('%d %b %Y') }} · {{ e.name }}</strong>{% if e.important %} ⭐{% endif %}
+      <strong>{{ e.starts_at.strftime('%d %b %Y') }} · {{ e.name }}</strong>{% if e.important %} {{ ea_icon_i('star') }}{% endif %}
       {% if e.description %}<div style="color:var(--text-dim); font-size:.9rem;">{{ e.description }}</div>{% endif %}
     </div>
     {% endfor %}

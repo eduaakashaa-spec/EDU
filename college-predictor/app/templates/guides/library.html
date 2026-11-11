@@ -75,7 +75,7 @@
     <article class="fg-tile" data-cat="{{ g.category }}">
       <div class="fg-cover{{ ' has-img' if g.id in cover_ids }}" style="background:{{ palette[loop.index0 % palette|length] }}">
         {% if g.id in cover_ids %}<img src="{{ url_for('guides.cover', gid=g.id) }}" alt="{{ g.title }}" loading="lazy">{% endif %}
-        <span class="ico">{{ '📘' if g.file_name.lower().endswith('.pdf') else '📄' }}</span>
+        <span class="ico">{{ '{{ ea_icon_i('book') }}' if g.file_name.lower().endswith('.pdf') else '{{ ea_icon_i('file') }}' }}</span>
         <span class="ext">{{ g.file_name.rsplit('.',1)[-1]|upper }}</span>
       </div>
       <div class="fg-body">

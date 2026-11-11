@@ -121,7 +121,7 @@
               <li><a href="{{ url_for('main.nid_papers') }}">NID Papers Analysed</a></li>
               <li><a href="{{ url_for('main.nift_exam') }}">NIFT Papers Analysed</a></li>
               <li><a href="{{ url_for('main.neet_exam') }}">NEET Papers Analysed</a></li>
-              <li><a href="{{ url_for('main.neet_seats_2025') }}">🔒 NEET MBBS Seat Analytics</a></li>
+              <li><a href="{{ url_for('main.neet_seats_2025') }}">{{ ea_icon_i('lock') }} NEET MBBS Seat Analytics</a></li>
               <li><a href="{{ url_for('free_mock.home') }}">EduPulse Free Mock Tests</a></li>
               <li><a href="{{ url_for('main.mbamca_alias') }}">MBA / MCA</a></li>
               <li><a href="{{ url_for('main.cat') }}">CAT</a></li>
@@ -135,7 +135,7 @@
               <li class="nav__dropdown-heading">Class 8&ndash;10</li>
               <li><a href="{{ url_for('main.explorer_landing') }}">Grade 7&ndash;10 Explorer</a></li>
               <li><a href="{{ url_for('futureready.index') }}">FutureReady (Class 8&ndash;9)</a></li>
-              <li><a href="{{ url_for('pulse_tn10.home') }}">🔒 TN Class 10 Mock Tests</a></li>
+              <li><a href="{{ url_for('pulse_tn10.home') }}">{{ ea_icon_i('lock') }} TN Class 10 Mock Tests</a></li>
               <li class="nav__dropdown-heading">Class 11&ndash;12</li>
               <li><a href="{{ url_for('pcm12.hub') }}">Class 12 PCM Analytics</a></li>
               <li><a href="{{ url_for('pcb12.hub') }}">Class 12 PCB Analytics</a></li>
@@ -144,7 +144,7 @@
               <li><a href="{{ url_for('pcm12.thumb_rules') }}">Thumb Rules Handbook</a></li>
               <li class="nav__dropdown-heading">Olympiads</li>
               <li><a href="{{ url_for('main.olympiad_exam') }}">Olympiad Exams Guide</a></li>
-              <li><a href="{{ url_for('olympiad_mock.home') }}">🔒 EduPulse-Olympiad</a></li>
+              <li><a href="{{ url_for('olympiad_mock.home') }}">{{ ea_icon_i('lock') }} EduPulse-Olympiad</a></li>
               <li class="nav__dropdown-divider"><a href="{{ url_for('main.school') }}">All school tools &rarr;</a></li>
             </ul>
           </li>
@@ -153,7 +153,7 @@
             <a href="#" class="nav__link">Study Abroad</a>
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.sat_exam') }}">SAT Exam Guidelines</a></li>
-              <li><a href="{{ url_for('sat_mock.home') }}">🔒 EduPulse-SAT Practice</a></li>
+              <li><a href="{{ url_for('sat_mock.home') }}">{{ ea_icon_i('lock') }} EduPulse-SAT Practice</a></li>
               <li><a href="{{ url_for('main.nri_admission') }}">NRI Admission Guide</a></li>
             </ul>
           </li>
@@ -174,7 +174,7 @@
               <li><a href="{{ url_for('main.per_assessment') }}">PER Assessment</a></li>
               <li><a href="{{ url_for('main.videos_library') }}">Videos Library</a></li>
               <li><a href="{{ url_for('main.exam_schedule') }}">Exam Schedule</a></li>
-              <li><a href="{{ url_for('guides.library') }}">📥 Free Student Guides</a></li>
+              <li><a href="{{ url_for('guides.library') }}">{{ ea_icon_i('file') }} Free Student Guides</a></li>
               <li class="nav__dropdown-divider"><a href="{{ url_for('alumni.alumni_network') }}">★ Become a College Guide</a></li>
               <li><a href="{{ url_for('alumni.faculty_network') }}">★ Join the Faculty Network</a></li>
               <li><a href="{{ url_for('survey.college_survey') }}">★ Rate Your College (Survey)</a></li>
@@ -186,22 +186,22 @@
             <a href="#" class="nav__link">Premium Membership</a>
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.members_registration') }}">Members Registration</a></li>
-              <li><a href="{{ url_for('onboarding.landing') }}">🧭 Onboarding Assessment</a></li>
-              <li class="nav__dropdown-divider"><a href="{{ url_for('main.dasa_prediction_report') }}">🔒 DASA Prediction Report</a></li>
-              <li><a href="{{ url_for('main.choice_builder_pro') }}">🔒 Choice Builder Simulator</a></li>
+              <li><a href="{{ url_for('onboarding.landing') }}">{{ ea_icon_i('compass') }} Onboarding Assessment</a></li>
+              <li class="nav__dropdown-divider"><a href="{{ url_for('main.dasa_prediction_report') }}">{{ ea_icon_i('lock') }} DASA Prediction Report</a></li>
+              <li><a href="{{ url_for('main.choice_builder_pro') }}">{{ ea_icon_i('lock') }} Choice Builder Simulator</a></li>
               <li><a href="{{ url_for('main.dasa2026_schedule') }}">DASA 2026 Schedule</a></li>
-              <li><a href="{{ url_for('main.josaa_2026_analytics') }}">🔒 JoSAA 2026 Analytics</a></li>
-              <li><a href="{{ url_for('main.dasa_2026_analytics') }}">🔒 DASA 2026 Analytics</a></li>
-              <li><a href="{{ url_for('main.jee_2027_roadmap') }}">🔒 JEE 2027 Roadmap</a></li>
-              <li><a href="{{ url_for('main.hostel_culture_analytics') }}">🔒 Hostel &amp; Culture Analytics</a></li>
-              <li><a href="{{ url_for('main.engineering_insights') }}">🔒 Engineering Insights</a></li>
-              <li><a href="{{ url_for('main.best_location') }}">🔒 Best Location</a></li>
-              <li><a href="{{ url_for('main.why_cse') }}">🔒 Why CSE</a></li>
-              <li><a href="{{ url_for('main.josaa_ea_members') }}">🔒 JOSAA EA Members</a></li>
-              <li><a href="{{ url_for('main.tnea_expert') }}">🔒 TNEA Expert</a></li>
-              <li><a href="{{ url_for('main.stream_selection') }}">🔒 Stream Selection</a></li>
-              <li><a href="{{ url_for('main.members_report') }}">🔒 Members Report</a></li>
-              <li><a href="{{ url_for('main.engineering_branch_selection_guide') }}">🔒 Engineering Branch Selection Guide</a></li>
+              <li><a href="{{ url_for('main.josaa_2026_analytics') }}">{{ ea_icon_i('lock') }} JoSAA 2026 Analytics</a></li>
+              <li><a href="{{ url_for('main.dasa_2026_analytics') }}">{{ ea_icon_i('lock') }} DASA 2026 Analytics</a></li>
+              <li><a href="{{ url_for('main.jee_2027_roadmap') }}">{{ ea_icon_i('lock') }} JEE 2027 Roadmap</a></li>
+              <li><a href="{{ url_for('main.hostel_culture_analytics') }}">{{ ea_icon_i('lock') }} Hostel &amp; Culture Analytics</a></li>
+              <li><a href="{{ url_for('main.engineering_insights') }}">{{ ea_icon_i('lock') }} Engineering Insights</a></li>
+              <li><a href="{{ url_for('main.best_location') }}">{{ ea_icon_i('lock') }} Best Location</a></li>
+              <li><a href="{{ url_for('main.why_cse') }}">{{ ea_icon_i('lock') }} Why CSE</a></li>
+              <li><a href="{{ url_for('main.josaa_ea_members') }}">{{ ea_icon_i('lock') }} JOSAA EA Members</a></li>
+              <li><a href="{{ url_for('main.tnea_expert') }}">{{ ea_icon_i('lock') }} TNEA Expert</a></li>
+              <li><a href="{{ url_for('main.stream_selection') }}">{{ ea_icon_i('lock') }} Stream Selection</a></li>
+              <li><a href="{{ url_for('main.members_report') }}">{{ ea_icon_i('lock') }} Members Report</a></li>
+              <li><a href="{{ url_for('main.engineering_branch_selection_guide') }}">{{ ea_icon_i('lock') }} Engineering Branch Selection Guide</a></li>
             </ul>
           </li>
 

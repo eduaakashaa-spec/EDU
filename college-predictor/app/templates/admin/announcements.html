@@ -72,7 +72,7 @@
         </select>
       </div>
       <div class="full" id="annWarn" style="display:none;">
-        <div class="ann-warn">📧 <strong id="annWarnText"></strong> Emails send in the background and cannot be unsent.</div>
+        <div class="ann-warn">{{ ea_icon_i('mail') }} <strong id="annWarnText"></strong> Emails send in the background and cannot be unsent.</div>
       </div>
       {% if not can_send %}
       <div class="full"><p class="sub" style="color:var(--red); margin:0;">Emailing is unavailable — no transport configured. See
@@ -92,7 +92,7 @@
         <tr>
           <td>{{ a.created_at.strftime('%d %b %Y') if a.created_at }}</td>
           <td style="white-space:normal; max-width:420px;">
-            {% if a.pinned %}📌 {% endif %}<strong>{{ a.title }}</strong>
+            {% if a.pinned %}{{ ea_icon_i('pin') }} {% endif %}<strong>{{ a.title }}</strong>
             <div style="color:var(--muted); font-size:12.5px; white-space:normal;">{{ a.body }}</div>
           </td>
           <td><span class="pill s-New">{{ a.audience }}</span></td>

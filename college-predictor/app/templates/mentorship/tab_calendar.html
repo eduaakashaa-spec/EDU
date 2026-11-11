@@ -73,7 +73,7 @@
     <a class="ms-btn p" href="{{ url_for('mentorship.calendar_ics', eid=e.id) }}">⬇ Download .ics</a>
     <form method="post" action="{{ url_for('mentorship.calendar_email', eid=e.id) }}" style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;flex:1;min-width:260px;">
       <div style="flex:1;min-width:200px;"><label class="f">Email the invitation to</label><input type="email" name="email" value="{{ current_user.email }}" required></div>
-      <button class="ms-btn o">✉ Email me the invite</button>
+      <button class="ms-btn o">{{ ea_icon_i('mail') }} Email me the invite</button>
     </form>
   </div>
   {% if not mail_ready %}<div class="ms-note" style="margin-top:10px;">Email delivery is not configured on this server yet — use the .ics download. (Emails come from info@eduaakashaa.com once sending is set up.)</div>{% endif %}

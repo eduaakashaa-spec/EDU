@@ -241,6 +241,8 @@
 
 /* ---- Custom on-brand icons (site-wide, replaces emoji) ---- */
 .ea-ic{ width:22px; height:22px; display:block; }
+/* Inline variant: scales with text, sits on the baseline (emoji replacement). */
+.ea-ic--inline{ display:inline-block; width:1em; height:1em; vertical-align:-0.14em; }
 .info-card__icon, .service-card__icon, .opt-icon, .callout__icon,
 .contact-info-icon, .mode-btn-icon, .card__icon, .feature__icon{
   display:inline-flex; align-items:center; justify-content:center;

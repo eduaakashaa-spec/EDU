@@ -76,7 +76,7 @@
 </div>
 <div class="inv-actions">
   <a class="btn btn-ghost btn-sm" href="{{ url_for('invoices.admin_list') }}">← All invoices</a>
-  <button class="btn btn-navy btn-sm" onclick="window.print()">🖨 Print / Save PDF</button>
+  <button class="btn btn-navy btn-sm" onclick="window.print()">{{ ea_icon_i('file') }} Print / Save PDF</button>
   <a class="btn btn-ghost btn-sm" href="{{ public_url }}" target="_blank" rel="noopener">Customer link ↗</a>
 </div>
 <div class="inv-actbar no-print">
@@ -86,7 +86,7 @@
   <form method="post" action="{{ url_for('invoices.admin_reinstate', inv_id=inv.id) }}"><button class="btn btn-navy btn-sm" type="submit">Reinstate invoice</button></form>
   {% else %}
   <form method="post" action="{{ url_for('invoices.admin_email', inv_id=inv.id) }}" style="margin-right:14px;">
-    <button class="btn btn-navy btn-sm" type="submit">✉ Email to customer</button>
+    <button class="btn btn-navy btn-sm" type="submit">{{ ea_icon_i('mail') }} Email to customer</button>
     <span style="font-size:12px; color:var(--muted);">{{ inv.customer_email or 'no email on file' }}{% if inv.emailed_at %} · last sent {{ inv.emailed_at.strftime('%d %b %H:%M') }}{% endif %}</span>
   </form>
   <form method="post" action="{{ url_for('invoices.admin_payment', inv_id=inv.id) }}">

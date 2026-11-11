@@ -23,7 +23,7 @@
   <section class="ms-head">
     <div class="grow">
       <span class="ms-chip">{{ {'student': 'Student view', 'parent': 'Parent view', 'mentor': 'Mentor view', 'admin': 'Admin view'}[role] }}</span>
-      <h1 style="margin-top:8px;">{% if role == 'student' %}Hi {{ e.preferred_name or e.student.name }} 👋{% else %}{{ e.student.name }}{% endif %}</h1>
+      <h1 style="margin-top:8px;">{% if role == 'student' %}Hi {{ e.preferred_name or e.student.name }} {{ ea_icon_i('users') }}{% else %}{{ e.student.name }}{% endif %}</h1>
       <div class="sub">{{ e.grade }} · {{ e.programme.name }} · Mentor: {{ e.mentor.name if e.mentor else 'to be assigned' }}
         · {{ e.start_date.strftime('%d %b %Y') if e.start_date }}{% if e.end_date %} → {{ e.end_date.strftime('%d %b %Y') }}{% endif %}</div>
     </div>
