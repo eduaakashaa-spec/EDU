@@ -9,6 +9,9 @@
   .ia-inst{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
   .ia-inst>div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:14px;padding:12px 14px}
   .ia-inst h3{margin:0;font-size:1rem}.ia-inst small{color:var(--text-dim,#5A6278)}.ia-inst .st{display:inline-block;margin-top:6px;font:700 .72rem 'JetBrains Mono',monospace;background:#FFF1E6;color:#B34700;border-radius:999px;padding:2px 9px}
+  .jr2-card td.k{width:30%;min-width:130px;vertical-align:top}.jr2-card td,.jr2-card th{padding-top:7px;padding-bottom:7px}
+  .ia-oth{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px;margin-top:8px}.ia-oth>div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:9px 12px}.ia-oth b{display:block;font-size:.88rem;line-height:1.3}.ia-oth span{display:block;margin-top:3px;font-size:.8rem;line-height:1.35;color:var(--text-dim,#5A6278)}
+  .ia-prog{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}.ia-prog li{font-size:.82rem;line-height:1.3;background:#EAF0FB;color:#0E3A8A;border-radius:999px;padding:5px 11px}
   .ia-inst ul{margin:6px 0 0;padding-left:16px;font-size:.84rem;line-height:1.5}
   .ia-mu{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:8px}.ia-mu div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:10px 14px;font-size:.9rem}.ia-mu b{display:block}.ia-mu span{color:var(--text-dim,#5A6278);font-size:.85rem}
   .ia-rd{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px}.ia-rd div{background:#EAF2FF;border-radius:10px;padding:8px 12px;font-size:.84rem}.ia-rd b{display:block}
@@ -69,10 +72,10 @@
     <h3>The seven IISERs</h3>
     <div class="ia-inst">{% for n, st, site, seats, more in d.IISERS %}<div><h3>{{ n }}</h3><small>{{ st }} &middot; <a href="https://www.{{ site }}" target="_blank" rel="noopener">{{ site }}</a></small><br><span class="st">{{ seats }} BS-MS seats</span>{% if more %}<ul>{% for m in more %}<li>{{ m }}</li>{% endfor %}</ul>{% endif %}</div>{% endfor %}</div>
     <p style="font-size:.86rem;color:var(--text-dim,#5A6278);margin-top:8px">{{ d.SEATS_NOTE }}</p>
-    <h3 style="margin-top:16px">Programmes offered through the IAT at the IISERs</h3>
-    <ul style="line-height:1.7;padding-left:20px;margin-top:4px">{% for p in d.PROGRAMMES %}<li>{{ p }}</li>{% endfor %}</ul>
-    <h3 style="margin-top:16px">Five other institutions that use the IAT</h3>
-    <div class="jr2-card"><table><thead><tr><th>Institution</th><th>Programme</th></tr></thead><tbody>{% for a, b in d.OTHERS %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <h3 style="margin-top:12px">Programmes offered through the IAT at the IISERs</h3>
+    <ul class="ia-prog">{% for p in d.PROGRAMMES %}<li>{{ p }}</li>{% endfor %}</ul>
+    <h3 style="margin-top:12px">Five other institutions that use the IAT</h3>
+    <div class="ia-oth">{% for a, b in d.OTHERS %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
     <div class="jr2-note">{{ d.OTHERS_NOTE }}</div>
   </section>
 
