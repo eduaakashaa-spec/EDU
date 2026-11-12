@@ -225,6 +225,27 @@ class PulseIatResult(db.Model):
     user = db.relationship('User', foreign_keys=[user_id])
 
 
+class PulseBitsatResult(db.Model):
+    """One finished BITSAT mock or practice test. +3 for a right answer, -1 for a wrong one, 0 for blank (as in the real BITSAT).
+    `payload_json` keeps one row per question: the chosen option (position shown), right or wrong, the confidence rating (G/L/M/H) and the seconds spent."""
+    __tablename__ = 'pulse_bitsat_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    mock = db.Column(db.String(16), index=True)                  # F1, Y2022, S-PHY1 ...
+    title = db.Column(db.String(120))
+    score = db.Column(db.Integer, default=0)                     # marks: +3 / -1
+    max_score = db.Column(db.Integer, default=0)
+    right = db.Column(db.Integer, default=0)
+    wrong = db.Column(db.Integer, default=0)
+    blank = db.Column(db.Integer, default=0)
+    rated = db.Column(db.Integer, default=0)
+    sure_wrong = db.Column(db.Integer, default=0)                # wrong answers rated High
+    lucky = db.Column(db.Integer, default=0)                     # right answers rated Guess or Low
+    duration_sec = db.Column(db.Integer)
+    timed = db.Column(db.Boolean, default=True)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
+    user = db.relationship('User', foreign_keys=[user_id])
 
 class PulseNidResult(db.Model):
     """One finished NID DAT mock or practice test (B.Des Prelims or M.Des CDAT Paper 1 format). Marks as printed on the question (1 or 2), no negative marking.
@@ -504,4 +525,27 @@ class Class12Profile(db.Model):
     stream = db.Column(db.String(8), nullable=False, default='pcm')
     data_json = db.Column(db.Text)
     updated_at = db.Column(db.DateTime, default=_utcnow, onupdate=_utcnow)
+    user = db.relationship('User', foreign_keys=[user_id])
+
+
+class PulseJeeP2Result(db.Model):
+    """One finished JEE Paper 2 (B.Arch / B.Planning) mock or practice test. +4 for a right answer, -1 for a wrong one, 0 for blank (as in the real paper).
+    `payload_json` keeps one row per question: the chosen option (position shown), right or wrong, the confidence rating (G/L/M/H) and the seconds spent."""
+    __tablename__ = 'pulse_jeep2_results'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    mock = db.Column(db.String(16), index=True)                  # P-A2401S2, S-APT-B2504S1, M-APT1 ...
+    title = db.Column(db.String(120))
+    score = db.Column(db.Integer, default=0)                     # marks: +4 / -1
+    max_score = db.Column(db.Integer, default=0)
+    right = db.Column(db.Integer, default=0)
+    wrong = db.Column(db.Integer, default=0)
+    blank = db.Column(db.Integer, default=0)
+    rated = db.Column(db.Integer, default=0)
+    sure_wrong = db.Column(db.Integer, default=0)                # wrong answers rated High
+    lucky = db.Column(db.Integer, default=0)                     # right answers rated Guess or Low
+    duration_sec = db.Column(db.Integer)
+    timed = db.Column(db.Boolean, default=True)
+    finished_at = db.Column(db.DateTime, default=_utcnow, index=True)
+    payload_json = db.Column(db.Text)
     user = db.relationship('User', foreign_keys=[user_id])

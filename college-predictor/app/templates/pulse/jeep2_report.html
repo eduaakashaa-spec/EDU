@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ r.title }} report | EduPulse-JEE Paper 2{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.rv{border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;margin:8px 0;background:var(--paper,#FFFDF7)}.rv.ok{border-left:5px solid #1F8B5C}.rv.no{border-left:5px solid #C23A3A}.rv.bl{border-left:5px solid #E89A1C}.rv small{color:var(--muted,#5A6278)}
+.rv img{max-width:100%;height:auto;display:block}.rv .o{margin:5px 0;padding:4px 8px;border-radius:8px;border:1.5px solid transparent;display:flex;gap:8px;align-items:center}.rv .o b{min-width:1.4em}.rv .o img{background:#fff;border-radius:4px}.rv .o.k{border-color:#1F8B5C;background:#EAF6EF}.rv .o.w{border-color:#C23A3A;background:#FBE9E7}
+.rv .sol{margin-top:8px;font-size:.92rem;background:#F4F6FB;border-radius:8px;padding:8px 10px}
+:root[data-theme="dark"] .rv .sol{background:#1d2230}:root[data-theme="dark"] .rv .o.k{background:#12301f}:root[data-theme="dark"] .rv .o.w{background:#3a1a1a}</style>{% endblock %}
+{% block content %}
+<div class="pl">
+  <div class="pl-crumb">{% if own %}<a href="{{ url_for('jeep2_mock.home') }}">EduPulse-JEE Paper 2</a>{% else %}<a href="{{ url_for('pulse.mentor_student', uid=r.user_id) }}">{{ r.user.name }}</a>{% endif %} › {{ r.title }} report</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">{{ r.finished_at.strftime('%d %b %Y') }}{{ ' · ' ~ (r.duration_sec // 60) ~ ' min' if r.duration_sec }} · +4 / −1</span><h1>{{ r.title }}</h1>
+      {% if not own %}<p>{{ r.user.name }}'s attempt.</p>{% endif %}</div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ r.score }} / {{ r.max_score }}</b><span>marks</span></div>
+      <div class="pl-kpi"><b>{{ r.right }} · {{ r.wrong }} · {{ r.blank }}</b><span>right · wrong · blank</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P4 }}</b><span>sure but wrong</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P2 }}</b><span>right but unsure</span></div>
+    </div>
+  </section>
+  <div class="pl-grid pl-g2">
+    <div class="pl-card"><span class="pl-eyebrow">Marks</span><h3>Subject by subject</h3>
+      <table class="pl-tbl"><thead><tr><th>Subject</th><th>Right</th><th>Wrong</th><th>Blank</th><th>Marks</th></tr></thead><tbody>
+      {% for s in an.subjects %}<tr><td>{{ s.subject }}</td><td>{{ s.right }}</td><td>{{ s.wrong }}</td><td>{{ s.blank }}</td><td>{{ s.marks }}</td></tr>{% endfor %}</tbody></table>
+      {% if an.acc is not none %}<p style="margin:8px 0 0">Accuracy on attempted questions: <strong>{{ an.acc }}%</strong> (break-even is 20%).</p>{% endif %}
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Confidence</span><h3>What your confidence says</h3>
+      {% if an.rated %}<table class="pl-tbl"><thead><tr><th>You said</th><th>Answers</th><th>Right</th><th>Accuracy</th></tr></thead><tbody>
+      {% for c, label in [('H','High'),('M','Medium'),('L','Low'),('G','Guess')] %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}</tbody></table>
+      {% else %}<p class="pl-muted">No confidence ratings were given in this test.</p>{% endif %}
+      {% if an.weak %}<p style="margin:10px 0 0;">Reinforce first: <strong>{{ an.weak|join(', ') }}</strong>.</p>{% endif %}
+    </div>
+  </div>
+  <h2 style="margin:22px 0 8px">Question review with the key</h2>
+  {% for q in review %}
+  <div class="rv {{ 'ok' if q.right else 'bl' if q.chosen is none or q.ignored else 'no' }}">
+    <small>{{ loop.index }} · {{ q.subject }} · {{ q.tag }}{% if q.t == 'NAT' %} · numerical{% endif %}{% if q.ignored %} · not marked (only the first 5 answered count){% endif %}{% if q.conf %} · you rated <span class="pl-pill cf-{{ q.conf }}">{{ CONF_LABEL[q.conf] }}</span>{% endif %}</small>
+    <img src="{{ q.stem }}" alt="Question {{ loop.index }}" loading="lazy" style="margin:6px 0">
+    <p style="margin:6px 0 0"><strong>Key: {{ q.key }}</strong>{% if q.yours is none %} · not answered{% elif q.bonus %} · your answer {{ q.yours }}{% elif q.right %} · your answer {{ q.yours }} ✓{% else %} · your answer {{ q.yours }} ✗{% endif %}</p>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block title %}EduPulse-JEE Paper 2 Mock Test Centre | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.tn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.tn-t{display:block;text-decoration:none;color:inherit;background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;position:relative}.tn-t:hover{border-color:var(--navy,#0E3A8A)}.tn-t b{display:block;font-family:'Fraunces',Georgia,serif}.tn-t small{color:var(--muted,#5A6278)}.tn-s{position:absolute;right:12px;top:10px;font:700 .8rem 'JetBrains Mono',monospace;color:#1F8B5C}.tn-h{margin:22px 0 8px;font-family:'Fraunces',Georgia,serif}</style>{% endblock %}
+{% block content %}
+{% set an = sm.an %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-JEE Paper 2</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">JEE Main Paper 2A (B.Arch) and 2B (B.Planning) · +4 and −1 · NTA papers with the official key</span><h1>EduPulse-JEE Paper 2 Mock Test Centre</h1>
+      <p>Timed mocks and practice sets from the NTA question papers of JEE Main Paper 2, in Mathematics, Aptitude and Planning, marked with the official final answer key. Sit a whole paper under the clock, drill one section, or take a mixed Aptitude mock. Rate your confidence on every answer, then see what negative marking cost you and where you were sure but wrong.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ sm.attempts }}</b><span>tests saved</span></div>
+      <div class="pl-kpi"><b>{{ sm.avg_pct ~ '%' if sm.avg_pct is not none else '—' }}</b><span>average of the maximum</span></div>
+      <div class="pl-kpi"><b>{{ sm.best ~ '%' if sm.best is not none else '—' }}</b><span>best</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P4 }}</b><span>sure-but-wrong answers</span></div>
+    </div>
+  </section>
+  <div class="pl-note">Papers: {% for p in papers %}{{ p.date }} Paper {{ p.paper }}{{ ', ' if not loop.last }}{% endfor %}. Paper 2A has a Drawing test of two questions that is marked by hand, so it is not in these mocks: the 2A paper here is Mathematics and Aptitude (120 minutes, 300 marks); Paper 2B is Mathematics, Aptitude and Planning (180 minutes, 400 marks). Where a numerical section says &ldquo;attempt any 5 of 10&rdquo;, only your first 5 answers (by question number) are marked. A question NTA dropped counts as right for everyone. Scores are practice guidance, not a prediction of your rank.</div>
+
+  <h2 class="tn-h">Whole papers</h2>
+  <div class="tn-grid">
+    {% for m in tests if m.kind == 'paper' %}
+    <a class="tn-t" href="{{ url_for('jeep2_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }} · {{ m.minutes }} min</small></a>
+    {% endfor %}
+  </div>
+
+  {% if tests|selectattr('kind', 'equalto', 'mix')|list %}
+  <h2 class="tn-h">Mixed Aptitude mocks</h2>
+  <div class="tn-grid">
+    {% for m in tests if m.kind == 'mix' %}
+    <a class="tn-t" href="{{ url_for('jeep2_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }}</small></a>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <h2 class="tn-h">Sections</h2>
+  {% for name in ['Mathematics', 'Aptitude', 'Planning'] %}
+  <h3 style="margin:10px 0 6px;font-size:.95rem;color:var(--muted)">{{ name }}</h3>
+  <div class="tn-grid">
+    {% for m in tests if m.kind == 'section' and m.subject == name %}
+    <a class="tn-t" href="{{ url_for('jeep2_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }}</small></a>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="pl-grid pl-g2" style="margin-top:24px;">
+    <div class="pl-card"><span class="pl-eyebrow">Confidence</span><h3>How sure were you, and were you right?</h3>
+      {% if an.rated %}
+      <table class="pl-tbl"><thead><tr><th>You said</th><th>Answers</th><th>Right</th><th>Accuracy</th></tr></thead><tbody>
+      {% for c, label in CONF %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}
+      </tbody></table>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+      {% else %}<p class="pl-muted">Finish a test and rate your answers (Guess, Low, Medium, High). Your confidence picture appears here.</p>{% endif %}
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Subjects and topics</span><h3>Where to reinforce first</h3>
+      {% if an.attempted %}<table class="pl-tbl"><thead><tr><th>Subject</th><th>Right</th><th>Wrong</th><th>Marks</th></tr></thead><tbody>
+      {% for s in an.subjects %}<tr><td>{{ s.subject }}</td><td>{{ s.right }}</td><td>{{ s.wrong }}</td><td>{{ s.marks }}</td></tr>{% endfor %}</tbody></table>
+      {% if an.weak %}<p style="margin:10px 0 0;">Weakest topics first: <strong>{{ an.weak|join(', ') }}</strong>.</p>{% endif %}
+      {% else %}<p class="pl-muted">Nothing yet.</p>{% endif %}
+    </div>
+  </div>
+
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>My test history</h3>
+    {% if sm.rows %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Test</th><th>Marks</th><th>Right</th><th>Wrong</th><th>Sure but wrong</th><th></th></tr></thead><tbody>
+    {% for r in sm.rows %}<tr><td>{{ r.finished_at.strftime('%d %b %Y') }}</td><td>{{ r.title }}</td><td>{{ r.score }} / {{ r.max_score }}</td><td>{{ r.right }}</td><td>{{ r.wrong }}</td><td>{{ r.sure_wrong }}</td><td><a href="{{ url_for('jeep2_mock.report', rid=r.id) }}">Report</a></td></tr>{% endfor %}</tbody></table>
+    {% else %}<p class="pl-muted">No saved tests yet. Start one above.</p>{% endif %}
+  </div>
+  <p style="font-size:.84rem;color:var(--muted);margin-top:14px">Questions and keys: NTA question papers and NTA final answer keys of JEE (Main) Paper 2. EduAakashaA is not affiliated with the NTA. Official information: <a href="https://jeemain.nta.nic.in/" target="_blank" rel="noopener">jeemain.nta.nic.in</a>.</p>
+</div>
+{% endblock %}

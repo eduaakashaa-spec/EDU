@@ -724,6 +724,25 @@ def barch_mentorship():
     return render_template('barch_mentorship.html', p=p, barch=by['barch'], bplan=by['bplan'])
 
 
+@main_bp.route('/bitsat')
+def bitsat():
+    # public page: BITSAT (BITS Pilani, Goa, Hyderabad): pattern, dates, eligibility, campuses, fees, syllabus, preparation, and the previous-year paper mock tests for members; data in app/data/bitsat.py
+    from app.data import bitsat as d
+    try:
+        from app.services import bitsat as svc
+        papers = svc.papers()
+    except ImportError:
+        papers = []
+    return render_template('bitsat_exam.html', d=d, papers=[p for p in papers if p['usable']])
+
+
+@main_bp.route('/bitsat-exam')
+@main_bp.route('/bitsat-guide')
+@main_bp.route('/bits-pilani-admission')
+def bitsat_alias():
+    return redirect(url_for('main.bitsat'), code=301)
+
+
 @main_bp.route('/iiser-aptitude-test')
 def iat():
     # public page: IISER Aptitude Test (IAT): pattern, dates, eligibility, institutes, syllabus, past papers; from the IAT 2026 brochure and iiseradmission.in; keep in step with that site

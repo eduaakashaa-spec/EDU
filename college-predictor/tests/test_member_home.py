@@ -47,7 +47,7 @@ assert 'md-b-lock' in page and 'Free plan' in page and 'Unlock with membership' 
 assert '/free-guides' in page and '/dasa-2026-analytics' in page
 assert 'Upgrade to premium' in page and 'id="md-q"' in page                                    # search + upgrade call to action
 assert 'data-cat="intel"' in page and page.count('class="md-fchip') == 11                       # All + 10 category filters (staff tools are hidden from students)
-assert '0 of 10 open' in page and '0 of 6 open' in page and 'EduPulse Practice &amp; Mock Tests' in page   # practice centres and insights: every tile is members-only
+assert '0 of 12 open' in page and '0 of 6 open' in page and 'EduPulse Practice &amp; Mock Tests' in page   # practice centres and insights: every tile is members-only
 assert 'mh-tile' not in page and 'md-card-art' not in page and 'data-more' in page      # uniform compact tiles, long groups fold behind "Show all"
 for k in ('journey', 'mentorship', 'intel', 'roadmaps', 'gulf', 'insights', 'free'):
     assert f'id="cat-{k}"' in page, k

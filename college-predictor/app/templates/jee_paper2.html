@@ -82,7 +82,7 @@
 
   <nav class="jr2-nav" aria-label="On this page">
     <a href="#which">Which paper</a><a href="#deadlines">Deadlines</a><a href="#pattern">Pattern</a><a href="#fees">Fees</a><a href="#colleges">Colleges</a><a href="#syllabus">Syllabus</a>
-    <a href="#assess">Check your interest</a><a href="#plan">Plan</a><a href="#parents">Parents</a><a href="#faq">Questions</a>
+    <a href="#assess">Check your interest</a><a href="#mock">Mock tests</a><a href="#plan">Plan</a><a href="#parents">Parents</a><a href="#faq">Questions</a>
   </nav>
 
   <section id="which"><span class="eb">Start here</span><h2>Which paper is yours?</h2>
@@ -171,6 +171,11 @@
       <p style="margin:0 0 6px">Take a plain A4 sheet and a pencil. Sketch <b>a busy street market on a festival evening</b> from memory. Show at least three people, one building and something in the foreground. Then ask yourself:</p>
       <ul style="line-height:1.7;margin:0;padding-left:20px"><li>Did the sketch look balanced, with a near and a far part?</li><li>Did the people look the right size next to the building?</li><li>Did I enjoy it, or did I watch the clock?</li></ul>
       <p style="margin:8px 0 0;font-size:.9rem">If you enjoyed it and the sizes looked right, Paper 2A suits you. If it felt like a chore, look closely at Paper 2B. This is a self-check, not a score.</p></div>
+  </section>
+
+  <section id="mock"><span class="eb">EduAakashaA mock tests</span><h2>Paper 2 previous-year papers as timed mocks</h2>
+    <p>Sit a real NTA Paper 2 paper under the clock, drill Mathematics, Aptitude or Planning, or take a mixed Aptitude mock. Questions are the NTA question papers marked with the official final answer key (+4, &minus;1), with a confidence rating on every answer and a report on what negative marking cost you. Paper 2A has a Drawing test marked by hand, so its mock covers Mathematics and Aptitude.</p>
+    <p style="margin-top:8px">{% if current_user.is_authenticated and current_user.is_premium %}<a class="dg-alert__cta" style="margin:0" href="{{ url_for('jeep2_mock.home') }}">Open the Paper 2 mock centre</a>{% else %}<a class="dg-alert__cta" style="margin:0" href="{{ url_for('main.members_registration') }}">Join to open the mock centre</a>{% endif %}</p>
   </section>
 
   <section id="plan"><span class="eb">EduAakashaA suggestion</span><h2>A simple preparation plan</h2>

@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+{% block title %}BITSAT Guide: Dates, Pattern, Eligibility, Syllabus and Mock Tests | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="BITSAT for BITS Pilani, Goa and Hyderabad: pattern (130 questions, 390 marks, +3 and minus 1, 3 hours), dates, eligibility, fees, syllabus, how to prepare, and timed mock tests from previous-year papers. Prepared {{ d.UPDATED }} from the BITS Pilani admissions site.">{% endblock %}
+{% block head %}
+{% include "_jr2_css.html" %}
+<style>
+  .bs-tab{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.bs-tab button{border:1px solid var(--border,#E8DFC8);background:var(--paper,#FFFDF7);border-radius:999px;padding:7px 14px;font:600 .84rem 'Plus Jakarta Sans',system-ui,sans-serif;cursor:pointer;color:inherit}.bs-tab button.on{background:var(--navy,#0E3A8A);color:#fff;border-color:var(--navy,#0E3A8A)}
+  .bs-pane[hidden]{display:none}
+  .jr2-card td.k{width:32%;min-width:130px;vertical-align:top}.jr2-card td,.jr2-card th{padding-top:7px;padding-bottom:7px}
+  .bs-cam{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin-top:8px}.bs-cam>div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:10px 12px}.bs-cam b{display:block;font-size:.92rem;line-height:1.3}.bs-cam span{display:block;margin-top:3px;font-size:.82rem;line-height:1.4;color:var(--text-dim,#5A6278)}
+  .bs-mu{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:8px}.bs-mu div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:10px 14px;font-size:.9rem}.bs-mu b{display:block}.bs-mu span{color:var(--text-dim,#5A6278);font-size:.85rem}
+  .bs-pp{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;margin-top:10px}.bs-pp div{background:var(--paper,#FFFDF7);border:1px solid var(--border,#E8DFC8);border-radius:12px;padding:10px 12px}.bs-pp b{display:block;font:700 1.15rem 'Fraunces',Georgia,serif;color:var(--navy,#0E3A8A)}.bs-pp span{font-size:.78rem;color:var(--text-dim,#5A6278)}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="jr2">
+  <div class="dg-alert" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Rules move: this guide was prepared on {{ d.UPDATED }}.</strong>
+      It follows the BITS Pilani admissions pages on <b>{{ d.SITE }}</b>. The BITSAT 2027 cycle was not announced there on that date, so the 2026 cycle is shown as the reference. Confirm every date, fee and rule on the official site. Members also get the latest 2026&ndash;27 admission data and analytics, and a place in the EduAakashaA Members Group.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+  <header class="jr2-hero">
+    <div>
+      <span class="eb">BITS Pilani &middot; Goa &middot; Hyderabad</span>
+      <h1>BITSAT <em>Guide</em></h1>
+      <p class="lead">The BITS Admission Test for B.E., B.Pharm. and M.Sc. at three BITS campuses. Pattern, dates, eligibility, fees, syllabus, a preparation plan and timed mock tests from previous-year papers.</p>
+    </div>
+    <img src="{{ url_for('static', filename='img/mascot/eduaakashaa-cube.webp') }}" width="340" height="340" alt="The EduAakashaA mascot, an orange cube with a graduation cap, waving and holding a pen" loading="eager">
+  </header>
+
+  <div class="jr2-facts">{% for a, b in d.FACTS %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
+
+  <nav class="jr2-nav" aria-label="On this page">
+    <a href="#pattern">Pattern</a><a href="#dates">Dates</a><a href="#eligibility">Eligibility</a><a href="#campuses">Campuses</a><a href="#fees">Fees</a><a href="#syllabus">Syllabus</a>
+    <a href="#mock">Mock tests</a><a href="#plan">Preparation</a><a href="#faq">Questions</a>
+  </nav>
+
+  {% set tag = {'official': 'official', 'reported': 'disputed', 'advice': 'disputed'} %}
+  <section id="pattern"><span class="eb">Exam pattern</span><h2>Pattern and marking</h2>
+    <p><span class="tg official">{{ d.TAGS.official }}</span> <span class="tg disputed">{{ d.TAGS.reported }}</span></p>
+    <div class="jr2-card"><table><tbody>{% for a, b, t in d.PATTERN %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}{% if t == 'reported' %} <span class="tg disputed" style="font-size:.66rem">reported</span>{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+    <div class="jr2-note">{{ d.PATTERN_NOTE }}</div>
+  </section>
+
+  <section id="dates"><span class="eb">Official dates &middot; 2026 cycle</span><h2>Key dates</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b, t in d.DATES %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <div class="jr2-note">{{ d.DATES_NOTE }}</div>
+  </section>
+
+  <section id="eligibility"><span class="eb">Official</span><h2>Who can apply</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b, t in d.ELIGIBILITY %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+  </section>
+
+  <section id="campuses"><span class="eb">Where it leads</span><h2>Campuses and programmes</h2>
+    <div class="bs-cam">{% for a, b in d.CAMPUSES %}<div><b>{{ a }}</b><span>{{ b }}</span></div>{% endfor %}</div>
+    <p style="font-size:.86rem;color:var(--text-dim,#5A6278);margin-top:8px">{{ d.CAMPUS_NOTE }}</p>
+  </section>
+
+  <section id="fees"><span class="eb">Official &middot; 2026-27</span><h2>Fees at BITS</h2>
+    <div class="jr2-card"><table><thead><tr><th>Fee</th><th>Where</th><th>Amount</th></tr></thead><tbody>{% for a, b, c in d.FEES %}<tr><td class="k" style="white-space:normal">{{ a }}</td><td>{{ b }}</td><td><b>{{ c }}</b></td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.86rem;color:var(--text-dim,#5A6278);margin-top:8px">{{ d.FEES_NOTE }}</p>
+  </section>
+
+  <section id="syllabus"><span class="eb">What is tested</span><h2>Syllabus</h2>
+    <div class="bs-tab">{% for s, _u in d.SYLLABUS %}<button type="button" class="{{ 'on' if loop.first else '' }}" data-p="{{ loop.index }}">{{ s }}</button>{% endfor %}</div>
+    {% for s, units in d.SYLLABUS %}<div class="bs-pane" id="bs-{{ loop.index }}" {% if not loop.first %}hidden{% endif %}><div class="bs-mu">{% for t, topics in units %}<div><b>{{ t }}</b><span>{{ topics }}</span></div>{% endfor %}</div></div>{% endfor %}
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:8px">{{ d.SYLLABUS_NOTE }}</p>
+  </section>
+
+  <section id="mock"><span class="eb">EduAakashaA mock tests</span><h2>Previous-year papers as timed mocks</h2>
+    {% if papers %}
+    <p>Sit a whole BITSAT paper in 3 hours (+3 and &minus;1), take a mixed 130-question mock in the current pattern, or drill one subject. Every answer carries a confidence rating, and the report shows how much negative marking cost you and where you were sure but wrong.</p>
+    <div class="bs-pp">{% for p in papers %}<div><b>{{ p.year }}</b><span>{{ p.usable }} questions</span></div>{% endfor %}</div>
+    <p style="font-size:.86rem;color:var(--text-dim,#5A6278);margin-top:8px">BITS Pilani publishes no question paper. These are memory-based papers circulated after each sitting, shown as printed, with the answer key published alongside them. They are practice material, not the official paper.</p>
+    <p style="margin-top:8px">{% if current_user.is_authenticated and current_user.is_premium %}<a class="dg-alert__cta" style="margin:0" href="{{ url_for('bitsat_mock.home') }}">Open the BITSAT mock centre</a>{% else %}<a class="dg-alert__cta" style="margin:0" href="{{ url_for('main.members_registration') }}">Join to open the mock centre</a>{% endif %}</p>
+    {% else %}<p>The BITSAT mock tests are being prepared.</p>{% endif %}
+  </section>
+
+  <section id="plan"><span class="eb">EduAakashaA advice</span><h2>How to prepare</h2>
+    <div class="jr2-grid">{% for a, b in d.PLAN %}<div class="jr2-card"><h3>{{ a }}</h3><p style="margin:0;font-size:.92rem">{{ b }}</p></div>{% endfor %}</div>
+  </section>
+
+  <section id="faq"><span class="eb">Questions</span><h2>Common questions</h2>
+    <p><span class="tg official">{{ d.TAGS.official }}</span> <span class="tg disputed">{{ d.TAGS.reported }} / {{ d.TAGS.advice }}</span></p>
+    {% for q, t, a in d.FAQ %}<details class="q"><summary><i>Q{{ '%02d'|format(loop.index) }}</i><span>{{ q }}</span></summary><div class="a"><span class="tg {{ tag[t] }}">{{ d.TAGS[t] }}</span><p style="margin:6px 0 0">{{ a }}</p></div></details>{% endfor %}
+  </section>
+
+  <section id="sources"><span class="eb">Sources</span><h2>Where this came from</h2>
+    <div class="jr2-card"><table><tbody>{% for a, b, u in d.SOURCES %}<tr><td class="k" style="white-space:normal"><a href="{{ u }}" target="_blank" rel="noopener">{{ a }}</a></td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <p style="font-size:.84rem;color:var(--text-dim,#5A6278);margin-top:12px">Prepared {{ d.UPDATED }} with AI assistance from the pages above. The BITS site may change after that date. Confirm everything on {{ d.SITE }} before acting. Questions to BITS: {{ d.CONTACT }}. EduAakashaA is not affiliated with BITS Pilani.</p>
+  </section>
+
+  <div class="jr2-cta">
+    <div style="flex:1;min-width:260px"><h2>Plan your BITS route with a counsellor</h2>
+      <p>We help you compare BITS with your other options, build a study plan and keep the paperwork on time.</p>
+      <p style="margin-top:8px;font-size:.92rem">{% if current_user.is_authenticated and current_user.is_premium %}Ask in the <b>EduAakashaA Members Group</b>: counsellors and experienced parents answer there.{% else %}Members are added to the <b>EduAakashaA Members Group</b>, where counsellors and experienced parents answer questions like these.{% endif %}</p></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      {% if current_user.is_authenticated and current_user.is_premium %}<a class="b" href="{{ url_for('memberhub.home') }}">Open Member Home</a>{% else %}<a class="b" href="{{ url_for('main.members_registration') }}">Join the Members Group</a>{% endif %}
+      <a class="b g" href="{{ WHATSAPP_URL }}" target="_blank" rel="noopener">Talk to a counsellor</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var bs = document.querySelectorAll('.bs-tab button');
+  bs.forEach(function (b) { b.addEventListener('click', function () {
+    bs.forEach(function (x) { x.classList.toggle('on', x === b); });
+    document.querySelectorAll('.bs-pane').forEach(function (p) { p.hidden = p.id !== 'bs-' + b.dataset.p; });
+  }); });
+})();
+</script>
+{% endblock %}

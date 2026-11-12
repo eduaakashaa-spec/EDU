@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}EduPulse-BITSAT Mock Test Centre | EduAakashaA{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}<link rel="stylesheet" href="{{ url_for('static', filename='css/pulse.css') }}">
+<style>.tn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}.tn-t{display:block;text-decoration:none;color:inherit;background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:12px;padding:12px 14px;position:relative}.tn-t:hover{border-color:var(--navy,#0E3A8A)}.tn-t b{display:block;font-family:'Fraunces',Georgia,serif}.tn-t small{color:var(--muted,#5A6278)}.tn-s{position:absolute;right:12px;top:10px;font:700 .8rem 'JetBrains Mono',monospace;color:#1F8B5C}.tn-h{margin:22px 0 8px;font-family:'Fraunces',Georgia,serif}</style>{% endblock %}
+{% block content %}
+{% set an = sm.an %}
+<div class="pl">
+  <div class="pl-crumb"><a href="{{ url_for('memberhub.home') }}">Member Home</a> › EduPulse-BITSAT</div>
+  <section class="pl-hero">
+    <div><span class="pl-chip">BITSAT · 130 questions (150 in the 2015 to 2020 papers) · 180 minutes · +3 and −1</span><h1>EduPulse-BITSAT Mock Test Centre</h1>
+      <p>Timed mocks and practice sets built from BITSAT previous-year papers in Physics, Chemistry, English Proficiency, Logical Reasoning and Mathematics. Sit a whole year&rsquo;s paper in 3 hours, take a full 130-question mock in the current pattern, or drill one subject. Rate your confidence on every answer, then see how much negative marking cost you and where you were sure but wrong.</p></div>
+    <div class="pl-kpis">
+      <div class="pl-kpi"><b>{{ sm.attempts }}</b><span>tests saved</span></div>
+      <div class="pl-kpi"><b>{{ sm.avg_pct ~ '%' if sm.avg_pct is not none else '—' }}</b><span>average of the maximum</span></div>
+      <div class="pl-kpi"><b>{{ sm.best ~ '%' if sm.best is not none else '—' }}</b><span>best</span></div>
+      <div class="pl-kpi"><b>{{ an.pat.P4 }}</b><span>sure-but-wrong answers</span></div>
+    </div>
+  </section>
+  <div class="pl-note">BITS Pilani does not publish its question papers. These are the memory-based papers circulated after each sitting, shown as pictures exactly as printed, with the answer key published alongside them: use them as practice, not as the official paper. A few questions whose picture or key could not be trusted are left out of the tests; each paper&rsquo;s count says how many remain. Scores are practice guidance, not a prediction of your BITSAT score. The real test is computer-based, so try a full mock on a laptop with the timer on.</div>
+
+  <h2 class="tn-h">Full mocks</h2>
+  <div class="tn-grid">
+    {% for m in tests if m.kind == 'full' %}
+    <a class="tn-t" href="{{ url_for('bitsat_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }} · {{ m.minutes }} min</small></a>
+    {% endfor %}
+  </div>
+
+  <h2 class="tn-h">Previous-year papers</h2>
+  <div class="tn-grid">
+    {% for m in tests if m.kind == 'year' %}
+    <a class="tn-t" href="{{ url_for('bitsat_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }} · {{ m.minutes }} min</small></a>
+    {% endfor %}
+  </div>
+
+  <h2 class="tn-h">Subject sections</h2>
+  {% for sj, name in SUBJECTS %}
+  <h3 style="margin:10px 0 6px;font-size:.95rem;color:var(--muted)">{{ name }}</h3>
+  <div class="tn-grid">
+    {% for m in tests if m.kind == 'section' and m.subject == name %}
+    <a class="tn-t" href="{{ url_for('bitsat_mock.take', tid=m.id) }}"><span class="tn-s">{% if done.get(m.id) %}{{ done[m.id].score }} / {{ done[m.id].max_score }}{% endif %}</span><b>{{ m.title }}</b><small>{{ m.note }}</small></a>
+    {% endfor %}
+  </div>
+  {% endfor %}
+
+  <div class="pl-grid pl-g2" style="margin-top:24px;">
+    <div class="pl-card"><span class="pl-eyebrow">Confidence</span><h3>How sure were you, and were you right?</h3>
+      {% if an.rated %}
+      <table class="pl-tbl"><thead><tr><th>You said</th><th>Answers</th><th>Right</th><th>Accuracy</th></tr></thead><tbody>
+      {% for c, label in CONF %}{% set x = an.conf[c] %}<tr><td><span class="pl-pill cf-{{ c }}">{{ label }}</span></td><td>{{ x.n }}</td><td>{{ x.right }}</td><td>{{ x.pct ~ '%' if x.pct is not none else '—' }}</td></tr>{% endfor %}
+      </tbody></table>
+      <ul style="margin:8px 0 0;padding-left:18px;line-height:1.65;">{% for n in an.notes %}<li>{{ n }}</li>{% endfor %}</ul>
+      {% else %}<p class="pl-muted">Finish a test and rate your answers (Guess, Low, Medium, High). Your confidence picture appears here.</p>{% endif %}
+    </div>
+    <div class="pl-card"><span class="pl-eyebrow">Subjects and topics</span><h3>Where to reinforce first</h3>
+      {% if an.attempted %}<table class="pl-tbl"><thead><tr><th>Subject</th><th>Right</th><th>Wrong</th><th>Marks</th></tr></thead><tbody>
+      {% for s in an.subjects %}<tr><td>{{ s.subject }}</td><td>{{ s.right }}</td><td>{{ s.wrong }}</td><td>{{ s.marks }}</td></tr>{% endfor %}</tbody></table>
+      {% if an.weak %}<p style="margin:10px 0 0;">Weakest topics first: <strong>{{ an.weak|join(', ') }}</strong>.</p>{% endif %}
+      {% else %}<p class="pl-muted">Nothing yet.</p>{% endif %}
+    </div>
+  </div>
+
+  <div class="pl-card pl-scroll" style="margin-top:16px;"><h3>My test history</h3>
+    {% if sm.rows %}<table class="pl-tbl"><thead><tr><th>Date</th><th>Test</th><th>Marks</th><th>Right</th><th>Wrong</th><th>Sure but wrong</th><th></th></tr></thead><tbody>
+    {% for r in sm.rows %}<tr><td>{{ r.finished_at.strftime('%d %b %Y') }}</td><td>{{ r.title }}</td><td>{{ r.score }} / {{ r.max_score }}</td><td>{{ r.right }}</td><td>{{ r.wrong }}</td><td>{{ r.sure_wrong }}</td><td><a href="{{ url_for('bitsat_mock.report', rid=r.id) }}">Report</a></td></tr>{% endfor %}</tbody></table>
+    {% else %}<p class="pl-muted">No saved tests yet. Start one above.</p>{% endif %}
+  </div>
+  <p style="font-size:.84rem;color:var(--muted);margin-top:14px">Questions and keys: memory-based BITSAT papers 2015 to 2020, as circulated after each sitting; BITS Pilani publishes no paper of its own. EduAakashaA is not affiliated with BITS Pilani. Official information: <a href="https://admissions.bits-pilani.ac.in/" target="_blank" rel="noopener">admissions.bits-pilani.ac.in</a>.</p>
+</div>
+{% endblock %}

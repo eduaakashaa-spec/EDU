@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-11'
+UPDATED = '2026-11-12'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -50,6 +50,8 @@ COVERED_BLUEPRINTS = {
     'pulse_jee': 'EduPulse-JEE mock centre',
     'pulse_tn10': 'EduPulse-TN Class 10 mock centre',
     'iat': 'EduPulse-IAT mock centre (IISER Aptitude Test)',
+    'bitsat_mock': 'EduPulse-BITSAT mock centre (BITS admission test)',
+    'jeep2_mock': 'EduPulse-JEE Paper 2 mock centre (B.Arch / B.Planning)',
     'impersonate': 'Admin View as and Diagnose',
     'reinforce': 'EduPulse - Reinforcement',
     'wagroup': 'WhatsApp group buttons',
@@ -64,6 +66,8 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-12', 'New member tool EduPulse-JEE Paper 2 Mock Test Centre (/jee-paper2-mock): JEE Main Paper 2A (B.Arch) and 2B (B.Planning) NTA papers with the official final key as timed mocks, section sets and mixed Aptitude mocks (+4, minus 1, numerical answers typed in, confidence report). The public Paper 2 guide gets a Mock tests section and the tool is a Member Home tile.'),
+    ('2026-11-11', 'New public page BITSAT guide (menu Colleges and Exams, /bitsat): pattern and marking, the 2026 dates, eligibility, campuses, fees at BITS, syllabus, a preparation plan and common questions, each fact tagged official, widely reported or EduAakashaA advice. New member tool EduPulse-BITSAT Mock Test Centre (/bitsat-mock): BITSAT previous-year papers as timed mocks (+3, minus 1), full 130-question mocks, subject sets and a confidence report; both are Member Home tiles.'),
     ('2026-11-11', 'Member Home is now compact: every tile is the same small size (no blank picture areas), repeated tiles are removed, and each group shows its first six tiles with a Show all button. Groups were reorganised: new Exam Roadmaps and Guides, Mentor and Staff Tools (staff only), Choice Builder moved into Engineering Insights and Choice Tools, and Free Resources and Help now holds the portal guide, contact and plans. Search and the filter chips still search everything.'),
     ('2026-11-10', 'JEE Main 2025 (April: 2, 3, 4, 7, 8 April, seven shifts) and JEE Main 2024 (April: 6, 8, 9 April, five shifts) B.Tech papers are live in the EduPulse-JEE mock centre with the official NTA key, chapter tags and difficulty, and the same questions in EduPulse - Reinforcement. The paper list is now grouped by year with a year filter. Question NTA dropped counts as correct for everyone.'),
     ('2026-11-10', 'JEE Main 2026 Session 1 (January) papers are live in the EduPulse-JEE mock centre: all ten B.Tech shifts (21, 22, 23, 24 and 28 January, two shifts each) retyped from the NTA papers with our own worked steps after each question. Numerical answers match the NTA final key (a question the key shows as dropped, or with several accepted options, is left out, and so are questions we could not read reliably from a drawn figure). The same questions are in EduPulse Reinforcement by chapter.'),
@@ -392,6 +396,25 @@ GUIDE = [
                 'Mentors see the report of a student they mentor; admins see all.'],
          tips=['The released papers are answer-key editions in which option (a) is always right, so the tests shuffle the options. A few questions whose figures cannot be shuffled are left out of the tests but appear in the solved papers.'],
          tiles=['EduPulse-IAT Mock Test Centre'], added='2026-11-01', updated='2026-11-01'),
+    dict(id='s-bitsat-mock', role='student', group='EduPulse', title='BITSAT guide and EduPulse-BITSAT Mock Test Centre', summary='The BITSAT guide (public) and timed mocks from BITSAT previous-year papers.',
+         where=[('BITSAT guide', 'main.bitsat'), ('EduPulse-BITSAT', 'bitsat_mock.home')],
+         steps=['Read the BITSAT guide (open to everyone, also under the Colleges and Exams menu as BITS Pilani (BITSAT)): pattern and marking, the 2026 dates, eligibility, campuses, fees at BITS, syllabus, a preparation plan and common questions.',
+                'Open "EduPulse-BITSAT Mock Test Centre". Choose a previous-year paper (a whole year as it was sat: 150 questions in the papers from 2015 to 2020, 180 minutes), a full 130-question mock in the current pattern drawn across the years, or a subject set.',
+                'Marking is as in the real BITSAT: +3 for a right answer, minus 1 for a wrong answer, 0 for a blank. Each question is a picture of the printed question with its four options; press A, B, C or D, then rate your confidence: Guess, Low, Medium or High.',
+                'A timed test submits itself when time is up, and your progress is kept in the browser until you submit. Use the subject buttons at the top to jump between Physics, Chemistry, English Proficiency, Logical Reasoning and Mathematics.',
+                'Submit and open the report: marks, right, wrong and blank by subject, the effect of negative marking, the confidence table, and every question with the key and your answer.',
+                'Mentors see the report of a student they mentor; admins see all.'],
+         tips=['BITS Pilani publishes no question paper. These are memory-based papers with the keys published alongside them, so a question or key can carry an error: tell your mentor if an answer looks wrong. Questions whose picture or key could not be trusted are left out of the tests.'],
+         tiles=['EduPulse-BITSAT Mock Test Centre', 'BITSAT guide'], added='2026-11-11', updated='2026-11-11'),
+    dict(id='s-jeep2-mock', role='student', group='EduPulse', title='EduPulse-JEE Paper 2 Mock Test Centre', summary='JEE Main Paper 2A (B.Arch) and 2B (B.Planning) papers with the official NTA key as timed mocks.',
+         where=[('EduPulse-JEE Paper 2', 'jeep2_mock.home'), ('JEE Paper 2 guide', 'main.jee_paper2')],
+         steps=['Open "EduPulse-JEE Paper 2 Mock Test Centre". Choose a whole paper (Paper 2A: Mathematics and Aptitude, 120 minutes, 300 marks; Paper 2B: Mathematics, Aptitude and Planning, 180 minutes, 400 marks), one section of a paper, or a mixed Aptitude mock.',
+                'Marking is as in the real paper: +4 for a right answer, minus 1 for a wrong answer, 0 for a blank, in numerical questions too. Each question is a picture of the NTA question: press A, B, C or D, or type a number for a numerical question, then rate your confidence: Guess, Low, Medium or High.',
+                'Where a numerical section says attempt any 5 of 10, only your first 5 answers by question number are marked. A question NTA dropped counts as right for everyone. The Drawing test of Paper 2A is marked by hand and is not in the mocks.',
+                'Submit and open the report: marks, right, wrong and blank by section, the effect of negative marking, the confidence table, and every question with the NTA key and your answer.',
+                'Mentors see the report of a student they mentor; admins see all.'],
+         tips=['The papers are the NTA question papers with the official final answer keys. Papers are added as their keys are found: 24 January 2024 (2A and 2B), 30 January 2025 (2A) and 9 April 2025 (2B) are in so far.'],
+         tiles=['EduPulse-JEE Paper 2 Mock Test Centre'], added='2026-11-12', updated='2026-11-12'),
     dict(id='s-tn10-mock', role='student', group='EduPulse', title='EduPulse-TN Class 10 Mock Test Centre', summary='Tamil Nadu Class 10 (SSLC / Matriculation) Mathematics and Science mocks and unit tests, in English.',
          where=[('EduPulse-TN Class 10', 'pulse_tn10.home')],
          steps=['Open "EduPulse-TN Class 10 Mock Test Centre". Choose a Full-syllabus mock (three each for Mathematics and Science) or a Unit test for one textbook unit (Mathematics units 1-8, Science units 1-22).',
