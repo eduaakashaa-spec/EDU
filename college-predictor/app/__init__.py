@@ -31,6 +31,23 @@ def create_app():
     def load_user(user_id):
         return db.session.get(User, int(user_id))
 
+    # Google Analytics 4: the measurement ID of the www.eduaakashaa.com web stream (public by design; override or switch off with GA_MEASUREMENT_ID, empty = off).
+    # Not loaded in debug or tests, and not for admins and staff, so our own visits do not count.
+    @app.context_processor
+    def inject_analytics():
+        import os
+        from flask import request
+        from flask_login import current_user
+        gid = os.environ.get('GA_MEASUREMENT_ID', 'G-L5HRKWL888').strip()
+        if not gid or app.debug or app.testing:
+            return {'ga_id': ''}
+        ep = request.endpoint or ''
+        if request.blueprint in ('admin_portal', 'impersonate') or ep.startswith('admin'):
+            return {'ga_id': ''}
+        if getattr(current_user, 'is_authenticated', False) and (getattr(current_user, 'is_admin', False) or getattr(current_user, 'is_staff', False)):
+            return {'ga_id': ''}
+        return {'ga_id': gid}
+
     # Make WhatsApp click-to-chat + key contact details available to every template,
     # so CTAs across the site stay consistent and point to one number.
     @app.context_processor
