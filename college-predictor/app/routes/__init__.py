@@ -579,6 +579,18 @@ def jee_paper2():
     return render_template('jee_paper2.html', d=d)
 
 
+@main_bp.route('/bplanning-planner-2027')
+def bplanning_planner():
+    # public page for members and visitors: interactive JEE Main Paper 2B (B.Planning) planner, built from two complete Paper 2B papers (2025, 2023); progress stays in the browser
+    return render_template('bplanning_planner.html')
+
+
+@main_bp.route('/bplanning-planner')
+@main_bp.route('/jee-paper-2b-planner')
+def bplanning_planner_alias():
+    return redirect(url_for('main.bplanning_planner'), code=301)
+
+
 @main_bp.route('/jee-paper-2')
 @main_bp.route('/jee-main-paper-2')
 @main_bp.route('/jee-barch-bplanning')

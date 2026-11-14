@@ -1,0 +1,136 @@
+{% raw %}<main id="main">
+<header class="hero" id="top" data-sec>
+ <div class="wrap">
+  <div class="topbar"><img src="{% endraw %}{{ url_for('static', filename='images/logo.png') }}{% raw %}" alt="EduAakashaa logo" width="42" height="42"><div><b>Edu<i>Aakashaa</i></b><small>Guiding students towards the right future</small></div></div>
+  <div class="hgrid">
+   <div>
+    <span class="eyebrow">B.Planning · JEE Main Paper 2B · 2027</span>
+    <h1>Know where the <span class="hl">marks</span> are. <em>Plan</em> the weeks.</h1>
+    <p class="lead">An interactive planner built from two complete Paper 2B papers: a priority map of every topic, a short starter check, a goal-gap calculator and a 9-week plan for your level.</p>
+    <div class="cta"><a class="btn-primary" href="#check">Take the starter check <span class="ar">→</span></a><a class="btn-ghost" href="#map">Open the priority map <span class="ar">→</span></a></div>
+    <div class="chip-deadline" id="dl">Session 1 registration closes <b>22 Nov 2026</b></div>
+   </div>
+   <div>
+    <div class="artcard">
+     <svg id="art" viewBox="0 0 600 560" role="img" aria-label="Generated site plan of plots, streets and a roundabout"></svg>
+     <div class="artbar"><div class="artcap" id="artcap" aria-live="polite">Hover or tap a plot</div><button class="btn-ghost btn-sm" id="remix" type="button" aria-label="Generate a new site plan">Remix plan</button></div>
+    </div>
+   </div>
+  </div>
+  <div class="stats reveal" aria-label="Paper 2B in numbers">
+   <div><b>100</b><small>Questions</small></div>
+   <div><b>400</b><small>Marks</small></div>
+   <div><b>3<span>h</span></b><small>Computer-based</small></div>
+   <div><b>205</b><small>Past questions studied</small></div>
+  </div>
+ </div>
+</header>
+
+<section id="paper" data-sec>
+ <div class="wrap">
+  <div class="dimline">Plot 01 · the paper</div>
+  <div class="sh reveal"><span class="eyebrow">01 · The paper</span><h2>One paper, three <em>parcels</em></h2><p>Marks decide the size of each parcel. Tap one to see what sits inside and how often each theme has appeared.</p></div>
+  <div class="pgrid reveal">
+   <div class="parcels" role="group" aria-label="Paper 2B parcels sized by marks">
+    <button class="parcel p-apt" type="button" data-p="apt" aria-pressed="true"><small>Section B · 50 questions</small><div><b>Aptitude</b><span class="mk">200<i>marks</i></span></div></button>
+    <button class="parcel p-mat" type="button" data-p="mat" aria-pressed="false"><small>Section A · 25 questions</small><div><b>Mathematics</b><span class="mk">100<i>marks</i></span></div></button>
+    <button class="parcel p-pla" type="button" data-p="pla" aria-pressed="false"><small>Section C · 25 questions</small><div><b>Planning</b><span class="mk">100<i>marks</i></span></div></button>
+   </div>
+   <div class="card pad glow pdetail" id="pdet" aria-live="polite"></div>
+  </div>
+  <div class="dates reveal" id="dates"></div>
+  <div class="facts reveal" id="facts"></div>
+ </div>
+</section>
+
+<section id="map" data-sec>
+ <div class="wrap">
+  <div class="dimline">Plot 02 · priority map</div>
+  <div class="sh reveal"><span class="eyebrow">02 · Priority map</span><h2>Every topic, sized by <em>how often</em> it appears</h2><p>Bigger tiles carried more questions in the 2025 and 2023 papers. Colour shows the tier. Tap a tile for what was asked.</p></div>
+  <div class="row reveal">
+   <div class="tabs" role="tablist" aria-label="Section"><button class="tab" role="tab" aria-selected="true" data-sec="maths" type="button">Mathematics</button><button class="tab" role="tab" aria-selected="false" data-sec="apt" type="button">Aptitude</button><button class="tab" role="tab" aria-selected="false" data-sec="plan" type="button">Planning</button></div>
+   <div class="row" id="tierchips" role="group" aria-label="Filter by tier"></div>
+  </div>
+  <div class="mgrid reveal">
+   <div><div class="tm" id="tm" role="group" aria-label="Priority map tiles"></div>
+    <div class="legend" id="legend"></div>
+    <details class="review rank"><summary>See every topic as a ranked list</summary><ol id="mrank"></ol></details></div>
+   <aside class="card pad glow mdet" id="mdet" aria-live="polite"></aside>
+  </div>
+  <p class="note" id="tiernote"></p>
+ </div>
+</section>
+
+<section id="check" data-sec>
+ <div class="wrap">
+  <div class="dimline">Plot 03 · starter check</div>
+  <div class="sh reveal"><span class="eyebrow">03 · Starter check</span><h2>Find your <em>starting point</em> in 10 minutes</h2><p>Twenty original questions across the three sections. No timer, no judgement. Your result sets your plan group and feeds the goal tool.</p></div>
+  <div class="card qcard reveal" id="qcard" aria-live="polite"></div>
+ </div>
+</section>
+
+<section id="goal" data-sec>
+ <div class="wrap">
+  <div class="dimline">Plot 04 · goal and gap</div>
+  <div class="sh reveal"><span class="eyebrow">04 · Goal and gap</span><h2>Set the target. <em>See</em> the distance.</h2><p>Pick a target out of 400, choose your exam session and the tool shows the gap, the weeks left and the marks to add each week.</p></div>
+  <div class="ggrid reveal">
+   <div class="card pad ctl">
+    <div><div class="lab">Start from</div><div class="seg" id="srcseg"><button type="button" data-m="check" aria-pressed="true">Starter check</button><button type="button" data-m="mock" aria-pressed="false">My mock test</button></div><p class="note" id="gsrc" style="margin-top:10px"></p></div>
+    <div id="mockbox" hidden><div class="lab">Mock test, per section</div>
+     <div class="mock" id="mock"></div></div>
+    <div><label for="target">Target score <b id="tv">240</b></label><input id="target" type="range" min="100" max="380" step="5" value="240"></div>
+    <div><div class="lab">Paper difficulty factor</div><div class="seg" id="adjseg"><button type="button" data-a="1" aria-pressed="false">Easy 1.00</button><button type="button" data-a="0.85" aria-pressed="true">Usual 0.85</button><button type="button" data-a="0.7" aria-pressed="false">Hard 0.70</button></div></div>
+    <div><label for="exam">Exam session</label><select id="exam"><option value="s1">Session 1: 20 January 2027</option><option value="s2">Session 2: 2 April 2027</option></select></div>
+   </div>
+   <div class="card pad glow" id="gout" aria-live="polite"></div>
+  </div>
+  <details class="review reveal" style="max-width:860px;margin-top:22px"><summary>How this is calculated</summary><p>Section marks = (4 × correct − wrong) ÷ (4 × questions) × section marks, never below zero. The three sections are added and multiplied by the difficulty factor to estimate a Paper 2B score out of 400. Gap = target − estimate. Marks per week = gap ÷ whole weeks left. Gap classes: small up to 50, medium 51 to 120, large over 120. The share of the gap given to each section follows its unused marks. These are planning rules of thumb, not a rank or cut-off prediction.</p></details>
+ </div>
+</section>
+
+<section id="plan" data-sec>
+ <div class="wrap">
+  <div class="dimline">Plot 05 · nine-week plan</div>
+  <div class="sh reveal"><span class="eyebrow">05 · The plan</span><h2>Nine weeks, one plot at a <em>time</em></h2><p>Pick your group to see weekly hours, methods and which chapters are core. Then tick weeks off as you finish them.</p></div>
+  <div class="tabs gtabs reveal" id="gtabs" role="tablist" aria-label="Student group"></div>
+  <div class="gp reveal" id="gp"></div>
+  <div class="nowbar reveal" id="nowbar"></div>
+  <div class="weeks" id="weeks"></div>
+  <h3 class="sub-h reveal">Boards and Paper 2 <em>together</em></h3>
+  <p class="note reveal" style="margin-top:0;max-width:760px">Class 12 school work and Paper 2B overlap more than most students expect. Use the overlap, then add what boards skip.</p>
+  <div class="phases reveal" id="phases"></div>
+  <div class="tgw reveal"><table class="tt ov"><thead><tr><th>Class 12 / board chapters</th><th>Paper 2B Mathematics chapters</th></tr></thead><tbody id="ovb"></tbody></table></div>
+  <p class="note reveal" id="ovnote"></p>
+ </div>
+</section>
+
+<section id="tips" data-sec>
+ <div class="wrap">
+  <div class="dimline">Plot 06 · tips and pitfalls</div>
+  <div class="sh reveal"><span class="eyebrow">06 · Tips and pitfalls</span><h2>Small habits, <em>big</em> marks</h2><p>Eighteen tips for getting more from every study hour and fifteen mistakes that quietly cost marks.</p></div>
+  <div class="row reveal"><div class="tabs" id="tiptabs" role="tablist" aria-label="Tips"><button class="tab" role="tab" aria-selected="true" data-k="tips" type="button">Tips</button><button class="tab" role="tab" aria-selected="false" data-k="mistakes" type="button">Mistakes to avoid</button><button class="tab" role="tab" aria-selected="false" data-k="practice" type="button">Practice routine</button></div></div>
+  <div id="tipbox" class="reveal"></div>
+  <div class="more"><button class="btn-ghost btn-sm" id="tipmore" type="button"></button></div>
+ </div>
+</section>
+
+<section id="faq" data-sec>
+ <div class="wrap">
+  <div class="dimline">Plot 07 · questions and limits</div>
+  <div class="sh reveal"><span class="eyebrow">07 · Questions</span><h2>Quick <em>answers</em>, honest limits</h2></div>
+  <div class="faq reveal" id="faqlist"></div>
+  <div class="card pad lim reveal"><h3>What this page cannot tell you</h3><ol id="lims"></ol></div>
+ </div>
+</section>
+</main>
+
+<footer class="dark" id="contact">
+ <div class="wrap">
+  <div class="fg">
+   <div><span class="mono">EduAakashaa</span><h3>Guiding students towards the <em>right future</em></h3><p style="margin-top:14px;max-width:420px">Education counselling for B.Arch and B.Planning aspirants. Talk to a counsellor to turn your score into a college list.</p></div>
+   <div><span class="mono">Talk to us</span><ul><li><a href="tel:+918015722706">+91-80157 22706</a></li><li><a href="mailto:info@eduaakashaa.com">info@eduaakashaa.com</a></li><li><a href="https://www.eduaakashaa.com" rel="noopener">www.eduaakashaa.com</a></li></ul></div>
+   <div><span class="mono">Where</span><ul><li>Coimbatore, Tamil Nadu</li></ul></div>
+  </div>
+  <p class="fine">Prepared with AI assistance from two complete Paper 2B papers (9 April 2025 and 12 April 2023 Shift 2). Tiers are planning guides, not predictions or an official syllabus. Confirm every date, fee and rule on the official NTA JEE Main website before you act.</p>
+ </div>
+</footer>{% endraw %}

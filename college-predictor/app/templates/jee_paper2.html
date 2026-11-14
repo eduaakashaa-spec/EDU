@@ -181,6 +181,7 @@
   <section id="plan"><span class="eb">EduAakashaA suggestion</span><h2>A simple preparation plan</h2>
     <p style="font-size:.9rem">The dates come from NTA. The advice on what to do in each period is ours, not an NTA rule.</p>
     <div class="jr2-card"><table><tbody>{% for a, b in d.PLAN %}<tr><td class="k">{{ a }}</td><td>{{ b }}</td></tr>{% endfor %}</tbody></table></div>
+    <div class="jr2-note"><b>Aiming for B.Planning (Paper 2B)?</b> Open the <a href="{{ url_for('main.bplanning_planner') }}">B.Planning Planner</a>: a priority map of every topic, a starter check, a goal-gap calculator and a nine-week plan. Free for everyone.</div>
     <div class="jr2-note"><b>Want a mentor beside you?</b> Members can join the <a href="{{ url_for('main.barch_mentorship') }}">B.Arch and B.Planning mentorship programme</a>: weekly sessions, mocks, an application calendar and reports for parents.</div>
   </section>
 

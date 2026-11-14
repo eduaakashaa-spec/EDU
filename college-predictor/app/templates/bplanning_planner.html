@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}B.Planning Planner: JEE Main Paper 2B 2027 | EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Free interactive planner for JEE Main Paper 2B (B.Planning) 2027: a priority map of every topic, a 20-question starter check, a goal-gap calculator and a 9-week plan for your level. Open to everyone; members get the same tool plus the Paper 2 mock centre.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bplanning_planner.css') }}">
+<style>
+  .bpl-note{max-width:1184px;margin:14px auto 14px;display:flex;gap:14px;align-items:flex-start;padding:12px 16px;border:1px solid #F5CBA7;border-left:5px solid #FF6B0A;border-radius:12px;background:#FFF1E6;color:#0E1B3D;position:relative;z-index:2}
+  .bpl-note .dg-alert__icon{font-size:1.3rem;line-height:1.2}.bpl-note .dg-alert__body{flex:1;font-size:.92rem;line-height:1.5}.bpl-note .dg-alert__body strong{font-family:'Fraunces',Georgia,serif;font-size:1.02rem;display:block;margin-bottom:2px}
+  .bpl-note .dg-alert__cta{display:inline-block;margin-top:8px;background:#FF6B0A;color:#fff !important;font-weight:700;padding:8px 18px;border-radius:999px;text-decoration:none}.bpl-note .dg-alert__ok{display:inline-block;margin-top:4px;font-weight:600;color:#1F8B5C}
+  @media (max-width:1240px){.bpl-note{margin-left:12px;margin-right:12px}}
+  .bpl-members{background:#071A44;color:#fff;border-radius:20px;padding:34px 28px;margin:0 auto 34px;max-width:1184px;display:grid;grid-template-columns:1.4fr 1fr;gap:22px;align-items:center}
+  .bpl-members h2{font:600 clamp(1.4rem,3vw,2rem) 'Fraunces',Georgia,serif;margin:0 0 8px;color:#fff}
+  .bpl-members p{color:rgba(255,255,255,.78);margin:0 0 6px;font-size:.98rem}
+  .bpl-members ul{margin:8px 0 0;padding-left:18px;color:rgba(255,255,255,.85);font-size:.94rem}
+  .bpl-members .acts{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+  .bpl-members a{display:inline-block;border-radius:999px;padding:12px 24px;font-weight:700;text-decoration:none}
+  .bpl-members a.p{background:#FF6B0A;color:#fff}.bpl-members a.g{border:1.5px solid rgba(255,255,255,.55);color:#fff}
+  .bpl-members .ok{color:#8EE3B6;font-weight:700}
+  @media (max-width:760px){.bpl-members{grid-template-columns:1fr;margin-left:12px;margin-right:12px}.bpl-members .acts{justify-content:flex-start}}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="bpl" data-no-rail>
+  <div class="dg-alert bpl-note" role="note">
+    <span class="dg-alert__icon" aria-hidden="true">&#x1F514;</span>
+    <div class="dg-alert__body">
+      <strong>Open to everyone: no sign-in needed, nothing is hidden.</strong>
+      Built from two complete Paper 2B papers (9 April 2025 and 12 April 2023, Shift 2). The tiers are planning guides, not predictions. Confirm every date, fee and rule on the official NTA JEE Main website.
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <br><span class="dg-alert__ok">Your Premium access is active{% if current_user.tier in ('premium', 'elite') and current_user.tier_expires_at %} until {{ current_user.tier_expires_at.strftime('%d %b %Y') }}{% endif %}. Your starter check, goal and ticked weeks stay in this browser.</span>
+      {% else %}
+      <br><a class="dg-alert__cta" href="{{ url_for('main.members_registration') }}">Join Premium Membership &rarr;</a>
+      {% endif %}
+    </div>
+  </div>
+
+{% include "_bplanning_dock.html" %}
+{% include "_bplanning_body.html" %}
+
+  <aside class="bpl-members" aria-label="For members">
+    <div>
+      <h2>Take the plan further with a mentor</h2>
+      <p>The planner shows where the marks are. Members turn it into a college decision with a mentor beside them.</p>
+      <ul>
+        <li>EduPulse-JEE Paper 2 Mock Test Centre: Paper 2B as timed mocks with the NTA key</li>
+        <li>Latest 2026&ndash;27 admission data and the EduAakashaA Members Group</li>
+        <li>Mentoring for B.Arch and B.Planning: from Paper 2 to the seat</li>
+      </ul>
+    </div>
+    <div class="acts">
+      {% if current_user.is_authenticated and current_user.is_premium %}
+      <span class="ok">Premium active</span>
+      <a class="p" href="{{ url_for('jeep2_mock.home') }}">Open the Paper 2 mock centre</a>
+      <a class="g" href="{{ url_for('memberhub.home') }}">Member Home</a>
+      {% else %}
+      <a class="p" href="{{ url_for('main.members_registration') }}">Join the Members Group</a>
+      <a class="g" href="{{ url_for('main.jee_paper2') }}">Read the Paper 2 guide</a>
+      {% endif %}
+    </div>
+  </aside>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/bplanning_planner.js') }}"></script>
+{% endblock %}
