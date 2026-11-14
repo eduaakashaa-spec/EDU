@@ -82,7 +82,7 @@
             {% for t in it.templates %}
             <div class="mt-tpl {{ t.channel }}">
               <div class="mt-tpl-h">
-                <span class="mt-tag {{ t.channel }}">{{ '{{ ea_icon_i('mail') }} ' if t.channel == 'email' else '{{ ea_icon_i('message') }} ' }}{{ t.label }}</span>
+                <span class="mt-tag {{ t.channel }}">{{ ea_icon_i('mail') ~ ' ' if t.channel == 'email' else ea_icon_i('message') ~ ' ' }}{{ t.label }}</span>
                 <button type="button" class="mt-btn" data-copy>Copy {{ 'subject + body' if t.subject else 'message' }}</button>
               </div>
               {% if t.subject %}<div class="mt-subj"><b>Subject</b><span data-subject>{{ t.subject }}</span></div>{% endif %}

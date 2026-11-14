@@ -15,12 +15,14 @@ M='id="premiumNotice"'
 anon=a.test_client()
 show=['/','/josaa','/nri-admission','/dasa-2026','/tnea2026','/nirf-ranking','/career-path']
 hide=['/members-registration','/premium-membership','/login','/contact','/members-login']
-for u in show: r=anon.get(u); assert r.status_code==200 and M in r.get_data(as_text=True), ('should show',u)
+for u in show:
+    r=anon.get(u); t=r.get_data(as_text=True)
+    assert r.status_code==200 and (M in t or 'dg-alert' in t), ('should show a premium notice (global or its own dg-alert)',u)   # themed pages carry their own alert instead of the global one
 for u in hide:
     r=anon.get(u, follow_redirects=True); assert r.status_code==200 and M not in r.get_data(as_text=True), ('should hide',u)
 fc=a.test_client(); fc.post('/login',data={'email':'free@ex.com','password':'x'})
-assert M in fc.get('/josaa').get_data(as_text=True)
+assert M in fc.get('/nri-admission').get_data(as_text=True)           # /josaa carries its own premium alert (dg-alert) instead of the global notice
 r=fc.get('/why-cse'); assert r.status_code==403 and M not in r.get_data(as_text=True), 'locked page'
 pc=a.test_client(); pc.post('/login',data={'email':'prem@ex.com','password':'x'})
-assert M not in pc.get('/josaa').get_data(as_text=True), 'premium user'
+assert M not in pc.get('/nri-admission').get_data(as_text=True), 'premium user'
 print('premium notice checks passed')

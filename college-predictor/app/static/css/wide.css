@@ -1,0 +1,21 @@
+/* Site-wide page width: one shared limit for the main content column of every page family, so pages fill a desktop screen instead of sitting in a
+   narrow 900 to 1120px column. Loaded after the page's own CSS (see base.html). Forms, test-taking pages and long single-column reading pages
+   keep their own narrower width on purpose. */
+:root { --wide: 1440px; }
+
+.main-content { max-width: var(--wide); }
+.main-content .container { max-width: var(--wide); }
+
+/* page families with their own wrapper (the width each had before is in the comment) */
+.jr2 { max-width: var(--wide); }              /* 1120: guides and analysis pages */
+.sp { max-width: var(--wide); }               /* 1120: study planner */
+.pl { max-width: var(--wide); }               /* 1160: EduPulse mock centres */
+.pgd { max-width: var(--wide); }              /* 1080: portal guide */
+.mp { max-width: var(--wide); }               /* 1040: member profile */
+.eq { max-width: var(--wide); }               /* 1100: entrance equivalency */
+.fr-wrap { max-width: var(--wide); }          /* 1120: FutureReady */
+.pd, .ja { max-width: var(--wide); }          /* 1100: PCM/PCB dashboards, JEE analysis */
+.uc-wrap { max-width: var(--wide); }          /* 1180: roadmaps */
+.jsm { max-width: var(--wide); }              /* 1180: JEE syllabus map */
+.jr .wrap { max-width: var(--wide); }         /* 1200: JEE 2027 roadmap */
+.xs-wrap { max-width: var(--wide); }          /* 1380: exam schedule */

@@ -26,7 +26,7 @@
         {% if msg.kind == 'announcement' %} · {{ ea_icon_i('message') }} announcement{% endif %}
         {% if msg.audience == 'internal' %} · {{ ea_icon_i('lock') }} internal note{% elif staff %} · to {{ msg.audience }}{% endif %}</div>
       <div style="white-space:pre-wrap;">{{ msg.body }}</div>
-      {% if staff and msg.audience != 'internal' %}<div style="margin-top:4px;">{{ wag.wa_group_btn(e.student_id, text=msg.body, label='{{ ea_icon_i('message') }} To group') }}</div>{% endif %}
+      {% if staff and msg.audience != 'internal' %}<div style="margin-top:4px;">{{ wag.wa_group_btn(e.student_id, text=msg.body, label=ea_icon_i('message') ~ ' To group') }}</div>{% endif %}
     </div>
     {% else %}<div class="ms-empty" style="margin-top:10px;">No messages yet.</div>{% endfor %}
   </div>

@@ -3,7 +3,7 @@
   {% for a in alerts %}
   <div class="ms-alert {{ a.kind }}">
     <div class="ms-alert-body">
-      <strong>{{ '🆕' if a.kind == 'new' else ('🗑️' if a.kind == 'removed' else '{{ ea_icon_i('alert') }}') }} {{ a.title }}</strong>
+      <strong>{{ '🆕' if a.kind == 'new' else ('🗑️' if a.kind == 'removed' else ea_icon_i('alert')) }} {{ a.title }}</strong>
       {% if a.detail %}<div>{{ a.detail }}</div>{% endif %}
       {% if e is defined and a.exam and a.exam.id in followed_ids %}<span class="ms-pill info">You follow this exam</span>{% endif %}
     </div>

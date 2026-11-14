@@ -23,7 +23,7 @@
 </div>
 {% endmacro %}
 
-{% macro wa_group_btn(user_id, text='', source='', label='{{ ea_icon_i('message') }} Send to WhatsApp group', cls='ms-btn g sm') %}
+{% macro wa_group_btn(user_id, text='', source='', label=ea_icon_i('message') ~ ' Send to WhatsApp group', cls='ms-btn g sm') %}
 {# text: the message (static); source: CSS selector of a textarea/input whose live value is used instead #}
 {% set g = wa_group(user_id) %}
 <button type="button" class="wag-send {{ cls }}" data-wag-link="{{ g.invite_link if g and g.invite_link else '' }}" data-wag-name="{{ g.group_name if g and g.group_name else '' }}" data-wag-text="{{ text }}" data-wag-source="{{ source }}" title="Copies the message, then opens the member's WhatsApp group so you can paste and send">{{ label }}</button>
