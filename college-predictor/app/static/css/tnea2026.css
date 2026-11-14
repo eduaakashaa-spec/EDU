@@ -306,3 +306,57 @@ background:linear-gradient(135deg,rgba(10,37,96,.82) 0%,rgba(7,26,68,.78) 100%),
 /* hide frame's own chrome; base.html provides nav+footer */
 .ported > header, .ported > nav, .ported > footer, .ported header, .ported footer,.ported .site-header, .ported .site-footer, .ported #mobileMenu, .ported #hamburger { display:none !important; }
 .ported { padding-top:0 !important; }
+
+/* ===== 2027 layout: full-width page, topics side panel, modern navigation ===== */
+.ported { --max: 1680px; }
+.ported .tn-bar { position: fixed; left: 0; top: 0; height: 3px; width: 100%; z-index: 1300; pointer-events: none; }
+.ported .tn-bar i { display: block; height: 100%; width: 100%; background: linear-gradient(90deg, #0E3A8A, #FF6B0A); transform-origin: left; transform: scaleX(0); }
+.ported .tn-shell { display: grid; grid-template-columns: 264px minmax(0, 1fr); gap: 0; align-items: start; max-width: 1840px; margin: 0 auto; transition: grid-template-columns .2s; }
+.ported .tn-shell.tn-slim { grid-template-columns: 68px minmax(0, 1fr); }
+.ported .tn-main { min-width: 0; }
+.ported .tn-main .container { max-width: none; padding: 0 clamp(16px, 2.4vw, 40px); }
+.ported .tn-main section { padding: clamp(28px, 3.5vw, 56px) 0; }
+.ported .tn-side { position: sticky; top: 66px; align-self: start; height: calc(100vh - 66px); overflow-y: auto; overflow-x: hidden; padding: 20px 14px 28px 18px; border-right: 1px solid var(--hairline); background: rgba(255,253,247,.85); scrollbar-width: thin; z-index: 40; }
+.ported .tn-collapse { position: absolute; top: 8px; right: 8px; width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--hairline); background: #fff; color: var(--navy); cursor: pointer; font-size: 12px; line-height: 1; }
+.ported .tn-slim .tn-collapse { transform: rotate(180deg); right: 20px; }
+.ported .tn-g { font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin: 22px 0 8px 6px; }
+.ported .tn-g:first-child { margin-top: 30px; }
+.ported .tn-side a { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 10px; color: var(--ink); text-decoration: none; font: 600 13px 'Plus Jakarta Sans', sans-serif; line-height: 1.25; border-left: 3px solid transparent; transition: background .15s, color .15s; }
+.ported .tn-side a b { flex: none; width: 24px; height: 24px; border-radius: 8px; background: var(--cream-2); color: var(--navy); display: inline-flex; align-items: center; justify-content: center; font: 700 11px 'JetBrains Mono', monospace; }
+.ported .tn-side a span { flex: 1; min-width: 0; }
+.ported .tn-side a em { font: 600 9px 'JetBrains Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: #B34700; background: #FFF1E6; border-radius: 999px; padding: 2px 7px; font-style: normal; }
+.ported .tn-side a:hover { background: var(--cream-2); }
+.ported .tn-side a.on { background: #EAF0FB; color: var(--navy); border-left-color: var(--orange); }
+.ported .tn-side a.on b { background: var(--navy); color: #fff; }
+.ported .tn-side a:focus-visible, .ported .tn-collapse:focus-visible, .ported .tn-tabbar button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+.ported .tn-slim .tn-side { padding-left: 10px; padding-right: 10px; }
+.ported .tn-slim .tn-side span, .ported .tn-slim .tn-side em, .ported .tn-slim .tn-g { display: none; }
+.ported .tn-slim .tn-side a { justify-content: center; padding: 9px 4px; }
+.ported .tn-anchor { display: block; height: 0; scroll-margin-top: 84px; }
+.ported .tn-tent { display: inline-block; vertical-align: middle; margin-left: 8px; font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #B34700; background: #FFF1E6; border: 1px solid #FFD2B0; border-radius: 999px; padding: 3px 9px; }
+.ported .tn-tent-note { font-size: 12.5px; color: var(--muted); margin: 6px 0 14px; line-height: 1.55; background: #FFF8EC; border: 1px solid #F4DFB8; border-radius: 10px; padding: 9px 12px; }
+.ported .tn-tabbar, .ported .tn-top { display: none; }
+.ported .tn-top { position: fixed; right: 18px; bottom: 22px; width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--navy); color: #fff; font-size: 18px; cursor: pointer; box-shadow: var(--shadow-2); z-index: 900; }
+.ported .tn-top.show { display: block; }
+.ported .tn-scrim { display: none; }
+.ported .grid-asym { grid-template-columns: minmax(0, 1.25fr) minmax(0, .85fr); }
+@media (min-width: 1500px) { .ported .grid-asym { grid-template-columns: minmax(0, 1.4fr) minmax(0, .8fr); } }
+@media (max-width: 1100px) {
+  .ported .tn-shell, .ported .tn-shell.tn-slim { display: block; }
+  .ported .tn-side { position: fixed; left: 0; top: 0; bottom: 0; width: min(300px, 86vw); height: auto; z-index: 1400; transform: translateX(-105%); transition: transform .25s; background: #FFFDF7; box-shadow: 8px 0 30px rgba(7,26,68,.2); padding-top: 24px; }
+  .ported .tn-side.open { transform: none; }
+  .ported .tn-slim .tn-side span, .ported .tn-slim .tn-side em, .ported .tn-slim .tn-g { display: revert; }
+  .ported .tn-collapse { display: none; }
+  .ported .tn-scrim.show { display: block; position: fixed; inset: 0; background: rgba(7,26,68,.45); z-index: 1350; }
+  .ported .tn-tabbar { display: grid; grid-template-columns: repeat(4, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000; background: rgba(255,253,247,.96); backdrop-filter: blur(10px); border-top: 1px solid var(--hairline); padding: 6px 6px calc(6px + env(safe-area-inset-bottom)); }
+  .ported .tn-tabbar button { border: 0; background: transparent; padding: 10px 4px; font: 600 12px 'Plus Jakarta Sans', sans-serif; color: var(--muted); border-radius: 10px; cursor: pointer; }
+  .ported .tn-tabbar button.on { color: #fff; background: var(--navy); }
+  .ported .tn-top { bottom: 76px; }
+  .ported footer { padding-bottom: 76px; }
+}
+@media print { .ported .tn-side, .ported .tn-tabbar, .ported .tn-top, .ported .tn-bar { display: none !important; } .ported .tn-shell { display: block; } }
+
+/* the site-wide .page rule (800px column) must not narrow this page */
+.ported .page { max-width: none; width: 100%; margin: 0; padding: 0; }
+
+@media (max-width: 920px) { .ported .grid-asym { grid-template-columns: minmax(0, 1fr); } }

@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-13'
+UPDATED = '2026-11-14'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -66,6 +66,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-14', 'TNEA page (/tnea2026) reworked: the timeline now shows tentative 2027 dates (registration about 3 May, rank list about 29 June, Round 1 in late July) with a note that the official TNEA 2027 schedule is not out, the countdown targets the tentative registration opening, and announcements are rewritten for 2027. The page is now full width with a left topics panel (calculator, dates, announcements, jobs, predictor, branch guide, matrix, WEF, aptitude, tips) that collapses to icons, plus a reading-progress bar, a back-to-top button and a bottom tab bar with a topics drawer on phones.'),
     ('2026-11-13', 'Google Analytics 4 now measures www.eduaakashaa.com (property EduAakashaA, measurement ID G-L5HRKWL888, view the reports at analytics.google.com). The tag loads on every public and member page but not for admins and staff, so your own visits are not counted; it does not use Google Signals or ad personalisation.'),
     ('2026-11-12', 'The public Video Library (/videos-library) now opens with nine new explainers: JEE Main negative marking, JEE Main 2027 registration tips and registration problems for NRI parents, JEE Main Paper 2A vs 2B, NRI admission through DASA and CIWG, how to choose an engineering branch (film and YouTube Short), the EduAakashaA brand film and Elite Mentorship. The earlier NRI and DASA videos stay below them.'),
     ('2026-11-12', 'New member tool EduPulse-JEE Paper 2 Mock Test Centre (/jee-paper2-mock): JEE Main Paper 2A (B.Arch) and 2B (B.Planning) NTA papers with the official final key as timed mocks, section sets and mixed Aptitude mocks (+4, minus 1, numerical answers typed in, confidence report). The public Paper 2 guide gets a Mock tests section and the tool is a Member Home tile.'),

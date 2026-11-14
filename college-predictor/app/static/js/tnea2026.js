@@ -38,15 +38,16 @@ const CAT_LABELS={oc:'OC',bcc:'BC',bcm:'BCM',mbc:'MBC',mbcdnc:'MBC(DNC)',mbcv:'M
 const CAT_KEYS=['oc','bcc','bcm','mbc','mbcdnc','mbcv','sc','sca','st'];
 
 // ===== NAVIGATION =====
-function showPage(id){
+function showPage(id,keep){
 document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
 document.getElementById('page-'+id).classList.add('active');
 document.querySelectorAll('#mainNav button').forEach(b=>b.classList.remove('active'));
 const btns=document.querySelectorAll('#mainNav button');
 const map={home:0,predictor:1,insights:2};
 if(btns[map[id]])btns[map[id]].classList.add('active');
-window.scrollTo({top:0,behavior:'smooth'});
+if(!keep)window.scrollTo({top:0,behavior:'smooth'});
 if(id==='insights')renderInsights();
+if(typeof tnSync==='function')tnSync();
 }
 
 function showInsightTab(id){
@@ -56,11 +57,12 @@ document.getElementById('tab-'+id).classList.add('active');
 const btns=document.querySelectorAll('#insightTabs button');
 const map={guide:0,matrix:1,wef:2,aptitude:3,tips:4};
 if(btns[map[id]])btns[map[id]].classList.add('active');
+if(typeof tnSync==='function')tnSync();
 }
 
 // ===== COUNTDOWN =====
 function updateCountdown(){
-const target=new Date('2026-09-30T00:00:00+05:30').getTime();
+const target=new Date('2027-05-03T00:00:00+05:30').getTime();
 const now=Date.now();
 const diff=target-now;
 if(diff<=0){document.getElementById('cd-d').textContent='0';document.getElementById('cd-h').textContent='0';document.getElementById('cd-m').textContent='0';document.getElementById('cd-s').textContent='0';return}
@@ -723,3 +725,55 @@ initFilters();
 	});
 
 	heightObserver.observe(document.documentElement);
+
+
+// ===== SIDE PANEL + MODERN NAVIGATION (topics panel, scroll spy, progress bar, mobile tab bar) =====
+function tnCurrentPage(){const a=document.querySelector('.page.active');return a?a.id.replace('page-',''):'home';}
+function tnCurrentTab(){const t=document.querySelector('.tab-content.active');return t?t.id.replace('tab-',''):'guide';}
+function tnGo(page,anchor,tab){
+if(tnCurrentPage()!==page)showPage(page,true);
+if(tab)showInsightTab(tab);
+const el=anchor?document.getElementById(anchor):null;
+setTimeout(()=>{if(el)el.scrollIntoView({behavior:'smooth',block:'start'});else window.scrollTo({top:0,behavior:'smooth'});},60);
+tnCloseDrawer();
+}
+function tnCloseDrawer(){const s=document.getElementById('tnSide'),c=document.getElementById('tnScrim');if(s)s.classList.remove('open');if(c)c.classList.remove('show');}
+function tnSync(){
+const pg=tnCurrentPage(),tab=tnCurrentTab();
+let best=null;
+document.querySelectorAll('#tnSide a[data-page]').forEach(a=>{
+a.classList.remove('on');
+if(a.dataset.page!==pg)return;
+if(a.dataset.tab){if(a.dataset.tab===tab)best=a;return;}
+const el=document.getElementById(a.dataset.anchor);
+if(el&&el.getBoundingClientRect().top<=160)best=a;
+});
+if(!best&&pg!=='insights'){best=document.querySelector('#tnSide a[data-page="'+pg+'"]');}
+if(best)best.classList.add('on');
+document.querySelectorAll('.tn-tabbar button[data-tb]').forEach(b=>b.classList.toggle('on',b.dataset.tb===pg));
+}
+(function(){
+const side=document.getElementById('tnSide');
+if(!side)return;
+const shell=document.getElementById('tnShell');
+try{if(localStorage.getItem('tn_slim')==='1')shell.classList.add('tn-slim');}catch(e){}
+document.getElementById('tnCollapse').addEventListener('click',function(){
+const on=shell.classList.toggle('tn-slim');this.setAttribute('aria-expanded',on?'false':'true');
+try{localStorage.setItem('tn_slim',on?'1':'0');}catch(e){}
+});
+side.querySelectorAll('a[data-page]').forEach(a=>a.addEventListener('click',function(ev){
+ev.preventDefault();tnGo(this.dataset.page,this.dataset.anchor||null,this.dataset.tab||null);
+}));
+const scrim=document.getElementById('tnScrim');
+document.getElementById('tnTopicsBtn').addEventListener('click',()=>{side.classList.add('open');scrim.classList.add('show');});
+scrim.addEventListener('click',tnCloseDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')tnCloseDrawer();});
+const bar=document.getElementById('tnProgress'),top=document.getElementById('tnTop');
+let tick=false;
+window.addEventListener('scroll',()=>{if(tick)return;tick=true;requestAnimationFrame(()=>{
+const h=document.documentElement.scrollHeight-window.innerHeight;
+bar.style.transform='scaleX('+(h>0?Math.min(1,window.scrollY/h):0)+')';
+top.classList.toggle('show',window.scrollY>600);
+tnSync();tick=false;});},{passive:true});
+tnSync();
+})();
