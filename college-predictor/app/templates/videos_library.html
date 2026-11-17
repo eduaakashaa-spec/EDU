@@ -23,6 +23,11 @@
   .vid-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim, #5A6278); }
   .vid-link { margin-top: auto; font-weight: 700; font-size: .85rem; color: #C2410C; text-decoration: none; }
   .vid-link:hover { color: var(--gold, #FF6B0A); }
+  /* YouTube Shorts: vertical players, four across. */
+  .vid-grid--shorts { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px){ .vid-grid--shorts { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 620px){ .vid-grid--shorts { grid-template-columns: 1fr 1fr; gap: 14px; } }
+  .vid-embed--short { aspect-ratio: 9 / 16; }
   .chan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   @media (max-width: 620px){ .chan-grid { grid-template-columns: 1fr; } }
   .chan-card {
@@ -74,8 +79,7 @@
         {'id': 'B0QrQU60X1k', 'title': 'NRI Admission to India&rsquo;s Top Engineering Colleges: DASA and CIWG Explained', 'meta': 'NRI Admission'},
         {'id': 'kOyLxzC4mxE', 'title': 'Engineering Beyond Today: How to Choose Your Engineering Branch', 'meta': 'Engineering Insights'},
         {'id': '0RjhHUpxEcU', 'title': 'EduAakashaA: Same Marks, a Better Future. Luck Is Not a Strategy, Data Is.', 'meta': 'About EduAakashaA'},
-        {'id': 'Jq6dEPYWpz0', 'title': 'Elite Mentorship: Why a Mentor Matters More Than Coaching', 'meta': 'Elite Mentorship'},
-        {'id': 'RW1q6c71s3c', 'title': 'Engineering Beyond Today: Ten Branches, One Right Choice', 'meta': 'YouTube Short', 'short': True}
+        {'id': 'Jq6dEPYWpz0', 'title': 'Elite Mentorship: Why a Mentor Matters More Than Coaching', 'meta': 'Elite Mentorship'}
       ] %}
       {% for v in new_videos %}
       <div class="vid-card">
@@ -88,6 +92,37 @@
           <div class="vid-meta">{{ v.meta }}</div>
           <div class="vid-title">{{ v.title|safe }}</div>
           <a class="vid-link" href="https://www.youtube.com/{{ 'shorts/' if v.short else 'watch?v=' }}{{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <span class="eyebrow">YouTube Shorts</span>
+      <h2 class="section__title">Quick answers in under a minute</h2>
+      <p class="section__desc">One question, one answer: whether to guess in JEE Main, how the TNEA cut-off is worked out (in Tamil), which jobs will grow fastest by 2030, and how to choose among ten engineering branches.</p>
+    </div>
+
+    <div class="vid-grid vid-grid--shorts">
+      {% set shorts = [
+        {'id': 'MnFwmXisR_o', 'title': 'JEE Main: Guess or Skip? The Negative Marking Rule', 'meta': 'JEE Main Strategy'},
+        {'id': 'ZTE02M6DkSI', 'title': 'TNEA cut-off: 10 விநாடியில் கணக்கிடுங்கள்', 'meta': 'TNEA · தமிழ்'},
+        {'id': 'memuY7jq7T0', 'title': 'Which Job Will Grow Fastest by 2030? Take a Guess', 'meta': 'Future of Jobs'},
+        {'id': 'RW1q6c71s3c', 'title': 'Engineering Beyond Today: Ten Branches, One Right Choice', 'meta': 'Engineering Insights'}
+      ] %}
+      {% for v in shorts %}
+      <div class="vid-card">
+        <div class="vid-embed vid-embed--short">
+          <iframe src="https://www.youtube-nocookie.com/embed/{{ v.id }}" title="{{ v.title }}"
+                  loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="vid-body">
+          <div class="vid-meta">{{ v.meta }}</div>
+          <div class="vid-title">{{ v.title|safe }}</div>
+          <a class="vid-link" href="https://www.youtube.com/shorts/{{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
         </div>
       </div>
       {% endfor %}
