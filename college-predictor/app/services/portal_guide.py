@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-14'
+UPDATED = '2026-11-17'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -66,6 +66,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-17', 'The public Video Library (/videos-library) now opens with three new mentor videos: a Tamil guide to Tamil Nadu engineering admission 2027 (TNEA, JoSAA, other states and private universities), Why Mentoring Matters, and Engineering in 2027: which jobs will grow by 2030 (World Economic Forum Future of Jobs).'),
     ('2026-11-14', 'New public page: B.Planning Planner for JEE Main Paper 2B 2027 (/bplanning-planner-2027): a priority map of every topic, a 20-question starter check, a goal-gap calculator and a nine-week plan, open to visitors and members alike (progress stays in the browser), with a JEE / JOSAA menu link and a Member Home tile.'),
     ('2026-11-14', 'The public Video Library (/videos-library) now opens with two Engineering Aptitude Assessment videos: the nine-step guide to taking the assessment and a full-screen walkthrough with a demo student.'),
     ('2026-11-14', 'Site-wide layout pass: pages that sat in a narrow 900 to 1120 pixel column (contact, about, DASA and NEET guides, videos, JEE and NEET mock centres, study planner, portal guide, profile and more) now use a wider shared content width on desktop. Every long page also gets a Topics button that opens a labelled list of its sections, a back-to-top button, and the reading-progress bar. Pages with their own left panel (TNEA, NRI admission, Member Home) keep it. Repaired six pages that failed to open (free guides library, mentorship templates, WhatsApp group buttons, alerts) after an icon change.'),
