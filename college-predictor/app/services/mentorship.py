@@ -171,6 +171,7 @@ TABS = [  # key, label, icon, roles allowed
     ('reviews', 'Quarterly Reviews', '🧾', ('student', 'parent', 'mentor', 'admin')),
     ('branch', 'Branch Fit', '🧭', ('student', 'parent', 'mentor', 'admin')),
     ('prefs', 'College Preferences', '🎓', ('student', 'parent', 'mentor', 'admin')),
+    ('roadmap', 'Roadmap', '🗺️', ('student', 'parent', 'mentor', 'admin')),
     ('calendar', 'Exam Calendar', '📅', ('student', 'parent', 'mentor', 'admin')),
     ('messages', 'Messages', '💬', ('student', 'parent', 'mentor', 'admin')),
     ('reports', 'Reports', '📄', ('student', 'parent', 'mentor', 'admin')),

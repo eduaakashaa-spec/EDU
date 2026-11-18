@@ -66,6 +66,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-18', 'New Roadmap tab in the Mentorship portal: mentors create a private admission roadmap for a student (for example "Darsh Roadmap") from the NUS, NTU and HKU 2027 template, with milestones per university ending in "admission complete", owners (student, parents, mentor) and ticks. Its exam and application dates are added to the Exam Calendar of that student with their sources. Only the student, linked parents, the assigned mentor and admins can open it.'),
     ('2026-11-18', 'The public Video Library (/videos-library) now opens with the HKU Hong Kong admission guide for CBSE students (September 2027 intake), and the YouTube Shorts row starts with HKU after CBSE: five things to know.'),
     ('2026-11-17', 'The public Video Library (/videos-library) has a new YouTube Shorts row with vertical players: JEE Main guess or skip, the TNEA cut-off in Tamil, the fastest-growing jobs by 2030, and the earlier ten-branches Short (moved here from the main list).'),
     ('2026-11-17', 'The public Video Library (/videos-library) now opens with three new mentor videos: a Tamil guide to Tamil Nadu engineering admission 2027 (TNEA, JoSAA, other states and private universities), Why Mentoring Matters, and Engineering in 2027: which jobs will grow by 2030 (World Economic Forum Future of Jobs).'),
@@ -219,9 +220,10 @@ GUIDE = [
                 'Actions have an owner (student, parent or mentor) and a due date. Mark yours done when finished.',
                 'KPIs, Reviews and Reports show progress against agreed targets; download a report as PDF.',
                 'Branch fit and College preferences show your shortlist with exams and deadlines. Calendar lets you add sessions to your own calendar (.ics file).',
+                'Roadmap (only when your mentor has created one, shown under its name, for example "Darsh Roadmap"): milestones for each university you are applying to, from the application to a confirmed place, with the next dates and who owns each step (you, your parents or your mentor). Tick a step when it is done; every date is also in the Exam Calendar. Only you, the parents linked to your record, your mentor and EduAakashaA admins can open it.',
                 'Messages is for notes between you, your parent and the mentor.'],
          tips=['The plan lives in the portal; the WhatsApp group is only for quick reminders.'],
-         tiles=['My Mentorship', 'Action tracker'], added='2026-10-26', updated='2026-10-28'),
+         tiles=['My Mentorship', 'Action tracker'], added='2026-10-26', updated='2026-11-18'),
     dict(id='s-addons', role='student', group='Mentorship', title='Add-on programmes', summary='Ready-made mentoring for UCEED, NID, NIFT, TNEA, SRM, Amrita, VIT and more.',
          where=[('Add-on programmes', 'mentorship.addons'), ('B.Arch and B.Planning mentorship', 'main.barch_mentorship')],
          steps=['Open "Add-on programmes" and read the programme list.',
@@ -512,8 +514,9 @@ GUIDE = [
                 'KPIs and Reviews: set targets, record progress and the quarterly review, then publish a report.',
                 'Branch fit and College preferences: build the shortlist, with exam, application dates and deadlines for each college.',
                 'Reports: generate the progress report as PDF for the student and parent.',
+                'Roadmap tab: open it on a student and press Create roadmap to build the NUS, NTU and HKU 2027 roadmap (for a student called Darsh it is named "Darsh Roadmap"). It adds milestones per university with the "admission complete" step of each, and puts every exam and application date in the Exam Calendar of that student with its source. You can add or remove milestones; an admin can delete the roadmap. The student, linked parents, you and admins can tick steps; nobody else can open it.',
                 'WhatsApp group: use the send-to-group buttons beside messages to share a short update with the family group.'],
-         tiles=[], added='2026-10-26', updated='2026-10-26'),
+         tiles=[], added='2026-10-26', updated='2026-11-18'),
     dict(id='m-docs', role='mentor', group='Daily work', title='Document verification, assessments and onboarding', summary='Review what students upload and complete.',
          where=[('Document Verify', 'members.admin_doc_list'), ('Assessment Results', 'assessments.admin_list'), ('Onboarding', 'onboarding.admin_list')],
          steps=['Document Verify: open a member, review each uploaded document and set its status (the member sees Awaiting review change to Approved).',

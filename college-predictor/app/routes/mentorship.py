@@ -25,12 +25,13 @@ from app.models_mentorship import (
     ACTION_STATUSES, ADMISSION_ROUTES, ELIGIBILITY, EVENT_CATEGORIES, KPI_DIRECTIONS, PREF_LIST_STATUSES,
     REVIEW_STATUSES, SESSION_STATUSES, MsAction, MsAudit, MsBranch, MsBranchFit, MsBranchRating, MsCheckin,
     MsEnrolment, MsEvent, MsKpi, MsParentAssessment, MsPrefDates, MsKpiObs, MsMessage, MsMessageRead, MsParentLink, MsPrefEntry, MsPrefList,
-    EXAM_STATUSES, MsAlert, MsExam, MsExamFocus, MsProgramme, MsReport, MsReview, MsSession, MsSessionTemplate,
+    EXAM_STATUSES, MsAlert, MsExam, MsExamFocus, MsMilestone, MsProgramme, MsReport, MsReview, MsRoadmap, MsSession, MsSessionTemplate,
 )
 from app.services import exam_calendar as xc
 from app.services import exam_docs as xd
 from app.services import mailer
 from app.services import rf_choice
+from app.services import roadmap as rmap
 from app.services import mentorship as svc
 
 mentorship_bp = Blueprint('mentorship', __name__, url_prefix='/mentorship')
@@ -224,9 +225,14 @@ def workspace(eid, tab):
     if _premium_gate(role):
         return render_template('elite_locked.html'), 403
     tabs = svc.tabs_for(role)
+    roadmap = rmap.get(e)
+    if roadmap:
+        tabs = [(k, roadmap.title if k == 'roadmap' else lbl, ic, r) for k, lbl, ic, r in tabs]
+    elif role in ('student', 'parent'):             # nothing to show them until staff create it
+        tabs = [t for t in tabs if t[0] != 'roadmap']
     if tab not in {t[0] for t in tabs}:
         abort(404)
-    ctx = dict(e=e, role=role, tab=tab, tabs=tabs, svc=svc, fmt_dt=svc.fmt_dt, today=svc.today(),
+    ctx = dict(e=e, role=role, tab=tab, tabs=tabs, roadmap=roadmap, svc=svc, fmt_dt=svc.fmt_dt, today=svc.today(),
                alerts=xc.unread_alerts(current_user), xc=xc,
                followed_ids=svc.focus_ids(e),
                unread=svc.unread_count(e, current_user, role), staff=role in STAFF,
@@ -395,6 +401,103 @@ def _tab_reports(e, role):
 
 def _tab_history(e, role):
     return dict(log=MsAudit.query.filter_by(enrolment_id=e.id).order_by(MsAudit.id.desc()).limit(200).all())
+
+
+def _tab_roadmap(e, role):
+    rm = rmap.get(e)
+    t = svc.today()
+    if not rm:
+        return dict(rm=None, groups={}, nxt=[], today=t, GROUPS=rmap.GROUPS, owner_label=rmap.owner_label, mstatus=rmap.status)
+    groups = rmap.summary(rm, t)
+    return dict(rm=rm, groups=groups, nxt=rmap.next_dates(rm, t), today=t, GROUPS=rmap.GROUPS, UNIVERSITIES=rmap.UNIVERSITIES,
+                owner_label=rmap.owner_label, mstatus=rmap.status, OWNERS=rmap.OWNERS, name=rmap.first_name(e),
+                overall_done=sum(g['done'] for g in groups.values()), overall_total=sum(g['total'] for g in groups.values()))
+
+
+@mentorship_bp.route('/e/<int:eid>/roadmap/create', methods=['POST'])
+@login_required
+def roadmap_create(eid):
+    e, role = _ctx(eid, STAFF)
+    rm = rmap.create(e, title=_s('title', 120) or None, user_id=current_user.id)
+    if rm is None:
+        flash('A roadmap already exists for this student.', 'info')
+    else:
+        flash(f'"{rm.title}" created. Its dates are now in the calendar. Only the student, linked parents, the assigned mentor and admins can open it.', 'success')
+    return _back(e, 'roadmap')
+
+
+@mentorship_bp.route('/e/<int:eid>/roadmap/delete', methods=['POST'])
+@login_required
+def roadmap_delete(eid):
+    e, role = _ctx(eid, ('admin',))
+    rm = rmap.get(e)
+    if rm:
+        ev_ids = [m.event_id for m in rm.milestones if m.event_id]
+        title = rm.title
+        db.session.delete(rm)
+        if ev_ids:
+            MsEvent.query.filter(MsEvent.id.in_(ev_ids), MsEvent.enrolment_id == e.id).delete(synchronize_session=False)
+        svc.audit(e, 'roadmap.deleted', title, role)
+        db.session.commit()
+        flash('Roadmap and its calendar entries removed.', 'success')
+    return _back(e, 'home')
+
+
+@mentorship_bp.route('/e/<int:eid>/roadmap/m/<int:mid>/toggle', methods=['POST'])
+@login_required
+def milestone_toggle(eid, mid):
+    e, role = _ctx(eid, ('student', 'parent', 'mentor', 'admin'))
+    m = db.session.get(MsMilestone, mid)
+    if not m or not m.roadmap or m.roadmap.enrolment_id != e.id:
+        abort(404)
+    now_done = rmap.toggle(m, current_user)
+    svc.audit(e, 'roadmap.milestone', f'{"done" if now_done else "reopened"}: {m.grp} {m.title[:120]}', role)
+    db.session.commit()
+    return _back(e, 'roadmap', f'm{m.id}')
+
+
+@mentorship_bp.route('/e/<int:eid>/roadmap/add', methods=['POST'])
+@login_required
+def milestone_add(eid):
+    e, role = _ctx(eid, STAFF)
+    rm = rmap.get(e) or abort(404)
+    title = _s('title', 240)
+    grp = request.form.get('grp') if request.form.get('grp') in rmap.GROUPS else 'PREP'
+    owner = request.form.get('owner') if request.form.get('owner') in rmap.OWNERS else 'student'
+    if not title:
+        flash('Give the milestone a title.', 'danger')
+        return _back(e, 'roadmap')
+    d = svc.parse_date(request.form.get('due_on'))
+    ev = None
+    if d and request.form.get('calendar'):
+        ev = MsEvent(enrolment_id=e.id, title=f'{grp}: {title}'[:240], category='Other', starts_on=d, notes=_s('detail'), created_by=current_user.id,
+                     source=_s('source', 300) or 'Added by mentor', verified_on=svc.parse_date(request.form.get('verified_on')))
+        db.session.add(ev)
+        db.session.flush()
+    pos = (max([x.position or 0 for x in rm.milestones], default=0)) + 1
+    db.session.add(MsMilestone(roadmap_id=rm.id, grp=grp, title=title, detail=_s('detail'), owner=owner, due_on=d, due_label=_s('due_label', 60),
+                               position=pos, event_id=ev.id if ev else None, source=_s('source', 300) or None,
+                               verified_on=svc.parse_date(request.form.get('verified_on'))))
+    svc.audit(e, 'roadmap.added', f'{grp} {title[:120]}', role)
+    db.session.commit()
+    flash('Milestone added.', 'success')
+    return _back(e, 'roadmap', grp.lower())
+
+
+@mentorship_bp.route('/e/<int:eid>/roadmap/m/<int:mid>/delete', methods=['POST'])
+@login_required
+def milestone_delete(eid, mid):
+    e, role = _ctx(eid, STAFF)
+    m = db.session.get(MsMilestone, mid)
+    if not m or not m.roadmap or m.roadmap.enrolment_id != e.id:
+        abort(404)
+    if m.event_id:
+        MsEvent.query.filter_by(id=m.event_id, enrolment_id=e.id).delete(synchronize_session=False)
+    svc.audit(e, 'roadmap.removed', f'{m.grp} {m.title[:120]}', role)
+    db.session.delete(m)
+    db.session.commit()
+    flash('Milestone removed.', 'success')
+    return _back(e, 'roadmap')
 
 
 # --------------------------------------------------------------------------- #

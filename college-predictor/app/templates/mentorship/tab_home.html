@@ -24,6 +24,10 @@
   {% if last_update %}Records last updated {{ fmt_dt(last_update, e.timezone) }}.{% endif %}</div>
 {% endif %}
 
+{% if roadmap %}
+<div class="ms-note info">🗺️ <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='roadmap') }}"><strong>{{ roadmap.title }}</strong></a>: milestones and dates for each university's admission, with every date in the calendar.</div>
+{% endif %}
+
 <div class="ms-grid ms-g3" style="margin-bottom:16px;">
   <!-- 1. Where am I -->
   <div class="ms-card">

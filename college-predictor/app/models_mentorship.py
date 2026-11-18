@@ -363,6 +363,44 @@ class MsEvent(db.Model):
     created_by = db.Column(db.Integer, db.ForeignKey('users.id'))
 
 
+class MsRoadmap(db.Model):
+    """One admission roadmap per enrolment (e.g. "Darsh Roadmap"): milestones per university, with their dates in the student's calendar.
+    Only the people who can open the enrolment (student, linked parents, assigned mentor, admins) can open it."""
+    __tablename__ = 'ms_roadmaps'
+    id = db.Column(db.Integer, primary_key=True)
+    enrolment_id = db.Column(db.Integer, db.ForeignKey('ms_enrolments.id', ondelete='CASCADE'), unique=True, index=True, nullable=False)
+    title = db.Column(db.String(120), nullable=False)
+    subtitle = db.Column(db.String(240))
+    note = db.Column(db.Text)
+    template = db.Column(db.String(40))
+    created_by = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'))
+    created_at = db.Column(db.DateTime, default=_utcnow)
+
+    enrolment = db.relationship('MsEnrolment', backref=db.backref('roadmap', uselist=False, cascade='all, delete-orphan'))
+    milestones = db.relationship('MsMilestone', backref='roadmap', cascade='all, delete-orphan',
+                                 order_by='MsMilestone.position, MsMilestone.id')
+
+
+class MsMilestone(db.Model):
+    __tablename__ = 'ms_milestones'
+    id = db.Column(db.Integer, primary_key=True)
+    roadmap_id = db.Column(db.Integer, db.ForeignKey('ms_roadmaps.id', ondelete='CASCADE'), index=True, nullable=False)
+    grp = db.Column(db.String(12), nullable=False, default='PREP')        # PREP | HKU | NUS | NTU (a short code the template maps to a heading)
+    title = db.Column(db.String(240), nullable=False)
+    detail = db.Column(db.Text)
+    owner = db.Column(db.String(12), default='student')                  # student | parent | mentor | family
+    due_on = db.Column(db.Date)                                          # a real date (also a calendar event when event_id is set)
+    due_label = db.Column(db.String(60))                                 # text for a step with no fixed date, e.g. "Results day + 3 days"
+    position = db.Column(db.Integer, default=0)
+    final = db.Column(db.Boolean, default=False)                         # the "admission complete" milestone of a university
+    done = db.Column(db.Boolean, default=False)
+    done_on = db.Column(db.Date)
+    done_by = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'))
+    event_id = db.Column(db.Integer, db.ForeignKey('ms_events.id', ondelete='SET NULL'))
+    source = db.Column(db.String(300))
+    verified_on = db.Column(db.Date)
+
+
 class MsMessage(db.Model):
     __tablename__ = 'ms_messages'
     id = db.Column(db.Integer, primary_key=True)

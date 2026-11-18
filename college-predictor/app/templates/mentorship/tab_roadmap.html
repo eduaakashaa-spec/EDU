@@ -1,0 +1,145 @@
+{% extends "mentorship/ws.html" %}
+{% import "mentorship/_macros.html" as m %}
+{% block body %}
+<style>
+  .rm-hero{background:linear-gradient(135deg,#0E3A8A 0%,#0A2560 100%);color:#fff;border-radius:18px;padding:26px 28px;margin-bottom:16px;position:relative;overflow:hidden}
+  .rm-hero::after{content:"";position:absolute;right:-70px;top:-70px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,10,.32) 0%,transparent 66%)}
+  .rm-hero>*{position:relative;z-index:1}
+  .rm-hero .k{font:600 .72rem 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:#FF8A3D}
+  .rm-hero h1{margin:6px 0 4px;font:700 clamp(1.9rem,4vw,2.8rem) 'Fraunces',Georgia,serif;letter-spacing:-.03em;color:#fff;line-height:1.05}
+  .rm-hero p{margin:0;color:#D7E1F8;max-width:68ch;font-size:.96rem}
+  .rm-hero .priv{display:inline-block;margin-top:12px;font-size:.8rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:999px;padding:4px 12px;color:#EAF0FF}
+  .rm-unis{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-bottom:16px}
+  .rm-uni{background:var(--paper,#fffdf7);border:1px solid var(--hairline,#E8DFC8);border-top:6px solid var(--c);border-radius:16px;padding:18px 20px}
+  .rm-uni h3{margin:0 0 2px;font:700 1.25rem 'Fraunces',Georgia,serif}
+  .rm-uni .pc{font:700 2rem 'Fraunces',Georgia,serif;line-height:1}
+  .rm-uni .pc small{font-size:.9rem;color:#888;font-weight:500}
+  .rm-uni .nx{font-size:.84rem;margin-top:8px;min-height:2.6em}
+  .rm-uni .done{color:#1F8B5C;font-weight:700}
+  .rm-next{display:grid;gap:6px;margin:6px 0 0}
+  .rm-next div{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:.9rem;padding:7px 0;border-bottom:1px solid var(--hairline,#E8DFC8)}
+  .rm-next div:last-child{border-bottom:0}
+  .rm-next b{font:600 .78rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#C23A3A}
+  .rm-grp{margin-bottom:16px}
+  .rm-grp>h2{display:flex;align-items:center;gap:10px;margin:0 0 4px}
+  .rm-grp>h2 i{width:14px;height:14px;border-radius:4px;background:var(--c);display:inline-block}
+  .rm-ms{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;padding:12px 0;border-top:1px solid var(--hairline,#E8DFC8)}
+  .rm-ms:first-of-type{border-top:0}
+  .rm-ms form{margin:0}
+  .rm-tick{width:30px;height:30px;border-radius:9px;border:2px solid var(--c);background:#fff;color:#fff;font-weight:800;cursor:pointer;line-height:1;display:grid;place-items:center;font-size:1rem}
+  .rm-ms.done .rm-tick{background:var(--c)}
+  .rm-ms.done .rm-t{color:#777;text-decoration:line-through}
+  .rm-ms.final{background:linear-gradient(90deg,rgba(255,107,10,.08),transparent 60%);border-radius:12px;padding-left:10px;padding-right:10px;border-top:0;margin-top:6px}
+  .rm-t{font-weight:700}
+  .rm-d{font-size:.86rem;color:var(--text-dim,#5A6278);margin-top:2px}
+  .rm-m{font-size:.76rem;color:var(--text-dim,#5A6278);margin-top:4px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .rm-st{font:600 .74rem 'JetBrains Mono',monospace;letter-spacing:.06em;text-transform:uppercase;text-align:right;min-width:112px}
+  .rm-st.overdue{color:#C23A3A}.rm-st.soon{color:#B97A0B}.rm-st.done{color:#1F8B5C}.rm-st.open{color:#0E3A8A}.rm-st.later{color:#5A6278}
+  @media (max-width:640px){.rm-ms{grid-template-columns:auto 1fr}.rm-st{grid-column:2;text-align:left}.rm-next div{grid-template-columns:1fr}}
+</style>
+
+{% if not rm %}
+  <div class="ms-card">
+    <div class="ms-eyebrow">Roadmap</div>
+    <h2>No roadmap for {{ e.preferred_name or e.student.name }} yet</h2>
+    <p class="hint">Create it from the NUS · NTU · HKU 2027 template: milestones for each university's admission from application to a confirmed place, with every exam and application date added to this student's calendar.
+      Only the student, the parents linked to this record, the assigned mentor and admins will be able to open it.</p>
+    <form method="post" action="{{ url_for('mentorship.roadmap_create', eid=e.id) }}" style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;">
+      <div><label class="f">Title</label><input type="text" name="title" maxlength="120" value="{{ (e.preferred_name or e.student.name.split(' ')[0]) }} Roadmap"></div>
+      <button class="ms-btn p">Create roadmap</button>
+    </form>
+  </div>
+{% else %}
+
+<div class="rm-hero">
+  <div class="k">Roadmap · engineering 2027 entry</div>
+  <h1>{{ rm.title }}</h1>
+  <p>{{ rm.subtitle }}. Each university has its own milestones, from the application to a confirmed place. {{ overall_done }} of {{ overall_total }} steps are done.</p>
+  <span class="priv">🔒 Only {{ name }}, the parents linked to this record, the assigned mentor and EduAakashaA admins can open this page.</span>
+</div>
+
+<div class="rm-unis">
+  {% for code in UNIVERSITIES if code in groups %}{% set g = groups[code] %}
+  <a class="rm-uni" href="#{{ code|lower }}" style="--c:{{ g.colour }};text-decoration:none;color:inherit;">
+    <h3>{{ g.heading }}</h3>
+    <div class="pc">{{ g.pct }}%<small> · {{ g.done }} of {{ g.total }} steps</small></div>
+    {{ m.bar(g.pct, g.complete) }}
+    <div class="nx">
+      {% if g.complete %}<span class="done">✓ Admission complete</span>
+      {% elif g.next %}<strong>Next:</strong> {{ g.next.title }}<br><span style="color:var(--text-dim)">{{ mstatus(g.next, today)[1] }}</span>
+      {% else %}All steps done.{% endif %}
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="ms-grid ms-g2" style="margin-bottom:16px;">
+  <div class="ms-card">
+    <div class="ms-eyebrow">Next dates</div>
+    <h2>What is coming up</h2>
+    {% if nxt %}<div class="rm-next">{% for x in nxt %}<div><b>{{ x.due_on.strftime('%d %b %Y') }}</b><span><strong>{{ x.grp }}</strong> · {{ x.title }}</span></div>{% endfor %}</div>
+    {% else %}<p class="hint">No dated step is coming up.</p>{% endif %}
+    <p class="hint" style="margin-top:10px;">Every dated step is also in the <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='calendar') }}">Exam Calendar</a>, where you can download it as a calendar file.</p>
+  </div>
+  <div class="ms-card">
+    <div class="ms-eyebrow">Who does what</div>
+    <h2>Three people, one list</h2>
+    <p class="hint"><strong>{{ name }}</strong> owns the applications. <strong>Parents</strong> own money, documents and consent. <strong>The mentor</strong> checks that nothing slips.
+      Anyone who can open this page can tick a step; every change is recorded in the activity history.</p>
+    <p class="hint">Results day starts a 3-day clock at NTU and NUS: agree now who uploads the result slip.</p>
+  </div>
+</div>
+
+{% for code in ('PREP','HKU','NUS','NTU') if code in groups %}{% set g = groups[code] %}
+<div class="ms-card rm-grp" id="{{ code|lower }}" style="--c:{{ g.colour }};">
+  <h2><i></i>{{ g.heading }}</h2>
+  <p class="hint" style="margin:0 0 6px;">{{ g.line }}</p>
+  {% for x in g.ms %}{% set st = mstatus(x, today) %}
+  <div class="rm-ms {{ 'done' if x.done }} {{ 'final' if x.final }}" id="m{{ x.id }}">
+    <form method="post" action="{{ url_for('mentorship.milestone_toggle', eid=e.id, mid=x.id) }}">
+      <button class="rm-tick" aria-pressed="{{ 'true' if x.done else 'false' }}" aria-label="{{ 'Mark not done' if x.done else 'Mark done' }}: {{ x.title }}">{{ '✓' if x.done }}</button>
+    </form>
+    <div>
+      <div class="rm-t">{{ x.title }}</div>
+      {% if x.detail %}<div class="rm-d">{{ x.detail }}</div>{% endif %}
+      <div class="rm-m">
+        <span class="ms-pill info">{{ owner_label(x.owner, e) }}</span>
+        {% if x.source %}<span>{{ x.source }}{% if x.verified_on %} · checked {{ x.verified_on.strftime('%d %b %Y') }}{% else %} · unverified{% endif %}</span>{% endif %}
+        {% if x.event_id %}<span>· in calendar</span>{% endif %}
+        {% if x.done and x.done_on %}<span>· done {{ x.done_on.strftime('%d %b %Y') }}</span>{% endif %}
+        {% if staff %}<form method="post" action="{{ url_for('mentorship.milestone_delete', eid=e.id, mid=x.id) }}" onsubmit="return confirm('Remove this milestone and its calendar entry?')" style="display:inline"><button class="ms-btn g sm" style="padding:1px 8px;font-size:.72rem;">Remove</button></form>{% endif %}
+      </div>
+    </div>
+    <div class="rm-st {{ st[0] }}">{{ st[1] }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+
+{% if staff %}
+<div class="ms-card">
+  <div class="ms-eyebrow">Mentor tools</div>
+  <h2>Add a milestone</h2>
+  <form method="post" action="{{ url_for('mentorship.milestone_add', eid=e.id) }}" class="ms-form" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;align-items:end;">
+    <div><label class="f">Section</label><select name="grp">{% for c, v in GROUPS.items() %}<option value="{{ c }}">{{ v[0] }}</option>{% endfor %}</select></div>
+    <div style="grid-column:span 2;"><label class="f">Milestone</label><input type="text" name="title" maxlength="240" required></div>
+    <div><label class="f">Owner</label><select name="owner">{% for c in OWNERS %}<option value="{{ c }}">{{ owner_label(c, e) }}</option>{% endfor %}</select></div>
+    <div><label class="f">Date (optional)</label><input type="date" name="due_on"></div>
+    <div><label class="f">Or a note instead of a date</label><input type="text" name="due_label" maxlength="60" placeholder="e.g. On the offer"></div>
+    <div style="grid-column:1/-1;"><label class="f">Detail</label><input type="text" name="detail"></div>
+    <div><label class="f">Source of the date</label><input type="text" name="source" maxlength="300" placeholder="university page or notice"></div>
+    <div><label class="f">Checked on</label><input type="date" name="verified_on"></div>
+    <div><label class="f"><input type="checkbox" name="calendar" value="1" checked> Add the date to the calendar</label></div>
+    <div><button class="ms-btn p">Add milestone</button></div>
+  </form>
+  {% if role == 'admin' %}
+  <form method="post" action="{{ url_for('mentorship.roadmap_delete', eid=e.id) }}" onsubmit="return confirm('Delete this roadmap and its calendar entries? Ticks will be lost.')" style="margin-top:12px;">
+    <button class="ms-btn g sm">Delete roadmap (admin)</button>
+  </form>
+  {% endif %}
+</div>
+{% endif %}
+
+<div class="ms-note info">{{ rm.note }} The Singapore fees quoted in the source pages are for 2026/27 and the Tuition Grant carries a 3-year work bond in Singapore. A minimum mark is the price of entry, not a prediction: no university guarantees a place.</div>
+{% endif %}
+{% endblock %}
