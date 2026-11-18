@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-17'
+UPDATED = '2026-11-18'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -66,6 +66,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-18', 'The public Video Library (/videos-library) now opens with the HKU Hong Kong admission guide for CBSE students (September 2027 intake), and the YouTube Shorts row starts with HKU after CBSE: five things to know.'),
     ('2026-11-17', 'The public Video Library (/videos-library) has a new YouTube Shorts row with vertical players: JEE Main guess or skip, the TNEA cut-off in Tamil, the fastest-growing jobs by 2030, and the earlier ten-branches Short (moved here from the main list).'),
     ('2026-11-17', 'The public Video Library (/videos-library) now opens with three new mentor videos: a Tamil guide to Tamil Nadu engineering admission 2027 (TNEA, JoSAA, other states and private universities), Why Mentoring Matters, and Engineering in 2027: which jobs will grow by 2030 (World Economic Forum Future of Jobs).'),
     ('2026-11-14', 'New public page: B.Planning Planner for JEE Main Paper 2B 2027 (/bplanning-planner-2027): a priority map of every topic, a 20-question starter check, a goal-gap calculator and a nine-week plan, open to visitors and members alike (progress stays in the browser), with a JEE / JOSAA menu link and a Member Home tile.'),

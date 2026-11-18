@@ -23,8 +23,9 @@
   .vid-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim, #5A6278); }
   .vid-link { margin-top: auto; font-weight: 700; font-size: .85rem; color: #C2410C; text-decoration: none; }
   .vid-link:hover { color: var(--gold, #FF6B0A); }
-  /* YouTube Shorts: vertical players, four across. */
-  .vid-grid--shorts { grid-template-columns: repeat(4, 1fr); }
+  /* YouTube Shorts: vertical players, five across. */
+  .vid-grid--shorts { grid-template-columns: repeat(5, 1fr); gap: 18px; }
+  @media (max-width: 1100px){ .vid-grid--shorts { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 900px){ .vid-grid--shorts { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 620px){ .vid-grid--shorts { grid-template-columns: 1fr 1fr; gap: 14px; } }
   .vid-embed--short { aspect-ratio: 9 / 16; }
@@ -62,11 +63,12 @@
     <div class="section__header">
       <span class="eyebrow">New &middot; November 2026</span>
       <h2 class="section__title">Your mentor explains the 2026&ndash;27 admission routes</h2>
-      <p class="section__desc">Short explainers on Tamil Nadu engineering admission (in Tamil), why mentoring matters, the future of engineering jobs, the Engineering Aptitude Assessment, JEE Main negative marking, JEE Main 2027 registration for NRI parents, JEE Main Paper 2 (B.Arch and B.Planning), NRI admission through DASA and CIWG, engineering branch choice, and how mentorship works.</p>
+      <p class="section__desc">Short explainers on admission to HKU Hong Kong for CBSE students, Tamil Nadu engineering admission (in Tamil), why mentoring matters, the future of engineering jobs, the Engineering Aptitude Assessment, JEE Main negative marking, JEE Main 2027 registration for NRI parents, JEE Main Paper 2 (B.Arch and B.Planning), NRI admission through DASA and CIWG, engineering branch choice, and how mentorship works.</p>
     </div>
 
     <div class="vid-grid">
       {% set new_videos = [
+        {'id': 'OtWMjZpqiss', 'title': 'HKU Hong Kong Admission 2027 for CBSE Students: Marks, Dates, Fees and Steps', 'meta': 'Study in Hong Kong'},
         {'id': '1zYXtX1zHlg', 'title': 'பொறியியல் சேர்க்கை 2027: TNEA, JoSAA உட்பட நான்கு வழிகள் (Tamil Guide)', 'meta': 'Tamil Nadu Admission · தமிழ்'},
         {'id': 'unAAJgZ2KrU', 'title': 'Why Mentoring Matters: Coaching Teaches the Syllabus, Mentoring Shapes the Career', 'meta': 'Mentoring'},
         {'id': 'SGn20xEmwKw', 'title': 'Engineering in 2027: Which Jobs Will Grow by 2030? WEF Future of Jobs Explained', 'meta': 'Future of Jobs'},
@@ -107,6 +109,7 @@
 
     <div class="vid-grid vid-grid--shorts">
       {% set shorts = [
+        {'id': 'S_CIYvp3rtE', 'title': 'HKU after CBSE: 5 Things to Know Before You Apply', 'meta': 'Study in Hong Kong'},
         {'id': 'MnFwmXisR_o', 'title': 'JEE Main: Guess or Skip? The Negative Marking Rule', 'meta': 'JEE Main Strategy'},
         {'id': 'ZTE02M6DkSI', 'title': 'TNEA cut-off: 10 விநாடியில் கணக்கிடுங்கள்', 'meta': 'TNEA · தமிழ்'},
         {'id': 'memuY7jq7T0', 'title': 'Which Job Will Grow Fastest by 2030? Take a Guess', 'meta': 'Future of Jobs'},
