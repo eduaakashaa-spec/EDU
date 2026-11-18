@@ -66,6 +66,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-18', 'The public Video Library (/videos-library) has a new row, Tools in ten seconds: ten short videos, one for each free tool (JoSAA Predictor, DASA Predictor, free TNEA report, aptitude assessment, sample mock tests, exam calendar, Class 12 PCM analytics and more). Each card links to its tool.'),
     ('2026-11-18', 'New Roadmap tab in the Mentorship portal: mentors create a private admission roadmap for a student (for example "Darsh Roadmap") from the NUS, NTU and HKU 2027 template, with milestones per university ending in "admission complete", owners (student, parents, mentor) and ticks. Its exam and application dates are added to the Exam Calendar of that student with their sources. Only the student, linked parents, the assigned mentor and admins can open it.'),
     ('2026-11-18', 'The public Video Library (/videos-library) now opens with the HKU Hong Kong admission guide for CBSE students (September 2027 intake), and the YouTube Shorts row starts with HKU after CBSE: five things to know.'),
     ('2026-11-17', 'The public Video Library (/videos-library) has a new YouTube Shorts row with vertical players: JEE Main guess or skip, the TNEA cut-off in Tamil, the fastest-growing jobs by 2030, and the earlier ten-branches Short (moved here from the main list).'),

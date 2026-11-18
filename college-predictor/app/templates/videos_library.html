@@ -130,6 +130,41 @@
       </div>
       {% endfor %}
     </div>
+
+    <div class="section__header" style="margin-top:44px;">
+      <span class="eyebrow">Tools in ten seconds</span>
+      <p class="section__desc">Ten quick looks at the free tools on this site: the predictors, the TNEA report, the aptitude assessment, sample mock tests, the exam calendar and more. Each card opens its tool.</p>
+    </div>
+
+    <div class="vid-grid vid-grid--shorts">
+      {% set promo_shorts = [
+        {'id': 'FvDJgmqTPkM', 'title': 'Luck Is Not an Admissions Strategy. Data Is.', 'meta': 'EduAakashaA', 'page': '/'},
+        {'id': 'rcJ77cg12Uw', 'title': 'Got Your JEE Rank? See Your Colleges', 'meta': 'JoSAA Predictor', 'page': '/josaa'},
+        {'id': 'lKOxg49ROhg', 'title': 'Watch a Rank Find Its Seat', 'meta': 'DASA / CIWG · NRI', 'page': '/dasa-predictor'},
+        {'id': 'Nr5GP3a5s5k', 'title': 'TNEA Cut-off in 10 Seconds', 'meta': 'Free TNEA Report', 'page': '/free-report'},
+        {'id': '0_apXwxxLZk', 'title': 'Which Engineering Branch Suits You?', 'meta': 'Aptitude Assessment', 'page': '/josaa-assessment'},
+        {'id': 'RIr5t6w7x_8', 'title': 'Free Mock Tests: JEE Main, NEET, SAT, UCEED and More', 'meta': 'EduPulse', 'page': '/edupulse-free-mock-tests/'},
+        {'id': 'kX2Bs9_MfL0', 'title': '60+ Entrance Exams, One Calendar', 'meta': 'Exam Schedule', 'page': '/exam-schedule'},
+        {'id': 'geZwwXtVpBM', 'title': 'Class 12 PCM: Know Your Marks Gap', 'meta': 'Class 12 Analytics', 'page': '/class12-pcm/'},
+        {'id': 'siVrv4q48IY', 'title': 'Guess or Skip in JEE Main?', 'meta': 'JEE Main Strategy', 'page': ''},
+        {'id': 'r1T8GB9jJmo', 'title': 'Same Marks, Different Futures', 'meta': 'Mentorship', 'page': '/members-registration'}
+      ] %}
+      {% for v in promo_shorts %}
+      <div class="vid-card">
+        <div class="vid-embed vid-embed--short">
+          <iframe src="https://www.youtube-nocookie.com/embed/{{ v.id }}" title="{{ v.title }}"
+                  loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="vid-body">
+          <div class="vid-meta">{{ v.meta }}</div>
+          <div class="vid-title">{{ v.title|safe }}</div>
+          {% if v.page %}<a class="vid-link" href="{{ v.page }}">Open the tool &rarr;</a>{% endif %}
+          <a class="vid-link" style="{{ 'margin-top:0;' if v.page else '' }}font-weight:600;color:var(--text-dim,#5A6278);" href="https://www.youtube.com/shorts/{{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
   </section>
 
   <section class="section">
