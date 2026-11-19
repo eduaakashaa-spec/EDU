@@ -269,6 +269,47 @@
   .aw *{ animation:none !important; transition:none !important; }
   .aw-row{ opacity:1; }
 }
+
+/* ---- EduPulse App promo ---- */
+.aw-app{ background:var(--void2); color:var(--inkl); position:relative; z-index:2; padding:96px 0; overflow:hidden; }
+.aw-app .grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:56px; align-items:center; }
+.aw-app h2{ color:var(--inkl); font-size:clamp(34px,4.4vw,58px); line-height:1.05; margin-top:20px; }
+.aw-app .lead{ color:var(--mutl); max-width:560px; font-size:16.5px; line-height:1.7; margin-top:16px; }
+.aw-app .roles{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:30px; }
+.aw-app .role{ display:flex; flex-direction:column; gap:6px; padding:18px; border-radius:16px; background:var(--paper); border:1.5px solid var(--hairl);
+  text-decoration:none; color:var(--inkl); transition:border-color .2s, transform .2s; }
+.aw-app .role:hover{ border-color:var(--laser); transform:translateY(-3px); }
+.aw-app .role .k{ font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--laser); font-weight:600; }
+.aw-app .role b{ font-family:'Fraunces',serif; font-size:21px; font-weight:600; letter-spacing:-.01em; }
+.aw-app .role span{ color:var(--mutl); font-size:13.5px; line-height:1.55; }
+.aw-app .role i{ font-style:normal; margin-top:auto; padding-top:6px; color:var(--laser); font-weight:700; font-size:13.5px; }
+.aw-app .cta{ display:flex; gap:12px; flex-wrap:wrap; align-items:center; margin-top:28px; }
+.aw-app .go{ display:inline-flex; align-items:center; gap:10px; padding:15px 26px; border-radius:999px; background:var(--laser); color:#fff; font-weight:700; text-decoration:none; }
+.aw-app .go:hover{ background:var(--laser2); }
+.aw-app .note{ color:var(--mutl); font-size:13.5px; }
+.aw-phone{ justify-self:center; width:290px; border-radius:42px; padding:12px; background:#0E1B3D; box-shadow:0 40px 80px rgba(14,27,61,.28), inset 0 0 0 2px #24345F; transform:rotate(2.5deg); }
+.aw-phone .scr{ border-radius:32px; overflow:hidden; background:#FBF7EE; font-family:'Plus Jakarta Sans',sans-serif; }
+.aw-phone .bar{ display:flex; justify-content:space-between; align-items:center; padding:14px 18px 10px; font-weight:800; font-size:14px; color:#0E1B3D; }
+.aw-phone .bar small{ font-size:10px; padding:3px 8px; border-radius:99px; background:#EAF1FF; color:#0E3A8A; }
+.aw-phone .hero{ margin:0 12px; border-radius:18px; padding:16px; color:#F5EFDF; background:linear-gradient(135deg,#0E1B3D,#0E3A8A 62%,#1E4FB5); }
+.aw-phone .hero small{ font-size:10px; opacity:.8; }
+.aw-phone .hero b{ display:block; font-family:'Fraunces',serif; font-size:20px; margin:2px 0 10px; }
+.aw-phone .st{ display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+.aw-phone .st div{ background:rgba(255,255,255,.1); border-radius:10px; padding:7px 8px; font-size:9px; opacity:.95; }
+.aw-phone .st div strong{ display:block; font-size:15px; }
+.aw-phone .lst{ margin:12px; border-radius:16px; background:#FFFDF7; border:1px solid #E8DFC8; padding:6px 12px; }
+.aw-phone .lst p{ margin:0; display:flex; align-items:center; gap:8px; padding:9px 0; border-top:1px solid #E8DFC8; font-size:11.5px; font-weight:600; color:#0E1B3D; }
+.aw-phone .lst p:first-child{ border-top:0; }
+.aw-phone .lst em{ font-style:normal; margin-left:auto; font-size:9px; font-weight:700; padding:2px 6px; border-radius:5px; }
+.aw-phone .d{ width:8px; height:8px; border-radius:50%; flex:none; }
+.aw-phone .tabs{ display:grid; grid-template-columns:repeat(5,1fr); border-top:1px solid #E8DFC8; padding:10px 4px 14px; font-size:9px; text-align:center; color:#6B7390; font-weight:600; }
+.aw-phone .tabs span:first-child{ color:#E8590C; }
+@media (max-width:919px){
+  .aw-app{ padding:72px 0; }
+  .aw-app .grid{ grid-template-columns:1fr; gap:40px; }
+  .aw-app .roles{ grid-template-columns:1fr; }
+  .aw-phone{ transform:none; width:260px; }
+}
 </style>
 {% endblock %}
 
@@ -443,6 +484,48 @@
         <div class="aw-stat"><div class="n"><span class="cnt" data-to="47">47</span><b>+</b></div><div class="l">Institutes covered</div></div>
         <div class="aw-stat"><div class="n"><span class="cnt" data-to="324">324</span></div><div class="l">DASA programs tracked</div></div>
         <div class="aw-stat"><div class="n"><span class="cnt" data-to="6">6</span><b>+</b></div><div class="l">Years guiding families</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════ EDUPULSE APP ═══════ -->
+  <section class="aw-app" id="awApp" aria-labelledby="awAppTitle">
+    <div class="wrap grid">
+      <div>
+        <p class="eb">New · EduPulse App</p>
+        <h2 id="awAppTitle">The whole plan, <span class="it">in your pocket.</span></h2>
+        <p class="lead">One app for the student, the family and the mentor. Today's actions, the next session, every exam and application date, and EduPulse practice with a confidence check on every answer. Install it on your phone in one tap.</p>
+        <div class="roles">
+          <a class="role" href="{{ url_for('edupulse_app.welcome') }}?as=student">
+            <span class="k">Students</span><b>Know what's next</b>
+            <span>Actions sorted by urgency, sessions, deadlines and mock test centres.</span><i>Student sign-in →</i></a>
+          <a class="role" href="{{ url_for('edupulse_app.welcome') }}?as=parent">
+            <span class="k">Parents</span><b>Stay in the loop</b>
+            <span>Your child's progress, what the mentor shares with you and the dates that matter.</span><i>Parent sign-in →</i></a>
+          <a class="role" href="{{ url_for('edupulse_app.welcome') }}?as=mentor">
+            <span class="k">Mentors</span><b>See who needs you</b>
+            <span>Every student, flagged by attention, with overdue actions and this week's sessions.</span><i>Mentor sign-in →</i></a>
+        </div>
+        <div class="cta">
+          <a class="go" href="{{ url_for('edupulse_app.welcome') }}">Open the EduPulse App <span aria-hidden="true">→</span></a>
+          <span class="note">Same login as the portal · Android, iPhone and desktop</span>
+        </div>
+      </div>
+      <div class="aw-phone" aria-hidden="true">
+        <div class="scr">
+          <div class="bar">EduPulse <small>Student</small></div>
+          <div class="hero">
+            <small>Good morning</small><b>Hi Aarav</b>
+            <div class="st"><div><strong>6</strong>open actions</div><div><strong>1</strong>overdue</div><div><strong>4/10</strong>sessions</div></div>
+          </div>
+          <div class="lst">
+            <p><span class="d" style="background:#C2372B"></span>Electrostatics chapter test<em style="background:#FDE8E6;color:#C2372B">Overdue</em></p>
+            <p><span class="d" style="background:#B7791F"></span>Branch fit review session<em style="background:#FFF3DD;color:#B7791F">Tomorrow</em></p>
+            <p><span class="d" style="background:#1F8B5C"></span>JEE Main mock 4<em style="background:#E3F5EC;color:#1F8B5C">Done</em></p>
+            <p><span class="d" style="background:#6B7390"></span>JEE Main Session 1 window<em style="background:#F5EFDF;color:#4A5470">Jan</em></p>
+          </div>
+          <div class="tabs"><span>Home</span><span>Plan</span><span>Practice</span><span>Explore</span><span>Me</span></div>
+        </div>
       </div>
     </div>
   </section>

@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-19', 'The public homepage has a new EduPulse App section (The whole plan, in your pocket) with Student, Parent and Mentor sign-in links and a phone preview, and the site menu has an App link to /app/.'),
     ('2026-11-19', 'New EduPulse App at /app/: a mobile-first app that can be installed on a phone, with separate sign-in for students, parents and mentors. Students see their next session, action plan, dates and practice centres; parents see their child’s progress and the actions and dates the mentor shares with them; mentors see their students with who needs attention first. Plan, Practice, Explore and Me screens, a view switch for accounts with several roles, and an offline page.'),
     ('2026-11-18', 'Mentorship portal, Meeting update tab: mentors and admins apply a meeting update file in one step (meeting record with family recap and private notes, actions, calendar dates, roadmap changes), with a check-first option and no duplicates when applied twice. The Roadmap tab now shows the decision on each section (Primary, Backup, On hold; on hold sections leave the progress count and their calendar dates are marked) and has JEE Main and IIT Delhi Abu Dhabi (CAET) sections.'),
     ('2026-11-18', 'The public Video Library (/videos-library) has a new row, Tools in ten seconds: ten short videos, one for each free tool (JoSAA Predictor, DASA Predictor, free TNEA report, aptitude assessment, sample mock tests, exam calendar, Class 12 PCM analytics and more). Each card links to its tool.'),

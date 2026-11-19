@@ -71,6 +71,10 @@ assert m.status_code == 200 and m.mimetype == 'application/manifest+json' and '"
 sw = anon.get('/app/sw.js')
 assert sw.status_code == 200 and sw.headers.get('Service-Worker-Allowed') == '/app/' and 'caches' in sw.get_data(as_text=True)
 assert anon.get('/app/offline').status_code == 200
+assert 'value="parent" checked' in anon.get('/app/?as=parent').get_data(as_text=True)   # homepage role links preselect the door
+home = anon.get('/').get_data(as_text=True)
+assert 'id="awApp"' in home and '/app/?as=parent' in home and '/app/?as=mentor' in home   # homepage promotes the app
+assert 'href="/app/" class="nav__link">App<' in home                                       # site menu link
 
 # --- sign-in rules ---------------------------------------------------------------
 client('ravi@ex.com', 'mentor', expect=403)                            # a student cannot open the mentor door
