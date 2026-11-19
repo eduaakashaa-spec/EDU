@@ -27,7 +27,7 @@ for href in links:
 eng = page[page.index('id="awTrack"'):page.index('id="awProof"')]
 for want in ('/class12-pcm/', '/class12-pcb/', '/edupulse-free-mock-tests/'):
     assert want in eng, want
-assert page.count('class="hc-slide"') == 12
+assert page.count('class="hc-slide"') == 13
 try:
     os.remove(_db)
 except OSError:
