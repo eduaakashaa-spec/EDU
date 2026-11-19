@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}NIRF Medical Ranking Analytics 2026 · Top 50 medical institutes · EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="NIRF medical ranking analytics: the top 50 medical institutes in India with the five NIRF parameter scores, state-wise view, top 10, side-by-side compare and what the numbers mean for NEET aspirants.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nirf_medical.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="nm" id="top" data-no-rail>
+  <header class="nm-hero">
+    <div class="nm-wrap">
+      <div class="nm-eyebrow">NIRF 2026 · Medical <span class="nm-chip">Data: India Rankings 2025, latest published</span></div>
+      <h1>NIRF Medical Ranking Analytics</h1>
+      <p class="nm-lead">The top 50 medical institutes in India, taken apart parameter by parameter. See who leads, by how much, and what each institute is strongest at, before you rank your NEET counselling choices.</p>
+      <div class="nm-kpis" id="kpis"></div>
+    </div>
+  </header>
+
+  <div class="nm-bar"><div class="nm-wrap">
+    <nav class="nm-tabs" id="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="overview" aria-selected="true">Overview</button>
+      <button role="tab" data-tab="rankings" aria-selected="false">All 50</button>
+      <button role="tab" data-tab="top10" aria-selected="false">Top 10</button>
+      <button role="tab" data-tab="states" aria-selected="false">By state</button>
+      <button role="tab" data-tab="params" aria-selected="false">Parameters</button>
+      <button role="tab" data-tab="compare" aria-selected="false">Compare</button>
+    </nav>
+  </div></div>
+
+  <main class="nm-wrap nm-main">
+
+    <section class="nm-panel" id="p-overview">
+      <div class="nm-grid2">
+        <div class="nm-card"><h2>Score of every ranked institute</h2><p class="nm-sub">Overall NIRF score, rank 1 to 50. The curve shows how fast the score falls after the first few.</p><div class="nm-chart"><canvas id="cScores"></canvas></div></div>
+        <div class="nm-card"><h2>Institutes by state</h2><p class="nm-sub">How many of the 50 sit in each state.</p><div class="nm-chart"><canvas id="cStateCount"></canvas></div></div>
+      </div>
+      <div class="nm-card"><h2>What the numbers say</h2><ul class="nm-points" id="insights"></ul></div>
+      <div class="nm-card nm-note"><strong>About the data.</strong> NIRF publishes the Medical ranking for the top 50 institutes. The 2026 edition had not been published when this page was built, so every number here is from the India Rankings 2025 Medical list, the latest official one, and the page is labelled NIRF 2026 only to keep it alongside the engineering page. Overall score is the weighted total; the five parameter scores are each out of 100. Source: <a href="https://www.nirfindia.org/Rankings/2025/MedicalRanking.html" target="_blank" rel="noopener">nirfindia.org</a>. NIRF ranks institutes, not NEET cut-offs: use it with the seat and cut-off pages, not instead of them.</div>
+    </section>
+
+    <section class="nm-panel" id="p-rankings" hidden>
+      <div class="nm-filters">
+        <input type="search" id="q" placeholder="Search institute or city" aria-label="Search">
+        <select id="fState" aria-label="State"><option value="">All states</option></select>
+        <select id="fSort" aria-label="Sort by">
+          <option value="rank">Sort: NIRF rank</option><option value="tlr">Teaching &amp; Learning</option><option value="rpc">Research</option>
+          <option value="go">Graduation Outcomes</option><option value="oi">Outreach &amp; Inclusivity</option><option value="per">Perception</option>
+        </select>
+        <span class="nm-count" id="count"></span>
+      </div>
+      <div class="nm-tablewrap"><table class="nm-table" id="tbl"><thead><tr>
+        <th>Rank</th><th>Institute</th><th>State</th><th class="n">Score</th><th class="n" title="Teaching, Learning &amp; Resources">TLR</th><th class="n" title="Research &amp; Professional Practice">RPC</th><th class="n" title="Graduation Outcomes">GO</th><th class="n" title="Outreach &amp; Inclusivity">OI</th><th class="n" title="Perception">PER</th>
+      </tr></thead><tbody></tbody></table></div>
+      <p class="nm-sub">TLR Teaching, Learning &amp; Resources · RPC Research &amp; Professional Practice · GO Graduation Outcomes · OI Outreach &amp; Inclusivity · PER Perception. Each out of 100. Click a row to compare.</p>
+    </section>
+
+    <section class="nm-panel" id="p-top10" hidden>
+      <div class="nm-podium" id="podium"></div>
+      <div class="nm-card"><h2>Top 10 on the five parameters</h2><p class="nm-sub">Tap a legend entry to hide or show an institute.</p><div class="nm-chart nm-tall"><canvas id="cTop10"></canvas></div></div>
+    </section>
+
+    <section class="nm-panel" id="p-states" hidden>
+      <div class="nm-grid2">
+        <div class="nm-card"><h2>Average score by state</h2><p class="nm-sub">Mean overall score of the ranked institutes in that state.</p><div class="nm-chart"><canvas id="cStateAvg"></canvas></div></div>
+        <div class="nm-card"><h2>Pick a state</h2><select id="stSel" aria-label="State"></select><div id="stList" class="nm-stlist"></div></div>
+      </div>
+    </section>
+
+    <section class="nm-panel" id="p-params" hidden>
+      <div class="nm-grid2">
+        <div class="nm-card"><h2>Average by parameter</h2><p class="nm-sub">Top 50 average, top 10 average and the gap. Research is where most institutes lose marks.</p><div class="nm-chart"><canvas id="cParamAvg"></canvas></div></div>
+        <div class="nm-card"><h2>Best on each parameter</h2><div id="leaders" class="nm-leaders"></div></div>
+      </div>
+      <div class="nm-card"><h2>Research vs Graduation Outcomes</h2><p class="nm-sub">Each dot is an institute. Top right is strong in both. Hover for the name.</p><div class="nm-chart nm-tall"><canvas id="cScatter"></canvas></div></div>
+    </section>
+
+    <section class="nm-panel" id="p-compare" hidden>
+      <div class="nm-card">
+        <h2>Compare up to three institutes</h2>
+        <div class="nm-cmpsel"><select id="c1"></select><select id="c2"></select><select id="c3"></select></div>
+        <div class="nm-chart nm-tall"><canvas id="cCompare"></canvas></div>
+        <div class="nm-tablewrap"><table class="nm-table" id="cmpTbl"></table></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/nirf_medical_data.js') }}"></script>
+<script src="{{ url_for('static', filename='js/nirf_medical.js') }}"></script>
+{% endblock %}

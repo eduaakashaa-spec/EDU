@@ -7,4 +7,10 @@ The menu and the overview page update on their own. Also add a Member Home tile 
 PAGES = [
     {'title': 'NEET UG 2027', 'endpoint': 'main.neet_2027', 'tag': 'MBBS · BDS · AYUSH · B.Sc. Nursing',
      'desc': 'What NTA has and has not announced, recent exam dates, pattern, eligibility, counselling and a month-by-month preparation plan.', 'status': 'Guide live'},
+    {'title': 'NEET Papers Analysed', 'endpoint': 'main.neet_exam', 'tag': 'NEET UG · past papers',
+     'desc': 'Past NEET question papers analysed chapter by chapter: what is asked most, marks by subject and topic trends.', 'status': 'Analysis live'},
+    {'title': 'NEET MBBS Seat Analytics', 'endpoint': 'main.neet_seats_2025', 'tag': 'MBBS · seats · colleges', 'premium': True,
+     'desc': 'All MBBS colleges in the NMC seat matrix for 2025-26: seats by state and management, new colleges, seat cuts and a college explorer.', 'status': 'Members'},
+    {'title': 'NIRF Medical Ranking Analytics', 'endpoint': 'main.nirf_medical', 'tag': 'NIRF 2026 · top 50 medical institutes',
+     'desc': 'The NIRF top 50 medical institutes taken apart: scores on the five parameters, top 10, state view and side-by-side compare.', 'status': 'Analysis live'},
 ]

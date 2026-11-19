@@ -127,8 +127,6 @@
               <li><a href="{{ url_for('main.nid') }}">NID (Design)</a></li>
               <li><a href="{{ url_for('main.nid_papers') }}">NID Papers Analysed</a></li>
               <li><a href="{{ url_for('main.nift_exam') }}">NIFT Papers Analysed</a></li>
-              <li><a href="{{ url_for('main.neet_exam') }}">NEET Papers Analysed</a></li>
-              <li><a href="{{ url_for('main.neet_seats_2025') }}">{{ ea_icon_i('lock') }} NEET MBBS Seat Analytics</a></li>
               <li><a href="{{ url_for('free_mock.home') }}">EduPulse Free Mock Tests</a></li>
               <li><a href="{{ url_for('main.mbamca_alias') }}">MBA / MCA</a></li>
               <li><a href="{{ url_for('main.cat') }}">CAT</a></li>
@@ -169,7 +167,7 @@
             <a href="{{ url_for('main.medicine') }}" class="nav__link">Medicine</a>
             <ul class="nav__dropdown">
               <li><a href="{{ url_for('main.medicine') }}">All medicine exams</a></li>
-              {% for p in MEDICINE_PAGES %}<li><a href="{{ url_for(p.endpoint) }}">{{ p.title }}</a></li>{% endfor %}
+              {% for p in MEDICINE_PAGES %}<li><a href="{{ url_for(p.endpoint) }}">{% if p.premium %}{{ ea_icon_i('lock') }} {% endif %}{{ p.title }}</a></li>{% endfor %}
             </ul>
           </li>
 

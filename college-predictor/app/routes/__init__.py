@@ -105,6 +105,11 @@ def nirf_ranking():
     return render_reference_page('nirf-ranking.html', 'nirf_ranking.html')
 
 
+@main_bp.route('/nirf-medical-ranking')
+def nirf_medical():
+    return render_template('nirf_medical.html')
+
+
 # =============================================================
 # TNEA cluster
 # =============================================================
