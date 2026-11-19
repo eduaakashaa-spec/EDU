@@ -2,7 +2,7 @@ import json
 import os
 from functools import lru_cache
 
-from flask import Blueprint, redirect, render_template, request, url_for, Response
+from flask import Blueprint, redirect, render_template, request, url_for, Response, jsonify
 
 from app.decorators import admin_required, premium_required
 from app.extensions import db
@@ -577,6 +577,41 @@ def jee_paper2():
     # public page: JEE Main 2027 Paper 2A (B.Arch) and 2B (B.Planning): deadlines, pattern, syllabus, interest check; from NTA's 2027 bulletin and syllabus, keep in step with NTA notices
     from app.data import jee_paper2 as d
     return render_template('jee_paper2.html', d=d)
+
+
+@main_bp.route('/neikkarapatti-palani')
+def nkp_landing():
+    # public promotion page: complimentary membership for Grade 12 students of Neikkarapatti and Palani (code NKP), English and Tamil; the form posts to nkp_register
+    return render_template('nkp_landing.html')
+
+
+@main_bp.route('/nkp')
+@main_bp.route('/palani')
+@main_bp.route('/neikkarapatti')
+def nkp_alias():
+    return redirect(url_for('main.nkp_landing'), code=301)
+
+
+@main_bp.route('/neikkarapatti-palani/register', methods=['POST'])
+def nkp_register():
+    """Public registration for the complimentary membership. Stores a registration (status New): an admin verifies and activates it."""
+    from app.services import campaign as cp
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify(ok=False, error='Please fill in the form and try again.', error_ta='படிவத்தை நிரப்பி மீண்டும் முயற்சிக்கவும்.'), 400
+    xff = request.headers.get('X-Forwarded-For', '')
+    ip = (xff.split(',')[0].strip() if xff else request.remote_addr) or 'unknown'
+    if not cp.rate_ok(ip):
+        return jsonify(ok=False, error='Too many attempts from this connection. Please try again in an hour or call us.',
+                       error_ta='அதிக முயற்சிகள். ஒரு மணி நேரம் கழித்து முயற்சிக்கவும் அல்லது எங்களை அழைக்கவும்.'), 429
+    clean, en, ta = cp.validate(data)
+    if clean is None:
+        return jsonify(ok=False, error=en, error_ta=ta), 400
+    reg, created = cp.register(clean, ip)
+    if created:
+        cp.send_received(reg)
+        cp.notify_team(reg)
+    return jsonify(ok=True, reference=reg.reference, existing=not created)
 
 
 @main_bp.route('/bplanning-planner-2027')

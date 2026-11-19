@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% block title %}Campaign registrations — Admin · EduAakashaA{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+<style>
+  .cr-act{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .cr-act form{margin:0;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .cr-act input[type=number]{width:70px}
+  .cr-act input[type=text]{width:150px}
+  .cr-sub{font-size:.8rem;color:var(--muted)}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="adm"><div class="adm-wrap">
+
+  <div class="adm-top">
+    <div>
+      <div class="adm-eyebrow">Admin · Inbox</div>
+      <h1>Campaign registrations</h1>
+    </div>
+    <a class="btn btn-ghost" href="{{ url_for('main.nkp_landing') }}" target="_blank" rel="noopener">Open the public page ↗</a>
+  </div>
+
+  {% include "admin/_nav.html" %}
+
+  <div class="adm-kpis" style="grid-template-columns:repeat(4,1fr);">
+    <div class="adm-kpi"><div class="n">{{ total }}</div><div class="l">Registrations</div></div>
+    <div class="adm-kpi"><div class="n">{{ counts.get('New', 0) }}</div><div class="l">Waiting to be verified</div></div>
+    <div class="adm-kpi"><div class="n">{{ counts.get('Activated', 0) }}</div><div class="l">Activated</div></div>
+    <div class="adm-kpi"><div class="n">{{ counts.get('Rejected', 0) }}</div><div class="l">Rejected</div></div>
+  </div>
+
+  <p class="cr-sub" style="margin:0 0 10px;">A registration gives no access by itself. Check the school and the student, then <strong>Activate</strong>: the portal login is created (or the existing account is upgraded) with complimentary Premium access for the number of days you set, and the login is emailed. Nothing is charged and no invoice is raised.</p>
+
+  <form class="adm-bar" method="get" action="{{ url_for('membership.admin_campaigns') }}">
+    <input type="text" name="q" value="{{ q }}" placeholder="Search name, email, mobile, school, reference…" style="flex:1; min-width:200px;">
+    <select name="status">
+      <option value="">All statuses</option>
+      {% for s in ('New', 'Activated', 'Rejected') %}<option {{ 'selected' if status == s }}>{{ s }}</option>{% endfor %}
+    </select>
+    <button class="btn btn-navy" type="submit">Filter</button>
+    <a class="btn btn-ghost" href="{{ url_for('membership.admin_campaigns') }}">Reset</a>
+  </form>
+
+  <div class="adm-table-wrap">
+    <table class="adm-table">
+      <thead><tr><th>Ref</th><th>Received</th><th>Student</th><th>School · stream</th><th>Admissions</th><th>Contact</th><th>Status</th><th>Action</th></tr></thead>
+      <tbody>
+        {% for r in rows %}
+        <tr>
+          <td><span class="ref">{{ r.reference }}</span></td>
+          <td>{{ r.created_at.strftime('%d %b %Y %H:%M') if r.created_at }}</td>
+          <td><strong>{{ r.name }}</strong><div class="cr-sub">Guidance: {{ r.language }} · page: {{ 'Tamil' if r.page_language == 'ta' else 'English' }}</div></td>
+          <td>{{ r.school }}<div class="cr-sub">{{ r.stream }}</div></td>
+          <td>{{ r.admissions }}</td>
+          <td>{{ r.mobile }}<div class="cr-sub">{{ r.email }}</div><div class="cr-sub">Parent: {{ r.parent_name }}{% if r.parent_mobile %} · {{ r.parent_mobile }}{% endif %}</div></td>
+          <td><span class="pill s-{{ r.status }}">{{ r.status }}</span>
+            {% if r.status == 'Activated' and r.access_until %}<div class="cr-sub">until {{ r.access_until.strftime('%d %b %Y') }}</div>{% endif %}
+            {% if r.note %}<div class="cr-sub">{{ r.note }}</div>{% endif %}</td>
+          <td>
+            <div class="cr-act">
+              {% if r.status != 'Activated' %}
+              <form method="post" action="{{ url_for('membership.admin_campaign_activate', rid=r.id, q=q, status=status) }}" onsubmit="return confirm('Activate complimentary membership for {{ r.name|e }}?')">
+                <input type="number" name="days" min="1" max="1100" value="{{ default_days }}" title="Days of complimentary access">
+                <label style="font-size:.78rem"><input type="checkbox" name="notify" value="1" checked> email login</label>
+                <button class="btn btn-navy" type="submit">Activate</button>
+              </form>
+              {% else %}
+              <form method="post" action="{{ url_for('membership.admin_campaign_activate', rid=r.id, q=q, status=status) }}" onsubmit="return confirm('Extend access and resend the welcome email?')">
+                <input type="number" name="days" min="1" max="1100" value="{{ default_days }}" title="Days to add">
+                <input type="hidden" name="notify" value="1">
+                <button class="btn btn-ghost" type="submit">Extend + resend</button>
+              </form>
+              {% endif %}
+              {% if r.status == 'New' %}
+              <form method="post" action="{{ url_for('membership.admin_campaign_status', rid=r.id) }}" onsubmit="return confirm('Reject this registration?')">
+                <input type="hidden" name="status" value="Rejected"><input type="text" name="note" placeholder="Reason (optional)">
+                <button class="btn btn-ghost" type="submit">Reject</button>
+              </form>
+              {% elif r.status == 'Rejected' %}
+              <form method="post" action="{{ url_for('membership.admin_campaign_status', rid=r.id) }}"><input type="hidden" name="status" value="New"><button class="btn btn-ghost" type="submit">Reopen</button></form>
+              {% endif %}
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" style="text-align:center; padding:40px; color:var(--muted);">No registrations yet. They appear here when someone submits the form on <a href="{{ url_for('main.nkp_landing') }}">the public page</a>.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if pagination.pages > 1 %}
+  <div style="display:flex;gap:10px;margin-top:14px;align-items:center;">
+    {% if pagination.has_prev %}<a class="btn btn-ghost" href="{{ url_for('membership.admin_campaigns', page=pagination.prev_num, q=q, status=status) }}">← Newer</a>{% endif %}
+    <span class="cr-sub">Page {{ pagination.page }} of {{ pagination.pages }}</span>
+    {% if pagination.has_next %}<a class="btn btn-ghost" href="{{ url_for('membership.admin_campaigns', page=pagination.next_num, q=q, status=status) }}">Older →</a>{% endif %}
+  </div>
+  {% endif %}
+</div></div>
+{% endblock %}

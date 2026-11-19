@@ -318,3 +318,42 @@ class UserToolAccess(db.Model):
     mode = db.Column(db.String(8), nullable=False)               # 'allow' | 'deny'
     updated_by = db.Column(db.String(200), default='')
     updated_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc).replace(tzinfo=None))
+
+
+# --------------------------------------------------------------------------- #
+# Campaign registrations (e.g. the complimentary Neikkarapatti & Palani offer)
+# --------------------------------------------------------------------------- #
+CAMPAIGN_STATUSES = ('New', 'Activated', 'Rejected')
+
+
+class CampaignRegistration(db.Model):
+    """One public registration for a promotional offer. It never grants access by itself: an admin verifies the details and activates
+    the complimentary membership (which creates or upgrades the portal account)."""
+    __tablename__ = 'campaign_registrations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    reference = db.Column(db.String(40), unique=True, index=True)          # EA-NKP-0001
+    campaign = db.Column(db.String(60), index=True, nullable=False)         # e.g. NKP-Neikkarapatti-Palani-2027
+    code = db.Column(db.String(20))
+    name = db.Column(db.String(160), nullable=False)
+    school = db.Column(db.String(200))
+    stream = db.Column(db.String(20))
+    admissions = db.Column(db.String(120))                                  # "NEET UG, TNEA"
+    mobile = db.Column(db.String(20))
+    email = db.Column(db.String(200), index=True, nullable=False)
+    parent_name = db.Column(db.String(160))
+    parent_mobile = db.Column(db.String(20))
+    language = db.Column(db.String(12))                                     # guidance language: Tamil | English
+    page_language = db.Column(db.String(4))
+    consent = db.Column(db.Boolean, default=False)
+    consent_at = db.Column(db.DateTime)
+    ip = db.Column(db.String(64))
+    status = db.Column(db.String(12), default='New', index=True)
+    note = db.Column(db.Text)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'))
+    access_until = db.Column(db.DateTime)
+    handled_by = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'))
+    handled_at = db.Column(db.DateTime)
+    created_at = db.Column(db.DateTime, default=_utcnow, index=True)
+
+    user = db.relationship('User', foreign_keys=[user_id])

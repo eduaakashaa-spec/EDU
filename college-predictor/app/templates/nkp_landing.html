@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Complimentary EduAakashaa Membership for Neikkarapatti &amp; Palani Students · Class of 2027{% endblock %}
+{% block meta_description %}<meta name="description" content="Special announcement: Grade 12 students of schools in Neikkarapatti and Palani appearing for NEET, JEE or TNEA admissions in 2027 receive a complimentary EduAakashaa membership. Register with code NKP. Available in English and Tamil.">
+<meta property="og:title" content="Complimentary EduAakashaa Membership: Neikkarapatti &amp; Palani, Class of 2027">
+<meta property="og:description" content="Grade 12 students of Neikkarapatti and Palani: complimentary membership for NEET, JEE and TNEA 2027 guidance. Code NKP.">
+<meta property="og:type" content="website">{% endblock %}
+{% block head %}
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400..700&family=Noto+Serif+Tamil:wght@500..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/nkp_landing.css') }}">
+<style>
+  .nkp .nkp-ann{background:linear-gradient(90deg,#071A44,#0E3A8A);color:#fff;position:relative;z-index:2}
+  .nkp .nkp-ann .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-top:10px;padding-bottom:10px}
+  .nkp .nkp-ann .k{font:700 11px 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase;color:#FF8A3D;display:inline-flex;align-items:center;gap:8px}
+  .nkp .nkp-ann .k::before{content:"";width:8px;height:8px;border-radius:50%;background:#FF6B0A;box-shadow:0 0 0 4px rgba(255,107,10,.25)}
+  .nkp .nkp-ann p{margin:0;font-size:14px;font-weight:600;flex:1;min-width:240px}
+  .nkp .nkp-ann a.go{color:#fff;font-weight:700;font-size:13px;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+  .nkp .nkp-ann .lang{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25)}
+  .nkp .nkp-ann .lang button{color:#D7E1F8}
+  .nkp .nkp-ann .lang button[aria-pressed="true"]{background:#FF6B0A;color:#fff}
+  html[lang="ta"] .nkp .nkp-ann .k{letter-spacing:.04em;text-transform:none}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="nkp" id="top" data-no-rail>
+  <div class="nkp-ann" role="region" aria-label="Special announcement">
+    <div class="wrap">
+      <span class="k" data-t="ann_k">Special announcement</span>
+      <p data-t="ann_t">Complimentary membership for Grade 12 students of Neikkarapatti &amp; Palani · Class of 2027 · Code NKP</p>
+      <a class="go" href="#register" data-t="ann_b">Register now</a>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" data-lang="ta" aria-pressed="false">தமிழ்</button>
+      </div>
+    </div>
+  </div>
+{% include "_nkp_body.html" %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/nkp_landing.js') }}"></script>
+{% endblock %}

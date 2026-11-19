@@ -444,6 +444,58 @@ def admin_leads():
                            dasa_rows=dasa_rows)
 
 
+@membership_bp.route('/admin/campaigns')
+@admin_required
+def admin_campaigns():
+    """Registrations from promotional landing pages (the complimentary Neikkarapatti & Palani offer): verify, activate, reject."""
+    from app.models_membership import CampaignRegistration
+    q = (request.args.get('q') or '').strip()
+    status = request.args.get('status') or ''
+    query = CampaignRegistration.query
+    if q:
+        like = f'%{q}%'
+        query = query.filter(db.or_(CampaignRegistration.name.ilike(like), CampaignRegistration.email.ilike(like), CampaignRegistration.mobile.ilike(like),
+                                    CampaignRegistration.school.ilike(like), CampaignRegistration.reference.ilike(like)))
+    if status in ('New', 'Activated', 'Rejected'):
+        query = query.filter(CampaignRegistration.status == status)
+    page = request.args.get('page', 1, type=int)
+    pagination = query.order_by(CampaignRegistration.created_at.desc()).paginate(page=page, per_page=30, error_out=False)
+    counts = dict(db.session.query(CampaignRegistration.status, db.func.count(CampaignRegistration.id)).group_by(CampaignRegistration.status).all())
+    from app.services import campaign as cp
+    return render_template('admin/campaign_list.html', admin_tab='campaigns', pagination=pagination, rows=pagination.items, q=q, status=status,
+                           counts=counts, total=sum(counts.values()), default_days=cp.NKP['access_days'])
+
+
+@membership_bp.route('/admin/campaigns/<int:rid>/activate', methods=['POST'])
+@admin_required
+def admin_campaign_activate(rid):
+    from app.models_membership import CampaignRegistration
+    from app.services import campaign as cp
+    r = db.session.get(CampaignRegistration, rid) or abort(404)
+    days = request.form.get('days', type=int) or cp.NKP['access_days']
+    msg, pw = cp.activate(r, current_user.id, days=days, notify=request.form.get('notify') == '1')
+    if pw:
+        msg += f' Temporary password (shown once): {pw}'
+    flash(msg, 'success')
+    return redirect(url_for('membership.admin_campaigns', **{k: v for k, v in request.args.items()}))
+
+
+@membership_bp.route('/admin/campaigns/<int:rid>/status', methods=['POST'])
+@admin_required
+def admin_campaign_status(rid):
+    from app.models_membership import CampaignRegistration
+    r = db.session.get(CampaignRegistration, rid) or abort(404)
+    new = request.form.get('status')
+    if new not in ('New', 'Rejected'):
+        abort(400)
+    r.status = new
+    r.note = (request.form.get('note') or r.note or '').strip()[:1000] or None
+    r.handled_by, r.handled_at = current_user.id, datetime.now(timezone.utc).replace(tzinfo=None)
+    db.session.commit()
+    flash(f'{r.reference} marked {new}.', 'success')
+    return redirect(url_for('membership.admin_campaigns'))
+
+
 @membership_bp.route('/admin/leads/<int:lead_id>')
 @admin_required
 def admin_lead_detail(lead_id):

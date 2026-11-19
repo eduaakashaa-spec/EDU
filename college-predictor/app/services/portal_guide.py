@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-19', 'New public promotion page for the complimentary membership for Grade 12 students of Neikkarapatti and Palani (/neikkarapatti-palani, code NKP): special announcement, story, what members get, registration form and FAQ in English and Tamil. Registrations are stored for review in Admin, Inbox, Campaign registrations, where an admin verifies a student and activates complimentary Premium access (login created or account upgraded, emailed).'),
     ('2026-11-19', 'The homepage carousel opens with a new EduPulse App banner (made in Canva) that links to the app sign-in; the carousel now has thirteen slides.'),
     ('2026-11-19', 'The public homepage has a new EduPulse App section (The whole plan, in your pocket) with Student, Parent and Mentor sign-in links and a phone preview, and the site menu has an App link to /app/.'),
     ('2026-11-19', 'New EduPulse App at /app/: a mobile-first app that can be installed on a phone, with separate sign-in for students, parents and mentors. Students see their next session, action plan, dates and practice centres; parents see their child’s progress and the actions and dates the mentor shares with them; mentors see their students with who needs attention first. Plan, Practice, Explore and Me screens, a view switch for accounts with several roles, and an offline page.'),
@@ -724,6 +725,15 @@ GUIDE = [
                 'Inquiries: read contact-form messages and reply.',
                 'Free Guides: + Upload a guide (title, category, short description, file, optional tile image, order). Replace the file or delete when a guide is outdated.'],
          added='2026-10-26', updated='2026-10-26'),
+    dict(id='a-campaign', role='admin', group='Communication', title='Campaign registrations: complimentary membership (Neikkarapatti and Palani, code NKP)', summary='A public promotion page with a registration form; you verify each registration and activate the complimentary membership.',
+         where=[('Campaign registrations', 'membership.admin_campaigns'), ('Public page', 'main.nkp_landing')],
+         steps=['Share the public page (/neikkarapatti-palani, also /nkp and /palani). It carries a special announcement, the story of the offer, what members get, a three-step guide, the registration form and an FAQ, in English and Tamil (the EN / Tamil switch is at the top). Anyone can open it; no login is needed.',
+                'A student fills in name, school, stream, mobile, email, the admissions (NEET UG, JEE, TNEA), a parent or guardian and the code NKP, and ticks that the parent knows. Mobile numbers, email and the code are checked; the same email or mobile cannot register twice; one connection can send only a few registrations an hour. The team inbox gets an email for each one.',
+                'Open Admin, Inbox, Campaign registrations. Every registration is stored as New and gives no access by itself: the page tells families that details may be checked with the school, so check the school and the student first.',
+                'Press Activate. A login is created (or an existing account is upgraded) with complimentary Premium access for the number of days you set (365 by default); an existing membership is never shortened and staff accounts are not changed. The login details are emailed to the student; if email is not configured the temporary password is shown once on the page so you can send it yourself on WhatsApp. Nothing is charged and no invoice is raised.',
+                'Reject with a reason if the registration is not eligible, and Reopen if you change your mind. Extend + resend adds days to an activated membership and sends the welcome email again.'],
+         tips=['The same page can serve another school or area later: ask for a new code and campaign (the form, checks and activation are shared).'],
+         tiles=[], added='2026-11-19', updated='2026-11-19'),
     dict(id='a-network', role='admin', group='Communication', title='College Guides and surveys', summary='Alumni network and survey responses.',
          where=[('College Guides', 'alumni.admin_list'), ('College Surveys', 'survey.admin_list')],
          steps=['College Guides: review alumni profiles, photos and resumes.',
