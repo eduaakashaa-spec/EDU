@@ -1,0 +1,61 @@
+{% extends "edupulse_app/base.html" %}
+{% import "edupulse_app/_parts.html" as p %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="ep-hero">
+  <small>{{ greeting }}, {{ today.strftime('%A %d %B') }}</small>
+  <h1 class="ep-serif">Welcome, {{ current_user.name.split(' ')[0] }}</h1>
+  {% if child %}
+  <p>Here is how {{ child.first }} is doing in {{ child.programme }}.</p>
+  <div class="ep-hero-stats">
+    <div><b>{{ child.sessions.pct }}%</b><span>of sessions done</span></div>
+    <div><b>{{ child.actions.pct }}%</b><span>of shared actions done</span></div>
+    <div><b>{{ child.upcoming|length }}</b><span>dates in 45 days</span></div>
+  </div>
+  {% else %}
+  <p>No student is linked to this account yet. Once your child's mentor links you, their progress, sessions and dates appear here.</p>
+  <a class="ep-btn" href="{{ url_for('main.contact') }}">Contact the team <svg><use href="#i-arrow"/></svg></a>
+  {% endif %}
+</section>
+
+{% if cards|length > 1 %}
+<nav class="ep-seg" style="margin-top:14px" aria-label="Choose child">
+  {% for c in cards %}<a href="{{ url_for('edupulse_app.home', child=c.id) }}" class="{{ 'on' if child and c.id == child.id }}">{{ c.first }}</a>{% endfor %}
+</nav>
+{% endif %}
+
+{% if child %}
+<div class="ep-grid ep-grid--2" style="margin-top:14px">
+  {{ p.next_session(child.next, None) }}
+  <div class="ep-card">
+    <h3>Mentor</h3>
+    <p>{{ child.mentor }} · {{ child.grade }}</p>
+    <div style="margin-top:14px">
+      <small class="ep-muted" style="font-weight:700">CORE SESSIONS</small>
+      <div class="ep-bar ep-bar--green" style="margin-top:6px"><i style="width:{{ child.sessions.pct }}%"></i></div>
+      <p>{{ child.sessions.core_done }} of {{ child.sessions.core_total }} completed{% if child.sessions.extra_done %}, plus {{ child.sessions.extra_done }} extra{% endif %}</p>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+      <a class="ep-btn ep-btn--ghost" href="{{ child.url_messages }}"><svg><use href="#i-chat"/></svg>Messages{% if child.unread %} <span class="ep-tag t-new">{{ child.unread }}</span>{% endif %}</a>
+      <a class="ep-btn ep-btn--ghost" href="{{ child.url_reports }}">Reports</a>
+    </div>
+  </div>
+</div>
+
+<div class="ep-sec"><h2>Open actions</h2><a href="{{ child.url_actions }}">See all</a></div>
+<p class="ep-muted" style="margin:-4px 0 10px;font-size:.84rem">Actions the mentor shares with you. Yours are listed first.</p>
+<div class="ep-card">{{ p.actions_list(child.open_actions, 'No open actions shared with you.') }}</div>
+
+<div class="ep-sec"><h2>Dates to keep</h2><a href="{{ child.url_calendar }}">Exam calendar</a></div>
+<div class="ep-card">{{ p.agenda(child.upcoming) }}</div>
+{% endif %}
+
+{{ p.notices(notices) }}
+
+<div class="ep-sec"><h2>Guides for families</h2><a href="{{ url_for('edupulse_app.explore') }}">Explore</a></div>
+<div class="ep-grid ep-grid--3">
+  <a class="ep-card ep-tile-mini" href="{{ url_for('main.nri_guide') }}"><span class="ep-tile-ic">🌍</span><b style="flex:1">NRI admission guide</b><svg style="color:var(--orange)"><use href="#i-arrow"/></svg></a>
+  <a class="ep-card ep-tile-mini" href="{{ url_for('main.jee_registration') }}"><span class="ep-tile-ic">📝</span><b style="flex:1">JEE Main 2027 registration</b><svg style="color:var(--orange)"><use href="#i-arrow"/></svg></a>
+  <a class="ep-card ep-tile-mini" href="{{ url_for('portal_guide.index') }}"><span class="ep-tile-ic">📘</span><b style="flex:1">Portal guide for parents</b><svg style="color:var(--orange)"><use href="#i-arrow"/></svg></a>
+</div>
+{% endblock %}

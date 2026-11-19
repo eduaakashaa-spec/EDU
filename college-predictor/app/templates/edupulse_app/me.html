@@ -1,0 +1,70 @@
+{% extends "edupulse_app/base.html" %}
+{% block title %}Me{% endblock %}
+{% block content %}
+<div class="ep-head"><div><h1 class="ep-serif">Me</h1></div></div>
+<div class="ep-card ep-stu-top">
+  <span class="ep-avatar" aria-hidden="true">{{ current_user.name[:1]|upper }}</span>
+  <div style="flex:1;min-width:0">
+    <h3>{{ current_user.name }}</h3>
+    <p style="margin:0">{{ current_user.email }}</p>
+  </div>
+  <span class="ep-chip ep-chip--{{ role }}">{{ ROLE_LABEL[role] }}</span>
+</div>
+
+{% if roles|length > 1 %}
+<div class="ep-sec"><h2>Switch view</h2></div>
+<form method="post" action="{{ url_for('edupulse_app.switch_role') }}" class="ep-seg">
+  {% for r in roles %}<button type="submit" name="role" value="{{ r }}" class="{{ 'on' if r == role }}">{{ ROLE_LABEL[r] }}</button>{% endfor %}
+</form>
+{% endif %}
+
+{% if enrolments and role != 'mentor' %}
+<div class="ep-sec"><h2>{{ 'Mentorship' if role == 'student' else 'Linked students' }}</h2></div>
+<div class="ep-grid ep-grid--2">
+  {% for e in enrolments %}
+  <a class="ep-card ep-tile-mini" href="{{ url_for('mentorship.workspace', eid=e.id, tab='home') }}">
+    <span class="ep-tile-ic">🎓</span>
+    <span style="flex:1;min-width:0"><b>{{ e.preferred_name or e.student.name }}</b><br><span class="ep-muted" style="font-size:.82rem">{{ e.programme.name }} · {{ e.status }}</span></span>
+    <svg style="color:var(--orange)"><use href="#i-arrow"/></svg>
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+<div class="ep-sec"><h2>Account</h2></div>
+<div class="ep-card">
+  <ul class="ep-list">
+    <li><svg><use href="#i-grid"/></svg><div class="ep-li-main"><a href="{{ url_for('memberhub.home') }}"><b>Member Home (full portal)</b></a><span>Every tool, documents and assessments</span></div></li>
+    <li><svg><use href="#i-user"/></svg><div class="ep-li-main"><a href="{{ url_for('members.profile') }}"><b>Profile, documents and assessments</b></a><span>Details your mentor uses</span></div></li>
+    <li><svg><use href="#i-book"/></svg><div class="ep-li-main"><a href="{{ url_for('portal_guide.index') }}"><b>Portal guide</b></a><span>Step-by-step help for students, parents and mentors</span></div></li>
+    <li><svg><use href="#i-chat"/></svg><div class="ep-li-main"><a href="{{ url_for('main.contact') }}"><b>Contact the team</b></a><span>info@eduaakashaa.com · +91 80157 22706</span></div></li>
+  </ul>
+</div>
+
+<div class="ep-card" id="install" style="margin-top:12px" hidden>
+  <div class="ep-next"><div class="ep-ic"><svg><use href="#i-spark"/></svg></div>
+    <div style="flex:1"><h3>Install EduPulse</h3><p>Add the app to your home screen for one-tap access.</p></div>
+    <button class="ep-btn" type="button" id="install-btn">Install</button></div>
+</div>
+<p class="ep-muted" id="install-ios" style="font-size:.82rem;margin-top:12px" hidden>On iPhone or iPad: tap Share, then <b>Add to Home Screen</b> to install EduPulse.</p>
+
+<form method="post" action="{{ url_for('edupulse_app.logout') }}" style="margin-top:18px">
+  <button class="ep-btn ep-btn--ghost ep-btn--block" type="submit"><svg><use href="#i-out"/></svg>Sign out</button>
+</form>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var standalone = window.matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  if (standalone) return;
+  if (/iphone|ipad|ipod/i.test(navigator.userAgent)) { document.getElementById('install-ios').hidden = false; return; }
+  var prompt;
+  window.addEventListener('beforeinstallprompt', function (e) {
+    e.preventDefault(); prompt = e; document.getElementById('install').hidden = false;
+  });
+  document.getElementById('install-btn').addEventListener('click', function () {
+    if (!prompt) return; prompt.prompt(); prompt = null; document.getElementById('install').hidden = true;
+  });
+})();
+</script>
+{% endblock %}

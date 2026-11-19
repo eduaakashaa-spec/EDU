@@ -1,0 +1,60 @@
+{% extends "edupulse_app/base.html" %}
+{% import "edupulse_app/_parts.html" as p %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<section class="ep-hero">
+  <small>{{ greeting }}, {{ today.strftime('%A %d %B') }}</small>
+  <h1 class="ep-serif">Hi {{ (card.first if card else current_user.name.split(' ')[0]) }}</h1>
+  {% if card %}
+  <p>{{ card.programme }} · mentor {{ card.mentor }}</p>
+  <div class="ep-hero-stats">
+    <div><b>{{ card.open_n }}</b><span>open actions</span></div>
+    <div><b>{{ card.actions.overdue }}</b><span>overdue</span></div>
+    <div><b>{{ card.sessions.core_done }}/{{ card.sessions.core_total }}</b><span>sessions done</span></div>
+  </div>
+  {% else %}
+  <p>Practise for your exam, keep every admission date in view and join a mentorship programme when you are ready.</p>
+  <a class="ep-btn" href="{{ url_for('edupulse_app.practice') }}">Start practising <svg><use href="#i-arrow"/></svg></a>
+  {% endif %}
+</section>
+
+{% if card %}
+<div class="ep-grid ep-grid--2" style="margin-top:14px">
+  {{ p.next_session(card.next, None) }}
+  <div class="ep-card">
+    <div class="ep-stat">
+      <div class="ep-ring" style="--p:{{ card.actions.pct }}" data-v="{{ card.actions.pct }}%"></div>
+      <div><b>Action plan</b><span>{{ card.actions.done }} of {{ card.actions.total }} done{% if card.actions.needs_help %} · {{ card.actions.needs_help }} need help{% endif %}</span></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+      <a class="ep-btn ep-btn--ghost" href="{{ card.url_messages }}"><svg><use href="#i-chat"/></svg>Messages{% if card.unread %} <span class="ep-tag t-new">{{ card.unread }}</span>{% endif %}</a>
+      <a class="ep-btn ep-btn--ghost" href="{{ card.url }}">Workspace</a>
+    </div>
+  </div>
+</div>
+
+<div class="ep-sec"><h2>Do next</h2><a href="{{ card.url_actions }}">All actions</a></div>
+<div class="ep-card">{{ p.actions_list(card.open_actions) }}</div>
+{% endif %}
+
+<div class="ep-sec"><h2>Coming up</h2><a href="{{ url_for('edupulse_app.plan') }}">Full plan</a></div>
+<div class="ep-card">{{ p.agenda(agenda, 'No dates in the next few weeks. Follow your exams in the mentorship calendar to see them here.') }}</div>
+
+{% if practice %}
+<div class="ep-sec"><h2>Practice</h2><a href="{{ url_for('edupulse_app.practice') }}">All centres</a></div>
+<div class="ep-grid ep-grid--3">
+  {% for t in practice %}{{ p.tile(t, short_title, mini=True) }}{% endfor %}
+</div>
+{% endif %}
+
+{{ p.notices(notices) }}
+
+{% if not card %}
+<div class="ep-sec"><h2>Mentorship</h2></div>
+<div class="ep-card ep-next">
+  <div class="ep-ic"><svg><use href="#i-cap"/></svg></div>
+  <div style="flex:1"><h3>Work one-to-one with a mentor</h3><p>Weekly sessions, an action plan, branch fit, college preferences and reports your parents can read.</p></div>
+  <a class="ep-btn" href="{{ url_for('mentorship.addons') }}">See programmes</a>
+</div>
+{% endif %}
+{% endblock %}

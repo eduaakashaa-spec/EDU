@@ -1,0 +1,24 @@
+{% extends "edupulse_app/base.html" %}
+{% import "edupulse_app/_parts.html" as p %}
+{% block title %}Plan{% endblock %}
+{% block content %}
+<div class="ep-head">
+  <div>
+    <h1 class="ep-serif">Plan</h1>
+    <p>{% if role == 'mentor' %}Sessions, exams and deadlines for your students{% elif role == 'parent' %}Sessions, exams and deadlines for your child{% else %}Your sessions, exams and deadlines{% endif %}, next 90 days.</p>
+  </div>
+  <span class="ep-chip">{{ total }} date{{ 's' if total != 1 }}</span>
+</div>
+{% if groups %}
+  {% for g in groups %}
+  <div class="ep-sec"><h2>{{ g.label }}</h2></div>
+  <div class="ep-card">{{ p.agenda(g['items']) }}</div>
+  {% endfor %}
+  <p class="ep-muted" style="font-size:.8rem;margin-top:14px">Exam and admission dates come from official notices, with their source in the mentorship Exam Calendar. Always confirm a date on the official website before acting on it.</p>
+{% else %}
+<div class="ep-card ep-empty"><svg><use href="#i-cal"/></svg>
+  <div>Nothing scheduled in the next 90 days.</div>
+  <a class="ep-btn ep-btn--ghost" style="margin-top:14px" href="{{ url_for('main.exam_schedule') }}">See the public exam schedule</a>
+</div>
+{% endif %}
+{% endblock %}

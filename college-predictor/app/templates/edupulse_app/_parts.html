@@ -1,0 +1,98 @@
+{# Shared pieces for the EduPulse App screens. #}
+{% macro date_box(d, days) -%}
+<div class="ep-date {{ 'ep-date--today' if days == 0 }}"><b>{{ d.day }}</b><span>{{ d.strftime('%b') }}</span></div>
+{%- endmacro %}
+
+{% macro when(days) -%}
+{{ 'Today' if days == 0 else ('Tomorrow' if days == 1 else 'In %d days' % days) }}
+{%- endmacro %}
+
+{% macro actions_list(rows, empty='Nothing open right now. Well done.') -%}
+{% if rows %}
+<ul class="ep-list">
+  {% for a in rows %}
+  <li>
+    <span class="ep-dot {{ a.tone }}" aria-hidden="true"></span>
+    <div class="ep-li-main">
+      <b>{{ a.title }}</b>
+      <span>{{ a.owner }}{% if a.due %} · due {{ a.due.strftime('%d %b') }}{% endif %}{% if a.priority == 'High' %} · high priority{% endif %}</span>
+    </div>
+    <span class="ep-tag t-{{ a.tone }}">{{ a.state }}</span>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<div class="ep-empty"><svg><use href="#i-check"/></svg><div>{{ empty }}</div></div>
+{% endif %}
+{%- endmacro %}
+
+{% macro agenda(items, empty='No dates in the next few weeks.') -%}
+{% if items %}
+<ul class="ep-list">
+  {% for i in items %}
+  <li>
+    {{ date_box(i.date, i.days) }}
+    <div class="ep-li-main"><b>{{ i.title }}</b><span>{{ i.category }}{% if i.who and i.who != 'Everyone' %} · {{ i.who }}{% endif %} · {{ when(i.days) }}</span></div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<div class="ep-empty"><svg><use href="#i-cal"/></svg><div>{{ empty }}</div></div>
+{% endif %}
+{%- endmacro %}
+
+{% macro next_session(n, url) -%}
+<div class="ep-card">
+  {% if n %}
+  <div class="ep-next">
+    <div class="ep-ic"><svg><use href="#i-clock"/></svg></div>
+    <div style="flex:1;min-width:0">
+      <small class="ep-muted" style="font-weight:700">NEXT SESSION · {{ when(n.days)|upper }}</small>
+      <h3 style="margin-top:2px">{{ n.title }}</h3>
+      <p>{{ n.when }}</p>
+    </div>
+  </div>
+  {% else %}
+  <div class="ep-next">
+    <div class="ep-ic"><svg><use href="#i-clock"/></svg></div>
+    <div><h3>No session booked yet</h3><p>Your mentor will add the next one to the plan.</p></div>
+  </div>
+  {% endif %}
+  {% if url %}<a class="ep-btn ep-btn--ghost ep-btn--block" style="margin-top:14px" href="{{ url }}">Open mentorship workspace</a>{% endif %}
+</div>
+{%- endmacro %}
+
+{% macro tile(t, short_title, mini=False) -%}
+{% if mini %}
+<a class="ep-card ep-tile-mini {{ 'is-locked' if t.locked }}" href="{{ t.url }}">
+  <span class="ep-tile-ic" aria-hidden="true">{{ t.icon }}</span>
+  <span style="flex:1;min-width:0"><b>{{ short_title(t.title) }}</b></span>
+  {% if t.locked %}<svg class="ep-muted"><use href="#i-lock"/></svg>{% else %}<svg style="color:var(--orange)"><use href="#i-arrow"/></svg>{% endif %}
+</a>
+{% else %}
+<a class="ep-card ep-tile {{ 'is-locked' if t.locked }}" href="{{ t.url }}">
+  <div class="ep-tile-row">
+    <span class="ep-tile-ic" aria-hidden="true">{{ t.icon }}</span>
+    {% if t.new %}<span class="ep-tag t-new">New</span>{% elif t.locked %}<span class="ep-tag t-ok">{{ 'Elite' if t.access == 'elite' else 'Premium' }}</span>{% endif %}
+  </div>
+  <h3>{{ t.title }}</h3>
+  <p>{{ t.desc }}</p>
+  <span class="ep-tile-go">{% if t.locked %}<svg><use href="#i-lock"/></svg>{{ t.action }}{% else %}{{ t.action }} <svg><use href="#i-arrow"/></svg>{% endif %}</span>
+</a>
+{% endif %}
+{%- endmacro %}
+
+{% macro notices(rows) -%}
+{% if rows %}
+<div class="ep-sec"><h2>From the EduAakashaA team</h2></div>
+<div class="ep-grid ep-grid--2">
+  {% for n in rows %}
+  <article class="ep-card">
+    <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px"><svg style="color:var(--orange)"><use href="#i-bell"/></svg>{% if n.pinned %}<span class="ep-tag t-warn">Pinned</span>{% endif %}</div>
+    <h3>{{ n.title }}</h3>
+    <p>{{ n.body|truncate(220) }}</p>
+  </article>
+  {% endfor %}
+</div>
+{% endif %}
+{%- endmacro %}

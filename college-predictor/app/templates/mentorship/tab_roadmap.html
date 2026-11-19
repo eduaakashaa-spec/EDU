@@ -20,6 +20,12 @@
   .rm-next div{display:grid;grid-template-columns:110px 1fr;gap:10px;font-size:.9rem;padding:7px 0;border-bottom:1px solid var(--hairline,#E8DFC8)}
   .rm-next div:last-child{border-bottom:0}
   .rm-next b{font:600 .78rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:#C23A3A}
+  .rm-badge{display:inline-block;font:700 .68rem 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;padding:3px 10px;vertical-align:middle;margin-left:6px;background:#E1E9F7;color:#0E3A8A}
+  .rm-badge.Primary{background:#1F8B5C;color:#fff}.rm-badge.Backup{background:#FFF1E6;color:#B34700}.rm-badge.hold{background:#ECE7DA;color:#5A6278}
+  .rm-uni.hold,.rm-grp.hold{opacity:.62}
+  .rm-note{font-size:.84rem;margin-top:6px;color:var(--text-dim,#5A6278)}
+  .rm-ctl{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:8px}.rm-ctl form{margin:0;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .rm-ctl input[type=text]{min-width:220px}
   .rm-grp{margin-bottom:16px}
   .rm-grp>h2{display:flex;align-items:center;gap:10px;margin:0 0 4px}
   .rm-grp>h2 i{width:14px;height:14px;border-radius:4px;background:var(--c);display:inline-block}
@@ -54,18 +60,19 @@
 <div class="rm-hero">
   <div class="k">Roadmap · engineering 2027 entry</div>
   <h1>{{ rm.title }}</h1>
-  <p>{{ rm.subtitle }}. Each university has its own milestones, from the application to a confirmed place. {{ overall_done }} of {{ overall_total }} steps are done.</p>
+  <p>{{ rm.subtitle }}. Each university has its own milestones, from the application to a confirmed place. {{ overall_done }} of {{ overall_total }} steps are done (sections on hold are not counted).</p>
   <span class="priv">🔒 Only {{ name }}, the parents linked to this record, the assigned mentor and EduAakashaA admins can open this page.</span>
 </div>
 
 <div class="rm-unis">
-  {% for code in UNIVERSITIES if code in groups %}{% set g = groups[code] %}
-  <a class="rm-uni" href="#{{ code|lower }}" style="--c:{{ g.colour }};text-decoration:none;color:inherit;">
-    <h3>{{ g.heading }}</h3>
+  {% for code, g in groups.items() if code != 'PREP' %}
+  <a class="rm-uni {{ 'hold' if g.hold }}" href="#{{ code|lower }}" style="--c:{{ g.colour }};text-decoration:none;color:inherit;">
+    <h3>{{ g.heading }}{% if g.status != 'Active' %}<span class="rm-badge {{ 'hold' if g.hold else g.status }}">{{ g.status }}</span>{% endif %}</h3>
     <div class="pc">{{ g.pct }}%<small> · {{ g.done }} of {{ g.total }} steps</small></div>
     {{ m.bar(g.pct, g.complete) }}
     <div class="nx">
-      {% if g.complete %}<span class="done">✓ Admission complete</span>
+      {% if g.hold %}<strong>On hold.</strong> {{ g.note }}
+      {% elif g.complete %}<span class="done">✓ Admission complete</span>
       {% elif g.next %}<strong>Next:</strong> {{ g.next.title }}<br><span style="color:var(--text-dim)">{{ mstatus(g.next, today)[1] }}</span>
       {% else %}All steps done.{% endif %}
     </div>
@@ -90,10 +97,17 @@
   </div>
 </div>
 
-{% for code in ('PREP','HKU','NUS','NTU') if code in groups %}{% set g = groups[code] %}
-<div class="ms-card rm-grp" id="{{ code|lower }}" style="--c:{{ g.colour }};">
-  <h2><i></i>{{ g.heading }}</h2>
+{% for code, g in groups.items() %}
+<div class="ms-card rm-grp {{ 'hold' if g.hold }}" id="{{ code|lower }}" style="--c:{{ g.colour }};">
+  <h2><i></i>{{ g.heading }}{% if g.status != 'Active' %}<span class="rm-badge {{ 'hold' if g.hold else g.status }}">{{ g.status }}</span>{% endif %}</h2>
   <p class="hint" style="margin:0 0 6px;">{{ g.line }}</p>
+  {% if g.note %}<p class="rm-note"><strong>Decision{% if g.decided_on %} ({{ g.decided_on.strftime('%d %b %Y') }}){% endif %}:</strong> {{ g.note }}</p>{% endif %}
+  {% if staff and code != 'PREP' %}
+  <div class="rm-ctl"><form method="post" action="{{ url_for('mentorship.roadmap_group', eid=e.id, code=code) }}">
+    <select name="status" aria-label="Status of {{ g.heading }}">{% for st in STATUSES %}<option {{ 'selected' if st == g.status }}>{{ st }}</option>{% endfor %}</select>
+    <input type="text" name="note" maxlength="500" placeholder="Why (shown to the family)" value="{{ g.note }}">
+    <button class="ms-btn g sm">Save decision</button></form></div>
+  {% endif %}
   {% for x in g.ms %}{% set st = mstatus(x, today) %}
   <div class="rm-ms {{ 'done' if x.done }} {{ 'final' if x.final }}" id="m{{ x.id }}">
     <form method="post" action="{{ url_for('mentorship.milestone_toggle', eid=e.id, mid=x.id) }}">

@@ -1,0 +1,233 @@
+/* EduPulse App: mobile-first shell (bottom tab bar on phones, side rail from 900px). Cream paper + navy ink + laser orange, as on eduaakashaa.com. */
+:root{
+  --bg:#FBF7EE; --bg2:#F5EFDF; --card:#FFFDF7; --ink:#0E1B3D; --ink2:#4A5470; --mute:#6B7390;
+  --line:#E8DFC8; --navy:#0E3A8A; --orange:#E8590C; --orange2:#FF6B0A; --orange-t:#FFEBDD;
+  --green:#1F8B5C; --green-t:#E3F5EC; --amber:#B7791F; --amber-t:#FFF3DD; --red:#C2372B; --red-t:#FDE8E6;
+  --blue-t:#EAF1FF; --violet:#6D3FD1; --violet-t:#F0EAFE;
+  --shadow:0 1px 2px rgba(14,27,61,.05), 0 8px 24px rgba(14,27,61,.06);
+  --r:18px; --r-sm:12px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1430; --bg2:#101B3D; --card:#13204A; --ink:#F5EFDF; --ink2:#C3C8DA; --mute:#9AA2BD;
+    --line:#22305C; --navy:#8FB0FF; --orange:#FF7A2E; --orange2:#FF8F4F; --orange-t:#3A2416;
+    --green:#4CC38A; --green-t:#13362A; --amber:#F2B04A; --amber-t:#3A2E14; --red:#FF6E62; --red-t:#3D1A1C;
+    --blue-t:#18295A; --violet:#B69BFF; --violet-t:#2A2152;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 10px 30px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body.ep{background:var(--bg); color:var(--ink); font:15px/1.5 'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif; -webkit-font-smoothing:antialiased}
+a{color:inherit}
+svg{width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; flex:none}
+h1,h2,h3{margin:0; line-height:1.2}
+.ep-serif{font-family:'Fraunces',Georgia,serif; font-weight:700; letter-spacing:-.01em}
+
+/* ---------- shell ---------- */
+.ep-app{min-height:100dvh}
+.ep-rail{display:none}
+.ep-main{max-width:1080px; margin:0 auto; padding:0 16px calc(96px + env(safe-area-inset-bottom))}
+.ep-top{position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin:0 -16px 8px; padding:calc(10px + env(safe-area-inset-top)) 16px 10px; background:color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter:blur(14px) saturate(140%); border-bottom:1px solid var(--line)}
+.ep-brand{display:flex; align-items:center; gap:10px; text-decoration:none}
+.ep-brand img{border-radius:10px; background:#fff}
+.ep-brand span{display:flex; flex-direction:column; line-height:1.1}
+.ep-brand b{font-weight:800; font-size:1.05rem}
+.ep-brand small{color:var(--mute); font-size:.72rem}
+.ep-tabbar{position:fixed; left:0; right:0; bottom:0; z-index:30; display:grid; grid-template-columns:repeat(5,1fr);
+  padding:6px 6px calc(6px + env(safe-area-inset-bottom)); background:color-mix(in srgb, var(--card) 92%, transparent);
+  backdrop-filter:blur(16px) saturate(150%); border-top:1px solid var(--line)}
+.ep-tabbar a{display:flex; flex-direction:column; align-items:center; gap:2px; padding:7px 0 5px; border-radius:12px;
+  text-decoration:none; color:var(--mute); font-size:.7rem; font-weight:600}
+.ep-tabbar a.on{color:var(--orange)}
+.ep-tabbar a.on svg{stroke-width:2.2}
+.ep-tabbar a:active{background:var(--bg2)}
+@media (min-width:900px){
+  .ep-app{display:grid; grid-template-columns:248px 1fr}
+  .ep-rail{display:flex; flex-direction:column; gap:24px; position:sticky; top:0; height:100dvh; padding:24px 16px;
+    border-right:1px solid var(--line); background:var(--card)}
+  .ep-nav{display:flex; flex-direction:column; gap:4px}
+  .ep-nav a{display:flex; align-items:center; gap:12px; padding:11px 14px; border-radius:12px; text-decoration:none; font-weight:600; color:var(--ink2)}
+  .ep-nav a:hover{background:var(--bg2)}
+  .ep-nav a.on{background:var(--orange-t); color:var(--orange)}
+  .ep-rail-foot{margin-top:auto; display:flex; flex-direction:column; gap:10px; align-items:flex-start}
+  .ep-tabbar,.ep-top{display:none}
+  .ep-main{padding:28px 36px 48px; width:100%}
+}
+.ep-muted-link{color:var(--mute); font-size:.85rem}
+.ep-foot{margin:40px 0 0; color:var(--mute); font-size:.78rem; text-align:center}
+
+/* ---------- atoms ---------- */
+.ep-chip{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:.74rem; font-weight:700;
+  background:var(--bg2); color:var(--ink2)}
+.ep-chip--student{background:var(--blue-t); color:var(--navy)}
+.ep-chip--parent{background:var(--green-t); color:var(--green)}
+.ep-chip--mentor{background:var(--orange-t); color:var(--orange)}
+.ep-tag{display:inline-block; padding:2px 8px; border-radius:6px; font-size:.7rem; font-weight:700; white-space:nowrap}
+.t-bad{background:var(--red-t); color:var(--red)}
+.t-warn{background:var(--amber-t); color:var(--amber)}
+.t-ok{background:var(--bg2); color:var(--ink2)}
+.t-good{background:var(--green-t); color:var(--green)}
+.t-new{background:var(--orange); color:#fff}
+.ep-btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:0 18px; border-radius:12px; border:0;
+  font:inherit; font-weight:700; text-decoration:none; cursor:pointer; background:var(--orange); color:#fff}
+.ep-btn:hover{background:var(--orange2)}
+.ep-btn--ghost{background:transparent; color:var(--ink); border:1px solid var(--line)}
+.ep-btn--ghost:hover{background:var(--bg2)}
+.ep-btn--block{width:100%}
+.ep-btn:focus-visible,.ep-tabbar a:focus-visible,.ep-nav a:focus-visible,.ep-card a:focus-visible{outline:3px solid color-mix(in srgb, var(--orange) 55%, transparent); outline-offset:2px}
+
+/* ---------- layout ---------- */
+.ep-head{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin:14px 0 18px; flex-wrap:wrap}
+.ep-head h1{font-size:1.65rem}
+.ep-head p{margin:4px 0 0; color:var(--ink2)}
+.ep-sec{margin:26px 0 12px; display:flex; align-items:center; justify-content:space-between; gap:10px}
+.ep-sec h2{font-size:1.02rem; font-weight:800}
+.ep-sec a{font-size:.85rem; font-weight:700; color:var(--orange); text-decoration:none}
+.ep-grid{display:grid; gap:12px}
+@media (min-width:640px){ .ep-grid--2{grid-template-columns:1fr 1fr} .ep-grid--3{grid-template-columns:repeat(3,1fr)} }
+@media (min-width:1100px){ .ep-grid--4{grid-template-columns:repeat(4,1fr)} }
+@media (min-width:640px) and (max-width:1099px){ .ep-grid--4{grid-template-columns:1fr 1fr} }
+.ep-card{background:var(--card); border:1px solid var(--line); border-radius:var(--r); padding:16px; box-shadow:var(--shadow)}
+.ep-card h3{font-size:.98rem; font-weight:800}
+.ep-card p{margin:4px 0 0; color:var(--ink2); font-size:.88rem}
+.ep-muted{color:var(--mute)}
+.ep-empty{text-align:center; padding:28px 18px; color:var(--ink2)}
+.ep-empty svg{width:34px; height:34px; color:var(--mute); margin-bottom:8px}
+
+/* ---------- hero ---------- */
+.ep-hero{position:relative; overflow:hidden; border-radius:24px; padding:22px 20px; margin-top:6px;
+  background:linear-gradient(135deg,#0E1B3D 0%,#0E3A8A 62%,#1E4FB5 100%); color:#F5EFDF}
+.ep-hero::after{content:""; position:absolute; right:-60px; top:-60px; width:220px; height:220px; border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,10,.55),rgba(255,107,10,0) 70%)}
+.ep-hero > *{position:relative; z-index:1}
+.ep-hero small{opacity:.8; font-weight:600}
+.ep-hero h1{font-size:1.7rem; margin:4px 0 6px}
+.ep-hero p{margin:0; opacity:.86}
+.ep-hero .ep-btn{margin-top:14px}
+.ep-hero-stats{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:16px}
+.ep-hero-stats div{background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.14); border-radius:14px; padding:10px 12px}
+.ep-hero-stats b{display:block; font-size:1.35rem; font-weight:800}
+.ep-hero-stats span{font-size:.72rem; opacity:.82}
+
+/* ---------- progress ring ---------- */
+.ep-ring{--p:0; --c:var(--orange); width:64px; height:64px; border-radius:50%; display:grid; place-items:center; flex:none;
+  background:conic-gradient(var(--c) calc(var(--p)*1%), var(--bg2) 0)}
+.ep-ring::before{content:attr(data-v); width:50px; height:50px; border-radius:50%; background:var(--card); display:grid; place-items:center; font-weight:800; font-size:.86rem}
+.ep-stat{display:flex; align-items:center; gap:14px}
+.ep-stat b{display:block; font-size:.95rem}
+.ep-stat span{color:var(--ink2); font-size:.82rem}
+
+/* ---------- lists ---------- */
+.ep-list{list-style:none; margin:0; padding:0}
+.ep-list li{display:flex; align-items:flex-start; gap:12px; padding:12px 0; border-top:1px solid var(--line)}
+.ep-list li:first-child{border-top:0; padding-top:4px}
+.ep-list .ep-li-main{flex:1; min-width:0}
+.ep-list .ep-li-main b{display:block; font-weight:700; font-size:.92rem}
+.ep-list .ep-li-main span{color:var(--mute); font-size:.8rem}
+.ep-date{flex:none; width:46px; text-align:center; border-radius:12px; background:var(--bg2); padding:6px 0}
+.ep-date b{display:block; font-size:1.05rem; line-height:1}
+.ep-date span{font-size:.66rem; font-weight:700; text-transform:uppercase; color:var(--mute)}
+.ep-date--today{background:var(--orange); color:#fff}
+.ep-date--today span{color:#fff}
+.ep-dot{width:10px; height:10px; border-radius:50%; margin-top:6px; flex:none; background:var(--mute)}
+.ep-dot.bad{background:var(--red)} .ep-dot.warn{background:var(--amber)} .ep-dot.ok{background:var(--green)}
+
+/* ---------- next session ---------- */
+.ep-next{display:flex; gap:14px; align-items:center}
+.ep-next .ep-ic{width:46px; height:46px; border-radius:14px; display:grid; place-items:center; background:var(--orange-t); color:var(--orange); flex:none}
+.ep-next .ep-ic svg{width:24px; height:24px}
+
+/* ---------- tiles ---------- */
+.ep-tile{display:flex; flex-direction:column; gap:8px; text-decoration:none; height:100%; transition:transform .15s ease, border-color .15s ease}
+.ep-tile:hover{transform:translateY(-2px); border-color:color-mix(in srgb, var(--orange) 40%, var(--line))}
+.ep-tile .ep-tile-ic{width:42px; height:42px; border-radius:12px; display:grid; place-items:center; font-size:1.3rem; background:var(--orange-t)}
+.ep-tile .ep-tile-row{display:flex; align-items:center; justify-content:space-between; gap:8px}
+.ep-tile .ep-tile-go{margin-top:auto; display:flex; align-items:center; gap:6px; font-size:.82rem; font-weight:700; color:var(--orange)}
+.ep-tile.is-locked{opacity:.78}
+.ep-tile.is-locked .ep-tile-go{color:var(--mute)}
+.ep-tile-mini{display:flex; align-items:center; gap:12px; text-decoration:none}
+.ep-tile-mini .ep-tile-ic{width:40px; height:40px; border-radius:12px; display:grid; place-items:center; font-size:1.2rem; background:var(--orange-t); flex:none}
+.ep-tile-mini b{font-size:.9rem}
+
+/* ---------- students (mentor) ---------- */
+.ep-stu{display:flex; flex-direction:column; gap:12px; text-decoration:none}
+.ep-stu-top{display:flex; align-items:center; gap:12px}
+.ep-avatar{width:42px; height:42px; border-radius:50%; display:grid; place-items:center; font-weight:800; color:#fff; background:linear-gradient(135deg,var(--orange),#F59E0B); flex:none}
+.ep-bar{height:8px; border-radius:99px; background:var(--bg2); overflow:hidden}
+.ep-bar i{display:block; height:100%; border-radius:99px; background:var(--orange)}
+.ep-bar--green i{background:var(--green)}
+.ep-kv{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.ep-kv small{display:block; color:var(--mute); font-size:.72rem; font-weight:600; margin-bottom:4px}
+.ep-att{border-left:4px solid var(--line)}
+.ep-att--attention{border-left-color:var(--red)}
+.ep-att--watch{border-left-color:var(--amber)}
+.ep-att--ok{border-left-color:var(--green)}
+.ep-kpis{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
+@media (min-width:640px){ .ep-kpis{grid-template-columns:repeat(4,1fr)} }
+.ep-kpi b{display:block; font-size:1.6rem; font-weight:800}
+.ep-kpi span{color:var(--ink2); font-size:.8rem}
+
+/* ---------- segmented / search ---------- */
+.ep-seg{display:flex; gap:6px; overflow-x:auto; padding-bottom:4px; scrollbar-width:none}
+.ep-seg::-webkit-scrollbar{display:none}
+.ep-seg a,.ep-seg button{flex:none; padding:8px 14px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--ink2);
+  font:inherit; font-size:.84rem; font-weight:700; text-decoration:none; cursor:pointer}
+.ep-seg .on{background:var(--ink); color:var(--bg); border-color:var(--ink)}
+.ep-search{display:flex; align-items:center; gap:10px; padding:0 14px; min-height:48px; border-radius:14px; border:1px solid var(--line); background:var(--card)}
+.ep-search input{flex:1; border:0; outline:0; background:transparent; color:var(--ink); font:inherit}
+.ep-search:focus-within{border-color:var(--orange)}
+
+/* ---------- flash ---------- */
+.ep-flash{display:flex; flex-direction:column; gap:8px; margin:10px 0}
+.ep-flash__i{margin:0; padding:12px 14px; border-radius:12px; background:var(--card); border:1px solid var(--line); border-left:4px solid var(--navy); font-weight:600; font-size:.9rem}
+.ep-flash__i--success{border-left-color:var(--green)}
+.ep-flash__i--danger{border-left-color:var(--red)}
+.ep-flash__i--info{border-left-color:var(--navy)}
+
+/* ---------- welcome / sign-in ---------- */
+.ep-welcome{min-height:100dvh; display:grid; grid-template-columns:1fr}
+@media (min-width:960px){ .ep-welcome{grid-template-columns:1.1fr .9fr} }
+.ep-pitch{padding:calc(28px + env(safe-area-inset-top)) 20px 28px; background:linear-gradient(160deg,#0E1B3D 0%,#0E3A8A 70%,#1A4AAE 100%); color:#F5EFDF; position:relative; overflow:hidden}
+.ep-pitch::after{content:""; position:absolute; right:-120px; bottom:-120px; width:380px; height:380px; border-radius:50%;
+  background:radial-gradient(circle,rgba(255,107,10,.5),rgba(255,107,10,0) 70%)}
+.ep-pitch > *{position:relative; z-index:1}
+.ep-pitch .ep-brand small{color:rgba(245,239,223,.75)}
+.ep-pitch h1{font-size:clamp(1.9rem,6vw,3.1rem); margin:26px 0 12px; max-width:15ch}
+.ep-pitch h1 em{font-style:normal; color:#FF8F4F}
+.ep-pitch .lead{max-width:46ch; opacity:.88; margin:0}
+.ep-feats{display:grid; gap:10px; margin-top:22px; max-width:520px}
+.ep-feat{display:flex; gap:12px; align-items:flex-start; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:12px 14px}
+.ep-feat svg{color:#FF8F4F; margin-top:2px}
+.ep-feat b{display:block; font-size:.92rem}
+.ep-feat span{font-size:.82rem; opacity:.8}
+.ep-proof{display:flex; gap:22px; flex-wrap:wrap; margin-top:22px; font-size:.82rem; opacity:.85}
+.ep-proof b{display:block; font-size:1.3rem; color:#fff}
+@media (max-width:959px){ .ep-feats,.ep-proof{display:none} .ep-pitch{padding-bottom:40px} }
+.ep-signin{padding:28px 20px 40px; display:flex; flex-direction:column; justify-content:center; max-width:460px; width:100%; margin:0 auto}
+@media (max-width:959px){ .ep-signin{margin-top:-22px; background:var(--bg); border-radius:24px 24px 0 0; position:relative; z-index:2} }
+.ep-signin h2{font-size:1.4rem; font-weight:800}
+.ep-doors{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:18px 0}
+.ep-door{position:relative}
+.ep-door input{position:absolute; opacity:0; inset:0; cursor:pointer}
+.ep-door label{display:flex; flex-direction:column; align-items:center; gap:6px; padding:14px 6px; border-radius:14px; border:1.5px solid var(--line);
+  background:var(--card); font-weight:700; font-size:.85rem; cursor:pointer; text-align:center}
+.ep-door label svg{width:24px; height:24px; color:var(--mute)}
+.ep-door input:checked + label{border-color:var(--orange); background:var(--orange-t); color:var(--orange)}
+.ep-door input:checked + label svg{color:var(--orange)}
+.ep-door input:focus-visible + label{outline:3px solid color-mix(in srgb, var(--orange) 55%, transparent); outline-offset:2px}
+.ep-door-hint{margin:-6px 0 14px; color:var(--ink2); font-size:.86rem; min-height:2.6em}
+.ep-field{display:flex; flex-direction:column; gap:6px; margin-bottom:12px}
+.ep-field label{font-weight:700; font-size:.84rem}
+.ep-field input{min-height:48px; padding:0 14px; border-radius:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); font:inherit}
+.ep-field input:focus{outline:0; border-color:var(--orange); box-shadow:0 0 0 3px color-mix(in srgb, var(--orange) 22%, transparent)}
+.ep-row{display:flex; align-items:center; justify-content:space-between; gap:10px; margin:4px 0 16px; font-size:.86rem}
+.ep-row a{color:var(--orange); font-weight:700; text-decoration:none}
+.ep-alt{margin-top:18px; text-align:center; font-size:.86rem; color:var(--ink2)}
+.ep-alt a{color:var(--orange); font-weight:700}
+
+@media (prefers-reduced-motion:reduce){ *{transition:none!important; animation:none!important} }

@@ -379,6 +379,24 @@ class MsRoadmap(db.Model):
     enrolment = db.relationship('MsEnrolment', backref=db.backref('roadmap', uselist=False, cascade='all, delete-orphan'))
     milestones = db.relationship('MsMilestone', backref='roadmap', cascade='all, delete-orphan',
                                  order_by='MsMilestone.position, MsMilestone.id')
+    group_rows = db.relationship('MsRoadmapGroup', cascade='all, delete-orphan')
+
+
+ROADMAP_GROUP_STATUSES = ('Active', 'Primary', 'Backup', 'On hold')
+
+
+class MsRoadmapGroup(db.Model):
+    """The family's current decision about one section of a roadmap (a university or route): first choice, backup, or on hold.
+    A group with no row here is Active. On hold sections stay on the page but leave the progress count."""
+    __tablename__ = 'ms_roadmap_groups'
+    id = db.Column(db.Integer, primary_key=True)
+    roadmap_id = db.Column(db.Integer, db.ForeignKey('ms_roadmaps.id', ondelete='CASCADE'), index=True, nullable=False)
+    grp = db.Column(db.String(12), nullable=False)
+    status = db.Column(db.String(12), default='Active')
+    note = db.Column(db.String(500))
+    decided_on = db.Column(db.Date)
+    decided_by = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'))
+    __table_args__ = (db.UniqueConstraint('roadmap_id', 'grp'),)
 
 
 class MsMilestone(db.Model):

@@ -1,0 +1,36 @@
+{% extends "mentorship/ws.html" %}
+{% block body %}
+<div class="ms-card">
+  <div class="ms-eyebrow">Mentor tools · {{ e.preferred_name or e.student.name }}</div>
+  <h2>Apply a meeting update</h2>
+  <p class="hint">Paste the update file prepared after a meeting. One step writes the meeting record, the actions, the calendar dates and the roadmap changes (a university put on hold, new milestones, steps ticked).
+    Nothing is guessed: only what is in the file is written, anything already there is skipped, so applying the same file twice changes nothing.
+    <strong>Check first</strong> shows what would happen without saving. The meeting recap is visible to the student and parents; the private notes are visible only to mentors and admins.</p>
+  <form method="post" action="{{ url_for('mentorship.meeting_import', eid=e.id) }}">
+    <label class="f" for="upd">Update file (JSON)</label>
+    <textarea id="upd" name="update" rows="14" style="width:100%;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82rem;" spellcheck="false" placeholder='{"version": 1, "session": {...}, "actions": [...], "events": [...], "roadmap": {...}}'>{{ text }}</textarea>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;">
+      <button class="ms-btn g" name="mode" value="check">Check first</button>
+      <button class="ms-btn p" name="mode" value="apply" onclick="return confirm('Apply this update to {{ (e.preferred_name or e.student.name)|e }}\'s record?')">Apply update</button>
+    </div>
+  </form>
+</div>
+
+{% if errors %}
+<div class="ms-note"><strong>The file needs a fix before it can be used:</strong>
+  <ul style="margin:6px 0 0;padding-left:18px;">{% for x in errors %}<li>{{ x }}</li>{% endfor %}</ul></div>
+{% endif %}
+
+{% if report is not none %}
+<div class="ms-card">
+  <div class="ms-eyebrow">{{ 'Check only: nothing was saved' if dry else 'Applied' }}</div>
+  <h2>{{ counts.created }} new, {{ counts.skipped }} already there</h2>
+  <ul style="margin:6px 0 0;padding-left:18px;font-size:.92rem;">
+    {% for kind, line in report %}<li {% if kind == 'skip' %}style="color:var(--text-dim)"{% elif kind == 'warn' %}style="color:#B97A0B"{% endif %}>{{ '＋ ' if kind == 'new' else ('⚠ ' if kind == 'warn' else '= ') }}{{ line }}</li>{% endfor %}
+  </ul>
+  {% if dry and counts.created %}<p class="hint" style="margin-top:10px;">Looks right? Press <strong>Apply update</strong> above.</p>{% endif %}
+  {% if not dry %}<p class="hint" style="margin-top:10px;">See the result in <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='sessions') }}">Sessions</a>, <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='actions') }}">Action Tracker</a>,
+    <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='roadmap') }}">Roadmap</a> and <a href="{{ url_for('mentorship.workspace', eid=e.id, tab='calendar') }}">Exam Calendar</a>.</p>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

@@ -175,6 +175,7 @@ TABS = [  # key, label, icon, roles allowed
     ('calendar', 'Exam Calendar', '📅', ('student', 'parent', 'mentor', 'admin')),
     ('messages', 'Messages', '💬', ('student', 'parent', 'mentor', 'admin')),
     ('reports', 'Reports', '📄', ('student', 'parent', 'mentor', 'admin')),
+    ('import', 'Meeting update', '📥', ('mentor', 'admin')),
     ('history', 'Activity History', '🕘', ('mentor', 'admin')),
 ]
 

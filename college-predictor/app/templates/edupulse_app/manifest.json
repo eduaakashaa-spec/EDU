@@ -1,0 +1,21 @@
+{
+  "name": "EduPulse by EduAakashaA",
+  "short_name": "EduPulse",
+  "description": "Mentorship, practice and admission dates for students, parents and mentors.",
+  "id": "/app/",
+  "start_url": "{{ url_for('edupulse_app.home') }}",
+  "scope": "/app/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF7EE",
+  "theme_color": "#0E1B3D",
+  "categories": ["education"],
+  "icons": [
+    {"src": "{{ url_for('static', filename='images/logo.png') }}", "sizes": "375x375", "type": "image/png", "purpose": "any"},
+    {"src": "{{ url_for('static', filename='images/logo.png') }}", "sizes": "375x375", "type": "image/png", "purpose": "maskable"}
+  ],
+  "shortcuts": [
+    {"name": "Plan", "url": "{{ url_for('edupulse_app.plan') }}"},
+    {"name": "Practice", "url": "{{ url_for('edupulse_app.practice') }}"}
+  ]
+}

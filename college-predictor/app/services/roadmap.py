@@ -10,7 +10,7 @@ carries its source and, where the university's own page was read, the date it wa
 from datetime import date
 
 from app.extensions import db
-from app.models_mentorship import MsEvent, MsMilestone, MsRoadmap
+from app.models_mentorship import ROADMAP_GROUP_STATUSES, MsEvent, MsMilestone, MsRoadmap, MsRoadmapGroup
 from app.services import mentorship as svc
 
 TEMPLATE_ID = 'sg-hk-2027'
@@ -21,8 +21,12 @@ GROUPS = {
     'HKU': ('HKU · Hong Kong', 'Earliest deadline and earliest offers. Round 1 closes 25 Nov 2026.', '#1B7A4E'),
     'NUS': ('NUS · Singapore', 'Window 16 Dec 2026 to 17 Feb 2027. Outcome by July 2027.', '#E4572E'),
     'NTU': ('NTU · Singapore', 'Window 15 Oct 2026 to 19 Mar 2027. Outcome around end July 2027.', '#C1272D'),
+    'JEE': ('JEE Main · India route', 'JEE Main, the study plan around school exams, and the Study in India (SII) quota as a backup.', '#7A3FA0'),
+    'CAET': ('IIT Delhi Abu Dhabi · CAET', 'Entrance test for the Abu Dhabi campus; January and April sessions.', '#0F766E'),
 }
 UNIVERSITIES = ('HKU', 'NUS', 'NTU')
+SORT_RANK = {'Primary': 0, 'Active': 1, 'Backup': 2, 'On hold': 3}
+HOLD_MARK = ' [on hold]'
 OWNERS = {'student': '{name}', 'parent': 'Parents', 'mentor': 'Mentor', 'family': 'Family'}
 
 SRC_MATRIX = 'EduAakashaa admission matrix, prepared 30 Oct 2026'
@@ -178,8 +182,15 @@ def status(m, today):
     return 'later', m.due_label or 'No date yet'
 
 
+def group_state(rm):
+    """{code: (status, note, decided_on)} for the sections the family has decided about."""
+    return {g.grp: (g.status or 'Active', g.note or '', g.decided_on) for g in rm.group_rows}
+
+
 def summary(rm, today):
-    """Per group: counts, percentage, the next open milestone and whether the final milestone is done."""
+    """Per group: counts, percentage, the next open milestone, the family's decision and whether the final milestone is done.
+    Sections come back first choice first, on hold last; on hold sections are left out of the overall count by the caller."""
+    state = group_state(rm)
     out = {}
     for code in GROUPS:
         ms = [m for m in rm.milestones if m.grp == code]
@@ -188,9 +199,53 @@ def summary(rm, today):
         done = sum(1 for m in ms if m.done)
         nxt = next((m for m in sorted((m for m in ms if not m.done), key=lambda m: (m.due_on is None, m.due_on or date.max, m.position))), None)
         fin = next((m for m in ms if m.final), None)
-        out[code] = dict(code=code, ms=ms, total=len(ms), done=done, pct=round(100 * done / len(ms)), next=nxt,
-                         complete=bool(fin and fin.done), heading=GROUPS[code][0], line=GROUPS[code][1], colour=GROUPS[code][2])
-    return out
+        st, note, when = state.get(code, ('Active', '', None))
+        out[code] = dict(code=code, ms=ms, total=len(ms), done=done, pct=round(100 * done / len(ms)), next=nxt, status=st, note=note, decided_on=when,
+                         hold=(st == 'On hold'), complete=bool(fin and fin.done), heading=GROUPS[code][0], line=GROUPS[code][1], colour=GROUPS[code][2])
+    order = list(GROUPS)
+    return dict(sorted(out.items(), key=lambda kv: (0 if kv[0] == 'PREP' else 1, SORT_RANK.get(kv[1]['status'], 1), order.index(kv[0]))))
+
+
+def add_milestone(rm, e, grp, title, detail='', owner='student', due_on=None, due_label='', calendar=False, cat='Other', source=None,
+                  verified_on=None, user_id=None, done=False, done_on=None):
+    """Add one milestone (and, for a dated one, its calendar event). Returns the milestone."""
+    ev = None
+    if due_on and calendar:
+        ev = MsEvent(enrolment_id=e.id, title=f'{grp}: {title}'[:240], category=cat, starts_on=due_on, notes=detail or None,
+                     source=source or 'Added by mentor', verified_on=verified_on, created_by=user_id, done=bool(done))
+        db.session.add(ev)
+        db.session.flush()
+    pos = max([x.position or 0 for x in rm.milestones], default=0) + 1
+    m = MsMilestone(roadmap=rm, grp=grp, title=title[:240], detail=detail or None, owner=owner, due_on=due_on, due_label=(due_label or '')[:60],
+                    position=pos, event_id=ev.id if ev else None, source=(source or None), verified_on=verified_on, done=bool(done),
+                    done_on=done_on if done else None, done_by=user_id if done else None)
+    db.session.add(m)
+    return m
+
+
+def set_group(rm, code, status, note='', on=None, user_id=None):
+    """Record the family's decision about one section. 'On hold' marks its calendar events done with a note; any other status restores them."""
+    if code not in GROUPS or status not in ROADMAP_GROUP_STATUSES:
+        raise ValueError(f'unknown section or status: {code} / {status}')
+    row = next((g for g in rm.group_rows if g.grp == code), None)
+    if row is None:
+        row = MsRoadmapGroup(grp=code)
+        rm.group_rows.append(row)
+    row.status, row.note, row.decided_on, row.decided_by = status, (note or '')[:500], on or svc.today(), user_id
+    for m in rm.milestones:
+        if m.grp != code or not m.event_id:
+            continue
+        ev = db.session.get(MsEvent, m.event_id)
+        if not ev:
+            continue
+        notes = (ev.notes or '').replace(HOLD_MARK.strip(), '').strip()
+        if status == 'On hold':
+            ev.done = True
+            ev.notes = (notes + HOLD_MARK).strip()
+        else:
+            ev.done = bool(m.done)
+            ev.notes = notes or None
+    return row
 
 
 def next_dates(rm, today, n=5):
@@ -199,13 +254,18 @@ def next_dates(rm, today, n=5):
     return rows[:n]
 
 
-def toggle(m, user):
-    """Tick or untick a milestone and keep its calendar event in step."""
-    m.done = not m.done
-    m.done_on = svc.today() if m.done else None
-    m.done_by = user.id if m.done else None
+def set_done(m, done, user_id=None, on=None):
+    """Tick or untick a milestone and keep its calendar event in step (an event of a section on hold stays done)."""
+    m.done = bool(done)
+    m.done_on = (on or svc.today()) if m.done else None
+    m.done_by = user_id if m.done else None
     if m.event_id:
         ev = db.session.get(MsEvent, m.event_id)
         if ev:
-            ev.done = m.done
+            on_hold = any(g.grp == m.grp and g.status == 'On hold' for g in m.roadmap.group_rows) if m.roadmap else False
+            ev.done = True if on_hold else m.done
     return m.done
+
+
+def toggle(m, user):
+    return set_done(m, not m.done, user.id)

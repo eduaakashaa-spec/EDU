@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-18'
+UPDATED = '2026-11-19'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -26,6 +26,7 @@ ROLE_BLURB = {
 
 # blueprints that the guide covers (value = what they are, shown to admins); a new blueprint must be added here or the test fails
 COVERED_BLUEPRINTS = {
+    'edupulse_app': 'EduPulse App (/app/): installable mobile-first app with Student, Parent and Mentor sign-in; Home, Plan, Practice, Explore and Me screens over the portal data',
     'hr': 'HR letters (HR Admin and Admin): offer, experience and relieving letters with numbered register, PDF and editable templates',
     'equivalency': 'Entrance Exam Equivalency (public): qualification and subject equivalency checker for JEE, JoSAA, NATA, NEET, UCEED, NID, NIFT, CUET and CLAT, with the official source for each rule',
     'explorer': 'EduPulse-Explorer (Grades 7 to 10): discovery test, interest check, exam tasters, skill sets, Daily 10 review, progress, creative challenges',
@@ -66,6 +67,8 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-19', 'New EduPulse App at /app/: a mobile-first app that can be installed on a phone, with separate sign-in for students, parents and mentors. Students see their next session, action plan, dates and practice centres; parents see their child’s progress and the actions and dates the mentor shares with them; mentors see their students with who needs attention first. Plan, Practice, Explore and Me screens, a view switch for accounts with several roles, and an offline page.'),
+    ('2026-11-18', 'Mentorship portal, Meeting update tab: mentors and admins apply a meeting update file in one step (meeting record with family recap and private notes, actions, calendar dates, roadmap changes), with a check-first option and no duplicates when applied twice. The Roadmap tab now shows the decision on each section (Primary, Backup, On hold; on hold sections leave the progress count and their calendar dates are marked) and has JEE Main and IIT Delhi Abu Dhabi (CAET) sections.'),
     ('2026-11-18', 'The public Video Library (/videos-library) has a new row, Tools in ten seconds: ten short videos, one for each free tool (JoSAA Predictor, DASA Predictor, free TNEA report, aptitude assessment, sample mock tests, exam calendar, Class 12 PCM analytics and more). Each card links to its tool.'),
     ('2026-11-18', 'New Roadmap tab in the Mentorship portal: mentors create a private admission roadmap for a student (for example "Darsh Roadmap") from the NUS, NTU and HKU 2027 template, with milestones per university ending in "admission complete", owners (student, parents, mentor) and ticks. Its exam and application dates are added to the Exam Calendar of that student with their sources. Only the student, linked parents, the assigned mentor and admins can open it.'),
     ('2026-11-18', 'The public Video Library (/videos-library) now opens with the HKU Hong Kong admission guide for CBSE students (September 2027 intake), and the YouTube Shorts row starts with HKU after CBSE: five things to know.'),
@@ -161,6 +164,18 @@ GUIDE = [
                 'The samples are fixed (the same ten questions for everyone) and come from the member mock banks; to change a sample, change the seed or sizes in services/free_mock.py.'],
          tips=['The page asks for contact details only to share results and help with preparation; do not use them for anything else.'],
          added='2026-11-03', updated='2026-11-03'),
+    dict(id='edupulse-app', role='all', group='Start here', title='EduPulse App: one app for students, parents and mentors', summary='A mobile-first app at /app/ that brings actions, sessions, dates and practice together; it can be installed on a phone home screen.',
+         where=[('EduPulse App', 'edupulse_app.welcome')],
+         steps=['Open /app/ on a phone or computer, choose Student, Parent or Mentor and sign in with the same email and password as the portal. The Mentor door only accepts EduAakashaA mentors, College Guides and admins.',
+                'Student: Home shows the next session, the action plan (overdue and due-soon first), dates in the next 45 days, practice centres and notices for students. Plan lists every session, exam and deadline for 90 days. Practice lists the EduPulse mock and practice centres the account can open (locked ones show Premium or Elite).',
+                'Parent: Home shows the linked child (a switcher appears with more than one child): sessions done, the actions the mentor shares with parents (the parent’s own first), dates to keep, messages and reports. Actions the mentor hides from parents are never shown. A parent with no linked child sees how to get linked.',
+                'Mentor: Home lists assigned students with Attention, Watch or On track (the same rules as the mentor dashboard: overdue actions, help requests, missed sessions, check-in gaps), progress bars, the next session and unread messages, with a search box. Admins see every active enrolment. College Guides get a link to their own portal.',
+                'Explore has every Member Home tool with search and category filters. Me shows the account, a view switch when one account has several roles (for example a mentor who is also a parent), links to the full portal and Sign out.',
+                'Install: on Android or desktop Chrome, Me shows an Install button; on iPhone use Share, then Add to Home Screen. Pages always load fresh from the server (personal data is not stored on the phone); without a connection the app shows an offline page.'],
+         tips=['Every card opens the matching full portal page (mentorship workspace tab, practice centre, guide), which checks access again, so the app never shows more than the portal does.',
+               'Mentors: to show something to parents in the app, keep "visible to parent" ticked on the session or action in the mentorship workspace.'],
+         tiles=['EduPulse App'],
+         added='2026-11-19', updated='2026-11-19'),
     dict(id='roles', role='all', group='Start here', title='Who can do what', summary='The six account types and what each one unlocks.',
          where=[('Members & Access (admin)', 'membership.admin_users')],
          steps=['Free member: signs in, sees Member Home, the free guides and the exam schedule. Premium tools show a lock.',
@@ -516,6 +531,7 @@ GUIDE = [
                 'Branch fit and College preferences: build the shortlist, with exam, application dates and deadlines for each college.',
                 'Reports: generate the progress report as PDF for the student and parent.',
                 'Roadmap tab: open it on a student and press Create roadmap to build the NUS, NTU and HKU 2027 roadmap (for a student called Darsh it is named "Darsh Roadmap"). It adds milestones per university with the "admission complete" step of each, and puts every exam and application date in the Exam Calendar of that student with its source. You can add or remove milestones; an admin can delete the roadmap. The student, linked parents, you and admins can tick steps; nobody else can open it.',
+                'Meeting update tab (mentors and admins): after a meeting, paste the update file prepared from the recording or transcript and press Check first, then Apply update. One step saves the meeting in Sessions (recap for the family, private notes for you), the actions with owners and due dates, the dates in the Exam Calendar, and roadmap changes such as putting a university on hold, naming a first choice or adding milestones. Anything already there is skipped, so applying a file twice changes nothing. Dates that the meeting did not state are marked as suggested in the action text: adjust them. The decision on each roadmap section (Primary, Backup, On hold) can also be changed by hand on the Roadmap tab.',
                 'WhatsApp group: use the send-to-group buttons beside messages to share a short update with the family group.'],
          tiles=[], added='2026-10-26', updated='2026-11-18'),
     dict(id='m-docs', role='mentor', group='Daily work', title='Document verification, assessments and onboarding', summary='Review what students upload and complete.',

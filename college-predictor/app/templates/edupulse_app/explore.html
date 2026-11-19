@@ -1,0 +1,54 @@
+{% extends "edupulse_app/base.html" %}
+{% import "edupulse_app/_parts.html" as p %}
+{% block title %}Explore{% endblock %}
+{% block content %}
+<div class="ep-head">
+  <div>
+    <h1 class="ep-serif">Explore</h1>
+    <p>Every EduAakashaA guide, analytics page and tool: roadmaps, JoSAA, DASA and TNEA data, medicine, Gulf and NRI routes.</p>
+  </div>
+</div>
+<label class="ep-search"><svg class="ep-muted"><use href="#i-search"/></svg>
+  <input type="search" id="tool-q" placeholder="Search tools, e.g. JoSAA, NEET, roadmap" aria-label="Search tools"></label>
+<nav class="ep-seg" style="margin-top:12px" aria-label="Categories">
+  <button type="button" class="on" data-cat="">All</button>
+  {% for c in cats %}<button type="button" data-cat="{{ c.key }}">{{ c.title }}</button>{% endfor %}
+</nav>
+{% for c in cats %}
+<section data-sec="{{ c.key }}">
+  <div class="ep-sec"><h2>{{ c.icon }} {{ c.title }}</h2><span class="ep-muted" style="font-size:.8rem">{{ c.open }} of {{ c.tiles|length }} open</span></div>
+  <div class="ep-grid ep-grid--3">
+    {% for t in c.tiles if t.url %}
+    <div data-q="{{ (t.title ~ ' ' ~ t.desc)|lower }}">{{ p.tile(t, short_title) }}</div>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+<div class="ep-card ep-empty" id="tool-none" hidden><svg><use href="#i-search"/></svg><div>No tool matches that search.</div></div>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var q = document.getElementById('tool-q'), cat = '', none = document.getElementById('tool-none');
+  function apply() {
+    var v = q.value.trim().toLowerCase(), shown = 0;
+    document.querySelectorAll('[data-sec]').forEach(function (s) {
+      var n = 0;
+      s.querySelectorAll('[data-q]').forEach(function (t) {
+        var ok = (!cat || s.dataset.sec === cat) && (!v || t.dataset.q.indexOf(v) >= 0);
+        t.hidden = !ok; if (ok) n++;
+      });
+      s.hidden = n === 0; shown += n;
+    });
+    none.hidden = shown > 0;
+  }
+  q.addEventListener('input', apply);
+  document.querySelectorAll('[data-cat]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('[data-cat]').forEach(function (x) { x.classList.toggle('on', x === b); });
+      cat = b.dataset.cat; apply();
+    });
+  });
+})();
+</script>
+{% endblock %}

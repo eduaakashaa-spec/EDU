@@ -1,0 +1,29 @@
+{% extends "edupulse_app/base.html" %}
+{% import "edupulse_app/_parts.html" as p %}
+{% block title %}Practice{% endblock %}
+{% block content %}
+<div class="ep-head">
+  <div>
+    <h1 class="ep-serif">{{ 'Practice & mentor tools' if role == 'mentor' else 'EduPulse practice' }}</h1>
+    <p>Mock tests and daily practice with a confidence check on every answer: Guess, Low, Medium or High. Your reports show what you know, what you guessed and where a mistake was made with confidence.</p>
+  </div>
+</div>
+{% set open = tiles|rejectattr('locked')|list %}
+{% set locked = tiles|selectattr('locked')|list %}
+{% if open %}
+<div class="ep-grid ep-grid--3">{% for t in open %}{{ p.tile(t, short_title) }}{% endfor %}</div>
+{% endif %}
+{% if locked %}
+<div class="ep-sec"><h2>With membership</h2><a href="{{ url_for('main.members_registration') }}">Membership plans</a></div>
+<div class="ep-grid ep-grid--3">{% for t in locked %}{{ p.tile(t, short_title) }}{% endfor %}</div>
+{% endif %}
+{% if not tiles %}
+<div class="ep-card ep-empty"><svg><use href="#i-target"/></svg><div>No practice centres are open for this account.</div></div>
+{% endif %}
+<div class="ep-sec"><h2>Try before you join</h2></div>
+<a class="ep-card ep-tile-mini" href="{{ url_for('free_mock.home') }}">
+  <span class="ep-tile-ic">🎯</span>
+  <span style="flex:1"><b>Free sample mock tests</b><br><span class="ep-muted" style="font-size:.82rem">One 10-question sample for each exam, free for everyone.</span></span>
+  <svg style="color:var(--orange)"><use href="#i-arrow"/></svg>
+</a>
+{% endblock %}

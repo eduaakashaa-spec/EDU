@@ -184,6 +184,9 @@ def create_app():
     from app.routes.portal_guide import portal_guide_bp
     app.register_blueprint(portal_guide_bp)
 
+    from app.routes.edupulse_app import edupulse_app_bp
+    app.register_blueprint(edupulse_app_bp)
+
     from app.routes.planner import planner_bp
     app.register_blueprint(planner_bp)
 

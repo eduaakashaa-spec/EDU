@@ -1,0 +1,81 @@
+{% extends "edupulse_app/base.html" %}
+{% import "edupulse_app/_parts.html" as p %}
+{% block title %}Mentor home{% endblock %}
+{% block content %}
+<div class="ep-head">
+  <div>
+    <small class="ep-muted" style="font-weight:700">{{ greeting|upper }}, {{ today.strftime('%A %d %B')|upper }}</small>
+    <h1 class="ep-serif">{{ current_user.name.split(' ')[0] }}'s students</h1>
+    <p>{% if current_user.is_admin %}Every active enrolment.{% else %}Students assigned to you, those who need attention first.{% endif %}</p>
+  </div>
+  <a class="ep-btn ep-btn--ghost" href="{{ url_for('mentorship.mentor_home') if not alumni_only else url_for('alumni.mentor_dashboard') }}">Full mentor dashboard</a>
+</div>
+
+{% if alumni_only %}
+<div class="ep-card ep-next">
+  <div class="ep-ic"><svg><use href="#i-users"/></svg></div>
+  <div style="flex:1"><h3>College Guide account</h3><p>Your parent meetings and messages are on the College Guide portal.</p></div>
+  <a class="ep-btn" href="{{ url_for('alumni.mentor_dashboard') }}">Open</a>
+</div>
+{% else %}
+<div class="ep-kpis">
+  <div class="ep-card ep-kpi"><b>{{ overview.students }}</b><span>students</span></div>
+  <div class="ep-card ep-kpi"><b style="color:var(--red)">{{ overview.attention }}</b><span>need attention</span></div>
+  <div class="ep-card ep-kpi"><b style="color:var(--amber)">{{ overview.overdue }}</b><span>overdue actions</span></div>
+  <div class="ep-card ep-kpi"><b>{{ overview.sessions_week }}</b><span>sessions in 7 days</span></div>
+</div>
+
+<div class="ep-sec">
+  <h2>Students</h2>
+  {% if overview.unread %}<span class="ep-tag t-new">{{ overview.unread }} unread message{{ 's' if overview.unread != 1 }}</span>{% endif %}
+</div>
+{% if cards|length > 4 %}
+<label class="ep-search" style="margin-bottom:12px"><svg class="ep-muted"><use href="#i-search"/></svg>
+  <input type="search" id="stu-q" placeholder="Search students" aria-label="Search students"></label>
+{% endif %}
+{% if cards %}
+<div class="ep-grid ep-grid--2" id="stu-list">
+  {% for c in cards %}
+  <a class="ep-card ep-stu ep-att ep-att--{{ c.attention }}" href="{{ c.url }}" data-name="{{ c.name|lower }} {{ c.programme|lower }}">
+    <div class="ep-stu-top">
+      <span class="ep-avatar" aria-hidden="true">{{ c.name[:1]|upper }}</span>
+      <div style="flex:1;min-width:0"><h3>{{ c.name }}</h3><p style="margin:0">{{ c.programme }} · {{ c.grade }}</p></div>
+      <span class="ep-tag {{ {'attention':'t-bad','watch':'t-warn','ok':'t-good'}[c.attention] }}">{{ {'attention':'Attention','watch':'Watch','ok':'On track'}[c.attention] }}</span>
+    </div>
+    {% if c.reasons %}<p style="margin:0">{{ c.reasons[:2]|join(' · ') }}</p>{% endif %}
+    <div class="ep-kv">
+      <div><small>Sessions {{ c.sessions.core_done }}/{{ c.sessions.core_total }}</small><div class="ep-bar ep-bar--green"><i style="width:{{ c.sessions.pct }}%"></i></div></div>
+      <div><small>Actions {{ c.actions.done }}/{{ c.actions.total }}</small><div class="ep-bar"><i style="width:{{ c.actions.pct }}%"></i></div></div>
+    </div>
+    <p style="margin:0;font-size:.82rem"><svg style="width:15px;height:15px;vertical-align:-3px"><use href="#i-clock"/></svg>
+      {% if c.next %}{{ c.next.title }} · {{ p.when(c.next.days) }}{% else %}No session booked{% endif %}
+      {% if c.unread %} · <b style="color:var(--orange)">{{ c.unread }} unread</b>{% endif %}</p>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+<div class="ep-card ep-empty"><svg><use href="#i-users"/></svg><div>No students are assigned to you yet. An admin assigns students in the mentorship portal.</div></div>
+{% endif %}
+{% endif %}
+
+{% if practice %}
+<div class="ep-sec"><h2>Mentor tools</h2><a href="{{ url_for('edupulse_app.practice') }}">All</a></div>
+<div class="ep-grid ep-grid--3">
+  {% for t in practice %}{{ p.tile(t, short_title, mini=True) }}{% endfor %}
+</div>
+{% endif %}
+
+{{ p.notices(notices) }}
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var q = document.getElementById('stu-q');
+  if (!q) return;
+  q.addEventListener('input', function () {
+    var v = q.value.trim().toLowerCase();
+    document.querySelectorAll('#stu-list > a').forEach(function (a) { a.hidden = v && a.dataset.name.indexOf(v) < 0; });
+  });
+})();
+</script>
+{% endblock %}

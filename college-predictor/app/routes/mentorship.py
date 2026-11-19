@@ -25,12 +25,13 @@ from app.models_mentorship import (
     ACTION_STATUSES, ADMISSION_ROUTES, ELIGIBILITY, EVENT_CATEGORIES, KPI_DIRECTIONS, PREF_LIST_STATUSES,
     REVIEW_STATUSES, SESSION_STATUSES, MsAction, MsAudit, MsBranch, MsBranchFit, MsBranchRating, MsCheckin,
     MsEnrolment, MsEvent, MsKpi, MsParentAssessment, MsPrefDates, MsKpiObs, MsMessage, MsMessageRead, MsParentLink, MsPrefEntry, MsPrefList,
-    EXAM_STATUSES, MsAlert, MsExam, MsExamFocus, MsMilestone, MsProgramme, MsReport, MsReview, MsRoadmap, MsSession, MsSessionTemplate,
+    EXAM_STATUSES, ROADMAP_GROUP_STATUSES, MsAlert, MsExam, MsExamFocus, MsMilestone, MsProgramme, MsReport, MsReview, MsRoadmap, MsSession, MsSessionTemplate,
 )
 from app.services import exam_calendar as xc
 from app.services import exam_docs as xd
 from app.services import mailer
 from app.services import rf_choice
+from app.services import meeting_import as mi
 from app.services import roadmap as rmap
 from app.services import mentorship as svc
 
@@ -222,6 +223,10 @@ def mentor_home():
 @login_required
 def workspace(eid, tab):
     e, role = _ctx(eid, gate=False)
+    return _render_tab(e, role, tab)
+
+
+def _render_tab(e, role, tab, extra=None):
     if _premium_gate(role):
         return render_template('elite_locked.html'), 403
     tabs = svc.tabs_for(role)
@@ -239,6 +244,7 @@ def workspace(eid, tab):
                SESSION_STATUSES=SESSION_STATUSES, PRIORITIES=PRIORITIES)
     ctx['pa_pending'] = (role == 'parent' and not MsParentAssessment.query.filter(MsParentAssessment.enrolment_id == e.id, MsParentAssessment.parent_id == current_user.id, MsParentAssessment.submitted_at != None).count())  # noqa: E711
     ctx.update(globals()['_tab_' + tab](e, role))
+    ctx.update(extra or {})
     return render_template(f'mentorship/tab_{tab}.html', **ctx)
 
 
@@ -409,9 +415,44 @@ def _tab_roadmap(e, role):
     if not rm:
         return dict(rm=None, groups={}, nxt=[], today=t, GROUPS=rmap.GROUPS, owner_label=rmap.owner_label, mstatus=rmap.status)
     groups = rmap.summary(rm, t)
+    live = [g for g in groups.values() if not g['hold']]
     return dict(rm=rm, groups=groups, nxt=rmap.next_dates(rm, t), today=t, GROUPS=rmap.GROUPS, UNIVERSITIES=rmap.UNIVERSITIES,
-                owner_label=rmap.owner_label, mstatus=rmap.status, OWNERS=rmap.OWNERS, name=rmap.first_name(e),
-                overall_done=sum(g['done'] for g in groups.values()), overall_total=sum(g['total'] for g in groups.values()))
+                owner_label=rmap.owner_label, mstatus=rmap.status, OWNERS=rmap.OWNERS, name=rmap.first_name(e), STATUSES=ROADMAP_GROUP_STATUSES,
+                overall_done=sum(g['done'] for g in live), overall_total=sum(g['total'] for g in live))
+
+
+def _tab_import(e, role):
+    return dict(report=None, text='', errors=[], dry=False)
+
+
+@mentorship_bp.route('/e/<int:eid>/import', methods=['POST'])
+@login_required
+def meeting_import(eid):
+    e, role = _ctx(eid, STAFF)
+    text = request.form.get('update') or ''
+    plan, errors = mi.parse(text)
+    if errors:
+        return _render_tab(e, role, 'import', dict(report=None, text=text, errors=errors, dry=False))
+    dry = request.form.get('mode') != 'apply'
+    lines, n = mi.apply(e, plan, user_id=current_user.id, dry=dry)
+    if not dry:
+        flash(f'Update applied: {n["created"]} new item(s), {n["skipped"]} already there.', 'success')
+    return _render_tab(e, role, 'import', dict(report=lines, counts=n, text=text, errors=[], dry=dry))
+
+
+@mentorship_bp.route('/e/<int:eid>/roadmap/group/<code>', methods=['POST'])
+@login_required
+def roadmap_group(eid, code):
+    e, role = _ctx(eid, STAFF)
+    rm = rmap.get(e) or abort(404)
+    status = request.form.get('status')
+    if code not in rmap.GROUPS or status not in ROADMAP_GROUP_STATUSES:
+        abort(400)
+    rmap.set_group(rm, code, status, _s('note', 500), user_id=current_user.id)
+    svc.audit(e, 'roadmap.group', f'{code} set to {status}', role)
+    db.session.commit()
+    flash(f'{rmap.GROUPS[code][0]} is now: {status}.', 'success')
+    return _back(e, 'roadmap', code.lower())
 
 
 @mentorship_bp.route('/e/<int:eid>/roadmap/create', methods=['POST'])
@@ -468,16 +509,8 @@ def milestone_add(eid):
         flash('Give the milestone a title.', 'danger')
         return _back(e, 'roadmap')
     d = svc.parse_date(request.form.get('due_on'))
-    ev = None
-    if d and request.form.get('calendar'):
-        ev = MsEvent(enrolment_id=e.id, title=f'{grp}: {title}'[:240], category='Other', starts_on=d, notes=_s('detail'), created_by=current_user.id,
-                     source=_s('source', 300) or 'Added by mentor', verified_on=svc.parse_date(request.form.get('verified_on')))
-        db.session.add(ev)
-        db.session.flush()
-    pos = (max([x.position or 0 for x in rm.milestones], default=0)) + 1
-    db.session.add(MsMilestone(roadmap_id=rm.id, grp=grp, title=title, detail=_s('detail'), owner=owner, due_on=d, due_label=_s('due_label', 60),
-                               position=pos, event_id=ev.id if ev else None, source=_s('source', 300) or None,
-                               verified_on=svc.parse_date(request.form.get('verified_on'))))
+    rmap.add_milestone(rm, e, grp, title, _s('detail'), owner, d, _s('due_label', 60), bool(request.form.get('calendar')), 'Other',
+                       _s('source', 300) or None, svc.parse_date(request.form.get('verified_on')), current_user.id)
     svc.audit(e, 'roadmap.added', f'{grp} {title[:120]}', role)
     db.session.commit()
     flash('Milestone added.', 'success')

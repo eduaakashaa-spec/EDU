@@ -1,0 +1,77 @@
+{% extends "edupulse_app/base.html" %}
+{% block title %}Sign in{% endblock %}
+{% block shell %}
+<div class="ep-welcome">
+  <section class="ep-pitch">
+    <a class="ep-brand" href="{{ url_for('main.home') }}">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="" width="40" height="40">
+      <span><b>EduPulse</b><small>by EduAakashaA</small></span>
+    </a>
+    <h1 class="ep-serif">Luck is not an admissions strategy. <em>Data is.</em></h1>
+    <p class="lead">Your mentorship, practice and every admission date in one app, for the student, the family and the mentor working with them.</p>
+    <div class="ep-feats">
+      <div class="ep-feat"><svg><use href="#i-check"/></svg><div><b>Today's actions</b><span>What is due, what is overdue and who owns it, straight from your mentor's plan.</span></div></div>
+      <div class="ep-feat"><svg><use href="#i-target"/></svg><div><b>EduPulse practice</b><span>JEE, NEET, BITSAT, UCEED, NID, NIFT, IAT, SAT and Olympiad mock centres with a confidence check on every answer.</span></div></div>
+      <div class="ep-feat"><svg><use href="#i-cal"/></svg><div><b>One calendar</b><span>Sessions, exam dates and application deadlines, with the source of each date.</span></div></div>
+      <div class="ep-feat"><svg><use href="#i-users"/></svg><div><b>Parents and mentors in the loop</b><span>Parents see what the mentor shares; mentors see who needs attention first.</span></div></div>
+    </div>
+    <div class="ep-proof">
+      <div><b>12,000+</b>verified data points</div>
+      <div><b>47+</b>institutes covered</div>
+      <div><b>6+ years</b>guiding families</div>
+    </div>
+  </section>
+
+  <section class="ep-signin">
+    <h2>Sign in to EduPulse</h2>
+    <p class="ep-muted" style="margin:6px 0 0">Use the same email and password as the EduAakashaA portal.</p>
+    {% with msgs = get_flashed_messages(with_categories=true) %}{% if msgs %}
+    <div class="ep-flash" role="alert">{% for cat, m in msgs %}<p class="ep-flash__i ep-flash__i--{{ cat }}">{{ m }}</p>{% endfor %}</div>
+    {% endif %}{% endwith %}
+    <form method="post" action="{{ url_for('edupulse_app.login', next=request.args.get('next')) }}" autocomplete="on">
+      <fieldset style="border:0;padding:0;margin:0">
+        <legend class="ep-muted" style="font-size:.84rem;font-weight:700;margin-top:16px">I am a</legend>
+        <div class="ep-doors">
+          {% for key, ic in [('student','i-cap'), ('parent','i-users'), ('mentor','i-spark')] %}
+          <div class="ep-door">
+            <input type="radio" name="role" id="r-{{ key }}" value="{{ key }}" {% if pick == key %}checked{% endif %}>
+            <label for="r-{{ key }}"><svg><use href="#{{ ic }}"/></svg>{{ ROLE_LABEL[key] }}</label>
+          </div>
+          {% endfor %}
+        </div>
+      </fieldset>
+      <p class="ep-door-hint" id="door-hint" aria-live="polite"></p>
+      <div class="ep-field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" inputmode="email" autocomplete="username" required value="{{ email or '' }}">
+      </div>
+      <div class="ep-field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required>
+      </div>
+      <div class="ep-row">
+        <label style="display:flex;align-items:center;gap:8px"><input type="checkbox" name="remember" value="1" checked> Keep me signed in</label>
+        <a href="{{ url_for('main.contact') }}">Need help?</a>
+      </div>
+      <button class="ep-btn ep-btn--block" type="submit">Sign in <svg><use href="#i-arrow"/></svg></button>
+    </form>
+    <p class="ep-alt">New to EduAakashaA? <a href="{{ url_for('auth.register') }}">Create a free account</a></p>
+    <p class="ep-alt" style="margin-top:6px"><a href="{{ url_for('main.home') }}" style="font-weight:600;color:var(--mute)">Visit eduaakashaa.com</a></p>
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(function () {
+  var hints = {
+    student: 'Your actions, sessions, practice centres and exam dates.',
+    parent: 'Your child’s progress, what the mentor shares with you and the dates that matter.',
+    mentor: 'Your students, who needs attention first, overdue actions and the week’s sessions.'
+  };
+  var out = document.getElementById('door-hint');
+  function show() { var r = document.querySelector('input[name=role]:checked'); out.textContent = r ? hints[r.value] : ''; }
+  document.querySelectorAll('input[name=role]').forEach(function (r) { r.addEventListener('change', show); });
+  show();
+})();
+</script>
+{% endblock %}
