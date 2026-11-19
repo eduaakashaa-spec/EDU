@@ -103,6 +103,8 @@ def _enrolments(role):
 def home():
     role = _role()
     ens = _enrolments(role)
+    if role == 'mentor':
+        svc.prime(ens, current_user, role)
     cards = [svc.card(e, role, current_user) for e in ens]
     now = datetime.now(_IST)
     ctx = _ctx('home', role, cards=cards, greeting=svc.greeting(now.hour), today=now,
@@ -125,7 +127,7 @@ def home():
 @login_required
 def plan():
     role = _role()
-    items = svc.calendar(_enrolments(role), days=90)
+    items = svc.calendar(_enrolments(role), days=90, bulk=(role == 'mentor'))
     groups, cur = [], None
     for i in items:
         label = 'Today' if i['days'] == 0 else ('Tomorrow' if i['days'] == 1 else
@@ -158,7 +160,7 @@ def explore():
 @login_required
 def me():
     role = _role()
-    return render_template('edupulse_app/me.html', **_ctx('me', role, enrolments=_enrolments(role)))
+    return render_template('edupulse_app/me.html', **_ctx('me', role, enrolments=[] if role == 'mentor' else _enrolments(role)))
 
 
 # --------------------------------------------------------------------------- #

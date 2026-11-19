@@ -15,7 +15,10 @@ from flask import url_for
 
 from app.extensions import db
 from app.models import Announcement, ScheduleEvent
-from app.models_mentorship import MsEnrolment, MsParentLink, MsSession
+from sqlalchemy.orm import selectinload
+
+from app.models_mentorship import (MsAction, MsCheckin, MsEnrolment, MsEvent, MsExam, MsExamFocus, MsMessage,
+                                   MsMessageRead, MsParentLink, MsPrefDates, MsPrefEntry, MsPrefList, MsReview, MsSession)
 from app.services import member_hub
 from app.services import mentorship as ms
 
@@ -45,10 +48,11 @@ def student_enrolments(user):
 
 
 def mentor_enrolments(user):
+    opts = (selectinload(MsEnrolment.student), selectinload(MsEnrolment.programme), selectinload(MsEnrolment.mentor))
     if user.is_admin:
-        return MsEnrolment.query.filter(MsEnrolment.status == 'Active').order_by(MsEnrolment.id.desc()).all()
+        return MsEnrolment.query.options(*opts).filter(MsEnrolment.status == 'Active').order_by(MsEnrolment.id.desc()).all()
     if user.is_ea_mentor:
-        return (MsEnrolment.query.filter(MsEnrolment.mentor_id == user.id, MsEnrolment.status != ms.REMOVED)
+        return (MsEnrolment.query.options(*opts).filter(MsEnrolment.mentor_id == user.id, MsEnrolment.status != ms.REMOVED)
                 .order_by(MsEnrolment.id.desc()).all())
     return []
 
@@ -110,8 +114,8 @@ def _actions(e, role, limit=6):
     audience = 'parent' if role == 'parent' else 'student'
     rank = {'Overdue': 0, 'Requires mentor attention': 1, 'Blocked': 1, 'Due today': 2, 'Due soon': 3, 'Open': 4}
     rows = []
-    for a in ms.visible_actions(e, audience):
-        if a.status in ('Completed', 'Closed'):
+    for a in ms._actions(e):            # one cached read per enrolment (pre-loaded in bulk for the mentor list)
+        if a.status in ('Completed', 'Closed', 'Cancelled') or (audience == 'parent' and not a.parent_visible):
             continue
         state = ms.action_state(a)
         rows.append({'id': a.id, 'title': a.title, 'owner': ms.OWNER_LABEL.get(a.owner or 'student', 'Student'),
@@ -144,8 +148,8 @@ def card(e, role, user):
          'programme': e.programme.name if e.programme else 'Mentorship',
          'mentor': e.mentor.name if e.mentor else 'To be assigned',
          'sessions': ss, 'actions': ast, 'open_actions': acts, 'open_n': open_n,
-         'next': _next_session(e, role), 'upcoming': _upcoming(e),
-         'unread': ms.unread_count(e, user, 'admin' if (role == 'mentor' and user.is_admin) else role),
+         'next': _next_session(e, role), 'upcoming': [] if role == 'mentor' else _upcoming(e),
+         'unread': ms._memo(('ep_unread', e.id), lambda: ms.unread_count(e, user, _msg_role(user, role))),
          'url': url_for('mentorship.workspace', eid=e.id, tab='home'),
          'url_actions': url_for('mentorship.workspace', eid=e.id, tab='actions'),
          'url_messages': url_for('mentorship.workspace', eid=e.id, tab='messages'),
@@ -155,6 +159,97 @@ def card(e, role, user):
         level, reasons = ms.attention(e)
         c['attention'], c['reasons'] = level, reasons
     return c
+
+
+def _msg_role(user, role):
+    return 'admin' if (role == 'mentor' and user.is_admin) else role
+
+
+# --------------------------------------------------------------------------- #
+# Bulk loading for list views. A mentor (or an admin) may follow dozens of students; reading each one separately costs
+# about ten database round trips per student, which is slow on a remote database. prime() reads the same rows for every
+# enrolment in a few queries and puts them in the per-request cache that the mentorship service already reads from.
+# --------------------------------------------------------------------------- #
+def _by_eid(rows, attr='enrolment_id'):
+    out = {}
+    for r in rows:
+        out.setdefault(getattr(r, attr), []).append(r)
+    return out
+
+
+def prime(enrolments, user, role):
+    if not enrolments:
+        return
+    from flask import g
+    store = g.__dict__.setdefault('_ms_memo', {})
+    ids = [e.id for e in enrolments]
+    sessions = _by_eid(MsSession.query.filter(MsSession.enrolment_id.in_(ids)).order_by(MsSession.position).all())
+    actions = _by_eid(MsAction.query.filter(MsAction.enrolment_id.in_(ids)).all())
+    focus = {}
+    for eid, xid in db.session.query(MsExamFocus.enrolment_id, MsExamFocus.exam_id).filter(MsExamFocus.enrolment_id.in_(ids)):
+        focus.setdefault(eid, set()).add(xid)
+    last = {}
+    for c in (MsCheckin.query.filter(MsCheckin.enrolment_id.in_(ids), MsCheckin.status.in_(['Submitted', 'Reviewed']))
+              .order_by(MsCheckin.week_start.desc()).all()):
+        last.setdefault(c.enrolment_id, c)
+    window = ms.today() + timedelta(days=ms.rule('exam_window_days'))
+    pids = {e.programme_id for e in enrolments}
+    soon = (MsEvent.query.filter(db.or_(MsEvent.enrolment_id.in_(ids), MsEvent.programme_id.in_(pids)),
+                                 MsEvent.category.in_(ms.ATTENTION_EXAM_CATS), MsEvent.starts_on >= ms.today(),
+                                 MsEvent.starts_on <= window).all())
+    read = db.session.query(MsMessageRead.message_id).filter(MsMessageRead.user_id == user.id)
+    unread = dict(db.session.query(MsMessage.enrolment_id, db.func.count(MsMessage.id))
+                  .filter(MsMessage.enrolment_id.in_(ids), MsMessage.sender_id != user.id,
+                          MsMessage.audience.in_(ms.visible_audiences(_msg_role(user, role))), ~MsMessage.id.in_(read))
+                  .group_by(MsMessage.enrolment_id).all())
+    for e in enrolments:
+        store[('sessions', e.id)] = sessions.get(e.id, [])
+        store[('actions', e.id)] = actions.get(e.id, [])
+        store[('focus', e.id)] = focus.get(e.id, set())
+        store[('last_checkin', e.id)] = last.get(e.id)
+        store[('exam_soon', e.id)] = next((x for x in soon if x.enrolment_id == e.id or x.programme_id == e.programme_id), None)
+        store[('ep_unread', e.id)] = unread.get(e.id, 0)
+
+
+def mentor_agenda(enrolments, days):
+    """Plan screen for a mentor: the same kinds of dates as each student's calendar (sessions, student and programme events,
+    followed exams, review dates, college-list deadlines), read for every student in a few queries."""
+    if not enrolments:
+        return []
+    start, end = ms.today(), ms.today() + timedelta(days=days)
+    ids = [e.id for e in enrolments]
+    by_id = {e.id: e for e in enrolments}
+    by_prog = {}
+    for e in enrolments:
+        by_prog.setdefault(e.programme_id, []).append(e)
+    items = []
+
+    def add(e, d, title, cat):
+        if d and start <= d <= end:
+            items.append({'date': d, 'title': title, 'category': cat, 'days': (d - start).days, 'who': _first(_name(e))})
+
+    for s in (MsSession.query.filter(MsSession.enrolment_id.in_(ids), MsSession.status.in_(['Planned', 'Rescheduled']),
+                                     MsSession.planned_at != None).all()):  # noqa: E711
+        e = by_id[s.enrolment_id]
+        add(e, ms.to_local(s.planned_at, e.timezone).date(), s.title, 'Mentorship session')
+    for x in (MsEvent.query.filter(db.or_(MsEvent.enrolment_id.in_(ids), MsEvent.programme_id.in_(list(by_prog))),
+                                   MsEvent.done == False, MsEvent.starts_on >= start, MsEvent.starts_on <= end).all()):  # noqa: E712
+        for e in ([by_id[x.enrolment_id]] if x.enrolment_id in by_id else by_prog.get(x.programme_id, [])):
+            add(e, x.starts_on, x.title, x.category or 'Event')
+    pairs = db.session.query(MsExamFocus.enrolment_id, MsExamFocus.exam_id).filter(MsExamFocus.enrolment_id.in_(ids)).all()
+    exams = {x.id: x for x in MsExam.query.filter(MsExam.id.in_({p[1] for p in pairs}), MsExam.active == True).all()} if pairs else {}  # noqa: E712
+    for eid, xid in pairs:
+        x = exams.get(xid)
+        if x:
+            add(by_id[eid], x.starts_on, x.name, x.category or 'Exam')
+    for r in MsReview.query.filter(MsReview.enrolment_id.in_(ids), MsReview.next_review_date != None).all():  # noqa: E711
+        add(by_id[r.enrolment_id], r.next_review_date, 'Next review after ' + r.label, 'Quarterly review')
+    for d, x, lst in (db.session.query(MsPrefDates, MsPrefEntry, MsPrefList).join(MsPrefEntry, MsPrefEntry.id == MsPrefDates.entry_id)
+                      .join(MsPrefList, MsPrefList.id == MsPrefEntry.list_id).filter(MsPrefList.enrolment_id.in_(ids)).all()):
+        e = by_id[lst.enrolment_id]
+        add(e, d.app_open, 'Applications open: ' + x.college, 'Admission deadline')
+        add(e, d.app_deadline, 'Application deadline: ' + x.college, 'Admission deadline')
+    return items
 
 
 def mentor_overview(cards):
@@ -190,11 +285,15 @@ def schedule(days=UPCOMING_DAYS):
              'important': r.important} for r in rows]
 
 
-def calendar(cards_and_enrolments, days=UPCOMING_DAYS):
-    """Merged, date-ordered agenda for the Plan screen: every followed student's dates plus the portal schedule."""
+def calendar(cards_and_enrolments, days=UPCOMING_DAYS, bulk=False):
+    """Merged, date-ordered agenda for the Plan screen: every followed student's dates plus the portal schedule.
+    bulk=True (mentor view) reads all students' dates in a few queries instead of one calendar per student."""
     items = []
-    for e in cards_and_enrolments:
-        items.extend(_upcoming(e, days=days, limit=60))
+    if bulk:
+        items.extend(mentor_agenda(cards_and_enrolments, days))
+    else:
+        for e in cards_and_enrolments:
+            items.extend(_upcoming(e, days=days, limit=60))
     items.extend(schedule(days))
     seen, out = set(), []
     for i in sorted(items, key=lambda i: (i['date'], i['title'])):

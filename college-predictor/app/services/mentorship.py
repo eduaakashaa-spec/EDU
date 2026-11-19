@@ -634,6 +634,9 @@ def deadline_label(d, ref=None):
     return f'Closes in {n} day{"s" if n != 1 else ""}', ('warn' if n <= 14 else 'ok')
 
 
+ATTENTION_EXAM_CATS = ('Board exam', 'JEE Main', 'JEE Advanced', 'School exam')
+
+
 def attention(e):
     """-> (level, [reasons]).  level: ok | watch | attention.  Workflow indicators only."""
     reasons = []
@@ -645,8 +648,8 @@ def attention(e):
     if ast['needs_help']:
         reasons.append(f"{ast['needs_help']} action(s) marked Needs Help / Blocked")
     started = e.start_date or today()
-    last = (MsCheckin.query.filter(MsCheckin.enrolment_id == e.id, MsCheckin.status.in_(['Submitted', 'Reviewed']))
-            .order_by(MsCheckin.week_start.desc()).first())
+    last = _memo(('last_checkin', e.id), lambda: MsCheckin.query.filter(MsCheckin.enrolment_id == e.id, MsCheckin.status.in_(['Submitted', 'Reviewed']))
+                 .order_by(MsCheckin.week_start.desc()).first())     # pre-loaded in bulk by list views (EduPulse App mentor home)
     if e.status == 'Active':
         ref = last.week_start if last else started
         if (today() - ref).days > rule('checkin_gap_days') + (0 if last else 7):
@@ -658,9 +661,9 @@ def attention(e):
     if any(s.status == 'Missed' for s in _sessions(e)):
         reasons.append('A session was missed')
     window = today() + timedelta(days=rule('exam_window_days'))
-    exam_cats = ('Board exam', 'JEE Main', 'JEE Advanced', 'School exam')
-    soon = MsEvent.query.filter(db.or_(MsEvent.enrolment_id == e.id, MsEvent.programme_id == e.programme_id),
-                                MsEvent.category.in_(exam_cats), MsEvent.starts_on >= today(), MsEvent.starts_on <= window).first()
+    exam_cats = ATTENTION_EXAM_CATS
+    soon = _memo(('exam_soon', e.id), lambda: MsEvent.query.filter(db.or_(MsEvent.enrolment_id == e.id, MsEvent.programme_id == e.programme_id),
+                 MsEvent.category.in_(exam_cats), MsEvent.starts_on >= today(), MsEvent.starts_on <= window).first())
     if soon and ast['total'] - ast['done'] > 0:
         reasons.append(f'Exam within {rule("exam_window_days")} days with open actions')
     level = 'ok'
