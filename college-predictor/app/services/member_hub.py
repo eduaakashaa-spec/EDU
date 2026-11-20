@@ -85,6 +85,7 @@ CATEGORIES = [
          {'title': 'NEET papers analysed', 'desc': 'Past NEET papers analysed chapter by chapter: what is asked most and how marks split across Physics, Chemistry and Biology.', 'icon': '📑', 'endpoint': 'main.neet_exam', 'access': 'free'},
          {'title': 'NEET 2023-2025 trends', 'desc': 'Scores, cut-offs, MBBS seats by state, MCC allotment by round and closing ranks for three years, with an Excel download.', 'icon': '📈', 'endpoint': 'main.neet_trends', 'access': 'free'},
          {'title': 'NIRF medical ranking analytics', 'desc': 'The top 50 NIRF medical institutes: parameter scores, top 10, state view and compare, like the engineering ranking page.', 'icon': '🏥', 'endpoint': 'main.nirf_medical', 'access': 'free'},
+         {'title': 'NIRF pharmacy ranking analytics', 'desc': 'The top 100 NIRF pharmacy institutes: heatmap, the seven NIPERs, parameter scores, state view and compare, like the engineering ranking page.', 'icon': '💊', 'endpoint': 'main.nirf_pharmacy', 'access': 'free'},
          {'title': 'NEET MBBS seat matrix analytics', 'desc': 'All MBBS colleges in the NMC matrix for 2025–26: seats by state and management, new colleges, seat cuts, growth and a college explorer.', 'icon': '📊', 'endpoint': 'main.neet_seats_2025', 'access': 'premium'},
      ]},
     {'key': 'gulf', 'title': 'Engineering in Gulf', 'icon': '🌴', 'color': '#0F766E', 'tint': '#E0F5F1', 'img': 'gulf.svg',

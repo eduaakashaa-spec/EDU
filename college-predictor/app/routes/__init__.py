@@ -116,6 +116,12 @@ def nirf_medical():
     return render_template('nirf_medical.html')
 
 
+@main_bp.route('/nirf-pharmacy-ranking')
+def nirf_pharmacy():
+    # public page: NIRF (India Rankings 2025) top 100 pharmacy institutes; data in static/js/nirf_pharmacy_data.js
+    return render_template('nirf_pharmacy.html')
+
+
 # =============================================================
 # TNEA cluster
 # =============================================================
