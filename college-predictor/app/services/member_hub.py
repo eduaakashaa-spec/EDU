@@ -57,6 +57,7 @@ CATEGORIES = [
          {'title': 'JEE 2027 Roadmap', 'desc': 'The exam process, mapped step by step.', 'icon': '🗺️', 'endpoint': 'main.jee_2027_roadmap', 'access': 'premium'},
          {'title': 'TNEA expert', 'desc': 'Tamil Nadu engineering counselling guide.', 'icon': '🎓', 'endpoint': 'main.tnea_expert', 'access': 'premium'},
          {'title': 'NIRF management ranking analytics', 'desc': 'The top 100 NIRF management institutes: IIMs, IITs and private B-schools by parameter, heatmap, state view and compare, like the engineering ranking page.', 'icon': '💼', 'endpoint': 'main.nirf_management', 'access': 'free'},
+         {'title': 'NIRF law ranking analytics', 'desc': 'The 40 NIRF-ranked law institutes: the National Law Universities and others by parameter, heatmap, state view and compare, like the engineering ranking page.', 'icon': '⚖️', 'endpoint': 'main.nirf_law', 'access': 'free'},
          {'title': 'Members report', 'desc': 'Reports prepared for members.', 'icon': '📑', 'endpoint': 'main.members_report', 'access': 'premium'},
      ]},
     {'key': 'edupulse', 'title': 'EduPulse AI Tools', 'icon': '🧠', 'color': '#EA580C', 'tint': '#FFEBDD',
