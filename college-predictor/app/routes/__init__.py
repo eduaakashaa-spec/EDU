@@ -122,6 +122,12 @@ def nirf_pharmacy():
     return render_template('nirf_pharmacy.html')
 
 
+@main_bp.route('/nirf-management-ranking')
+def nirf_management():
+    # public page: NIRF (India Rankings 2025) top 100 management institutes; data in static/js/nirf_management_data.js
+    return render_template('nirf_management.html')
+
+
 # =============================================================
 # TNEA cluster
 # =============================================================
