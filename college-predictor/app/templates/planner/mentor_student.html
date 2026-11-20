@@ -15,7 +15,8 @@
 </div>
 <p><span class="sp-pill {{ 'ok' if st.on_track else 'late' }}">{{ 'On track' if st.on_track else 'Behind plan' }}</span>
   <a class="sp-btn sm" href="{{ url_for('planner.dl_progress', uid=u.id) }}">Progress report (PDF)</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_plan_csv', uid=u.id) }}">Plan (CSV)</a>
-  <a class="sp-btn ghost sm" href="{{ url_for('planner.mentor_new', uid=u.id) }}">Change level or rebuild</a></p>
+  <a class="sp-btn ghost sm" href="{{ url_for('planner.mentor_new', uid=u.id) }}">Change level or rebuild</a>
+  <a class="sp-btn ghost sm" href="{{ url_for('planner.mentor_gap', uid=u.id) }}">JEE gap map</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.mentor_assessment', uid=u.id) }}">Enter ratings</a></p>
 <div class="sp-two">
   <section><h2>Recent and coming tasks</h2>{% for t in recent %}<div class="sp-muted" style="margin-top:8px"><b>{{ t.day.strftime('%a %d %b') }}</b></div>{% include "planner/_task.html" %}{% else %}<div class="sp-card">No tasks in this window.</div>{% endfor %}</section>
   <aside>

@@ -1,0 +1,82 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}JEE gap map{% endblock %}
+{% block sp_crumb %} › JEE gap map{% endblock %}
+{% macro tier(x) %}<span class="sp-t sp-t{{ x.tier }}">{{ tier_label[x.tier] }}</span>{% endmacro %}
+{% macro bucket(b) %}<span class="sp-bk {{ {'Fix first': 'ff', 'Fix next': 'fn', 'Maintain': 'mt', 'Park': 'pk'}[b] }}">{{ b }}</span>{% endmacro %}
+{% block sp_body %}
+{% set todo = a.rows | selectattr('bucket', 'in', ['Fix first', 'Fix next']) | list %}
+<div class="sp-asm">
+<h1>{{ 'JEE gap map: ' ~ student.name if mentor_view else 'My JEE gap map' }}</h1>
+<p class="sp-muted">From the self-assessment of {{ asm.created_at.strftime('%d %b %Y') }}{% if history > 1 %} (assessment {{ history }}){% endif %}. Your 0 to 4 ratings set against the 1,424 questions of the 19 JEE Main 2026 shifts, grouped into chapter Tiers.
+  <a href="{{ url_for('planner.mentor_assessment', uid=student.id) if mentor_view else url_for('planner.self_assessment') }}">Update the ratings</a></p>
+{% if not a.complete %}<div class="sp-card">Some topics are not rated, so they are left out of the numbers below.</div>{% endif %}
+
+<div class="sp-kpis">
+  <div><b>{{ a.readiness }}%</b><span>Ready for JEE Main</span></div>
+  <div><b>{{ '%.0f' | format(a.total_risk) }}</b><span>Marks per paper within reach</span></div>
+  <div><b>{{ a.by_subject.values() | sum(attribute='fix_first') }}</b><span>Topics to fix first</span></div>
+  <div><b>{{ '%.0f' | format(a.top5_share) }}%</b><span>Of the gap is in 5 topics</span></div>
+</div>
+
+<div class="sp-why"><b>Why this matters</b>
+<ul>
+  <li><b>Not every topic is worth the same.</b> In 2026 the chapters were grouped into Tiers by how many questions they brought. Tier 1 chapters came up in almost every shift, Tier 3 only now and then, and some chapters had no question at all.</li>
+  <li><b>A gap costs marks according to its weight.</b> A rating of 1 in a Tier 1 chapter loses more marks every paper than the same rating in a Tier 3 chapter. Study time that follows the gap map goes where the marks are.</li>
+  <li><b>Negative marking makes weak topics expensive.</b> A topic you cannot solve is a topic you skip or guess. Closing a Tier 1 or Tier 2 gap turns skipped questions into safe marks.</li>
+  <li><b>It is an estimate.</b> "Marks within reach" is questions per paper x 4 x the gap that remains to the level JEE Main needs. It guides where to study; it does not predict a score.</li>
+</ul></div>
+
+<h2>By subject</h2>
+<div class="sp-card">
+  {% for s in subjects %}{% set b = a.by_subject[s] %}
+  <div class="sp-bar"><span>{{ s }}</span><div><i style="width:{{ b.readiness }}%"></i></div><em>{{ b.readiness }}% ready · {{ '%.0f' | format(b.risk) }} marks within reach · {{ b.fix_first }} fix first · {{ b.weak }} rated 0 or 1</em></div>
+  {% endfor %}
+</div>
+
+<h2>Where the gaps are: Tier against your rating</h2>
+<div class="sp-card"><div class="sp-matrix">
+  <div class="h">Tier</div><div class="h">Rated 0 to 1</div><div class="h">Rated 2</div><div class="h">Rated 3 to 4</div>
+  {% for tn, label in [(1, 'Tier 1 · most asked'), (2, 'Tier 2 · asked in most shifts'), (3, 'Tier 3 · now and then'), (0, 'No 2026 question')] %}
+    <div class="h" style="padding:10px 0">{{ label }}</div>
+    {% for lo, hi, cls in [(0, 1, 'hot'), (2, 2, 'warm'), (3, 4, 'ok')] %}
+      {% set cell = a.rows | selectattr('tier', 'equalto', tn) | selectattr('rating', 'ge', lo) | selectattr('rating', 'le', hi) | list %}
+      <div class="{{ cls if cell and tn in (1, 2) and cls == 'hot' else ('warm' if cell and tn in (1, 2) and cls == 'warm' else ('ok' if cls == 'ok' and cell else '')) }}"><b>{{ cell | length }}</b>{{ '%.0f' | format(cell | sum(attribute='q')) }} questions in 2026</div>
+    {% endfor %}
+  {% endfor %}
+</div>
+<p class="sp-muted" style="margin:8px 0 0">Orange: Tier 1 or 2 topics you rated 0 or 1, the costliest gaps. Peach: Tier 1 or 2 topics at the basics level, where one more step reaches the level JEE Main needs.</p></div>
+
+<h2>What to fix, in order</h2>
+<div class="sp-card" style="overflow-x:auto">
+<table class="sp-gtable"><thead><tr><th>Topic</th><th>Tier</th><th class="n">2026 questions</th><th class="n">You / needed</th><th class="n">Marks within reach</th><th>Do</th></tr></thead><tbody>
+{% for x in todo[:18] %}
+<tr><td><b>{{ x.code }}</b> {{ x.name }}<details><summary>Why this matters</summary><p>{{ x.why }}</p></details></td><td>{{ tier(x) }}</td><td class="n">{{ x.q | round | int }} ({{ '%.1f' | format(x.per_paper) }} a paper)</td><td class="n">{{ x.rating }} / {{ x.need }}</td><td class="n"><b>{{ '%.1f' | format(x.risk) }}</b></td><td>{{ bucket(x.bucket) }}</td></tr>
+{% endfor %}
+</tbody></table>
+{% if todo | length > 18 %}<p class="sp-muted">{{ todo | length - 18 }} smaller gaps follow in the plan.</p>{% endif %}
+</div>
+
+{% if a.parked_weak %}
+<h2>Low ratings you can leave for later</h2>
+<div class="sp-card"><p>These topics are rated low, but none of the 19 JEE Main 2026 shifts asked a question from them. They go to the end of the plan, after the Tier 1 and Tier 2 gaps:</p>
+<p>{% for x in a.parked_weak %}<b>{{ x.name }}</b> (rated {{ x.rating }}){{ ', ' if not loop.last }}{% endfor %}.</p>
+<p class="sp-muted">The 2026 paper is a guide, not a promise: check the latest NTA syllabus before dropping a topic completely.</p></div>
+{% endif %}
+
+{% if a.strengths %}
+<h2>Strengths to protect</h2>
+<div class="sp-card"><p>Tier 1 and Tier 2 topics you rate 3 or more are your sure marks. The plan keeps them warm with short revision instead of long sessions:</p>
+<p>{% for x in a.strengths %}<b>{{ x.name }}</b> ({{ tier_label[x.tier] }}, {{ x.q | round | int }} questions){{ ', ' if not loop.last }}{% endfor %}.</p></div>
+{% endif %}
+
+<h2>Reflected in your study plan</h2>
+<div class="sp-card">
+  <p>A plan built from this map spends its first weeks on the "Fix first" topics (each comes up twice: learn, then practise), then the "Fix next" topics, then short revision of what you already know, and the no-question topics last. Each task carries a note with the Tier, your rating and the marks within reach.</p>
+  <p class="sp-muted">Current plan: {{ plan.title if plan else 'none yet' }}.{% if plan and 'gap map' in plan.title.lower() %} It was built from a gap map.{% endif %}</p>
+  <form method="post" action="{{ url_for('planner.mentor_gap_rebuild', uid=student.id) if mentor_view else url_for('planner.gap_rebuild') }}">
+    <label><input type="checkbox" name="confirm" value="1"> I understand the current plan is archived (not deleted) and a new one starts today, with the same level, weeks and hours.</label>
+    <p><button class="sp-btn">Build a plan from this gap map</button></p>
+  </form>
+</div>
+</div>
+{% endblock %}

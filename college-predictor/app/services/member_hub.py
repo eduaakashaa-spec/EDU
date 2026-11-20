@@ -65,6 +65,7 @@ CATEGORIES = [
      'blurb': 'Daily reinforcement, mock tests and previous-year papers with a confidence check on every answer.',
      'tiles': [
          {'title': 'Smart Study Planner', 'desc': 'A day-by-day plan for beginner, average or top-scorer level, linked to EduPulse practice, with reports and PDF templates.', 'icon': '🗓️', 'endpoint': 'planner.home', 'access': 'premium'},
+         {'title': 'JEE self-assessment and gap map', 'desc': 'Rate 69 JEE topics from 0 to 4, see your gaps against the chapter Tiers of JEE Main 2026, why each one matters, and build your study plan from them.', 'icon': '🧭', 'endpoint': 'planner.self_assessment', 'access': 'premium'},
          {'title': 'Study planner mentor view', 'desc': 'Students\' plans, progress, streaks and EduPulse activity, with CSV export.', 'icon': '📊', 'endpoint': 'planner.mentor_home', 'access': 'premium', 'staff': True},
          {'title': 'EduPulse – Reinforcement', 'desc': 'Short daily practice from your mentor with a confidence check on every answer.', 'icon': '🔁', 'endpoint': 'reinforce.home', 'access': 'premium'},
          {'title': 'EduPulse-UCEED', 'desc': 'Chapter-wise MCQ practice with progress reports for you, your parent and mentor.', 'icon': '🎯', 'endpoint': 'pulse.home', 'access': 'premium'},

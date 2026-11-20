@@ -9,6 +9,8 @@
   <nav class="sp-nav" aria-label="Study planner sections">
     <a href="{{ url_for('planner.home') }}" class="{{ 'on' if ep == 'planner.home' }}">My dashboard</a>
     <a href="{{ url_for('planner.plan_view') }}" class="{{ 'on' if ep == 'planner.plan_view' }}">My plan</a>
+    <a href="{{ url_for('planner.self_assessment') }}" class="{{ 'on' if ep in ('planner.self_assessment',) }}">JEE self-assessment</a>
+    <a href="{{ url_for('planner.gap_map') }}" class="{{ 'on' if ep in ('planner.gap_map',) }}">Gap map</a>
     <a href="{{ url_for('planner.reports') }}" class="{{ 'on' if ep == 'planner.reports' }}">Reports</a>
     <a href="{{ url_for('planner.templates') }}" class="{{ 'on' if ep == 'planner.templates' }}">Templates (PDF)</a>
     <a href="{{ url_for('planner.levels') }}" class="{{ 'on' if ep == 'planner.levels' }}">How it works</a>

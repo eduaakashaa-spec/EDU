@@ -47,3 +47,23 @@ class SpTask(db.Model):
     note = db.Column(db.String(300))
     done_at = db.Column(db.DateTime)
     added_by = db.Column(db.String(10), default='plan')           # plan | student | mentor | suggestion
+
+
+class SpAssessment(db.Model):
+    """One JEE self-assessment: the student's 0 to 4 rating of each topic (codes in app/data/jee_topics.py). The newest row of a student is the one in use; older rows are kept as history."""
+    __tablename__ = 'sp_assessments'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), index=True, nullable=False)
+    entered_by = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='SET NULL'))      # the student, or a mentor who typed it in for them
+    ratings_json = db.Column(db.Text, nullable=False)
+    note = db.Column(db.String(300))
+    created_at = db.Column(db.DateTime, default=_now)
+    user = db.relationship('User', foreign_keys=[user_id])
+
+    @property
+    def ratings(self):
+        import json
+        try:
+            return {k: int(v) for k, v in json.loads(self.ratings_json or '{}').items()}
+        except (ValueError, TypeError):
+            return {}

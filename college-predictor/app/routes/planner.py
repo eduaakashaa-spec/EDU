@@ -8,7 +8,8 @@ from flask_login import current_user, login_required
 from app.decorators import admin_required, premium_required, staff_required
 from app.extensions import db
 from app.models import User
-from app.models_planner import SpPlan, SpTask
+from app.models_planner import SpAssessment, SpPlan, SpTask
+from app.services import jee_gap as G
 from app.services import planner as P
 
 planner_bp = Blueprint('planner', __name__, url_prefix='/study-planner')
@@ -107,7 +108,9 @@ def _new_plan(student, mentor_view):
         for old in SpPlan.query.filter_by(user_id=student.id, status='active').all():
             old.status = 'archived'
         try:
-            plan = P.generate_plan(student, exam, level, start, weeks, exam_date, hours, f.getlist('focus'), mentor_id=current_user.id if mentor_view else None, created_by=current_user.id)
+            asm = _latest_assessment(student.id) if exam == 'JEE' and f.get('use_gap') == '1' else None
+            plan = P.generate_plan(student, exam, level, start, weeks, exam_date, hours, f.getlist('focus'), mentor_id=current_user.id if mentor_view else None, created_by=current_user.id,
+                                   gap_order=G.plan_order(G.analyse(asm.ratings)) if asm else None)
         except ValueError as e:
             db.session.rollback()
             flash('Could not build the plan: %s' % e, 'danger')
@@ -115,7 +118,7 @@ def _new_plan(student, mentor_view):
         flash('Your %s plan is ready: %d weeks, starting %s.' % (P.LEVEL_INFO[level]['label'], weeks, start.strftime('%d %b')), 'success')
         return redirect(url_for('planner.mentor_student', uid=student.id) if mentor_view else url_for('planner.home'))
     chapters = {e: P.subjects_and_chapters(e) for e in P.EXAMS}
-    return render_template('planner/new.html', student=student, mentor_view=mentor_view, quiz=P.QUIZ, chapters=chapters, default_start=_next_monday(), exams=P.EXAMS,
+    return render_template('planner/new.html', student=student, mentor_view=mentor_view, has_assessment=_latest_assessment(student.id) is not None, quiz=P.QUIZ, chapters=chapters, default_start=_next_monday(), exams=P.EXAMS,
                            pre_level=request.args.get('level') if request.args.get('level') in P.LEVELS else '', pre_exam=request.args.get('exam') if request.args.get('exam') in P.EXAMS else 'JEE')
 
 
@@ -325,6 +328,109 @@ def mentor_new(uid):
     if not _can_see(uid):
         abort(404)
     return _new_plan(db.session.get(User, uid) or abort(404), mentor_view=True)
+
+
+# =================================================================================================================================
+# JEE self-assessment and gap map
+# =================================================================================================================================
+def _latest_assessment(uid):
+    return SpAssessment.query.filter_by(user_id=uid).order_by(SpAssessment.id.desc()).first()
+
+
+def _assess(student, mentor_view):
+    topics = G.topics()
+    prev = _latest_assessment(student.id)
+    values = dict(prev.ratings) if prev else {}
+    if request.method == 'POST':
+        values = G.clean({t['code']: request.form.get(t['code']) for t in topics})
+        left = len(topics) - len(values)
+        if left:
+            flash('%d topic%s still to rate. Every topic needs a rating from 0 to 4 (leave nothing blank).' % (left, '' if left == 1 else 's'), 'danger')
+        else:
+            db.session.add(SpAssessment(user_id=student.id, entered_by=current_user.id, ratings_json=json.dumps(values), note=(request.form.get('note') or '')[:300] or None))
+            db.session.commit()
+            flash('Assessment saved. Here is your gap map.' if not mentor_view else 'Assessment saved for %s.' % student.name, 'success')
+            return redirect(url_for('planner.mentor_gap', uid=student.id) if mentor_view else url_for('planner.gap_map'))
+    return render_template('planner/assessment.html', student=student, mentor_view=mentor_view, topics=topics, values=values, subjects=G.SUBJECTS, prev=prev, tier_label=G.TIER_LABEL,
+                           words=G.RATING_WORDS)
+
+
+def _gap_view(student, mentor_view):
+    asm = _latest_assessment(student.id)
+    if not asm:
+        flash('Rate the topics first: the gap map is built from your ratings.', 'info')
+        return redirect(url_for('planner.mentor_assessment', uid=student.id) if mentor_view else url_for('planner.self_assessment'))
+    a = G.analyse(asm.ratings)
+    plan = P.active_plan(student.id)
+    return render_template('planner/gap.html', student=student, mentor_view=mentor_view, asm=asm, a=a, plan=plan, subjects=G.SUBJECTS, tier_label=G.TIER_LABEL, words=G.RATING_WORDS,
+                           need=G.NEED, history=SpAssessment.query.filter_by(user_id=student.id).count())
+
+
+def _rebuild_with_gaps(student, mentor_view):
+    asm = _latest_assessment(student.id) or abort(404)
+    if request.form.get('confirm') != '1':
+        flash('Tick the box to confirm: your current plan is archived (not deleted) and a new one is built.', 'danger')
+        return redirect(url_for('planner.mentor_gap', uid=student.id) if mentor_view else url_for('planner.gap_map'))
+    old = P.active_plan(student.id)
+    today = P.today()
+    level = old.level if old else 'average'
+    weeks = old.weeks if old and old.weeks else 8
+    exam_date = old.exam_date if old and old.exam_date and old.exam_date > today else None
+    hours = old.hours_per_day if old and old.hours_per_day else None
+    for o in SpPlan.query.filter_by(user_id=student.id, status='active').all():
+        o.status = 'archived'
+    try:
+        P.generate_plan(student, 'JEE', level, today, weeks, exam_date, hours, mentor_id=(old.mentor_id if old else None) or (current_user.id if mentor_view else None), created_by=current_user.id,
+                        title='JEE plan from the gap map (%s)' % today.strftime('%d %b %Y'), gap_order=G.plan_order(G.analyse(asm.ratings)))
+    except ValueError as e:
+        db.session.rollback()
+        flash('Could not build the plan: %s' % e, 'danger')
+        return redirect(url_for('planner.mentor_gap', uid=student.id) if mentor_view else url_for('planner.gap_map'))
+    flash('New plan built from the gap map: the topics with the most marks within reach come first.', 'success')
+    return redirect(url_for('planner.mentor_student', uid=student.id) if mentor_view else url_for('planner.plan_view'))
+
+
+@planner_bp.route('/self-assessment', methods=['GET', 'POST'])
+@premium_required
+def self_assessment():
+    return _assess(current_user, False)
+
+
+@planner_bp.route('/gap-map')
+@premium_required
+def gap_map():
+    return _gap_view(current_user, False)
+
+
+@planner_bp.route('/gap-map/rebuild', methods=['POST'])
+@premium_required
+def gap_rebuild():
+    return _rebuild_with_gaps(current_user, False)
+
+
+@planner_bp.route('/mentor/student/<int:uid>/self-assessment', methods=['GET', 'POST'])
+@staff_required
+def mentor_assessment(uid):
+    if not _can_see(uid):
+        abort(404)
+    return _assess(db.session.get(User, uid) or abort(404), True)
+
+
+@planner_bp.route('/mentor/student/<int:uid>/gap-map')
+@staff_required
+def mentor_gap(uid):
+    if not _can_see(uid):
+        abort(404)
+    return _gap_view(db.session.get(User, uid) or abort(404), True)
+
+
+@planner_bp.route('/mentor/student/<int:uid>/gap-map/rebuild', methods=['POST'])
+@staff_required
+def mentor_gap_rebuild(uid):
+    if not _can_see(uid):
+        abort(404)
+    return _rebuild_with_gaps(db.session.get(User, uid) or abort(404), True)
+
 
 
 @planner_bp.route('/admin')

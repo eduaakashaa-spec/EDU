@@ -15,7 +15,7 @@ def _first(e):
 
 def apply(e, pack, user_id=None):
     """Returns a dict of how many rows changed: meeting, kpis, kpis_archived, actions, actions_cancelled, actions_noted, sessions, events, session_notes, sessions_cancelled."""
-    n = {'meeting': 0, 'kpis': 0, 'kpis_archived': 0, 'actions': 0, 'actions_cancelled': 0, 'actions_noted': 0, 'sessions': 0, 'events': 0, 'session_notes': 0, 'sessions_cancelled': 0}
+    n = {'meeting': 0, 'kpis': 0, 'kpis_archived': 0, 'actions': 0, 'actions_cancelled': 0, 'actions_noted': 0, 'sessions': 0, 'events': 0, 'session_notes': 0, 'sessions_cancelled': 0, 'plan_tasks': 0, 'profile': 0, 'assessment': 0}
     now = svc.utcnow()
     tag = pack.get('note_tag', 'Update 2 Nov 2026: ')
 
@@ -83,15 +83,49 @@ def apply(e, pack, user_id=None):
                 s.mentor_notes = ((s.mentor_notes + '\n') if s.mentor_notes else '') + reason
                 n['sessions_cancelled'] += 1
 
+    goals = pack.get('goals')
+    if goals and goals not in (e.goals or ''):
+        e.goals = ((e.goals.strip() + '\n\n') if e.goals and e.goals.strip() else '') + goals
+        n['profile'] += 1
+    asm = pack.get('assessment')
+    if asm:                                                                    # the JEE self-assessment behind the plan (Study Planner, JEE gap map); saved once
+        import json
+        from app.models_planner import SpAssessment
+        last = SpAssessment.query.filter_by(user_id=e.student_id).order_by(SpAssessment.id.desc()).first()
+        if not last or last.ratings != {k: int(v) for k, v in asm['ratings'].items()}:
+            db.session.add(SpAssessment(user_id=e.student_id, entered_by=user_id, ratings_json=json.dumps(asm['ratings']), note=asm.get('note')))
+            n['assessment'] += 1
+    sp = pack.get('study_plan')
+    if sp:
+        n['plan_tasks'] += _study_plan(e, sp, user_id)
+
     svc.audit(e, 'meeting_update.applied', pack['key'] + ' ' + ', '.join('%s=%s' % kv for kv in n.items() if kv[1]), role='admin')
     db.session.commit()
     return n
+
+
+def _study_plan(e, sp, user_id):
+    """Create the student's Smart Study Planner plan from a pack (once: a plan with the same title is left alone). The student's other active plan is archived. Returns the tasks added."""
+    from app.models_planner import SpPlan, SpTask
+    if SpPlan.query.filter_by(user_id=e.student_id, title=sp['title']).first():
+        return 0
+    for old in SpPlan.query.filter_by(user_id=e.student_id, status='active').all():
+        old.status = 'archived'
+    tasks = sp['tasks']() if callable(sp['tasks']) else sp['tasks']
+    plan = SpPlan(user_id=e.student_id, mentor_id=e.mentor_id, created_by=user_id, title=sp['title'], exam=sp['exam'], level=sp['level'], start_date=sp['start'],
+                  weeks=max(2, min(26, ((sp['end'] - sp['start']).days // 7) + 1)), exam_date=sp.get('exam_date'), hours_per_day=sp.get('hours') or 3, status='active')
+    db.session.add(plan)
+    db.session.flush()
+    for t in tasks:
+        db.session.add(SpTask(plan_id=plan.id, day=t['day'], subject=t.get('subject'), chapter=t.get('chapter'), task_type=t['task_type'], title=t['title'][:200], minutes=t['minutes'],
+                              note=(t.get('note') or None), added_by='mentor'))
+    return len(tasks)
 
 
 def summary(n):
     """A one-line description of what apply() changed, for the admin message."""
     names = {'meeting': 'meeting logged', 'kpis': 'KPIs added', 'kpis_archived': 'KPIs archived', 'actions': 'actions added', 'actions_cancelled': 'actions cancelled',
              'actions_noted': 'actions noted', 'sessions': 'sessions planned', 'events': 'calendar dates added', 'session_notes': 'session details updated',
-             'sessions_cancelled': 'sessions cancelled'}
+             'sessions_cancelled': 'sessions cancelled', 'plan_tasks': 'study-plan tasks added', 'profile': 'profile goals updated', 'assessment': 'JEE self-assessment saved'}
     parts = ['%d %s' % (v, names[k]) for k, v in n.items() if v]
     return ', '.join(parts) if parts else 'nothing new to add (already applied)'

@@ -1,0 +1,33 @@
+{% extends "planner/base.html" %}
+{% block sp_title %}JEE self-assessment{% endblock %}
+{% block sp_crumb %} › JEE self-assessment{% endblock %}
+{% block sp_body %}
+<div class="sp-asm">
+<h1>{{ 'JEE self-assessment for ' ~ student.name if mentor_view else 'JEE self-assessment' }}</h1>
+<p class="sp-muted">69 topics, 3 subjects, about 10 minutes. Rate each topic from 0 to 4. Be honest: the ratings are used only to plan study time, and a lower number simply moves a topic up the list. The next page sets your ratings against the topics JEE Main asked most in 2026 and shows where the marks are.</p>
+<div class="sp-legend"><div><b>0</b>Never studied</div><div><b>1</b>Heard of it, cannot solve</div><div><b>2</b>Know the basics, easy problems</div><div><b>3</b>Comfortable with JEE Main level</div><div><b>4</b>Confident at JEE Advanced level</div></div>
+<p class="sp-muted">Example: Kinematics = 3 means you can solve standard JEE Main kinematics problems.{% if prev %} Your last assessment was on {{ prev.created_at.strftime('%d %b %Y') }}; it is filled in below so you can update it.{% endif %}</p>
+<form method="post" id="asm">
+  {% for s in subjects %}
+  <h2>{{ s }}</h2>
+  <div class="sp-card">
+    {% for t in topics if t.subject == s %}
+    <div class="sp-asm-row" data-row><b>{{ t.code }}</b><label for="r-{{ t.code }}">{{ t.name }}</label>
+      <select id="r-{{ t.code }}" name="{{ t.code }}" required><option value="">Choose 0 to 4</option>{% for i in range(5) %}<option value="{{ i }}" {{ 'selected' if values.get(t.code) is not none and values.get(t.code) == i }}>{{ i }} · {{ ['never studied', 'heard of it', 'basics', 'JEE Main level', 'Advanced level'][i] }}</option>{% endfor %}</select></div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  <div class="sp-card"><label for="note">A note for the mentor (optional)</label><input type="text" id="note" name="note" maxlength="300" style="width:100%" placeholder="For example: I have not revised thermodynamics since Class 11"></div>
+  <div class="sp-sticky"><button class="sp-btn" type="submit">Save and see my gap map</button><span class="sp-muted" id="left"></span></div>
+</form>
+</div>
+<script>
+(function(){
+  var sel = document.querySelectorAll('#asm select[name]'), left = document.getElementById('left');
+  function upd(){ var n = 0; sel.forEach(function(s){ var empty = s.value === ''; if (empty) n++; s.closest('[data-row]').classList.toggle('todo', empty && s.dataset.touched); }); left.textContent = n ? n + ' of ' + sel.length + ' topics still to rate' : 'All ' + sel.length + ' topics rated'; }
+  sel.forEach(function(s){ s.addEventListener('change', function(){ s.dataset.touched = '1'; upd(); }); });
+  document.getElementById('asm').addEventListener('submit', function(e){ var first = null; sel.forEach(function(s){ if (s.value === '') { s.dataset.touched = '1'; first = first || s; } }); upd(); if (first) { e.preventDefault(); first.scrollIntoView({behavior:'smooth', block:'center'}); first.focus(); } });
+  upd();
+})();
+</script>
+{% endblock %}

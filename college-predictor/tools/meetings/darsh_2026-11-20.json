@@ -1,0 +1,138 @@
+{
+  "version": 1,
+  "roadmap": {
+    "groups": {
+      "JEE": {
+        "status": "Primary",
+        "note": "Main route: JEE Main in January (and April if needed), then DASA/CIWG and the NITs and IIITs. School and CBSE board dates now sit in the calendar beside the ALLEN SCORE tests."
+      },
+      "NTU": {
+        "status": "Primary",
+        "note": "Application submitted by the family on 19 Nov 2026. First choice of the foreign universities."
+      }
+    },
+    "milestones": [
+      {
+        "group": "JEE",
+        "title": "School model exams finished (25 Nov to 7 Dec 2026)",
+        "detail": "English 25 Nov, Physics 27 Nov, Mathematics 30 Nov, Computer Science 1 Dec, Chemistry 7 Dec. The official school schedule ends on 7 Dec; Physics pre-board practical is on 8 Dec. Chemistry and Computer Science practical dates still to be confirmed with the school.",
+        "owner": "student",
+        "due_on": "2026-12-07",
+        "calendar": false,
+        "category": "School exam",
+        "source": "Delhi Private School Dubai: Model Examination XII 2026-27 (family message, 19 Nov 2026)",
+        "verified_on": "2026-11-20"
+      },
+      {
+        "group": "JEE",
+        "title": "Study Planner plan started: tasks ticked every day from 21 Nov 2026",
+        "detail": "The plan runs to 9 Apr 2027: JEE Main first, then the CBSE boards. Chemistry first, then Physics, Mathematics only the sure questions.",
+        "owner": "student",
+        "due_on": "2026-11-21",
+        "calendar": false,
+        "category": "Revision",
+        "source": "Meeting of 18 Nov 2026 and the family's schedules of 19 Nov 2026",
+        "verified_on": "2026-11-20"
+      },
+      {
+        "group": "JEE",
+        "title": "Three self-assessment PDFs (Physics, Chemistry, Mathematics) returned filled",
+        "detail": "Returned on 20 Nov 2026. 11 of 69 topics are rated 0 or 1 and now come first in the Study Planner plan. Re-rate monthly (21 Dec, 18 Jan).",
+        "owner": "student",
+        "due_on": "2026-11-23",
+        "calendar": false,
+        "category": "Revision",
+        "source": "Mentor request of 7 Nov 2026",
+        "verified_on": "2026-11-20",
+        "done": true,
+        "done_on": "2026-11-20"
+      },
+      {
+        "group": "JEE",
+        "title": "ALLEN SCORE-I: 11 tests and 10 previous-year papers attempted (30 Nov 2026 to 17 Jan 2027)",
+        "detail": "Each paper reviewed the next day. Attempt only the sure questions; Chemistry first, then Physics, then Mathematics.",
+        "owner": "student",
+        "due_on": "2027-01-17",
+        "calendar": false,
+        "category": "Mock test",
+        "source": "ALLEN Overseas SCORE-I schedule (UAE), 2026-27",
+        "verified_on": "2026-11-20"
+      },
+      {
+        "group": "JEE",
+        "title": "School pre-boards and CBSE practicals (4 to 28 Jan 2027) checked against the JEE Main admit card",
+        "detail": "Physics 4 Jan, English 8 Jan, practical window 11 to 20 Jan, Chemistry 22 Jan, Mathematics 25 Jan, Computer Science 28 Jan. Chemistry and Mathematics fall inside the JEE Main window: ask the school for another date if the admit card clashes.",
+        "owner": "parent",
+        "due_on": "2027-01-13",
+        "calendar": false,
+        "category": "School exam",
+        "source": "Delhi Private School Dubai: Preboard Examination I 2026-27",
+        "verified_on": "2026-11-20"
+      },
+      {
+        "group": "JEE",
+        "title": "JEE Main Session 1 result and the decision on Session 2",
+        "detail": "Best score of the two sessions counts. Session 2 is expected in early April, overlapping the CBSE Computer Science paper (31 Mar) and the end of the board window (9 Apr). Decide after the Session 1 result.",
+        "owner": "family",
+        "due_label": "After the Session 1 result (early Feb 2027)",
+        "calendar": false,
+        "category": "JEE Main",
+        "source": "NTA calendar as reported, Nov 2026 (dates to be confirmed by NTA)",
+        "verified_on": "2026-11-20"
+      },
+      {
+        "group": "JEE",
+        "title": "CBSE Class 12 board exams (16 Feb to 9 Apr 2027): Physics 16 Feb, Chemistry 27 Feb, English 5 Mar, Mathematics 9 Mar, Computer Science 31 Mar",
+        "detail": "Physics is the first paper, 16 days after JEE Main Session 1 ends and one day before the NUS deadline. NTU asks for a minimum of 93% average including English; the school predicted 95%. Confirm the dates on cbse.gov.in.",
+        "owner": "student",
+        "due_on": "2027-02-16",
+        "calendar": false,
+        "category": "Board exam",
+        "source": "CBSE Class 12 date sheet 2027 as reported by Careers360, 6 Nov 2026",
+        "verified_on": "2026-11-20"
+      },
+      {
+        "group": "NTU",
+        "title": "NTU application submitted by the family",
+        "detail": "Reported on 19 Nov 2026. Window closes 19 March 2027. Offers depend on predicted marks first and are confirmed on the board results.",
+        "owner": "parent",
+        "due_on": "2026-11-19",
+        "calendar": false,
+        "category": "Admission deadline",
+        "source": "Family message, 19 Nov 2026",
+        "verified_on": "2026-11-20",
+        "done": true,
+        "done_on": "2026-11-19"
+      },
+      {
+        "group": "NUS",
+        "title": "Decide whether NUS stays on the list before the Physics board paper",
+        "detail": "Window 16 Dec 2026 to 17 Feb 2027; the Physics paper is on 16 Feb. Document upload should be complete before 16 Dec.",
+        "owner": "family",
+        "due_on": "2027-01-15",
+        "calendar": false,
+        "category": "Admission deadline",
+        "source": "NUS dates as noted on 30 Oct 2026; CBSE date sheet as reported on 6 Nov 2026",
+        "verified_on": "2026-11-20"
+      },
+      {
+        "group": "JEE",
+        "title": "Study in India (SII) shortlist: 11 colleges reviewed as a backup (March and April)",
+        "detail": "NIT Warangal, Tiruchirappalli, Surathkal, Calicut, Rourkela, MNIT Jaipur, DTU, IIIT Delhi, VIT Vellore, Manipal and BITS Pilani. Mentor advice of 20 Nov: last option, do not spend time now, revisit in March and April.",
+        "owner": "mentor",
+        "due_label": "March to April 2027",
+        "calendar": false,
+        "category": "Other",
+        "source": "Mentor reply, 20 Nov 2026",
+        "verified_on": "2026-11-20"
+      }
+    ],
+    "tick": [
+      {
+        "group": "JEE",
+        "title_contains": "Tick confident topics",
+        "done": true
+      }
+    ]
+  }
+}

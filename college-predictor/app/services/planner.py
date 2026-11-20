@@ -126,7 +126,7 @@ def _minutes(total, share, floor=15):
     return max(floor, int(round(total * share / 5.0)) * 5)
 
 
-def generate_plan(user, exam, level, start, weeks, exam_date=None, hours=None, focus=None, mentor_id=None, created_by=None, title=None):
+def generate_plan(user, exam, level, start, weeks, exam_date=None, hours=None, focus=None, mentor_id=None, created_by=None, title=None, gap_order=None):
     """Create a plan with a task for every study day. Rule: one subject per day in rotation; a chapter lasts `days_per_chapter` days; Sunday is rest;
     a weekly (or two-weekly for beginners) mock on Saturday; with an exam date the last 2 weeks are mock-heavy for average and top students."""
     info = LEVEL_INFO[level]
@@ -135,6 +135,10 @@ def generate_plan(user, exam, level, start, weeks, exam_date=None, hours=None, f
     subs = subjects_and_chapters(exam)
     if not subs:
         raise ValueError('no syllabus for this exam yet')
+    notes = {}
+    if gap_order and exam == 'JEE':                                               # JEE self-assessment gap map (services/jee_gap.py): biggest gaps first and twice, parked topics last
+        subs = {s_: [c for c, _b, _n in gap_order.get(s_, [])] or subs[s_] for s_ in subs}
+        notes = {(s_, c): n for s_, seq in gap_order.items() for c, _b, n in seq}
     names = list(subs)
     on_roster = False
     try:
@@ -191,7 +195,7 @@ def generate_plan(user, exam, level, start, weeks, exam_date=None, hours=None, f
                 ch = chapter
                 title_ = {'learn': 'Learn: %s (read, write 5 key points, solve 2 worked examples)', 'practice': 'Practise: %s (check each answer, rate your confidence)',
                           'revise': 'Revise: %s (formulas and quick quiz)', 'error': 'Error log: %s (write mistake, reason, fix)'}[tt] % ch
-            db.session.add(SpTask(plan_id=plan.id, day=d, subject=subj, chapter=ch, task_type=tt, title=title_, minutes=mins, link_kind=link_for(exam, tt, on_roster)))
+            db.session.add(SpTask(plan_id=plan.id, day=d, subject=subj, chapter=ch, task_type=tt, title=title_, minutes=mins, link_kind=link_for(exam, tt, on_roster), note=notes.get((subj, ch))))
         last[subj] = chapter
     db.session.commit()
     return plan

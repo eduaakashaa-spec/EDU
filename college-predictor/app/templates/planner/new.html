@@ -14,6 +14,7 @@
   <div class="row"><div><label for="hours">Study hours a day (leave blank for the level's usual)</label><input type="number" step="0.5" min="1" max="10" id="hours" name="hours" placeholder="{{ sp_levels['average'].hours }}"></div></div>
   <details><summary><b>Chapters I want to stress (optional)</b></summary>
     {% for e, subs in chapters.items() %}<div class="sp-focus" data-exam="{{ e }}">{% for s, chs in subs.items() %}<p><b>{{ s }}</b></p><div class="sp-opts">{% for c in chs %}<label><input type="checkbox" name="focus" value="{{ c }}"> {{ c }}</label>{% endfor %}</div>{% endfor %}</div>{% endfor %}</details>
+  {% if has_assessment %}<p class="sp-gapopt" data-exam="JEE"><label><input type="checkbox" name="use_gap" value="1" checked> Use the <a href="{{ url_for('planner.mentor_gap', uid=student.id) if mentor_view else url_for('planner.gap_map') }}">JEE gap map</a>: biggest gaps first, parked topics last (JEE plans only)</label></p>{% endif %}
   <p><button class="sp-btn">Create the plan</button></p>
 </form>
 <h2>Not sure which level?</h2>
