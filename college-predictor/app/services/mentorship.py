@@ -271,6 +271,7 @@ PRESET_KPIS = [
     ('Readiness', 'Branch-fit assessment completed', 'milestone', 'milestone', 1),
     ('Readiness', 'Eligibility checks completed', '%', 'higher', 100),
     ('Readiness', 'Required documents tracked', '%', 'higher', 100),
+    ('Readiness', 'Documents in Google Drive, shared with the mentor and verified', '%', 'higher', 100),
     ('Readiness', 'Choice-filling preparation completed', 'milestone', 'milestone', 1),
 ]
 OUTCOME_HINT = '(outcome)'

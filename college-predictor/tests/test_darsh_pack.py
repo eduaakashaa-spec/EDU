@@ -48,7 +48,7 @@ for t in tasks:
         subs[t['subject']] += t['minutes']
 assert subs['Chemistry'] > subs['Mathematics'] > 0 and subs['Physics'] > subs['Mathematics'] and abs(subs['Chemistry'] - subs['Physics']) < 0.12 * subs['Physics']   # Maths stays last; the gap map gives Physics the extra time its gaps need
 blob = repr(pack).lower()
-assert 'whatsapp' not in blob and 'password' not in blob and 'darsh@' not in blob and 'drive.google' not in blob
+assert 'whatsapp' not in blob and 'password' not in blob and 'darsh@' not in blob and 'drive.google' not in blob      # the Drive folder link is entered in the portal, never kept in code
 assert {a[2] for a in pack['actions']} <= {'student', 'parent', 'mentor'}
 for k in pack['kpis']:
     assert len(k) == 13 and k[0] in ('Preparation', 'Readiness', 'Mentorship', 'Performance') and k[5] in ('higher', 'lower')

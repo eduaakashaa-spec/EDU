@@ -524,6 +524,22 @@ class MsDocConfirm(db.Model):
     __table_args__ = (db.UniqueConstraint('enrolment_id', 'exam_id'),)
 
 
+class MsDocFolder(db.Model):
+    """The Google Drive folder where a student keeps the documents for admissions, shared with the mentor, who verifies the files (Readiness KPIs tab)."""
+    __tablename__ = 'ms_doc_folders'
+    id = db.Column(db.Integer, primary_key=True)
+    enrolment_id = db.Column(db.Integer, db.ForeignKey('ms_enrolments.id', ondelete='CASCADE'), index=True, nullable=False, unique=True)
+    url = db.Column(db.String(500), nullable=False)
+    note = db.Column(db.String(600))                  # what the folder holds / what is still to add
+    shared_with_mentor = db.Column(db.Boolean, default=False)
+    set_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    updated_at = db.Column(db.DateTime, default=_utcnow, onupdate=_utcnow)
+    verify_status = db.Column(db.String(20), default='Not verified')   # Not verified | Verified | Needs changes
+    verified_by = db.Column(db.Integer, db.ForeignKey('users.id'))
+    verified_at = db.Column(db.DateTime)
+    verify_note = db.Column(db.String(600))
+
+
 class MsAlert(db.Model):
     __tablename__ = 'ms_alerts'
     id = db.Column(db.Integer, primary_key=True)

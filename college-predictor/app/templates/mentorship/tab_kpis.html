@@ -9,7 +9,41 @@
 </div>
 <div class="ms-note info">Effort indicators (study, revision, check-ins) are shown separately from <strong>exam outcomes</strong> such as marks — outcomes are never fully within a student's control. Values change only when an authorised person records a measurement.</div>
 
+{% set show_drive = true %}
 {% for cat in ('Preparation', 'Performance', 'Mentorship', 'Readiness') %}
+{% if cat == 'Readiness' %}
+<div class="ms-card" id="docs-folder">
+  <div class="ms-eyebrow">Readiness · documents in Google Drive</div>
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px;">
+    <strong>Admission documents folder</strong>
+    {% if doc_folder %}<span class="ms-pill {{ 'ok' if doc_folder.verify_status == 'Verified' else ('warn' if doc_folder.verify_status == 'Needs changes' else '') }}">{{ doc_folder.verify_status }}</span>{% else %}<span class="ms-pill">Not added</span>{% endif %}
+  </div>
+  {% if doc_folder %}
+    <p style="margin:8px 0 4px;"><a class="ms-btn g sm" href="{{ doc_folder.url }}" target="_blank" rel="noopener">Open the Drive folder ↗</a>
+      <span class="ms-pill {{ 'ok' if doc_folder.shared_with_mentor else 'warn' }}" style="margin-left:6px;">{{ 'Shared with mentor' if doc_folder.shared_with_mentor else 'Not yet shared with mentor' }}</span></p>
+    {% if doc_folder.note %}<p style="font-size:.86rem;margin:4px 0;">{{ doc_folder.note }}</p>{% endif %}
+    <p class="hint" style="margin:2px 0;">Saved {{ doc_folder.updated_at.strftime('%d %b %Y') if doc_folder.updated_at }}{% if doc_folder.verified_at %} · checked {{ doc_folder.verified_at.strftime('%d %b %Y') }}{% endif %}{% if doc_folder.verify_note %} · {{ doc_folder.verify_note }}{% endif %}</p>
+  {% else %}<p class="hint">Keep scans of the passport, marksheets, predicted marks, SAT report and certificates in one Google Drive folder, then add its link here.</p>{% endif %}
+  {% if role != 'parent' %}
+  <details class="ms-fold" {{ 'open' if not doc_folder }}><summary>{{ 'Change the folder link' if doc_folder else 'Add the folder link' }}</summary>
+    <form method="post" action="{{ url_for('mentorship.docs_folder_save', eid=e.id) }}">
+      <label>Google Drive folder link</label><input type="url" name="url" required value="{{ doc_folder.url if doc_folder else '' }}" placeholder="https://drive.google.com/drive/folders/...">
+      <label style="margin-top:6px;">What is in it, and what is still to add</label><input type="text" name="note" maxlength="600" value="{{ doc_folder.note if doc_folder and doc_folder.note else '' }}">
+      <label style="text-transform:none;margin-top:6px;"><input type="checkbox" name="shared" value="1" {{ 'checked' if doc_folder and doc_folder.shared_with_mentor }}> I have shared the folder with my mentor{% if e.mentor and e.mentor.email %} ({{ e.mentor.email }}){% endif %} as Viewer</label>
+      <p class="hint" style="margin:4px 0;">In Drive: right-click the folder, Share, add your mentor's email as Viewer. Do not make it public.</p>
+      <button class="ms-btn p sm">Save</button></form>
+  </details>
+  {% endif %}
+  {% if staff and doc_folder %}
+  <details class="ms-fold"><summary>Mentor verification</summary>
+    <form method="post" action="{{ url_for('mentorship.docs_folder_verify', eid=e.id) }}">
+      <div class="ms-row"><div><label>Result</label><select name="verify_status">{% for st in ('Not verified', 'Verified', 'Needs changes') %}<option {{ 'selected' if st == doc_folder.verify_status }}>{{ st }}</option>{% endfor %}</select></div></div>
+      <label>What you checked, and what is missing</label><input type="text" name="verify_note" maxlength="600" value="{{ doc_folder.verify_note or '' }}">
+      <button class="ms-btn p sm" style="margin-top:6px;">Record verification</button></form>
+  </details>
+  {% endif %}
+</div>
+{% endif %}
 {% set rows = kpis | selectattr('0.category', 'equalto', cat) | list %}
 {% if rows %}
 <div class="ms-card">

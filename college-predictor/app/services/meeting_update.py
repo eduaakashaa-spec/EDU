@@ -15,7 +15,7 @@ def _first(e):
 
 def apply(e, pack, user_id=None):
     """Returns a dict of how many rows changed: meeting, kpis, kpis_archived, actions, actions_cancelled, actions_noted, sessions, events, session_notes, sessions_cancelled."""
-    n = {'meeting': 0, 'kpis': 0, 'kpis_archived': 0, 'actions': 0, 'actions_cancelled': 0, 'actions_noted': 0, 'sessions': 0, 'events': 0, 'session_notes': 0, 'sessions_cancelled': 0, 'plan_tasks': 0, 'profile': 0, 'assessment': 0}
+    n = {'meeting': 0, 'kpis': 0, 'kpis_archived': 0, 'actions': 0, 'actions_cancelled': 0, 'actions_noted': 0, 'sessions': 0, 'events': 0, 'session_notes': 0, 'sessions_cancelled': 0, 'plan_tasks': 0, 'profile': 0, 'assessment': 0, 'docs_folder': 0}
     now = svc.utcnow()
     tag = pack.get('note_tag', 'Update 2 Nov 2026: ')
 
@@ -87,6 +87,12 @@ def apply(e, pack, user_id=None):
     if goals and goals not in (e.goals or ''):
         e.goals = ((e.goals.strip() + '\n\n') if e.goals and e.goals.strip() else '') + goals
         n['profile'] += 1
+    df = pack.get('docs_folder')
+    if df:                                                                     # the student's Google Drive folder of documents (Readiness KPIs tab); set once, never overwritten
+        from app.models_mentorship import MsDocFolder
+        if not MsDocFolder.query.filter_by(enrolment_id=e.id).first():
+            db.session.add(MsDocFolder(enrolment_id=e.id, url=df['url'], note=df.get('note'), shared_with_mentor=bool(df.get('shared')), set_by=user_id))
+            n['docs_folder'] += 1
     asm = pack.get('assessment')
     if asm:                                                                    # the JEE self-assessment behind the plan (Study Planner, JEE gap map); saved once
         import json
@@ -126,6 +132,6 @@ def summary(n):
     """A one-line description of what apply() changed, for the admin message."""
     names = {'meeting': 'meeting logged', 'kpis': 'KPIs added', 'kpis_archived': 'KPIs archived', 'actions': 'actions added', 'actions_cancelled': 'actions cancelled',
              'actions_noted': 'actions noted', 'sessions': 'sessions planned', 'events': 'calendar dates added', 'session_notes': 'session details updated',
-             'sessions_cancelled': 'sessions cancelled', 'plan_tasks': 'study-plan tasks added', 'profile': 'profile goals updated', 'assessment': 'JEE self-assessment saved'}
+             'sessions_cancelled': 'sessions cancelled', 'plan_tasks': 'study-plan tasks added', 'profile': 'profile goals updated', 'assessment': 'JEE self-assessment saved', 'docs_folder': 'Drive documents folder linked'}
     parts = ['%d %s' % (v, names[k]) for k, v in n.items() if v]
     return ', '.join(parts) if parts else 'nothing new to add (already applied)'

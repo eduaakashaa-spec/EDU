@@ -73,10 +73,19 @@ KPIS = [
      'Predicted 95% (30 Oct). NTU asks for at least 93% average including English; marks on the pre-boards and boards will replace the prediction. SAT 1430 is on record.'),
     ('Readiness', 'NUS and NTU document upload complete', 'Documents on the 30 Oct list uploaded to the portal: passport, Grade 10 and 11 marksheets, predicted marks, SAT report, certificates.', 'Mentor document check', 'of 7', 'higher', None, 7, None, 'Fortnightly', 'Parent', False,
      'Complete before the NUS window opens on 16 Dec 2026 (deadline 17 Feb 2027).'),
+    ('Readiness', 'Admission documents in Google Drive, shared with the mentor and verified', 'Scans of the documents on the NUS, NTU and HKU lists kept in the Drive folder Darsh University Documents (link on this tab), shared with the mentor, who opens each file and checks it.',
+     'Mentor opens the folder and counts the files that are complete, legible and match the marksheets', 'of 7', 'higher', 0, 7, 1, 'Fortnightly', 'Mentor', False,
+     'On 20 Nov the folder held 1 file: Darsh 11th Marks.pdf. Still to add: passport, Class 10 marksheet, predicted marks sheet, SAT report, certificates and the personal statement.'),
     ('Mentorship', 'Weekly mentor check-ins held', '30 to 40 minute call, as requested on 19 Nov.', 'Session log', 'calls', 'higher', 0, 1, None, 'Weekly', 'Mentor', False, 'One call a week until the JEE Main session, then fortnightly during the boards.'),
 ]
 
 ACTIONS = [
+    ('Add the remaining documents to the Google Drive folder Darsh University Documents',
+     'The folder holds the Class 11 marks sheet. Add scans of the passport, Class 10 marksheet, predicted marks sheet, SAT report, certificates and the personal statement, named clearly (for example Passport.pdf). Then share the folder with Dr. Saravanan as Viewer and tick the box on the Readiness KPIs tab.',
+     'student', date(2026, 11, 25), 'High', None),
+    ('Mentor: open the Google Drive folder, verify each file and record the result',
+     'Readiness KPIs tab, Mentor verification. Check that every file opens, is legible and that names and dates match the marksheets. Record Verified or Needs changes with what is missing, before HKU first-round submission (cut-off 25 Nov, noon Hong Kong time).',
+     'mentor', date(2026, 11, 26), 'High', None),
     ('Re-rate the weak topics every month on the same three self-assessment PDFs',
      'Take the 11 topics rated 0 or 1 (and any that slipped) and re-rate them honestly after each block of work: 21 Dec, 18 Jan. Send the updated PDFs to Dr. Saravanan privately. A topic only moves up when you can solve JEE Main level questions on it without help.',
      'student', date(2026, 12, 21), 'Medium', None),

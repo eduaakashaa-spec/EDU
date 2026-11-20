@@ -24,7 +24,7 @@ from app.models_reinforce import RfChoice
 from app.models_mentorship import (
     ACTION_STATUSES, ADMISSION_ROUTES, ELIGIBILITY, EVENT_CATEGORIES, KPI_DIRECTIONS, PREF_LIST_STATUSES,
     REVIEW_STATUSES, SESSION_STATUSES, MsAction, MsAudit, MsBranch, MsBranchFit, MsBranchRating, MsCheckin,
-    MsEnrolment, MsEvent, MsKpi, MsParentAssessment, MsPrefDates, MsKpiObs, MsMessage, MsMessageRead, MsParentLink, MsPrefEntry, MsPrefList,
+    MsDocFolder, MsEnrolment, MsEvent, MsKpi, MsParentAssessment, MsPrefDates, MsKpiObs, MsMessage, MsMessageRead, MsParentLink, MsPrefEntry, MsPrefList,
     EXAM_STATUSES, ROADMAP_GROUP_STATUSES, MsAlert, MsExam, MsExamFocus, MsMilestone, MsProgramme, MsReport, MsReview, MsRoadmap, MsSession, MsSessionTemplate,
 )
 from app.services import exam_calendar as xc
@@ -321,7 +321,7 @@ def _tab_kpis(e, role):
     ks = e.kpis_q().order_by(MsKpi.category, MsKpi.id).all()
     if role == 'parent':
         ks = [k for k in ks if k.status == 'Active']
-    return dict(kpis=[(k, svc.kpi_view(k)) for k in ks], presets=svc.PRESET_KPIS, KPI_DIRECTIONS=KPI_DIRECTIONS,
+    return dict(doc_folder=MsDocFolder.query.filter_by(enrolment_id=e.id).first(), kpis=[(k, svc.kpi_view(k)) for k in ks], presets=svc.PRESET_KPIS, KPI_DIRECTIONS=KPI_DIRECTIONS,
                 KPI_CATEGORIES=KPI_CATEGORIES, ss=svc.session_stats(e), ast=svc.action_stats(e))
 
 
@@ -382,7 +382,7 @@ def _tab_calendar(e, role):
         xq_ = xq_.filter(MsExam.status == xstatus)
     exams = xq_.order_by(MsExam.starts_on, MsExam.name).all()
     docs = xd.checklists(e, _focused_exams(e))
-    return dict(months=months, cats=cats, cat=cat, EVENT_CATEGORIES=EVENT_CATEGORIES, exams=exams, xcats=xcats, docs=docs,
+    return dict(doc_folder=MsDocFolder.query.filter_by(enrolment_id=e.id).first(), months=months, cats=cats, cat=cat, EVENT_CATEGORIES=EVENT_CATEGORIES, exams=exams, xcats=xcats, docs=docs,
                 xq=q, xcat=xcat, xstatus=xstatus, EXAM_STATUSES=EXAM_STATUSES,
                 mail_ready=mailer.is_configured())
 
@@ -770,6 +770,47 @@ def kpi_add(eid):
     db.session.commit()
     flash('KPI added.', 'success')
     return _back(e, 'kpis')
+
+
+_DRIVE_HOSTS = ('https://drive.google.com/', 'https://docs.google.com/')
+
+
+@mentorship_bp.route('/e/<int:eid>/docs-folder', methods=['POST'])
+@login_required
+def docs_folder_save(eid):
+    """The student (or staff) records the Google Drive folder that holds the admission documents."""
+    e, role = _ctx(eid, ('student', 'mentor', 'admin'))
+    url = _s('url', 500) or ''
+    if not url.startswith(_DRIVE_HOSTS):
+        flash('Paste the Google Drive folder link (it starts with https://drive.google.com/).', 'danger')
+        return _back(e, 'kpis', 'docs-folder')
+    f = MsDocFolder.query.filter_by(enrolment_id=e.id).first()
+    if not f:
+        f = MsDocFolder(enrolment_id=e.id, url=url)
+        db.session.add(f)
+    elif f.url != url:
+        f.verify_status, f.verified_by, f.verified_at = 'Not verified', None, None
+    f.url, f.note, f.set_by = url, _s('note', 600), current_user.id
+    f.shared_with_mentor = request.form.get('shared') == '1'
+    svc.audit(e, 'docs_folder.saved', url, role)
+    db.session.commit()
+    flash('Documents folder saved.' + ('' if f.shared_with_mentor else ' Share it with your mentor (Viewer) so they can verify it.'), 'success')
+    return _back(e, 'kpis', 'docs-folder')
+
+
+@mentorship_bp.route('/e/<int:eid>/docs-folder/verify', methods=['POST'])
+@login_required
+def docs_folder_verify(eid):
+    """The mentor records the result of checking the folder."""
+    e, role = _ctx(eid, STAFF)
+    f = MsDocFolder.query.filter_by(enrolment_id=e.id).first() or abort(404)
+    st = request.form.get('verify_status')
+    f.verify_status = st if st in ('Not verified', 'Verified', 'Needs changes') else f.verify_status
+    f.verify_note, f.verified_by, f.verified_at = _s('verify_note', 600), current_user.id, svc.utcnow()
+    svc.audit(e, 'docs_folder.verified', f.verify_status, role)
+    db.session.commit()
+    flash('Verification recorded: %s.' % f.verify_status, 'success')
+    return _back(e, 'kpis', 'docs-folder')
 
 
 @mentorship_bp.route('/e/<int:eid>/kpis/<int:kid>/update', methods=['POST'])
