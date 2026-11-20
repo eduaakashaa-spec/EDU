@@ -13,4 +13,6 @@ PAGES = [
      'desc': 'All MBBS colleges in the NMC seat matrix for 2025-26: seats by state and management, new colleges, seat cuts and a college explorer.', 'status': 'Members'},
     {'title': 'NIRF Medical Ranking Analytics', 'endpoint': 'main.nirf_medical', 'tag': 'NIRF 2026 · top 50 medical institutes',
      'desc': 'The NIRF top 50 medical institutes taken apart: scores on the five parameters, top 10, state view and side-by-side compare.', 'status': 'Analysis live'},
+    {'title': 'NEET 2023-2025 Trends', 'endpoint': 'main.neet_trends', 'tag': 'scores · MBBS seats · MCC allotment',
+     'desc': 'Three years of NEET UG side by side: candidates and cut-offs, MBBS seats by state, MCC allotment by round and college closing ranks, with an Excel download.', 'status': 'Analysis live'},
 ]

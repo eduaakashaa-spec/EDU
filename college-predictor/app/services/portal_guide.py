@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-19'
+UPDATED = '2026-11-20'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-20', 'New NEET 2023-2025 Trends page (/neet-trends-2023-2025) under the Medicine menu and as a Member Home tile: three years of NEET scores and cut-offs, MBBS seats by state, MCC seat allotment by round and college closing ranks, with an Excel download.'),
     ('2026-11-19', 'New NIRF Medical Ranking Analytics page (/nirf-medical-ranking) for the top 50 medical institutes, like the engineering ranking page, under the Medicine menu and as a Member Home tile; it uses the India Rankings 2025 Medical list, the latest published.'),
     ('2026-11-19', 'The NEET pages (NEET Papers Analysed and NEET MBBS Seat Analytics) moved from the Colleges and Exams menu to the Medicine menu, and are listed on the Medicine overview page and as a Member Home tile (NEET papers analysed) in the Medicine group.'),
     ('2026-11-19', 'New public promotion page for the complimentary membership for Grade 12 students of Neikkarapatti and Palani (/neikkarapatti-palani, code NKP): special announcement, story, what members get, registration form and FAQ in English and Tamil. Registrations are stored for review in Admin, Inbox, Campaign registrations, where an admin verifies a student and activates complimentary Premium access (login created or account upgraded, emailed).'),
@@ -492,13 +493,14 @@ GUIDE = [
                 'IISER Aptitude Test (IAT) guide (open to everyone, also under the Colleges and Exams menu): the pattern and marking, the 2026 dates and counselling rounds, eligibility, fees, the seven IISERs with their seats and programmes, the five other institutions that use the IAT, the syllabus for the four subjects, past papers with the official links, a preparation plan, FAQs and the IAT mentorship programme (16 sessions over about 20 weeks).'],
          tiles=['Free student guides', 'Exam schedule', 'IISER Aptitude Test (IAT) guide'], added='2026-10-26', updated='2026-10-27'),
     dict(id='s-medicine', role='student', group='Free resources', title='Medicine exam guides', summary='NEET UG 2027 and every other medicine entrance-exam page, grouped under one tab.',
-         where=[('Medicine exams', 'main.medicine'), ('NEET 2027 guide', 'main.neet_2027'), ('NEET papers analysed', 'main.neet_exam'), ('NEET MBBS seat analytics', 'main.neet_seats_2025'), ('NIRF medical ranking', 'main.nirf_medical')],
+         where=[('Medicine exams', 'main.medicine'), ('NEET 2027 guide', 'main.neet_2027'), ('NEET papers analysed', 'main.neet_exam'), ('NEET MBBS seat analytics', 'main.neet_seats_2025'), ('NIRF medical ranking', 'main.nirf_medical'), ('NEET 2023-2025 trends', 'main.neet_trends')],
          steps=['Open the Medicine tab in the site menu (or the Medicine group on Member Home) and choose "All medicine exams".',
                 'Pick an exam guide, for example NEET UG 2027. Each guide says what is officially announced, what is expected and what is still to be announced.',
                 'Use the preparation plan and the counselling steps; check neet.nta.nic.in for the official notice.',
                 'NEET papers analysed (open to everyone) and NEET MBBS seat matrix analytics (Premium); both now sit under the Medicine menu, no longer under Colleges and Exams: five tabs built from the National Medical Commission seat matrices as on 29 Oct 2025 and 10 Oct 2025. Overview has five gauges, findings, a management doughnut and a states bar chart; States has a heatmap, a slope chart and a table; Growth shows seats added by state, a bubble chart, new colleges, seat cuts and what changed between the two notices; Colleges is a search and filter explorer for all 819 colleges. It has seats only, not ranks, cut-offs or fees.',
-                'NIRF medical ranking analytics (open to everyone) is the medicine twin of the engineering NIRF ranking page: six tabs (Overview, All 50, Top 10, By state, Parameters, Compare) for the top 50 medical institutes with their five NIRF parameter scores. It uses the India Rankings 2025 Medical list, the latest published, because the 2026 list is not out yet.'],
-         tiles=['Medicine exams', 'NEET 2027 guide', 'NEET papers analysed', 'NEET MBBS seat matrix analytics', 'NIRF medical ranking analytics'], added='2026-10-27', updated='2026-11-19'),
+                'NIRF medical ranking analytics (open to everyone) is the medicine twin of the engineering NIRF ranking page: six tabs (Overview, All 50, Top 10, By state, Parameters, Compare) for the top 50 medical institutes with their five NIRF parameter scores. It uses the India Rankings 2025 Medical list, the latest published, because the 2026 list is not out yet.',
+                'NEET 2023-2025 trends (open to everyone) compares three years of NEET UG in six tabs: Story, NEET scores (candidates, cut-offs, categories, states, score against rank), MBBS seats (national, by state, government and private), Allotment (MCC seats allotted by round, quota mix, upgrades) and Closing ranks of leading colleges, plus Data and sources. The Download button gives all the data as an Excel workbook of 18 sheets. MCC totals are our own count of the official MCC result files and some figures are approximate; the Data and sources tab lists every caveat.'],
+         tiles=['Medicine exams', 'NEET 2027 guide', 'NEET papers analysed', 'NEET MBBS seat matrix analytics', 'NIRF medical ranking analytics', 'NEET 2023-2025 trends'], added='2026-10-27', updated='2026-11-19'),
 
     # ------------------------------------------------------------------ parents
     dict(id='p-access', role='parent', group='Access', title='Getting access as a parent', summary='How a parent account is linked to a child.',

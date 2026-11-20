@@ -105,6 +105,12 @@ def nirf_ranking():
     return render_reference_page('nirf-ranking.html', 'nirf_ranking.html')
 
 
+@main_bp.route('/neet-trends-2023-2025')
+def neet_trends():
+    # public page: NEET UG 2023-2025 scores, MBBS seats and MCC allotment compared (data: tools/neet_trends/data.py -> build.py writes static/js/neet_trends_data.js and the Excel file)
+    return render_template('neet_trends.html')
+
+
 @main_bp.route('/nirf-medical-ranking')
 def nirf_medical():
     return render_template('nirf_medical.html')

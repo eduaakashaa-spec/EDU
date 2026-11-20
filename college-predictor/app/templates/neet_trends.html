@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}NEET UG 2023 to 2025: scores, MBBS seats and MCC allotment compared · EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Three years of NEET UG side by side: candidates and cut-offs, MBBS seat matrix by state, MCC seat allotment by round and closing ranks of leading medical colleges, 2023 to 2025. Excel download included.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/neet_trends.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="nt" id="top" data-no-rail>
+  <header class="nt-hero">
+    <div class="nt-wrap">
+      <div class="nt-eyebrow">NEET UG · 2023 · 2024 · 2025 <span class="nt-chip">Updated 20 Nov 2026</span></div>
+      <h1>Three years of NEET: scores, seats and allotment</h1>
+      <p class="nt-lead">How many wrote and qualified, what the cut-off was, how many MBBS seats there were and where, how MCC filled them round by round, and how far down the rank list each college went.</p>
+      <div class="nt-kpis k5" id="kpis"></div>
+      <a class="nt-dl" href="{{ url_for('static', filename='data/neet_trends_2023_2025.xlsx') }}" download>⬇ Download the data in Excel (18 sheets)</a>
+    </div>
+  </header>
+
+  <div class="nt-bar"><div class="nt-wrap">
+    <nav class="nt-tabs" id="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="story" aria-selected="true">Story</button>
+      <button role="tab" data-tab="score" aria-selected="false">NEET scores</button>
+      <button role="tab" data-tab="seats" aria-selected="false">MBBS seats</button>
+      <button role="tab" data-tab="allot" aria-selected="false">Allotment</button>
+      <button role="tab" data-tab="ranks" aria-selected="false">Closing ranks</button>
+      <button role="tab" data-tab="data" aria-selected="false">Data &amp; sources</button>
+    </nav>
+  </div></div>
+
+  <main class="nt-wrap nt-main">
+
+    <section class="nt-panel" id="p-story">
+      <div class="nt-card"><h2>What changed from 2023 to 2025</h2><ul class="nt-points" id="insights"></ul></div>
+      <div class="nt-grid2">
+        <div class="nt-card"><h2>Candidates and qualifiers</h2><p class="nt-sub">Registered, appeared and qualified, in lakh.</p><div class="nt-chart"><canvas id="cFunnel"></canvas></div></div>
+        <div class="nt-card"><h2>Seats against qualifiers</h2><p class="nt-sub">Qualified candidates for every MBBS seat. Lower means less crowded.</p><div class="nt-chart"><canvas id="cRatio"></canvas></div></div>
+      </div>
+    </section>
+
+    <section class="nt-panel" id="p-score" hidden>
+      <div class="nt-grid2">
+        <div class="nt-card"><h2>General cut-off score</h2><p class="nt-sub">Qualifying marks for UR/EWS (50th percentile) and for OBC, SC and ST (40th). Out of 720.</p><div class="nt-chart"><canvas id="cCut"></canvas></div></div>
+        <div class="nt-card"><h2>Qualified by category</h2><p class="nt-sub">Thousands of candidates who qualified.</p><div class="nt-chart"><canvas id="cCat"></canvas></div></div>
+        <div class="nt-card"><h2>Top 10 states by qualified</h2><div class="nt-yr" id="stYr" role="group" aria-label="Year"></div><div class="nt-chart"><canvas id="cState"></canvas></div></div>
+        <div class="nt-card"><h2>Women and men</h2><p class="nt-sub">Qualified candidates, thousands.</p><div class="nt-chart"><canvas id="cGender"></canvas></div></div>
+      </div>
+      <div class="nt-card"><h2>What a score meant in each year</h2><p class="nt-sub">Approximate All India Rank at each score (news portals, not NTA). 2025 was a harder paper: nobody scored above 686.</p><div class="nt-tablewrap"><table class="nt-table" id="tMarks"></table></div></div>
+    </section>
+
+    <section class="nt-panel" id="p-seats" hidden>
+      <div class="nt-grid2">
+        <div class="nt-card"><h2>MBBS seats in India</h2><p class="nt-sub">Academic year starting in that year.</p><div class="nt-chart"><canvas id="cSeatTrend"></canvas></div></div>
+        <div class="nt-card"><h2>Government and private seats</h2><div class="nt-chart"><canvas id="cGP"></canvas></div></div>
+      </div>
+      <div class="nt-card"><h2>Seats by state</h2><p class="nt-sub">Search, sort by growth and compare 2023-24 with 2025-26.</p>
+        <div class="nt-filters"><input type="search" id="stQ" placeholder="Search state"><select id="stSort"><option value="s25">Sort: seats 2025-26</option><option value="gain">Seats added</option><option value="pct">Growth %</option></select></div>
+        <div class="nt-tablewrap"><table class="nt-table" id="tSeats"></table></div></div>
+      <div class="nt-card"><h2>Government against private, twelve largest states</h2><p class="nt-sub">Share of seats that are private, 2023-24 and 2025-26.</p><div class="nt-chart nt-tall"><canvas id="cSplit"></canvas></div></div>
+    </section>
+
+    <section class="nt-panel" id="p-allot" hidden>
+      <div class="nt-grid2">
+        <div class="nt-card"><h2>MBBS seats allotted by round</h2><p class="nt-sub">Counted from the official MCC result files.</p><div class="nt-chart"><canvas id="cRounds"></canvas></div></div>
+        <div class="nt-card"><h2>Who got the seats</h2><div class="nt-yr" id="qYr" role="group" aria-label="Year"></div><p class="nt-sub">MBBS allotments by quota in Rounds 1 to 3.</p><div class="nt-chart"><canvas id="cQuota"></canvas></div></div>
+        <div class="nt-card"><h2>Seats upgraded</h2><p class="nt-sub">Candidates who moved to a better seat in Rounds 2 and 3.</p><div class="nt-chart"><canvas id="cUp"></canvas></div></div>
+        <div class="nt-card"><h2>How the last government rank moved</h2><p class="nt-sub">Last general-category rank given a government AIQ MBBS seat, after each round.</p><div class="nt-chart"><canvas id="cLast"></canvas></div></div>
+      </div>
+    </section>
+
+    <section class="nt-panel" id="p-ranks" hidden>
+      <div class="nt-card"><h2>Closing rank of leading colleges</h2><p class="nt-sub">Last AIR, general category, 15% All India Quota, after all rounds. A bigger number means the college was open to a wider range of ranks. Kasturba Manipal is a deemed university and sits far to the right, so it has its own row below.</p><div class="nt-chart nt-tall"><canvas id="cClose"></canvas></div></div>
+      <div class="nt-card"><div class="nt-tablewrap"><table class="nt-table" id="tClose"></table></div></div>
+    </section>
+
+    <section class="nt-panel" id="p-data" hidden>
+      <div class="nt-card"><h2>Read before you rely on a number</h2><ul class="nt-points" id="notes"></ul></div>
+      <div class="nt-card"><h2>Sources</h2><ul class="nt-src" id="sources"></ul></div>
+      <div class="nt-card nt-note"><strong>For counselling, not a promise.</strong> Past closing ranks do not fix next year's cut. Seats, quotas and rules change every year. Use this with the live MCC and state notices, and with the seat and NIRF pages.</div>
+    </section>
+
+  </main>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/neet_trends_data.js') }}"></script>
+<script src="{{ url_for('static', filename='js/neet_trends.js') }}"></script>
+{% endblock %}
