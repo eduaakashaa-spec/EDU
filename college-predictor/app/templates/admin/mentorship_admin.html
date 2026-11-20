@@ -105,6 +105,8 @@
         <div class="row"><div><label>Apply a meeting update</label><select name="pack" required><option value="">Choose</option>{% for p in meeting_packs %}<option value="{{ p.key }}">{{ p.label }}</option>{% endfor %}</select></div></div>
         <button class="btn btn-ghost" type="submit" style="margin-top:6px;">Apply meeting update</button>
         <span class="hint">Logs the meeting, updates KPIs, actions and sessions. Each update says which enrolment it is for.</span></form>{% endif %}
+      <div style="margin-top:8px;"><a class="btn btn-ghost" href="{{ url_for('mentorship.workspace', eid=e.id, tab='import') }}">Paste a meeting update (JSON)</a>
+        <span class="hint">Opens {{ e.student.name }}’s Meeting update tab: paste, Check, then Apply.</span></div>
       <div style="margin-top:8px;font-size:13px;"><strong>Linked parents:</strong>
         {% for l in links if l.enrolment_id == e.id %}{{ l.parent.name }} ({{ l.parent.email }}) <span class="hint">{{ 'assessment submitted' if pa_done.get((l.enrolment_id, l.parent_id)) else 'assessment pending' }}</span> <form method="post" action="{{ url_for('mentorship.admin_parent_invite', lid=l.id) }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">resend invite</button></form> <form method="post" action="{{ url_for('mentorship.admin_parent_unlink', lid=l.id) }}" style="display:inline"><button class="btn btn-ghost" style="padding:2px 10px;font-size:12px;">remove</button></form> {% else %}none{% endfor %}</div>
       <form method="post" action="{{ url_for('mentorship.admin_parent_link') }}" style="margin-top:8px;"><input type="hidden" name="enrolment_id" value="{{ e.id }}">
