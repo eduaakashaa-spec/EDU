@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-20', 'The public Video Library (/videos-library) YouTube Shorts row now starts with a presenter-led Short on EduPulse-Explorer for Grades 7 to 10 (the five steps from the discovery test to tracking progress), with a link to the six free questions at /explorer-test.'),
     ('2026-11-20', 'New NEET 2023-2025 Trends page (/neet-trends-2023-2025) under the Medicine menu and as a Member Home tile: three years of NEET scores and cut-offs, MBBS seats by state, MCC seat allotment by round and college closing ranks, with an Excel download.'),
     ('2026-11-19', 'New NIRF Medical Ranking Analytics page (/nirf-medical-ranking) for the top 50 medical institutes, like the engineering ranking page, under the Medicine menu and as a Member Home tile; it uses the India Rankings 2025 Medical list, the latest published.'),
     ('2026-11-19', 'The NEET pages (NEET Papers Analysed and NEET MBBS Seat Analytics) moved from the Colleges and Exams menu to the Medicine menu, and are listed on the Medicine overview page and as a Member Home tile (NEET papers analysed) in the Medicine group.'),

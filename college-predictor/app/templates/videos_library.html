@@ -104,11 +104,12 @@
     <div class="section__header">
       <span class="eyebrow">YouTube Shorts</span>
       <h2 class="section__title">Quick answers in under a minute</h2>
-      <p class="section__desc">One question, one answer: whether to guess in JEE Main, how the TNEA cut-off is worked out (in Tamil), which jobs will grow fastest by 2030, and how to choose among ten engineering branches.</p>
+      <p class="section__desc">One question, one answer: what EduPulse-Explorer offers students in Grades 7 to 10, what to know before applying to HKU, whether to guess in JEE Main, how the TNEA cut-off is worked out (in Tamil), which jobs will grow fastest by 2030, and how to choose among ten engineering branches.</p>
     </div>
 
     <div class="vid-grid vid-grid--shorts">
       {% set shorts = [
+        {'id': 'qDeW6K-0HbI', 'title': 'Grade 7 to 10? Find What You Enjoy with EduPulse-Explorer', 'meta': 'EduPulse-Explorer · Grades 7 to 10', 'page': '/explorer-test', 'cta': 'Try six free questions'},
         {'id': 'S_CIYvp3rtE', 'title': 'HKU after CBSE: 5 Things to Know Before You Apply', 'meta': 'Study in Hong Kong'},
         {'id': 'MnFwmXisR_o', 'title': 'JEE Main: Guess or Skip? The Negative Marking Rule', 'meta': 'JEE Main Strategy'},
         {'id': 'ZTE02M6DkSI', 'title': 'TNEA cut-off: 10 விநாடியில் கணக்கிடுங்கள்', 'meta': 'TNEA · தமிழ்'},
@@ -125,7 +126,8 @@
         <div class="vid-body">
           <div class="vid-meta">{{ v.meta }}</div>
           <div class="vid-title">{{ v.title|safe }}</div>
-          <a class="vid-link" href="https://www.youtube.com/shorts/{{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
+          {% if v.page %}<a class="vid-link" href="{{ v.page }}">{{ v.cta or 'Open the page' }} &rarr;</a>{% endif %}
+          <a class="vid-link" style="{{ 'margin-top:0;font-weight:600;color:var(--text-dim,#5A6278);' if v.page else '' }}" href="https://www.youtube.com/shorts/{{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
         </div>
       </div>
       {% endfor %}
