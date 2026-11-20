@@ -58,6 +58,7 @@ CATEGORIES = [
          {'title': 'TNEA expert', 'desc': 'Tamil Nadu engineering counselling guide.', 'icon': '🎓', 'endpoint': 'main.tnea_expert', 'access': 'premium'},
          {'title': 'NIRF management ranking analytics', 'desc': 'The top 100 NIRF management institutes: IIMs, IITs and private B-schools by parameter, heatmap, state view and compare, like the engineering ranking page.', 'icon': '💼', 'endpoint': 'main.nirf_management', 'access': 'free'},
          {'title': 'NIRF law ranking analytics', 'desc': 'The 40 NIRF-ranked law institutes: the National Law Universities and others by parameter, heatmap, state view and compare, like the engineering ranking page.', 'icon': '⚖️', 'endpoint': 'main.nirf_law', 'access': 'free'},
+         {'title': 'NIRF architecture ranking analytics', 'desc': 'The 40 NIRF-ranked architecture and planning institutes: IITs, NITs and the dedicated schools by parameter, heatmap, state view and compare, like the engineering ranking page.', 'icon': '🏛️', 'endpoint': 'main.nirf_architecture', 'access': 'free'},
          {'title': 'Members report', 'desc': 'Reports prepared for members.', 'icon': '📑', 'endpoint': 'main.members_report', 'access': 'premium'},
      ]},
     {'key': 'edupulse', 'title': 'EduPulse AI Tools', 'icon': '🧠', 'color': '#EA580C', 'tint': '#FFEBDD',

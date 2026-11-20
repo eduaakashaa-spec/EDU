@@ -134,6 +134,12 @@ def nirf_law():
     return render_template('nirf_law.html')
 
 
+@main_bp.route('/nirf-architecture-ranking')
+def nirf_architecture():
+    # public page: NIRF (India Rankings 2025) architecture and planning institutes (40 ranked); data in static/js/nirf_arch_data.js
+    return render_template('nirf_arch.html')
+
+
 # =============================================================
 # TNEA cluster
 # =============================================================
