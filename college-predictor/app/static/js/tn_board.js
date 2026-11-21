@@ -157,7 +157,7 @@
         var rs = rows.filter(function (r) { return r.tier === t; }).sort(function (a, b) { return b.q - a.q; });
         var tot = sum(rs, function (r) { return r.q; });
         return '<div class="tb-tcol t' + t + '"><h3>' + name[t] + '</h3><p>' + desc[t] + ' ' + rs.length + ' chapters, ' + (ex === 'jee' ? tot + ' questions in 2026' : tot.toFixed(1) + ' questions a paper') + '.</p>' +
-          rs.map(function (r) { return '<div class="tb-chip" title="' + esc(r.tn) + '"><span>' + esc(r.ch) + (s ? '' : ' <em>' + r.sub.slice(0, 4) + '</em>') + '</span><span>' + stBadge(r.st) + ' <em>' + r.q + '</em></span></div>'; }).join('') + '</div>';
+          rs.map(function (r) { return '<div class="tb-tchip" title="' + esc(r.tn) + '"><span>' + esc(r.ch) + (s ? '' : ' <em>' + r.sub.slice(0, 4) + '</em>') + '</span><span>' + stBadge(r.st) + ' <em>' + r.q + '</em></span></div>'; }).join('') + '</div>';
       }).join('');
       $('tRule').textContent = ex === 'jee'
         ? 'JEE Main Tiers from the questions in all 19 shifts of 2026: Tier 1 at least 22, Tier 2 13 to 21, Tier 3 8 to 12, Tier 4 7 or fewer (including chapters not tested). The number on each chip is the 2026 question count.'
