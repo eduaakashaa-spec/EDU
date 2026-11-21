@@ -140,6 +140,22 @@ def nirf_architecture():
     return render_template('nirf_arch.html')
 
 
+@main_bp.route('/mht-cet-analytics')
+def mhtcet_analytics():
+    # public page: MHT CET 2027 and Maharashtra B.E./B.Tech CAP: dates, eligibility, top colleges with NIRF, branch analytics, cut-off calculator, predictor
+    from app.services import mhtcet
+    return render_template('mhtcet.html', data=mhtcet.payload())
+
+
+@main_bp.route('/mht-cet-analytics/cutoffs.json')
+def mhtcet_cutoffs_json():
+    # official CAP Round I cut-offs 2023-2025 (compact), loaded by the predictor and analytics tabs
+    from flask import send_file
+    from app.services import mhtcet
+    resp = send_file(mhtcet.CUTOFFS, mimetype='application/json', max_age=86400)
+    return resp
+
+
 @main_bp.route('/tn-board-12-analytics')
 def tn_board_analytics():
     # public page: TN State Board (Matriculation) Class 12 PCM/PCB syllabus against JEE Main 2026 and NEET 2026; data in services/tn_board.py

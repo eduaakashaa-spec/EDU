@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}MHT CET 2027 Analytics · Colleges, Cut-offs, Branches &amp; College Predictor · EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="MHT CET 2027 for B.E./B.Tech in Maharashtra: exam and HSC board dates, CAP counselling schedule, eligibility, top 20 colleges with NIRF ranks, branch selection, cut-off calculator, CAP Round I cut-off analytics 2023 to 2025 from the official State CET Cell lists, and a college predictor.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/mhtcet.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="mc" id="top" data-no-rail>
+  <a class="mc-banner" href="#predict" data-goto-tab="predict" aria-label="Open the MHT CET 2027 college predictor">
+    <img src="{{ url_for('static', filename='img/mhtcet-banner.webp') }}" width="1920" height="960" fetchpriority="high"
+         alt="MHT CET 2027 Analytics &amp; College Predictor: official CAP cut-offs 2023–2025, 383 Maharashtra colleges, top 20 colleges with NIRF ranks. PCM exam 16–26 Apr 2027 (tentative).">
+  </a>
+  <header class="mc-hero">
+    <div class="mc-wrap">
+      <div class="mc-eyebrow">Maharashtra · B.E. / B.Tech <span class="mc-chip">Official CAP Round I cut-offs 2023–2025 · checked {{ data.verified }}</span></div>
+      <h1>MHT CET 2027 Analytics &amp; College Predictor</h1>
+      <p class="mc-lead">Everything for Maharashtra engineering admissions in one place: the MHT CET and HSC board dates, CAP counselling, eligibility, the top 20 colleges with their NIRF ranks, how branches compare, a percentile and rank calculator, three years of official cut-offs for {{ data.n_inst }} colleges, and a predictor that lists the colleges and branches within reach of your percentile.</p>
+      <div class="mc-kpis" id="kpis"></div>
+    </div>
+  </header>
+
+  <div class="mc-bar"><div class="mc-wrap">
+    <nav class="mc-tabs" id="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="overview" aria-selected="true">Overview &amp; dates</button>
+      <button role="tab" data-tab="elig" aria-selected="false">Eligibility &amp; seats</button>
+      <button role="tab" data-tab="top" aria-selected="false">Top 20 colleges</button>
+      <button role="tab" data-tab="branch" aria-selected="false">Branch selection</button>
+      <button role="tab" data-tab="calc" aria-selected="false">Cut-off calculator</button>
+      <button role="tab" data-tab="trend" aria-selected="false">Cut-off analytics</button>
+      <button role="tab" data-tab="predict" aria-selected="false">College predictor</button>
+    </nav>
+  </div></div>
+
+  <main class="mc-wrap mc-main">
+
+    <section class="mc-panel" id="p-overview">
+      <div class="mc-grid2">
+        <div class="mc-card"><h2>2027 admission calendar</h2><p class="mc-sub">HSC board, both MHT CET attempts, results and the four CAP rounds. Expected rows follow the 2026 schedule until the CET Cell announces 2027 dates.</p><div class="mc-gaplist" id="dates"></div>
+          <div class="mc-form" style="margin-top:10px"><button class="mc-btn" id="ics">Add these dates to my calendar (.ics)</button></div></div>
+        <div>
+          <div class="mc-card"><h2>Exam pattern (PCM)</h2><div id="pattern"></div></div>
+          <div class="mc-card"><h2>Candidates in the PCM group</h2><p class="mc-sub">Official CET Cell press notes. More candidates means a given percentile is a bigger rank.</p><div class="mc-chart" style="height:200px"><canvas id="cCand"></canvas></div></div>
+        </div>
+      </div>
+      <div class="mc-card"><h2>What the numbers say</h2><ul class="mc-points" id="insights"></ul></div>
+      <div class="mc-card mc-note"><strong>About the data.</strong> Dates: the CET Cell press release of 16 Nov 2026 (<a href="{{ data.src.cet_2027 }}" target="_blank" rel="noopener">PDF</a>) for MHT CET 2027; the HSC timetable as reported on 7 Nov 2026; CAP dates are the 2026 schedule, shown as Expected for 2027. Cut-offs: the official CAP Round I lists for Maharashtra and minority seats (<a href="{{ data.src.cap1_2023 }}" target="_blank" rel="noopener">2023</a>, <a href="{{ data.src.cap1_2024 }}" target="_blank" rel="noopener">2024</a>, <a href="{{ data.src.cap1_2025 }}" target="_blank" rel="noopener">2025</a>), read in full: {{ data.n_inst }} institutes and {{ data.n_br }} courses. NIRF: India Rankings 2025, Engineering. Later CAP rounds usually close lower than Round I, so Round I is the safer guide. Always confirm on cetcell.mahacet.org and the CAP portal.</div>
+    </section>
+
+    <section class="mc-panel" id="p-elig" hidden>
+      <div class="mc-grid2">
+        <div class="mc-card"><h2>Who can take a B.E./B.Tech seat</h2><p class="mc-sub">From the MHT CET 2026 and FE 2026-27 brochures; the 2027 brochure is not out yet.</p><div class="mc-gaplist" id="elig"></div></div>
+        <div>
+          <div class="mc-card"><h2>Check your eligibility</h2>
+            <div class="mc-form">
+              <label>PCM total in Class 12 (%)<input type="number" id="eP" min="0" max="100" step="0.01" value="60"></label>
+              <label>Category<select id="eC"><option value="open">Open</option><option value="res">Reserved (SC, ST, VJ, NT, OBC, SEBC)</option><option value="ews">EWS</option><option value="pwd">PwD</option></select></label>
+              <label>Candidature<select id="eT"><option value="mh">Maharashtra (Type A to E)</option><option value="ai">All India</option></select></label>
+            </div>
+            <div id="eOut" class="mc-gaplist"></div></div>
+          <div class="mc-card"><h2>Maharashtra candidature types</h2><div class="mc-gaplist" id="cand"></div></div>
+        </div>
+      </div>
+      <div class="mc-grid2">
+        <div class="mc-card"><h2>How CAP seats are split</h2><div class="mc-gaplist" id="seats"></div></div>
+        <div class="mc-card"><h2>Reservation of Maharashtra CAP seats</h2><div class="mc-resv" id="resv"></div><p class="mc-sub" id="resvNote"></p><div class="mc-gaplist" id="stats26"></div></div>
+      </div>
+    </section>
+
+    <section class="mc-panel" id="p-top" hidden>
+      <div class="mc-card"><h2>Top 20 colleges by CAP Round I demand (2025)</h2><p class="mc-sub">Ranked by the highest open-category cut-off of any course in CAP Round I 2025, with the NIRF 2025 engineering rank. Click a college to see every course and its three-year trend.</p>
+        <div class="mc-tablewrap"><table class="mc-table" id="topTbl"><thead><tr><th>#</th><th>College</th><th>NIRF 2025</th><th>Type</th><th>Top course</th><th class="n">2023</th><th class="n">2024</th><th class="n">2025</th></tr></thead><tbody></tbody></table></div></div>
+      <div class="mc-card" id="topDetail" hidden></div>
+      <div class="mc-grid2">
+        <div class="mc-card"><h2>NIRF-ranked colleges that admit through CAP</h2><p class="mc-sub">NIRF India Rankings 2025, Engineering. Ranks 1–100 are exact; beyond that NIRF gives bands.</p><div class="mc-gaplist" id="nirfCap"></div></div>
+        <div class="mc-card"><h2>NIRF-ranked in Maharashtra but not through CAP</h2><p class="mc-sub">These need JEE or the institute's own test.</p><div class="mc-gaplist" id="nirfNot"></div></div>
+      </div>
+    </section>
+
+    <section class="mc-panel" id="p-branch" hidden>
+      <div class="mc-grid2">
+        <div class="mc-card"><h2>Median open cut-off by branch, 2023–2025</h2><p class="mc-sub">Median Round I open cut-off of every course in the branch group, all colleges.</p><div class="mc-chart mc-tall"><canvas id="cFam"></canvas></div></div>
+        <div class="mc-card"><h2>Top-college level by branch (90th percentile)</h2><p class="mc-sub">The cut-off you need for the best 10% of courses in each branch group.</p><div class="mc-chart mc-tall"><canvas id="cFam90"></canvas></div></div>
+      </div>
+      <div class="mc-card"><h2>Branch or college? The same percentile, two choices</h2><p class="mc-sub">Pick a percentile to see the best college you can get for each branch group (2025 Round I, open category, any seat level).</p>
+        <div class="mc-form"><label>Your percentile<input type="number" id="bP" min="0" max="100" step="0.01" value="97"></label></div>
+        <div class="mc-tablewrap"><table class="mc-table" id="bTbl"><thead><tr><th>Branch group</th><th>Best college within reach</th><th>Course</th><th class="n">2025 cut-off</th><th class="n">Courses within reach</th></tr></thead><tbody></tbody></table></div></div>
+      <div class="mc-card"><h2>How to choose a branch</h2><div class="mc-gaplist" id="guide"></div></div>
+    </section>
+
+    <section class="mc-panel" id="p-calc" hidden>
+      <div class="mc-calc">
+        <div class="mc-card"><h2>1 · Marks to percentile</h2><p class="mc-sub">Reported estimate (Careers360, 2026); the CET Cell does not publish one, and each session differs.</p>
+          <div class="mc-form"><label>Expected marks out of 200<input type="number" id="cM" min="0" max="200" value="120"></label></div>
+          <div class="mc-big" id="cMP"></div><p class="mc-sub" id="cMPn"></p></div>
+        <div class="mc-card"><h2>2 · Percentile to state merit rank</h2><p class="mc-sub">From every percentile and merit number printed in the official CAP Round I lists.</p>
+          <div class="mc-form"><label>Percentile<input type="number" id="cP" min="0" max="100" step="0.0001" value="96"></label></div>
+          <div id="cPR"></div></div>
+        <div class="mc-card"><h2>3 · Percentile you need</h2><p class="mc-sub">Pick a college and course: the closing percentile and state merit rank in each year.</p>
+          <div class="mc-form"><label>College<select id="cI"></select></label><label>Course<select id="cB"></select></label></div>
+          <div id="cNeed"></div></div>
+      </div>
+      <div class="mc-card"><h2>Percentile and state merit rank, 2023–2025</h2><p class="mc-sub">The same percentile is a bigger rank when more students write the exam.</p><div class="mc-chart mc-tall"><canvas id="cCurve"></canvas></div></div>
+    </section>
+
+    <section class="mc-panel" id="p-trend" hidden>
+      <div class="mc-card"><h2>Cut-off heatmap: top 20 colleges by branch, 2025</h2><p class="mc-sub">Best Round I open cut-off of each branch group at each college. Darker is harder to get.</p><div class="mc-tablewrap" style="background:transparent;border:0"><table class="mc-heat" id="heat"></table></div></div>
+      <div class="mc-card"><h2>Explore every course, 2023–2025</h2><p class="mc-sub">All {{ data.n_inst }} institutes in the official lists. Choose a category to see its cut-off instead of the open one.</p>
+        <div class="mc-filters">
+          <input type="search" id="tQ" placeholder="Search college or city" aria-label="Search">
+          <select id="tR" aria-label="Region"><option value="">All regions</option></select>
+          <select id="tF" aria-label="Branch"><option value="">All branches</option></select>
+          <select id="tCat" aria-label="Category"></select>
+          <select id="tS" aria-label="Sort"><option value="cut">Sort: 2025 cut-off</option><option value="rise">Biggest rise since 2023</option><option value="fall">Biggest fall since 2023</option><option value="name">College name</option></select>
+          <span class="mc-count" id="tCount">Loading the official lists…</span>
+        </div>
+        <div class="mc-tablewrap"><table class="mc-table" id="tTbl"><thead><tr><th>College</th><th>Course</th><th>Seat level</th><th class="n">2023</th><th class="n">2024</th><th class="n">2025</th><th class="n">Change</th></tr></thead><tbody></tbody></table></div>
+        <p class="mc-sub" style="margin-top:8px">Seat level: State (autonomous institutes), Home Univ (home-university seats at non-autonomous colleges). Showing the first 150 rows; narrow the filters to see more.</p></div>
+      <div class="mc-card"><h2>Trend for one course</h2><div class="mc-form"><label>College<select id="gI"></select></label><label>Course<select id="gB"></select></label></div><div class="mc-chart"><canvas id="cTrend"></canvas></div></div>
+    </section>
+
+    <section class="mc-panel" id="p-predict" hidden>
+      <div class="mc-card"><h2>MHT CET college predictor</h2><p class="mc-sub">Compares your percentile with the official CAP Round I closing cut-offs for every category and seat you can claim. Saved only in this browser.</p>
+        <div class="mc-form">
+          <label>Your MHT CET percentile<input type="number" id="pP" min="0" max="100" step="0.0001" value="97.5"></label>
+          <label>Category<select id="pC"><option value="OPEN">Open</option><option value="OBC">OBC</option><option value="SC">SC</option><option value="ST">ST</option><option value="VJ">VJ / DT (NT-A)</option><option value="NT1">NT-B</option><option value="NT2">NT-C</option><option value="NT3">NT-D</option><option value="SEBC">SEBC</option><option value="EWS">EWS</option></select></label>
+          <label>Gender<select id="pG"><option value="m">Male</option><option value="f">Female</option></select></label>
+          <label>Home university<select id="pU"></select></label>
+          <label>Region<select id="pR"><option value="">All of Maharashtra</option></select></label>
+          <label>Branch<select id="pF"><option value="">All branches</option></select></label>
+          <label>Based on<select id="pY"></select></label>
+        </div>
+        <div class="mc-form"><label style="flex-direction:row;align-items:center;gap:6px"><input type="checkbox" id="pT"> Family income under ₹8 lakh (TFWS seats)</label><button class="mc-btn" id="pGo">Predict my colleges</button></div>
+        <div id="pOut" hidden>
+          <div class="mc-res"><div class="s"><b id="nS">0</b>Safe</div><div class="l"><b id="nL">0</b>Likely</div><div class="r"><b id="nR">0</b>Reach</div></div>
+          <p class="mc-sub" id="pSum"></p>
+          <div class="mc-filters"><div class="mc-seg" id="pShow" role="group" aria-label="Show"><button data-v="all" aria-pressed="true">All</button><button data-v="Safe" aria-pressed="false">Safe</button><button data-v="Likely" aria-pressed="false">Likely</button><button data-v="Reach" aria-pressed="false">Reach</button></div><span class="mc-count" id="pCount"></span></div>
+          <div class="mc-tablewrap"><table class="mc-table" id="pTbl"><thead><tr><th>Chance</th><th>College</th><th>Course</th><th>Seat used</th><th class="n">Cut-off</th><th class="n">Prev. year</th><th>Region</th></tr></thead><tbody></tbody></table></div>
+        </div>
+      </div>
+      <div class="mc-card mc-note"><strong>How the chances are worked out.</strong> Your percentile and each closing percentile are turned into state merit ranks with that year's official percentile-to-rank data. <b>Safe</b>: your rank is at least 20% better than the closing rank. <b>Likely</b>: within the closing rank. <b>Reach</b>: up to 30% beyond it; such seats often open up in Rounds II to IV. The predictor uses the open seat plus your category, ladies seats (for women), your home-university seats at non-autonomous colleges, EWS and TFWS where they apply. It leaves out minority, PwD, Defence and Orphan seats and the All India and institute quotas. Cut-offs change every year and Round I is not the last round: treat this as a guide, not a promise of a seat.</div>
+    </section>
+
+  </main>
+</div>
+<script>window.EA_MHT = {{ data|tojson }}; window.EA_MHT_URL = "{{ url_for('main.mhtcet_cutoffs_json') }}";</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/mhtcet.js') }}"></script>
+{% endblock %}
