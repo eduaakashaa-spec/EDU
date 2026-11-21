@@ -259,7 +259,7 @@
   BUILD.assess = function () { renderAssess(); };
 
   /* ---------- study plan ---------- */
-  var M = { s1: pd('2027-01-20'), prac: pd('2027-02-08'), board: pd('2027-03-03'), boardEnd: pd('2027-03-29'), s2: pd('2027-04-02'), neet: pd('2027-05-02'), adv: pd('2027-05-16') };
+  var M = { s1: pd('2027-01-20'), prac: pd('2027-02-08'), board: pd('2027-03-03'), boardEnd: pd('2027-03-29'), s2: pd('2027-04-02'), neet: pd('2027-05-02'), adv: pd('2027-05-23') };
   function renderPlan() {
     if (!A.done) { $('planEmpty').hidden = false; $('planOut').hidden = true; return; }
     $('planEmpty').hidden = true; $('planOut').hidden = false;
@@ -321,7 +321,7 @@
         '. To fit them, add about ' + Math.ceil(need / wks) + ' hours a week before the board, or revise them in the weeks after your first exam.</div>';
     }
     $('planWeeks').innerHTML = html;
-    var tgt = { jee: 'JEE Main (Session 1 from 20 Jan, Session 2 from 2 Apr 2027), the April–May institute exams and JEE Advanced (expected mid-May)', neet: 'NEET UG (expected early May 2027)', both: 'JEE Main and NEET' }[t];
+    var tgt = { jee: 'JEE Main (Session 1 from 20 Jan, Session 2 from 2 Apr 2027), the April–May institute exams and JEE Advanced (Sunday 23 May 2027)', neet: 'NEET UG (expected early May 2027)', both: 'JEE Main and NEET' }[t];
     $('planSum').innerHTML = weeks.length + ' weeks from ' + fmt(start) + ' for <b>' + tgt + '</b> with the TN +2 public exams (3 to 29 Mar 2027), at ' + hrs + ' hours a week outside school (full-time after the board). ' +
       (rows.length - left.length) + ' of ' + rows.length + ' chapters scheduled, in priority order from your assessment.' + (t === 'both' ? ' JEE Main Session 2 falls inside the run-in phase: keep JEE mocks in that week.' : '');
   }

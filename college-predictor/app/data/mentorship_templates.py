@@ -749,7 +749,7 @@ Please verify each date on the official site before acting: nta.ac.in, jeeadv.ac
 ✅ JEE Main registration: 24 Oct–22 Nov 2026
 ✅ JEE Main Session 1: 20–24 and 28 Jan 2027
 🟠 Session 2: 2–7 Apr 2027 (registration 5 Jan–3 Feb; per NTA bulletin)
-🟠 JEE Advanced: mid-May 2027 (expected)
+✅ JEE Advanced: Sun 23 May 2027 (IIT Delhi)
 🟠 JoSAA: Jun–Jul 2027 (expected)
 🟠 DASA/CSAB: late Jul–Aug 2027 (2027 brochure awaited)
 
