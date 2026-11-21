@@ -140,6 +140,13 @@ def nirf_architecture():
     return render_template('nirf_arch.html')
 
 
+@main_bp.route('/tn-board-12-analytics')
+def tn_board_analytics():
+    # public page: TN State Board (Matriculation) Class 12 PCM/PCB syllabus against JEE Main 2026 and NEET 2026; data in services/tn_board.py
+    from app.services import tn_board
+    return render_template('tn_board.html', data=tn_board.payload())
+
+
 # =============================================================
 # TNEA cluster
 # =============================================================

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}TN Board Class 12 Syllabus vs JEE Main &amp; NEET · Gap Analysis, Tiers &amp; Study Plan · EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Tamil Nadu State (Matriculation) Board Class 12 PCM and PCB syllabus compared with JEE Main 2026 and NEET 2026: chapter mapping, percentage covered in the +2 board exam, gaps and extra topics, Tier 1 to Tier 4 critical chapters, a self-assessment with a personal study plan and a board and entrance exam calendar.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tn_board.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="tb" id="top" data-no-rail>
+  <header class="tb-hero">
+    <div class="tb-wrap">
+      <div class="tb-eyebrow">Tamil Nadu +2 · PCM &amp; PCB <span class="tb-chip">JEE Main 2026 &amp; NEET 2026 syllabus · checked {{ data.verified }}</span></div>
+      <h1>TN Board Class 12 Syllabus Analytics</h1>
+      <p class="tb-lead">How much of JEE Main and NEET does the Tamil Nadu State Board (Matriculation and State Board schools) syllabus cover? Every exam chapter mapped to the TN textbook, the gaps and extra topics to prepare, Tier 1 to Tier 4 critical chapters, a self-assessment that builds your study plan, and a calendar of the +2 public exams and the entrance exams you choose.</p>
+      <div class="tb-kpis" id="kpis"></div>
+    </div>
+  </header>
+
+  <div class="tb-bar"><div class="tb-wrap">
+    <nav class="tb-tabs" id="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="overview" aria-selected="true">Overview</button>
+      <button role="tab" data-tab="map" aria-selected="false">Chapter mapping</button>
+      <button role="tab" data-tab="gaps" aria-selected="false">Gaps &amp; extra topics</button>
+      <button role="tab" data-tab="tiers" aria-selected="false">Tier 1–4 chapters</button>
+      <button role="tab" data-tab="assess" aria-selected="false">My assessment</button>
+      <button role="tab" data-tab="plan" aria-selected="false">Study plan</button>
+      <button role="tab" data-tab="cal" aria-selected="false">Exam calendar</button>
+    </nav>
+  </div></div>
+
+  <main class="tb-wrap tb-main">
+
+    <section class="tb-panel" id="p-overview">
+      <div class="tb-grid2">
+        <div class="tb-card"><h2>JEE Main: where the questions sit in the TN syllabus</h2><p class="tb-sub">Share of the 2026 JEE Main questions (19 shifts) by where the chapter is taught in Tamil Nadu.</p><div class="tb-chart"><canvas id="cJee"></canvas></div></div>
+        <div class="tb-card"><h2>NEET: where the questions sit in the TN syllabus</h2><p class="tb-sub">Share of an average NEET paper by where the chapter is taught in Tamil Nadu.</p><div class="tb-chart"><canvas id="cNeet"></canvas></div></div>
+      </div>
+      <div class="tb-card"><h2>What the numbers say</h2><ul class="tb-points" id="insights"></ul></div>
+      <div class="tb-grid2">
+        <div class="tb-card"><h2>JEE Main questions by Tier and TN class</h2><p class="tb-sub">Questions in 2026 from Tier 1 (most asked) to Tier 4, split by where TN teaches them.</p><div class="tb-chart"><canvas id="cJeeTier"></canvas></div></div>
+        <div class="tb-card"><h2>NEET questions by Tier and TN class</h2><p class="tb-sub">Average questions a paper from Tier 1 to Tier 4, split by where TN teaches them.</p><div class="tb-chart"><canvas id="cNeetTier"></canvas></div></div>
+      </div>
+      <div class="tb-card tb-note"><strong>About the data.</strong> "TN Matriculation Board" schools follow the common Tamil Nadu State Board (Samacheer Kalvi) HSC syllabus, so this page maps the State Board Class 11 and 12 textbooks. JEE Main question counts and Tiers come from our chapter tagging of all 19 JEE Main 2026 shifts (the same data as the <a href="{{ url_for('pulse_jee.analysis') }}">EduPulse JEE analysis</a>). NEET counts are indicative averages per paper from the 2022 to 2026 papers under the NMC syllabus, rounded. Coverage means the topic is in the TN textbook, not that the TN book reaches JEE or NEET difficulty: the notes on each chapter say what to add. See also <a href="{{ url_for('pcm12.hub') }}">Class 12 PCM Analytics</a> and <a href="{{ url_for('pcb12.hub') }}">Class 12 PCB Analytics</a> for marks-based eligibility. Always check the current syllabus in the NTA information bulletins and the +2 timetable at dge.tn.gov.in.</div>
+    </section>
+
+    <section class="tb-panel" id="p-map" hidden>
+      <div class="tb-filters">
+        <div class="tb-seg" id="mExam" role="group" aria-label="Exam"><button data-v="jee" aria-pressed="true">JEE Main</button><button data-v="neet" aria-pressed="false">NEET</button></div>
+        <select id="mSub" aria-label="Subject"></select>
+        <select id="mSt" aria-label="TN status"><option value="">All TN status</option><option value="12">In TN Class 12 (board)</option><option value="11">In TN Class 11 only</option><option value="P">Partly in TN</option><option value="N">Not in TN</option></select>
+        <select id="mTier" aria-label="Tier"><option value="">All Tiers</option><option value="1">Tier 1</option><option value="2">Tier 2</option><option value="3">Tier 3</option><option value="4">Tier 4</option></select>
+        <input type="search" id="mQ" placeholder="Search chapter" aria-label="Search chapter">
+        <span class="tb-count" id="mCount"></span>
+      </div>
+      <div class="tb-tablewrap"><table class="tb-table" id="mTbl"><thead><tr><th>Tier</th><th>Exam chapter</th><th>Subject</th><th class="n" id="mQh">Qs</th><th>TN status</th><th>TN textbook chapter</th><th>What the exam asks beyond the TN board</th></tr></thead><tbody></tbody></table></div>
+      <p class="tb-sub" style="margin-top:8px"><span class="tb-st s12">TN 12</span> taught in the TN +2 book, examined in the board · <span class="tb-st s11">TN 11</span> TN +1 book only: revise it yourself · <span class="tb-st sP">PARTLY</span> some sub-topics missing · <span class="tb-st sN">NOT IN TN</span> learn from scratch.</p>
+    </section>
+
+    <section class="tb-panel" id="p-gaps" hidden>
+      <div class="tb-filters"><div class="tb-seg" id="gExam" role="group" aria-label="Exam"><button data-v="jee" aria-pressed="true">JEE Main</button><button data-v="neet" aria-pressed="false">NEET</button></div></div>
+      <div class="tb-grid2">
+        <div class="tb-card"><h2>1 · Not in the TN syllabus or only partly</h2><p class="tb-sub">Learn these from NCERT or a JEE/NEET book: the board will not teach them.</p><div class="tb-gaplist" id="gMissing"></div></div>
+        <div class="tb-card"><h2>2 · In TN Class 11, not in the +2 board</h2><p class="tb-sub">Highest-scoring Class 11 chapters. The +2 year never revisits them, so schedule them yourself.</p><div class="tb-gaplist" id="gEleven"></div></div>
+      </div>
+      <div class="tb-card"><h2>3 · Depth gaps in Tier 1 and Tier 2 chapters</h2><p class="tb-sub">In the TN book, but the exam asks more. These are the extra topics to add while studying for the board.</p><div class="tb-gaplist" id="gDepth"></div></div>
+      <div class="tb-card"><h2>4 · Board-only chapters (not in JEE Main or NEET 2026)</h2><p class="tb-sub">Study these for +2 marks (TNEA cut-off and the 75% rule), but give them no entrance-exam time.</p><div class="tb-gaplist" id="gBoard"></div></div>
+      <div class="tb-card tb-note" id="gNcert"></div>
+    </section>
+
+    <section class="tb-panel" id="p-tiers" hidden>
+      <div class="tb-filters">
+        <div class="tb-seg" id="tExam" role="group" aria-label="Exam"><button data-v="jee" aria-pressed="true">JEE Main</button><button data-v="neet" aria-pressed="false">NEET</button></div>
+        <select id="tSub" aria-label="Subject"></select>
+      </div>
+      <div class="tb-tiergrid" id="tGrid"></div>
+      <p class="tb-sub" id="tRule" style="margin-top:10px"></p>
+    </section>
+
+    <section class="tb-panel" id="p-assess" hidden>
+      <div class="tb-card">
+        <h2>Rate yourself, subject by subject</h2>
+        <p class="tb-sub">1 = not started or very weak · 2 = weak · 3 = average (board-level problems) · 4 = good (most exam questions) · 5 = strong (hard questions, timed). Rate the subject, then each area if you can; areas you leave blank take the subject rating. Saved only in this browser.</p>
+        <div class="tb-form">
+          <label>Target<select id="aTarget"><option value="jee">JEE Main (PCM)</option><option value="neet">NEET (PCB)</option><option value="both">JEE and NEET (PCMB)</option></select></label>
+          <label>Study hours a week (outside school)<input type="number" id="aHours" min="4" max="60" value="18"></label>
+          <label>Plan starts<input type="date" id="aStart"></label>
+        </div>
+        <div id="aRates"></div>
+        <div class="tb-form" style="margin-top:12px"><button class="tb-btn" id="aGo">Show my gap and build my plan</button><button class="tb-btn ghost" id="aReset">Reset</button></div>
+      </div>
+      <div id="aOut" hidden>
+        <div class="tb-grid2">
+          <div class="tb-card"><h2>Your gap by subject and area</h2><p class="tb-sub">Gap = how far each area is from 5, weighted by how many exam questions it carries.</p><div class="tb-bars" id="aBars"></div></div>
+          <div class="tb-card"><h2>Readiness score</h2><p class="tb-sub">Your ratings weighted by the exam's questions, out of 100.</p><div class="tb-chart"><canvas id="cRadar"></canvas></div><ul class="tb-points" id="aRead"></ul></div>
+        </div>
+        <div class="tb-card"><h2>Your 15 priority chapters</h2><p class="tb-sub">Ranked by Tier, your rating for that area and whether TN teaches it. Start at the top.</p><div class="tb-tablewrap"><table class="tb-table" id="aPri"><thead><tr><th>#</th><th>Tier</th><th>Chapter</th><th>Exam</th><th>TN status</th><th class="n">Your level</th><th>Focus</th></tr></thead><tbody></tbody></table></div>
+          <div class="tb-form" style="margin-top:12px"><button class="tb-btn" data-goto="plan">Open my study plan</button><button class="tb-btn ghost" data-goto="cal">Build my calendar</button></div></div>
+      </div>
+    </section>
+
+    <section class="tb-panel" id="p-plan" hidden>
+      <div class="tb-card" id="planEmpty"><h2>Your study plan</h2><p class="tb-sub">Complete <a href="#" data-goto="assess">My assessment</a> first: the plan is built from your ratings, your target exam and your weekly hours.</p></div>
+      <div id="planOut" hidden>
+        <div class="tb-card"><h2>Your study plan to the board and entrance exams</h2><p class="tb-sub" id="planSum"></p>
+          <div class="tb-form tb-noprint"><button class="tb-btn ghost" onclick="window.print()">Print or save as PDF</button></div>
+          <div id="planWeeks"></div></div>
+      </div>
+    </section>
+
+    <section class="tb-panel" id="p-cal" hidden>
+      <div class="tb-split">
+        <div class="tb-card"><h2>Choose your exams</h2><p class="tb-sub">The +2 board dates are ticked. Add the entrance exams you will write; your choices are saved in this browser.</p>
+          <div class="tb-filters"><div class="tb-seg" id="cGrp" role="group" aria-label="Show"><button data-v="all" aria-pressed="true">All</button><button data-v="pcm" aria-pressed="false">Engineering</button><button data-v="pcb" aria-pressed="false">Medicine</button></div></div>
+          <div class="tb-evlist" id="cList"></div>
+          <div class="tb-form" style="margin-top:10px"><button class="tb-btn" id="cIcs">Download my calendar (.ics)</button><button class="tb-btn ghost" id="cPresetJ">JEE set</button><button class="tb-btn ghost" id="cPresetN">NEET set</button></div>
+        </div>
+        <div>
+          <div class="tb-card"><h2>My exam calendar</h2><p class="tb-sub" id="cSum"></p><div class="tb-gaplist" id="cAgenda"></div></div>
+          <div class="tb-months" id="cMonths"></div>
+          <p class="tb-sub" style="margin-top:8px"><span class="tag Confirmed tb-st">CONFIRMED</span> announced · <span class="tag Tentative tb-st">TENTATIVE</span> may change · <span class="tag Expected tb-st">EXPECTED</span> window from earlier years, not an announced date. Full list on the <a href="{{ url_for('main.exam_schedule') }}">Exam Schedule</a> page.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+<script>window.EA_TNB = {{ data|tojson }};</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/tn_board.js') }}"></script>
+{% endblock %}

@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-20'
+UPDATED = '2026-11-21'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-21', 'New TN Board Class 12 Syllabus Analytics page (/tn-board-12-analytics, School menu and Member Home tile, open to everyone): the Tamil Nadu State (Matriculation) Board Class 11 and 12 PCM and PCB chapters mapped to every JEE Main 2026 and NEET chapter, the share of each exam covered by TN 11 + 12 and by the +2 board alone, gaps and extra topics, Tier 1 to Tier 4 chapters, a subject and area self-assessment (1 to 5) that ranks priority chapters and builds a week-by-week study plan, and a calendar of the +2 practical and theory exams (DGE timetable, 3 to 29 Mar 2027) with entrance exams to tick and download as .ics.'),
     ('2026-11-20', 'Mentorship, Readiness KPIs tab: new Admission documents folder card. The student adds the Google Drive folder link and ticks that it is shared with the mentor; the mentor opens it and records Verified or Needs changes with a note. The link also shows above the registration document checklist on the Calendar tab. New KPI template Documents in Google Drive, shared with the mentor and verified. Darsh update pack adds the KPI and two actions (upload the rest; mentor verifies); his folder link is pasted into the card in the portal, not kept in code.'),
     ('2026-11-20', 'Mentorship Preferences tab redesigned: each list shows compact choice cards (rank, college, tier, eligibility, review status, opening and closing dates, fees) instead of an 11-column table, with a jump bar between lists. Each card opens to a clear Mentor review panel (recommendation, review status, eligibility, data), dates and, for the student and parents, their own review and comment boxes. Mentors see how many choices await review.'),
     ('2026-11-20', 'Mentorship admin: each enrolment row now has a Paste a meeting update (JSON) button that opens the student Meeting update tab (paste, Check, Apply). The dropdown above it still applies only the prepared packs.'),
@@ -367,6 +368,20 @@ GUIDE = [
                 'Read the week-by-week plan, tick tasks as you finish them and print it. Everything saves to your account and the plan redraws when your scores, ratings or date change.'],
          tips=['The entrance-route percentages were read from public coaching and news pages, not the official brochures: each row says how sure we are, some are conflicting. Always confirm on the official notice. Chapter marks are indicative; only the unit-group totals are official.', 'For mentors: ask a student to share the dashboard on screen in a session; the plan and the rated chapters make a good agenda.'],
          tiles=['Class 12 PCM Analytics'], added='2026-11-05', updated='2026-11-05'),
+    dict(id='s-tnboard', role='student', group='Exams', title='TN Board Class 12 syllabus vs JEE and NEET', summary='For Tamil Nadu State Board and Matriculation students in Class 11 and 12 (PCM or PCB) and their parents: how much of JEE Main and NEET the TN books cover, what to add, which chapters matter most, a self-assessment with a study plan, and an exam calendar.',
+         where=[('TN Board 12 analytics', 'main.tn_board_analytics'), ('Class 12 PCM Analytics', 'pcm12.hub'), ('Class 12 PCB Analytics', 'pcb12.hub'), ('Exam schedule', 'main.exam_schedule')],
+         steps=['Open "TN Board 12 vs JEE & NEET" from the School menu (Class 11 to 12) or the Member Home tile. It is open to everyone; nothing needs a login.',
+                'Overview: the four figures at the top are the share of JEE Main 2026 questions and of a NEET paper that come from chapters in the TN Class 11 + 12 books, and from the Class 12 (+2 board) book alone. The charts split each exam by Tier and by where TN teaches the chapter.',
+                'Chapter mapping: switch JEE Main or NEET, filter by subject, TN status (TN 12, TN 11 only, partly, not in TN) and Tier, and read for each exam chapter the TN textbook chapter and what the exam asks beyond the board.',
+                'Gaps and extra topics: chapters not or only partly in TN, the Class 11 chapters the +2 year never revisits, the depth gaps in Tier 1 and 2 chapters, and the TN chapters that carry board marks only.',
+                'Tier 1 to 4 chapters: four columns per exam and subject, Tier 1 the most asked. JEE Tiers come from the 2026 question counts (19 shifts), NEET Tiers from average questions a paper.',
+                'My assessment: pick JEE, NEET or both, weekly hours and a start date, rate each subject and its areas from 1 to 5. You get the gap by area, a readiness score per subject and your 15 priority chapters. Ratings stay in this browser only.',
+                'Study plan: a week-by-week plan in four phases (board syllabus with exam depth, JEE Session 1 sprint, +2 practicals and public exams, entrance run-in) to JEE Main Session 2 or NEET, with chapters and hours each week. Print it or save it as a PDF.',
+                'Exam calendar: the +2 practical and theory dates are ticked; tick the entrance exams you will write (or use the JEE or NEET set) to see month grids and a countdown, then download them as a calendar file (.ics) for a phone or Google Calendar.'],
+         tips=['"TN Matriculation Board" schools follow the common State Board (Samacheer Kalvi) syllabus, so the page maps the State Board books. Coverage means the topic is in the TN book, not that the book reaches exam difficulty: read the note on each chapter.',
+               'The +2 theory window (3 to 29 Mar 2027) is from the DGE timetable of 14 Oct 2026; sites disagree on the date of each subject, so take subject dates from dge.tn.gov.in. Entrance dates come from the Exam Schedule page with their Confirmed, Tentative or Expected status.',
+               'NEET question counts are indicative averages from recent papers; JEE counts are our tagging of all 2026 shifts. Update app/data/tn_board.py when a syllabus or date changes.'],
+         tiles=['TN Board 12 syllabus vs JEE & NEET'], added='2026-11-21', updated='2026-11-21'),
     dict(id='a-hr', role='admin', group='People', title='HR Admin role and HR letters', summary='Give someone the HR Admin role, then issue offer, experience and relieving letters from templates, with a numbered register.',
          where=[('HR letters', 'hr.home'), ('Letter register', 'hr.register'), ('Templates', 'hr.templates')],
          steps=['Create the HR person: Admin > People > Users > Add member, choose plan hr_admin (HR Admin), or change an existing user to hr_admin. HR Admin sees only the HR section, not student records or member tools; an Admin can also use it.',
