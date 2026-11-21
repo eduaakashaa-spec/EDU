@@ -187,3 +187,57 @@
 .mc-banner{display:block;width:100%;line-height:0;background:#071A44}
 .mc-banner img{display:block;width:100%;max-width:1920px;height:auto;margin:0 auto}
 .mc-banner + .mc-hero{padding-top:22px}
+/* navigation */
+.mc-tabs button{display:inline-flex;align-items:center;gap:6px}
+.mc-ti{font-size:14px;line-height:1}
+.mc-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+.mc-quick button{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;background:#fff;border:1px solid var(--hl);border-left:4px solid var(--or);border-radius:14px;padding:14px 16px;cursor:pointer;font:inherit;color:var(--nvi);transition:transform .15s,box-shadow .15s}
+.mc-quick button:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(7,26,68,.10)}
+.mc-quick span{font-size:22px}
+.mc-quick b{font:600 15px Fraunces,Georgia,serif}
+.mc-quick small{font-size:12px;color:var(--mu)}
+.mc-pn{display:flex;justify-content:space-between;gap:10px;margin:6px 0 4px}
+.mc-pn button{border:1px solid var(--hl);background:#fff;color:var(--nv);font:600 13px inherit;padding:10px 16px;border-radius:99px;cursor:pointer}
+.mc-pn button.next{background:var(--nv);color:#fff;border-color:var(--nv)}
+.mc-pn button:hover{box-shadow:0 4px 12px rgba(7,26,68,.12)}
+.mc-flabel{font:700 10.5px 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
+/* map */
+.mc-mapgrid{display:grid;grid-template-columns:1.45fr 1fr;gap:16px;align-items:start;margin-top:6px}
+.mc-mapbox{position:relative;background:#F7F9FF;border:1px solid var(--hl);border-radius:14px;padding:8px}
+#mhMap{width:100%;height:auto;display:block;min-height:300px}
+#mhMap path.district{stroke:#fff;stroke-width:.8px;cursor:pointer;transition:fill .25s}
+#mhMap path.district:hover{stroke:var(--or);stroke-width:2px}
+#mhMap path.district.selected{stroke:var(--or);stroke-width:2.6px}
+#mhMap .dlabel{font:600 8.5px 'Plus Jakarta Sans',sans-serif;text-anchor:middle;pointer-events:none;paint-order:stroke;stroke:rgba(255,255,255,.0)}
+#mhMap g.pin{cursor:pointer}
+#mhMap g.pin circle{fill:var(--or);stroke:#071A44;stroke-width:1.5px;filter:drop-shadow(0 2px 3px rgba(7,26,68,.35))}
+#mhMap g.pin:hover circle{fill:#071A44}
+#mhMap .pinlabel{font:700 8px 'JetBrains Mono',monospace;fill:#fff;text-anchor:middle;pointer-events:none}
+.mc-tip{position:absolute;z-index:5;max-width:230px;background:#071A44;color:#fff;border-radius:10px;padding:9px 11px;font-size:12px;line-height:1.45;pointer-events:none;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.mc-tip span{color:#FFB27A;font-size:11px}
+.mc-legend{display:flex;flex-wrap:wrap;align-items:center;gap:4px;font-size:10.5px;color:var(--mu);padding:6px 4px 0}
+.mc-legend span{font-weight:700;margin-right:6px;text-transform:capitalize}
+.mc-legend i{display:inline-block;width:18px;height:10px;border-radius:3px;border:1px solid var(--hl)}
+.mc-legend em{font-style:normal;margin-right:6px}
+.mc-side{background:#fff;border:1px solid var(--hl);border-radius:14px;padding:14px;max-height:620px;overflow:auto}
+.mc-side h3{font:600 17px Fraunces,Georgia,serif;margin:0;color:var(--nvi)}
+.mc-rank{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.mc-rank li{display:grid;grid-template-columns:110px 1fr 54px;gap:8px;align-items:center;font-size:13px;cursor:pointer;padding:4px 6px;border-radius:8px}
+.mc-rank li:hover{background:#F7F9FF}
+.mc-rank i{display:block;height:10px;border-radius:5px;background:#F0EAD7;overflow:hidden}
+.mc-rank i b{display:block;height:100%;background:linear-gradient(90deg,#3D5DA3,#0E3A8A);border-radius:5px}
+.mc-rank em{font-style:normal;font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.mc-drillhead{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px}
+.mc-drillhead small{font:700 10.5px 'JetBrains Mono',monospace;color:var(--or);text-transform:uppercase;letter-spacing:.1em}
+.mc-back{background:#F3EEDD;border:1px solid var(--hl);color:var(--nvi);padding:7px 14px;border-radius:99px;font:600 12.5px inherit;cursor:pointer;white-space:nowrap}
+.mc-back::before{content:"← "}
+.mc-back:hover{background:var(--nv);color:#fff}
+.mc-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px}
+.mc-tiles div{background:#F7F9FF;border-radius:10px;padding:8px;font-size:11px;color:var(--mu);text-align:center}
+.mc-tiles b{display:block;font:600 18px Fraunces,Georgia,serif;color:var(--nv)}
+.mc-clist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.mc-clist li{border:1px solid var(--hl);border-radius:10px;padding:9px 10px;font-size:13px}
+.mc-chips{margin:4px 0}
+.mc-pill.o{background:#FFE2CC;color:#A04400}.mc-pill.n{background:#DDE6FA;color:#0E3A8A}
+@media (max-width:1000px){.mc-quick{grid-template-columns:1fr 1fr}.mc-mapgrid{grid-template-columns:1fr}.mc-side{max-height:none}}
+@media (max-width:760px){.mc-tiles{grid-template-columns:1fr 1fr}.mc-rank li{grid-template-columns:90px 1fr 46px}.mc-pn button{font-size:12px;padding:9px 12px}#mhMap .dlabel{font-size:11px}}

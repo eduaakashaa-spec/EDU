@@ -20,6 +20,12 @@ def cutoffs():
         return json.load(f)
 
 
+def district(inst):
+    """District as named in the Maharashtra map file, or None when the college name gives no town we can place."""
+    c = inst['c']
+    return D.INST_DISTRICT.get(c) or D.TOWN_BY_REGION.get((inst.get('city') or '', c[:2])) or D.TOWN_DISTRICT.get(inst.get('city') or '')
+
+
 def region(city):
     for r, cities in D.REGIONS.items():
         if city in cities:
@@ -84,8 +90,21 @@ def summary():
     for f, ys in fam.items():
         fam_stats[f] = {str(y): {'n': len(v), 'med': round(median(v), 2), 'p90': round(sorted(v)[int(0.9 * (len(v) - 1))], 2), 'p25': round(sorted(v)[int(0.25 * (len(v) - 1))], 2)} for y, v in sorted(ys.items())}
     nb = sum(len(i['br']) for i in d['inst'])
+    # map and infographics: one compact row per institute
+    # [code, short name, district, kind, autonomous, nirf, best 2025 open cut, best course, courses, best 2025 Computer/IT/AI open cut, top-20 rank]
+    top_rank = {t['c']: k + 1 for k, t in enumerate(top)}
+    raw = {i['c']: i for i in d['inst']}
+    rows = []
+    for x in insts:
+        i = raw[x['c']]
+        cs = [r['cut'][str(last)] for r in x['rows'] if r['f'] in ('CSE', 'IT', 'AI') and r['cut'][str(last)] is not None and (r['seat'] or '').find('Women') < 0]
+        rows.append([x['c'], x['n'], district(i), i['k'], 'Autonomous' in (i['st'] or ''), x['nirf'], x['best']['cut'][str(last)] if x['best'] else None,
+                     x['best']['n'] if x['best'] else None, len(x['rows']), max(cs) if cs else None, top_rank.get(x['c'])])
+    bands = [(99, 100.01, '99+'), (97, 99, '97–99'), (95, 97, '95–97'), (90, 95, '90–95'), (80, 90, '80–90'), (60, 80, '60–80'), (40, 60, '40–60'), (0, 40, 'under 40')]
+    allcuts = [r['cut'][str(last)] for x in insts for r in x['rows'] if r['cut'][str(last)] is not None]
+    hist = [[lab, sum(1 for v in allcuts if lo <= v < hi)] for lo, hi, lab in bands]
     return {'years': years, 'top': top, 'fam': fam_stats, 'curve': d['curve'], 'n_inst': len(d['inst']), 'n_br': nb,
-            'n_nirf': sum(1 for x in insts if x['nirf']), 'nirf_cap': [x for x in ranked if x['nirf']]}
+            'n_nirf': sum(1 for x in insts if x['nirf']), 'nirf_cap': [x for x in ranked if x['nirf']], 'map': rows, 'hist': hist}
 
 
 def payload():

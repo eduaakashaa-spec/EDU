@@ -132,3 +132,38 @@ BRANCH_GUIDE = [
     ('CIVIL', 'Civil has the lowest cut-offs at most colleges: a strong choice at a top college for construction, infrastructure and government careers.'),
     ('CHEM', 'Chemical and process branches (ICT Mumbai is the leader) lead to pharma, food, polymer and process industries.'),
 ]
+
+# ---------------------------------------------------------------------------
+# District of each college, for the Maharashtra map (district names as in the map file, app/static/data/maharashtra-districts.geojson;
+# Mumbai City and Mumbai Suburban are one "Mumbai"). Town -> district first; then a few institutes whose name has no town, matched by hand;
+# anything left is shown as "district not identified" rather than guessed.
+# ---------------------------------------------------------------------------
+TOWN_DISTRICT = {
+    'Mumbai': 'Mumbai', 'Andheri': 'Mumbai', 'Navi Mumbai': 'Thane', 'Thane': 'Thane', 'Ulhasnagar': 'Thane', 'Shahapur': 'Thane',
+    'Palghar': 'Palghar', 'Boisar': 'Palghar', 'Raigad': 'Raigad', 'Panvel': 'Raigad', 'Ratnagiri': 'Ratnagiri', 'Sindhudurg': 'Sindhudurg', 'Kankavli': 'Sindhudurg',
+    'Pune': 'Pune', 'Haveli': 'Pune', 'Avasari Khurd': 'Pune', 'Baramati': 'Pune', 'Lonavala': 'Pune', 'Indapur': 'Pune', 'Wagholi': 'Pune', 'Pisoli': 'Pune',
+    'Sasewadi': 'Pune', 'Someshwar Nagar': 'Pune', 'Kuran': 'Pune', 'Dumbarwadi': 'Pune',
+    'Satara': 'Satara', 'Karad': 'Satara', 'Sangli': 'Sangli', 'Miraj': 'Sangli', 'Yelur': 'Sangli',
+    'Kolhapur': 'Kolhapur', 'Ichalkaranji': 'Kolhapur', 'Jaysingpur': 'Kolhapur', 'Gadhinglaj': 'Kolhapur', 'Warananagar': 'Kolhapur',
+    'Solapur': 'Solapur', 'Barshi': 'Solapur', 'Pandharpur': 'Solapur', 'Akluj': 'Solapur', 'Sangola': 'Solapur', 'Paniv': 'Solapur',
+    'Ahmednagar': 'Ahmednagar', 'Sangamner': 'Ahmednagar', 'Bota Sangamner': 'Ahmednagar', 'Malwadi-Bota': 'Ahmednagar', 'Kopargaon': 'Ahmednagar',
+    'Shevgaon': 'Ahmednagar', 'Kashti Shrigondha': 'Ahmednagar',
+    'Nashik': 'Nashik', 'Agaskhind Tal. Sinnar': 'Nashik', 'Jalgaon': 'Jalgaon', 'Bhusawal': 'Jalgaon', 'Chopda': 'Jalgaon', 'Faizpur': 'Jalgaon',
+    'Dhule': 'Dhule', 'Shirpur': 'Dhule', 'Dondaicha': 'Dhule', 'Nandurbar': 'Nandurbar', 'Nadurbar': 'Nandurbar', 'Akkalkuwa': 'Nandurbar',
+    'Aurangabad': 'Aurangabad', 'Jalna': 'Jalna', 'Beed': 'Beed', 'Ambejogai': 'Beed', 'A.P Phulepimpalgaon': 'Beed', 'Latur': 'Latur',
+    'Osmanabad': 'Osmanabad', 'Tuljapur': 'Osmanabad', 'Nanded': 'Nanded', 'Parbhani': 'Parbhani',
+    'Nagpur': 'Nagpur', 'Ramtek': 'Nagpur', 'Amravati': 'Amravati', 'Badnera': 'Amravati', 'Akola': 'Akola', 'Buldhana': 'Buldhana', 'Shegaon': 'Buldhana',
+    'Washim': 'Washim', 'Yavatmal': 'Yavatmal', 'Pusad': 'Yavatmal', 'Wardha': 'Wardha', 'Sevagram': 'Wardha', 'Bhandara': 'Bhandara', 'Sakoli': 'Bhandara',
+    'Chandrapur': 'Chandrapur', 'Ballarpur': 'Chandrapur', 'Bhadrawati': 'Chandrapur',
+    'Egaon': 'Pune', 'Bhima': 'Pune', 'Lakhewadi': 'Pune', 'Pal': 'Kolhapur', 'Wadwadi': 'Satara', 'Ohar': 'Aurangabad',  # Talegaon, Koregaon Bhima, Pal (Gargoti), Ohar (Aurangabad)
+}
+# towns with the same name in two districts: decided by the DTE region in the first two digits of the institute code
+TOWN_BY_REGION = {('Karjat', '03'): 'Raigad', ('Karjat', '05'): 'Ahmednagar', ('Karjat', '06'): 'Ahmednagar',
+                  ('Malegaon', '05'): 'Nashik', ('Malegaon', '06'): 'Pune', ('Ashti', '02'): 'Beed', ('Ashti', '04'): 'Wardha'}
+INST_DISTRICT = {  # institute names without a town, matched by hand
+    '01119': 'Buldhana', '02516': 'Aurangabad', '02771': 'Beed', '03025': 'Mumbai', '03202': 'Ratnagiri', '03209': 'Mumbai', '03220': 'Raigad',
+    '03277': 'Thane', '03436': 'Thane', '03445': 'Thane', '03470': 'Sindhudurg', '03546': 'Thane', '04197': 'Wardha', '05239': 'Nandurbar',
+    '05395': 'Ahmednagar', '05597': 'Ahmednagar', '06182': 'Pune', '06185': 'Pune', '06217': 'Kolhapur', '06274': 'Pune', '06313': 'Sangli',
+    '06315': 'Kolhapur', '06324': 'Pune', '06326': 'Solapur', '06632': 'Pune', '06635': 'Pune', '06811': 'Kolhapur', '16354': 'Pune',
+}
+DTE_REGION = {'01': 'Amravati region', '02': 'Aurangabad region', '03': 'Mumbai region', '04': 'Nagpur region', '05': 'Nashik region', '06': 'Pune region', '16': 'Pune region'}

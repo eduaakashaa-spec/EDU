@@ -132,6 +132,127 @@
     document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 500);
   });
 
+  /* ---------- colleges map ---------- */
+  var KIND = { govt: 'Government', aided: 'Government-aided', univ: 'University / deemed', pvt: 'Private unaided' };
+  var MAPROWS = (D.map || []).map(function (r) { return { c: r[0], n: r[1], d: r[2], k: r[3], auto: r[4], nirf: r[5], best: r[6], bestN: r[7], courses: r[8], cs: r[9], top: r[10] }; });
+  var RAMP = ['#FBF7EE', '#E8DFC8', '#B7C2DC', '#7B91C2', '#3D5DA3', '#0E3A8A'];
+  var mapState = { metric: 'n', filter: 'all', sel: null };
+  function mapFilter(r) {
+    var f = mapState.filter;
+    return f === 'all' || f === 'top' ? true : f === 'gov' ? (r.k === 'govt' || r.k === 'aided' || r.k === 'univ') : f === 'auto' ? r.auto : f === 'nirf' ? !!r.nirf : true;
+  }
+  function distAgg() {
+    var A = {};
+    MAPROWS.filter(mapFilter).forEach(function (r) {
+      if (!r.d) return;
+      var a = A[r.d] = A[r.d] || { n: 0, courses: 0, gov: 0, auto: 0, cs: null, rows: [] };
+      a.n++; a.courses += r.courses; if (r.k !== 'pvt') a.gov++; if (r.auto) a.auto++; if (r.cs != null && (a.cs == null || r.cs > a.cs)) a.cs = r.cs; a.rows.push(r);
+    });
+    return A;
+  }
+  var METRIC_LABEL = { n: 'colleges', courses: 'courses', gov: 'government & aided colleges', cs: 'best Computer cut-off' };
+  function colorFor(v, max, metric) {
+    if (v == null || !v) return RAMP[0];
+    var r = metric === 'cs' ? Math.max(0, (v - 85) / 15) : v / max;
+    return r < .04 ? RAMP[1] : r < .12 ? RAMP[2] : r < .28 ? RAMP[3] : r < .6 ? RAMP[4] : RAMP[5];
+  }
+  var MAPGEO = null, mapPath = null;
+  BUILD.map = function () {
+    seg('mMetric', function (v) { mapState.metric = v; drawMap(); });
+    seg('mFilter', function (v) { mapState.filter = v; drawMap(); });
+    var miss = MAPROWS.filter(function (r) { return !r.d; }).length;
+    $('mapNote').textContent = 'District from the college\'s town in the official CAP list; ' + miss + ' colleges whose name gives no town are counted in the charts but not on the map. Mumbai City and Mumbai Suburban are shown as one district. Pins for the top 20 sit on their district, not their exact address.';
+    if (!window.d3) { $('mapSide').innerHTML = '<p class="mc-sub">The map could not load (no connection to the chart library). The tables below still work.</p>'; }
+    else d3.json(window.EA_MH_GEO).then(function (geo) {
+      MAPGEO = geo;
+      var svg = d3.select('#mhMap');
+      var proj = d3.geoMercator().fitSize([720, 560], geo);
+      mapPath = d3.geoPath().projection(proj);
+      svg.append('g').attr('class', 'districts');
+      svg.append('g').attr('class', 'labels');
+      svg.append('g').attr('class', 'pins');
+      svg.select('.districts').selectAll('path').data(geo.features).enter().append('path')
+        .attr('class', 'district').attr('d', mapPath)
+        .on('mousemove', function (ev, f) { tip(ev, f.properties.district); })
+        .on('mouseleave', function () { $('mapTip').hidden = true; })
+        .on('click', function (ev, f) { mapState.sel = f.properties.district; drawMap(); });
+      svg.select('.labels').selectAll('text').data(geo.features).enter().append('text')
+        .attr('class', 'dlabel').attr('x', function (f) { return mapPath.centroid(f)[0]; }).attr('y', function (f) { return mapPath.centroid(f)[1]; })
+        .text(function (f) { return f.properties.district; });
+      drawMap();
+    }).catch(function () { $('mapSide').innerHTML = '<p class="mc-sub">The map file could not load. Try again later; the tables below still work.</p>'; });
+    drawSideCharts();
+  };
+  function tip(ev, name) {
+    var a = distAgg()[name], box = $('mhMap').getBoundingClientRect(), t = $('mapTip');
+    t.innerHTML = '<b>' + esc(name) + '</b><br>' + (a ? a.n + ' colleges · ' + a.courses + ' courses<br>' + a.gov + ' government or aided · ' + a.auto + ' autonomous' + (a.cs ? '<br>Best Computer cut-off ' + fmt(a.cs, 2) : '') : 'No CAP college in this view') + '<br><span>Click for the list</span>';
+    t.hidden = false;
+    var x = ev.clientX - box.left + 14, y = ev.clientY - box.top + 14;
+    t.style.left = Math.min(x, box.width - 220) + 'px'; t.style.top = Math.min(y, box.height - 90) + 'px';
+  }
+  function drawMap() {
+    var A = distAgg(), m = mapState.metric;
+    var vals = Object.keys(A).map(function (k) { return A[k][m] || 0; }), max = Math.max.apply(null, vals.concat([1]));
+    if (MAPGEO) {
+      d3.select('#mhMap .districts').selectAll('path')
+        .attr('fill', function (f) { var a = A[f.properties.district]; return colorFor(a ? a[m] : 0, max, m); })
+        .classed('selected', function (f) { return f.properties.district === mapState.sel; });
+      d3.select('#mhMap .labels').selectAll('text').attr('fill', function (f) { var a = A[f.properties.district]; var v = a ? a[m] : 0; return (m === 'cs' ? v > 95 : v / max > .28) ? '#fff' : '#3A4259'; });
+      // top 20 pins on their district (spread in a small circle when a district has several)
+      var pins = mapState.filter === 'top' ? MAPROWS.filter(function (r) { return r.top && r.d; }) : [];
+      var byD = {}; pins.forEach(function (r) { (byD[r.d] = byD[r.d] || []).push(r); });
+      var cent = {}; MAPGEO.features.forEach(function (f) { cent[f.properties.district] = mapPath.centroid(f); });
+      var pts = []; Object.keys(byD).forEach(function (dn) { var list = byD[dn]; list.forEach(function (r, k) { var ang = 2 * Math.PI * k / list.length, rad = list.length > 1 ? 9 + list.length * 1.6 : 0; pts.push({ r: r, x: cent[dn][0] + rad * Math.cos(ang), y: cent[dn][1] + rad * Math.sin(ang) }); }); });
+      var sel = d3.select('#mhMap .pins').selectAll('g.pin').data(pts, function (p) { return p.r.c; });
+      sel.exit().remove();
+      var g = sel.enter().append('g').attr('class', 'pin').attr('transform', function (p) { return 'translate(' + p.x + ',' + p.y + ')'; })
+        .on('mousemove', function (ev, p) { var box = $('mhMap').getBoundingClientRect(), t = $('mapTip'); t.innerHTML = '<b>#' + p.r.top + ' ' + esc(p.r.n) + '</b><br>' + esc(p.r.bestN) + ': ' + fmt(p.r.best, 2) + (p.r.nirf ? '<br>NIRF 2025: ' + esc(p.r.nirf) : ''); t.hidden = false; t.style.left = Math.min(ev.clientX - box.left + 14, box.width - 220) + 'px'; t.style.top = (ev.clientY - box.top + 14) + 'px'; })
+        .on('mouseleave', function () { $('mapTip').hidden = true; })
+        .on('click', function (ev, p) { mapState.sel = p.r.d; drawMap(); });
+      g.append('circle').attr('r', 0).transition().duration(350).delay(function (p, i) { return i * 20; }).attr('r', 8);
+      g.append('text').attr('class', 'pinlabel').attr('dy', '0.35em').text(function (p) { return p.r.top; });
+    }
+    // legend
+    var lab = m === 'cs' ? ['no data', '85+', '86+', '87+', '89+', '94+'] : ['0', '1+', Math.ceil(max * .04) + '+', Math.ceil(max * .12) + '+', Math.ceil(max * .28) + '+', Math.ceil(max * .6) + '+'];
+    $('mapLegend').innerHTML = '<span>' + esc(METRIC_LABEL[m]) + '</span>' + RAMP.map(function (c, k) { return '<i style="background:' + c + '"></i><em>' + lab[k] + '</em>'; }).join('');
+    if (mapState.sel) drillDown(mapState.sel, A); else topDistricts(A);
+  }
+  function topDistricts(A) {
+    var m = mapState.metric, list = Object.keys(A).map(function (k) { return [k, A[k]]; }).filter(function (x) { return x[1][m] != null; })
+      .sort(function (a, b) { return (b[1][m] || 0) - (a[1][m] || 0); }).slice(0, 12);
+    var max = list.length ? list[0][1][m] || 1 : 1;
+    $('mapSide').innerHTML = '<h3>Top districts by ' + esc(METRIC_LABEL[m]) + '</h3><p class="mc-sub">Click a district on the map or here.</p><ol class="mc-rank">' +
+      list.map(function (x) { var v = x[1][m]; var w = m === 'cs' ? Math.max(4, (v - 80) / 20 * 100) : v / max * 100; return '<li data-d="' + esc(x[0]) + '"><span>' + esc(x[0]) + '</span><i><b style="width:' + w + '%"></b></i><em>' + (m === 'cs' ? fmt(v, 2) : v) + '</em></li>'; }).join('') + '</ol>';
+  }
+  function drillDown(name, A) {
+    var a = A[name];
+    var rows = a ? a.rows.slice().sort(function (x, y) { return (y.best || 0) - (x.best || 0); }) : [];
+    $('mapSide').innerHTML = '<div class="mc-drillhead"><div><small>District</small><h3>' + esc(name) + '</h3></div><button class="mc-back" id="mapBack">All districts</button></div>' +
+      (a ? '<div class="mc-tiles"><div><b>' + a.n + '</b>colleges</div><div><b>' + a.courses + '</b>courses</div><div><b>' + a.gov + '</b>govt / aided</div><div><b>' + (a.cs ? fmt(a.cs, 2) : '–') + '</b>best Computer</div></div>' +
+        '<ul class="mc-clist">' + rows.map(function (r) {
+          return '<li><b>' + esc(r.n) + '</b><div class="mc-chips">' + (r.top ? '<span class="mc-pill o">Top 20 #' + r.top + '</span>' : '') + (r.nirf ? '<span class="mc-pill n">NIRF ' + esc(r.nirf) + '</span>' : '') + '<span class="mc-pill">' + esc(KIND[r.k]) + '</span>' + (r.auto ? '<span class="mc-pill">Autonomous</span>' : '') + '</div>' +
+            '<span class="mc-ct">' + (r.best != null ? 'Best course 2025: ' + esc(r.bestN) + ' · ' + fmt(r.best, 2) : 'No open-category cut-off in 2025') + '</span></li>';
+        }).join('') + '</ul>' : '<p class="mc-sub">No CAP college in this district for the current filter.</p>');
+    $('mapBack').onclick = function () { mapState.sel = null; drawMap(); };
+  }
+  $('mapSide').addEventListener('click', function (e) { var li = e.target.closest('li[data-d]'); if (li) { mapState.sel = li.dataset.d; drawMap(); } });
+  function drawSideCharts() {
+    var R = {}; MAPROWS.forEach(function (r) { var k = r.d ? (R2C[r.d] || 'Other') : 'District not identified'; R[k] = (R[k] || 0) + 1; });
+    var rk = Object.keys(R).sort(function (a, b) { return R[b] - R[a]; });
+    var cols = [NAVY, OR, GR, '#7A4FD6', '#0A8FA8', RED, '#B8860B', GREY];
+    mk('cRegion', { type: 'doughnut', data: { labels: rk, datasets: [{ data: rk.map(function (k) { return R[k]; }), backgroundColor: cols, borderWidth: 2 }] }, options: { maintainAspectRatio: false, cutout: '55%', plugins: { legend: { position: 'right', labels: { boxWidth: 12 } } } } });
+    var kinds = ['pvt', 'govt', 'aided', 'univ'];
+    mk('cKind', { type: 'bar', data: { labels: kinds.map(function (k) { return KIND[k]; }), datasets: [
+      { label: 'Autonomous', backgroundColor: NAVY, data: kinds.map(function (k) { return MAPROWS.filter(function (r) { return r.k === k && r.auto; }).length; }) },
+      { label: 'Affiliated', backgroundColor: '#B7C2DC', data: kinds.map(function (k) { return MAPROWS.filter(function (r) { return r.k === k && !r.auto; }).length; }) }] },
+      options: { indexAxis: 'y', maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, scales: { x: { stacked: true }, y: { stacked: true } } } });
+    var h = D.hist || [];
+    mk('cHist', { type: 'bar', data: { labels: h.map(function (x) { return x[0]; }), datasets: [{ data: h.map(function (x) { return x[1]; }), backgroundColor: h.map(function (x, i) { return i < 3 ? RED : i < 5 ? OR : NAVY; }), borderRadius: 5 }] },
+      options: { maintainAspectRatio: false, plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) { return c.raw + ' courses'; } } } }, scales: { x: { title: { display: true, text: 'Open cut-off (percentile)' } } } } });
+    var all = {}; MAPROWS.forEach(function (r) { if (!r.d) return; var a = all[r.d] = all[r.d] || { n: 0, c: 0, g: 0, au: 0, cs: null, csN: '' }; a.n++; a.c += r.courses; if (r.k !== 'pvt') a.g++; if (r.auto) a.au++; if (r.cs != null && (a.cs == null || r.cs > a.cs)) { a.cs = r.cs; a.csN = r.n; } });
+    $('distTbl').querySelector('tbody').innerHTML = Object.keys(all).sort(function (a, b) { return all[b].n - all[a].n; }).slice(0, 10).map(function (k) { var a = all[k]; return '<tr><td><b>' + esc(k) + '</b><div class="mc-ct">' + esc(R2C[k] || '') + '</div></td><td class="n">' + a.n + '</td><td class="n">' + a.c + '</td><td class="n">' + a.g + '</td><td class="n">' + a.au + '</td><td>' + (a.cs ? fmt(a.cs, 2) + ' <span class="mc-ct">' + esc(a.csN) + '</span>' : '–') + '</td></tr>'; }).join('');
+  }
+
   /* ---------- eligibility ---------- */
   BUILD.elig = function () {
     $('elig').innerHTML = (D.elig || []).map(function (e) { return '<div class="mc-gap d"><b>' + esc(e[0]) + '</b><br>' + esc(e[1]) + '</div>'; }).join('');
@@ -353,6 +474,18 @@
     }).join('') || '<tr><td colspan="7">No courses within reach with these filters. Try All branches or All of Maharashtra.</td></tr>';
   }
   $('pGo').addEventListener('click', run);
+
+  // previous / next buttons at the foot of every tab, in tab order
+  var ORDER = [].map.call(document.querySelectorAll('#tabs button'), function (b) { return [b.dataset.tab, b.textContent.trim()]; });
+  ORDER.forEach(function (t, k) {
+    var p = $('p-' + t[0]); if (!p) return;
+    var nav = document.createElement('div'); nav.className = 'mc-pn';
+    nav.innerHTML = (k > 0 ? '<button data-goto-tab="' + ORDER[k - 1][0] + '" class="prev">← ' + esc(ORDER[k - 1][1]) + '</button>' : '<span></span>') +
+      (k < ORDER.length - 1 ? '<button data-goto-tab="' + ORDER[k + 1][0] + '" class="next">' + esc(ORDER[k + 1][1]) + ' →</button>' : '');
+    p.appendChild(nav);
+  });
+  var _show = show;
+  show = function (tab) { _show(tab); var b = document.querySelector('#tabs button[data-tab="' + tab + '"]'); if (b && b.scrollIntoView) b.scrollIntoView({ block: 'nearest', inline: 'center' }); };
 
   var start = (location.hash || '').slice(1);
   show(BUILD[start] ? start : 'overview');

@@ -22,19 +22,26 @@
 
   <div class="mc-bar"><div class="mc-wrap">
     <nav class="mc-tabs" id="tabs" role="tablist" aria-label="Sections">
-      <button role="tab" data-tab="overview" aria-selected="true">Overview &amp; dates</button>
-      <button role="tab" data-tab="elig" aria-selected="false">Eligibility &amp; seats</button>
-      <button role="tab" data-tab="top" aria-selected="false">Top 20 colleges</button>
-      <button role="tab" data-tab="branch" aria-selected="false">Branch selection</button>
-      <button role="tab" data-tab="calc" aria-selected="false">Cut-off calculator</button>
-      <button role="tab" data-tab="trend" aria-selected="false">Cut-off analytics</button>
-      <button role="tab" data-tab="predict" aria-selected="false">College predictor</button>
+      <button role="tab" data-tab="overview" aria-selected="true"><span class="mc-ti" aria-hidden="true">🗓️</span>Overview &amp; dates</button>
+      <button role="tab" data-tab="map" aria-selected="false"><span class="mc-ti" aria-hidden="true">🗺️</span>Colleges map</button>
+      <button role="tab" data-tab="elig" aria-selected="false"><span class="mc-ti" aria-hidden="true">✅</span>Eligibility &amp; seats</button>
+      <button role="tab" data-tab="top" aria-selected="false"><span class="mc-ti" aria-hidden="true">🏆</span>Top 20 colleges</button>
+      <button role="tab" data-tab="branch" aria-selected="false"><span class="mc-ti" aria-hidden="true">🔀</span>Branch selection</button>
+      <button role="tab" data-tab="calc" aria-selected="false"><span class="mc-ti" aria-hidden="true">🧮</span>Cut-off calculator</button>
+      <button role="tab" data-tab="trend" aria-selected="false"><span class="mc-ti" aria-hidden="true">📈</span>Cut-off analytics</button>
+      <button role="tab" data-tab="predict" aria-selected="false"><span class="mc-ti" aria-hidden="true">🎯</span>College predictor</button>
     </nav>
   </div></div>
 
   <main class="mc-wrap mc-main">
 
     <section class="mc-panel" id="p-overview">
+      <div class="mc-quick" aria-label="Where to start">
+        <button data-goto-tab="predict"><span>🎯</span><b>I know my percentile</b><small>See Safe, Likely and Reach colleges</small></button>
+        <button data-goto-tab="map"><span>🗺️</span><b>Explore by district</b><small>383 colleges on the Maharashtra map</small></button>
+        <button data-goto-tab="branch"><span>🔀</span><b>Choose a branch</b><small>Branch or college at your percentile</small></button>
+        <button data-goto-tab="calc"><span>🧮</span><b>Marks to rank</b><small>Percentile and state merit rank</small></button>
+      </div>
       <div class="mc-grid2">
         <div class="mc-card"><h2>2027 admission calendar</h2><p class="mc-sub">HSC board, both MHT CET attempts, results and the four CAP rounds. Expected rows follow the 2026 schedule until the CET Cell announces 2027 dates.</p><div class="mc-gaplist" id="dates"></div>
           <div class="mc-form" style="margin-top:10px"><button class="mc-btn" id="ics">Add these dates to my calendar (.ics)</button></div></div>
@@ -45,6 +52,40 @@
       </div>
       <div class="mc-card"><h2>What the numbers say</h2><ul class="mc-points" id="insights"></ul></div>
       <div class="mc-card mc-note"><strong>About the data.</strong> Dates: the CET Cell press release of 16 Nov 2026 (<a href="{{ data.src.cet_2027 }}" target="_blank" rel="noopener">PDF</a>) for MHT CET 2027; the HSC timetable as reported on 7 Nov 2026; CAP dates are the 2026 schedule, shown as Expected for 2027. Cut-offs: the official CAP Round I lists for Maharashtra and minority seats (<a href="{{ data.src.cap1_2023 }}" target="_blank" rel="noopener">2023</a>, <a href="{{ data.src.cap1_2024 }}" target="_blank" rel="noopener">2024</a>, <a href="{{ data.src.cap1_2025 }}" target="_blank" rel="noopener">2025</a>), read in full: {{ data.n_inst }} institutes and {{ data.n_br }} courses. NIRF: India Rankings 2025, Engineering. Later CAP rounds usually close lower than Round I, so Round I is the safer guide. Always confirm on cetcell.mahacet.org and the CAP portal.</div>
+    </section>
+
+    <section class="mc-panel" id="p-map" hidden>
+      <div class="mc-card">
+        <h2>Where the CAP engineering colleges are</h2>
+        <p class="mc-sub">Every institute in the official CAP Round I lists, by district. Hover a district for its numbers; click it to see its colleges.</p>
+        <div class="mc-filters">
+          <span class="mc-flabel">Colour by</span>
+          <div class="mc-seg" id="mMetric" role="group" aria-label="Colour districts by">
+            <button data-v="n" aria-pressed="true">Colleges</button><button data-v="courses" aria-pressed="false">Courses</button>
+            <button data-v="gov" aria-pressed="false">Government &amp; aided</button><button data-v="cs" aria-pressed="false">Best Computer cut-off</button>
+          </div>
+        </div>
+        <div class="mc-filters">
+          <span class="mc-flabel">Show</span>
+          <div class="mc-seg" id="mFilter" role="group" aria-label="Which colleges">
+            <button data-v="all" aria-pressed="true">All</button><button data-v="gov" aria-pressed="false">Government &amp; aided</button>
+            <button data-v="auto" aria-pressed="false">Autonomous</button><button data-v="nirf" aria-pressed="false">NIRF-ranked</button><button data-v="top" aria-pressed="false">Top 20 📍</button>
+          </div>
+        </div>
+        <div class="mc-mapgrid">
+          <div class="mc-mapbox"><svg id="mhMap" viewBox="0 0 720 560" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Map of Maharashtra districts shaded by engineering colleges"></svg>
+            <div class="mc-tip" id="mapTip" hidden></div>
+            <div class="mc-legend" id="mapLegend"></div></div>
+          <div class="mc-side" id="mapSide"></div>
+        </div>
+        <p class="mc-sub" id="mapNote" style="margin-top:8px"></p>
+      </div>
+      <div class="mc-grid3">
+        <div class="mc-card"><h2>Colleges by region</h2><p class="mc-sub">Share of the CAP institutes in each part of the state.</p><div class="mc-chart"><canvas id="cRegion"></canvas></div></div>
+        <div class="mc-card"><h2>Who runs them</h2><p class="mc-sub">Most CAP seats are in private unaided colleges.</p><div class="mc-chart"><canvas id="cKind"></canvas></div></div>
+        <div class="mc-card"><h2>How hard are the seats?</h2><p class="mc-sub">All 2025 Round I courses by open cut-off band.</p><div class="mc-chart"><canvas id="cHist"></canvas></div></div>
+      </div>
+      <div class="mc-card"><h2>Ten districts with the most colleges</h2><p class="mc-sub">Colleges, courses and the best Computer, IT or AI cut-off in 2025 (open category).</p><div class="mc-tablewrap"><table class="mc-table" id="distTbl"><thead><tr><th>District</th><th class="n">Colleges</th><th class="n">Courses</th><th class="n">Govt &amp; aided</th><th class="n">Autonomous</th><th>Best Computer cut-off</th></tr></thead><tbody></tbody></table></div></div>
     </section>
 
     <section class="mc-panel" id="p-elig" hidden>
@@ -148,5 +189,7 @@
 
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+<script>window.EA_MH_GEO = "{{ url_for('static', filename='data/maharashtra-districts.geojson') }}";</script>
 <script src="{{ url_for('static', filename='js/mhtcet.js') }}"></script>
 {% endblock %}
