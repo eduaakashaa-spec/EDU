@@ -1,4 +1,4 @@
-"""Data behind the public /exam-schedule page (validated against official sources on 21 Nov 2026, cycle 2026-27 / admissions 2027).
+"""Data behind the public /exam-schedule page (validated against official sources on 22 Nov 2026, cycle 2026-27 / admissions 2027).
 
 Statuses — how firm the date is:
   Confirmed  announced by the conducting body (source named)
@@ -14,7 +14,7 @@ from types import SimpleNamespace
 
 from app.services import exam_calendar as xc
 
-VERIFIED = date(2026, 11, 21)
+VERIFIED = date(2026, 11, 22)
 
 # (id, name, badge, when, status, description, start, end, note)
 _E = 'Expected'
@@ -24,7 +24,7 @@ _C = 'Confirmed'
 CATEGORIES = [
     {'key': 'eng', 'title': 'National Engineering', 'col': 'left', 'grad': '#0E3A8A,#0A2560', 'dot': '#60a0ff', 'exams': [
         ('jee-main-reg', 'JEE Main 2027 — Session 1 registration', 'ENGINEERING', '24 Oct – 22 Nov 2026 (till 11:50 pm)', _C,
-         "Open now. Apply online only at jeemain.nta.nic.in; the fee must be paid by 22 Nov. Late submission with an extra ₹500: 23–26 Nov. Correction window 27–29 Nov. NTA's 30 Oct clarification: a fresh form with fee is accepted until 22 Nov; only the last form with fee paid counts, an earlier fee is not refunded, and two application numbers count as unfair means. To fix details, use the correction window instead. Per the 28 Oct advisory, complete Re-KYC with your own DigiLocker, JanParichay or e-Pramaan login; name and date of birth must match the Class 10 certificate. City slip 30 Dec; admit card 13 Jan 2027.", '2026-10-24', '2026-11-22', 'NTA public notices, 24, 28 and 30 Oct 2026'),
+         "Regular registration closes on 22 Nov at 11:50 pm (fee included); apply online only at jeemain.nta.nic.in. Late submission with an extra ₹500 is open 23–26 Nov. Correction window 27–29 Nov. NTA's 30 Oct clarification: a fresh form with fee was accepted only until 22 Nov; only the last form with fee paid counts, an earlier fee is not refunded, and two application numbers count as unfair means. To fix details, use the correction window instead. Per the 28 Oct advisory, complete Re-KYC with your own DigiLocker, JanParichay or e-Pramaan login; name and date of birth must match the Class 10 certificate. City slip 30 Dec; admit card 13 Jan 2027.", '2026-10-24', '2026-11-22', 'NTA public notices, 24, 28 and 30 Oct 2026'),
         ('jee-main-s1', 'JEE Main 2027 — Session 1', 'ENGINEERING', '20, 21, 22, 23, 24 & 28 Jan 2027', _C,
          'Computer-based test in two shifts (9 am–12 noon and 3–6 pm; B.Arch and B.Planning papers run 3½ hours). Paper 1 for B.E./B.Tech, Paper 2A B.Arch, Paper 2B B.Planning, in 13 languages. If you sit both sessions, the better total NTA score counts.', '2027-01-20', '2027-01-28', 'NTA public notice, 24 Oct 2026'),
         ('jee-main-s2', 'JEE Main 2027 — Session 2', 'ENGINEERING', '2–7 Apr 2027 (registration 5 Jan – 3 Feb)', _T,
@@ -51,18 +51,18 @@ CATEGORIES = [
          "Institute of National Importance PG test — AIIMS, JIPMER, PGIMER, NIMHANS. The January 2027 session was held on 1 Nov 2026 and the result was published on 6–7 Nov 2026 (Result Notification No. 304/2026 dated 6 Nov, as reported). Counselling and seat-allocation dates are awaited. The July 2027 session is reported for about 22 May 2027 (unofficial). Confirm on aiimsexams.ac.in.", '2026-11-01', '2026-11-01', 'Result out; counselling awaited'),
         ('neet-mds', 'NEET MDS 2027', 'DENTAL PG', 'Expected about May 2027 (2026: about 2 May)', _E,
          'NBE test for MDS admissions at dental colleges. NBEMS has not announced the 2027 dates.', '2027-05-01', '2027-05-31', None),
-        ('fmge', 'FMGE', 'FOREIGN MED', 'Dec 2026 session: Sat 9 Jan 2027 (tentative)', _T,
-         "Screening test for Indian citizens with foreign medical degrees who wish to practise in India. The December 2026 session is on 9 Jan 2027 in NBEMS's tentative schedule (dates may change); confirm on natboard.edu.in.", '2027-01-09', '2027-01-09', 'NBEMS tentative schedule'),
+        ('fmge', 'FMGE', 'FOREIGN MED', 'Next session: Jan–Feb 2027 (date awaited; 9 Jan 2027 reported deferred)', _T,
+         "Screening test for Indian citizens with foreign medical degrees who wish to practise in India. NBEMS's tentative schedule listed the next sitting for 9 Jan 2027, but news reports citing an NBEMS notice on the additional FMGE of 31 Oct 2026 say that sitting is deferred to a later date in January or February 2027; the new date and the application window are not yet announced. Confirm on natboard.edu.in.", None, None, '9 Jan deferred (reported); new date awaited'),
         ('aiapget', 'AIAPGET 2027', 'AYUSH PG', 'Jul–Aug 2027 (expected; 2026: 22 Aug)', _E,
          'All India AYUSH Post Graduate Entrance Test.', '2027-07-01', '2027-08-31', None),
     ]},
     {'key': 'law', 'title': 'Law Entrance Exams', 'col': 'left', 'grad': '#6B3FA0,#4E2C80', 'dot': '#c09af0', 'exams': [
         ('clat', 'CLAT 2027 (NLUs)', 'LAW', 'Sunday 6 Dec 2026, 2–4 pm', _C,
-         'Announced by the Consortium of NLUs (consortiumofnlus.ac.in). Offline mode; syllabus and pattern unchanged. Registration closed 7 Nov 2026 (extended from 31 Oct; corrections to 10 Nov, reported). Admit card expected about 20–22 Nov; download from consortiumofnlus.ac.in.', '2026-12-06', '2026-12-06', 'Admit card ~20–22 Nov (expected)'),
+         'Announced by the Consortium of NLUs (consortiumofnlus.ac.in). Offline mode; syllabus and pattern unchanged. Registration closed 7 Nov 2026 (extended from 31 Oct; corrections to 10 Nov, reported). Admit card available since 21 Nov 2026, 10 am, and downloadable until 6 Dec, 1:30 pm, from your login at consortiumofnlus.ac.in (reported); no physical copy is sent.', '2026-12-06', '2026-12-06', 'Admit card out since 21 Nov (reported)'),
         ('ailet', 'AILET 2027 (NLU Delhi)', 'LAW', 'Sunday 13 Dec 2026, 2–4 pm', _T,
          "NLU Delhi's own entrance test, separate from CLAT; applications from 7 Aug 2026; NLU Delhi extended the deadline to 13 Nov 2026 by a notice of 11 Nov (reported); admit card reported for 30 Nov. Confirm on nationallawuniversitydelhi.in. Members: see the Law 2027 roadmap.", '2026-12-13', '2026-12-13', 'Verify on the official site'),
         ('slat', 'SLAT 2027 (Symbiosis)', 'LAW', '19 & 26 Dec 2026 (best of two)', _C,
-         'Tests on 19 and 26 Dec 2026 per slat-test.org (best score counts). Registration is reported to close ~4 Dec and results ~12 Jan 2027. Admit cards: Test 1 on 11 Dec, Test 2 on 18 Dec (reported). Confirm on slat-test.org.', '2026-12-19', '2026-12-26', 'Official: slat-test.org'),
+         'Tests on 19 and 26 Dec 2026 per slat-test.org (best score counts). Registration and payment close on 4 Dec 2026; admit cards on 11 Dec (Test 1) and 18 Dec (Test 2); result on 12 Jan 2027. Symbiosis notes the schedule may change.', '2026-12-19', '2026-12-26', 'Official: slat-test.org'),
         ('lsat', 'LSAT India', 'LAW', 'Discontinued (LSAC, from 2025)', _T,
          'LSAC has reportedly discontinued LSAT India from 2025 with no replacement; Indian private law schools now use CLAT, SLAT, MH CET Law or their own tests. Confirm with each college.', None, None, 'Reported discontinued'),
         ('mh-law', 'MH CET Law 2027', 'STATE LAW', '5-yr LLB: 28–29 Mar & 24 May 2027; 3-yr LLB: 4–5 May 2027 (tentative)', _T,
@@ -78,15 +78,15 @@ CATEGORIES = [
         ('xat', 'XAT 2027 (XLRI)', 'MBA', 'Sunday 3 Jan 2027, 2–5 pm', _C,
          'Announced by XLRI (xatonline.in). Computer-based, single session. Registration until 6 Dec 2026; admit card from 20 Dec (tentative).', '2027-01-03', '2027-01-03', 'Register by 6 Dec'),
         ('snap', 'SNAP 2026 (Symbiosis)', 'MBA', '13, 19 & 26 Dec 2026 (3 tests)', _C,
-         'Test dates per snaptest.org. Up to three attempts; best score counts. Registration closes 25 Nov; result 12 Jan 2027. Apply separately to each Symbiosis institute.', '2026-12-13', '2026-12-26', 'Official: snaptest.org'),
+         'Test dates per snaptest.org. Up to three attempts; best score counts. Registration and payment close 25 Nov; admit cards on 7, 11 and 18 Dec for the three tests; result 12 Jan 2027. Apply separately to each Symbiosis institute.', '2026-12-13', '2026-12-26', 'Official: snaptest.org'),
         ('nmat', 'NMAT by GMAC 2026–27', 'MBA', '2 Nov – 20 Dec 2026 window', _T,
-         'Multiple attempts within the testing window; you choose the score to send. Window and deadlines as reported — one report says registration was extended to 25 Oct; confirm on mba.com.', '2026-11-02', '2026-12-20', 'Reported — verify'),
+         'Multiple attempts within the testing window; you choose the score to send. Window and deadlines as reported: registration closed on 25 Oct 2026 (extended from 10 Oct); sources differ on the last test day (17–20 Dec). Confirm on mba.com.', '2026-11-02', '2026-12-20', 'Reported — verify'),
         ('iift', 'IIFT MBA (IB) 2027–29', 'MBA', 'Via CAT 2026 · apply by 25 Nov 2026', _T,
-         'IIFT is reported to shortlist the 2027–29 MBA (IB) and MBA (BA) intake on CAT 2026 scores rather than a separate NTA test. Applications opened 12 Oct and close 25 Nov 2026; confirm on iift.ac.in.', '2026-11-29', '2026-11-29', 'Uses CAT 2026 score'),
+         'IIFT is reported to shortlist the 2027–29 MBA (IB) and MBA (BA) intake on CAT 2026 scores rather than a separate NTA test. Applications opened 12 Oct and close 25 Nov 2026, 11:59 pm (closing date reported); the shortlist is reported for the last week of January 2027. Confirm on iift.ac.in.', '2026-11-29', '2026-11-29', 'Uses CAT 2026 score'),
         ('cmat', 'CMAT 2027 (NTA)', 'MBA', '7 Feb 2027', _T,
          'From NTA\'s exam calendar of 16 Sep 2026 (provisional).', '2027-02-07', '2027-02-07', 'NTA calendar · provisional'),
-        ('tissnet', 'TISS admissions 2027', 'SOCIAL SCIENCE', 'No TISSNET expected — admissions via CUET PG / CAT', _T,
-         'TISS is reported to have stopped TISSNET; MA admissions use CUET PG and the HRM/LE-type programmes use CAT. Check admissions.tiss.ac.in for the 2027 notice.', None, None, 'Reported — verify on tiss.ac.in'),
+        ('tissnet', 'TISS admissions 2027', 'SOCIAL SCIENCE', 'No TISSNET — CAT-based programmes: apply by 4 Dec 2026 (reported); others via CUET PG', _T,
+         'TISS no longer holds TISSNET. Its admissions site shows CAT-PG Programme 2027–28 admissions open (HRM, organisation development, hospital administration and analytics programmes) on CAT 2026 scores; applications are reported open from 9 Nov to 4 Dec 2026, 5 pm. Other MA programmes use CUET PG. Confirm on admissions.tiss.ac.in.', None, None, 'CAT-PG 2027–28 applications open'),
         ('ca', 'CA exams (ICAI Jan 2027) / CS / CMA', 'PROFESSIONAL', 'ICAI Jan 2027: Foundation 3, 5, 7, 9 Jan; Inter 2–12 Jan', _C,
          'ICAI exams in January 2027 (announcement of 23 Sep 2026): Intermediate Group I on 2, 4, 6 Jan and Group II on 8, 10, 12 Jan; Foundation on 3, 5, 7, 9 Jan. ICSI CS Executive/Professional: 21–28 Dec 2026 (no exam 25 Dec). ICMAI CMA: Inter/Final 10–17 Dec, Foundation 13 Dec 2026 (reported). ICAI May 2027 dates not yet announced.', '2027-01-02', '2027-01-12', 'ICAI announcement, 23 Sep 2026'),
         ('nimcet', 'NIMCET 2027 (MCA at NITs)', 'MCA', 'Expected early Jun 2027 (2026: 6 Jun)', _E,
@@ -94,7 +94,7 @@ CATEGORIES = [
     ]},
     {'key': 'sci', 'title': 'Science / Research', 'col': 'right', 'grad': '#0E7C8B,#085F6B', 'dot': '#7de8f0', 'exams': [
         ('jam', 'JAM 2027 (IIT M.Sc)', 'IIT MSC', 'Sunday 14 Feb 2027', _C,
-         'Joint Admission Test for M.Sc programmes at IITs and IISc, organised by IIT Kharagpur (jam.iitkgp.ac.in). Registration (extended) closed on 24 Oct 2026; results 18 Mar 2027.', '2027-02-14', '2027-02-14', 'Registration closed 24 Oct'),
+         'Joint Admission Test for M.Sc programmes at IITs and IISc, organised by IIT Kharagpur (jam.iitkgp.ac.in). Registration (extended) closed on 24 Oct 2026; data correction on the JOAPS portal 25 Nov – 1 Dec 2026 (tentative); results 18 Mar 2027.', '2027-02-14', '2027-02-14', 'Registration closed 24 Oct'),
         ('jest', 'JEST 2027', 'RESEARCH', 'Expected Apr 2027', _E,
          'Screening test for PhD programmes in physics and theoretical computer science at leading research institutes. Applications expected around February 2027 on jest.org.in.', '2027-04-01', '2027-04-30', None),
         ('tifr', 'TIFR GS 2027', 'RESEARCH', 'Sunday 13 Dec 2026', _C,
@@ -108,7 +108,7 @@ CATEGORIES = [
         ('ugee', 'UGEE 2027 (IIIT Hyderabad)', 'RESEARCH', 'Expected May 2027', _E,
          'IIIT Hyderabad undergraduate entrance (2026: 2 May).', '2027-05-01', '2027-05-31', None),
         ('csir-net', 'CSIR-UGC NET', 'JRF / LECTURESHIP', '19, 22 & 27 Dec 2026 (reported)', _T,
-         "Joint CSIR-UGC NET; science subjects. NTA's notification of 7 Oct 2026 is reported to set the test for 19, 22 and 27 Dec (the earlier calendar said 20–21 Dec). NTA extended the last date to apply to 9 Nov 2026, 11:50 pm (reported); the correction window was reported for 10–12 Nov. Applications are now closed; the city slip and admit card are awaited. Confirm on csirnet.nta.nic.in.", '2026-12-19', '2026-12-27', 'Applications closed 9 Nov (reported)'),
+         "Joint CSIR-UGC NET; science subjects. NTA's notification of 7 Oct 2026 is reported to set the test for 19, 22 and 27 Dec (the earlier calendar said 20–21 Dec). An NTA notice of 20 Nov 2026 is reported to give the subject-wise schedule: Life Sciences on 19 Dec (3–6 pm); Chemical Sciences and Earth, Atmospheric, Ocean and Planetary Sciences on 22 Dec (9 am–12 noon); Mathematical Sciences and Physical Sciences on 27 Dec (3–6 pm). Applications closed on 9 Nov 2026 (extended, reported); the city slip and admit card are awaited. Confirm on csirnet.nta.nic.in.", '2026-12-19', '2026-12-27', 'Subject-wise schedule out (reported)'),
     ]},
     {'key': 'design', 'title': 'Design / Architecture', 'col': 'right', 'grad': '#1A6B3A,#104D28', 'dot': '#60d090', 'exams': [
         ('uceed', 'UCEED 2027 (IIT B.Des)', 'DESIGN', 'Sunday 17 Jan 2027, 9 am–12 noon', _C,
@@ -126,11 +126,11 @@ CATEGORIES = [
         ('tnea', 'TNEA 2027 (Tamil Nadu)', 'STATE · TN', 'Registration ~May 2027 (expected; 2026: 3 May–5 Jun)', _E,
          'No entrance exam — your Class 12 marks decide the rank. In 2026 counselling ran 20 Jul–30 Aug (DoTE schedule, subject to AICTE approval). See our TNEA pages.', '2027-05-01', '2027-06-05', 'No exam — Class 12 marks'),
         ('mht-cet', 'MHT CET 2027 (Maharashtra)', 'STATE · MH', 'PCM 16–26 Apr & 10–15 May 2027; PCB 8–13 Apr & 6–8 May 2027 (tentative, CET Cell)', _T,
-         'CET Cell press release of 16 Nov 2026 (tentative schedule): two attempts for PCM and PCB. The first attempt is compulsory and the second optional; if you sit both, the better percentile counts. Application dates not yet announced. Confirm on cetcell.mahacet.org.', '2027-04-08', '2027-05-15', '2 attempts · Apr & May'),
+         'CET Cell press release of 16 Nov 2026 (tentative schedule): two attempts for PCM and PCB. The first attempt is compulsory and the second optional; if you sit both, the better percentile counts. The CET Cell published the MHT CET 2027 syllabus and marking scheme on 18 Nov 2026 (about 20% weightage for Std XI and 80% for Std XII, no negative marking). Application dates not yet announced. Confirm on cetcell.mahacet.org.', '2027-04-08', '2027-05-15', '2 attempts · Apr & May'),
         ('wbjee', 'WBJEE 2027 (West Bengal)', 'STATE · WB', 'May 2027 (expected; 2026: exam 24 May)', _E,
          'Offline format. In 2026 applications ran 10 Mar–8 Apr. Check wbjeeb.nic.in; no 2027 notice yet.', '2027-05-01', '2027-05-31', None),
-        ('keam', 'KEAM 2027 (Kerala)', 'STATE · KL', 'April 2027 (expected; 2026: Engineering 17–22 Apr)', _E,
-         'Conducted by CEE Kerala for engineering and other professional courses.', '2027-04-01', '2027-04-30', None),
+        ('keam', 'KEAM 2027 (Kerala)', 'STATE · KL', '21–26 Apr 2027 (reported; 2026: Engineering 17–22 Apr)', _T,
+         'Conducted by CEE Kerala for engineering and other professional courses. News reports of 11 Nov 2026 give 21–26 Apr 2027 for the engineering and pharmacy tests (computer-based); CEE Kerala has not yet published the KEAM 2027 notification, and registration is expected around January 2027. Confirm on cee.kerala.gov.in.', '2027-04-21', '2027-04-26', 'Reported (unofficial)'),
         ('kcet', 'KCET 2027 (Karnataka)', 'STATE · KA', 'April 2027 (expected; 2026: 23–24 Apr)', _E,
          'Karnataka CET for government and aided engineering seats; KEA publishes the schedule.', '2027-04-01', '2027-04-30', None),
         ('comedk', 'COMEDK UGET 2027', 'STATE · KA', 'Apr–May 2027 (expected)', _E,
@@ -158,7 +158,7 @@ CATEGORIES = [
         ('viteee', 'VITEEE 2027', 'INSTITUTE', '27 Apr – 2 May 2027 (tentative)', _T,
          'Per viteee.vit.ac.in: applications 20 Oct 2026 – 31 Mar 2027; admit card 25–30 Apr; the number of exam days varies by city; results and counselling from the second week of May. VIT marks these dates tentative. See our VITEEE page for NRI details.', '2027-04-27', '2027-05-02', 'Apply by 31 Mar 2027'),
         ('srmjeee', 'SRMJEEE 2027', 'INSTITUTE', '17–18 Apr & 19–20 Jun 2027 (reported)', _T,
-         'Reported by Careers360 (30 Oct 2026), citing the SRM website: two phases only, Phase 1 on 17–18 Apr (apply by 2 Apr) and Phase 2 on 19–20 Jun 2027 (apply by 4 Jun); remote-proctored. Registration start is reported as 30 Oct or 4 Nov 2026. Confirm on srmist.edu.in.', '2027-04-17', '2027-06-20', 'Reported (unofficial)'),
+         'Reported by Careers360 (30 Oct 2026), citing the SRM website: two phases only, Phase 1 on 17–18 Apr (apply by 2 Apr) and Phase 2 on 19–20 Jun 2027 (apply by 4 Jun); reports differ on the mode (remote-proctored or centre-based computer test). Registration start is reported as 30 Oct or 4 Nov 2026; fee ₹1,400 per phase (reported). Confirm on srmist.edu.in.', '2027-04-17', '2027-06-20', 'Reported (unofficial)'),
         ('met', 'MET — Manipal 2027', 'INSTITUTE', 'Apr & May 2027 phases (reported)', _T,
          'Manipal Institute of Technology entrance. Reported: applications opened about 19 Oct 2026; Phase 1 applications close 15 Mar 2027; Phase 1 in April and Phase 2 in May 2027 (exact dates awaited); the better score counts. Confirm on manipal.edu.', '2027-04-01', '2027-05-31', 'Phase 1: apply by 15 Mar'),
         ('kiitee', 'KIITEE 2027', 'INSTITUTE', '16–20 Apr & 4–6 Jun 2027 (reported)', _T,
@@ -168,12 +168,12 @@ CATEGORIES = [
 
 MILESTONES = [
     ('OCT 2026', 'JEE Main Session 1 registration opens 24 Oct (till 22 Nov) · TIFR GS closed 25 Oct · UCEED / CEED registration closed 5 Nov (late fee to 10 Nov)'),
-    ('NOV 2026', 'INI-CET result (6 Nov) · AEEE registration opened 7 Nov · JEE Main Session 1 closes 22 Nov · NIFT closes 24 Nov (extended) · CAT (29 Nov) · NID registration closes 30 Nov'),
-    ('DEC 2026', 'CLAT (6 Dec) · CSIR NET (19, 22, 27 Dec) · TIFR GS & AILET (13 Dec) · SNAP (13, 19, 26 Dec) · NID DAT Prelims (20 Dec) · BITSAT registration expected'),
-    ('JAN 2027', 'ICAI exams (2–12 Jan) · XAT (3 Jan) · FMGE (9 Jan, tentative) · NIFT (10 Jan) · UCEED & CEED (17 Jan) · JEE Main Session 1 (20–24 & 28 Jan)'),
+    ('NOV 2026', 'INI-CET result (6 Nov) · AEEE registration opened 7 Nov · CLAT admit card (21 Nov, reported) · JEE Main Session 1 closes 22 Nov (late fee 23–26 Nov, corrections 27–29 Nov) · NIFT closes 24 Nov (extended) · CAT (29 Nov) · NID registration closes 30 Nov'),
+    ('DEC 2026', 'CLAT (6 Dec) · CSIR NET (19, 22, 27 Dec) · TIFR GS & AILET (13 Dec) · SNAP (13, 19, 26 Dec) · SLAT (19, 26 Dec) · NID DAT Prelims (20 Dec) · BITSAT registration expected'),
+    ('JAN 2027', 'ICAI exams (2–12 Jan) · XAT (3 Jan) · NIFT (10 Jan) · UCEED & CEED (17 Jan) · JEE Main Session 1 (20–24 & 28 Jan)'),
     ('FEB 2027', 'GATE (6, 7, 13, 14, 20, 21 Feb) · CMAT (7 Feb, provisional) · JAM (14 Feb)'),
     ('MAR 2027', 'CUET PG (2–31 Mar, provisional) · TN +2 board exams (3–29 Mar) · MH CET Law 5-yr (28–29 Mar, tentative) · NID Prelims result (16 Mar)'),
-    ('APR 2027', 'JEE Main Session 2 (2–7 Apr) · MHT CET PCB (8–13 Apr) & PCM (16–26 Apr), tentative · AEEE (from 15 Apr) · SRMJEEE & KIITEE Phase 1 (reported)'),
+    ('APR 2027', 'JEE Main Session 2 (2–7 Apr) · MHT CET PCB (8–13 Apr) & PCM (16–26 Apr), tentative · AEEE (from 15 Apr) · KEAM (21–26 Apr, reported) · SRMJEEE & KIITEE Phase 1 (reported)'),
     ('MAY 2027', 'JEE Advanced (Sun 23 May) · MHT CET 2nd attempt (PCB 6–8, PCM 10–15 May) · NEET UG · CUET UG · COMEDK / EAPCET (expected)'),
     ('JUN–AUG', 'JoSAA · MCC · TNEA · DASA / CIWG counselling (expected)'),
 ]
@@ -229,7 +229,7 @@ def all_ics():
 
 
 # --------------------------------------------------------------------------- #
-# Application / deadline milestones (checked 21 Nov 2026). kind: open | close | late | admit | result | other
+# Application / deadline milestones (checked 22 Nov 2026). kind: open | close | late | admit | result | other
 # status as above. A date of None means "announced as pending". Expected dates never make an application show as "open now".
 # --------------------------------------------------------------------------- #
 KIND_LABEL = {'open': 'Applications open', 'close': 'Applications close', 'late': 'Last date with late fee', 'admit': 'Admit card',
@@ -240,12 +240,13 @@ DEADLINES = {
               ('late', '2026-11-10', _C, 'Until 5 pm (window 6–10 Nov), no further extension — official'), ('admit', '2027-01-01', _C, 'From 1 pm — official'), ('other', '2027-01-08', _C, 'Last date to fix admit-card discrepancies, 5 pm'),
               ('result', '2027-03-06', _C, None), ('other', '2027-03-15', _C, 'Separate B.Des application (official)'), ('other', '2027-04-21', _C, 'Admission rounds begin (official)')],
     'ceed': [('open', '2026-10-01', _C, 'Registration (regular fee)'), ('close', '2026-11-05', _C, 'Extended from 31 Oct'), ('late', '2026-11-10', _C, 'Until 5 pm (window 6–10 Nov)'),
-             ('admit', '2027-01-01', _C, 'From 1 pm'), ('other', '2027-01-19', _C, 'Draft Part-A answer key (comments till 21 Jan, 5 pm)'), ('other', '2027-02-04', _C, 'Part-A cut-off marks'), ('result', '2027-03-03', _C, None)],
-    'clat': [('open', '2026-08-03', _T, 'Announced by the Consortium (reported)'), ('close', '2026-11-07', _T, 'Extended from 31 Oct (reported); closed'), ('admit', '2026-11-21', _E, 'Expected 20–22 Nov; not yet officially dated'), ('result', None, _E, 'Date awaited')],
+             ('admit', '2027-01-01', _C, 'From 1 pm'), ('other', '2027-01-19', _C, 'Draft Part-A answer key (comments till 21 Jan, 5 pm)'), ('other', '2027-01-26', _C, 'Final Part-A answer key, 5 pm'), ('other', '2027-02-04', _C, 'Part-A cut-off marks'), ('result', '2027-03-03', _C, None),
+             ('other', '2027-03-10', _C, 'Score cards available (download until 31 Jul 2027)')],
+    'clat': [('open', '2026-08-03', _T, 'Announced by the Consortium (reported)'), ('close', '2026-11-07', _T, 'Extended from 31 Oct (reported); closed'), ('admit', '2026-11-21', _T, 'Released 21 Nov, 10 am; download until 6 Dec, 1:30 pm (Consortium notice, reported)'), ('result', None, _E, 'Date awaited')],
     'ailet': [('open', '2026-08-07', _T, 'Announced by NLU Delhi (reported)'), ('close', '2026-11-13', _T, 'Extended from 10 Nov (NLU Delhi notice of 11 Nov, reported); closed'),
               ('admit', '2026-11-30', _T, 'Reported by several sources'), ('result', '2026-12-22', _E, 'Fourth week of December')],
-    'slat': [('open', '2026-08-21', _T, 'Opened in August (reported)'), ('close', '2026-12-04', _T, 'Reported'),
-             ('admit', '2026-12-11', _T, 'Test 1 (Test 2: 18 Dec)'), ('result', '2027-01-12', _T, 'Reported')],
+    'slat': [('open', '2026-08-21', _T, 'Opened in August (reported)'), ('close', '2026-12-04', _C, 'Registration and payment — slat-test.org'),
+             ('admit', '2026-12-11', _C, 'Test 1 (Test 2: 18 Dec) — slat-test.org'), ('result', '2027-01-12', _C, 'slat-test.org')],
     'nid-prelims': [('open', '2026-09-10', _C, 'NID Handbook 2027–28'), ('close', '2026-11-30', _C, 'Official — NID admissions site'), ('other', '2026-12-03', _T, 'Form edit window 1 Dec (4 pm) – 3 Dec, 11:59 pm (reported; per handbook)'), ('admit', '2026-12-10', _T, 'From 4 pm (handbook)'),
                     ('result', '2027-03-16', _T, 'Reports differ (16 Feb or 16 Mar) — confirm; re-totalling 16–17 Mar')],
     'cat': [('open', '2026-08-03', _C, None), ('close', '2026-09-22', _T, 'Extended from 15 Sep — verify on iimcat.ac.in'), ('admit', '2026-11-06', _T, 'Moved from 4 Nov (IIM Indore release, reported); until the exam'),
@@ -262,11 +263,12 @@ DEADLINES = {
     'nift': [('open', '2026-10-16', _C, 'NTA notice, 16 Oct'), ('close', '2026-11-24', _T, 'Extended from 16 Nov (NTA notice 14 Nov; dates reported)'), ('late', '2026-11-29', _T, 'Late fee 25–29 Nov (reported)'),
              ('other', '2026-12-02', _T, 'Correction window 30 Nov – 2 Dec (reported)'), ('admit', '2027-01-04', _T, 'Reported')],
     'xat': [('close', '2026-12-06', _C, 'xatonline.in'), ('admit', '2026-12-20', _T, 'Tentative per XLRI')],
-    'snap': [('close', '2026-11-25', _C, 'snaptest.org'), ('result', '2027-01-12', _C, 'snaptest.org')],
+    'snap': [('close', '2026-11-25', _C, 'snaptest.org'), ('admit', '2026-12-07', _C, 'SNAP 01 (SNAP 02: 11 Dec; SNAP 03: 18 Dec) — snaptest.org'), ('result', '2027-01-12', _C, 'snaptest.org')],
     'nmat': [('other', '2026-11-02', _T, 'Testing window opens (reported)')],
-    'iift': [('open', '2026-10-12', _T, 'Reported'), ('close', '2026-11-25', _T, 'Reported — confirm on iift.ac.in')],
+    'iift': [('open', '2026-10-12', _C, 'iift.ac.in announcement, 12 Oct'), ('close', '2026-11-25', _T, 'Until 11:59 pm (reported) — confirm on iift.ac.in')],
+    'tissnet': [('open', '2026-11-09', _T, 'CAT-PG programmes (reported)'), ('close', '2026-12-04', _T, 'Until 5 pm (reported) — confirm on admissions.tiss.ac.in')],
     'ini-cet': [('admit', '2026-10-26', _T, 'AIIMS tentative calendar'), ('result', '2026-11-06', _T, 'Result notification 304/2026 (reported); counselling dates awaited')],
-    'jam': [('close', '2026-10-24', _C, 'Extended deadline — jam.iitkgp.ac.in'), ('admit', '2027-01-05', _T, 'Reported; official site gives no admit card date yet'), ('result', '2027-03-18', _C, None)],
+    'jam': [('close', '2026-10-24', _C, 'Extended deadline — jam.iitkgp.ac.in'), ('other', '2026-12-01', _T, 'Data correction on the JOAPS portal, 25 Nov – 1 Dec 2026 (tentative per IIT Kharagpur; fee applies)'), ('admit', '2027-01-05', _T, 'Reported; official site gives no admit card date yet'), ('result', '2027-03-18', _C, None)],
     'tifr': [('close', '2026-10-25', _C, 'Until 11 pm — TIFR advertisement'), ('admit', None, _T, 'Delayed for technical reasons (reported 19 Nov) — watch tifr.res.in')],
     'viteee': [('open', '2026-10-20', _C, 'viteee.vit.ac.in'), ('close', '2027-03-31', _T, 'Tentative per VIT'),
                ('admit', '2027-04-25', _T, '25–30 Apr, tentative per VIT')],
@@ -275,8 +277,8 @@ DEADLINES = {
     'mh-law': [('open', '2027-01-05', _E, 'Registration expected Dec 2026 – Jan 2027')],
     'met': [('open', '2026-10-19', _T, 'Reported'), ('close', '2027-03-15', _T, 'Phase 1, reported')],
     'kiitee': [('open', '2026-11-10', _T, 'Reported'), ('close', '2027-04-08', _T, 'Phase 1, reported'), ('close', '2027-05-30', _T, 'Phase 2, reported')],
-    'fmge': [('admit', None, _E, 'Expected late Dec 2026 — natboard.edu.in')],
-    'csir-net': [('open', '2026-10-08', _T, 'NTA notification dated 7 Oct'), ('close', '2026-11-09', _T, 'Extended from 5 Nov, 11:50 pm (reported)'), ('other', '2026-11-12', _T, 'Correction window 10–12 Nov (reported)')],
+    'fmge': [('other', None, _T, 'New exam date and application window awaited (9 Jan 2027 sitting reported deferred) — natboard.edu.in')],
+    'csir-net': [('open', '2026-10-08', _T, 'NTA notification dated 7 Oct'), ('close', '2026-11-09', _T, 'Extended from 5 Nov, 11:50 pm (reported)'), ('other', '2026-11-12', _T, 'Correction window 10–12 Nov (reported)'), ('other', '2026-11-20', _T, 'Subject-wise schedule (NTA notice of 20 Nov, reported)')],
 }
 
 
