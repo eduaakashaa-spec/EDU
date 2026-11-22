@@ -3,7 +3,7 @@
   var D = window.EA_MHT || {};
   var YEARS = D.years || [2023, 2024, 2025], LAST = YEARS[YEARS.length - 1];
   var NAVY = '#0E3A8A', OR = '#FF6B0A', GR = '#1F8B5C', RED = '#C23A3A', GREY = '#8C93A6';
-  var YCOL = { 2023: '#8FA8D6', 2024: OR, 2025: NAVY };
+  var YCOL = { 2023: '#C9D6F0', 2024: '#8FA8D6', 2025: OR, 2026: NAVY };
   var FAM_ORDER = ['CSE', 'AI', 'IT', 'ENTC', 'ELEC', 'MECH', 'CIVIL', 'CHEM'];
   var FN = D.famNames || {};
   var $ = function (id) { return document.getElementById(id); };
@@ -98,8 +98,8 @@
     var k = [
       ['16–26 Apr', 'MHT CET 2027 PCM', 'attempt 1; attempt 2 on 10–15 May (tentative)'],
       [(c26[2] / 1e5).toFixed(2) + ' lakh', 'appeared in 2026', 'PCM attempt 1'],
-      [D.n_inst, 'colleges with official cut-offs', D.n_br + ' courses, CAP Round I 2023–2025'],
-      [t1 ? fmt(t1.best.cut[LAST], 2) : '–', 'top cut-off 2025', t1 ? t1.n + ', ' + t1.best.n : '']
+      [D.n_inst, 'colleges with official cut-offs', D.n_br + ' courses, CAP Round I ' + YEARS[0] + '–' + LAST],
+      [t1 ? fmt(t1.best.cut[LAST], 2) : '–', 'top cut-off ' + LAST, t1 ? t1.n + ', ' + t1.best.n : '']
     ];
     $('kpis').innerHTML = k.map(function (x) { return '<div class="mc-kpi"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span><small>' + esc(x[2]) + '</small></div>'; }).join('');
   })();
@@ -240,7 +240,7 @@
       (a ? '<div class="mc-tiles"><div><b>' + a.n + '</b>colleges</div><div><b>' + a.courses + '</b>courses</div><div><b>' + a.gov + '</b>govt / aided</div><div><b>' + (a.cs ? fmt(a.cs, 2) : '–') + '</b>best Computer</div></div>' +
         '<ul class="mc-clist">' + rows.map(function (r) {
           return '<li><b>' + esc(r.n) + '</b>' + web(r.c) + '<div class="mc-chips">' + (r.top ? '<span class="mc-pill o">Top 20 #' + r.top + '</span>' : '') + (r.nirf ? '<span class="mc-pill n">NIRF ' + esc(r.nirf) + '</span>' : '') + '<span class="mc-pill">' + esc(KIND[r.k]) + '</span>' + (r.auto ? '<span class="mc-pill">Autonomous</span>' : '') + '</div>' +
-            '<span class="mc-ct">' + (r.best != null ? 'Best course 2025: ' + esc(r.bestN) + ' · ' + fmt(r.best, 2) : 'No open-category cut-off in 2025') + '</span></li>';
+            '<span class="mc-ct">' + (r.best != null ? 'Best course ' + LAST + ': ' + esc(r.bestN) + ' · ' + fmt(r.best, 2) : 'No open-category cut-off in ' + LAST) + '</span></li>';
         }).join('') + '</ul>' : '<p class="mc-sub">No CAP college in this district for the current filter.</p>');
     $('mapBack').onclick = function () { mapState.sel = null; drawMap(); };
   }
@@ -300,7 +300,7 @@
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
     $('nirfCap').innerHTML = (D.nirf_cap || []).map(function (t) { return '<div class="mc-gap d"><span class="m">NIRF 2025: ' + esc(t.nirf) + ' · ' + esc(t.city) + '</span><br><b>' + esc(t.n) + '</b>' + web(t.c) + '<br><span class="mc-ct">Best 2025 course: ' + esc(t.best.n) + ' at ' + fmt(t.best.cut[LAST], 2) + '</span></div>'; }).join('') +
-      '<div class="mc-gap b"><b>Shri Ramdeobaba College of Engineering, Nagpur</b> (NIRF 151–200) became Ramdeobaba University and is not in the 2024 or 2025 CAP lists; it was last in CAP in 2023.</div>';
+      '<div class="mc-gap b"><b>Shri Ramdeobaba College of Engineering, Nagpur</b> (NIRF 151–200) became Ramdeobaba University and is not in the CAP lists after 2023.</div>';
     $('nirfNot').innerHTML = (D.nirfNotCap || []).map(function (n) { return '<div class="mc-gap b">' + esc(n) + '</div>'; }).join('');
   };
 

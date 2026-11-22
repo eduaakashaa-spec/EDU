@@ -1,7 +1,7 @@
 """MHT CET analytics: builds the payload for /mht-cet-analytics from app/data/mhtcet.py (facts) and app/data/mhtcet/cutoffs.json (official CAP Round I cut-offs).
 
 Open cut-off of a course = GOPEN at State level, else GOPEN on Home University seats; a women-only college has only LOPEN, which is then used and flagged.
-Top 20 = the 20 institutes with the highest 2025 open cut-off in any course (demand in CAP Round I), shown with their NIRF 2025 engineering rank.
+Top 20 = the 20 institutes with the highest open cut-off in any course in the latest year (demand in CAP Round I), shown with their NIRF 2025 engineering rank.
 The college predictor runs in the browser on the full cut-off file served at /mht-cet-analytics/cutoffs.json.
 """
 import json
@@ -91,7 +91,7 @@ def summary():
         fam_stats[f] = {str(y): {'n': len(v), 'med': round(median(v), 2), 'p90': round(sorted(v)[int(0.9 * (len(v) - 1))], 2), 'p25': round(sorted(v)[int(0.25 * (len(v) - 1))], 2)} for y, v in sorted(ys.items())}
     nb = sum(len(i['br']) for i in d['inst'])
     # map and infographics: one compact row per institute
-    # [code, short name, district, kind, autonomous, nirf, best 2025 open cut, best course, courses, best 2025 Computer/IT/AI open cut, top-20 rank]
+    # [code, short name, district, kind, autonomous, nirf, best latest-year open cut, best course, courses, best latest-year Computer/IT/AI open cut, top-20 rank]
     top_rank = {t['c']: k + 1 for k, t in enumerate(top)}
     raw = {i['c']: i for i in d['inst']}
     rows = []

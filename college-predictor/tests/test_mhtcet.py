@@ -10,7 +10,7 @@ app = create_app(); app.config['TESTING'] = True
 c = app.test_client()
 
 d = M.cutoffs()
-assert d['years'] == [2023, 2024, 2025] and len(d['inst']) > 350
+assert d['years'] == [2023, 2024, 2025, 2026] and len(d['inst']) > 380
 cats = d['cats']
 I = {i['c']: i for i in d['inst']}
 def cut(code, name, y, cat='GOPEN', lv='S'):
@@ -26,13 +26,15 @@ assert abs(cut('16006', 'Civil Engineering', 2023) - 98.1917154) < 1e-3         
 assert abs(cut('06007', 'Computer Science and Engineering', 2025, 'GOBC') - 99.3868490) < 1e-3  # Walchand OBC
 assert abs(cut('06271', 'Computer Engineering', 2023, 'GOPEN', 'H') - 99.6779262) < 1e-3       # PICT home university 2023
 assert abs(cut('03185', 'Computer Engineering', 2023, 'TFWS') - 98.5247194) < 1e-3   # VESIT (minority header with MI)
+assert abs(cut('01002', 'Civil Engineering', 2026) - 91.7858261) < 1e-3       # 2026 list (official PDF)
+assert abs(cut('01002', 'Civil Engineering', 2026, 'GSC') - 85.6921506) < 1e-3
 # rank curve is monotonic
 for y, t in d['curve'].items():
     ranks = [r for _p, r in t]
     assert ranks == sorted(ranks), y
 s = M.summary()
 assert len(s['top']) == 20 and s['top'][0]['c'] == '03012'
-cuts = [t['best']['cut']['2025'] for t in s['top']]
+cuts = [t['best']['cut'][str(s['years'][-1])] for t in s['top']]
 assert cuts == sorted(cuts, reverse=True)
 assert any(t['c'] == '16006' and t['nirf'] == '90' for t in s['top'])
 

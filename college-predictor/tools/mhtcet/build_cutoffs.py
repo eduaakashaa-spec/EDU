@@ -4,13 +4,14 @@ Sources (download the PDFs, then parse each with parse_cap.py):
   2023  https://fe2025.mahacet.org/2023/2023ENGG_CAP1_CutOff.pdf
   2024  https://fe2025.mahacet.org/2024/2024ENGG_CAP1_CutOff.pdf
   2025  https://fe2026.mahacet.org/2025/2025ENGG_CAP1_CutOff.pdf  (also embedded in fe2025.mahacet.org/ViewPublicDocument.aspx?MenuId=2449)
+  2026  https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP1_MH_CutOff.pdf
 
 usage:
   python -I tools/mhtcet/parse_cap.py 2025.pdf cap1_2025.json      (once per year)
-  python -I tools/mhtcet/build_cutoffs.py cap1_2023.json cap1_2024.json cap1_2025.json
+  python -I tools/mhtcet/build_cutoffs.py cap1_2023.json cap1_2024.json cap1_2025.json cap1_2026.json
 
 Output (compact, read by app/services/mhtcet.py):
-  years   [2023, 2024, 2025]
+  years   [2023, 2024, 2025, 2026]
   cats    base category codes, e.g. GOPEN, LOBC, TFWS (the S/H/O seat-level letter is removed)
   inst    [{c, n, city, st (status), hu (home university), k (kind), br: [{c, n, f (branch family), y: {year: {S|H|O: [[cat_index, percentile*1e4 int], ...]}}}]}]
   curve   {year: [[percentile, state merit rank], ...]} from every (rank, percentile) pair printed in that year's list

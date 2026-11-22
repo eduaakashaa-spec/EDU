@@ -15,6 +15,7 @@ SRC = {
     'cap_notice': 'https://cetcell.mahacet.org/wp-content/uploads/2026/07/BE-BTECH-CAP-AY-26-27-Schedule-Notice-No.1-Upto-Merit-List.pdf',
     'method': 'https://cetcell.mahacet.org/wp-content/uploads/2023/12/MHT-CET-2026-Result-Processing-Methodology.pdf',
     'hsc': 'https://news.careers360.com/maharashtra-hsc-timetable-2027-out-exams-from-february-8-check-subject-wise-class-12-exam-dates',
+    'cap1_2026': 'https://cappublicdocs2026.blob.core.windows.net/documents/2026ENGG_CAP1_MH_CutOff.pdf',
     'cap1_2025': 'https://fe2026.mahacet.org/2025/2025ENGG_CAP1_CutOff.pdf',
     'cap1_2024': 'https://fe2025.mahacet.org/2024/2024ENGG_CAP1_CutOff.pdf',
     'cap1_2023': 'https://fe2025.mahacet.org/2023/2023ENGG_CAP1_CutOff.pdf',
@@ -123,12 +124,12 @@ FAMILY_NAMES = {'CSE': 'Computer / CSE', 'AI': 'AI, ML & Data Science', 'IT': 'I
                 'MECH': 'Mechanical & allied', 'CIVIL': 'Civil', 'CHEM': 'Chemical & process', 'OTHER': 'Other'}
 
 BRANCH_GUIDE = [
-    ('CSE', 'Highest demand everywhere: in 2025 the Round I open cut-off for Computer/CSE was the top branch at most colleges. Pick it at a lower-ranked college only if you would choose software work over the college brand.'),
+    ('CSE', 'Highest demand everywhere: in CAP Round I the open cut-off for Computer/CSE is the top branch at most colleges. Pick it at a lower-ranked college only if you would choose software work over the college brand.'),
     ('AI', 'AI, ML and Data Science seats grew fast since 2023 and usually close a little below Computer/CSE at the same college. The first two years overlap almost entirely with CSE.'),
     ('IT', 'Very close to CSE in courses and jobs, often 0.2 to 1 percentile lower at the same college: one of the best-value choices.'),
     ('ENTC', 'Electronics & Telecommunication keeps the door open to both hardware (VLSI, embedded) and software jobs; cut-offs sit between CSE and the core branches.'),
-    ('ELEC', 'Electrical suits power, energy and electric-vehicle careers and government jobs (PSUs via GATE). Cut-offs rose from 2023 to 2025 at many colleges.'),
-    ('MECH', 'Mechanical and allied branches (production, robotics, automation) are core engineering. Cut-offs rose sharply at most colleges from 2023 to 2025.'),
+    ('ELEC', 'Electrical suits power, energy and electric-vehicle careers and government jobs (PSUs via GATE). Cut-offs rose every year from 2023 to 2026 at many colleges.'),
+    ('MECH', 'Mechanical and allied branches (production, robotics, automation) are core engineering. Cut-offs rose sharply at most colleges from 2023 to 2026.'),
     ('CIVIL', 'Civil has the lowest cut-offs at most colleges: a strong choice at a top college for construction, infrastructure and government careers.'),
     ('CHEM', 'Chemical and process branches (ICT Mumbai is the leader) lead to pharma, food, polymer and process industries.'),
 ]
@@ -154,7 +155,7 @@ TOWN_DISTRICT = {
     'Osmanabad': 'Osmanabad', 'Tuljapur': 'Osmanabad', 'Nanded': 'Nanded', 'Parbhani': 'Parbhani',
     'Nagpur': 'Nagpur', 'Ramtek': 'Nagpur', 'Amravati': 'Amravati', 'Badnera': 'Amravati', 'Akola': 'Akola', 'Buldhana': 'Buldhana', 'Shegaon': 'Buldhana',
     'Washim': 'Washim', 'Yavatmal': 'Yavatmal', 'Pusad': 'Yavatmal', 'Wardha': 'Wardha', 'Sevagram': 'Wardha', 'Bhandara': 'Bhandara', 'Sakoli': 'Bhandara',
-    'Chandrapur': 'Chandrapur', 'Ballarpur': 'Chandrapur', 'Bhadrawati': 'Chandrapur',
+    'Chandrapur': 'Chandrapur', 'Ballarpur': 'Chandrapur', 'Bhadrawati': 'Chandrapur', 'Warora': 'Chandrapur',
     'Egaon': 'Pune', 'Bhima': 'Pune', 'Lakhewadi': 'Pune', 'Pal': 'Kolhapur', 'Wadwadi': 'Satara', 'Ohar': 'Aurangabad',  # Talegaon, Koregaon Bhima, Pal (Gargoti), Ohar (Aurangabad)
 }
 # towns with the same name in two districts: decided by the DTE region in the first two digits of the institute code
@@ -273,5 +274,5 @@ SITES = {  # checked 22-23 Nov 2026 (State CET Cell institute codes); a campus p
     '16006': 'https://www.coeptech.ac.in/', '16121': 'https://abitkarcollegeofengineering.com/', '16126': 'https://tkietwarana.ac.in/',
     '16354': 'https://dvcoe.com/', '16355': 'https://asmnext.edu.in/', '16357': 'https://mlcoe.mespune.in/',
 }
-# institutes without a link: no official site found in the search, a parked or hijacked domain, or a site that returned errors on every check
-SITES_MISSING = ['01012', '01116', '01123', '01126', '01182', '01276', '02015', '02116', '02131', '02136', '02146', '02254', '02282', '02508', '02637', '02641', '02666', '02758', '02770', '02772', '02777', '03175', '03193', '03217', '03277', '03546', '03723', '03724', '03725', '03726', '04118', '04134', '04136', '04143', '04190', '04196', '04285', '04679', '05161', '05179', '05223', '05239', '05249', '05263', '05303', '05322', '05365', '05370', '05380', '05382', '05390', '05395', '05396', '05401', '05414', '05433', '05497', '05509', '05513', '05597', '06036', '06156', '06313', '06317', '06318', '06319', '06321', '06419', '06467', '06714', '06732', '06769', '06772', '06938', '06991', '16351', '16352']
+# institutes without a link (including those new in the 2026 list, not yet searched): no official site found in the search, a parked or hijacked domain, or a site that returned errors on every check
+SITES_MISSING = ['01012', '01116', '01123', '01126', '01182', '01276', '02015', '02116', '02131', '02136', '02146', '02254', '02282', '02508', '02637', '02641', '02666', '02758', '02770', '02772', '02777', '03175', '03193', '03217', '03277', '03546', '03723', '03724', '03725', '03726', '04118', '04134', '04136', '04143', '04190', '04196', '04285', '04679', '05161', '05179', '05223', '05239', '05249', '05263', '05303', '05322', '05365', '05370', '05380', '05382', '05390', '05395', '05396', '05401', '05414', '05433', '05497', '05509', '05513', '05597', '06036', '06156', '06313', '06317', '06318', '06319', '06321', '06419', '06467', '06714', '06732', '06769', '06772', '06938', '06991', '16351', '16352', '02805', '04026', '04762', '05413', '05682', '05683', '05686', '06041', '06725', '06814', '16371', '16372']
