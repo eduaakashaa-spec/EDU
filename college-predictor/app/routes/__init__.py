@@ -140,6 +140,21 @@ def nirf_architecture():
     return render_template('nirf_arch.html')
 
 
+@main_bp.route('/keam-analytics')
+def keam_analytics():
+    # public page: KEAM 2027 (Kerala engineering): dates, eligibility, allotment categories, colleges map, top 20, branches, last-rank analytics, predictor
+    from app.services import keam
+    return render_template('keam.html', data=keam.payload())
+
+
+@main_bp.route('/keam-analytics/lastranks.json')
+def keam_lastranks_json():
+    # official CEE Kerala last ranks, 2025 and 2026, Phase 1 and Phase 2 (compact), for the predictor and analytics tabs
+    from flask import send_file
+    from app.services import keam
+    return send_file(keam.LASTRANKS, mimetype='application/json', max_age=86400)
+
+
 @main_bp.route('/mht-cet-analytics')
 def mhtcet_analytics():
     # public page: MHT CET 2027 and Maharashtra B.E./B.Tech CAP: dates, eligibility, top colleges with NIRF, branch analytics, cut-off calculator, predictor

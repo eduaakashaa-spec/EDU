@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block title %}KEAM 2027 Analytics · Kerala Engineering Colleges, Last Ranks &amp; College Predictor · EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="KEAM 2027 for B.Tech in Kerala: exam and Plus Two dates, how the rank is worked out, eligibility, community categories, a Kerala colleges map, the top 20 colleges, branch selection, official CEE last ranks for 2025 and 2026 and a college predictor.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/keam.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="km" id="top" data-no-rail>
+  <a class="km-banner" href="#predict" data-goto-tab="predict" aria-label="Open the KEAM 2027 college predictor">
+    <img src="{{ url_for('static', filename='img/keam-banner.webp') }}" width="1920" height="960" fetchpriority="high"
+         alt="KEAM 2027 Kerala Engineering Analytics &amp; College Predictor: official CEE last ranks 2025–2026, 142 Kerala engineering colleges, top 20 colleges and district map. Exam 21–26 Apr 2027 (reported).">
+  </a>
+  <header class="km-hero">
+    <div class="km-wrap">
+      <div class="km-eyebrow">Kerala · B.Tech <span class="km-chip">Official CEE last ranks 2025 &amp; 2026 · checked {{ data.verified }}</span></div>
+      <h1>KEAM 2027 Analytics &amp; College Predictor</h1>
+      <p class="km-lead">Kerala engineering admissions in one place: KEAM and Plus Two dates, how your rank is made, eligibility and community categories, {{ data.n_col }} colleges on the Kerala map, the top 20, how branches compare, and the official CEE last ranks for 2025 and 2026 behind a predictor that lists the colleges within reach of your rank.</p>
+      <div class="km-kpis" id="kpis"></div>
+    </div>
+  </header>
+
+  <div class="km-bar"><div class="km-wrap">
+    <nav class="km-tabs" id="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="overview" aria-selected="true"><span class="km-ti" aria-hidden="true">🗓️</span>Overview &amp; dates</button>
+      <button role="tab" data-tab="map" aria-selected="false"><span class="km-ti" aria-hidden="true">🗺️</span>Colleges map</button>
+      <button role="tab" data-tab="elig" aria-selected="false"><span class="km-ti" aria-hidden="true">✅</span>Eligibility &amp; categories</button>
+      <button role="tab" data-tab="top" aria-selected="false"><span class="km-ti" aria-hidden="true">🏆</span>Top 20 colleges</button>
+      <button role="tab" data-tab="branch" aria-selected="false"><span class="km-ti" aria-hidden="true">🔀</span>Branch selection</button>
+      <button role="tab" data-tab="calc" aria-selected="false"><span class="km-ti" aria-hidden="true">🧮</span>Rank calculator</button>
+      <button role="tab" data-tab="trend" aria-selected="false"><span class="km-ti" aria-hidden="true">📈</span>Last-rank analytics</button>
+      <button role="tab" data-tab="predict" aria-selected="false"><span class="km-ti" aria-hidden="true">🎯</span>College predictor</button>
+    </nav>
+  </div></div>
+
+  <main class="km-wrap km-main">
+
+    <section class="km-panel" id="p-overview">
+      <div class="km-quick" aria-label="Where to start">
+        <button data-goto-tab="predict"><span>🎯</span><b>I know my rank</b><small>See Safe, Likely and Reach colleges</small></button>
+        <button data-goto-tab="map"><span>🗺️</span><b>Explore by district</b><small>{{ data.n_col }} colleges on the Kerala map</small></button>
+        <button data-goto-tab="branch"><span>🔀</span><b>Choose a branch</b><small>Best college for each branch at your rank</small></button>
+        <button data-goto-tab="calc"><span>🧮</span><b>What does my rank mean?</b><small>Position in the list and ranks courses need</small></button>
+      </div>
+      <div class="km-grid2">
+        <div class="km-card"><h2>2027 admission calendar</h2><p class="km-sub">Plus Two exams, KEAM 2027 and the allotment phases. Expected rows follow the 2026 schedule until CEE Kerala publishes the 2027 prospectus.</p><div class="km-gaplist" id="dates"></div>
+          <div class="km-form" style="margin-top:10px"><button class="km-btn" id="ics">Add these dates to my calendar (.ics)</button></div></div>
+        <div>
+          <div class="km-card"><h2>Exam pattern and how the rank is made</h2><div id="pattern"></div></div>
+          <div class="km-card"><h2>Your rank: half exam, half Plus Two</h2><p class="km-sub">Out of 600: the normalised KEAM score and normalised Class 12 Physics, Chemistry and Mathematics marks weigh the same.</p><div class="km-chart" style="height:190px"><canvas id="cSplit"></canvas></div></div>
+        </div>
+      </div>
+      <div class="km-card"><h2>What the numbers say</h2><ul class="km-points" id="insights"></ul></div>
+      <div class="km-card km-note"><strong>About the data.</strong> Last ranks are the official CEE Kerala engineering last-rank tables for 2025 and 2026, Phase 1 and Phase 2 (<a href="{{ data.src.lr2025 }}" target="_blank" rel="noopener">2025</a>, <a href="{{ data.src.lr2026 }}" target="_blank" rel="noopener">2026</a>), read in full: {{ data.n_col }} colleges, {{ data.n_courses }} courses, {{ data.n_rows }} college-course rows. A last rank is the rank of the last candidate allotted in that category, so a smaller number is a harder seat; later phases usually close at higher ranks. KEAM 2027 dates are reported, not yet announced by CEE. NIRF: India Rankings 2025, Engineering. Always confirm on cee.kerala.gov.in.</div>
+    </section>
+
+    <section class="km-panel" id="p-map" hidden>
+      <div class="km-card">
+        <h2>Where the KEAM engineering colleges are</h2>
+        <p class="km-sub">Every college in the official CEE last-rank tables, by district. Hover a district for its numbers; click it to see its colleges.</p>
+        <div class="km-filters"><span class="km-flabel">Colour by</span>
+          <div class="km-seg" id="mMetric" role="group" aria-label="Colour districts by"><button data-v="n" aria-pressed="true">Colleges</button><button data-v="courses" aria-pressed="false">Courses</button><button data-v="gov" aria-pressed="false">Government &amp; aided</button><button data-v="cs" aria-pressed="false">Best Computer last rank</button></div></div>
+        <div class="km-filters"><span class="km-flabel">Show</span>
+          <div class="km-seg" id="mFilter" role="group" aria-label="Which colleges"><button data-v="all" aria-pressed="true">All</button><button data-v="G" aria-pressed="false">Government &amp; aided</button><button data-v="N" aria-pressed="false">Govt-controlled self-financing</button><button data-v="S" aria-pressed="false">Private self-financing</button><button data-v="top" aria-pressed="false">Top 20 📍</button></div></div>
+        <div class="km-mapgrid">
+          <div class="km-mapbox"><svg id="klMap" viewBox="0 0 520 640" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Map of Kerala districts shaded by engineering colleges"></svg><div class="km-tip" id="mapTip" hidden></div><div class="km-legend" id="mapLegend"></div></div>
+          <div class="km-side" id="mapSide"></div>
+        </div>
+        <p class="km-sub" id="mapNote" style="margin-top:8px"></p>
+      </div>
+      <div class="km-grid3">
+        <div class="km-card"><h2>Colleges by region</h2><p class="km-sub">South, Central and North Kerala.</p><div class="km-chart"><canvas id="cRegion"></canvas></div></div>
+        <div class="km-card"><h2>Who runs them</h2><p class="km-sub">Government and aided, government-controlled self-financing and private.</p><div class="km-chart"><canvas id="cKind"></canvas></div></div>
+        <div class="km-card"><h2>How hard are the seats?</h2><p class="km-sub">2026 Phase 1 courses by State Merit last rank.</p><div class="km-chart"><canvas id="cHist"></canvas></div></div>
+      </div>
+      <div class="km-card"><h2>Districts at a glance</h2><div class="km-tablewrap"><table class="km-table" id="distTbl"><thead><tr><th>District</th><th class="n">Colleges</th><th class="n">Courses</th><th class="n">Govt &amp; aided</th><th>Best Computer, AI or IT last rank (2026 P1)</th></tr></thead><tbody></tbody></table></div></div>
+    </section>
+
+    <section class="km-panel" id="p-elig" hidden>
+      <div class="km-grid2">
+        <div class="km-card"><h2>Who can take a B.Tech seat through KEAM</h2><p class="km-sub">From the KEAM 2026 prospectus as reported; the 2027 prospectus is not out yet.</p><div class="km-gaplist" id="elig"></div></div>
+        <div>
+          <div class="km-card"><h2>Check your eligibility</h2>
+            <div class="km-form"><label>PCM total in Class 12 (%)<input type="number" id="eP" min="0" max="100" step="0.01" value="60"></label>
+              <label>Category<select id="eC"><option value="gen">General / EWS</option><option value="sebc">SEBC (EZ, MU, BH, LA, DV, VK, BX, KN, KU)</option><option value="scst">SC / ST</option></select></label>
+              <label>KEAM normalised marks (out of 600)<input type="number" id="eK" min="0" max="600" value="120"></label></div>
+            <div id="eOut" class="km-gaplist"></div></div>
+          <div class="km-card"><h2>College types</h2><div class="km-gaplist" id="types"></div></div>
+        </div>
+      </div>
+      <div class="km-card"><h2>Community categories in the last-rank tables</h2><p class="km-sub" id="resvNote"></p><div class="km-tablewrap"><table class="km-table" id="catTbl"><thead><tr><th>Code</th><th>Category</th><th>Group</th><th class="n">CET Computer Science last rank, 2026 Phase 1</th></tr></thead><tbody></tbody></table></div><p class="km-sub" id="otherCats" style="margin-top:8px"></p></div>
+    </section>
+
+    <section class="km-panel" id="p-top" hidden>
+      <div class="km-card"><h2>Top 20 colleges by 2026 Phase 1 last rank</h2><p class="km-sub">Ranked by the smallest State Merit last rank of any course in 2026 Phase 1. Click a college for every course in all four rounds.</p>
+        <div class="km-tablewrap"><table class="km-table" id="topTbl"><thead><tr><th>#</th><th>College</th><th>Type</th><th>Top course</th><th class="n">2025 P1</th><th class="n">2025 P2</th><th class="n">2026 P1</th><th class="n">2026 P2</th></tr></thead><tbody></tbody></table></div></div>
+      <div class="km-card" id="topDetail" hidden></div>
+      <div class="km-card"><h2>NIRF and Kerala</h2><p class="km-sub">NIRF India Rankings 2025, Engineering.</p><div class="km-gaplist" id="nirf"></div></div>
+    </section>
+
+    <section class="km-panel" id="p-branch" hidden>
+      <div class="km-grid2">
+        <div class="km-card"><h2>Top-college level by branch</h2><p class="km-sub">The State Merit last rank of the best 10% of courses in each branch group (a smaller bar is harder).</p><div class="km-chart km-tall"><canvas id="cFam"></canvas></div></div>
+        <div class="km-card"><h2>Phase 1 to Phase 2: how far ranks move</h2><p class="km-sub">Median State Merit last rank in each branch group, 2026 Phase 1 and Phase 2.</p><div class="km-chart km-tall"><canvas id="cMove"></canvas></div></div>
+      </div>
+      <div class="km-card"><h2>Branch or college? The same rank, two choices</h2><p class="km-sub">Enter your rank to see the best college you could get for each branch group (2026 Phase 2, State Merit).</p>
+        <div class="km-form"><label>Your KEAM rank<input type="number" id="bR" min="1" value="5000"></label></div>
+        <div class="km-tablewrap"><table class="km-table" id="bTbl"><thead><tr><th>Branch group</th><th>Best college within reach</th><th>Course</th><th class="n">Last rank</th><th class="n">Courses within reach</th></tr></thead><tbody></tbody></table></div></div>
+      <div class="km-card"><h2>How to choose a branch</h2><div class="km-gaplist" id="guide"></div></div>
+    </section>
+
+    <section class="km-panel" id="p-calc" hidden>
+      <div class="km-calc">
+        <div class="km-card"><h2>1 · Where does my rank stand?</h2><p class="km-sub">Against the 2026 engineering rank list of about {{ '{:,}'.format(data.ranklist) }} candidates (reported).</p>
+          <div class="km-form"><label>Your KEAM rank<input type="number" id="cR" min="1" value="5000"></label></div><div class="km-big" id="cPos"></div><p class="km-sub" id="cPosN"></p></div>
+        <div class="km-card"><h2>2 · Rank a course needs</h2><p class="km-sub">Pick a college and course to see its last ranks for every category.</p>
+          <div class="km-form"><label>College<select id="cI"></select></label><label>Course<select id="cB"></select></label><label>Round<select id="cY"></select></label></div></div>
+        <div class="km-card"><h2>3 · Phase 1 or Phase 2?</h2><p class="km-sub">Later phases close at bigger ranks because candidates leave seats; the median move in 2026 was:</p><div id="cMove2"></div></div>
+      </div>
+      <div class="km-card" id="cNeed"></div>
+    </section>
+
+    <section class="km-panel" id="p-trend" hidden>
+      <div class="km-card"><h2>Heatmap: top 20 colleges by branch, 2026 Phase 1</h2><p class="km-sub">Smallest State Merit last rank of each branch group at each college. Darker is harder to get.</p><div class="km-tablewrap" style="background:transparent;border:0"><table class="km-heat" id="heat"></table></div></div>
+      <div class="km-card"><h2>Explore every course</h2><p class="km-sub">All {{ data.n_rows }} college-course rows. Choose a category to see its last ranks instead of State Merit.</p>
+        <div class="km-filters">
+          <input type="search" id="tQ" placeholder="Search college or district" aria-label="Search">
+          <select id="tD" aria-label="District"><option value="">All districts</option></select>
+          <select id="tF" aria-label="Branch"><option value="">All branches</option></select>
+          <select id="tT" aria-label="Type"><option value="">All types</option><option value="G">Government &amp; aided</option><option value="N">Govt-controlled self-financing</option><option value="S">Private self-financing</option></select>
+          <select id="tCat" aria-label="Category"></select>
+          <select id="tS" aria-label="Sort"><option value="rank">Sort: hardest first (2026 P1)</option><option value="up">Got harder 2025→2026</option><option value="down">Got easier 2025→2026</option><option value="name">College name</option></select>
+          <span class="km-count" id="tCount">Loading the official tables…</span>
+        </div>
+        <div class="km-tablewrap"><table class="km-table" id="tTbl"><thead><tr><th>College</th><th>Course</th><th class="n">2025 P1</th><th class="n">2025 P2</th><th class="n">2026 P1</th><th class="n">2026 P2</th><th class="n">2025→2026 (P1)</th></tr></thead><tbody></tbody></table></div>
+        <p class="km-sub" style="margin-top:8px">Showing the first 150 rows; narrow the filters to see more. A negative change means the course got harder (a smaller last rank).</p></div>
+      <div class="km-card"><h2>Trend for one course</h2><div class="km-form"><label>College<select id="gI"></select></label><label>Course<select id="gB"></select></label></div><div class="km-chart"><canvas id="cTrend"></canvas></div></div>
+    </section>
+
+    <section class="km-panel" id="p-predict" hidden>
+      <div class="km-card"><h2>KEAM college predictor</h2><p class="km-sub">Compares your engineering rank with the official CEE last ranks for State Merit and your community. Saved only in this browser.</p>
+        <div class="km-form">
+          <label>Your KEAM engineering rank<input type="number" id="pR" min="1" value="8000"></label>
+          <label>Community category<select id="pC"><option value="SM">State Merit only (general)</option></select></label>
+          <label>College type<select id="pT"><option value="">All types</option><option value="G">Government &amp; aided</option><option value="N">Govt-controlled self-financing</option><option value="S">Private self-financing</option></select></label>
+          <label>Region<select id="pRg"><option value="">All of Kerala</option></select></label>
+          <label>Branch<select id="pF"><option value="">All branches</option></select></label>
+          <label>Based on<select id="pY"></select></label>
+        </div>
+        <div class="km-form"><button class="km-btn" id="pGo">Predict my colleges</button></div>
+        <div id="pOut" hidden>
+          <div class="km-res"><div class="s"><b id="nS">0</b>Safe</div><div class="l"><b id="nL">0</b>Likely</div><div class="r"><b id="nRe">0</b>Reach</div></div>
+          <p class="km-sub" id="pSum"></p>
+          <div class="km-filters"><div class="km-seg" id="pShow" role="group" aria-label="Show"><button data-v="all" aria-pressed="true">All</button><button data-v="Safe" aria-pressed="false">Safe</button><button data-v="Likely" aria-pressed="false">Likely</button><button data-v="Reach" aria-pressed="false">Reach</button></div><span class="km-count" id="pCount"></span></div>
+          <div class="km-tablewrap"><table class="km-table" id="pTbl"><thead><tr><th>Chance</th><th>College</th><th>Course</th><th>Seat used</th><th class="n">Last rank</th><th class="n">Other phase / year</th><th>Type</th></tr></thead><tbody></tbody></table></div>
+        </div>
+      </div>
+      <div class="km-card km-note"><strong>How the chances are worked out.</strong> For each course the predictor takes the larger of the State Merit last rank and your community's last rank in the round you choose. <b>Safe</b>: your rank is at least 20% better (smaller) than that last rank. <b>Likely</b>: within it. <b>Reach</b>: up to 25% beyond it, seats that often open in later phases. It leaves out the smaller quotas in the "other categories" column (fee waiver, PwD and so on), management and NRI seats. Last ranks change every year: use this as a guide, not a promise of a seat.</div>
+    </section>
+
+  </main>
+</div>
+<script>window.EA_KEAM = {{ data|tojson }}; window.EA_KEAM_URL = "{{ url_for('main.keam_lastranks_json') }}"; window.EA_KL_GEO = "{{ url_for('static', filename='data/kerala-districts.geojson') }}";</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/d3@7.8.5/dist/d3.min.js"></script>
+<script src="{{ url_for('static', filename='js/keam.js') }}"></script>
+{% endblock %}
