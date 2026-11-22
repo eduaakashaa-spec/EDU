@@ -75,9 +75,9 @@ def roster(user, mentor_id):
 def assign_defaults(user, mentor, limit=8, gap_days=3):
     """Create the default sets. Returns {'made': [titles], 'skipped': [titles already assigned], 'thin': [chapters with too few questions], 'missing': [topics without a bank chapter]}."""
     rows, missing = targets(user.id)
-    out = {'made': [], 'skipped': [], 'thin': [], 'missing': [m['name'] for m in missing], 'no_assessment': latest_assessment(user.id) is None}
-    if out['no_assessment']:
-        return out
+    out = {'made': [], 'skipped': [], 'thin': [], 'missing': [m['name'] for m in missing], 'no_assessment': latest_assessment(user.id) is None, 'bank_empty': rf.approved('JEE').count() == 0}
+    if out['no_assessment'] or out['bank_empty']:
+        return out                     # nothing to assign from: the bank is loaded by an admin (EduPulse Reinforcement, Admin, Load question bank)
     rs = roster(user, mentor.id if mentor else None)
     have = {a.title for a in db.session.query(RfAssignment).join(RfAssignmentStudent, RfAssignmentStudent.assignment_id == RfAssignment.id).filter(RfAssignmentStudent.student_id == rs.id)}
     start = rf.now()

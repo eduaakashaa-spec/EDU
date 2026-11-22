@@ -42,6 +42,7 @@ with app.app_context():
 
     db.session.add(SpAssessment(user_id=stu.id, ratings_json=json.dumps(plan.RATINGS)))
     db.session.commit()
+    assert rf_gap.assign_defaults(stu, mentor)['bank_empty'] is True and RfAssignment.query.count() == 0       # an unloaded bank is reported, not silently ignored
     rows, missing = rf_gap.targets(stu.id)
     assert rows and rows == sorted(rows, key=lambda r: -r['risk'])
     assert any(m['code'] == 'C14' for m in missing)                       # p-block has no bank chapter yet: reported, never silently dropped

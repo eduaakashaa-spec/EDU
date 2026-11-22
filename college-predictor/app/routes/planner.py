@@ -487,6 +487,8 @@ def mentor_gap_questions(uid):
     r = rf_gap.assign_defaults(student, current_user)
     if r['no_assessment']:
         flash('Rate the topics first: the question sets are built from the gap map.', 'danger')
+    elif r['bank_empty']:
+        flash('The EduPulse Reinforcement question bank is empty, so there is nothing to assign yet. An admin loads it from EduPulse Reinforcement, Admin, Load question bank (about 2,800 JEE questions). Then press this button again.', 'danger')
     else:
         bits = ['%d question set%s assigned' % (len(r['made']), '' if len(r['made']) == 1 else 's')]
         if r['skipped']:
