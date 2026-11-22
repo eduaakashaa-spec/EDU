@@ -36,8 +36,17 @@
       d.ci = {}; d.cats.forEach(function (c, i) { d.ci[c] = i; });
       d.inst.forEach(function (i) { i.region = regionOf(i.city); i.short = shortName(i); });
       FULL = d; return d;
-    });
+    }).catch(function (e) { loading = null; netErr(); throw e; });
     return loading;
+  }
+  var SITES = D.sites || {};
+  function web(code) { var u = SITES[code]; return u ? ' <a class="mc-web" href="' + esc(u) + '" target="_blank" rel="noopener nofollow" title="Official website (opens in a new tab)" onclick="event.stopPropagation()">Website ↗</a>' : ''; }
+  function netErr() {
+    var p = document.querySelector('.mc-panel:not([hidden])'); if (!p || p.querySelector('.mc-neterr')) return;
+    var n = document.createElement('div'); n.className = 'mc-card mc-note mc-neterr';
+    n.innerHTML = '<strong>The cut-off data did not load.</strong> Check your internet connection, then <button class="mc-btn" type="button">Try again</button>';
+    n.querySelector('button').onclick = function () { var tab = p.id.replace('p-', ''); n.remove(); built[tab] = false; show(tab); if (tab === 'predict' && P.done) run(); };
+    p.insertBefore(n, p.firstChild);
   }
   var R2C = {};
   Object.keys(D.regionMap || {}).forEach(function (r) { D.regionMap[r].forEach(function (c) { R2C[c] = r; }); });
@@ -230,7 +239,7 @@
     $('mapSide').innerHTML = '<div class="mc-drillhead"><div><small>District</small><h3>' + esc(name) + '</h3></div><button class="mc-back" id="mapBack">All districts</button></div>' +
       (a ? '<div class="mc-tiles"><div><b>' + a.n + '</b>colleges</div><div><b>' + a.courses + '</b>courses</div><div><b>' + a.gov + '</b>govt / aided</div><div><b>' + (a.cs ? fmt(a.cs, 2) : '–') + '</b>best Computer</div></div>' +
         '<ul class="mc-clist">' + rows.map(function (r) {
-          return '<li><b>' + esc(r.n) + '</b><div class="mc-chips">' + (r.top ? '<span class="mc-pill o">Top 20 #' + r.top + '</span>' : '') + (r.nirf ? '<span class="mc-pill n">NIRF ' + esc(r.nirf) + '</span>' : '') + '<span class="mc-pill">' + esc(KIND[r.k]) + '</span>' + (r.auto ? '<span class="mc-pill">Autonomous</span>' : '') + '</div>' +
+          return '<li><b>' + esc(r.n) + '</b>' + web(r.c) + '<div class="mc-chips">' + (r.top ? '<span class="mc-pill o">Top 20 #' + r.top + '</span>' : '') + (r.nirf ? '<span class="mc-pill n">NIRF ' + esc(r.nirf) + '</span>' : '') + '<span class="mc-pill">' + esc(KIND[r.k]) + '</span>' + (r.auto ? '<span class="mc-pill">Autonomous</span>' : '') + '</div>' +
             '<span class="mc-ct">' + (r.best != null ? 'Best course 2025: ' + esc(r.bestN) + ' · ' + fmt(r.best, 2) : 'No open-category cut-off in 2025') + '</span></li>';
         }).join('') + '</ul>' : '<p class="mc-sub">No CAP college in this district for the current filter.</p>');
     $('mapBack').onclick = function () { mapState.sel = null; drawMap(); };
@@ -276,7 +285,7 @@
     var top = D.top || [];
     $('topTbl').querySelector('tbody').innerHTML = top.map(function (t, i) {
       var b = t.best;
-      return '<tr data-i="' + i + '"><td><span class="mc-rk">' + (i + 1) + '</span></td><td><b>' + esc(t.n) + '</b><div class="mc-ct">' + esc(t.city || t.region) + '</div></td><td>' + (t.nirf ? '<span class="mc-pill">' + esc(t.nirf) + '</span>' : '<span class="mc-ct">not in top 300</span>') + '</td><td class="mc-ct">' + esc(t.kind) + '</td><td>' + esc(b.n) + (b.seat && b.seat.indexOf('Women') === 0 ? ' <span class="mc-pill">women</span>' : '') + '</td>' +
+      return '<tr data-i="' + i + '"><td><span class="mc-rk">' + (i + 1) + '</span></td><td><b>' + esc(t.n) + '</b>' + web(t.c) + '<div class="mc-ct">' + esc(t.city || t.region) + '</div></td><td>' + (t.nirf ? '<span class="mc-pill">' + esc(t.nirf) + '</span>' : '<span class="mc-ct">not in top 300</span>') + '</td><td class="mc-ct">' + esc(t.kind) + '</td><td>' + esc(b.n) + (b.seat && b.seat.indexOf('Women') === 0 ? ' <span class="mc-pill">women</span>' : '') + '</td>' +
         YEARS.map(function (y) { return '<td class="n">' + fmt(b.cut[y], 2) + '</td>'; }).join('') + '</tr>';
     }).join('');
     $('topTbl').addEventListener('click', function (e) {
@@ -284,13 +293,13 @@
       var t = top[+tr.dataset.i], el = $('topDetail');
       var rows = t.rows.slice().sort(function (a, b) { return (b.cut[LAST] || 0) - (a.cut[LAST] || 0); });
       el.hidden = false;
-      el.innerHTML = '<h2>' + esc(t.n) + '</h2><p class="mc-sub">' + esc(t.full) + ' · institute code ' + t.c + ' · ' + esc(t.kind) + (t.hu ? ' · ' + esc(t.hu) : '') + (t.nirf ? ' · NIRF 2025: ' + esc(t.nirf) : '') + '</p>' +
+      el.innerHTML = '<h2>' + esc(t.n) + '</h2><p class="mc-sub">' + (SITES[t.c] ? '<a href="' + esc(SITES[t.c]) + '" target="_blank" rel="noopener nofollow">Official website ↗</a> · ' : '') + esc(t.full) + ' · institute code ' + t.c + ' · ' + esc(t.kind) + (t.hu ? ' · ' + esc(t.hu) : '') + (t.nirf ? ' · NIRF 2025: ' + esc(t.nirf) : '') + '</p>' +
         '<div class="mc-tablewrap"><table class="mc-table"><thead><tr><th>Course</th><th>Branch group</th><th>Seat</th>' + YEARS.map(function (y) { return '<th class="n">' + y + '</th>'; }).join('') + '</tr></thead><tbody>' +
         rows.map(function (r) { return '<tr><td>' + esc(r.n) + '</td><td class="mc-ct">' + esc(FN[r.f] || r.f) + '</td><td class="mc-ct">' + esc(r.seat || '–') + '</td>' + YEARS.map(function (y) { return '<td class="n">' + fmt(r.cut[y], 2) + '</td>'; }).join('') + '</tr>'; }).join('') +
         '</tbody></table></div><p class="mc-sub" style="margin-top:6px">Round I closing percentile, open category. A blank means the course was not in that year\'s Round I list.</p>';
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
-    $('nirfCap').innerHTML = (D.nirf_cap || []).map(function (t) { return '<div class="mc-gap d"><span class="m">NIRF 2025: ' + esc(t.nirf) + ' · ' + esc(t.city) + '</span><br><b>' + esc(t.n) + '</b><br><span class="mc-ct">Best 2025 course: ' + esc(t.best.n) + ' at ' + fmt(t.best.cut[LAST], 2) + '</span></div>'; }).join('') +
+    $('nirfCap').innerHTML = (D.nirf_cap || []).map(function (t) { return '<div class="mc-gap d"><span class="m">NIRF 2025: ' + esc(t.nirf) + ' · ' + esc(t.city) + '</span><br><b>' + esc(t.n) + '</b>' + web(t.c) + '<br><span class="mc-ct">Best 2025 course: ' + esc(t.best.n) + ' at ' + fmt(t.best.cut[LAST], 2) + '</span></div>'; }).join('') +
       '<div class="mc-gap b"><b>Shri Ramdeobaba College of Engineering, Nagpur</b> (NIRF 151–200) became Ramdeobaba University and is not in the 2024 or 2025 CAP lists; it was last in CAP in 2023.</div>';
     $('nirfNot').innerHTML = (D.nirfNotCap || []).map(function (n) { return '<div class="mc-gap b">' + esc(n) + '</div>'; }).join('');
   };
@@ -313,7 +322,7 @@
             if (b.f !== fk) return; var c = openCut(b, LAST); if (c[0] == null || c[1].indexOf('Women') === 0) return;
             if (c[0] <= p) { n++; if (!best || c[0] > best.c) best = { i: i, b: b, c: c[0] }; }
           }); });
-          return '<tr><td><b>' + esc(FN[fk]) + '</b></td><td>' + (best ? esc(best.i.short) + '<div class="mc-ct">' + esc(best.i.city) + '</div>' : '<span class="mc-ct">none at this percentile</span>') + '</td><td>' + (best ? esc(best.b.n) : '') + '</td><td class="n">' + (best ? fmt(best.c, 2) : '–') + '</td><td class="n">' + n + '</td></tr>';
+          return '<tr><td><b>' + esc(FN[fk]) + '</b></td><td>' + (best ? esc(best.i.short) + web(best.i.c) + '<div class="mc-ct">' + esc(best.i.city) + '</div>' : '<span class="mc-ct">none at this percentile</span>') + '</td><td>' + (best ? esc(best.b.n) : '') + '</td><td class="n">' + (best ? fmt(best.c, 2) : '–') + '</td><td class="n">' + n + '</td></tr>';
         }).join('');
       });
     };
@@ -392,7 +401,7 @@
         $('tCount').textContent = out.length + ' courses';
         $('tTbl').querySelector('tbody').innerHTML = out.slice(0, 150).map(function (o) {
           var seat = (o.cs[o.cs.length - 1][1] || o.cs[1][1] || o.cs[0][1] || '');
-          return '<tr><td><b>' + esc(o.x.i.short) + '</b><div class="mc-ct">' + esc(o.x.i.city || o.x.i.region) + '</div></td><td>' + esc(o.x.b.n) + '</td><td class="mc-ct">' + esc(seat) + '</td>' +
+          return '<tr><td><b>' + esc(o.x.i.short) + '</b>' + web(o.x.i.c) + '<div class="mc-ct">' + esc(o.x.i.city || o.x.i.region) + '</div></td><td>' + esc(o.x.b.n) + '</td><td class="mc-ct">' + esc(seat) + '</td>' +
             o.cs.map(function (c) { return '<td class="n">' + fmt(c[0], 2) + '</td>'; }).join('') + '<td class="n" style="color:' + (o.ch == null ? GREY : o.ch >= 0 ? GR : RED) + '">' + (o.ch == null ? '–' : (o.ch >= 0 ? '+' : '') + o.ch.toFixed(2)) + '</td></tr>';
         }).join('') || '<tr><td colspan="7">No courses match.</td></tr>';
       };
@@ -470,7 +479,7 @@
     $('pCount').textContent = rows.length + ' courses' + (rows.length > 250 ? ' (first 250 shown)' : '');
     var LV = { S: 'State', H: 'Home Univ', O: 'Other than HU' };
     $('pTbl').querySelector('tbody').innerHTML = rows.slice(0, 250).map(function (r) {
-      return '<tr><td><span class="mc-chance ' + r.chance + '">' + r.chance + '</span></td><td><b>' + esc(r.i.short) + '</b><div class="mc-ct">' + esc(r.i.city) + '</div></td><td>' + esc(r.b.n) + '</td><td class="mc-ct">' + esc(CAT_LABEL[r.c] || r.c) + ' · ' + LV[r.lv] + '</td><td class="n">' + fmt(r.v, 2) + '</td><td class="n">' + fmt(r.prev, 2) + '</td><td class="mc-ct">' + esc(r.i.region) + '</td></tr>';
+      return '<tr><td><span class="mc-chance ' + r.chance + '">' + r.chance + '</span></td><td><b>' + esc(r.i.short) + '</b>' + web(r.i.c) + '<div class="mc-ct">' + esc(r.i.city) + '</div></td><td>' + esc(r.b.n) + '</td><td class="mc-ct">' + esc(CAT_LABEL[r.c] || r.c) + ' · ' + LV[r.lv] + '</td><td class="n">' + fmt(r.v, 2) + '</td><td class="n">' + fmt(r.prev, 2) + '</td><td class="mc-ct">' + esc(r.i.region) + '</td></tr>';
     }).join('') || '<tr><td colspan="7">No courses within reach with these filters. Try All branches or All of Maharashtra.</td></tr>';
   }
   $('pGo').addEventListener('click', run);

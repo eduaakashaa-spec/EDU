@@ -36,6 +36,15 @@ cuts = [t['best']['cut']['2025'] for t in s['top']]
 assert cuts == sorted(cuts, reverse=True)
 assert any(t['c'] == '16006' and t['nirf'] == '90' for t in s['top'])
 
+# official websites: one per institute code, http(s) only, none listed as missing, and the page receives them
+from app.data import mhtcet as MD  # noqa: E402
+icodes = {i['c'] for i in d['inst']}
+assert len(MD.SITES) >= 300 and set(MD.SITES) <= icodes
+assert all(re.match(r'^https?://[^\s"<>]+$', u) for u in MD.SITES.values())
+assert set(MD.SITES_MISSING) <= icodes and not (set(MD.SITES_MISSING) & set(MD.SITES))
+assert len(MD.SITES) + len(MD.SITES_MISSING) == len(icodes)
+assert M.payload()['sites'] == MD.SITES
+
 h = c.get('/mht-cet-analytics')
 t = h.get_data(as_text=True)
 assert h.status_code == 200 and 'MHT CET 2027 Analytics' in t and 'mhtcet.js' in t and 'window.EA_MHT' in t

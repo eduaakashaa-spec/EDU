@@ -111,4 +111,4 @@ def payload():
     s = summary()
     return {'verified': D.VERIFIED, 'src': D.SRC, 'dates': D.DATES, 'pattern': D.PATTERN, 'candidates': D.CANDIDATES, 'elig': D.ELIGIBILITY, 'cand': D.CANDIDATURE,
             'seats': D.SEATS, 'resv': D.RESERVATION, 'resvNote': D.RESERVATION_NOTE, 'stats26': D.STATS_2026, 'marks': D.MARKS_PCT, 'nirfNotCap': D.NIRF_NOT_CAP,
-            'unis': D.UNIVERSITIES, 'regions': list(D.REGIONS) + ['Other'], 'regionMap': D.REGIONS, 'famNames': D.FAMILY_NAMES, 'guide': D.BRANCH_GUIDE, **s}
+            'unis': D.UNIVERSITIES, 'regions': list(D.REGIONS) + ['Other'], 'regionMap': D.REGIONS, 'famNames': D.FAMILY_NAMES, 'guide': D.BRANCH_GUIDE, 'sites': D.SITES, **s}

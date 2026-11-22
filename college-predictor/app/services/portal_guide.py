@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-22'
+UPDATED = '2026-11-23'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-23', 'MHT CET Analytics: every college list (map drill-down, Top 20 and NIRF lists, branch table, course explorer, predictor) now shows a Website link to the official institute site, checked 22-23 Nov 2026 (306 of 383 institutes; the rest are listed in app/data/mhtcet.py SITES_MISSING), and the page offers Try again when the cut-off data fails to load.'),
     ('2026-11-22', 'Study Planner reports: two new PDF downloads on the Reports page and on the mentor student page. The Monthly report (pick any month of the plan) shows the month as a calendar coloured by what was done, with subject, kind-of-work, hours-per-week and topic charts. The Whole plan report shows hours per week and time by subject, every month as a calendar, the biggest topics and the mock-test days.'),
     ('2026-11-22', 'KEAM Analytics: every college list (map drill-down, Top 20, course explorer, branch table, rank calculator, predictor) now shows a Website link to the official college site, checked 22 Nov 2026 (140 of 142 colleges; two without a working site are listed in app/data/keam.py), and the page offers Try again when the last-rank data fails to load.'),
     ('2026-11-22', 'Study Planner and EduPulse Reinforcement: on the mentor gap-map page a new Assign default question sets button creates one Reinforcement set per biggest gap (Fix first, then Fix next), released three days apart, easier questions first for topics rated 0 or 1. The plan Practise button now opens the student\'s own set for that chapter (Start N questions) and falls back to EduPulse Reinforcement otherwise. Topics with no chapter in the question bank yet (for example p-block) are listed for the mentor. Week view: the EduPulse button no longer runs past the day card. Darsh pack also assigns his sets.'),
