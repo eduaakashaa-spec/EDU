@@ -140,6 +140,21 @@ def nirf_architecture():
     return render_template('nirf_arch.html')
 
 
+@main_bp.route('/tnea-analytics')
+def tnea_analytics():
+    # public page: TNEA 2027 (Tamil Nadu B.E./B.Tech): dates, cut-off formula, eligibility, communities, colleges map, top 20, branches, official 2026 closing marks, predictor
+    from app.services import tnea_analytics as tnea
+    return render_template('tnea_analytics.html', data=tnea.payload())
+
+
+@main_bp.route('/tnea-analytics/cutoffs.json')
+def tnea_cutoffs_json():
+    # official TNEA 2026 closing marks per round (from the allotment lists), plus the 2025 portal sheet, for the predictor and analytics tabs
+    from flask import send_file
+    from app.services import tnea_analytics as tnea
+    return send_file(tnea.CUTOFFS, mimetype='application/json', max_age=86400)
+
+
 @main_bp.route('/keam-analytics')
 def keam_analytics():
     # public page: KEAM 2027 (Kerala engineering): dates, eligibility, allotment categories, colleges map, top 20, branches, last-rank analytics, predictor
