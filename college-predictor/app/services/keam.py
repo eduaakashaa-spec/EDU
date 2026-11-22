@@ -84,4 +84,4 @@ def payload():
     s = summary()
     return {'verified': D.VERIFIED, 'src': D.SRC, 'dates': D.DATES, 'pattern': D.PATTERN, 'elig': D.ELIGIBILITY, 'cats': D.CATS, 'otherCats': D.OTHER_CATS,
             'resvNote': D.RESERVATION_NOTE, 'types': D.TYPES, 'stats': D.STATS, 'ranklist': D.RANKLIST_2026, 'nirfNot': D.NIRF_NOT_KEAM,
-            'famNames': D.FAMILY_NAMES, 'guide': D.BRANCH_GUIDE, 'regions': D.REGIONS, **s}
+            'famNames': D.FAMILY_NAMES, 'guide': D.BRANCH_GUIDE, 'regions': D.REGIONS, 'sites': D.SITES, **s}

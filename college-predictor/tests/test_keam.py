@@ -33,6 +33,14 @@ assert len(s['top']) == 20 and s['top'][0]['c'] == 'TVE'
 ref = [t['best']['sm']['2026-1'] for t in s['top']]
 assert ref == sorted(ref)
 
+# official websites: one per college code, http(s) only, and the page receives them
+from app.data import keam as KD  # noqa: E402
+codes = {x['c'] for x in d['colleges']}
+assert len(KD.SITES) >= 135 and set(KD.SITES) <= codes
+assert all(re.match(r'^https?://[^\s"<>]+$', u) for u in KD.SITES.values())
+assert set(KD.SITES_MISSING) <= codes and not (set(KD.SITES_MISSING) & set(KD.SITES))
+assert K.payload()['sites'] == KD.SITES
+
 h = c.get('/keam-analytics')
 t = h.get_data(as_text=True)
 assert h.status_code == 200 and 'KEAM 2027 Analytics' in t and 'keam.js' in t and 'window.EA_KEAM' in t

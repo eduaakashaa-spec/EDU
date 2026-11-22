@@ -27,6 +27,8 @@
     var a = [232, 223, 200], b = [14, 58, 138];
     return 'rgb(' + a.map(function (x, i) { return Math.round(x + (b[i] - x) * t); }).join(',') + ')';
   }
+  var SITES = D.sites || {};
+  function web(code) { var u = SITES[code]; return u ? ' <a class="km-web" href="' + esc(u) + '" target="_blank" rel="noopener nofollow" title="Official website (opens in a new tab)" onclick="event.stopPropagation()">Website ↗</a>' : ''; }
   var DIST = {}; Object.keys(D.regions || {}).forEach(function (r) { D.regions[r].forEach(function (d) { DIST[d] = r; }); });
 
   /* ---------- full official file (lazy) ---------- */
@@ -39,8 +41,15 @@
       d.ci = {}; d.cats.forEach(function (c, i) { d.ci[c] = i; });
       d.col = {}; d.colleges.forEach(function (c) { var x = COLX[c.c] || {}; c.short = x.n || c.n; c.d = x.d; c.region = DIST[x.d] || 'Other'; d.col[c.c] = c; });
       FULL = d; return d;
-    });
+    }).catch(function (e) { loading = null; netErr(); throw e; });
     return loading;
+  }
+  function netErr() {
+    var p = document.querySelector('.km-panel:not([hidden])'); if (!p || p.querySelector('.km-neterr')) return;
+    var n = document.createElement('div'); n.className = 'km-card km-note km-neterr';
+    n.innerHTML = '<strong>The last-rank data did not load.</strong> Check your internet connection, then <button class="km-btn" type="button">Try again</button>';
+    n.querySelector('button').onclick = function () { var tab = p.id.replace('p-', ''); n.remove(); built[tab] = false; show(tab); if (tab === 'predict' && P.done) run(); };
+    p.insertBefore(n, p.firstChild);
   }
   function lr(row, rid, cat) { var v = row.r[rid]; return v ? v[FULL.ci[cat]] : null; }
 
@@ -170,7 +179,7 @@
     var a = A[name], rows = a ? a.rows.slice().sort(function (x, y) { return (x.best || 1e9) - (y.best || 1e9); }) : [];
     $('mapSide').innerHTML = '<div class="km-drillhead"><div><small>District</small><h3>' + esc(name) + '</h3></div><button class="km-back" id="mapBack">All districts</button></div>' +
       (a ? '<div class="km-tiles"><div><b>' + a.n + '</b>colleges</div><div><b>' + a.courses + '</b>courses</div><div><b>' + a.gov + '</b>govt / aided</div><div><b>' + nf(a.cs) + '</b>best Computer</div></div><ul class="km-clist">' +
-        rows.map(function (r) { return '<li><b>' + esc(r.n) + '</b><div class="km-chips">' + (r.top ? '<span class="km-pill o">Top 20 #' + r.top + '</span>' : '') + (r.nirf ? '<span class="km-pill n">NIRF ' + esc(r.nirf) + '</span>' : '') + '<span class="km-pill">' + esc(TYPEN[r.t]) + '</span></div><span class="km-ct">' + (r.best != null ? 'Best course 2026 P1: ' + esc(r.bestN) + ' · last rank ' + nf(r.best) : 'No State Merit last rank in 2026 Phase 1') + '</span></li>'; }).join('') + '</ul>'
+        rows.map(function (r) { return '<li><b>' + esc(r.n) + '</b>' + web(r.c) + '<div class="km-chips">' + (r.top ? '<span class="km-pill o">Top 20 #' + r.top + '</span>' : '') + (r.nirf ? '<span class="km-pill n">NIRF ' + esc(r.nirf) + '</span>' : '') + '<span class="km-pill">' + esc(TYPEN[r.t]) + '</span></div><span class="km-ct">' + (r.best != null ? 'Best course 2026 P1: ' + esc(r.bestN) + ' · last rank ' + nf(r.best) : 'No State Merit last rank in 2026 Phase 1') + '</span></li>'; }).join('') + '</ul>'
         : '<p class="km-sub">No college in this district for the current filter.</p>');
     $('mapBack').onclick = function () { ms.sel = null; drawMap(); };
   }
@@ -211,13 +220,13 @@
   BUILD.top = function () {
     var top = D.top || [];
     $('topTbl').querySelector('tbody').innerHTML = top.map(function (t, i) {
-      return '<tr data-i="' + i + '"><td><span class="km-rk">' + (i + 1) + '</span></td><td><b>' + esc(t.n) + '</b><div class="km-ct">' + esc(t.district || '') + (t.nirf ? ' · NIRF ' + esc(t.nirf) : '') + '</div></td><td class="km-ct">' + esc(t.type) + '</td><td>' + esc(t.best.n) + '</td>' +
+      return '<tr data-i="' + i + '"><td><span class="km-rk">' + (i + 1) + '</span></td><td><b>' + esc(t.n) + '</b>' + web(t.c) + '<div class="km-ct">' + esc(t.district || '') + (t.nirf ? ' · NIRF ' + esc(t.nirf) : '') + '</div></td><td class="km-ct">' + esc(t.type) + '</td><td>' + esc(t.best.n) + '</td>' +
         RIDS.map(function (rid) { return '<td class="n">' + nf(t.best.sm[rid]) + '</td>'; }).join('') + '</tr>';
     }).join('');
     $('topTbl').addEventListener('click', function (e) {
       var tr = e.target.closest('tr[data-i]'); if (!tr) return;
       var t = top[+tr.dataset.i], el = $('topDetail'); el.hidden = false;
-      el.innerHTML = '<h2>' + esc(t.n) + '</h2><p class="km-sub">College code ' + t.c + ' · ' + esc(t.type) + ' · ' + esc(t.district || '') + (t.nirf ? ' · NIRF 2025: ' + esc(t.nirf) : '') + '</p><div class="km-tablewrap"><table class="km-table"><thead><tr><th>Course</th><th>Branch group</th>' +
+      el.innerHTML = '<h2>' + esc(t.n) + '</h2><p class="km-sub">' + (SITES[t.c] ? '<a href="' + esc(SITES[t.c]) + '" target="_blank" rel="noopener nofollow">Official website ↗</a> · ' : '') + 'College code ' + t.c + ' · ' + esc(t.type) + ' · ' + esc(t.district || '') + (t.nirf ? ' · NIRF 2025: ' + esc(t.nirf) : '') + '</p><div class="km-tablewrap"><table class="km-table"><thead><tr><th>Course</th><th>Branch group</th>' +
         RIDS.map(function (rid) { return '<th class="n">' + esc(rlab(rid)) + '</th>'; }).join('') + '</tr></thead><tbody>' +
         t.rows.map(function (r) { return '<tr><td>' + esc(r.n) + '</td><td class="km-ct">' + esc(FN[r.f] || r.f) + '</td>' + RIDS.map(function (rid) { return '<td class="n">' + nf(r.sm[rid]) + '</td>'; }).join('') + '</tr>'; }).join('') +
         '</tbody></table></div><p class="km-sub" style="margin-top:6px">State Merit last rank. A dash means the course had no State Merit allotment in that round.</p>';
@@ -241,7 +250,7 @@
         $('bTbl').querySelector('tbody').innerHTML = FAM_ORDER.map(function (fk) {
           var best = null, n = 0;
           d.rows.forEach(function (r) { if (r.f !== fk) return; var v = lr(r, LATEST, 'SM'); if (v == null || rank > v) return; n++; if (!best || v < best.v) best = { r: r, v: v }; });
-          return '<tr><td><b>' + esc(FN[fk]) + '</b></td><td>' + (best ? esc(d.col[best.r.c].short) + '<div class="km-ct">' + esc(d.col[best.r.c].d || '') + '</div>' : '<span class="km-ct">none at this rank</span>') + '</td><td>' + (best ? esc(best.r.n) : '') + '</td><td class="n">' + (best ? nf(best.v) : '–') + '</td><td class="n">' + n + '</td></tr>';
+          return '<tr><td><b>' + esc(FN[fk]) + '</b></td><td>' + (best ? esc(d.col[best.r.c].short) + web(best.r.c) + '<div class="km-ct">' + esc(d.col[best.r.c].d || '') + '</div>' : '<span class="km-ct">none at this rank</span>') + '</td><td>' + (best ? esc(best.r.n) : '') + '</td><td class="n">' + (best ? nf(best.v) : '–') + '</td><td class="n">' + n + '</td></tr>';
         }).join('');
       });
     };
@@ -266,7 +275,7 @@
       var fillB = function () { $('cB').innerHTML = rowsOf().map(function (r, k) { return '<option value="' + k + '">' + esc(r.n) + '</option>'; }).join(''); need(); };
       var need = function () {
         var r = rowsOf()[+$('cB').value], rid = $('cY').value; if (!r) return;
-        $('cNeed').innerHTML = '<h2>' + esc(d.col[r.c].short) + ' · ' + esc(r.n) + '</h2><p class="km-sub">Last rank for each category, ' + esc(rlab(rid)) + '. Your rank must be this or smaller.</p><div class="km-tablewrap"><table class="km-table"><thead><tr><th>Category</th>' +
+        $('cNeed').innerHTML = '<h2>' + esc(d.col[r.c].short) + ' · ' + esc(r.n) + '</h2><p class="km-sub">' + (SITES[r.c] ? '<a href="' + esc(SITES[r.c]) + '" target="_blank" rel="noopener nofollow">Official website ↗</a> · ' : '') + 'Last rank for each category, ' + esc(rlab(rid)) + '. Your rank must be this or smaller.</p><div class="km-tablewrap"><table class="km-table"><thead><tr><th>Category</th>' +
           RIDS.map(function (x) { return '<th class="n">' + esc(rlab(x)) + '</th>'; }).join('') + '</tr></thead><tbody>' +
           d.cats.map(function (c) { return '<tr' + (c === 'SM' ? ' style="font-weight:700"' : '') + '><td>' + c + ' · ' + esc(CATN[c] || '') + '</td>' + RIDS.map(function (x) { return '<td class="n"' + (x === rid ? ' style="background:#FFF6EA"' : '') + '>' + nf(lr(r, x, c)) + '</td>'; }).join('') + '</tr>'; }).join('') +
           '</tbody></table></div>' + (r.o && r.o[rid] ? '<p class="km-sub" style="margin-top:6px">Other categories (' + esc(rlab(rid)) + '): ' + Object.keys(r.o[rid]).map(function (k) { return k + ' ' + nf(r.o[rid][k]); }).join(', ') + '</p>' : '');
@@ -297,7 +306,7 @@
           return (a.ref == null ? 1e9 : a.ref) - (b.ref == null ? 1e9 : b.ref);
         });
         $('tCount').textContent = out.length + ' rows';
-        $('tTbl').querySelector('tbody').innerHTML = out.slice(0, 150).map(function (o) { var c = d.col[o.r.c]; return '<tr><td><b>' + esc(c.short) + '</b><div class="km-ct">' + esc(c.d || '') + ' · ' + esc(TYPEN[c.t]) + '</div></td><td>' + esc(o.r.n) + '</td>' + o.v.map(function (x) { return '<td class="n">' + nf(x) + '</td>'; }).join('') + '<td class="n" style="color:' + (o.ch == null ? GREY : o.ch <= 0 ? RED : GR) + '">' + (o.ch == null ? '–' : (o.ch > 0 ? '+' : '') + nf(o.ch)) + '</td></tr>'; }).join('') || '<tr><td colspan="7">No rows match.</td></tr>';
+        $('tTbl').querySelector('tbody').innerHTML = out.slice(0, 150).map(function (o) { var c = d.col[o.r.c]; return '<tr><td><b>' + esc(c.short) + '</b>' + web(o.r.c) + '<div class="km-ct">' + esc(c.d || '') + ' · ' + esc(TYPEN[c.t]) + '</div></td><td>' + esc(o.r.n) + '</td>' + o.v.map(function (x) { return '<td class="n">' + nf(x) + '</td>'; }).join('') + '<td class="n" style="color:' + (o.ch == null ? GREY : o.ch <= 0 ? RED : GR) + '">' + (o.ch == null ? '–' : (o.ch > 0 ? '+' : '') + nf(o.ch)) + '</td></tr>'; }).join('') || '<tr><td colspan="7">No rows match.</td></tr>';
       };
       ['tD', 'tF', 'tT', 'tCat', 'tS'].forEach(function (id) { $(id).addEventListener('change', draw); }); $('tQ').addEventListener('input', draw); draw();
       var cols = d.colleges.slice().sort(function (a, b) { return a.short.localeCompare(b.short); });
@@ -353,7 +362,7 @@
     var sh = segVal('pShow') || 'all', rows = RES.filter(function (x) { return sh === 'all' || x.chance === sh; });
     $('pCount').textContent = rows.length + ' courses' + (rows.length > 250 ? ' (first 250 shown)' : '');
     $('pTbl').querySelector('tbody').innerHTML = rows.slice(0, 250).map(function (x) {
-      return '<tr><td><span class="km-chance ' + x.chance + '">' + x.chance + '</span></td><td><b>' + esc(x.c.short) + '</b><div class="km-ct">' + esc(x.c.d || '') + '</div></td><td>' + esc(x.r.n) + '</td><td class="km-ct">' + x.k + ' · ' + esc(CATN[x.k] || '') + '</td><td class="n">' + nf(x.v) + '</td><td class="n">' + nf(x.ov) + '</td><td class="km-ct">' + esc(TYPEN[x.c.t]) + '</td></tr>';
+      return '<tr><td><span class="km-chance ' + x.chance + '">' + x.chance + '</span></td><td><b>' + esc(x.c.short) + '</b>' + web(x.c.c) + '<div class="km-ct">' + esc(x.c.d || '') + '</div></td><td>' + esc(x.r.n) + '</td><td class="km-ct">' + x.k + ' · ' + esc(CATN[x.k] || '') + '</td><td class="n">' + nf(x.v) + '</td><td class="n">' + nf(x.ov) + '</td><td class="km-ct">' + esc(TYPEN[x.c.t]) + '</td></tr>';
     }).join('') || '<tr><td colspan="7">No courses within reach with these filters. Try All branches, All types or a later phase.</td></tr>';
   }
   $('pGo').addEventListener('click', run);
