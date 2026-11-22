@@ -1,4 +1,5 @@
 """Smart Study Planner: student dashboard and plan, mentor cohort view, admin overview, reports and PDF downloads."""
+import calendar
 import json
 from datetime import datetime, timedelta
 
@@ -55,7 +56,7 @@ def _task_or_404(tid):
 
 @planner_bp.app_context_processor
 def _inject():
-    return {'sp_quote': P.quote_of_the_day, 'sp_levels': P.LEVEL_INFO, 'sp_types': P.TASK_TYPES, 'sp_link': P.link_url}
+    return {'sp_quote': P.quote_of_the_day, 'sp_levels': P.LEVEL_INFO, 'sp_types': P.TASK_TYPES, 'sp_link': P.link_url, 'sp_task_link': P.task_link}
 
 
 # =================================================================================================================================
@@ -212,7 +213,10 @@ def reports():
     days = 30 if request.args.get('period') == 'month' else 7
     since = datetime.combine(P.today() - timedelta(days=days - 1), datetime.min.time())
     st = P.plan_stats(plan)
-    return render_template('planner/reports.html', plan=plan, st=st, act=P.edupulse_activity(current_user.id, since), days=days, past=[p for p in SpPlan.query.filter_by(user_id=current_user.id, status='archived').order_by(SpPlan.id.desc()).limit(5)])
+    from app.services import planner_cal_pdf as C
+    months = [('%04d-%02d' % ym, '%s %d' % (calendar.month_name[ym[1]], ym[0])) for ym in C.plan_months(plan)]
+    t0 = P.today()
+    return render_template('planner/reports.html', plan=plan, st=st, months=months, this_month='%04d-%02d' % (t0.year, t0.month), act=P.edupulse_activity(current_user.id, since), days=days, past=[p for p in SpPlan.query.filter_by(user_id=current_user.id, status='archived').order_by(SpPlan.id.desc()).limit(5)])
 
 
 @planner_bp.route('/templates')
@@ -259,6 +263,54 @@ def dl_progress():
         return redirect(url_for('planner.home') if uid == current_user.id else url_for('planner.mentor_student', uid=uid))
     since = datetime.combine(P.today() - timedelta(days=6), datetime.min.time())
     return _pdf(planner_pdf.progress_pdf(P.plan_stats(plan), plan.user.name, P.edupulse_activity(uid, since)), 'study-progress-report.pdf')
+
+
+def _report_plan(uid):
+    """The plan a report is built from, or a redirect when there is none."""
+    if not _can_see(uid):
+        abort(404)
+    plan = P.active_plan(uid)
+    if not plan:
+        flash('No active plan yet, so there is no report to download.', 'info')
+        return None, redirect(url_for('planner.home') if uid == current_user.id else url_for('planner.mentor_student', uid=uid))
+    return plan, None
+
+
+@planner_bp.route('/download/month.pdf')
+@login_required
+def dl_month():
+    """Monthly report as a calendar with infographics. ?month=YYYY-MM (default: this month, or the nearest month the plan covers)."""
+    from app.services import planner_cal_pdf as C
+    uid = request.args.get('uid', type=int) or current_user.id
+    plan, back = _report_plan(uid)
+    if back:
+        return back
+    months = C.plan_months(plan)
+    if not months:
+        flash('The plan has no tasks yet.', 'info')
+        return redirect(url_for('planner.reports'))
+    try:
+        y, m = [int(x) for x in (request.args.get('month') or '').split('-')]
+        if not 1 <= m <= 12:
+            raise ValueError
+    except ValueError:
+        t = P.today()
+        y, m = t.year, t.month
+    if (y, m) not in months:
+        y, m = min(months, key=lambda ym: abs((ym[0] - y) * 12 + ym[1] - m))
+    return _pdf(C.month_pdf(plan, plan.user.name, y, m), 'study-plan-monthly-report-%04d-%02d.pdf' % (y, m))
+
+
+@planner_bp.route('/download/plan-report.pdf')
+@login_required
+def dl_plan_report():
+    """Whole-plan report: every month as a calendar, weekly hours, topics and key dates."""
+    from app.services import planner_cal_pdf as C
+    uid = request.args.get('uid', type=int) or current_user.id
+    plan, back = _report_plan(uid)
+    if back:
+        return back
+    return _pdf(C.plan_report_pdf(plan, plan.user.name), 'study-plan-whole-report.pdf')
 
 
 @planner_bp.route('/download/plan.csv')
@@ -422,6 +474,29 @@ def mentor_gap(uid):
     if not _can_see(uid):
         abort(404)
     return _gap_view(db.session.get(User, uid) or abort(404), True)
+
+
+@planner_bp.route('/mentor/student/<int:uid>/gap-map/questions', methods=['POST'])
+@staff_required
+def mentor_gap_questions(uid):
+    """Assign the default EduPulse Reinforcement question sets built from the student's gap map."""
+    if not _can_see(uid):
+        abort(404)
+    from app.services import rf_gap
+    student = db.session.get(User, uid) or abort(404)
+    r = rf_gap.assign_defaults(student, current_user)
+    if r['no_assessment']:
+        flash('Rate the topics first: the question sets are built from the gap map.', 'danger')
+    else:
+        bits = ['%d question set%s assigned' % (len(r['made']), '' if len(r['made']) == 1 else 's')]
+        if r['skipped']:
+            bits.append('%d already assigned' % len(r['skipped']))
+        if r['thin']:
+            bits.append('too few questions in the bank for: ' + ', '.join(r['thin']))
+        if r['missing']:
+            bits.append('no bank chapter yet for: ' + ', '.join(r['missing'][:6]))
+        flash('EduPulse Reinforcement for %s: %s.' % (student.name, '; '.join(bits)), 'success' if r['made'] else 'info')
+    return redirect(url_for('planner.mentor_gap', uid=uid))
 
 
 @planner_bp.route('/mentor/student/<int:uid>/gap-map/rebuild', methods=['POST'])

@@ -140,6 +140,7 @@ PACKS = [{
     'actions_note': [('Tick the Physics, Chemistry', 'Done 20 Nov 2026: Darsh returned all three self-assessments (Physics 22, Chemistry 26, Mathematics 21 topics). The study plan now follows his ratings.')],
     'events': EVENTS,
     'goals': GOALS,
+    'reinforcement': {'limit': 8, 'gap_days': 3},
     'assessment': {'ratings': plan.RATINGS, 'note': 'Returned by Darsh on 20 Nov 2026 (three self-assessment PDFs, 69 topics).'},
     'study_plan': {'title': 'Darsh: JEE Main 2027 and CBSE Grade 12 plan (21 Nov 2026 to 9 Apr 2027)', 'exam': 'JEE', 'level': 'average', 'start': plan.START, 'end': plan.END,
                    'exam_date': date(2027, 1, 20), 'hours': 5.0, 'tasks': plan.build},

@@ -27,7 +27,11 @@
 .sp-list{line-height:1.6}.sp-steps{line-height:1.6;padding-left:20px}
 .sp-task{background:var(--paper,#FFFDF7);border:1px solid var(--hairline,#E8DFC8);border-radius:14px;padding:10px 14px;margin-bottom:8px}
 .sp-task.done{opacity:.66}.sp-task.done .sp-task__title{text-decoration:line-through}
-.sp-task__main{display:flex;gap:12px;align-items:center}.sp-task__body{flex:1;display:flex;flex-direction:column;gap:2px}
+.sp-task__main{display:flex;gap:12px;align-items:center}.sp-task__body{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;overflow-wrap:anywhere}
+.sp-task__main>.sp-btn{flex:none;white-space:nowrap}
+/* week view: the day columns are narrow, so the EduPulse button drops under the task text instead of pushing past the card edge */
+.sp-week .sp-task__main{flex-wrap:wrap;align-items:flex-start}.sp-week .sp-task__body{flex:1 1 calc(100% - 42px)}
+.sp-week .sp-task__main>.sp-btn{margin:2px 0 2px 40px;max-width:calc(100% - 40px);white-space:normal;text-align:center}
 .sp-tag{display:inline-block;align-self:flex-start;color:#fff;font:700 .62rem 'JetBrains Mono',monospace;letter-spacing:.08em;text-transform:uppercase;padding:2px 9px;border-radius:999px}
 .sp-task__title{font-weight:600;line-height:1.35}.sp-task__meta,.sp-task__note{font-size:.8rem;color:#5A6278}
 .sp-check{width:28px;height:28px;border-radius:50%;border:2px solid #0E3A8A;background:#fff;cursor:pointer;flex:none;position:relative}
@@ -77,3 +81,5 @@ html[data-theme="dark"] .sp-quote{background:#2A1E14;border-color:#7A4A22;color:
 .sp-matrix .hot{background:#FF6B0A;color:#fff}.sp-matrix .warm{background:#FFD7B8}.sp-matrix .ok{background:#DDF1E6}.sp-matrix b{font:600 1.15rem Fraunces,Georgia,serif;display:block}
 .sp-why{background:#FFF7EE;border-left:4px solid #FF6B0A;border-radius:10px;padding:12px 16px;margin:12px 0}.sp-why li{margin:4px 0}
 @media (max-width:720px){.sp-asm-row{grid-template-columns:42px 1fr}.sp-asm-row select{grid-column:1 / -1}.sp-legend{grid-template-columns:1fr 1fr}.sp-kpis{grid-template-columns:1fr 1fr}.sp-matrix{grid-template-columns:90px repeat(3,1fr)}.sp-gtable{font-size:.8rem}}
+
+.sp-rep__row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.sp-rep__row label{font-weight:600}.sp-rep__row select{padding:8px 10px;border:1px solid var(--hairline,#E8DFC8);border-radius:10px;background:#fff;min-width:180px}

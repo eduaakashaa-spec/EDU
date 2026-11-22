@@ -75,3 +75,19 @@ TOPICS = [
     ('M21', 'Mathematics', 'Mathematical reasoning', ['Mathematical Reasoning', 'Linear Programming']),
 ]
 SUBJECTS = ('Physics', 'Chemistry', 'Mathematics')
+
+# The EduPulse Reinforcement question bank is organised by its own, coarser chapters (services/reinforce.py JEE_TAXONOMY). This maps each self-assessment topic to the bank chapter that holds its questions;
+# None means the bank has no chapter for the topic yet, so no practice set can be assigned for it until questions are written.
+RF_CHAPTER = {
+    'P01': 'Units & errors', 'P02': 'Kinematics', 'P03': 'Laws of motion', 'P04': 'Work, energy & power', 'P05': 'Rotational motion', 'P06': 'Gravitation', 'P07': 'Properties of matter',
+    'P08': 'Thermodynamics (physics)', 'P09': 'Thermodynamics (physics)', 'P10': 'Oscillations & waves', 'P11': 'Oscillations & waves', 'P12': 'Electrostatics', 'P13': 'Current electricity',
+    'P14': 'Magnetism & EMI', 'P15': 'Magnetism & EMI', 'P16': 'Optics', 'P17': 'Optics', 'P18': 'Optics', 'P19': 'Modern physics', 'P20': 'Modern physics', 'P21': 'Modern physics', 'P22': 'Units & errors',
+    'C01': 'Mole concept', 'C02': 'Atomic structure', 'C03': 'Chemical bonding', 'C04': None, 'C05': 'Chemical thermodynamics', 'C06': 'Equilibrium & pH', 'C07': 'Equilibrium & pH',
+    'C08': 'Redox & electrochemistry', 'C09': 'Solutions', 'C10': 'Redox & electrochemistry', 'C11': 'Chemical kinetics', 'C12': 'Periodic properties', 'C13': 'Periodic properties', 'C14': None,
+    'C15': 'Coordination compounds', 'C16': 'Coordination compounds', 'C17': None, 'C18': 'General organic chemistry', 'C19': 'General organic chemistry', 'C20': 'Hydrocarbons', 'C21': 'Haloalkanes',
+    'C22': None, 'C23': None, 'C24': None, 'C25': 'Biomolecules', 'C26': None,
+    'M01': 'Sets, relations & functions', 'M02': 'Complex numbers & quadratics', 'M03': 'Complex numbers & quadratics', 'M04': 'Sequences & series', 'M05': 'Permutations, combinations & binomial',
+    'M06': 'Permutations, combinations & binomial', 'M07': 'Matrices & determinants', 'M08': 'Trigonometry', 'M09': 'Coordinate geometry', 'M10': 'Coordinate geometry', 'M11': 'Coordinate geometry',
+    'M12': 'Limits & derivatives', 'M13': 'Limits & derivatives', 'M14': 'Integral calculus', 'M15': 'Integral calculus', 'M16': 'Differential equations', 'M17': 'Vectors & 3D geometry',
+    'M18': 'Vectors & 3D geometry', 'M19': 'Statistics & probability', 'M20': 'Statistics & probability', 'M21': None,
+}

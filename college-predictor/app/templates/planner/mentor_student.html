@@ -15,6 +15,7 @@
 </div>
 <p><span class="sp-pill {{ 'ok' if st.on_track else 'late' }}">{{ 'On track' if st.on_track else 'Behind plan' }}</span>
   <a class="sp-btn sm" href="{{ url_for('planner.dl_progress', uid=u.id) }}">Progress report (PDF)</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_plan_csv', uid=u.id) }}">Plan (CSV)</a>
+  <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_month', uid=u.id) }}">Monthly report (PDF)</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_plan_report', uid=u.id) }}">Whole plan report (PDF)</a>
   <a class="sp-btn ghost sm" href="{{ url_for('planner.mentor_new', uid=u.id) }}">Change level or rebuild</a>
   <a class="sp-btn ghost sm" href="{{ url_for('planner.mentor_gap', uid=u.id) }}">JEE gap map</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.mentor_assessment', uid=u.id) }}">Enter ratings</a></p>
 <div class="sp-two">

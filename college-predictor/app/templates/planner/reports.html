@@ -5,6 +5,16 @@
 <div class="sp-row"><h2 style="margin:0">My progress reports</h2>
   <span><a class="sp-btn ghost sm" href="{{ url_for('planner.reports', period='week') }}">Last 7 days</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.reports', period='month') }}">Last 30 days</a>
     <a class="sp-btn sm" href="{{ url_for('planner.dl_progress') }}">Progress report (PDF)</a> <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_plan_csv') }}">Plan and status (CSV)</a></span></div>
+<div class="sp-card sp-rep">
+  <h2 style="margin-top:0">Reports as a calendar</h2>
+  <p class="sp-muted">Your plan day by day, coloured by what you finished, with charts for subjects, weeks and topics. Print it or share it with your mentor.</p>
+  <form method="get" action="{{ url_for('planner.dl_month') }}" class="sp-rep__row">
+    <label for="rep-month">Monthly report</label>
+    <select id="rep-month" name="month">{% for v, label in months %}<option value="{{ v }}" {{ 'selected' if v == this_month }}>{{ label }}</option>{% endfor %}</select>
+    <button class="sp-btn sm" type="submit">Monthly report (PDF)</button>
+    <a class="sp-btn ghost sm" href="{{ url_for('planner.dl_plan_report') }}">Whole plan report (PDF)</a>
+  </form>
+</div>
 <div class="sp-kpis flat">
   <div class="sp-kpi"><b>{{ st.pct_due if st.pct_due is not none else '—' }}{{ '%' if st.pct_due is not none }}</b><span>of tasks due so far are done</span></div>
   <div class="sp-kpi"><b>{{ st.streak }}</b><span>day streak</span></div>

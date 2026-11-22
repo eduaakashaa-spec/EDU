@@ -226,6 +226,23 @@ def link_url(kind):
     return None
 
 
+def task_link(t):
+    """(label, url) for a task's EduPulse button. A JEE practice task opens the student's own Reinforcement question set for that chapter when one is assigned (from the gap map or a mentor),
+    otherwise the general link for the task type."""
+    if not t.link_kind:
+        return None
+    if t.link_kind == 'reinforce' and t.chapter:
+        from app.services import rf_gap
+        hit = rf_gap.open_assignment(t.plan.user_id, t.chapter)
+        if hit:
+            x, a, n = hit
+            try:
+                return 'Start %d questions' % n, url_for('reinforce.do', asid=x.id)
+            except Exception:
+                pass
+    return link_url(t.link_kind)
+
+
 def weak_chapters(user_id, exam):
     """[(subject, chapter)] that EduPulse practice marks as priority or needing revision (Reinforcement for JEE/UCEED)."""
     try:

@@ -1,6 +1,6 @@
 {# One task row: checkbox, title, time, EduPulse link and a "how to do this" explanation with an example. Needs `t`, optional `editable`. #}
 {% set ty = sp_types[t.task_type] %}
-{% set lk = sp_link(t.link_kind) if t.link_kind else None %}
+{% set lk = sp_task_link(t) %}
 <div class="sp-task {{ t.status }}" data-id="{{ t.id }}">
   <div class="sp-task__main">
     {% if t.task_type != 'rest' %}<button type="button" class="sp-check" data-toggle="{{ url_for('planner.task_toggle', tid=t.id) }}" aria-pressed="{{ 'true' if t.status == 'done' else 'false' }}" aria-label="Mark done: {{ t.title }}"></button>{% else %}<span class="sp-rest">☾</span>{% endif %}

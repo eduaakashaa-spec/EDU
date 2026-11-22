@@ -77,6 +77,11 @@
     <label><input type="checkbox" name="confirm" value="1"> I understand the current plan is archived (not deleted) and a new one starts today, with the same level, weeks and hours.</label>
     <p><button class="sp-btn">Build a plan from this gap map</button></p>
   </form>
+  {% if mentor_view %}
+  <hr style="border:0;border-top:1px solid var(--hairline,#E8DFC8);margin:14px 0">
+  <p><b>EduPulse Reinforcement from this gap map.</b> Creates one question set for each of the biggest gaps, Fix first before Fix next, released three days apart. Easier questions come first for topics rated 0 or 1. The plan's Practise buttons then open the matching set. Safe to repeat: a chapter that already has a set is skipped.</p>
+  <form method="post" action="{{ url_for('planner.mentor_gap_questions', uid=student.id) }}"><button class="sp-btn">Assign default question sets</button></form>
+  {% endif %}
 </div>
 </div>
 {% endblock %}
