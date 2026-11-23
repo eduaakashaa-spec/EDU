@@ -10,7 +10,7 @@ import json
 import os
 from datetime import datetime, timedelta
 
-from flask import Blueprint, Response, abort, flash, jsonify, redirect, render_template, request, url_for
+from flask import Blueprint, Response, abort, current_app, flash, jsonify, redirect, render_template, request, url_for
 from flask_login import current_user, login_required
 
 from app.decorators import admin_required, premium_required, staff_required
@@ -764,7 +764,13 @@ def admin():
             rf.audit(current_user.id, 'settings_saved')
             flash('Thresholds saved.', 'success')
         elif do == 'seed':
-            n = rf.seed_bank(budget=70)                 # stops cleanly before the web server's time limit; press again to continue
+            try:
+                n = rf.seed_bank(budget=70)             # stops cleanly before the web server's time limit; press again to continue
+            except Exception as exc:                    # show the cause on the page instead of a bare 500
+                db.session.rollback()
+                current_app.logger.exception('question bank load failed')
+                flash('The question bank load stopped with an error (%s: %s). Nothing half-written was kept. Press the button again; if it repeats, send this message to the developer.' % (type(exc).__name__, str(exc)[:300]), 'danger')
+                return redirect(url_for('reinforce.admin'))
             if rf.seed_partial():
                 flash('Part of the question bank is loaded (%d new questions so far). Press Load question bank again to continue: it picks up where it stopped.' % n, 'info')
             else:

@@ -186,16 +186,28 @@ _MOCK = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # ---- seeding helpers: one read of the existing qids and chapters instead of two queries per question, and a time budget so a request never runs past the web server's limit ----
-_SEED = {'have': None, 'tax': None, 'deadline': None, 'partial': False}
+_SEED = {'have': None, 'tax': None, 'deadline': None, 'partial': False, 'imgs': None}
 
 
 def _seed_begin(budget=None):
     import time
-    _SEED.update(have={q for (q,) in db.session.query(RfQuestion.qid)}, tax={(t.exam, t.code): t for t in RfTaxonomy.query.all()}, deadline=(time.monotonic() + budget) if budget else None, partial=False)
+    _SEED.update(imgs={(q, k) for (q, k) in db.session.query(RfQuestionImage.qid, RfQuestionImage.kind)}, have={q for (q,) in db.session.query(RfQuestion.qid)}, tax={(t.exam, t.code): t for t in RfTaxonomy.query.all()}, deadline=(time.monotonic() + budget) if budget else None, partial=False)
 
 
 def _seed_end():
-    _SEED.update(have=None, tax=None, deadline=None)
+    _SEED.update(have=None, tax=None, deadline=None, imgs=None)
+
+
+def _add_image(qid, kind, data):
+    """Add one question image unless that (qid, kind) is already stored."""
+    k = (qid, kind)
+    if _SEED['imgs'] is not None:
+        if k in _SEED['imgs']:
+            return
+        _SEED['imgs'].add(k)
+    elif RfQuestionImage.query.filter_by(qid=qid, kind=kind).first():
+        return
+    db.session.add(RfQuestionImage(qid=qid, kind=kind, data=data))
 
 
 def _seen(qid):
@@ -289,7 +301,7 @@ def seed_guides():
                 qt, opts, ans = 'mcq', ['1', '2', '3', '4'], q['acc']['sets'][0]          # options are printed as 1-4 inside the image
             for kind, key in (('q', 'img'), ('s', 'sol')):
                 if q.get(key):
-                    db.session.add(RfQuestionImage(qid=qid, kind=kind, data=base64.b64decode(q[key].split(',', 1)[1])))
+                    _add_image(qid, kind, base64.b64decode(q[key].split(',', 1)[1]))
             stem = '<img class="rf-qimg" src="/edupulse-reinforce/qimg/%s/q" alt="Question as printed in the paper">' % qid
             expl = '<img class="rf-qimg" src="/edupulse-reinforce/qimg/%s/s" alt="Worked solution">' % qid
             note = '; '.join((d.get('notes') or [])[:1])
@@ -334,7 +346,7 @@ def seed_pyq():
                 qt, opts, ans = 'nat', [], acc['ranges']
             else:
                 qt, opts, ans = 'mcq', ['1', '2', '3', '4'], acc['sets'][0]
-            db.session.add(RfQuestionImage(qid=qid, kind='q', data=base64.b64decode(q['img'].split(',', 1)[1])))
+            _add_image(qid, 'q', base64.b64decode(q['img'].split(',', 1)[1]))
             stem = '<img class="rf-qimg" src="/edupulse-reinforce/qimg/%s/q" alt="Question as printed in the paper">' % qid
             expl = '<p>The answer follows the official NTA final answer key. A worked solution for this question is not available yet.</p>'
             db.session.add(RfQuestion(qid=qid, exam='JEE', subject=tx.subject, chapter=tx.chapter, topic=q.get('chapter') or tx.chapter, concept=tx.chapter, difficulty=q.get('lvl') or 2,

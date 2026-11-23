@@ -28,4 +28,12 @@ with app.app_context():
     from app.data.jee_topics import RF_CHAPTER
     for ch in {v for v in RF_CHAPTER.values() if v}:
         assert jee.filter_by(chapter=ch).count() >= 3, ch                       # every mapped gap-map chapter has questions
+    # PostgreSQL enforces column lengths (SQLite does not): no stored text may be longer than its column
+    from app.models_reinforce import RfQuestionImage, RfTaxonomy
+    for M in (RfQuestion, RfQuestionImage, RfTaxonomy):
+        for col in M.__table__.columns:
+            n = getattr(col.type, 'length', None)
+            if n and col.name != 'id':
+                longest = max((len(str(getattr(r, col.name) or '')) for r in M.query.all()), default=0)
+                assert longest <= n, (M.__tablename__, col.name, longest, n)
 print('rf seed checks passed')

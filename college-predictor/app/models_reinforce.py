@@ -280,3 +280,17 @@ class RfChoice(db.Model):
     decided_at = db.Column(db.DateTime)
     user = db.relationship('User', foreign_keys=[user_id])
 
+
+# PostgreSQL rejects text longer than its column (SQLite, used in tests, does not), so seeded or imported text is shortened to fit rather than failing the whole save.
+from sqlalchemy import String, event  # noqa: E402
+
+
+@event.listens_for(RfQuestion, 'before_insert')
+@event.listens_for(RfQuestion, 'before_update')
+def _fit_question_text(mapper, connection, target):
+    for col in mapper.columns:
+        n = getattr(col.type, 'length', None)
+        if n and isinstance(col.type, String):
+            v = getattr(target, col.key, None)
+            if isinstance(v, str) and len(v) > n:
+                setattr(target, col.key, v[:n - 1].rstrip() + '…' if n > 40 else v[:n])
