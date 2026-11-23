@@ -185,6 +185,43 @@ def subjects_of(exam):
 _MOCK = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
 
 
+# ---- seeding helpers: one read of the existing qids and chapters instead of two queries per question, and a time budget so a request never runs past the web server's limit ----
+_SEED = {'have': None, 'tax': None, 'deadline': None, 'partial': False}
+
+
+def _seed_begin(budget=None):
+    import time
+    _SEED.update(have={q for (q,) in db.session.query(RfQuestion.qid)}, tax={(t.exam, t.code): t for t in RfTaxonomy.query.all()}, deadline=(time.monotonic() + budget) if budget else None, partial=False)
+
+
+def _seed_end():
+    _SEED.update(have=None, tax=None, deadline=None)
+
+
+def _seen(qid):
+    h = _SEED['have']
+    return (qid in h) if h is not None else bool(RfQuestion.query.filter_by(qid=qid).first())
+
+
+def _mark(qid):
+    if _SEED['have'] is not None:
+        _SEED['have'].add(qid)
+
+
+def _tx(exam, code):
+    t = _SEED['tax']
+    return t.get((exam, code)) if t is not None else RfTaxonomy.query.filter_by(exam=exam, code=code).first()
+
+
+def _out_of_time():
+    import time
+    d = _SEED['deadline']
+    if d and time.monotonic() > d:
+        _SEED['partial'] = True
+        return True
+    return False
+
+
 def _seed_from(path, exam, tag, subj_of):
     n = 0
     try:
@@ -193,10 +230,10 @@ def _seed_from(path, exam, tag, subj_of):
         return 0
     for q in d['qs']:
         qid = '%s-%s-%03d' % (exam, tag, q['n'])
-        if RfQuestion.query.filter_by(qid=qid).first():
+        if _seen(qid):
             continue
         code = q.get('cat')
-        tx = RfTaxonomy.query.filter_by(exam=exam, code=code).first()
+        tx = _tx(exam, code)
         if not tx or q.get('img'):
             continue
         stem = q['stem'] + ('<div class="ofig">%s</div>' % q['fig'] if q.get('fig') else '')
@@ -215,6 +252,7 @@ def _seed_from(path, exam, tag, subj_of):
         db.session.add(RfQuestion(qid=qid, exam=exam, subject=tx.subject, chapter=tx.chapter, topic=tx.chapter, concept=tx.chapter, difficulty=3 if t in ('nat', 'msq') else 2, qtype=t,
                                   stem=stem, options_json=json.dumps(opts), answer_json=json.dumps(ans), explanation=expl, misconception=q.get('trap') or '',
                                   marks=4, neg_marks=1 if exam == 'JEE' else 0, est_sec=120 if t == 'nat' else 90, source='EduAakashaa original (%s %s)' % (exam, tag), status='approved'))
+        _mark(qid)
         n += 1
     return n
 
@@ -232,15 +270,17 @@ def seed_guides():
     for meta in papers:
         if not (meta.get('solved') and meta.get('ready')):
             continue
+        if _out_of_time():
+            break
         try:
             d = json.load(open(os.path.join(data_dir, meta['y'] + '.json'), encoding='utf-8'))
         except (OSError, ValueError):
             continue
         for q in d['qs']:
             qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
-            if RfQuestion.query.filter_by(qid=qid).first() or (q.get('acc') or {}).get('bonus'):
+            if _seen(qid) or (q.get('acc') or {}).get('bonus'):
                 continue
-            tx = RfTaxonomy.query.filter_by(exam='JEE', code=q.get('cat')).first()
+            tx = _tx('JEE', q.get('cat'))
             if not tx:
                 continue
             if q['t'] == 'NAT':
@@ -256,6 +296,7 @@ def seed_guides():
             db.session.add(RfQuestion(qid=qid, exam='JEE', subject=tx.subject, chapter=tx.chapter, topic=q.get('chapter') or tx.chapter, concept=tx.chapter, difficulty=2, qtype=qt, stem=stem,
                                       options_json=json.dumps(opts), answer_json=json.dumps(ans), explanation=expl, misconception='', marks=4, neg_marks=1, est_sec=150 if qt == 'nat' else 100,
                                       source='%s, question %d (NTA ID %s). %s' % (meta['title'], q['n'], q.get('qid') or '-', note), status='approved'))
+            _mark(qid)
             n += 1
     db.session.commit()
     return n
@@ -275,6 +316,8 @@ def seed_pyq():
     for meta in papers:
         if not (meta.get('tagged') and meta.get('ready')) or meta.get('solved') or meta.get('recreated'):
             continue
+        if _out_of_time():
+            break
         try:
             d = json.load(open(os.path.join(data_dir, meta['y'] + '.json'), encoding='utf-8'))
         except (OSError, ValueError):
@@ -282,9 +325,9 @@ def seed_pyq():
         for q in d['qs']:
             qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
             acc = q.get('acc') or {}
-            if acc.get('bonus') or (q['t'] != 'NAT' and len(acc.get('sets') or []) != 1) or RfQuestion.query.filter_by(qid=qid).first():
+            if acc.get('bonus') or (q['t'] != 'NAT' and len(acc.get('sets') or []) != 1) or _seen(qid):
                 continue
-            tx = RfTaxonomy.query.filter_by(exam='JEE', code=q.get('cat')).first()
+            tx = _tx('JEE', q.get('cat'))
             if not tx or not q.get('img'):
                 continue
             if q['t'] == 'NAT':
@@ -298,6 +341,7 @@ def seed_pyq():
                                       qtype=qt, stem=stem, options_json=json.dumps(opts), answer_json=json.dumps(ans), explanation=expl, misconception='', marks=4, neg_marks=1,
                                       est_sec=150 if qt == 'nat' else 100, source='%s, question %d (NTA question ID %s). Official NTA key.' % (meta['title'], q['n'], q.get('qid') or '-'),
                                       status='approved'))
+            _mark(qid)
             n += 1
     db.session.commit()
     return n
@@ -322,15 +366,17 @@ def seed_recreated():
     for meta in papers:
         if not (meta.get('recreated') and meta.get('ready')):
             continue
+        if _out_of_time():
+            break
         try:
             d = json.load(open(os.path.join(data_dir, meta['y'] + '.json'), encoding='utf-8'))
         except (OSError, ValueError):
             continue
         for q in d['qs']:
             qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
-            if q.get('fig') or any('<svg' in o for o in (q.get('opts') or [])) or RfQuestion.query.filter_by(qid=qid).first():                                   # a redrawn figure is not carried into the bank stem
+            if q.get('fig') or any('<svg' in o for o in (q.get('opts') or [])) or _seen(qid):                                   # a redrawn figure is not carried into the bank stem
                 continue
-            tx = RfTaxonomy.query.filter_by(exam='JEE', code=q.get('cat')).first()
+            tx = _tx('JEE', q.get('cat'))
             if not tx:
                 continue
             if q['t'] == 'NAT':
@@ -342,25 +388,37 @@ def seed_recreated():
                                       options_json=json.dumps(opts), answer_json=json.dumps(ans), explanation=sanitize(expl), misconception='', marks=4, neg_marks=1,
                                       est_sec=150 if qt == 'nat' else 100, source='%s, question %d (source question %s). %s' % (meta['title'], q['n'], q.get('src', '-'), '; '.join((d.get('notes') or [])[:1])),
                                       status='approved'))
+            _mark(qid)
             n += 1
     db.session.commit()
     return n
 
 
-def seed_bank():
-    """Idempotent: loads the original EduAakashaa mock questions (JEE M1-M5, UCEED M1-M5) into the bank as approved questions."""
+def seed_bank(budget=None):
+    """Idempotent: loads the original EduAakashaa mock questions, the solved and tagged previous-year papers and the recreated papers into the bank as approved questions.
+    With `budget` (seconds) it stops cleanly when the time is up and sets seed_partial(); press the button again to continue where it stopped."""
     seed_taxonomy()
+    _seed_begin(budget)
     n = 0
-    for i in range(1, 6):
-        n += _seed_from(os.path.join(_MOCK, 'jee_mock', 'data', 'M%d.json' % i), 'JEE', 'M%d' % i, None)
-        n += _seed_from(os.path.join(_MOCK, 'uceed_mock', 'data', 'M%d.json' % i), 'UCEED', 'M%d' % i, None)
-    db.session.commit()
-    n += seed_guides()
-    n += seed_recreated()
-    n += seed_pyq()
-    from app.services import tn10
-    n += tn10.seed_reinforcement()
+    try:
+        for i in range(1, 6):
+            n += _seed_from(os.path.join(_MOCK, 'jee_mock', 'data', 'M%d.json' % i), 'JEE', 'M%d' % i, None)
+            n += _seed_from(os.path.join(_MOCK, 'uceed_mock', 'data', 'M%d.json' % i), 'UCEED', 'M%d' % i, None)
+        db.session.commit()
+        n += seed_guides()
+        n += seed_recreated()
+        n += seed_pyq()
+        if not _SEED['partial']:
+            from app.services import tn10
+            n += tn10.seed_reinforcement()
+    finally:
+        _seed_end()
     return n
+
+
+def seed_partial():
+    """True when the last seed_bank(budget) ran out of time before it finished."""
+    return bool(_SEED['partial'])
 
 
 # ---- grading -------------------------------------------------------------------------------------------------------------------------

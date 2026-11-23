@@ -764,8 +764,11 @@ def admin():
             rf.audit(current_user.id, 'settings_saved')
             flash('Thresholds saved.', 'success')
         elif do == 'seed':
-            n = rf.seed_bank()
-            flash('Question bank loaded (%d new questions). Existing questions were kept.' % n, 'success')
+            n = rf.seed_bank(budget=70)                 # stops cleanly before the web server's time limit; press again to continue
+            if rf.seed_partial():
+                flash('Part of the question bank is loaded (%d new questions so far). Press Load question bank again to continue: it picks up where it stopped.' % n, 'info')
+            else:
+                flash('Question bank loaded (%d new questions). Existing questions were kept.' % n, 'success')
         elif do == 'demo':
             from app.services import reinforce_demo
             flash(reinforce_demo.create_demo(current_user), 'success')
