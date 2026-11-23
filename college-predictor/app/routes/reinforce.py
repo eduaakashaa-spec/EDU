@@ -765,7 +765,7 @@ def admin():
             flash('Thresholds saved.', 'success')
         elif do == 'seed':
             try:
-                n = rf.seed_bank(budget=70)             # stops cleanly before the web server's time limit; press again to continue
+                n = rf.seed_bank(budget=35)             # stops cleanly before the web server's time limit; press again to continue
             except Exception as exc:                    # show the cause on the page instead of a bare 500
                 db.session.rollback()
                 current_app.logger.exception('question bank load failed')

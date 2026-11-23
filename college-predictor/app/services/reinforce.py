@@ -241,6 +241,8 @@ def _seed_from(path, exam, tag, subj_of):
     except (OSError, ValueError):
         return 0
     for q in d['qs']:
+        if _out_of_time():
+            break
         qid = '%s-%s-%03d' % (exam, tag, q['n'])
         if _seen(qid):
             continue
@@ -266,6 +268,8 @@ def _seed_from(path, exam, tag, subj_of):
                                   marks=4, neg_marks=1 if exam == 'JEE' else 0, est_sec=120 if t == 'nat' else 90, source='EduAakashaa original (%s %s)' % (exam, tag), status='approved'))
         _mark(qid)
         n += 1
+        if n % 100 == 0:
+            db.session.commit()
     return n
 
 
@@ -289,6 +293,8 @@ def seed_guides():
         except (OSError, ValueError):
             continue
         for q in d['qs']:
+            if _out_of_time():
+                break
             qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
             if _seen(qid) or (q.get('acc') or {}).get('bonus'):
                 continue
@@ -310,6 +316,8 @@ def seed_guides():
                                       source='%s, question %d (NTA ID %s). %s' % (meta['title'], q['n'], q.get('qid') or '-', note), status='approved'))
             _mark(qid)
             n += 1
+            if n % 100 == 0:
+                db.session.commit()
     db.session.commit()
     return n
 
@@ -335,6 +343,8 @@ def seed_pyq():
         except (OSError, ValueError):
             continue
         for q in d['qs']:
+            if _out_of_time():
+                break
             qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
             acc = q.get('acc') or {}
             if acc.get('bonus') or (q['t'] != 'NAT' and len(acc.get('sets') or []) != 1) or _seen(qid):
@@ -355,6 +365,8 @@ def seed_pyq():
                                       status='approved'))
             _mark(qid)
             n += 1
+            if n % 100 == 0:
+                db.session.commit()
     db.session.commit()
     return n
 
@@ -385,6 +397,8 @@ def seed_recreated():
         except (OSError, ValueError):
             continue
         for q in d['qs']:
+            if _out_of_time():
+                break
             qid = 'JEE-%s-%03d' % (meta['y'], q['n'])
             if q.get('fig') or any('<svg' in o for o in (q.get('opts') or [])) or _seen(qid):                                   # a redrawn figure is not carried into the bank stem
                 continue
@@ -402,6 +416,8 @@ def seed_recreated():
                                       status='approved'))
             _mark(qid)
             n += 1
+            if n % 100 == 0:
+                db.session.commit()
     db.session.commit()
     return n
 
