@@ -23,12 +23,40 @@
   .vid-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim, #5A6278); }
   .vid-link { margin-top: auto; font-weight: 700; font-size: .85rem; color: #C2410C; text-decoration: none; }
   .vid-link:hover { color: var(--gold, #FF6B0A); }
+  .vid-link--quiet { margin-top: 0; font-weight: 600; color: var(--text-dim, #5A6278); }
   /* YouTube Shorts: vertical players, five across. */
   .vid-grid--shorts { grid-template-columns: repeat(5, 1fr); gap: 18px; }
   @media (max-width: 1100px){ .vid-grid--shorts { grid-template-columns: repeat(3, 1fr); } }
   @media (max-width: 900px){ .vid-grid--shorts { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 620px){ .vid-grid--shorts { grid-template-columns: 1fr 1fr; gap: 14px; } }
   .vid-embed--short { aspect-ratio: 9 / 16; }
+  .vid-sub { margin: 30px 0 14px; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: #C2410C; }
+  /* The pinned video: always first, whatever category is chosen. */
+  .vid-feature {
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 0;
+    background: var(--paper, #FFFDF7); border: 1px solid rgba(255,107,10,.45);
+    border-radius: var(--radius, 18px); overflow: hidden;
+    box-shadow: var(--shadow-2, 0 10px 30px rgba(14,27,61,.1));
+  }
+  .vid-feature__body { padding: 28px 30px; display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+  .vid-feature__title { font-family: 'Fraunces', serif; font-size: clamp(1.4rem, 2.4vw, 1.9rem); font-weight: 600; line-height: 1.18; color: var(--navy-ink, #071A44); margin: 0; }
+  .vid-feature__text { margin: 0; color: var(--text-dim, #5A6278); line-height: 1.55; }
+  .vid-feature__row { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; margin-top: 6px; }
+  .vid-feature__row .vid-link { margin-top: 0; }
+  @media (max-width: 900px){ .vid-feature { grid-template-columns: 1fr; } }
+  /* Category pills. Without scripts they are plain links to each section. */
+  .vid-filter { display: flex; flex-wrap: wrap; gap: 10px; margin: 6px 0 0; }
+  .vid-pill {
+    display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 999px;
+    border: 1px solid var(--border, #E8DFC8); background: var(--paper, #FFFDF7);
+    color: var(--navy-ink, #071A44); font-weight: 700; font-size: .9rem; text-decoration: none;
+    transition: border-color .18s, background .18s, color .18s;
+  }
+  .vid-pill span { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; color: var(--text-dim, #5A6278); }
+  .vid-pill:hover { border-color: rgba(255,107,10,.6); }
+  .vid-pill.is-on { background: #0E3A8A; border-color: #0E3A8A; color: #fff; }
+  .vid-pill.is-on span { color: #D7E1F8; }
+  .vid-cat[hidden] { display: none; }
   .chan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
   @media (max-width: 620px){ .chan-grid { grid-template-columns: 1fr; } }
   .chan-card {
@@ -43,13 +71,91 @@
 {% endblock %}
 
 {% block content %}
+{# ------------------------------------------------------------------------------------------------------------------
+   HOW TO ADD A VIDEO
+   1. Add one line to `library` below, at the top of its category block (newest first).
+      'cat' is one of the keys in `cats`. Add 'short': True for a YouTube Short (vertical player).
+      'page' and 'cta' are optional: a link from the card to the matching page of this site.
+   2. `featured` is the pinned video. It always stays first on the page; do not list it in `library` as well.
+   3. Add a line to CHANGELOG in app/services/portal_guide.py.
+   ------------------------------------------------------------------------------------------------------------------ #}
+{% set featured = {'id': 'Jq6dEPYWpz0', 'title': 'Elite Mentorship: Why a Mentor Matters More Than Coaching'} %}
+
+{% set cats = [
+  {'key': 'jee', 'label': 'JEE exams', 'desc': 'JEE Main percentile and rank, negative marking, registration, Paper 2, mock tests and the exam calendar.'},
+  {'key': 'colleges', 'label': 'Colleges', 'desc': 'Which colleges a rank can open, how to choose an engineering branch, the aptitude assessment, and where the jobs are heading.'},
+  {'key': 'tnea', 'label': 'TNEA', 'desc': 'Tamil Nadu engineering admission: the routes, the TNEA cut-off and Anna University, with videos in Tamil.'},
+  {'key': 'dasa', 'label': 'DASA', 'desc': 'NRI admission to NITs, IIITs and other institutes through DASA and CIWG.'},
+  {'key': 'overseas', 'label': 'Overseas', 'desc': 'Studying abroad after Class 12, starting with HKU in Hong Kong.'},
+  {'key': 'mentorship', 'label': 'Mentorship', 'desc': 'How EduAakashaA mentoring works and why it matters, and EduPulse-Explorer for Grades 7 to 10.'}
+] %}
+
+{% set library = [
+  {'cat': 'jee', 'id': 'JJFPS9GOb08', 'title': 'JEE Main Percentile Explained: Calculation and Percentile to Rank (AIR)', 'meta': 'JEE Main · Beginner Guide'},
+  {'cat': 'jee', 'id': 'vuq16-j9g7E', 'title': 'JEE Main Negative Marking: When to Guess and When to Skip', 'meta': 'JEE Main Strategy'},
+  {'cat': 'jee', 'id': 'OekpTymjrRY', 'title': 'JEE Main 2027 Registration for NRI Parents: 10 Tips and Key Dates', 'meta': 'JEE Main Registration'},
+  {'cat': 'jee', 'id': 'CGKfqfByo_Q', 'title': 'JEE Main 2027 Registration Problems for NRI Parents: Top 10 Issues and Fixes', 'meta': 'JEE Main Registration'},
+  {'cat': 'jee', 'id': 'pnlP-y98iow', 'title': 'JEE Main Paper 2A vs 2B: B.Arch or B.Planning? Pattern, Marks, Dates and Colleges', 'meta': 'JEE Main Paper 2'},
+  {'cat': 'jee', 'short': True, 'id': '48_ZqbrMG6E', 'title': 'JEE Main: 97 Percentile Is Not 97% Marks. Percentile to Rank in 60 Seconds', 'meta': 'JEE Main · Percentile to Rank', 'page': '/josaa', 'cta': 'Open the JoSAA Predictor'},
+  {'cat': 'jee', 'short': True, 'id': 'MESo9fRyU0Y', 'title': 'JEE Main: 1 Percentile = 15,000 Ranks. How Many NITs Is That?', 'meta': 'JEE Main · JoSAA 2026', 'page': '/josaa', 'cta': 'Open the JoSAA Predictor'},
+  {'cat': 'jee', 'short': True, 'id': 'MnFwmXisR_o', 'title': 'JEE Main: Guess or Skip? The Negative Marking Rule', 'meta': 'JEE Main Strategy'},
+  {'cat': 'jee', 'short': True, 'id': 'siVrv4q48IY', 'title': 'Guess or Skip in JEE Main?', 'meta': 'JEE Main Strategy'},
+  {'cat': 'jee', 'short': True, 'id': 'RIr5t6w7x_8', 'title': 'Free Mock Tests: JEE Main, NEET, SAT, UCEED and More', 'meta': 'EduPulse', 'page': '/edupulse-free-mock-tests/'},
+  {'cat': 'jee', 'short': True, 'id': 'kX2Bs9_MfL0', 'title': '60+ Entrance Exams, One Calendar', 'meta': 'Exam Schedule', 'page': '/exam-schedule'},
+  {'cat': 'jee', 'short': True, 'id': 'geZwwXtVpBM', 'title': 'Class 12 PCM: Know Your Marks Gap', 'meta': 'Class 12 Analytics', 'page': '/class12-pcm/'},
+
+  {'cat': 'colleges', 'id': 'SGn20xEmwKw', 'title': 'Engineering in 2027: Which Jobs Will Grow by 2030? WEF Future of Jobs Explained', 'meta': 'Future of Jobs'},
+  {'cat': 'colleges', 'id': 'lVIH_CSzxXc', 'title': 'How to Take the Engineering Aptitude Assessment: 9 Steps to Find Your Branch', 'meta': 'Engineering Aptitude Assessment'},
+  {'cat': 'colleges', 'id': 'MFuhXQcmylA', 'title': 'Engineering Aptitude Assessment: Full Screen Walkthrough (Demo Student)', 'meta': 'Engineering Aptitude Assessment'},
+  {'cat': 'colleges', 'id': 'kOyLxzC4mxE', 'title': 'Engineering Beyond Today: How to Choose Your Engineering Branch', 'meta': 'Engineering Insights'},
+  {'cat': 'colleges', 'short': True, 'id': 'rcJ77cg12Uw', 'title': 'Got Your JEE Rank? See Your Colleges', 'meta': 'JoSAA Predictor', 'page': '/josaa'},
+  {'cat': 'colleges', 'short': True, 'id': '0_apXwxxLZk', 'title': 'Which Engineering Branch Suits You?', 'meta': 'Aptitude Assessment', 'page': '/josaa-assessment'},
+  {'cat': 'colleges', 'short': True, 'id': 'memuY7jq7T0', 'title': 'Which Job Will Grow Fastest by 2030? Take a Guess', 'meta': 'Future of Jobs'},
+  {'cat': 'colleges', 'short': True, 'id': 'RW1q6c71s3c', 'title': 'Engineering Beyond Today: Ten Branches, One Right Choice', 'meta': 'Engineering Insights'},
+
+  {'cat': 'tnea', 'id': '1zYXtX1zHlg', 'title': 'பொறியியல் சேர்க்கை 2027: TNEA, JoSAA உட்பட நான்கு வழிகள் (Tamil Guide)', 'meta': 'Tamil Nadu Admission · தமிழ்'},
+  {'cat': 'tnea', 'id': 'jeabhj2J8Zw', 'title': 'Anna University NRI 2026 &mdash; EduAakashaa', 'meta': 'Anna University · NRI'},
+  {'cat': 'tnea', 'short': True, 'id': 'ZTE02M6DkSI', 'title': 'TNEA cut-off: 10 விநாடியில் கணக்கிடுங்கள்', 'meta': 'TNEA · தமிழ்'},
+  {'cat': 'tnea', 'short': True, 'id': 'Nr5GP3a5s5k', 'title': 'TNEA Cut-off in 10 Seconds', 'meta': 'Free TNEA Report', 'page': '/free-report'},
+
+  {'cat': 'dasa', 'id': 'B0QrQU60X1k', 'title': 'NRI Admission to India&rsquo;s Top Engineering Colleges: DASA and CIWG Explained', 'meta': 'NRI Admission'},
+  {'cat': 'dasa', 'id': '1aCMpT0Td4o', 'title': 'DASA 2026 Complete Guide for NRI Students', 'meta': 'DASA / CIWG'},
+  {'cat': 'dasa', 'id': 'dB307LQyHCA', 'title': 'EduAakashaA &mdash; DASA &amp; CIWG Analytics', 'meta': 'Analytics'},
+  {'cat': 'dasa', 'short': True, 'id': 'lKOxg49ROhg', 'title': 'Watch a Rank Find Its Seat', 'meta': 'DASA / CIWG · NRI', 'page': '/dasa-predictor'},
+
+  {'cat': 'overseas', 'id': 'OtWMjZpqiss', 'title': 'HKU Hong Kong Admission 2027 for CBSE Students: Marks, Dates, Fees and Steps', 'meta': 'Study in Hong Kong'},
+  {'cat': 'overseas', 'short': True, 'id': 'S_CIYvp3rtE', 'title': 'HKU after CBSE: 5 Things to Know Before You Apply', 'meta': 'Study in Hong Kong'},
+
+  {'cat': 'mentorship', 'id': 'unAAJgZ2KrU', 'title': 'Why Mentoring Matters: Coaching Teaches the Syllabus, Mentoring Shapes the Career', 'meta': 'Mentoring'},
+  {'cat': 'mentorship', 'id': '0RjhHUpxEcU', 'title': 'EduAakashaA: Same Marks, a Better Future. Luck Is Not a Strategy, Data Is.', 'meta': 'About EduAakashaA'},
+  {'cat': 'mentorship', 'short': True, 'id': 'r1T8GB9jJmo', 'title': 'Same Marks, Different Futures', 'meta': 'Mentorship', 'page': '/members-registration', 'cta': 'Talk to a mentor'},
+  {'cat': 'mentorship', 'short': True, 'id': 'FvDJgmqTPkM', 'title': 'Luck Is Not an Admissions Strategy. Data Is.', 'meta': 'EduAakashaA', 'page': '/', 'cta': 'Open the homepage'},
+  {'cat': 'mentorship', 'short': True, 'id': 'qDeW6K-0HbI', 'title': 'Grade 7 to 10? Find What You Enjoy with EduPulse-Explorer', 'meta': 'EduPulse-Explorer · Grades 7 to 10', 'page': '/explorer-test', 'cta': 'Try six free questions'}
+] %}
+
+{% macro card(v) %}
+      <div class="vid-card">
+        <div class="vid-embed{{ ' vid-embed--short' if v.short else '' }}">
+          <iframe src="https://www.youtube-nocookie.com/embed/{{ v.id }}" title="{{ v.title }}"
+                  loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+        </div>
+        <div class="vid-body">
+          <div class="vid-meta">{{ v.meta }}</div>
+          <div class="vid-title">{{ v.title|safe }}</div>
+          {% if v.page %}<a class="vid-link" href="{{ v.page }}">{{ v.cta or 'Open the tool' }} &rarr;</a>{% endif %}
+          <a class="vid-link{{ ' vid-link--quiet' if v.page else '' }}" href="https://www.youtube.com/{{ 'shorts/' if v.short else 'watch?v=' }}{{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
+        </div>
+      </div>
+{% endmacro %}
+
 <section class="hero-editorial">
   <div class="hero__glow"></div>
   <div class="container">
     <div class="hero-copy" style="max-width:760px;">
       <span class="eyebrow">EduAakashaa &middot; Video Library</span>
       <h1 style="margin-top:22px;">EA's <span class="accent">Video Library</span></h1>
-      <p class="hero-sub">Our video &amp; newsletter collection &mdash; DASA, NRI admissions, Anna University and the 2026 cycle explained in plain language by the EduAakashaa expert team.</p>
+      <p class="hero-sub">Mentor explainers and Shorts in plain language, grouped by topic: JEE exams, colleges, TNEA, DASA, study overseas and mentorship.</p>
       <div class="hero-ctas">
         <a href="https://www.youtube.com/@eduaakashaa" target="_blank" rel="noopener" class="btn-primary">Subscribe on YouTube <span class="arrow">&rarr;</span></a>
         <a href="{{ url_for('main.members_registration') }}" class="btn-ghost">Talk to a Mentor</a>
@@ -58,149 +164,62 @@
   </div>
 </section>
 
-<main class="main-content">
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">New &middot; November 2026</span>
-      <h2 class="section__title">Your mentor explains the 2026&ndash;27 admission routes</h2>
-      <p class="section__desc">Short explainers on admission to HKU Hong Kong for CBSE students, Tamil Nadu engineering admission (in Tamil), why mentoring matters, the future of engineering jobs, the Engineering Aptitude Assessment, JEE Main negative marking, JEE Main 2027 registration for NRI parents, JEE Main Paper 2 (B.Arch and B.Planning), NRI admission through DASA and CIWG, engineering branch choice, and how mentorship works.</p>
+{# data-no-rail: the category pills are this page's navigation, so the site's numbered section rail is switched off. #}
+<main class="main-content" data-no-rail>
+  <section class="section" id="featured">
+    <div class="vid-feature">
+      <div class="vid-embed">
+        <iframe src="https://www.youtube-nocookie.com/embed/{{ featured.id }}" title="{{ featured.title }}"
+                loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+      <div class="vid-feature__body">
+        <span class="eyebrow">Start here &middot; Elite Mentorship</span>
+        <h2 class="vid-feature__title">{{ featured.title }}</h2>
+        <p class="vid-feature__text">Coaching teaches the syllabus. A mentor helps with the decisions around it: the route, the college and the branch. Elite Mentorship is for NRI students and parents.</p>
+        <div class="vid-feature__row">
+          <a href="{{ url_for('main.members_registration') }}" class="btn-primary">Talk to a Mentor <span class="arrow">&rarr;</span></a>
+          <a class="vid-link" href="https://www.youtube.com/watch?v={{ featured.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
+        </div>
+      </div>
     </div>
+  </section>
 
+  <section class="section" id="browse" style="padding-bottom:0;">
+    <div class="section__header">
+      <span class="eyebrow">Browse by topic</span>
+      <h2 class="section__title">Pick a category</h2>
+    </div>
+    <nav class="vid-filter" aria-label="Video categories">
+      <a class="vid-pill is-on" href="#browse" data-cat="all" aria-current="true">All <span>{{ library|length + 1 }}</span></a>
+      {% for c in cats %}
+      <a class="vid-pill" href="#cat-{{ c.key }}" data-cat="{{ c.key }}">{{ c.label }} <span>{{ library|selectattr('cat', 'equalto', c.key)|list|length }}</span></a>
+      {% endfor %}
+    </nav>
+  </section>
+
+  {% for c in cats %}
+  {% set longs = library|selectattr('cat', 'equalto', c.key)|rejectattr('short')|list %}
+  {% set shorts = library|selectattr('cat', 'equalto', c.key)|selectattr('short')|list %}
+  <section class="section vid-cat" id="cat-{{ c.key }}" data-cat="{{ c.key }}">
+    <div class="section__header">
+      <span class="eyebrow">{{ longs|length + shorts|length }} videos</span>
+      <h2 class="section__title">{{ c.label }}</h2>
+      <p class="section__desc">{{ c.desc }}</p>
+    </div>
+    {% if longs %}
     <div class="vid-grid">
-      {% set new_videos = [
-        {'id': 'JJFPS9GOb08', 'title': 'JEE Main Percentile Explained: Calculation and Percentile to Rank (AIR)', 'meta': 'JEE Main · Beginner Guide'},
-        {'id': 'OtWMjZpqiss', 'title': 'HKU Hong Kong Admission 2027 for CBSE Students: Marks, Dates, Fees and Steps', 'meta': 'Study in Hong Kong'},
-        {'id': '1zYXtX1zHlg', 'title': 'பொறியியல் சேர்க்கை 2027: TNEA, JoSAA உட்பட நான்கு வழிகள் (Tamil Guide)', 'meta': 'Tamil Nadu Admission · தமிழ்'},
-        {'id': 'unAAJgZ2KrU', 'title': 'Why Mentoring Matters: Coaching Teaches the Syllabus, Mentoring Shapes the Career', 'meta': 'Mentoring'},
-        {'id': 'SGn20xEmwKw', 'title': 'Engineering in 2027: Which Jobs Will Grow by 2030? WEF Future of Jobs Explained', 'meta': 'Future of Jobs'},
-        {'id': 'lVIH_CSzxXc', 'title': 'How to Take the Engineering Aptitude Assessment: 9 Steps to Find Your Branch', 'meta': 'Engineering Aptitude Assessment'},
-        {'id': 'MFuhXQcmylA', 'title': 'Engineering Aptitude Assessment: Full Screen Walkthrough (Demo Student)', 'meta': 'Engineering Aptitude Assessment'},
-        {'id': 'vuq16-j9g7E', 'title': 'JEE Main Negative Marking: When to Guess and When to Skip', 'meta': 'JEE Main Strategy'},
-        {'id': 'OekpTymjrRY', 'title': 'JEE Main 2027 Registration for NRI Parents: 10 Tips and Key Dates', 'meta': 'JEE Main Registration'},
-        {'id': 'CGKfqfByo_Q', 'title': 'JEE Main 2027 Registration Problems for NRI Parents: Top 10 Issues and Fixes', 'meta': 'JEE Main Registration'},
-        {'id': 'pnlP-y98iow', 'title': 'JEE Main Paper 2A vs 2B: B.Arch or B.Planning? Pattern, Marks, Dates and Colleges', 'meta': 'JEE Main Paper 2'},
-        {'id': 'B0QrQU60X1k', 'title': 'NRI Admission to India&rsquo;s Top Engineering Colleges: DASA and CIWG Explained', 'meta': 'NRI Admission'},
-        {'id': 'kOyLxzC4mxE', 'title': 'Engineering Beyond Today: How to Choose Your Engineering Branch', 'meta': 'Engineering Insights'},
-        {'id': '0RjhHUpxEcU', 'title': 'EduAakashaA: Same Marks, a Better Future. Luck Is Not a Strategy, Data Is.', 'meta': 'About EduAakashaA'},
-        {'id': 'Jq6dEPYWpz0', 'title': 'Elite Mentorship: Why a Mentor Matters More Than Coaching', 'meta': 'Elite Mentorship'}
-      ] %}
-      {% for v in new_videos %}
-      <div class="vid-card">
-        <div class="vid-embed">
-          <iframe src="https://www.youtube-nocookie.com/embed/{{ v.id }}" title="{{ v.title }}"
-                  loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta">{{ v.meta }}</div>
-          <div class="vid-title">{{ v.title|safe }}</div>
-          <a class="vid-link" href="https://www.youtube.com/{{ 'shorts/' if v.short else 'watch?v=' }}{{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
-        </div>
-      </div>
-      {% endfor %}
+      {% for v in longs %}{{ card(v) }}{% endfor %}
     </div>
-  </section>
-
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">YouTube Shorts</span>
-      <h2 class="section__title">Quick answers in under a minute</h2>
-      <p class="section__desc">One question, one answer: how a JEE Main percentile turns into a rank, what one percentile is worth in NIT seats, what EduPulse-Explorer offers students in Grades 7 to 10, what to know before applying to HKU, whether to guess in JEE Main, how the TNEA cut-off is worked out (in Tamil), which jobs will grow fastest by 2030, and how to choose among ten engineering branches.</p>
-    </div>
-
+    {% endif %}
+    {% if shorts %}
+    <div class="vid-sub">Shorts &middot; under 90 seconds</div>
     <div class="vid-grid vid-grid--shorts">
-      {% set shorts = [
-        {'id': '48_ZqbrMG6E', 'title': 'JEE Main: 97 Percentile Is Not 97% Marks. Percentile to Rank in 60 Seconds', 'meta': 'JEE Main · Percentile to Rank', 'page': '/josaa', 'cta': 'Open the JoSAA Predictor'},
-        {'id': 'MESo9fRyU0Y', 'title': 'JEE Main: 1 Percentile = 15,000 Ranks. How Many NITs Is That?', 'meta': 'JEE Main · JoSAA 2026', 'page': '/josaa', 'cta': 'Open the JoSAA Predictor'},
-        {'id': 'qDeW6K-0HbI', 'title': 'Grade 7 to 10? Find What You Enjoy with EduPulse-Explorer', 'meta': 'EduPulse-Explorer · Grades 7 to 10', 'page': '/explorer-test', 'cta': 'Try six free questions'},
-        {'id': 'S_CIYvp3rtE', 'title': 'HKU after CBSE: 5 Things to Know Before You Apply', 'meta': 'Study in Hong Kong'},
-        {'id': 'MnFwmXisR_o', 'title': 'JEE Main: Guess or Skip? The Negative Marking Rule', 'meta': 'JEE Main Strategy'},
-        {'id': 'ZTE02M6DkSI', 'title': 'TNEA cut-off: 10 விநாடியில் கணக்கிடுங்கள்', 'meta': 'TNEA · தமிழ்'},
-        {'id': 'memuY7jq7T0', 'title': 'Which Job Will Grow Fastest by 2030? Take a Guess', 'meta': 'Future of Jobs'},
-        {'id': 'RW1q6c71s3c', 'title': 'Engineering Beyond Today: Ten Branches, One Right Choice', 'meta': 'Engineering Insights'}
-      ] %}
-      {% for v in shorts %}
-      <div class="vid-card">
-        <div class="vid-embed vid-embed--short">
-          <iframe src="https://www.youtube-nocookie.com/embed/{{ v.id }}" title="{{ v.title }}"
-                  loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta">{{ v.meta }}</div>
-          <div class="vid-title">{{ v.title|safe }}</div>
-          {% if v.page %}<a class="vid-link" href="{{ v.page }}">{{ v.cta or 'Open the page' }} &rarr;</a>{% endif %}
-          <a class="vid-link" style="{{ 'margin-top:0;font-weight:600;color:var(--text-dim,#5A6278);' if v.page else '' }}" href="https://www.youtube.com/shorts/{{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
-        </div>
-      </div>
-      {% endfor %}
+      {% for v in shorts %}{{ card(v) }}{% endfor %}
     </div>
-
-    <div class="section__header" style="margin-top:44px;">
-      <span class="eyebrow">Tools in ten seconds</span>
-      <p class="section__desc">Ten quick looks at the free tools on this site: the predictors, the TNEA report, the aptitude assessment, sample mock tests, the exam calendar and more. Each card opens its tool.</p>
-    </div>
-
-    <div class="vid-grid vid-grid--shorts">
-      {% set promo_shorts = [
-        {'id': 'FvDJgmqTPkM', 'title': 'Luck Is Not an Admissions Strategy. Data Is.', 'meta': 'EduAakashaA', 'page': '/'},
-        {'id': 'rcJ77cg12Uw', 'title': 'Got Your JEE Rank? See Your Colleges', 'meta': 'JoSAA Predictor', 'page': '/josaa'},
-        {'id': 'lKOxg49ROhg', 'title': 'Watch a Rank Find Its Seat', 'meta': 'DASA / CIWG · NRI', 'page': '/dasa-predictor'},
-        {'id': 'Nr5GP3a5s5k', 'title': 'TNEA Cut-off in 10 Seconds', 'meta': 'Free TNEA Report', 'page': '/free-report'},
-        {'id': '0_apXwxxLZk', 'title': 'Which Engineering Branch Suits You?', 'meta': 'Aptitude Assessment', 'page': '/josaa-assessment'},
-        {'id': 'RIr5t6w7x_8', 'title': 'Free Mock Tests: JEE Main, NEET, SAT, UCEED and More', 'meta': 'EduPulse', 'page': '/edupulse-free-mock-tests/'},
-        {'id': 'kX2Bs9_MfL0', 'title': '60+ Entrance Exams, One Calendar', 'meta': 'Exam Schedule', 'page': '/exam-schedule'},
-        {'id': 'geZwwXtVpBM', 'title': 'Class 12 PCM: Know Your Marks Gap', 'meta': 'Class 12 Analytics', 'page': '/class12-pcm/'},
-        {'id': 'siVrv4q48IY', 'title': 'Guess or Skip in JEE Main?', 'meta': 'JEE Main Strategy', 'page': ''},
-        {'id': 'r1T8GB9jJmo', 'title': 'Same Marks, Different Futures', 'meta': 'Mentorship', 'page': '/members-registration'}
-      ] %}
-      {% for v in promo_shorts %}
-      <div class="vid-card">
-        <div class="vid-embed vid-embed--short">
-          <iframe src="https://www.youtube-nocookie.com/embed/{{ v.id }}" title="{{ v.title }}"
-                  loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta">{{ v.meta }}</div>
-          <div class="vid-title">{{ v.title|safe }}</div>
-          {% if v.page %}<a class="vid-link" href="{{ v.page }}">Open the tool &rarr;</a>{% endif %}
-          <a class="vid-link" style="{{ 'margin-top:0;' if v.page else '' }}font-weight:600;color:var(--text-dim,#5A6278);" href="https://www.youtube.com/shorts/{{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
+    {% endif %}
   </section>
-
-  <section class="section">
-    <div class="section__header">
-      <span class="eyebrow">EA Expert 2026 Series</span>
-      <h2 class="section__title">Watch the latest admission guides</h2>
-      <p class="section__desc">Hand-picked walkthroughs from the EduAakashaa team for NRI &amp; CIWG families planning the 2026 cycle.</p>
-    </div>
-
-    <div class="vid-grid">
-      {% set videos = [
-        {'id': 'jeabhj2J8Zw', 'title': 'Anna University NRI 2026 &mdash; EduAakashaa', 'meta': 'NRI Admission'},
-        {'id': '1aCMpT0Td4o', 'title': 'DASA 2026 Complete Guide for NRI Students', 'meta': 'DASA / CIWG'},
-        {'id': 'dB307LQyHCA', 'title': 'EduAakashaA &mdash; DASA &amp; CIWG Analytics', 'meta': 'Analytics'}
-      ] %}
-      {% for v in videos %}
-      <div class="vid-card">
-        <div class="vid-embed">
-          <iframe src="https://www.youtube-nocookie.com/embed/{{ v.id }}" title="{{ v.title }}"
-                  loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-        </div>
-        <div class="vid-body">
-          <div class="vid-meta">{{ v.meta }}</div>
-          <div class="vid-title">{{ v.title|safe }}</div>
-          <a class="vid-link" href="https://www.youtube.com/watch?v={{ v.id }}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </section>
+  {% endfor %}
 
   <section class="section">
     <div class="section__header">
@@ -229,4 +248,31 @@
     </div>
   </div>
 </main>
+{% endblock %}
+
+{% block scripts %}
+<script>
+/* Category pills: show one category, or all. The pinned video stays on top either way. */
+(function () {
+  var pills = document.querySelectorAll('.vid-pill');
+  var cats = document.querySelectorAll('.vid-cat');
+  function show(key) {
+    pills.forEach(function (p) {
+      var on = p.dataset.cat === key;
+      p.classList.toggle('is-on', on);
+      if (on) { p.setAttribute('aria-current', 'true'); } else { p.removeAttribute('aria-current'); }
+    });
+    cats.forEach(function (s) { s.hidden = key !== 'all' && s.dataset.cat !== key; });
+  }
+  pills.forEach(function (p) {
+    p.addEventListener('click', function (e) {
+      e.preventDefault();
+      show(p.dataset.cat);
+      history.replaceState(null, '', p.dataset.cat === 'all' ? location.pathname : '#cat-' + p.dataset.cat);
+    });
+  });
+  var m = /^#cat-([a-z]+)$/.exec(location.hash);
+  if (m && document.getElementById('cat-' + m[1])) { show(m[1]); }
+})();
+</script>
 {% endblock %}

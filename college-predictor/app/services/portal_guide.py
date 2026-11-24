@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-24', 'The public Video Library (/videos-library) is reorganised. Elite Mentorship: Why a Mentor Matters More Than Coaching is pinned as the first video and stays on top. The other 35 videos and Shorts are grouped into six categories with filter pills: JEE exams, Colleges, TNEA, DASA, Overseas and Mentorship. Each category shows its long videos first and its Shorts below; a new video is added with one line in the library list at the top of the template.'),
     ('2026-11-24', 'The public Video Library (/videos-library) YouTube Shorts row now starts with JEE Main: 97 Percentile Is Not 97% Marks, a 60-second cut of the percentile explainer (what a percentile means, and the estimated rank at 90, 95, 97, 98, 99 and 99.5 percentile), with a link to the JoSAA Predictor.'),
     ('2026-11-24', 'Mentorship, Meeting update tab: an update file can now also add KPIs (kpis) and record KPI readings against existing ones (kpi_updates), so one paste writes the meeting, actions, calendar dates, KPIs and roadmap changes. Applying the same file twice still changes nothing.'),
     ('2026-11-24', 'The public Video Library (/videos-library) now opens with a beginner video, JEE Main Percentile Explained: how NTA calculates the percentile, why shifts matter, and how to estimate an All India Rank from it, with examples at 90, 95, 97, 98, 99 and 99.5 percentile.'),
