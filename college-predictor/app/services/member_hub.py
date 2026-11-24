@@ -119,6 +119,7 @@ CATEGORIES = [
      'blurb': 'Branch, location and campus-life analytics.',
      'tiles': [
          {'title': 'Why CSE?', 'desc': 'Branch demand and outcomes.', 'icon': '💻', 'endpoint': 'main.why_cse', 'access': 'premium'},
+         {'title': 'Computer science stream explained', 'desc': 'CSE, IT, AI and Data Science, Cyber, CSBS compared: subjects, projects, colleges with NIRF ranks, AI impact.', 'icon': '🖥️', 'endpoint': 'main.computer_science_stream', 'access': 'premium'},
          {'title': 'Best location', 'desc': 'Compare cities and campuses.', 'icon': '📍', 'endpoint': 'main.best_location', 'access': 'premium'},
          {'title': 'Engineering insights', 'desc': 'Data-backed college insights.', 'icon': '🔬', 'endpoint': 'main.engineering_insights', 'access': 'premium'},
          {'title': 'Hostel & culture', 'desc': 'Campus life analytics.', 'icon': '🏠', 'endpoint': 'main.hostel_culture_analytics', 'access': 'premium'},

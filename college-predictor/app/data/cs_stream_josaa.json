@@ -1,0 +1,3750 @@
+{
+ "source": "JoSAA 2026 opening and closing ranks, Rounds 1 to 5 (app/data/files/josaa_cutoffs_2026.xlsx)",
+ "rank_rule": "Open category, gender-neutral pool, all-India or other-state quota where the institute has one, highest closing rank over the rounds",
+ "nirf_source": "NIRF Engineering list held in app/data/eng_colleges.json",
+ "families": [
+  [
+   "core",
+   "Core CSE"
+  ],
+  [
+   "it",
+   "Information Technology"
+  ],
+  [
+   "aids",
+   "AI, ML and Data Science"
+  ],
+  [
+   "cyber",
+   "Cyber Security"
+  ],
+  [
+   "mnc",
+   "Mathematics and Computing"
+  ],
+  [
+   "biz",
+   "Computer + Business"
+  ],
+  [
+   "hybrid",
+   "Computing hybrids (IoT, robotics, computational engineering)"
+  ]
+ ],
+ "institutes": [
+  {
+   "name": "Assam University, Silchar",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 59095
+    }
+   ]
+  },
+  {
+   "name": "Atal Bihari Vajpayee Indian Institute of Information Technology & Management Gwalior",
+   "type": "IIIT",
+   "state": "Madhya Pradesh",
+   "city": "Gwalior",
+   "nirf_rank": 96,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 8888
+    },
+    {
+     "name": "Mathematics and Scientific Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 11720
+    }
+   ]
+  },
+  {
+   "name": "Birla Institute of Technology, Deoghar Off-Campus",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 69578
+    },
+    {
+     "name": "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 65006
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Integrated Master of Science",
+     "close": 74534
+    }
+   ]
+  },
+  {
+   "name": "Birla Institute of Technology, Mesra, Ranchi",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 24247
+    },
+    {
+     "name": "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 25122
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Integrated Master of Science",
+     "close": 41133
+    },
+    {
+     "name": "Quantitative Economics & Data Science",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Integrated Master of Science",
+     "close": 47237
+    }
+   ]
+  },
+  {
+   "name": "Birla Institute of Technology, Patna Off-Campus",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 59171
+    },
+    {
+     "name": "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 60379
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Integrated Master of Science",
+     "close": 72605
+    }
+   ]
+  },
+  {
+   "name": "CU Jharkhand",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 80383
+    }
+   ]
+  },
+  {
+   "name": "Central University of Haryana",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 72391
+    }
+   ]
+  },
+  {
+   "name": "Central University of Jammu",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 88211
+    },
+    {
+     "name": "Computer Science and Engineering with specialization in Cyber Security",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 96878
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 102490
+    }
+   ]
+  },
+  {
+   "name": "Central University of Karnataka",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 63803
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 70672
+    }
+   ]
+  },
+  {
+   "name": "Central University of Punjab, Bathinda",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 73747
+    },
+    {
+     "name": "Artificial Intelligence and Machine Learning",
+     "family": "aids",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 83738
+    }
+   ]
+  },
+  {
+   "name": "Central University of Rajasthan, Rajasthan",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 58353
+    }
+   ]
+  },
+  {
+   "name": "Central institute of Technology Kokrajar, Assam",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 61422
+    }
+   ]
+  },
+  {
+   "name": "Chhattisgarh Swami Vivekanada Technical University, Bhilai (CSVTU Bhilai)",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 75802
+    },
+    {
+     "name": "Computer Science Engineering (Artificial Intelligence)",
+     "family": "aids",
+     "years": 4,
+     "degree": "B. Tech / B. Tech (Hons.",
+     "close": 91491
+    },
+    {
+     "name": "Computer Science Engineering (Data Science)",
+     "family": "aids",
+     "years": 4,
+     "degree": "B. Tech / B. Tech (Hons.",
+     "close": 91704
+    }
+   ]
+  },
+  {
+   "name": "Dr. B R Ambedkar National Institute of Technology, Jalandhar",
+   "type": "NIT",
+   "state": "Punjab",
+   "city": "Jalandhar",
+   "nirf_rank": 55,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 13411
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 16570
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 15141
+    },
+    {
+     "name": "Data Science and Engineering",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 16789
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 14960
+    }
+   ]
+  },
+  {
+   "name": "Gati Shakti Vishwavidyalaya, Vadodara",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "B.Tech in Artificial Intelligenece and Data Science (Transportation and Logistics)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 61221
+    }
+   ]
+  },
+  {
+   "name": "Ghani Khan Choudhary Institute of Engineering and Technology, Malda, West Bengal",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science Engineering (Artificial lntelligence and Machine Learning)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 60668
+    }
+   ]
+  },
+  {
+   "name": "Gurukula Kangri Vishwavidyalaya, Haridwar",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 86028
+    },
+    {
+     "name": "ROBOTICS & AUTOMATION",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 94900
+    }
+   ]
+  },
+  {
+   "name": "INDIAN INSTITUTE OF INFORMATION TECHNOLOGY SENAPATI MANIPUR",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 59813
+    },
+    {
+     "name": "Computer Science and Engineering with specialization in Quantum Technologies",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 67545
+    },
+    {
+     "name": "Computer Science and Engineering with specialization in Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 63321
+    },
+    {
+     "name": "Computer Science and Engineering with specialization in Cyber Security",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 66567
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Engineering Science and Technology, Shibpur",
+   "type": "Other",
+   "state": "West Bengal",
+   "city": "Howrah",
+   "nirf_rank": 54,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.iiests.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 18799
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 23126
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 22530
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology (IIIT) Nagpur",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 29369
+    },
+    {
+     "name": "Computer Science Engineering (Artificial lntelligence and Machine Learning)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 27872
+    },
+    {
+     "name": "Computer Science Engineering (Data Science and Analytics)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 30598
+    },
+    {
+     "name": "Computer Science Engineering (Human Computer lnteraction and Gaming Technology)",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 33918
+    },
+    {
+     "name": "Electronics and Communication Engineering (Internet of Things)",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 37995
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology (IIIT) Pune",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 21116
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 23047
+    },
+    {
+     "name": "Cyber Security",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 26227
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology (IIIT) Ranchi",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 43556
+    },
+    {
+     "name": "Computer Science and Engineering (with Specialization of Data Science and Artificial Intelligence)",
+     "family": "aids",
+     "years": 4,
+     "degree": "B. Tech / B. Tech (Hons.",
+     "close": 43569
+    },
+    {
+     "name": "B.Tech in Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 47074
+    },
+    {
+     "name": "Electronics and Communication Engineering (with Specialization of Embedded Systems and Internet of Things)",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "B. Tech / B. Tech (Hons.",
+     "close": 48761
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology (IIIT), Sri City, Chittoor",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 23052
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 25035
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology (IIIT)Kota, Rajasthan",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 31149
+    },
+    {
+     "name": "Artificial Intelligence and Data Engineering",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 33638
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology Bhagalpur",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 48416
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 51316
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology Bhopal",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 30996
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 40826
+    },
+    {
+     "name": "Computer Science and Engineering (Artificial Intelligence)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 31763
+    },
+    {
+     "name": "Computer Science and Engineering (Data Science)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 34343
+    },
+    {
+     "name": "Computer Science and Engineering (Cyber Physical System)",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 40355
+    },
+    {
+     "name": "Computer Science and Engineering (Cyber Security)",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 36605
+    },
+    {
+     "name": "B.Tech in Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 38942
+    },
+    {
+     "name": "Physics and Computational Engineering",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 52023
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology Design & Manufacturing Kurnool, Andhra Pradesh",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 37282
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 45307
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 43631
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 46056
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology Guwahati",
+   "type": "IIIT",
+   "state": "Assam",
+   "city": "Guwahati",
+   "nirf_rank": null,
+   "nirf_band": "Rank 201 to 300",
+   "nirf_match": "exact",
+   "website": "https://www.iiitg.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 25246
+    },
+    {
+     "name": "Electronics Communication and Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 34571
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology Lucknow",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 9175
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 11235
+    },
+    {
+     "name": "Computer Science and Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 9386
+    },
+    {
+     "name": "Computer Science and Business",
+     "family": "biz",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 11407
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology Surat",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 31604
+    },
+    {
+     "name": "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 28141
+    },
+    {
+     "name": "Computer Science and Engineering (Cyber Security)",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 33295
+    },
+    {
+     "name": "B.Tech in Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 33559
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology Tiruchirappalli",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 27913
+    },
+    {
+     "name": "Computer Science and Engineering ( Artificial Intelligence & Data Science)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 29390
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology(IIIT) Dharwad",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 45308
+    },
+    {
+     "name": "Artificial Intelligence and Computing",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 46967
+    },
+    {
+     "name": "Data Science and Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 47501
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology(IIIT) Kalyani, West Bengal",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 47762
+    },
+    {
+     "name": "Computer Science and Engineering ( Artificial Intelligence & Data Science)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 40390
+    },
+    {
+     "name": "Computer Science and Engineering (Cyber Security)",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 46336
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology(IIIT) Kilohrad, Sonepat, Haryana",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 37632
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 43511
+    },
+    {
+     "name": "Computer Science & Engineering (Data Science and Analytics)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 41618
+    },
+    {
+     "name": "Computer Science and Engineering (Artificial Intelligence)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 40065
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology(IIIT) Kottayam",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 43688
+    },
+    {
+     "name": "Computer Science and Engineering with specialization in Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 36830
+    },
+    {
+     "name": "Computer Science and Engineering with specialization in Cyber Security",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 45036
+    },
+    {
+     "name": "B.Tech in Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 45535
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology(IIIT) Una, Himachal Pradesh",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 36689
+    },
+    {
+     "name": "Computer Science and Engineering (Data Science)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 37251
+    },
+    {
+     "name": "Computer Science and Engineering (Cyber Security)",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 38362
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology(IIIT), Vadodara, Gujrat",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 31686
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 36314
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 34557
+    },
+    {
+     "name": "Computer Science and Engineering (Cyber Security)",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 35134
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 35830
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology, Agartala",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 50027
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology, Allahabad",
+   "type": "IIIT",
+   "state": "Uttar Pradesh",
+   "city": "Prayagraj",
+   "nirf_rank": null,
+   "nirf_band": "Rank 101-150",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 5420
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 6101
+    },
+    {
+     "name": "B. Tech. Information Technology-Business Informatics (IT- BIn) - Master of Business Administration (MBA)",
+     "family": "biz",
+     "years": 5,
+     "degree": "Bachelor of Technology and MBA (Dual Degree",
+     "close": 8842
+    },
+    {
+     "name": "Information Technology-Business Informatics",
+     "family": "biz",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4969
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology, Design & Manufacturing, Kancheepuram",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 20654
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 28328
+    },
+    {
+     "name": "Computer Science and Engineering with Major in Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 23095
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Information Technology, Vadodara International Campus Diu (IIITVICD)",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 46054
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 49989
+    },
+    {
+     "name": "Computer Science and Engineering (Cyber Security)",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 49085
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Science, Bangalore",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "B.Tech in Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 743
+    },
+    {
+     "name": "Mechanics and Computing",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1967
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology (BHU) Varanasi",
+   "type": "IIT",
+   "state": "Uttar Pradesh",
+   "city": "Varanasi",
+   "nirf_rank": 10,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1439
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1923
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology (ISM) Dhanbad",
+   "type": "IIT",
+   "state": "Jharkhand",
+   "city": "Dhanbad",
+   "nirf_rank": 15,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4167
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4938
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Bhilai",
+   "type": "IIT",
+   "state": "Chhattisgarh",
+   "city": "Durg",
+   "nirf_rank": 72,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 8886
+    },
+    {
+     "name": "Data Science and Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 9400
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Bhubaneswar",
+   "type": "IIT",
+   "state": "Odisha",
+   "city": "Bhubaneswar",
+   "nirf_rank": 39,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.iitbbs.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4899
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 5273
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Bombay",
+   "type": "IIT",
+   "state": "Maharashtra",
+   "city": "Mumbai",
+   "nirf_rank": 3,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.iitb.ac.in/",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 67
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Delhi",
+   "type": "IIT",
+   "state": "Delhi",
+   "city": "New Delhi",
+   "nirf_rank": 2,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://home.iitd.ac.in",
+   "programmes": [
+    {
+     "name": "Abu Dhabi Campus - Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1788
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 128
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 212
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 338
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 403
+    },
+    {
+     "name": "Engineering and Computational Mechanics",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1107
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Dharwad",
+   "type": "IIT",
+   "state": "Karnataka",
+   "city": "Dharwad",
+   "nirf_rank": 77,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 8332
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 9148
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Gandhinagar",
+   "type": "IIT",
+   "state": "Gujarat",
+   "city": "Gandhinagar",
+   "nirf_rank": 25,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://iitgn.ac.in/",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 2315
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 2745
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Goa",
+   "type": "IIT",
+   "state": "Goa",
+   "city": "Ponda",
+   "nirf_rank": null,
+   "nirf_band": "Rank 101-150",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 7024
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 8565
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Guwahati",
+   "type": "IIT",
+   "state": "Assam",
+   "city": "Guwahati",
+   "nirf_rank": 8,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.iitg.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 822
+    },
+    {
+     "name": "Data Science and Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1286
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1366
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Hyderabad",
+   "type": "IIT",
+   "state": "Telangana",
+   "city": "Hyderabad",
+   "nirf_rank": 7,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://iith.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 680
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 917
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 927
+    },
+    {
+     "name": "Computational Engineering",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1938
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Indore",
+   "type": "IIT",
+   "state": "Madhya Pradesh",
+   "city": "Indore",
+   "nirf_rank": 12,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1676
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 2136
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Jammu",
+   "type": "IIT",
+   "state": "Jammu and Kashmir",
+   "city": "Jammu",
+   "nirf_rank": 56,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 7218
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 8786
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Jodhpur",
+   "type": "IIT",
+   "state": "Rajasthan",
+   "city": "Jodhpur",
+   "nirf_rank": 27,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 3755
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 5082
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Science",
+     "close": 5718
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Kanpur",
+   "type": "IIT",
+   "state": "Uttar Pradesh",
+   "city": "Kanpur",
+   "nirf_rank": 4,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 283
+    },
+    {
+     "name": "Intelligent Systems",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1134
+    },
+    {
+     "name": "Mathematics and Scientific Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Science",
+     "close": 1270
+    },
+    {
+     "name": "Statistics and Data Science",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Science",
+     "close": 1409
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Kharagpur",
+   "type": "IIT",
+   "state": "West Bengal",
+   "city": "Kharagpur",
+   "nirf_rank": 5,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 509
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1043
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Science",
+     "close": 1428
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Madras",
+   "type": "IIT",
+   "state": "Tamil Nadu",
+   "city": "Chennai",
+   "nirf_rank": 1,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.iitm.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 151
+    },
+    {
+     "name": "Artificial Intelligence and Data Analytics",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 226
+    },
+    {
+     "name": "Computational Engineering and Mechanics",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1314
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Mandi",
+   "type": "IIT",
+   "state": "Himachal Pradesh",
+   "city": "Mandi",
+   "nirf_rank": 26,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 3762
+    },
+    {
+     "name": "Data Science and Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4916
+    },
+    {
+     "name": "B.Tech in Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 5251
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Palakkad",
+   "type": "IIT",
+   "state": "Kerala",
+   "city": "Palakkad",
+   "nirf_rank": 64,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://iitpkd.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 7625
+    },
+    {
+     "name": "Data Science and Engineering",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 9484
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Patna",
+   "type": "IIT",
+   "state": "Bihar",
+   "city": "Patna",
+   "nirf_rank": 19,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.iitp.ac.in",
+   "programmes": [
+    {
+     "name": "B. Tech. (CSE) and M.Tech in CSE",
+     "family": "core",
+     "years": 5,
+     "degree": "B.Tech. + M.Tech./MS (Dual Degree",
+     "close": 4432
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 3635
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4574
+    },
+    {
+     "name": "B.Tech (Artificial Intelligence and Data Science) - MBA in Digital Business Management (IIM Bodh Gaya)",
+     "family": "aids",
+     "years": 5,
+     "degree": "Bachelor of Technology and MBA (Dual Degree",
+     "close": 5859
+    },
+    {
+     "name": "B. Tech. (Mathematics & Computing) M. Tech. in (Mathematics & Computing)",
+     "family": "mnc",
+     "years": 5,
+     "degree": "B.Tech. + M.Tech./MS (Dual Degree",
+     "close": 5854
+    },
+    {
+     "name": "B.Tech (Mathematics and Computing) - MBA in Digital Business Management (IIM Bodh Gaya)",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Bachelor of Technology and MBA (Dual Degree",
+     "close": 6293
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 5320
+    },
+    {
+     "name": "B.Tech (Computer Science and Engineering) - MBA in Digital Business Management (IIM Bodh Gaya)",
+     "family": "biz",
+     "years": 5,
+     "degree": "Bachelor of Technology and MBA (Dual Degree",
+     "close": 5725
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Roorkee",
+   "type": "IIT",
+   "state": "Uttarakhand",
+   "city": "Roorkee",
+   "nirf_rank": 6,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 587
+    },
+    {
+     "name": "Data Science and Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 847
+    },
+    {
+     "name": "Mathematics & Computing",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Bachelor of Science and Master of Science (Dual Degree",
+     "close": 1529
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Ropar",
+   "type": "IIT",
+   "state": "Punjab",
+   "city": "Rupnagar",
+   "nirf_rank": 32,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.iitrpr.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 3214
+    },
+    {
+     "name": "Artificial Intelligence and Data Engineering",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4719
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4749
+    }
+   ]
+  },
+  {
+   "name": "Indian Institute of Technology Tirupati",
+   "type": "IIT",
+   "state": "Andhra Pradesh",
+   "city": "Tirupati",
+   "nirf_rank": 57,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 6030
+    }
+   ]
+  },
+  {
+   "name": "Indian institute of information technology, Raichur, Karnataka",
+   "type": "IIIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 43701
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 47443
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 48538
+    }
+   ]
+  },
+  {
+   "name": "Institute of Engineering and Technology, Dr. H. S. Gour University. Sagar (A Central University)",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 84762
+    }
+   ]
+  },
+  {
+   "name": "Institute of Infrastructure, Technology, Research and Management-Ahmedabad",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 55074
+    }
+   ]
+  },
+  {
+   "name": "International Institute of Information Technology, Bhubaneswar",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 43248
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 45329
+    }
+   ]
+  },
+  {
+   "name": "International Institute of Information Technology, Naya Raipur",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 20333
+    },
+    {
+     "name": "Data Science and Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 24313
+    }
+   ]
+  },
+  {
+   "name": "J.K. Institute of Applied Physics & Technology, Department of Electronics & Communication, University of Allahabad- Allahabad",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering with Major in Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 58569
+    }
+   ]
+  },
+  {
+   "name": "Jawaharlal Nehru University, Delhi",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 36117
+    }
+   ]
+  },
+  {
+   "name": "Malaviya National Institute of Technology Jaipur",
+   "type": "NIT",
+   "state": "Rajasthan",
+   "city": "Jaipur",
+   "nirf_rank": 42,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.mnit.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 5868
+    },
+    {
+     "name": "Artificial Intelligence and Data Engineering",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 6300
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 7039
+    }
+   ]
+  },
+  {
+   "name": "Maulana Azad National Institute of Technology Bhopal",
+   "type": "NIT",
+   "state": "Madhya Pradesh",
+   "city": "Bhopal",
+   "nirf_rank": 81,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.manit.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 10512
+    },
+    {
+     "name": "Mathematics and Data Science",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 14597
+    },
+    {
+     "name": "B. Tech. and M. Tech. in Engineering and Computational Mechanics (Dual Degree)",
+     "family": "hybrid",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 22650
+    }
+   ]
+  },
+  {
+   "name": "Mizoram University, Aizawl",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 81646
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 91673
+    }
+   ]
+  },
+  {
+   "name": "Motilal Nehru National Institute of Technology Allahabad",
+   "type": "NIT",
+   "state": "Uttar Pradesh",
+   "city": "Prayagraj",
+   "nirf_rank": 62,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 5375
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 6553
+    },
+    {
+     "name": "Engineering and Computational Mechanics",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 14168
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Advanced Manufacturing Technology, Ranchi",
+   "type": "Other",
+   "state": "Jharkhand",
+   "city": "Ranchi",
+   "nirf_rank": null,
+   "nirf_band": "Rank 201 to 300",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 57205
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Agartala",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "B.Tech in CSE (AI and ML)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 76333
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Aizawl",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 75595
+    },
+    {
+     "name": "Internet of Things (IoT)",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 104993
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Ajmer (Rajasthan)",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering (Internet of Things, Cyber Security including Block Chain Technology )",
+     "family": "cyber",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 73128
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Aurangabad (Maharashtra)",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 62469
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Calicut",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "B.Tech in CSE (AI and ML)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 21373
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Gorakhpur (UP)",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering with minor in AI and ML",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 74399
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Imphal",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "B.Tech in CSE (AI and ML)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 92700
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Kohima",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "B.Tech in CSE (AI and ML)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 93333
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Patna (Bihar)",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 68926
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Ropar (Punjab)",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "B.Tech in CSE (AI and ML)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 59645
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Electronics and Information Technology, Srinagar",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "B.Tech in CSE (AI and ML)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 71718
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technical Teachers Training and Research Bhopal",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Artificial Intelligence and Machine Learning",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 60304
+    },
+    {
+     "name": "Digital Manufacturing and IoT",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 99652
+    },
+    {
+     "name": "ROBOTICS & AUTOMATION",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 76605
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Agartala",
+   "type": "NIT",
+   "state": "Tripura",
+   "city": "Agratala",
+   "nirf_rank": null,
+   "nirf_band": "Rank 101-150",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 24527
+    },
+    {
+     "name": "Computational Mathematics",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 37541
+    },
+    {
+     "name": "Mathematics & Computing",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Bachelor of Science and Master of Science (Dual Degree",
+     "close": 41083
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Arunachal Pradesh",
+   "type": "NIT",
+   "state": "Arunachal Pradesh",
+   "city": "Itanagar",
+   "nirf_rank": null,
+   "nirf_band": "Rank 101-150",
+   "nirf_match": "exact",
+   "website": "https://www.nitap.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 31966
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Calicut",
+   "type": "NIT",
+   "state": "Kerala",
+   "city": "Kozhikode",
+   "nirf_rank": 21,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://nitc.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 5769
+    },
+    {
+     "name": "B. Tech. (Mathematics & Computing) M. Tech. in (Mathematics & Computing)",
+     "family": "mnc",
+     "years": 5,
+     "degree": "B.Tech. + M.Tech./MS (Dual Degree",
+     "close": 7870
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Delhi",
+   "type": "NIT",
+   "state": "Delhi",
+   "city": "Delhi",
+   "nirf_rank": 65,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.nitdelhi.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 8669
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 7022
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Durgapur",
+   "type": "NIT",
+   "state": "West Bengal",
+   "city": "Durgapur",
+   "nirf_rank": 49,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 12281
+    },
+    {
+     "name": "B.Tech in Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 14277
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Goa",
+   "type": "NIT",
+   "state": "Goa",
+   "city": "Cuncolim",
+   "nirf_rank": null,
+   "nirf_band": "Rank 101-150",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 16638
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Hamirpur",
+   "type": "NIT",
+   "state": "Himachal Pradesh",
+   "city": "Hamirpur",
+   "nirf_rank": 97,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 13866
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 16062
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 17442
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Karnataka, Surathkal",
+   "type": "NIT",
+   "state": "Karnataka",
+   "city": "Surathkal",
+   "nirf_rank": 17,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1954
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 3088
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 3060
+    },
+    {
+     "name": "Computational and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 3371
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Meghalaya",
+   "type": "NIT",
+   "state": "Meghalaya",
+   "city": "Shillong",
+   "nirf_rank": 83,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 28662
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Nagaland",
+   "type": "NIT",
+   "state": "Nagaland",
+   "city": "Dimapur",
+   "nirf_rank": null,
+   "nirf_band": "Rank 101-150",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 42326
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Patna",
+   "type": "NIT",
+   "state": "Bihar",
+   "city": "Patna",
+   "nirf_rank": 53,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.nitp.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 17282
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 18895
+    },
+    {
+     "name": "Computer Science and Engineering with Specialization in Data Science",
+     "family": "aids",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 20201
+    },
+    {
+     "name": "Computer Science and Engineering with Specialization in Cyber Security",
+     "family": "cyber",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 19648
+    },
+    {
+     "name": "Mathematics and Computing Technology",
+     "family": "mnc",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 22754
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Puducherry",
+   "type": "NIT",
+   "state": "Pondicherry",
+   "city": "Karaikal",
+   "nirf_rank": 99,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 19869
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Raipur",
+   "type": "NIT",
+   "state": "Chhattisgarh",
+   "city": "Raipur",
+   "nirf_rank": 86,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.nitrr.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 16439
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 18583
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology Sikkim",
+   "type": "NIT",
+   "state": "Sikkim",
+   "city": "South Sikkim",
+   "nirf_rank": null,
+   "nirf_band": "Rank 151 to 200",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 31060
+    },
+    {
+     "name": "Artificial Intelligence and Machine Learning",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 31131
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Andhra Pradesh",
+   "type": "NIT",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 22225
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Jamshedpur",
+   "type": "NIT",
+   "state": "Jharkhand",
+   "city": "Jamshedpur",
+   "nirf_rank": 82,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 9574
+    },
+    {
+     "name": "Engineering and Computational Mechanics",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 21102
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Kurukshetra",
+   "type": "NIT",
+   "state": "Haryana",
+   "city": "Kurukshetra",
+   "nirf_rank": 85,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 8701
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 9206
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 11668
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 11264
+    },
+    {
+     "name": "Artificial Intelligence and Machine Learning",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 11824
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 12323
+    },
+    {
+     "name": "Industrial Internet of Things",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 19006
+    },
+    {
+     "name": "ROBOTICS & AUTOMATION",
+     "family": "hybrid",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 16848
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Manipur",
+   "type": "NIT",
+   "state": "Manipur",
+   "city": "Imphal",
+   "nirf_rank": null,
+   "nirf_band": "Rank 151 to 200",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 43239
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 39799
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Mizoram",
+   "type": "NIT",
+   "state": "Mizoram",
+   "city": "Aizawl",
+   "nirf_rank": null,
+   "nirf_band": "Rank 101-150",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 41038
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 42029
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Rourkela",
+   "type": "NIT",
+   "state": "Odisha",
+   "city": "Rourkela",
+   "nirf_rank": 13,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4266
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 5138
+    },
+    {
+     "name": "B.Tech in Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 4951
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Silchar",
+   "type": "NIT",
+   "state": "Assam",
+   "city": "Silchar",
+   "nirf_rank": 50,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 13993
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Srinagar",
+   "type": "NIT",
+   "state": "Jammu and Kashmir",
+   "city": "Srinagar",
+   "nirf_rank": 73,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 27594
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 33624
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Tiruchirappalli",
+   "type": "NIT",
+   "state": "Tamil Nadu",
+   "city": "Tiruchirappalli",
+   "nirf_rank": 9,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://www.nitt.edu",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 1373
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Uttarakhand",
+   "type": "NIT",
+   "state": "Uttarakhand",
+   "city": "Srinagar (Garhwal)",
+   "nirf_rank": null,
+   "nirf_band": "Rank 151 to 200",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 22140
+    }
+   ]
+  },
+  {
+   "name": "National Institute of Technology, Warangal",
+   "type": "NIT",
+   "state": "Telangana",
+   "city": "Warangal",
+   "nirf_rank": 28,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 2581
+    },
+    {
+     "name": "Computer Science and Engineering ( Artificial Intelligence & Data Science)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 3178
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 3606
+    }
+   ]
+  },
+  {
+   "name": "North Eastern Regional Institute of Science and Technology, Nirjuli-791109 (Itanagar),Arunachal Pradesh",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 69130
+    }
+   ]
+  },
+  {
+   "name": "North-Eastern Hill University, Shillong",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 94055
+    }
+   ]
+  },
+  {
+   "name": "Pt. Dwarka Prasad Mishra Indian Institute of Information Technology, Design & Manufacture Jabalpur",
+   "type": "IIIT",
+   "state": "Madhya Pradesh",
+   "city": "Jabalpur",
+   "nirf_rank": null,
+   "nirf_band": "Rank 101-150",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 15371
+    }
+   ]
+  },
+  {
+   "name": "Puducherry Technological University, Puducherry",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 62405
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 63644
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 64597
+    }
+   ]
+  },
+  {
+   "name": "Punjab Engineering College, Chandigarh",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 15088
+    },
+    {
+     "name": "Computer Science Engineering (Artificial Intelligence)",
+     "family": "aids",
+     "years": 4,
+     "degree": "B. Tech / B. Tech (Hons.",
+     "close": 15721
+    },
+    {
+     "name": "Computer Science Engineering (Data Science)",
+     "family": "aids",
+     "years": 4,
+     "degree": "B. Tech / B. Tech (Hons.",
+     "close": 17061
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 16815
+    }
+   ]
+  },
+  {
+   "name": "Rajiv Gandhi National Aviation University, Fursatganj, Amethi (UP)",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Artificial Intelligence & Data Science - Aviation Systems",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 71026
+    }
+   ]
+  },
+  {
+   "name": "Sant Longowal Institute of Engineering and Technology",
+   "type": "Other",
+   "state": "Punjab",
+   "city": "Longowal",
+   "nirf_rank": 79,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 68425
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 5,
+     "degree": "Bachelor and Master of Technology (Dual Degree",
+     "close": 80296
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 71810
+    }
+   ]
+  },
+  {
+   "name": "Sardar Vallabhbhai National Institute of Technology, Surat",
+   "type": "NIT",
+   "state": "Gujarat",
+   "city": "SURAT",
+   "nirf_rank": 66,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 9517
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 12657
+    },
+    {
+     "name": "Artificial Intelligence",
+     "family": "aids",
+     "years": 5,
+     "degree": "Integrated B. Tech. and M. Tech.",
+     "close": 14785
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 11626
+    }
+   ]
+  },
+  {
+   "name": "School of Engineering, Tezpur University, Napaam, Tezpur",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "B.Tech. (Computer Science and Engineering) - MBA",
+     "family": "core",
+     "years": 5,
+     "degree": "Bachelor of Technology and MBA (Dual Degree",
+     "close": 70776
+    },
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 65606
+    }
+   ]
+  },
+  {
+   "name": "School of Studies of Engineering and Technology, Guru Ghasidas Vishwavidyalaya, Bilaspur",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 81882
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 96999
+    },
+    {
+     "name": "Artificial Intelligence and Data Science",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 89968
+    }
+   ]
+  },
+  {
+   "name": "Shri G. S. Institute of Technology and Science Indore",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 35055
+    },
+    {
+     "name": "Information Technology",
+     "family": "it",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 39308
+    }
+   ]
+  },
+  {
+   "name": "Shri Mata Vaishno Devi University, Katra, Jammu & Kashmir",
+   "type": "Other",
+   "state": null,
+   "city": null,
+   "nirf_rank": null,
+   "nirf_band": null,
+   "nirf_match": "none",
+   "website": null,
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 75005
+    },
+    {
+     "name": "Robotics and AI",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 82556
+    },
+    {
+     "name": "B.Tech in Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 77962
+    }
+   ]
+  },
+  {
+   "name": "University of Hyderabad",
+   "type": "Other",
+   "state": "Telangana",
+   "city": "Hyderabad",
+   "nirf_rank": 74,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://uohyd.ac.in",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 5,
+     "degree": "Integrated Master of Technology",
+     "close": 36354
+    }
+   ]
+  },
+  {
+   "name": "Visvesvaraya National Institute of Technology, Nagpur",
+   "type": "NIT",
+   "state": "Maharashtra",
+   "city": "Nagpur",
+   "nirf_rank": 44,
+   "nirf_band": "Rank 1 -100",
+   "nirf_match": "exact",
+   "website": "https://vnit.ac.in/",
+   "programmes": [
+    {
+     "name": "Computer Science and Engineering",
+     "family": "core",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 7419
+    },
+    {
+     "name": "Computer Science and Engineering (Artificial Intelligence and Data Science)",
+     "family": "aids",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 8419
+    },
+    {
+     "name": "Mathematics and Computing",
+     "family": "mnc",
+     "years": 4,
+     "degree": "Bachelor of Technology",
+     "close": 9919
+    }
+   ]
+  }
+ ]
+}

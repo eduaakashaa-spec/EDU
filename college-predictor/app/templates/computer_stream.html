@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Computer Science Stream Explained: CSE, IT, AI and Data Science, Cyber, CSBS · EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="CSE, IT, AI and Data Science, Cyber Security, CS and Business Systems and Mathematics and Computing compared: common subjects, real differences, projects, internships, placements, colleges with NIRF ranks, higher studies, AI impact and skills.">{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/cs_stream.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="cs" id="top" data-no-rail>
+  <header class="cs-hero">
+    <div class="cs-wrap">
+      <div class="cs-eyebrow">Members · Engineering streams <span class="cs-chip">Updated {{ cs.updated }}</span></div>
+      <h1>The computer stream, explained</h1>
+      <p class="cs-lead">CSE, IT, AI and Data Science, Cyber Security, CS and Business Systems, Mathematics and Computing and the hybrids: what is the same, where the real difference sits, which college offers which branch, and how to choose.</p>
+      <div class="cs-kpis" id="kpis"></div>
+    </div>
+  </header>
+
+  <div class="cs-bar"><div class="cs-wrap">
+    <nav class="cs-tabs" id="tabs" role="tablist" aria-label="Sections">
+      <button role="tab" data-tab="start" aria-selected="true">Start here</button>
+      <button role="tab" data-tab="branches" aria-selected="false">The branches</button>
+      <button role="tab" data-tab="subjects" aria-selected="false">Subjects</button>
+      <button role="tab" data-tab="careers" aria-selected="false">Projects and jobs</button>
+      <button role="tab" data-tab="colleges" aria-selected="false">Colleges</button>
+      <button role="tab" data-tab="why" aria-selected="false">Why the offer differs</button>
+      <button role="tab" data-tab="choose" aria-selected="false">Choose and study ahead</button>
+      <button role="tab" data-tab="ai" aria-selected="false">AI and future jobs</button>
+    </nav>
+  </div></div>
+
+  <main class="cs-wrap cs-main">
+    <section class="cs-panel" id="p-start" data-panel="start"></section>
+    <section class="cs-panel" id="p-branches" data-panel="branches" hidden></section>
+    <section class="cs-panel" id="p-subjects" data-panel="subjects" hidden></section>
+    <section class="cs-panel" id="p-careers" data-panel="careers" hidden></section>
+    <section class="cs-panel" id="p-colleges" data-panel="colleges" hidden></section>
+    <section class="cs-panel" id="p-why" data-panel="why" hidden></section>
+    <section class="cs-panel" id="p-choose" data-panel="choose" hidden></section>
+    <section class="cs-panel" id="p-ai" data-panel="ai" hidden></section>
+
+    <aside class="cs-card cs-foot">
+      <h2>Please note</h2>
+      <p>This page shows what the data files list and our reading of typical syllabi and industry practice. It is not a college's official curriculum, and it gives no salary, placement or rank promise. Branch lists, intakes, closing ranks and recruiter rules change every year: confirm each point with the college and on the official counselling site before you decide.</p>
+      <p class="cs-small">Parts of this page were drafted with an AI assistant from the portal's data files and checked by the mentor team. It is an analytical aid, not an admission or career-counselling opinion.</p>
+      <h3>Sources</h3>
+      <ul class="cs-list" id="sources"></ul>
+    </aside>
+  </main>
+</div>
+<script type="application/json" id="cs-data">{{ cs|tojson }}</script>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/cs_stream.js') }}"></script>
+{% endblock %}

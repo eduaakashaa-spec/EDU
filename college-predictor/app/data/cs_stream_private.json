@@ -1,0 +1,934 @@
+{
+ "checked_on": "2026-11-24",
+ "note": "Each programme list was read from the university's own pages on the date shown. Where the page was partly unreadable or the list may not be complete, the row says so. Not listed: RV College of Engineering, Mahindra University, Anurag University, NMIMS, KIIT and Lovely Professional University (their pages could not be read or verified from here), and Christ University (only one programme could be confirmed). Kalasalingam is left out because its list was incomplete.",
+ "universities": [
+  {
+   "name": "Birla Institute of Technology & Science -Pilani",
+   "nirf_name": "Birla Institute of Technology & Science -Pilani",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "B.E. (Computer Science)",
+    "B.E. (Electronics and Computer)",
+    "B. E. (Mathematics and Computing)"
+   ],
+   "entrance": "BITSAT",
+   "source_urls": [
+    "https://www.bits-pilani.ac.in/programmes-offered-at-glance/",
+    "https://www.bits-pilani.ac.in/academics/integrated-first-degree/b-e-computer-science/"
+   ],
+   "caveat": "The page does not tie each programme to a campus (Pilani, Goa, Hyderabad, Dubai): confirm Electronics and Computer and Mathematics and Computing for Pilani.",
+   "partial": true
+  },
+  {
+   "name": "S.R.M. Institute of Science and Technology",
+   "nirf_name": "S.R.M. Institute of Science and Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (Data Science)",
+    "Computer Science and Engineering (DevSecOps)",
+    "Computer Science and Engineering w/s Artificial Intelligence and Machine Learning",
+    "Computer Science and Engineering w/s AI and Block Chain Systems",
+    "Computer Science and Engineering w/s Big Data Analytics",
+    "Computer Science and Engineering w/s Block Chain Technology",
+    "Computer Science and Engineering w/s Cloud Computing",
+    "Computer Science and Engineering w/s Computer Networking",
+    "Computer Science and Engineering w/s Cyber Security",
+    "Computer Science and Engineering w/s Gaming Technology",
+    "Computer Science and Engineering w/s Information Technology",
+    "Computer Science and Engineering w/s Internet Of Things",
+    "Computer Science and Engineering w/s Software Engineering",
+    "Computer Science and Business System",
+    "Artificial Intelligence",
+    "Electronics and Computer Engineering",
+    "Mathematics and Computing"
+   ],
+   "entrance": "SRMJEEE",
+   "source_urls": [
+    "https://applications.srmist.edu.in/btech"
+   ],
+   "caveat": "List read from the SRMJEEE application page; the last two entries are borderline computer-stream.",
+   "partial": false
+  },
+  {
+   "name": "Vellore Institute of Technology",
+   "nirf_name": "Vellore Institute of Technology",
+   "campus": "Vellore",
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+    "Computer Science and Engineering (Artificial Intelligence and Data Engineering)",
+    "Computer Science and Engineering (Bioinformatics)",
+    "Computer Science and Engineering and Business Systems (in collaboration with TCS)",
+    "Computer Science and Engineering (Cyber Security)",
+    "Computer Science and Engineering (Data Science)",
+    "Information Technology",
+    "Electronics and Computer Engineering"
+   ],
+   "entrance": "VITEEE",
+   "source_urls": [
+    "https://vit.ac.in/engineering-programmes-vellore-campus",
+    "https://vit.ac.in/all-courses/ug"
+   ],
+   "partial": false
+  },
+  {
+   "name": "Amrita Vishwa Vidyapeetham",
+   "nirf_name": "Amrita Vishwa Vidyapeetham",
+   "campus": "Coimbatore",
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (Artificial Intelligence)",
+    "Computer Science and Engineering (Cyber Security)",
+    "Artificial Intelligence and Data Science",
+    "Artificial Intelligence (AI) and Data Science (Medical Engineering)",
+    "Artificial Intelligence (AI) and Data Science (Cyber Physical Systems and Security) - AID (CPS&S)",
+    "Artificial Intelligence (AI) and Data Science (Autonomous Agents and Robotic Systems) - AID (AA&RS)",
+    "Artificial Intelligence (AI) and Data Science (Quantum Technologies)",
+    "Computer and Communication Engineering",
+    "Electrical and Computer Engineering"
+   ],
+   "entrance": "AEEE (Amrita Entrance Examination - Engineering)",
+   "source_urls": [
+    "https://www.amrita.edu/admissions/coimbatore/"
+   ],
+   "caveat": "List read for the Coimbatore campus; other campuses offer different programmes. The last part of the page was not read, so more variants may exist.",
+   "partial": true
+  },
+  {
+   "name": "Thapar Institute of Engineering and Technology (Deemed-to-be-university)",
+   "nirf_name": "Thapar Institute of Engineering and Technology (Deemed-to-be-university)",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "B.E. (Computer Engineering)",
+    "B.E. (Computer Science & Engineering)",
+    "B.E. (Computer Science & Business Systems)",
+    "B E (Artificial Intelligence & Machine Learning)",
+    "BE (AI& DS)"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://csed.thapar.edu/programmes",
+    "https://www.thapar.edu/admissions/"
+   ],
+   "caveat": "Electronics and Computer Engineering is offered by the electronics department and is not in this list.",
+   "partial": false
+  },
+  {
+   "name": "Chandigarh University",
+   "nirf_name": "Chandigarh University",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "B.E. Computer Science & Engineering",
+    "B.E. Information Technology",
+    "Bachelor of Engineering (Computer Science and Engineering) (with Specialization in Full Stack Development)",
+    "Bachelor of Engineering (Hons.) (CSE with Artificial Intelligence & Data Science with SAS)",
+    "Bachelor of Engineering (Hons.) Computer Science & Engineering (Artificial Intelligence) in Collaboration with Microsoft",
+    "B.E. (Computer Science and Engineering) (Computer Science and Business Systems) (In association with TCS)",
+    "Bachelor of Engineering (Hons.) (Computer Science and Engineering) (Data Science) (In association with IBM)",
+    "B.E. - Computer Science and Engineering (CSE) Cloud Computing (In association with IBM)",
+    "Bachelor of Engineering (Hons.) (Computer Science and Engineering) (Cyber Security) (In association with IBM)",
+    "B.E. CSE with Specialization in Artificial Intelligence and Machine Learning (In association with IBM)",
+    "Bachelor of Engineering (Hons.) (Computer Science and Engineering) (with Specialization in Internet of Things & Artificial Intelligence) with IBM"
+   ],
+   "entrance": "CUCET",
+   "source_urls": [
+    "https://www.cuchd.in/engineering/"
+   ],
+   "partial": false
+  },
+  {
+   "name": "Koneru Lakshmaiah Education Foundation University (K L College of Engineering)",
+   "nirf_name": "Koneru Lakshmaiah Education Foundation University (K L College of Engineering)",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science & Engineering (CSE)",
+    "Computer Science & information Technology (CSIT)",
+    "CSE - AI & ML",
+    "Artificial Intelligence & Data Science (AI&DS)"
+   ],
+   "entrance": "KLEEE",
+   "source_urls": [
+    "https://www.kluniversity.in/admissions/"
+   ],
+   "caveat": "Internet of Things is listed by the university but not as a computer programme.",
+   "partial": false
+  },
+  {
+   "name": "International Institute of Information Technology Hyderabad",
+   "nirf_name": "International Institute of Information Technology Hyderabad",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "in Computer Science and Engineering",
+    "in Computer Science and Engineering and Master of Science in Computer Science and Engineering by Research (dual degree)",
+    "in Computer Science and Master of Science in Computational Natural Sciences by Research (dual degree)"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.iiit.ac.in/admissions/ug/"
+   ],
+   "partial": false
+  },
+  {
+   "name": "Shanmugha Arts Science Technology & Research Academy",
+   "nirf_name": "Shanmugha Arts Science Technology & Research Academy",
+   "campus": "Thanjavur",
+   "verified": true,
+   "programmes": [
+    "Computer Science & Engineering",
+    "Computer Science & Engineering (Artificial Intelligence & Data Science)",
+    "Computer Science & Engineering (Cyber Security & Block Chain Technology)",
+    "Computer Science & Engineering (IoT & Automation)",
+    "Computer Science & Engineering (Networks)",
+    "Computer Science & Business Systems",
+    "Information Technology",
+    "Information and Communication Technology",
+    "Electronics and Computer Engineering",
+    "Robotics & Artificial Intelligence"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.sastra.edu/admissions/ug-pg.html"
+   ],
+   "partial": false
+  },
+  {
+   "name": "UPES",
+   "nirf_name": "UPES",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+    "Computer Science and Engineering (Big Data)",
+    "Computer Science and Engineering (Data Science)",
+    "Computer Science and Engineering (Cloud Computing and Virtualization Technology)",
+    "Computer Science and Engineering (Cyber Security and Digital Forensics)",
+    "Computer Science and Engineering (DevOps)",
+    "Computer Science and Engineering (Full Stack Development)",
+    "Computer Science and Engineering (Internet of Things)",
+    "Computer Science and Engineering (Graphics and Gaming)",
+    "Computer Science and Engineering (Core Computer Science)",
+    "Computer Science and Engineering (Immersive Technology)",
+    "Computer Science and Economics",
+    "Mathematics and Computing",
+    "Electronics and Computer Engineering",
+    "Robotics, AI and Autonomous Systems"
+   ],
+   "entrance": "UPESEAT or JEE Main (also Board Merit, SAT, CUET-UG)",
+   "source_urls": [
+    "https://www.upes.ac.in/admissions/btech",
+    "https://www.upes.ac.in/school-of-computer-science"
+   ],
+   "caveat": "Specialisations of Computer Science and Engineering are listed one by one. The last three entries are borderline computer-stream.",
+   "partial": false
+  },
+  {
+   "name": "PES University",
+   "nirf_name": "PES University",
+   "campus": "Ring Road (RR) Campus, Electronic City (EC) Campus",
+   "verified": true,
+   "programmes": [
+    "Computer Science & Engineering",
+    "Computer Science & Engineering (Artificial Intelligence & Machine Learning)"
+   ],
+   "entrance": "JEE Main / KCET",
+   "source_urls": [
+    "https://pes.edu/btech/"
+   ],
+   "caveat": "Page gives campuses (Ring Road, Electronic City) for B.Tech as a whole, not per programme.",
+   "partial": true
+  },
+  {
+   "name": "M. S. Ramaiah Institute of Technology",
+   "nirf_name": "M. S. Ramaiah Institute of Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence & Data Science",
+    "Artificial Intelligence & Machine Learning",
+    "Computer Science & Engineering",
+    "Computer Science & Engineering (Artificial Intelligence & Machine Learning)",
+    "Computer Science & Engineering (Cyber Security)",
+    "Information Science & Engineering"
+   ],
+   "entrance": "KEA / COMEDK (NRI, Foreign National and PIO candidates under Supernumerary Quota)",
+   "source_urls": [
+    "https://msrit.edu/admissions.html"
+   ],
+   "caveat": null,
+   "partial": false
+  },
+  {
+   "name": "B.M.S. College of Engineering",
+   "nirf_name": "B.M.S. College of Engineering",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Information Science and Engineering",
+    "Machine Learning (AI and ML)",
+    "Computer Science and Engineering (DS)",
+    "Computer Science and Engineering (IoT and CS)",
+    "Artificial Intelligence and Data Science",
+    "Computer Science and Business Systems"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://bmsce.ac.in/home/Departments"
+   ],
+   "caveat": "List taken from the Departments menu; the page does not label them as B.E. programmes and states no entrance route (only Management Quota notice).",
+   "partial": true
+  },
+  {
+   "name": "Jain University",
+   "nirf_name": "Jain university,Bangalore",
+   "campus": "JAIN Global Campus, Jakkasandra, Kanakapura Taluk, Ramanagara District",
+   "verified": true,
+   "programmes": [
+    "Computer Science & Engineering",
+    "Information Science and Engineering",
+    "Computer Science & Engineering (Blockchain Technology)",
+    "Computer Science & Engineering (Cyber Physical Systems)",
+    "Computer Science & Engineering (AI-Driven DevOps)",
+    "Computer Science & Engineering (GenAI)",
+    "Computer Science and Engineering - Data Science"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://set.jainuniversity.ac.in/",
+    "https://www.jainuniversity.ac.in/programs/top-indian-university-for-engineering-and-technology-in-bangalore"
+   ],
+   "caveat": "Specialisations come from the site's New Programs list (some run with industry partners); the site mentions 35+ engineering programmes, so the list may be incomplete. Entrance route not stated.",
+   "partial": true
+  },
+  {
+   "name": "C M R Institute of Technology",
+   "nirf_name": "C M R Institute of Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science & Engineering",
+    "Computer Science & Engineering (AI & ML)",
+    "Computer Science & Engineering (DS)",
+    "Artificial Intelligence and Machine Learning",
+    "Artificial Intelligence & Data Science",
+    "Information Science & Engineering"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.cmrit.ac.in/"
+   ],
+   "caveat": "Page links CET and COMEDK codes but does not state the admission route in text.",
+   "partial": false
+  },
+  {
+   "name": "New Horizon College of Engineering",
+   "nirf_name": "New Horizon College of Engineering",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Artificial Intelligence & Machine Learning",
+    "Computer Science & Engineering (Data Science)"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://newhorizoncollegeofengineering.in/"
+   ],
+   "caveat": "Menus also mention Computer Engineering and Information Science & Engineering, which the undergraduate section does not list, so they are excluded; admission route not stated (CET code E099 shown).",
+   "partial": true
+  },
+  {
+   "name": "International Institute of Information Technology Bangalore",
+   "nirf_name": "International Institute of Information Technology Bangalore",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "(CSE)",
+    "(AI&DS)"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.iiitb.ac.in/btech"
+   ],
+   "caveat": "ECE also listed but excluded as non-computer stream; admission route page not read.",
+   "partial": false
+  },
+  {
+   "name": "Chaitanya Bharathi Institute of Technology",
+   "nirf_name": "Chaitanya Bharathi Institute of Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+    "Computer Science and Engineering (Internet of Things and Cyber Security Including Block Chain Technology)",
+    "Information Technology",
+    "Artificial Intelligence and Data Science"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.cbit.ac.in/academic_post/academic/"
+   ],
+   "caveat": "List taken from the Departments menu, not a degree list; entrance route not stated (only Convener Quota spot-admission notices).",
+   "partial": true
+  },
+  {
+   "name": "Sri Sivasubramaniya Nadar College of Engineering",
+   "nirf_name": "Sri Sivasubramaniya Nadar College of Engineering",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Information Technology"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://le-admissions.ssn.edu.in/",
+    "https://www.ssn.edu.in/lateral-entry-admissions/"
+   ],
+   "caveat": "The list comes from SSN's lateral-entry admissions page (the main ssn.edu.in pages returned 403), which lists all eight B.E./B.Tech programmes; it shows no AI/Data Science branch, but the regular-intake page could not be read to confirm.",
+   "partial": true
+  },
+  {
+   "name": "Sathyabama Institute of Science and Technology",
+   "nirf_name": "Sathyabama Institute of Science and Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Computer Science and Engineering with specialization in Artificial Intelligence",
+    "Computer Science and Engineering with specialization in Data Science",
+    "Computer Science and Engineering with specialization in Internet of Things",
+    "Computer Science and Engineering with specialization in Artificial Intelligence and Robotics",
+    "Computer Science and Engineering with specialization in Artificial Intelligence and Machine Learning",
+    "Computer Science and Engineering with specialization in Cyber Security",
+    "Artificial Intelligence and Data Science",
+    "Computer Science and Business Systems",
+    "Information Technology"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.sathyabama.ac.in/admissions/under-graduate"
+   ],
+   "caveat": "The page links to an online UG admission portal and mentions the SAEEE entrance exam separately but does not state which route applies; the older School of Computing page also lists a CSE with Block Chain Technology specialisation that the 2026-27 UG page does not, so it is excluded.",
+   "partial": false
+  },
+  {
+   "name": "Saveetha Institute of Medical and Technical Sciences (SIMATS)",
+   "nirf_name": "Saveetha Institute of Medical and Technical Sciences",
+   "campus": "Saveetha School of Engineering (SIMATS Engineering), Chennai",
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "AI / ML",
+    "Computer Science with specialization in Data Science",
+    "Computer Science with specialization in Internet of Things (IoT)",
+    "Information Technology",
+    "Computer Science with a specialization in Cybersecurity",
+    "Computer Science with a specialization in Business Systems",
+    "Artificial Intelligence and Data Science",
+    "Computer Science with a specialization in Artificial Intelligence",
+    "Computer Science with a specialization in Biosciences"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://simatsengineering.com/courses-offered"
+   ],
+   "caveat": "Taken from the SIMATS Engineering programmes page, which gives no admission route; it also lists B. Tech- Bioinformatics, which was left out as it is not clearly in the computer stream as defined, and programme titles on other SIMATS pages are worded slightly differently.",
+   "partial": true
+  },
+  {
+   "name": "Vel Tech Rangarajan Dr. Sagunthala R & D Institute of Science and Technology",
+   "nirf_name": "Vel Tech Rangarajan Dr. Sagunthala R & D Institute of Science and Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence (AI) and Data Science",
+    "Artificial Intelligence and Machine Learning",
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+    "Computer Science and Engineering (Cyber Security)",
+    "Computer Science and Engineering (Data Science)",
+    "Computer Science and Design",
+    "Information Technology"
+   ],
+   "entrance": "VTUEEE (the page lists B.Tech (VTUEEE) Admissions 2027)",
+   "source_urls": [
+    "https://www.veltech.edu.in/"
+   ],
+   "caveat": "Taken from the programme list on the university homepage under the School of Computing; the page does not label each as B.Tech or say which programmes use which admission route.",
+   "partial": true
+  },
+  {
+   "name": "Chennai Institute of Technology",
+   "nirf_name": "Chennai Institute of Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence and Data Science",
+    "Computer Science and Business Systems",
+    "Computer Science and Engineering",
+    "CSE (Cyber Security)",
+    "CSE (AI and Machine Learning)",
+    "Robotics and Artificial Intelligence"
+   ],
+   "entrance": "TNEA counselling (the CIT page lists the steps Register for TNEA, TNEA Counseling, Attend counselling, Confirm admission)",
+   "source_urls": [
+    "https://www.citchennai.edu.in/admission-cit-chennai"
+   ],
+   "caveat": "Admission route is read from step headings on CIT's own admissions page, not from a detailed eligibility statement; some other CIT pages label a few branches B.E. versus B.Tech differently.",
+   "partial": false
+  },
+  {
+   "name": "Hindustan Institute of Technology and Science (HITS)",
+   "nirf_name": "Hindustan Institute of Technology and Science (HITS)",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "CSE (Specialisation: Cloud Security/Gen AI) in collaboration with Google",
+    "CSE (Specialisation: Full Stack Development)",
+    "Artificial Intelligence and Data Science (AI & DS)",
+    "Computer Science and Engineering (Artificial Intelligence and Machine Learning- AI&ML) IBM Collaborated",
+    "Computer Science and Engineering (Cyber Security-CS) IBM Collaborated",
+    "CSE (Specializations- IoT/Block Chain/Cloud Computing & Virtualization)- In Collaboration with IBM",
+    "Information Technology (IT)"
+   ],
+   "entrance": "HITSEEE (Hindustan Institute of Technology and Science Engineering Entrance Examination), per the HITS admissions page; B.Tech applicants need an average of at least 60% in Physics, Chemistry and Mathematics",
+   "source_urls": [
+    "https://hindustanuniv.ac.in/undergraduate-degree/",
+    "https://apply.hindustanuniv.ac.in/hitseee"
+   ],
+   "caveat": "Names are combined from the UG programmes page and the HITSEEE admissions page; Robotics and AI was seen only in a search snippet and is not included.",
+   "partial": true
+  },
+  {
+   "name": "Symbiosis International (Symbiosis Institute of Technology)",
+   "nirf_name": "Symbiosis International",
+   "campus": "Symbiosis Institute of Technology, Pune",
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence and Machine Learning",
+    "Computer Science and Engineering",
+    "Robotics and Artificial Intelligence"
+   ],
+   "entrance": "SITEEE (Symbiosis Institute of Technology Engineering Entrance Exam), JEE (Main) or any State Government Engineering Entrance Examination; Direct Second Year (DSE) is a separate route",
+   "source_urls": [
+    "https://www.sitpune.edu.in/"
+   ],
+   "caveat": "Read from the SIT Pune homepage programme list; the page does not map admission routes to individual programmes.",
+   "partial": false
+  },
+  {
+   "name": "MIT World Peace University (MIT-WPU)",
+   "nirf_name": "Dr. Vishwanath Karad MIT World Peace University",
+   "campus": "Pune",
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (Artificial Intelligence and Data Science)",
+    "Computer Science and Engineering (Cloud Computing)",
+    "Computer Science and Engineering (Cyber Security and Forensics)",
+    "Computer Science and Engineering (Quantum Computing)"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://mitwpu.edu.in/programmes/undergraduate"
+   ],
+   "caveat": "The page also lists B.Tech Electronics and Communication Engineering (Artificial Intelligence and Machine Learning), left out as an ECE programme, and a six-year integrated route after 10th; the page links MIT-WPU CET 2027 but does not state the route per programme.",
+   "partial": false
+  },
+  {
+   "name": "Vishwakarma Institute of Technology",
+   "nirf_name": "Bansilal Ramnath Agarwal Charitable Trust`s Vishwakarama Institute of Technology",
+   "campus": "Pune",
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence & Data Science",
+    "Computer Engineering",
+    "Computer Sciences & Engineering (AI)",
+    "Computer Science and Engineering (AI & ML)",
+    "Computer Engineering (Software Engineering)",
+    "Computer Science and Engineering (Data Science)",
+    "Computer Science and Engineering (Internet of Things and Cyber Security Including Block Chain Technology)",
+    "Information Technology"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.vit.edu/"
+   ],
+   "caveat": "Taken from the Engineering Paths list on the VIT homepage; the page names F.Y. B.Tech and Direct Second Year routes but does not state the entrance exam.",
+   "partial": false
+  },
+  {
+   "name": "Bharati Vidyapeeth Deemed University College of Engineering",
+   "nirf_name": "Bharati Vidyapeeth Deemed University College of Engineering",
+   "campus": "Pune (Dhankawadi and Bharati Vidyapeeth Bhavan); some programmes also at Navi Mumbai",
+   "verified": true,
+   "programmes": [
+    "(Computer Engineering)",
+    "(Computer Science and Engineering)",
+    "(Electrical and Computer Engineering)",
+    "(Information Technology)",
+    "(Computer Science and Business Systems)",
+    "(Artificial Intelligence and Machine Learning)"
+   ],
+   "entrance": "BVDU CET (Common Entrance Test); the page links an Undergraduate CET Schedule-2027 and an online CET portal",
+   "source_urls": [
+    "https://www.bvuniversity.edu.in/coepune/programmes"
+   ],
+   "caveat": "CSE, IT and CSBS are also listed at Navi Mumbai, and AI and Machine Learning at Pune Dhankawadi only; Robotics and Automation was left out as not in the computer stream.",
+   "partial": false
+  },
+  {
+   "name": "Dwarkadas J. Sanghvi College of Engineering",
+   "nirf_name": "Shri Vile Parle Kelavani Mandal`s Dwarkadas J. Sanghvi College of Engineering",
+   "campus": "Mumbai",
+   "verified": true,
+   "programmes": [
+    "Information Technology",
+    "Computer Engineering",
+    "Computer Science and Engineering (Data Science)",
+    "Artificial Intelligence and Machine Learning",
+    "Artificial Intelligence (AI) and Data Science",
+    "Computer Science and Engineering (IOT and Cyber Security with Block Chain Technology)"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.djsce.ac.in/"
+   ],
+   "caveat": "Read from the DJSCE homepage list of eight B.Tech programmes; the page shows 1st Year and Direct 2nd Year routes but does not state the entrance exam.",
+   "partial": false
+  },
+  {
+   "name": "Institute of Engineering & Management",
+   "nirf_name": "Institute of Engineering & Management",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science & Engineering",
+    "Computer Science & Engineering (AI & ML)",
+    "Computer Science & Engineering (AI)",
+    "Computer Science & Engineering (IoT and CSBT)",
+    "Computer Science & Engineering (IoT)",
+    "Computer Science and Business Systems",
+    "Information Technology"
+   ],
+   "entrance": "IEMJEE (B.tech) 2027, per the IEM homepage",
+   "source_urls": [
+    "https://iem.edu.in/"
+   ],
+   "caveat": "The page lists 11 B.Tech programmes without stating which campus (Salt Lake or other) offers each one.",
+   "partial": false
+  },
+  {
+   "name": "Amity University",
+   "nirf_name": "Amity University",
+   "campus": "Noida",
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence",
+    "Artificial Intelligence & Data Science",
+    "Computer Science & Business Systems",
+    "Computer Science & Engg. - 3 Continent",
+    "Computer Science Engg. - International",
+    "Computer Science & Engineering",
+    "Computer Science & Engineering (Artificial Intelligence & Machine Learning)",
+    "Computer Science & Engineering (Cyber Security)",
+    "Computer Science & Engineering (Data Science)",
+    "Computer Science & Engineering (Internet of Things and Cyber Security Including Block Chain Technology)",
+    "Information Technology",
+    "Robotics & Artificial Intelligence"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.amity.edu/course-list.aspx?fd=Engineering&Programs=Graduate"
+   ],
+   "caveat": "List filtered to programmes tagged with the Noida campus on Amity's all-campus list; the page states no admission route; Computer Science & Social Sciences and Electrical & Computer Engineering at Noida were left out as outside the stated computer-stream definition.",
+   "nirf_city": "Gautam Budh Nagar",
+   "partial": false
+  },
+  {
+   "name": "Jaypee Institute of Information Technology",
+   "nirf_name": "Jaypee Institute of Information Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Information Technology",
+    "Computer Science and Engineering (Cyber Security)",
+    "Artificial Intelligence & Machine Learning",
+    "Mathematics and Computing",
+    "Electronics and Computer Engineering",
+    "Robotics and Artificial Intelligence"
+   ],
+   "entrance": "JEE Main AIR (rank-based) and 10+2 merit-based consideration (page lists both; direct admission also noted for ECM, Integrated ECE, VLSI and ACT)",
+   "source_urls": [
+    "https://www.jiit.ac.in/prospective-student/ug-programmes/b-tech",
+    "https://www.jiit.ac.in/"
+   ],
+   "caveat": "Page shows admissions closed for AY 2026-27; campus is not stated on the page.",
+   "partial": false
+  },
+  {
+   "name": "Manav Rachna International Institute of Research & Studies",
+   "nirf_name": "Manav Rachna International Institute of Research & Studies",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering (CSE)",
+    "CSE (Hons.) - Artificial Intelligence and Machine Learning (Microsoft Certifications)"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://manavrachna.edu.in/mriirs/school-of-engineering-technology",
+    "https://manavrachna.edu.in/"
+   ],
+   "caveat": "Only the first 100,000 of about 224,000 characters of the school page were read; lateral-entry-only versions were excluded; the B.Tech admission route is not stated on the pages read (MRNAT/MRHSAT are only linked).",
+   "partial": true
+  },
+  {
+   "name": "The NorthCap University",
+   "nirf_name": "The Northcap University",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "CSE - Full Stack Development",
+    "CSE - Cyber Security and Forensics",
+    "CSE - Data Science",
+    "CSE - Gaming, Augmented Reality and Virtual Reality",
+    "CSE - Artificial Intelligence and Machine Learning",
+    "CSE - Quantum Computing",
+    "Robotics and AI"
+   ],
+   "entrance": "Must qualify JEE Mains / CUET-UG / any other national level test in the discipline of UG programme; if none taken, NCU conducts its own entrance test",
+   "source_urls": [
+    "https://www.ncuindia.edu/",
+    "https://www.ncuindia.edu/eligibility-criteria/"
+   ],
+   "caveat": "Names shortened from the programme index page (CSE with specialisation); an unexplained asterisk appears beside Robotics and AI on the page.",
+   "partial": false
+  },
+  {
+   "name": "BML Munjal University",
+   "nirf_name": "BML Munjal University",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "CSE",
+    "EComE"
+   ],
+   "entrance": "Online application and academic screening, then counselling; candidates without a standardised test take the BMU-SAT (may also be asked for an entrance exam or personal interview)",
+   "source_urls": [
+    "https://www.bmu.edu.in/",
+    "https://www.bmu.edu.in/courses/b-tech/b-tech-admissions-process/"
+   ],
+   "caveat": "The page uses the abbreviations CSE and EComE without expanding them; the B.Tech list shown is CSE, ME and EComE.",
+   "partial": false
+  },
+  {
+   "name": "Galgotias University",
+   "nirf_name": "Galgotias University",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence and Data Science",
+    "Artificial Intelligence and Machine Learning",
+    "Artificial Intelligence",
+    "Cyber Security",
+    "Data Science",
+    "Computer Science and Engineering (Artificial Intelligence)",
+    "Computer Science and Engineering (Artificial Intelligence & Machine Learning)",
+    "Computer Science and Engineering (Artificial Intelligence and Data Science)",
+    "Computer Science and Engineering (Data Analytics)",
+    "Computer Science and Engineering (Data Science)",
+    "Full Stack Development with Artificial Intelligence",
+    "Cloud and Artificial Intelligence",
+    "Data Science, Artificial Intelligence and Machine Learning",
+    "Computer Science and Information Technology Specialization in Quantum Computing",
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (Full Stack Development)",
+    "Computer Science and Engineering (Gaming Technology)",
+    "Computer Science and Engineering (Cloud Computing and Artificial Intelligence)",
+    "Computer Science and Engineering (Quantum Computing with Artificial Intelligence)",
+    "Computer Science and Engineering (Cyber Security)",
+    "Computer Science and Engineering (Cyber Security and Digital Forensic)",
+    "Computer Science and Engineering (Internet of Things and Cyber Security Including Block Chain Technology)",
+    "Computer Science and Engineering (Computer Network and Cyber Security)",
+    "Computer Science and Engineering (Cyber Security with Artificial Intelligence)",
+    "Electronics and Computer Engineering"
+   ],
+   "entrance": "University gives preference to JEE Main or JEE Advanced for B.Tech (from its FAQ); the full route is not on the programme page",
+   "source_urls": [
+    "https://www.galgotiasuniversity.edu.in/p/program/under-graduate",
+    "https://www.galgotiasuniversity.edu.in/"
+   ],
+   "caveat": "Long list as published; working-professional programmes, Defence Technology (AI & Cyber Security), Robotics and Electrical and Computer Engineering were left out as not clearly computer stream.",
+   "partial": false
+  },
+  {
+   "name": "Siksha ‘O’ Anusandhan (SOA)",
+   "nirf_name": "Siksha `O` Anusandhan",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (AI and ML)",
+    "Computer Science and Engineering (Cyber Security)",
+    "Computer Science and Engineering (Data Science)",
+    "Computer Science and Engineering (Internet of Things)",
+    "Computer Science and Information Technology"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.admission.soa.ac.in/programmes-offered"
+   ],
+   "caveat": "List is from SOA's own admission site (not ITER-specific); it links SAAT, JEE Main and CUET as pathways without saying which applies to which programme.",
+   "partial": false
+  },
+  {
+   "name": "Manipal Institute of Technology",
+   "nirf_name": "Manipal Institute of Technology",
+   "campus": "Manipal",
+   "verified": true,
+   "programmes": [
+    "Computer Science & Engineering",
+    "Computer Science & Engineering (Dual Degree Program with Australian National University)",
+    "Computer Science & Engineering (Dual Degree Program with Monash University)",
+    "Computer Science and Financial Technology",
+    "Mathematics and Computing"
+   ],
+   "entrance": "Manipal Entrance Test (MET); merit list 50% MET score and 50% 10+2 marks, then counselling",
+   "source_urls": [
+    "https://admissions.manipal.edu/manipal/btech/",
+    "http://www.manipal.edu/mit-manipal"
+   ],
+   "caveat": "Taken from the MAHE admissions page for the Manipal campus; Electronics Engineering was excluded as not computer stream.",
+   "partial": false
+  },
+  {
+   "name": "Manipal University Jaipur",
+   "nirf_name": "Manipal University Jaipur",
+   "campus": "Jaipur",
+   "verified": true,
+   "programmes": [
+    "Computer Science & Engineering",
+    "Computer Science and Engineering(IoT and Intelligent Systems)",
+    "Computer Science and Engineering(Artificial Intelligence & Machine Learning)",
+    "Computer and Communication Engineering",
+    "Computer Science and Engineering(Data Science)",
+    "Computer Science and Biosciences",
+    "Information Technology",
+    "Computer Science and Engineering (Cyber Security)",
+    "Robotics and Artificial Intelligence",
+    "Computer science & engineering (dual degree program (2+2) in collaboration with Deakin University)"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://jaipur.manipal.edu/"
+   ],
+   "caveat": "Admission route not stated for B.Tech on the page (a CUET-2026 announcement for UG programmes is shown); Electrical and Computer Engineering left out.",
+   "partial": false
+  },
+  {
+   "name": "Nirma University",
+   "nirf_name": "Nirma University",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Computer Science & Engineering (Artificial Intelligence & Machine Learning)"
+   ],
+   "entrance": "State quota via ACPC (Gujarat); All India seats (60%) by merit on JEE (Main) Paper-I rank; NRI seats (15%)",
+   "source_urls": [
+    "https://technology.nirmauni.ac.in/admission-aid/under-graduate/b-tech/"
+   ],
+   "caveat": "Page states admissions for 2026-27 are closed.",
+   "partial": false
+  },
+  {
+   "name": "Graphic Era University",
+   "nirf_name": "Graphic Era University",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering (Artificial Intelligence and Data Science/ Artificial Intelligence and Machine Learning/ Cybersecurity)",
+    "Computer Science and Engineering (Hons.) with specialization in - Artificial Intelligence and Data Science/ Artificial Intelligence and Machine Learning/ Cybersecurity",
+    "Computer Science and Engineering (Regional Language Quota)",
+    "Computer Science and Engineering(Internet of Things)",
+    "Computer Science and Engineering"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.geu.ac.in/"
+   ],
+   "caveat": "Menu entries combine several specialisations in one name; admission route not stated on the page (GECET and admissions pages are only linked); Electrical and Computer Engineering left out.",
+   "partial": true
+  },
+  {
+   "name": "PSG College of Technology",
+   "nirf_name": "PSG College of Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (AI and ML)",
+    "Information Technology"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://www.psgtech.edu/programme_offered.php"
+   ],
+   "caveat": "Page does not label programmes as B.E. or B.Tech and does not describe the admission route.",
+   "partial": false
+  },
+  {
+   "name": "Kumaraguru College of Technology",
+   "nirf_name": "Kumaraguru College of Technology",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence & Data Science",
+    "Computer Science and Engineering",
+    "Information Technology"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://kct.ac.in/"
+   ],
+   "caveat": "Programme index lists 14 programmes without B.E./B.Tech labels and part of the page looks dated, so newer programmes may be missing; no admission route stated (TNEA code 2712 shown).",
+   "partial": true
+  },
+  {
+   "name": "Karunya Institute of Technology and Sciences",
+   "nirf_name": "Karunya Institute of Technology and Sciences",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence and Data Science",
+    "Computer Science and Engineering",
+    "Computer Science and Engineering (Artificial Intelligence)",
+    "Computer Science and Engineering (Artificial Intelligence and Machine Learning)",
+    "Computer Science and Engineering (Cyber Security)",
+    "Computer Science and Engineering (Specialisation in Artificial Intelligence and Machine Learning)",
+    "Computer Science and Engineering (Specialisation in Cyber Security)",
+    "Computer Science and Engineering (Specialisation in Quantum Computing)"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://admissions.karunya.edu"
+   ],
+   "caveat": "Specialisation entries need 18 additional credits per the page; admission route not stated (KEE 2027 is only linked); Robotics and Automation specialisations left out.",
+   "partial": true
+  }
+ ]
+}

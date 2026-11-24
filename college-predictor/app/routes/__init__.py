@@ -1005,6 +1005,14 @@ def why_cse():
     return render_template('why_cse.html')
 
 
+@main_bp.route('/computer-science-stream')
+@premium_required
+def computer_science_stream():
+    # members page: CSE, IT, AI and Data Science, Cyber, CSBS, Mathematics and Computing compared; college data from the JoSAA 2026, NIRF and TNEA 2026 files (services/cs_stream.py)
+    from app.services import cs_stream
+    return render_template('computer_stream.html', cs=cs_stream.payload())
+
+
 @main_bp.route('/best-location')
 @premium_required
 def best_location():
