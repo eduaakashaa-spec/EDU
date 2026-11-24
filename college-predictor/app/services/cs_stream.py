@@ -73,7 +73,7 @@ def private():
             continue
         c = _pick(nirf.get(u.get('nirf_name') or ''), u.get('nirf_city'))
         out.append({'n': u['name'], 'campus': u.get('campus'), 'city': (c or {}).get('city'), 'state': (c or {}).get('state'), 'r': (c or {}).get('rank'), 'b': (c or {}).get('band'),
-                    'p': [[name, _family(name)] for name in u['programmes']], 'entrance': u.get('entrance'), 'caveat': u.get('caveat'), 'partial': bool(u.get('partial')), 'url': (u.get('source_urls') or [None])[0]})
+                    'p': [[name, _family(name)] for name in u['programmes']], 'entrance': u.get('entrance'), 'caveat': u.get('caveat'), 'partial': bool(u.get('partial')), 'kind': u.get('source_kind') or 'own site', 'url': (u.get('source_urls') or [None])[0]})
     out.sort(key=lambda x: (x['r'] is None, x['r'] or _band_start(x['b']), x['n']))
     return out, d.get('checked_on'), d.get('note')
 

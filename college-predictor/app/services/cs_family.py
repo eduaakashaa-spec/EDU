@@ -14,7 +14,7 @@ def duration(p):
 def family(prog):
     """The computer-stream family of a programme name, or None when it is not a computer-stream programme."""
     p = clean_program(prog)
-    low = p.lower()
+    low = re.sub(r'\s+', ' ', p.lower().replace('&', ' and ')).strip()          # "Electronics & Computer" reads as "electronics and computer"
     if re.search(r'architect|planning|biotech|bioinformatic|biochem|chemical|civil|mining|agricultur|metallurg|textile|mechanical engineering and', low) and not re.search(r'\bcomputer|artificial|data science', low):
         return None
     if re.search(r'\bcyber\b', low):

@@ -1,6 +1,6 @@
 {
  "checked_on": "2026-11-24",
- "note": "Each programme list was read from the university's own pages on the date shown. Where the page was partly unreadable or the list may not be complete, the row says so. Not listed: RV College of Engineering, Mahindra University, Anurag University, NMIMS, KIIT and Lovely Professional University (their pages could not be read or verified from here), and Christ University (only one programme could be confirmed). Kalasalingam is left out because its list was incomplete.",
+ "note": "Each programme list was read from the university's own pages on the date shown. Where the page was partly unreadable or the list may not be complete, the row says so. Not listed: RV College of Engineering, Mahindra University, KIIT and Lovely Professional University. Their official pages blocked automated reading or showed only part of the list, and a list is left out rather than guessed. Kalasalingam is left out because its list was incomplete.",
  "universities": [
   {
    "name": "Birla Institute of Technology & Science -Pilani",
@@ -243,6 +243,7 @@
    "source_urls": [
     "https://pes.edu/btech/"
    ],
+   "source_kind": "own site",
    "caveat": "Page gives campuses (Ring Road, Electronic City) for B.Tech as a whole, not per programme.",
    "partial": true
   },
@@ -263,6 +264,7 @@
    "source_urls": [
     "https://msrit.edu/admissions.html"
    ],
+   "source_kind": "own site",
    "caveat": null,
    "partial": false
   },
@@ -284,6 +286,7 @@
    "source_urls": [
     "https://bmsce.ac.in/home/Departments"
    ],
+   "source_kind": "own site",
    "caveat": "List taken from the Departments menu; the page does not label them as B.E. programmes and states no entrance route (only Management Quota notice).",
    "partial": true
   },
@@ -306,6 +309,7 @@
     "https://set.jainuniversity.ac.in/",
     "https://www.jainuniversity.ac.in/programs/top-indian-university-for-engineering-and-technology-in-bangalore"
    ],
+   "source_kind": "own site",
    "caveat": "Specialisations come from the site's New Programs list (some run with industry partners); the site mentions 35+ engineering programmes, so the list may be incomplete. Entrance route not stated.",
    "partial": true
   },
@@ -326,6 +330,7 @@
    "source_urls": [
     "https://www.cmrit.ac.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Page links CET and COMEDK codes but does not state the admission route in text.",
    "partial": false
   },
@@ -343,6 +348,7 @@
    "source_urls": [
     "https://newhorizoncollegeofengineering.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Menus also mention Computer Engineering and Information Science & Engineering, which the undergraduate section does not list, so they are excluded; admission route not stated (CET code E099 shown).",
    "partial": true
   },
@@ -359,6 +365,7 @@
    "source_urls": [
     "https://www.iiitb.ac.in/btech"
    ],
+   "source_kind": "own site",
    "caveat": "ECE also listed but excluded as non-computer stream; admission route page not read.",
    "partial": false
   },
@@ -378,6 +385,7 @@
    "source_urls": [
     "https://www.cbit.ac.in/academic_post/academic/"
    ],
+   "source_kind": "own site",
    "caveat": "List taken from the Departments menu, not a degree list; entrance route not stated (only Convener Quota spot-admission notices).",
    "partial": true
   },
@@ -387,14 +395,15 @@
    "campus": null,
    "verified": true,
    "programmes": [
-    "Computer Science and Engineering",
-    "Information Technology"
+    "in Computer Science and Engineering",
+    "in Information Technology"
    ],
    "entrance": null,
    "source_urls": [
     "https://le-admissions.ssn.edu.in/",
     "https://www.ssn.edu.in/lateral-entry-admissions/"
    ],
+   "source_kind": "own site",
    "caveat": "The list comes from SSN's lateral-entry admissions page (the main ssn.edu.in pages returned 403), which lists all eight B.E./B.Tech programmes; it shows no AI/Data Science branch, but the regular-intake page could not be read to confirm.",
    "partial": true
   },
@@ -419,6 +428,7 @@
    "source_urls": [
     "https://www.sathyabama.ac.in/admissions/under-graduate"
    ],
+   "source_kind": "own site",
    "caveat": "The page links to an online UG admission portal and mentions the SAEEE entrance exam separately but does not state which route applies; the older School of Computing page also lists a CSE with Block Chain Technology specialisation that the 2026-27 UG page does not, so it is excluded.",
    "partial": false
   },
@@ -428,21 +438,22 @@
    "campus": "Saveetha School of Engineering (SIMATS Engineering), Chennai",
    "verified": true,
    "programmes": [
-    "Computer Science and Engineering",
-    "AI / ML",
-    "Computer Science with specialization in Data Science",
-    "Computer Science with specialization in Internet of Things (IoT)",
-    "Information Technology",
-    "Computer Science with a specialization in Cybersecurity",
-    "Computer Science with a specialization in Business Systems",
-    "Artificial Intelligence and Data Science",
-    "Computer Science with a specialization in Artificial Intelligence",
-    "Computer Science with a specialization in Biosciences"
+    "in Computer Science and Engineering",
+    "in AI / ML",
+    "in Computer Science with specialization in Data Science",
+    "in Computer Science with specialization in Internet of Things (IoT)",
+    "in Information Technology",
+    "in Computer Science with a specialization in Cybersecurity",
+    "in Computer Science with a specialization in Business Systems",
+    "in Artificial Intelligence and Data Science",
+    "in Computer Science with a specialization in Artificial Intelligence",
+    "in Computer Science with a specialization in Biosciences"
    ],
    "entrance": null,
    "source_urls": [
     "https://simatsengineering.com/courses-offered"
    ],
+   "source_kind": "own site",
    "caveat": "Taken from the SIMATS Engineering programmes page, which gives no admission route; it also lists B. Tech- Bioinformatics, which was left out as it is not clearly in the computer stream as defined, and programme titles on other SIMATS pages are worded slightly differently.",
    "partial": true
   },
@@ -465,6 +476,7 @@
    "source_urls": [
     "https://www.veltech.edu.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Taken from the programme list on the university homepage under the School of Computing; the page does not label each as B.Tech or say which programmes use which admission route.",
    "partial": true
   },
@@ -479,12 +491,14 @@
     "Computer Science and Engineering",
     "CSE (Cyber Security)",
     "CSE (AI and Machine Learning)",
+    "Information Technology",
     "Robotics and Artificial Intelligence"
    ],
    "entrance": "TNEA counselling (the CIT page lists the steps Register for TNEA, TNEA Counseling, Attend counselling, Confirm admission)",
    "source_urls": [
     "https://www.citchennai.edu.in/admission-cit-chennai"
    ],
+   "source_kind": "own site",
    "caveat": "Admission route is read from step headings on CIT's own admissions page, not from a detailed eligibility statement; some other CIT pages label a few branches B.E. versus B.Tech differently.",
    "partial": false
   },
@@ -508,6 +522,7 @@
     "https://hindustanuniv.ac.in/undergraduate-degree/",
     "https://apply.hindustanuniv.ac.in/hitseee"
    ],
+   "source_kind": "own site",
    "caveat": "Names are combined from the UG programmes page and the HITSEEE admissions page; Robotics and AI was seen only in a search snippet and is not included.",
    "partial": true
   },
@@ -525,6 +540,7 @@
    "source_urls": [
     "https://www.sitpune.edu.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Read from the SIT Pune homepage programme list; the page does not map admission routes to individual programmes.",
    "partial": false
   },
@@ -544,6 +560,7 @@
    "source_urls": [
     "https://mitwpu.edu.in/programmes/undergraduate"
    ],
+   "source_kind": "own site",
    "caveat": "The page also lists B.Tech Electronics and Communication Engineering (Artificial Intelligence and Machine Learning), left out as an ECE programme, and a six-year integrated route after 10th; the page links MIT-WPU CET 2027 but does not state the route per programme.",
    "partial": false
   },
@@ -566,6 +583,7 @@
    "source_urls": [
     "https://www.vit.edu/"
    ],
+   "source_kind": "own site",
    "caveat": "Taken from the Engineering Paths list on the VIT homepage; the page names F.Y. B.Tech and Direct Second Year routes but does not state the entrance exam.",
    "partial": false
   },
@@ -586,6 +604,7 @@
    "source_urls": [
     "https://www.bvuniversity.edu.in/coepune/programmes"
    ],
+   "source_kind": "own site",
    "caveat": "CSE, IT and CSBS are also listed at Navi Mumbai, and AI and Machine Learning at Pune Dhankawadi only; Robotics and Automation was left out as not in the computer stream.",
    "partial": false
   },
@@ -606,6 +625,7 @@
    "source_urls": [
     "https://www.djsce.ac.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Read from the DJSCE homepage list of eight B.Tech programmes; the page shows 1st Year and Direct 2nd Year routes but does not state the entrance exam.",
    "partial": false
   },
@@ -627,6 +647,7 @@
    "source_urls": [
     "https://iem.edu.in/"
    ],
+   "source_kind": "own site",
    "caveat": "The page lists 11 B.Tech programmes without stating which campus (Salt Lake or other) offers each one.",
    "partial": false
   },
@@ -653,8 +674,8 @@
    "source_urls": [
     "https://www.amity.edu/course-list.aspx?fd=Engineering&Programs=Graduate"
    ],
+   "source_kind": "own site",
    "caveat": "List filtered to programmes tagged with the Noida campus on Amity's all-campus list; the page states no admission route; Computer Science & Social Sciences and Electrical & Computer Engineering at Noida were left out as outside the stated computer-stream definition.",
-   "nirf_city": "Gautam Budh Nagar",
    "partial": false
   },
   {
@@ -676,6 +697,7 @@
     "https://www.jiit.ac.in/prospective-student/ug-programmes/b-tech",
     "https://www.jiit.ac.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Page shows admissions closed for AY 2026-27; campus is not stated on the page.",
    "partial": false
   },
@@ -693,6 +715,7 @@
     "https://manavrachna.edu.in/mriirs/school-of-engineering-technology",
     "https://manavrachna.edu.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Only the first 100,000 of about 224,000 characters of the school page were read; lateral-entry-only versions were excluded; the B.Tech admission route is not stated on the pages read (MRNAT/MRHSAT are only linked).",
    "partial": true
   },
@@ -715,6 +738,7 @@
     "https://www.ncuindia.edu/",
     "https://www.ncuindia.edu/eligibility-criteria/"
    ],
+   "source_kind": "own site",
    "caveat": "Names shortened from the programme index page (CSE with specialisation); an unexplained asterisk appears beside Robotics and AI on the page.",
    "partial": false
   },
@@ -732,6 +756,7 @@
     "https://www.bmu.edu.in/",
     "https://www.bmu.edu.in/courses/b-tech/b-tech-admissions-process/"
    ],
+   "source_kind": "own site",
    "caveat": "The page uses the abbreviations CSE and EComE without expanding them; the B.Tech list shown is CSE, ME and EComE.",
    "partial": false
   },
@@ -772,6 +797,7 @@
     "https://www.galgotiasuniversity.edu.in/p/program/under-graduate",
     "https://www.galgotiasuniversity.edu.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Long list as published; working-professional programmes, Defence Technology (AI & Cyber Security), Robotics and Electrical and Computer Engineering were left out as not clearly computer stream.",
    "partial": false
   },
@@ -792,6 +818,7 @@
    "source_urls": [
     "https://www.admission.soa.ac.in/programmes-offered"
    ],
+   "source_kind": "own site",
    "caveat": "List is from SOA's own admission site (not ITER-specific); it links SAAT, JEE Main and CUET as pathways without saying which applies to which programme.",
    "partial": false
   },
@@ -812,6 +839,7 @@
     "https://admissions.manipal.edu/manipal/btech/",
     "http://www.manipal.edu/mit-manipal"
    ],
+   "source_kind": "own site",
    "caveat": "Taken from the MAHE admissions page for the Manipal campus; Electronics Engineering was excluded as not computer stream.",
    "partial": false
   },
@@ -836,6 +864,7 @@
    "source_urls": [
     "https://jaipur.manipal.edu/"
    ],
+   "source_kind": "own site",
    "caveat": "Admission route not stated for B.Tech on the page (a CUET-2026 announcement for UG programmes is shown); Electrical and Computer Engineering left out.",
    "partial": false
   },
@@ -852,6 +881,7 @@
    "source_urls": [
     "https://technology.nirmauni.ac.in/admission-aid/under-graduate/b-tech/"
    ],
+   "source_kind": "own site",
    "caveat": "Page states admissions for 2026-27 are closed.",
    "partial": false
   },
@@ -871,6 +901,7 @@
    "source_urls": [
     "https://www.geu.ac.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Menu entries combine several specialisations in one name; admission route not stated on the page (GECET and admissions pages are only linked); Electrical and Computer Engineering left out.",
    "partial": true
   },
@@ -888,6 +919,7 @@
    "source_urls": [
     "https://www.psgtech.edu/programme_offered.php"
    ],
+   "source_kind": "own site",
    "caveat": "Page does not label programmes as B.E. or B.Tech and does not describe the admission route.",
    "partial": false
   },
@@ -905,6 +937,7 @@
    "source_urls": [
     "https://kct.ac.in/"
    ],
+   "source_kind": "own site",
    "caveat": "Programme index lists 14 programmes without B.E./B.Tech labels and part of the page looks dated, so newer programmes may be missing; no admission route stated (TNEA code 2712 shown).",
    "partial": true
   },
@@ -927,7 +960,77 @@
    "source_urls": [
     "https://admissions.karunya.edu"
    ],
+   "source_kind": "own site",
    "caveat": "Specialisation entries need 18 additional credits per the page; admission route not stated (KEE 2027 is only linked); Robotics and Automation specialisations left out.",
+   "partial": true
+  },
+  {
+   "name": "Anurag University",
+   "nirf_name": "Anurag University",
+   "campus": null,
+   "verified": true,
+   "programmes": [
+    "Artificial Intelligence",
+    "Artificial Intelligence & Machine Learning",
+    "Computer Science and Engineering",
+    "Computer Science Engineering (Data Science)",
+    "Computer Science Engineering (Cyber Security)",
+    "Information Technology",
+    "Electronics & Computer Engineering"
+   ],
+   "entrance": "Merit-based through TS EAPCET, JEE, State Common Entrance Test, Anurag CET, or the qualifying examination on merit (stated on the B.Tech CSE programme page)",
+   "source_urls": [
+    "https://nba.anurag.edu.in/tuition-fee/",
+    "https://www.anurag.edu.in/program/b-tech-in-computer-science"
+   ],
+   "source_kind": "own site",
+   "caveat": "The list comes from the university's tuition-fee page (existing plus new programmes); the page also shows a generic 'B. Tech' row, so a branch outside that table could exist, and the entrance route is read from the CSE programme page only.",
+   "partial": true
+  },
+  {
+   "name": "Christ University",
+   "nirf_name": "Christ University",
+   "campus": "Bangalore Kengeri Campus",
+   "verified": true,
+   "programmes": [
+    "in (Computer Science and Engineering - Artificial Intelligence and Machine Learning)",
+    "in (Computer Science and Engineering - Data Science)",
+    "in (Computer Science and Engineering - IoT)",
+    "in Computer Science and Engineering",
+    "in Electronics and Computer Engineering (with Spl. in Artificial Intelligence & Machine Learning)",
+    "in Information Technology",
+    "in Artificial Intelligence and Machine Learning"
+   ],
+   "entrance": "Online application; entrance test 'if applicable', then assessment and interview (no JEE or CUET named on the programme pages)",
+   "source_urls": [
+    "https://christuniversity.in/bangalore-kengeri-campus-ug-programmes",
+    "https://bkc.christuniversity.in/courses/ODE="
+   ],
+   "source_kind": "own site",
+   "caveat": "Regular-entry list only (lateral-entry variants and non-computer branches like Robotics and Mechatronics excluded); a search snippet mentioned a CSE (Cyber Security) programme but it is not on the official Kengeri UG programmes page I read, so it is left out.",
+   "partial": false
+  },
+  {
+   "name": "NMIMS (SVKM’s Narsee Monjee Institute of Management Studies)",
+   "nirf_name": "SVKM`s Narsee Monjee Institute of Management Studies",
+   "campus": "Mumbai (MPSTME page, engineering.nmims.edu; the page does not map each programme to a campus)",
+   "verified": true,
+   "programmes": [
+    "Computer Science and Engineering (Data Science)",
+    "Computer Science and Business Systems",
+    "Computer Engineering",
+    "Information Technology",
+    "Computer Science and Engineering (Cybersecurity)",
+    "Data Science",
+    "Artificial Intelligence"
+   ],
+   "entrance": null,
+   "source_urls": [
+    "https://engineering.nmims.edu/",
+    "https://engineering.nmims.edu/programs/btech/"
+   ],
+   "source_kind": "own site",
+   "caveat": "The MPSTME page lists these B.Tech programmes under the Mumbai-headed site but does not say which run at which campus, and gives no per-programme entrance route (admission menu mentions B Tech/MBA Tech admissions, Non-CET and SAT/ACT routes).",
    "partial": true
   }
  ]

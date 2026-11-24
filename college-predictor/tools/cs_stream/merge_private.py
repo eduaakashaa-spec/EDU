@@ -32,7 +32,7 @@ DISPLAY = {
     'M. S. Ramaiah Institute of Technology': 'M. S. Ramaiah Institute of Technology',
     'The Northcap University': 'The NorthCap University',
 }
-LEAD = re.compile(r'^\s*(B\.?\s?Tech\.?|B\.?\s?E\.?|Bachelor of (?:Technology|Engineering))\s*(?:in|[-:])?\s*(\(Hons\.?\))?\s*', re.I)
+LEAD = re.compile(r'^\s*(B\.?\s?Tech\.?|B\.?\s?E\.?|Bachelor of (?:Technology|Engineering))\s*(?:in|[-:])?\s*(\(Hons\.?\))?\s*', re.I)
 
 
 def clean(p):
@@ -61,7 +61,7 @@ def main(files):
                 continue
             have.add(nn)
             doc['universities'].append({'name': DISPLAY.get(nn, nn), 'nirf_name': nn, 'campus': u.get('campus'), 'verified': True, 'programmes': progs, 'entrance': u.get('entrance'),
-                                        'source_urls': (u.get('source_urls') or [])[:2], 'caveat': u.get('caveat')})
+                                        'source_urls': (u.get('source_urls') or [])[:2], 'source_kind': u.get('source_kind') or 'own site', 'caveat': u.get('caveat')})
             added.append(nn)
     doc['checked_on'] = max([doc.get('checked_on') or ''] + [u.get('checked_on') or '' for f in files for u in json.load(open(f, encoding='utf-8'))['universities']])
     json.dump(doc, open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
