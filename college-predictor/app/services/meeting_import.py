@@ -14,6 +14,9 @@ shows what would happen before anything is saved.
                    "due_date": "2026-11-20", "status": "Not Started|Completed", "recurrence": "weekly", "parent_visible": true}],
       "events":  [{"title": "...", "category": "School exam", "starts_on": "2026-11-25", "ends_on": "2026-12-16", "notes": "...",
                    "source": "...", "verified_on": "2026-11-18"}],
+      "kpis":    [{"category": "Preparation", "name": "...", "definition": "...", "method": "...", "unit": "questions a day", "direction": "higher|lower|range|milestone|qualitative",
+                   "baseline": 0, "target": 8, "frequency": "Weekly", "owner": "Student", "notes": "..."}],
+      "kpi_updates": [{"name_contains": "check-ins held", "value": 1, "text": "", "note": "23 Nov call", "observed_on": "2026-11-23"}],
       "roadmap": {"groups": {"HKU": {"status": "On hold", "note": "..."}},
                   "milestones": [{"group": "JEE", "title": "...", "detail": "...", "owner": "student", "due_on": "2026-11-24",
                                   "due_label": "", "calendar": true, "category": "Other", "source": "...", "done": false}],
@@ -24,12 +27,13 @@ import json
 from datetime import date, datetime, timedelta, timezone
 
 from app.extensions import db
-from app.models_mentorship import (ACTION_STATUSES, EVENT_CATEGORIES, ROADMAP_GROUP_STATUSES, SESSION_STATUSES, MsAction, MsEvent, MsMilestone,
-                                   MsSession)
+from app.models_mentorship import (ACTION_STATUSES, EVENT_CATEGORIES, KPI_DIRECTIONS, ROADMAP_GROUP_STATUSES, SESSION_STATUSES, MsAction, MsEvent, MsKpi, MsKpiObs,
+                                   MsMilestone, MsSession)
 from app.services import mentorship as svc
 from app.services import roadmap as rmap
 
 PRIORITIES = ('High', 'Medium', 'Low')
+KPI_CATEGORIES = ('Preparation', 'Performance', 'Mentorship', 'Readiness')
 OWNER_CODES = ('student', 'parent', 'mentor')
 MAX_ITEMS = 80
 MAX_TEXT = 12000
@@ -76,7 +80,7 @@ def parse(text):
         return None, ['The update must be a JSON object ({ ... }).']
     if raw.get('version', 1) != 1:
         errs.append('Unsupported version: this portal reads version 1.')
-    plan = dict(session=None, actions=[], events=[], groups={}, milestones=[], ticks=[])
+    plan = dict(session=None, actions=[], events=[], kpis=[], kpi_updates=[], groups={}, milestones=[], ticks=[])
 
     s = raw.get('session')
     if s:
@@ -130,6 +134,37 @@ def parse(text):
                                    ends_on=_date(x.get('ends_on'), w + '.ends_on', errs), notes=_s(x.get('notes'), 2000), source=_s(x.get('source'), 300) or None,
                                    verified_on=_date(x.get('verified_on'), w + '.verified_on', errs)))
 
+    def num(v, w):
+        if v in (None, ''):
+            return None
+        try:
+            return float(v)
+        except (TypeError, ValueError):
+            errs.append(f'{w}: "{v}" is not a number')
+            return None
+
+    for i, k in enumerate(items('kpis'), 1):
+        w = f'kpis[{i}]'
+        if not _s(k.get('name'), 200):
+            errs.append(f'{w}: a name is required')
+            continue
+        cat, dr = _s(k.get('category'), 24) or 'Preparation', _s(k.get('direction'), 12) or 'higher'
+        if cat not in KPI_CATEGORIES or dr not in KPI_DIRECTIONS:
+            errs.append(f'{w}: category must be one of {", ".join(KPI_CATEGORIES)} and direction one of {", ".join(KPI_DIRECTIONS)}')
+        plan['kpis'].append(dict(name=_s(k['name'], 200), category=cat, direction=dr, definition=_s(k.get('definition'), 2000), method=_s(k.get('method'), 300), unit=_s(k.get('unit'), 30),
+                                 baseline=num(k.get('baseline'), w + '.baseline'), target=num(k.get('target'), w + '.target'), target_high=num(k.get('target_high'), w + '.target_high'),
+                                 frequency=_s(k.get('frequency'), 30) or 'Weekly', owner=_s(k.get('owner'), 60), notes=_s(k.get('notes'), 2000), outcome=bool(k.get('outcome_metric', False))))
+    for i, u in enumerate(items('kpi_updates'), 1):
+        w = f'kpi_updates[{i}]'
+        if not _s(u.get('name_contains'), 120):
+            errs.append(f'{w}: name_contains is required (part of the KPI name)')
+            continue
+        val, txt = num(u.get('value'), w + '.value'), _s(u.get('text'), 300)
+        if val is None and not txt:
+            errs.append(f'{w}: give a value or a text')
+            continue
+        plan['kpi_updates'].append(dict(needle=_s(u['name_contains'], 120).lower(), value=val, text=txt, note=_s(u.get('note'), 300), on=_date(u.get('observed_on'), w + '.observed_on', errs)))
+
     rm = raw.get('roadmap') or {}
     if rm and not isinstance(rm, dict):
         errs.append('roadmap: expected an object')
@@ -162,8 +197,8 @@ def parse(text):
             errs.append(f'roadmap.tick[{i}]: needs a section and title_contains')
             continue
         plan['ticks'].append(dict(grp=t['group'], needle=_s(t['title_contains'], 120).lower(), done=bool(t.get('done', True))))
-    if not (plan['session'] or plan['actions'] or plan['events'] or plan['groups'] or plan['milestones'] or plan['ticks']):
-        errs.append('The update is empty: it has no meeting, actions, events or roadmap changes.')
+    if not (plan['session'] or plan['actions'] or plan['events'] or plan['kpis'] or plan['kpi_updates'] or plan['groups'] or plan['milestones'] or plan['ticks']):
+        errs.append('The update is empty: it has no meeting, actions, events, KPIs or roadmap changes.')
     return plan, errs
 
 
@@ -219,6 +254,37 @@ def apply(e, plan, user_id=None, dry=False):
                                notes=x['notes'] or None, source=x['source'], verified_on=x['verified_on'], created_by=user_id))
         have_ev.add((x['title'].lower(), x['starts_on']))
         made(f'Calendar: {x["title"]} ({x["starts_on"].strftime("%d %b %Y")})')
+
+    have_k = {(k.name or '').strip().lower() for k in e.kpis_q().all()}
+    for k in plan['kpis']:
+        if k['name'].lower() in have_k:
+            skip(f'KPI: {k["name"]}')
+            continue
+        kp = MsKpi(enrolment_id=e.id, category=k['category'], name=k['name'], definition=k['definition'] or None, method=k['method'] or None, unit=k['unit'] or None, direction=k['direction'],
+                   baseline=k['baseline'], target=k['target'], target_high=k['target_high'], frequency=k['frequency'], owner=k['owner'] or (e.student.name if e.student else ''),
+                   notes=k['notes'] or None, outcome_metric=k['outcome'] or svc.OUTCOME_HINT in k['name'].lower())
+        kp.current = k['baseline']
+        db.session.add(kp)
+        db.session.flush()
+        if k['baseline'] is not None:
+            db.session.add(MsKpiObs(kpi_id=kp.id, value=k['baseline'], note='Baseline', by_user=user_id))
+        have_k.add(k['name'].lower())
+        made(f'KPI ({k["category"]}): {k["name"]}')
+    for u in plan['kpi_updates']:
+        hit = next((k for k in e.kpis_q().order_by(MsKpi.id).all() if u['needle'] in (k.name or '').lower() and k.status != 'Archived'), None)
+        if hit is None:
+            lines.append(('warn', f'No KPI contains "{u["needle"]}": nothing recorded.'))
+            continue
+        day = u['on'] or (s['held_at'].date() if s and s['held_at'] else svc.today())
+        if any(o.observed_on == day and o.value == u['value'] and (o.text or '') == (u['text'] or '') for o in hit.observations.all()):
+            skip(f'KPI reading: {hit.name} on {day.strftime("%d %b %Y")}')
+            continue
+        db.session.add(MsKpiObs(kpi_id=hit.id, value=u['value'], text=u['text'] or None, note=u['note'] or None, by_user=user_id, observed_on=day))
+        if u['value'] is not None:
+            hit.current = u['value']
+        if u['text']:
+            hit.qualitative = u['text']
+        made(f'KPI reading: {hit.name} = {u["value"] if u["value"] is not None else u["text"]} ({day.strftime("%d %b %Y")})')
 
     if plan['groups'] or plan['milestones'] or plan['ticks']:
         rm = rmap.get(e)
