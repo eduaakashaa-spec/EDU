@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-23'
+UPDATED = '2026-11-24'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-24', 'The public Video Library (/videos-library) now opens with a beginner video, JEE Main Percentile Explained: how NTA calculates the percentile, why shifts matter, and how to estimate an All India Rank from it, with examples at 90, 95, 97, 98, 99 and 99.5 percentile.'),
     ('2026-11-23', 'EduPulse Reinforcement admin: Load question bank is now much faster (about 2 seconds instead of tens of seconds on a test database) and resumable, so it no longer times out into a 502 error. If a load stops part way it says so: press the button again to continue.'),
     ('2026-11-23', 'The public Video Library (/videos-library) YouTube Shorts row now starts with a presenter-led Short on what one JEE Main percentile is worth: about 15,400 ranks, and how many of the 31 NITs are open at 99, 98, 97, 96 and 95 percentile by JoSAA 2026 final-round closing ranks (OPEN, Other State quota), with a link to the JoSAA Predictor.'),
     ('2026-11-23', 'New TNEA Analytics & College Predictor page (/tnea-analytics, Colleges & Exams menu and Member Home tile, open to everyone, with a Canva banner): TN +2 and TNEA 2027 dates with a calendar download, the cut-off formula and the three 2026 rounds, an eligibility checker, communities and reservation, a Tamil Nadu district map of 419 colleges, the top 20 colleges and the NIRF list, branch selection, a cut-off calculator with the typical 2026 rank, closing marks for every course and community in Rounds 1 to 3 of 2026 (worked out from the official allotment lists by tools/tnea, with the portal 2025 sheet for reference) and a Safe/Likely/Reach predictor.'),
