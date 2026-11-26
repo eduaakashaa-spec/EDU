@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-25'
+UPDATED = '2026-11-26'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-26', 'The public Video Library (/videos-library) JEE exams category now opens with NATA Explained, a beginner video on the B.Arch aptitude test: the 200-mark paper, Part A drawing and Part B aptitude, who can apply, the attempts rule and the 2026 dates to plan with, taken from the Council of Architecture brochure. The card links to the 10-question quiz on the NATA page.'),
     ('2026-11-25', 'The public Video Library (/videos-library) Mentorship category has a new Short, A Good College? Start With WHY: mentorship explained through the Golden Circle (why is the belief, how is the process, what is the result) in 58 seconds, with a link to talk to a mentor.'),
     ('2026-11-24', 'The public Video Library (/videos-library) is reorganised. Elite Mentorship: Why a Mentor Matters More Than Coaching is pinned as the first video and stays on top. The other 35 videos and Shorts are grouped into six categories with filter pills: JEE exams, Colleges, TNEA, DASA, Overseas and Mentorship. Each category shows its long videos first and its Shorts below; a new video is added with one line in the library list at the top of the template.'),
     ('2026-11-24', 'The public Video Library (/videos-library) YouTube Shorts row now starts with JEE Main: 97 Percentile Is Not 97% Marks, a 60-second cut of the percentile explainer (what a percentile means, and the estimated rank at 90, 95, 97, 98, 99 and 99.5 percentile), with a link to the JoSAA Predictor.'),
