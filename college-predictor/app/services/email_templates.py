@@ -77,7 +77,7 @@ ANNOUNCEMENT_TEMPLATES = [
 # preview; `branded_shell` below is the twin of wrapHtml() in
 # templates/admin/templates.html — change both together.
 # --------------------------------------------------------------------------- #
-def branded_shell(body_html):
+def branded_shell(body_html, signature=True):
     """Wrap an email body in the standard chrome (logo header, accent bar,
     signature, footer). Inline styles only — email clients strip <style>."""
     return (
@@ -95,8 +95,8 @@ def branded_shell(body_html):
         'Engineering admissions, guided honestly.</div></td></tr></table></div>'
         '<div style="height:4px;background:linear-gradient(90deg,#FF6B0A,#FFB25A)"></div>'
         f'<div style="padding:28px;color:#0E1B3D;font-size:15px;line-height:1.65">{body_html}'
-        '<p style="margin:26px 0 0">Warm regards,<br><strong>Team EduAakashaa</strong><br>'
-        '<span style="color:#5A6278;font-size:13px">Coimbatore, India</span></p></div>'
+        + ('<p style="margin:26px 0 0">Warm regards,<br><strong>Team EduAakashaa</strong><br>'
+           '<span style="color:#5A6278;font-size:13px">Coimbatore, India</span></p>' if signature else '') + '</div>'
         '<div style="padding:18px 28px;background:#FBF7EE;border-top:1px solid #E8DFC8;'
         'color:#5A6278;font-size:12px;line-height:1.7">'
         '<strong style="color:#0E1B3D">EduAakashaa</strong> &middot; Evidence-based college guidance<br>'
@@ -125,7 +125,7 @@ def render_email(key, values, version='default'):
     ver = next((v for v in tpl['versions'] if v['key'] == version), tpl['versions'][0])
     return (_fill(ver['subject'], values),
             _fill(ver['text'], values),
-            branded_shell(_fill(ver['html'], values, escape=True)))
+            branded_shell(_fill(ver['html'], values, escape=True), signature=not ver.get('nosig')))
 
 
 def _btn(url, label):
@@ -153,10 +153,92 @@ NOTE_HTML = '<p style="color:#5A6278;font-size:13px">It takes about two minutes 
 
 
 
+# ---- School counsellor outreach -------------------------------------------------------------------------------------------------------
+_SCHOOL_LINKS = [
+    (SITE + '/free-guides', 'Free Student Guides'),
+    (SITE + '/edupulse-free-mock-tests/', 'Free Sample Mock Tests (9 samples, sign-up needed)'),
+    (SITE + '/josaa', 'JoSAA Predictor'),
+    (SITE + '/dasa-admissions-guide', 'DASA / CIWG Admissions Guide'),
+    (SITE + '/nirf-ranking', 'NIRF Explorer (college rankings)'),
+    (SITE + '/class12-pcm/', 'Class 12 PCM Analytics'),
+    (SITE + '/class12-pcb/', 'Class 12 PCB Analytics'),
+    (SITE + '/tneamatrix', 'TNEA Seat Matrix'),
+    (SITE + '/free-report', 'Free TNEA Report: 3,448 college \u00d7 branch cut-off rows, no sign-up'),
+]
+
+
+def _school_panel(n):
+    """The "free on the portal" box of the outreach emails (first n links)."""
+    li = ''.join('<li style="margin:3px 0"><a href="%s" style="color:#0E3A8A">%s</a></li>' % (u, t) for u, t in _SCHOOL_LINKS[:n])
+    return ('<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FBF7EE;border-left:4px solid #FF6B0A;margin:8px 0 16px">'
+            '<tr><td style="padding:12px 16px;font-size:14px;line-height:1.6"><strong style="color:#0E3A8A">Free on the EduAakashaA portal for students and parents</strong>'
+            '<ul style="padding-left:18px;margin:6px 0 0">' + li + '</ul></td></tr></table>')
+
+
+def _school_panel_text(n):
+    return 'Free on the EduAakashaA portal for students and parents:\n' + ''.join('- %s: %s\n' % (t, u) for u, t in _SCHOOL_LINKS[:n])
+
+
+_SIGN_HTML = ('<p style="margin:22px 0 0">Warm regards,<br><strong style="color:#0E3A8A">{sender}</strong><br>{role}<br>'
+              'WhatsApp ' + WHATSAPP_NUMBER + ' | ' + FOOTER_EMAIL + '<br><a href="' + SITE + '" style="color:#FF6B0A">www.EduAakashaA.com</a></p>'
+              '<p style="font-style:italic;color:#5A6278;font-size:13px;margin:14px 0 0">Guiding students towards the right future.</p>')
+_SIGN_TEXT = ('Warm regards,\n{sender}\n{role}\nWhatsApp ' + WHATSAPP_NUMBER + ' | ' + FOOTER_EMAIL + '\nwww.EduAakashaA.com')
+_SCHOOL_FIELDS = [_f('counsellor', 'Counsellor name', 'Career Counsellor'), _f('school', 'School name', '[School name]'),
+                  _f('sender', 'Your name', 'Sabira Banu'), _f('role', 'Your title', 'Founder, EduAakashaA')]
+_UNSUB_TEXT = 'You are receiving this because your role is listed publicly on your school\u2019s website. Reply \u201cunsubscribe\u201d and we will not contact you again.'
+
+SCHOOL_OUTREACH = {
+    'key': 'school-outreach', 'icon': '\U0001F3EB', 'label': 'School counsellor outreach', 'category': 'School outreach',
+    'desc': 'Offer a school counsellor a free session for Grade 11 and 12 families: first email, follow-up and a short version for a general school inbox, each with a WhatsApp message.',
+    'versions': [
+        {'key': 'initial', 'label': 'Initial outreach', 'nosig': True, 'fields': _SCHOOL_FIELDS,
+         'subject': 'Free college-selection session for your Grade 11 & 12 families \u2013 {school}',
+         'html': ('<p>Dear {counsellor},</p>'
+                  '<p>I am {sender}, {role}, an education consultancy that guides Indian families abroad through engineering admissions in India, including <strong>DASA, CIWG, JoSAA</strong> and state pathways to NITs, IIITs and GFTIs.</p>'
+                  '<p>As you support Grade 11 and 12 students at {school}, I would like to offer your school a <strong style="color:#FF6B0A">complimentary 45-minute session</strong> for students and parents:</p>'
+                  + _perks(['How NRI / Gulf-based students can use the DASA and CIWG routes', 'Choosing branch and college using cut-offs, placements and ROI',
+                            'Timeline: exams, registration and counselling rounds for the coming cycle', 'Live Q&amp;A, plus a free printable admissions checklist for each family'])
+                  + _school_panel(9)
+                  + '<p>The session can be online or at your campus, at a time that suits your calendar. There is no cost or obligation, and we will not contact families directly. Any follow-up happens only if a parent chooses to reach out to us.</p>'
+                  '<p>May I send a short outline, or would a 10-minute call this week work for you?</p>' + _SIGN_HTML
+                  + '<p style="font-size:12px;color:#5A6278;margin:16px 0 0">' + _UNSUB_TEXT + '</p>'),
+         'text': ('Dear {counsellor},\n\nI am {sender}, {role}, an education consultancy that guides Indian families abroad through engineering admissions in India, including DASA, CIWG, JoSAA and state pathways to NITs, IIITs and GFTIs.\n\n'
+                  'As you support Grade 11 and 12 students at {school}, I would like to offer your school a complimentary 45-minute session for students and parents:\n'
+                  '- How NRI / Gulf-based students can use the DASA and CIWG routes\n- Choosing branch and college using cut-offs, placements and ROI\n- Timeline: exams, registration and counselling rounds for the coming cycle\n'
+                  '- Live Q&A, plus a free printable admissions checklist for each family\n\n' + _school_panel_text(9)
+                  + '\nThe session can be online or at your campus, at a time that suits your calendar. There is no cost or obligation, and we will not contact families directly. Any follow-up happens only if a parent chooses to reach out to us.\n\n'
+                  'May I send a short outline, or would a 10-minute call this week work for you?\n\n' + _SIGN_TEXT + '\n\n' + _UNSUB_TEXT),
+         'wa': ('Dear {counsellor}, I am {sender} from EduAakashaA. We guide Indian families abroad through engineering admissions in India (DASA, CIWG, JoSAA, state routes). '
+                'May we offer {school} a free 45-minute session for Grade 11 and 12 students and parents, online or on campus? No cost or obligation, and we will not contact families directly. '
+                'Free guides: ' + SITE + '/free-guides  Reply STOP and we will not message again.')},
+        {'key': 'followup', 'label': 'Follow-up (after 5 to 7 days)', 'nosig': True, 'fields': _SCHOOL_FIELDS,
+         'subject': 'Re: Free college-selection session for {school}',
+         'html': ('<p>Dear {counsellor},</p><p>Just a gentle follow-up on my note about a free admissions guidance session for your Grade 11 and 12 families.</p>' + _school_panel(5)
+                  + '<p>If a full session is not possible right now, I can instead share a <strong style="color:#FF6B0A">one-page DASA/CIWG guide</strong> that you may circulate to parents in whichever way you prefer. It is yours to use with no strings attached.</p>'
+                  '<p>Would you like me to send it across?</p>' + _SIGN_HTML),
+         'text': ('Dear {counsellor},\n\nJust a gentle follow-up on my note about a free admissions guidance session for your Grade 11 and 12 families.\n\n' + _school_panel_text(5)
+                  + '\nIf a full session is not possible right now, I can instead share a one-page DASA/CIWG guide that you may circulate to parents in whichever way you prefer. It is yours to use with no strings attached.\n\n'
+                  'Would you like me to send it across?\n\n' + _SIGN_TEXT),
+         'wa': ('Dear {counsellor}, a gentle follow-up on our free admissions session for {school} Grade 11 and 12 families. If a session is not possible now, may I send a one-page DASA/CIWG guide you can share with parents? {sender}, EduAakashaA')},
+        {'key': 'general', 'label': 'General school inbox', 'nosig': True, 'fields': _SCHOOL_FIELDS,
+         'subject': 'For the Career Counsellor \u2013 free admissions session for Grade 11 & 12',
+         'html': ('<p>Dear Sir/Madam,</p><p>Could you please forward this note to your Career Counsellor or Grade 11\u201312 coordinator?</p>'
+                  '<p>EduAakashaA offers {school} a <strong style="color:#FF6B0A">free session</strong> on DASA, CIWG and engineering admissions in India for Gulf-based students and parents. It can be held online or on campus, with no cost or obligation.</p>'
+                  + _school_panel(5) + '<p>If suitable, please share the counsellor\u2019s contact or reply here and I will send the outline.</p>' + _SIGN_HTML),
+         'text': ('Dear Sir/Madam,\n\nCould you please forward this note to your Career Counsellor or Grade 11-12 coordinator?\n\nEduAakashaA offers {school} a free session on DASA, CIWG and engineering admissions in India for Gulf-based students and parents. It can be held online or on campus, with no cost or obligation.\n\n'
+                  + _school_panel_text(5) + '\nIf suitable, please share the counsellor\u2019s contact or reply here and I will send the outline.\n\n' + _SIGN_TEXT),
+         'wa': ('Dear Sir/Madam, please forward to your Career Counsellor: EduAakashaA offers {school} a free session on DASA, CIWG and engineering admissions in India for Grade 11 and 12 students and parents (online or on campus, no cost). {sender}, WhatsApp ' + WHATSAPP_NUMBER)},
+    ],
+}
+
+
 # --------------------------------------------------------------------------- #
 # The registry. Grouped by `category` for the admin UI.
 # --------------------------------------------------------------------------- #
 EMAIL_TEMPLATES = [
+
+    # ===================== School outreach ================================= #
+    SCHOOL_OUTREACH,
 
     # ===================== Members & Onboarding ============================ #
     {'key': 'welcome', 'icon': '👋', 'label': 'Welcome message',
