@@ -13,7 +13,7 @@ added / updated (ISO dates; "New" shows for 30 days after `added`).
 """
 from datetime import date
 
-UPDATED = '2026-11-27'
+UPDATED = '2026-11-28'
 NEW_DAYS = 30
 
 ROLE_LABEL = {'student': 'Students & members', 'parent': 'Parents', 'mentor': 'Mentors', 'admin': 'Admins'}
@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-28', 'The public Video Library (/videos-library) Colleges category now opens with a Colleges Series video, CSE vs IT vs AI and Data Science: the seven computer branches (CSE, IT, AI and Data Science, Cyber Security, CSBS, Mathematics and Computing, hybrids) and three rules for choosing one. It is a presenter video made in Synthesia.'),
     ('2026-11-27', 'Admin, Email Templates: new School outreach card, School counsellor outreach, with the first email, a follow-up and a short version for a general school inbox. Fill in the counsellor and school names, preview in the EduAakashaA design, then send, open in Gmail or copy; each has a short WhatsApp message. Signed by the named sender instead of the team signature.'),
     ('2026-11-26', 'The public Video Library (/videos-library) JEE exams category now opens with NATA Explained, a beginner video on the B.Arch aptitude test: the 200-mark paper, Part A drawing and Part B aptitude, who can apply, the attempts rule and the 2026 dates to plan with, taken from the Council of Architecture brochure. The card links to the 10-question quiz on the NATA page.'),
     ('2026-11-25', 'The public Video Library (/videos-library) Mentorship category has a new Short, A Good College? Start With WHY: mentorship explained through the Golden Circle (why is the belief, how is the process, what is the result) in 58 seconds, with a link to talk to a mentor.'),
