@@ -241,6 +241,141 @@ SCHOOL_OUTREACH = {
 }
 
 
+# ---- Elite Mentorship (Grade 11 and Grade 12): students and parents -----------------------------------------------------------------
+_EM_PAGE = SITE + '/elite-mentorship'
+_EM_BROCHURE = SITE + '/static/docs/EduAakashaA-Elite-Mentorship-Brochure.pdf'
+_EM_POSTER = SITE + '/static/img/elite/poster.jpg'
+_EM_HERO = SITE + '/static/img/elite/hero.jpg'
+_EM_WA = 'https://wa.me/918015722706?text=Hello%20EduAakashaA%2C%20I%20would%20like%20to%20book%20an%20initial%20discussion%20about%20Elite%20Mentorship.'
+_EM_CHANNEL = 'https://whatsapp.com/channel/0029VbBxOWUKwqSYpWBgge1x'
+_EM_FIELDS = [_f('name', 'Recipient first name', 'there'), _f('student', 'Student first name', 'your child'),
+              _f('sender', 'Your name', 'Sabira Banu'), _f('role', 'Your title', 'Founder, EduAakashaA')]
+_EM_NOTE = 'This is mentorship, not coaching. EduAakashaA cannot and does not guarantee a rank or a seat.'
+
+
+def _em_hero(line1, line2):
+    """Photo banner with the headline underneath, linking to the programme page."""
+    return ('<a href="' + _EM_PAGE + '" style="text-decoration:none"><img src="' + _EM_HERO + '" width="504" alt="A mentor and a student working through a plan on a laptop" '
+            'style="display:block;width:100%;max-width:504px;height:auto;border:0;border-radius:12px 12px 0 0"></a>'
+            '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#071A44;border-radius:0 0 12px 12px;margin:0 0 18px"><tr>'
+            '<td style="padding:16px 18px"><div style="font-family:Georgia,serif;font-size:21px;line-height:1.25;font-weight:700;color:#ffffff">' + line1 + '</div>'
+            '<div style="font-family:Georgia,serif;font-size:21px;line-height:1.25;font-weight:700;font-style:italic;color:#FFB27A">' + line2 + '</div></td></tr></table>')
+
+
+def _em_stats(items):
+    """A row of big-number tiles: [(value, label)]."""
+    w = str(100 // len(items))
+    return ('<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 16px"><tr>'
+            + ''.join('<td width="' + w + '%" style="padding:0 3px;vertical-align:top"><div style="background:#FBF7EE;border:1px solid #E8DFC8;border-radius:10px;padding:10px 6px;text-align:center">'
+                      '<div style="font-size:21px;font-weight:700;color:#FF6B0A;line-height:1.1">' + v + '</div>'
+                      '<div style="font-size:11px;color:#5A6278;line-height:1.35;margin-top:3px">' + l + '</div></div></td>' for v, l in items)
+            + '</tr></table>')
+
+
+def _em_icons(rows):
+    """Icon rows: [(emoji, title, text)]. Each icon sits in a tinted circle."""
+    return ('<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 14px">'
+            + ''.join('<tr><td width="46" style="vertical-align:top;padding:7px 0"><div style="width:38px;height:38px;border-radius:19px;background:#FFF1E4;text-align:center;font-size:19px;line-height:38px">' + i + '</div></td>'
+                      '<td style="vertical-align:top;padding:7px 0 7px 6px"><strong style="color:#0E3A8A">' + t + '</strong><br><span style="color:#3C465F;font-size:14px">' + d + '</span></td></tr>' for i, t, d in rows)
+            + '</table>')
+
+
+def _em_steps(steps):
+    """Numbered roadmap: [(when, title, text)]."""
+    return ('<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 14px">'
+            + ''.join('<tr><td width="34" style="vertical-align:top;padding:6px 0"><div style="width:26px;height:26px;border-radius:13px;background:#0E3A8A;color:#ffffff;text-align:center;font-weight:700;font-size:13px;line-height:26px">' + str(n + 1) + '</div></td>'
+                      '<td style="vertical-align:top;padding:6px 0 6px 4px;font-size:14px"><span style="color:#C24F00;font-weight:700;font-size:12px;letter-spacing:.04em">' + w.upper() + '</span><br><strong>' + t + '</strong> ' + d + '</td></tr>'
+                      for n, (w, t, d) in enumerate(steps))
+            + '</table>')
+
+
+def _em_vs():
+    return ('<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 16px;border:1px solid #E8DFC8;border-radius:10px;font-size:13.5px">'
+            '<tr><td width="50%" style="padding:10px 12px;border-right:1px solid #E8DFC8;vertical-align:top"><strong>\U0001F4DA Coaching</strong><br>'
+            '<span style="color:#3C465F">&ldquo;How do I solve this problem faster?&rdquo;<br>Builds marks and percentile.</span></td>'
+            '<td width="50%" style="padding:10px 12px;background:#E3F2EA;vertical-align:top"><strong style="color:#14704A">\U0001F9ED Mentoring</strong><br>'
+            '<span style="color:#3C465F">&ldquo;What am I aiming for, and is this the right route for me?&rdquo;<br>Decides what the marks are for.</span></td></tr></table>')
+
+
+def _em_links():
+    """Buttons: page, WhatsApp, then brochure and poster."""
+    b = lambda url, label, bg, fg: ('<a href="' + url + '" style="background:' + bg + ';color:' + fg + ';text-decoration:none;padding:11px 20px;border-radius:999px;'  # noqa: E731
+                                    'font-weight:700;font-size:14px;display:inline-block;margin:4px 6px 4px 0">' + label + '</a>')
+    o = lambda url, label: ('<a href="' + url + '" style="border:1.5px solid #0E3A8A;color:#0E3A8A;text-decoration:none;padding:9px 16px;border-radius:999px;'  # noqa: E731
+                            'font-weight:700;font-size:13px;display:inline-block;margin:4px 6px 4px 0">' + label + '</a>')
+    return ('<p style="margin:18px 0 4px">' + b(_EM_PAGE, '\U0001F5FA\uFE0F See the roadmap and map your worries', '#0E3A8A', '#ffffff')
+            + b(_EM_WA, '\U0001F4AC Chat with us on WhatsApp', '#1FA855', '#ffffff') + '</p>'
+            '<p style="margin:0 0 6px">' + o(_EM_BROCHURE, '\U0001F4D8 Brochure (PDF)') + o(_EM_POSTER, '\U0001F5BC\uFE0F Poster') + o(_EM_CHANNEL, '\U0001F4E3 WhatsApp channel') + '</p>')
+
+
+def _em_links_text():
+    return ('Roadmap, self-check and worry map: ' + _EM_PAGE + '\nBrochure (PDF): ' + _EM_BROCHURE + '\nPoster: ' + _EM_POSTER
+            + '\nChat on WhatsApp: https://wa.me/918015722706\nWhatsApp channel: ' + _EM_CHANNEL)
+
+
+_EM_G11_STEPS = [('Months 1\u20132', 'Onboard.', 'Eligibility audit and your Grade 11 baseline.'), ('Months 3\u20135', 'Discover.', 'Branch Fit Assessment and the Industry 4.0 and AI briefing.'),
+                 ('Months 6\u20139', 'Build.', 'Boards and JEE balance, mock error log, one exam calendar, document file.'), ('Months 10\u201312', 'Plan.', 'First target list and a Grade 12 roadmap.')]
+_EM_G12_STEPS = [('Oct\u2013Jan', 'Onboard and target.', 'Eligibility audit, Branch Fit, JEE strategy and a target list.'), ('Feb\u2013Mar', 'Protect.', 'Boards first, with the 75% rule protected and documents ready.'),
+                 ('Apr\u2013May', 'Map.', 'Final rank, rank-to-seat map and the quota decision.'), ('Jun\u2013Aug', 'Counsel and decide.', 'Applications, choice filling and the final seat decision.')]
+
+
+def _em_version(key, label, parent, grade):
+    g11 = grade == 11
+    track = 'Grade 11 track' if g11 else 'Grade 12 track'
+    stats = [('1:1', 'senior mentor'), ('4' if g11 else '10+', 'online one-to-one sessions'), ('1 year' if g11 else '10\u201312', 'academic year' if g11 else 'months, to seat day'), ('9', 'routes on one calendar')]
+    steps = _EM_G11_STEPS if g11 else _EM_G12_STEPS
+    fee = ('Grade 11 track: \u20B925,000 for one academic year. Register during 2026\u201327 and the Grade 12 track is \u20B950,000 instead of \u20B975,000, with portal access for two years.' if g11 else
+           'Grade 12 track: \u20B975,000 for 10 to 12 months, paid in three parts (50% on enrolment, 25% at month 4, 25% at counselling).')
+    if parent:
+        subject = ('{student}\u2019s Grade 11: the one year with no deadline on the decisions' if g11 else '{student}\u2019s Grade 12: who is carrying the admissions decisions?')
+        opener = ('<p>Dear {name},</p><p>Most families do not lose seats to marks. They lose them to <strong>a missed rule or a late start</strong>. '
+                  + ('Grade 11 is the one year in which eligibility, branch fit and the exam calendar can be settled calmly, before a deadline sits on top of them.' if g11 else
+                     'In Grade 12 the pattern we see every year is a child in coaching and a parent carrying admissions alone, late at night, from group-chat forwards.') + '</p>')
+        icons = [('\U0001F4CB', 'Briefed at every gate', 'A written summary after each key session, so both parents stay aligned.'),
+                 ('\u2705', 'One verified source', 'Answers checked against official notices, not group-chat forwards.'),
+                 ('\U0001F4B0', 'Fees and return, side by side', 'Tuition, hostel and travel for every shortlisted seat, before you commit.'),
+                 ('\U0001F4C1', 'Documents on time', 'A checklist and a deadline calendar, with certificates collected while school is in session.')]
+        ask = '<p>The page below has a two-minute <strong>worry map</strong>: tap what is on your mind and see what a mentor does about each worry. Shall we book a first discussion this week?</p>'
+        hero = _em_hero('One decision, several clocks,', 'one mentor beside your family.')
+        wa = ('Dear {name}, EduAakashaA Elite Mentorship gives {student} one senior mentor for ' + ('Grade 11: eligibility, branch fit, exam calendar and a first target list.' if g11 else 'Grade 12: strategy, documents, choice filling and the seat decision.')
+              + ' Map your worries in two minutes: ' + _EM_PAGE + '  Brochure: ' + _EM_BROCHURE + '  Reply here to book a first discussion. {sender}, EduAakashaA')
+        text_open = ('Dear {name},\n\nMost families do not lose seats to marks. They lose them to a missed rule or a late start.\n\n')
+    else:
+        subject = ('{name}, your coaching builds the marks. Who decides what they are for?' if g11 else '{name}, the rank is half the story. The other half is decisions')
+        opener = ('<p>Hi {name},</p><p>You already give coaching hours every week. Here is a question nobody in class asks: <strong>which branch do you actually want, and why?</strong> '
+                  + ('Grade 11 is the best year to find out, while there is no deadline on your shoulders.' if g11 else 'In Grade 12, a rank becomes a seat only through dozens of decisions: routes, quota, choice order, deadlines.') + '</p>')
+        icons = [('\U0001F3AF', 'A goal you chose', 'A 30-question Branch Fit Assessment across seven branch families, before any college is named.'),
+                 ('\u23F1\uFE0F', 'Time back for study', 'Your mentor carries the rules, research and deadlines. You keep the hours for mocks.'),
+                 ('\U0001F4C8', 'Mock tests that teach', 'A baseline, an error log and a review habit, so the same mistake is not repeated.'),
+                 ('\U0001F9D8', 'Less noise, less stress', 'One verified voice in place of group chats, reels and comparisons.')]
+        ask = '<p>Try the one-minute <strong>self-check</strong> on the page below: eight questions on who owns your decisions today. Then show it to your parents.</p>'
+        hero = _em_hero('Coaching builds the marks.', 'Mentorship decides what they are for.')
+        wa = ('Hi {name}! Coaching builds the marks. Mentorship decides what they are for. Take the one-minute self-check and see your ' + ('Grade 11' if g11 else 'Grade 12')
+              + ' roadmap: ' + _EM_PAGE + '  Poster: ' + _EM_POSTER + '  Questions? Reply here. {sender}, EduAakashaA')
+        text_open = 'Hi {name},\n\nYou already give coaching hours every week. Here is a question nobody in class asks: which branch do you actually want, and why?\n\n'
+    html_body = (hero + opener + _em_stats(stats) + _em_vs()
+                 + '<p style="margin:14px 0 2px"><strong style="color:#0E3A8A">\u2728 What changes with a mentor</strong></p>' + _em_icons(icons)
+                 + '<p style="margin:14px 0 2px"><strong style="color:#0E3A8A">\U0001F5FA\uFE0F Your ' + track + ' roadmap</strong></p>' + _em_steps(steps)
+                 + '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FBEFD2;border:1px dashed #C24F00;border-radius:10px;margin:6px 0 14px"><tr>'
+                   '<td style="padding:10px 14px;font-size:14px">\U0001F3F7\uFE0F ' + fee + '</td></tr></table>'
+                 + ask + _em_links() + _SIGN_HTML
+                 + '<p style="font-size:12px;color:#5A6278;margin:16px 0 0">' + _EM_NOTE + ' Fees are as published for 2027\u201328; please confirm when you book.</p>')
+    text_body = (text_open + 'Coaching builds the marks. Mentorship decides what they are for. Most students need both.\n\n'
+                 + 'What changes with a mentor:\n' + ''.join('- ' + t + ': ' + d + '\n' for _i, t, d in icons)
+                 + '\nYour ' + track + ' roadmap:\n' + ''.join(str(n + 1) + '. ' + w + ': ' + t + ' ' + d + '\n' for n, (w, t, d) in enumerate(steps))
+                 + '\n' + fee + '\n\n' + _em_links_text() + '\n\n' + _SIGN_TEXT + '\n\n' + _EM_NOTE)
+    return {'key': key, 'label': label, 'nosig': True, 'fields': _EM_FIELDS, 'subject': subject, 'html': html_body, 'text': text_body, 'wa': wa}
+
+
+ELITE_MENTORSHIP = {
+    'key': 'elite-mentorship', 'icon': '\U0001F9ED', 'label': 'Elite Mentorship: Grade 11 and 12', 'category': 'Mentorship programmes',
+    'desc': 'Introduce Elite Mentorship to a student or to parents, for Grade 11 or Grade 12: photo banner, key numbers, coaching and mentoring side by side, '
+            'the roadmap, and buttons for the programme page, brochure, poster and WhatsApp. Each version has a short WhatsApp message.',
+    'versions': [_em_version('student-g11', 'To a student · Grade 11', False, 11), _em_version('student-g12', 'To a student · Grade 12', False, 12),
+                 _em_version('parent-g11', 'To parents · Grade 11', True, 11), _em_version('parent-g12', 'To parents · Grade 12', True, 12)],
+}
+
+
 # --------------------------------------------------------------------------- #
 # The registry. Grouped by `category` for the admin UI.
 # --------------------------------------------------------------------------- #
@@ -248,6 +383,9 @@ EMAIL_TEMPLATES = [
 
     # ===================== School outreach ================================= #
     SCHOOL_OUTREACH,
+
+    # ===================== Mentorship programmes ============================ #
+    ELITE_MENTORSHIP,
 
     # ===================== Members & Onboarding ============================ #
     {'key': 'welcome', 'icon': '👋', 'label': 'Welcome message',
