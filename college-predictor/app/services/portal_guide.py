@@ -67,6 +67,7 @@ COVERED_BLUEPRINTS = {
 }
 
 CHANGELOG = [
+    ('2026-11-28', 'Europe Admissions Atlas now has a banner designed in Canva and an illustration for each of the 18 universities, shown on the university cards and at the top of each profile. The pictures are AI-made illustrations, not campus photographs, and the page says so.'),
     ('2026-11-28', 'New members page Europe Admissions Atlas (Member Home, Gulf and NRI Routes): 18 universities in 11 countries for engineering and computing after Class 12, 2027 intake. A map with country flags, comparison table, cost in US dollars and a return calculator, admission calendar, tests, visa, work and permanent residence, an NRI family guide, and for each university eligibility, fees, scholarships, hostel, alumni, top issues, SWOT and official links.'),
     ('2026-11-28', 'The public Video Library (/videos-library) Colleges category now opens with a Colleges Series video, CSE vs IT vs AI and Data Science: the seven computer branches (CSE, IT, AI and Data Science, Cyber Security, CSBS, Mathematics and Computing, hybrids) and three rules for choosing one. It is a presenter video made in Synthesia.'),
     ('2026-11-27', 'Admin, Email Templates: new School outreach card, School counsellor outreach, with the first email, a follow-up and a short version for a general school inbox. Fill in the counsellor and school names, preview in the EduAakashaA design, then send, open in Gmail or copy; each has a short WhatsApp message. Signed by the named sender instead of the team signature.'),

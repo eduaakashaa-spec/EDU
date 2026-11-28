@@ -83,6 +83,8 @@ details p{margin:6px 0}details ul{margin:6px 0;padding-left:18px}
 .src{font-size:11.5px;word-break:break-all}
 .note{font-size:12px;color:var(--mut)}
 footer{margin-top:28px;border-top:1px solid var(--line);padding-top:12px;font-size:12px;color:var(--mut)}
+.tile{display:block;width:100%;height:auto;aspect-ratio:2/1;object-fit:cover;border-radius:8px;background:var(--card2)}
+figure.hero{margin:0}figure.hero .tile{border-radius:12px;max-height:300px}figure.hero figcaption{margin-top:3px}
 @media(prefers-reduced-motion:no-preference){.gauge i,.stack i{transition:width .35s}}
 </style>
 
@@ -189,6 +191,10 @@ var money=function(v){return v==null?'—':'US$ '+Math.round(v).toLocaleString('
 var k=function(v){return v==null?'—':'$'+Math.round(v/1000)+'k'};
 var CT={};D.countries.forEach(function(c){CT[c.iso]=c});
 var U={};D.unis.forEach(function(u){U[u.key]=u});
+/* framed inside the portal page, the banner above already gives the title; full screen keeps it */
+if(D.img&&window.self!==window.top)document.querySelectorAll('.wrap>.eyebrow,.wrap>h1,.wrap>.sub').forEach(function(e){e.hidden=true});
+/* college illustrations are only shipped with the portal copy (D.img is its folder) */
+var tile=function(u,lazy){return D.img?'<img class="tile" src="'+D.img+u.key+'.jpg" width="900" height="450"'+(lazy?' loading="lazy"':'')+' alt="Illustration for '+esc(u.short)+', '+esc(u.city)+' (not a photograph of the campus)">':''};
 var link=function(u,t){return u&&/^https?:/.test(u)?'<a href="'+esc(u)+'" target="_blank" rel="noopener">'+esc(t||u)+'</a>':''};
 
 /* flags drawn as SVG so they show on every device */
@@ -340,7 +346,7 @@ function selectCountry(iso){
 /* ---------- cards & compare ---------- */
 function cards(){
   var v=visible();
-  $('#cards').innerHTML=v.length?v.map(function(u){return '<button class="ucard" data-u="'+u.key+'" style="border-top-color:'+CT[u.iso].color+'"><header>'+flag(u.iso)+'<h3>'+esc(u.short)+'</h3></header><span class="note">'+esc(u.city)+' • QS '+esc(u.qs||'n/a')+' • THE '+esc(u.the||'n/a')+'</span><span class="chips">'+chip(ENT[u.entry])+chip(ENG[u.eng])+'</span><dl class="kv"><dt>🎓 Tuition / yr</dt><dd class="num">'+money(u.tuiU)+'</dd><dt>🏠 Living / yr</dt><dd class="num">'+money(u.liveU)+'</dd><dt>🧮 Programme ('+u.yrs+' yrs)</dt><dd class="num"><b>'+money(u.totalU)+'</b></dd><dt>📅 Key date</dt><dd>'+esc(u.dueL)+'</dd></dl></button>'}).join(''):'<p class="panel">No university matches these filters. Remove a filter to see more.</p>';
+  $('#cards').innerHTML=v.length?v.map(function(u){return '<button class="ucard" data-u="'+u.key+'" style="border-top-color:'+CT[u.iso].color+'">'+tile(u,true)+'<header>'+flag(u.iso)+'<h3>'+esc(u.short)+'</h3></header><span class="note">'+esc(u.city)+' • QS '+esc(u.qs||'n/a')+' • THE '+esc(u.the||'n/a')+'</span><span class="chips">'+chip(ENT[u.entry])+chip(ENG[u.eng])+'</span><dl class="kv"><dt>🎓 Tuition / yr</dt><dd class="num">'+money(u.tuiU)+'</dd><dt>🏠 Living / yr</dt><dd class="num">'+money(u.liveU)+'</dd><dt>🧮 Programme ('+u.yrs+' yrs)</dt><dd class="num"><b>'+money(u.totalU)+'</b></dd><dt>📅 Key date</dt><dd>'+esc(u.dueL)+'</dd></dl></button>'}).join('')+(D.img?'<p class="note" style="grid-column:1/-1;margin:0">College pictures are AI-made illustrations of the city or setting, not photographs of the campus.</p>':''):'<p class="panel">No university matches these filters. Remove a filter to see more.</p>';
 }
 var COLS=[['University',function(u){return u.short},function(u){return flag(u.iso)+' <button data-u="'+u.key+'">'+esc(u.short)+'</button>'}],
  ['QS',function(u){return parseInt(String(u.qs||'999').replace('=',''),10)},function(u){return esc(u.qs||'—')}],
@@ -424,7 +430,7 @@ function openUni(key){
   var ap=u.app,pl=u.place?(u.place.text||u.place.statistic):null,plu=u.place?u.place.url:null;
   $('#dhead').innerHTML='<div>'+flag(u.iso)+' <span class="note">'+esc(u.city)+', '+esc(c.name)+'</span><h2 id="dtitle" style="margin:2px 0 0">'+esc(u.name)+'</h2></div><button id="dclose" aria-label="Close profile">✕</button>';
   var d=function(t,body,open){return '<details'+(open?' open':'')+'><summary>'+t+'</summary>'+body+'</details>'};
-  $('#dbody').innerHTML='<div class="chips">'+chip(ENT[u.entry])+chip(ENG[u.eng])+'<span class="chip">QS 2027: '+esc(u.qs||'not verified')+'</span><span class="chip">THE 2027: '+esc(u.the||'not verified')+'</span></div>'
+  $('#dbody').innerHTML=(D.img?'<figure class="hero">'+tile(u)+'<figcaption class="note">AI-made illustration, not a photograph of the campus.</figcaption></figure>':'')+'<div class="chips">'+chip(ENT[u.entry])+chip(ENG[u.eng])+'<span class="chip">QS 2027: '+esc(u.qs||'not verified')+'</span><span class="chip">THE 2027: '+esc(u.the||'not verified')+'</span></div>'
    +'<div class="links">'+link(u.web,'🌐 Website')+link(u.adm,'📥 Admissions')+link(u.feeurl,'💳 Fees')+link(ap.portal_url,'📝 Apply')+link(u.liveurl,'🏠 Living costs')+link(u.hostel.url,'🛏️ Housing')+'</div>'
    +'<div class="stats" style="margin:0"><div class="stat"><b>'+money(u.tuiU)+'</b><span>tuition a year</span></div><div class="stat"><b>'+money(u.liveU)+'</b><span>living a year</span></div><div class="stat"><b>'+money(u.totalU)+'</b><span>'+u.yrs+'-year estimate</span></div></div>'
    +'<div class="panel"><h4>🚩 Top 3 issues to weigh</h4>'+list(u.issues)+'</div>'

@@ -27,6 +27,11 @@ for u in data['unis']:
 for banned in ('+971', 'gmail.com'):
     assert banned not in page, banned                                                      # India-only contact details
 
+assert data['img'] == '/static/img/europe/'
+for name in ['banner'] + [u['key'] for u in data['unis']]:
+    f = os.path.join(ROOT, 'app', 'static', 'img', 'europe', name + '.jpg')
+    assert os.path.exists(f) and open(f, 'rb').read(2) == b'\xff\xd8' and os.path.getsize(f) < 150000, name
+
 # 2. access, wrapper and sandbox
 app = create_app()
 app.config['TESTING'] = True
@@ -51,7 +56,7 @@ for url in ('/europe-admissions-atlas', '/europe-admissions-atlas/report'):
 with app.app_context():
     c = login('m@x.com')
     r = c.get('/europe-admissions-atlas')
-    assert r.status_code == 200 and '/europe-admissions-atlas/report' in r.get_data(as_text=True)
+    assert r.status_code == 200 and '/europe-admissions-atlas/report' in r.get_data(as_text=True) and 'img/europe/banner.jpg' in r.get_data(as_text=True)
     r = c.get('/europe-admissions-atlas/report')
     assert r.status_code == 200 and r.headers['Content-Security-Policy'].startswith('sandbox ') and 'allow-same-origin' not in r.headers['Content-Security-Policy']
     assert 'no-cache' in r.headers['Cache-Control']

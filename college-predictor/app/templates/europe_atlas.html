@@ -8,10 +8,14 @@
   .ea-top { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
   .ea-top h1 { font-family: 'Fraunces', serif; font-size: clamp(1.3rem, 2.6vw, 1.9rem); margin: 0; color: #0E3A8A; }
   .ea-top p { margin: 2px 0 0; color: #5A6278; font-size: .92rem; }
+  .ea-banner { display: block; width: 100%; height: auto; border-radius: 16px; margin-bottom: 12px; box-shadow: 0 10px 30px rgba(7,26,68,.14); }
+  /* on wide screens the banner carries the title; on phones its text is too small, so the heading shows instead */
+  @media (min-width: 641px) { .ea-top h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } }
+  @media (max-width: 640px) { .ea-banner { display: none; } }
   .ea-links { display: flex; gap: 8px; flex-wrap: wrap; }
   .ea-links a { text-decoration: none; padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: .88rem; border: 1.5px solid #0E3A8A; color: #0E3A8A; background: #fff; }
   .ea-links a.p { background: #FF6B0A; border-color: #FF6B0A; color: #fff; }
-  .ea-frame { width: 100%; height: calc(100vh - 150px); min-height: 640px; border: 1px solid #E8DFC8; border-radius: 16px; background: #FBF7EE; box-shadow: 0 10px 30px rgba(7,26,68,.10); }
+  .ea-frame { width: 100%; height: calc(100vh - 90px); min-height: 640px; border: 1px solid #E8DFC8; border-radius: 16px; background: #FBF7EE; box-shadow: 0 10px 30px rgba(7,26,68,.10); }
   .ea-note { font-size: .82rem; color: #5A6278; margin-top: 10px; }
   [data-theme="dark"] .ea-top h1 { color: #A9C2F7; }
   [data-theme="dark"] .ea-top p, [data-theme="dark"] .ea-note { color: #B6C0DA; }
@@ -19,6 +23,8 @@
 {% endblock %}
 {% block content %}
 <div class="ea" data-no-rail>
+  <img class="ea-banner" src="{{ url_for('static', filename='img/europe/banner.jpg') }}" width="1584" height="396"
+       alt="Europe Admissions Atlas: 18 universities, 11 countries, 2027 intake, for Indian and NRI students after Class 12, EduAakashaA">
   <div class="ea-top">
     <div><h1>Europe Admissions Atlas</h1><p>Engineering and computing after Class 12 · 2027 intake · members&rsquo; report. Fees, rules and dates change &mdash; confirm on the official page.</p></div>
     <div class="ea-links">

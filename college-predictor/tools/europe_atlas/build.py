@@ -188,7 +188,8 @@ for iso, c in C.items():
         climate=c.get('climate', '').replace('General knowledge: ', ''), culture=c.get('culture_note', '').replace('General knowledge: ', ''),
         nri=(c.get('nri_note') or {}).get('text'), sources=c.get('sources') or []))
 
-data = dict(unis=unis, countries=countries, fx=FX, fxdate=CT['fx']['date'], fxurl=CT['fx']['url'], inr=round(INR_PER_USD, 2), checked='2026-11-28')
+data = dict(unis=unis, countries=countries, fx=FX, fxdate=CT['fx']['date'], fxurl=CT['fx']['url'], inr=round(INR_PER_USD, 2), checked='2026-11-28',
+            img='/static/img/europe/')  # Canva illustrations, one per university key
 blob = json.dumps(data, ensure_ascii=False, separators=(',', ':')).replace('</', '<\\/')
 page = open(os.path.join(HERE, 'template.html'), encoding='utf-8').read().replace('/*DATA*/null', blob)
 # a complete light-theme document: the portal serves it sandboxed inside its own page
