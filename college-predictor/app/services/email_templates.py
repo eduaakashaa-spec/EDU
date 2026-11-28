@@ -198,6 +198,10 @@ _UNSUB_TEXT = 'You are receiving this because your role is listed publicly on yo
 
 SCHOOL_OUTREACH = {
     'key': 'school-outreach', 'icon': '\U0001F3EB', 'label': 'School counsellor outreach', 'category': 'School outreach',
+    # list sending from a CSV file: column -> the field it fills (email is the recipient); the sample rows make the downloadable template
+    'csv': {'columns': [['email', 'Email (required)'], ['school', 'School name (required)'], ['counsellor', 'Counsellor name (optional)']],
+            'sample': [['counsellor@exampleschool.ae', 'Example Indian High School', 'Ms Anita Rao'], ['info@anotherschool.qa', 'Another Indian School', '']],
+            'filename': 'school-outreach-list.csv'},
     'desc': 'Offer a school counsellor a free session for Grade 11 and 12 families: first email, follow-up and a short version for a general school inbox, each with a WhatsApp message.',
     'versions': [
         {'key': 'initial', 'label': 'Initial outreach', 'nosig': True, 'fields': _SCHOOL_FIELDS,

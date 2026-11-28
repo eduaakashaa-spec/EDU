@@ -69,6 +69,16 @@
   .tpl-chip button{ border:0; background:rgba(14,58,138,.14); color:var(--navy); width:18px; height:18px; border-radius:50%;
                     cursor:pointer; line-height:1; font-size:13px; padding:0; }
   .tpl-chip button:hover{ background:var(--navy); color:#fff; }
+  .tpl-csv{ background:#F3F7FF; border:1px dashed #0E3A8A; border-radius:12px; padding:14px 16px; margin-bottom:16px; }
+  .tpl-csv__head{ display:flex; flex-wrap:wrap; gap:10px 16px; justify-content:space-between; align-items:flex-start; }
+  .tpl-csv__btns{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+  .tpl-csv__head .tpl-csv__btns{ margin-top:0; }
+  .tpl-csv__table{ max-height:260px; overflow:auto; margin-top:8px; }
+  .tpl-csv__table table{ width:100%; border-collapse:collapse; font-size:13px; background:#fff; }
+  .tpl-csv__table th, .tpl-csv__table td{ padding:6px 9px; border-bottom:1px solid var(--hairline); text-align:left; vertical-align:top; }
+  .tpl-csv__table th{ position:sticky; top:0; background:#FBF7EE; font-size:11px; text-transform:uppercase; letter-spacing:.06em; }
+  .tpl-csv__table tr.bad td{ background:#FDECEC; } .tpl-csv__table tr.ok td:first-child{ color:var(--green); } .tpl-csv__table tr.fail td{ background:#FDECEC; }
+  .tpl-csv__table button{ border:0; background:none; color:var(--navy); text-decoration:underline; cursor:pointer; padding:0; font-size:13px; }
   .tpl-hint{ font-size:12px; color:var(--muted); margin-top:5px; }
   .tpl-send{ background:#FBF7EE; border:1px solid var(--hairline); border-radius:12px; padding:14px 16px; margin-bottom:16px;
              display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
@@ -147,6 +157,25 @@
         <input type="text" id="cCc" placeholder="a@x.com, b@y.com">
         <label class="t" for="cBcc" style="margin-top:10px">Bcc (optional)</label>
         <input type="text" id="cBcc" placeholder="e.g. info@eduaakashaa.com to keep a copy">
+      </div>
+    </div>
+
+    <div class="tpl-csv" id="csvBox" style="display:none">
+      <div class="tpl-csv__head">
+        <div><strong>Send to a list from a CSV file</strong>
+          <div class="tpl-hint" id="csvCols"></div></div>
+        <div class="tpl-csv__btns">
+          <button type="button" class="btn btn-ghost" id="csvSample">Download CSV template</button>
+          <label class="btn btn-ghost" for="csvFile" style="cursor:pointer">Upload CSV</label>
+          <input type="file" id="csvFile" accept=".csv,text/csv" style="position:absolute;left:-9999px" aria-label="Upload a CSV file of recipients">
+        </div>
+      </div>
+      <div id="csvSummary" class="tpl-hint" aria-live="polite"></div>
+      <div class="tpl-csv__table" id="csvTable"></div>
+      <div class="tpl-csv__btns" id="csvActions" style="display:none">
+        <button type="button" class="btn btn-navy" id="csvSend">Send to the list</button>
+        <button type="button" class="btn btn-ghost" id="csvStop" style="display:none">Stop</button>
+        <button type="button" class="btn btn-ghost" id="csvClear">Clear list</button>
       </div>
     </div>
 
@@ -471,7 +500,7 @@
     cur = byKey[key]; ver = cur.versions[0]; values = { __to: values.__to || '' };
     elTitle.textContent = cur.icon + ' ' + cur.label; elDesc.textContent = cur.desc;
     composer.style.display = '';
-    renderVariants(); renderFields();
+    renderVariants(); renderFields(); csvSync();
     document.querySelectorAll('.tpl-card').forEach(function (c) {
       c.classList.toggle('sel', c.getAttribute('data-key') === key); });
     composer.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -525,6 +554,139 @@
       })
       .catch(function () { toast('❌ Send failed — network error', 7000); })
       .finally(function () { btnSend.disabled = false; btnSend.textContent = label; });
+  });
+
+
+  // ---------------- CSV list sending (templates that declare `csv` columns) ----------------
+  var CSV_MAX = 200, csvRows = [], csvStopFlag = false, csvBusy = false;
+  var csvBox = document.getElementById('csvBox'), csvTable = document.getElementById('csvTable'), csvSummary = document.getElementById('csvSummary');
+  function csvCfg() { return cur && cur.csv; }
+  function csvSync() {
+    var cfg = csvCfg();
+    csvBox.style.display = cfg ? '' : 'none';
+    csvRows = []; csvDraw();
+    if (cfg) document.getElementById('csvCols').textContent = 'Columns: ' + cfg.columns.map(function (c) { return c[0] + ' — ' + c[1]; }).join('; ') +
+      '. Each school gets its own email with its name filled in. Up to ' + CSV_MAX + ' rows per file.';
+  }
+  function csvParse(text) {                    // RFC 4180: quoted fields, doubled quotes, CRLF, BOM
+    var rows = [], row = [], cell = '', q = false, i = 0, c;
+    text = text.replace(/^\uFEFF/, '');
+    for (; i < text.length; i++) {
+      c = text[i];
+      if (q) { if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; } else cell += c; }
+      else if (c === '"') q = true;
+      else if (c === ',' || c === ';' || c === '\t') { row.push(cell); cell = ''; }
+      else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(cell); cell = ''; rows.push(row); row = []; }
+      else cell += c;
+    }
+    if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+    return rows.map(function (r) { return r.map(function (x) { return x.trim(); }); }).filter(function (r) { return r.some(function (x) { return x; }); });
+  }
+  var CSV_ALIAS = { email: 'email', 'e-mail': 'email', 'email address': 'email', mail: 'email', school: 'school', 'school name': 'school', institution: 'school',
+                    counsellor: 'counsellor', counselor: 'counsellor', 'counsellor name': 'counsellor', 'counselor name': 'counsellor', name: 'counsellor', contact: 'counsellor' };
+  function csvLoad(text) {
+    var cfg = csvCfg(), rows = csvParse(text), keys = cfg.columns.map(function (c) { return c[0]; }), map = keys.slice();
+    if (!rows.length) { csvRows = []; csvDraw('That file has no rows.'); return; }
+    var head = rows[0].map(function (h) { return CSV_ALIAS[h.toLowerCase()] || h.toLowerCase(); });
+    if (head.indexOf('email') >= 0) { map = head; rows = rows.slice(1); }          // header row present: columns may be in any order
+    var seen = {}, out = [], dup = 0;
+    rows.forEach(function (r) {
+      var o = {}; map.forEach(function (k, i) { if (keys.indexOf(k) >= 0) o[k] = r[i] || ''; });
+      keys.forEach(function (k) { if (o[k] === undefined) o[k] = ''; });
+      var e = o.email.toLowerCase();
+      if (e && seen[e]) { dup++; return; }
+      seen[e] = 1;
+      o.__err = !/^[^@\s,;]+@[^@\s,;]+\.[^@\s,;]+$/.test(o.email) ? 'Not a valid email' : (!o.school ? 'School name missing' : '');
+      o.__state = '';
+      out.push(o);
+    });
+    var extra = out.length > CSV_MAX ? out.length - CSV_MAX : 0;
+    csvRows = out.slice(0, CSV_MAX);
+    csvDraw((dup ? dup + ' duplicate email' + (dup > 1 ? 's' : '') + ' removed. ' : '') + (extra ? extra + ' rows beyond the first ' + CSV_MAX + ' were left out. ' : ''));
+  }
+  function csvGood() { return csvRows.filter(function (r) { return !r.__err; }); }
+  function csvDraw(note) {
+    var cfg = csvCfg();
+    document.getElementById('csvActions').style.display = csvRows.length ? '' : 'none';
+    if (!cfg || !csvRows.length) { csvTable.innerHTML = ''; csvSummary.textContent = note || ''; return; }
+    var good = csvGood().length, bad = csvRows.length - good;
+    var sent = csvRows.filter(function (r) { return r.__state === 'ok'; }).length, failed = csvRows.filter(function (r) { return r.__state === 'fail'; }).length;
+    csvSummary.textContent = (note || '') + csvRows.length + ' rows: ' + good + ' ready' + (bad ? ', ' + bad + ' with a problem (they will be skipped)' : '') +
+      (sent || failed ? ' · sent ' + sent + (failed ? ', failed ' + failed : '') : '') + '.';
+    var left = good - sent;                 // rows already sent are not sent again
+    document.getElementById('csvSend').textContent = left ? (sent || failed ? 'Send to the remaining ' : 'Send to ') + left + ' school' + (left === 1 ? '' : 's') : 'All sent';
+    document.getElementById('csvSend').disabled = !left || csvBusy;
+    csvTable.innerHTML = '<table><thead><tr><th>Status</th>' + cfg.columns.map(function (c) { return '<th>' + esc(c[0]) + '</th>'; }).join('') + '<th></th></tr></thead><tbody>' +
+      csvRows.map(function (r, i) {
+        var st = r.__err ? '⚠️ ' + r.__err : r.__state === 'ok' ? '✅ Sent' : r.__state === 'fail' ? '❌ ' + esc(r.__msg || 'Failed') : r.__state === 'busy' ? 'Sending…' : 'Ready';
+        return '<tr class="' + (r.__err ? 'bad' : r.__state) + '"><td>' + st + '</td>' + cfg.columns.map(function (c) { return '<td>' + esc(r[c[0]]) + '</td>'; }).join('') +
+          '<td>' + (r.__err ? '' : '<button type="button" data-csv-prev="' + i + '">Preview</button>') + '</td></tr>';
+      }).join('') + '</tbody></table>';
+  }
+  function csvDefault(key) { var d = ''; ver.fields.forEach(function (f) { if (f.key === key) d = f.default || ''; }); return d; }
+  function csvValues(r) {                      // the row's values over the form's (sender, role and any blank column keep the form value)
+    var v = {}, k;
+    for (k in values) v[k] = values[k];
+    csvCfg().columns.forEach(function (c) { if (c[0] !== 'email') v[c[0]] = r[c[0]] || csvDefault(c[0]); });   // a blank cell takes the field's default, never another row's value
+    return v;
+  }
+  function csvRender(r) {
+    var keep = values, o;
+    values = csvValues(r);
+    try { o = { subject: subject(), text: textBody(), html: htmlBody() }; } finally { values = keep; }
+    return o;
+  }
+  document.getElementById('csvSample').addEventListener('click', function () {
+    var cfg = csvCfg(), q = function (x) { return /[",\n]/.test(x) ? '"' + x.replace(/"/g, '""') + '"' : x; };
+    var text = [cfg.columns.map(function (c) { return c[0]; })].concat(cfg.sample).map(function (r) { return r.map(q).join(','); }).join('\r\n') + '\r\n';
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob(['\uFEFF' + text], { type: 'text/csv;charset=utf-8' }));
+    a.download = cfg.filename || 'recipients.csv'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+  });
+  document.getElementById('csvFile').addEventListener('change', function (e) {
+    var f = e.target.files[0]; if (!f) return;
+    if (f.size > 1024 * 1024) { toast('That file is larger than 1 MB'); e.target.value = ''; return; }
+    var rd = new FileReader();
+    rd.onload = function () { csvLoad(String(rd.result || '')); };
+    rd.onerror = function () { toast('Could not read that file'); };
+    rd.readAsText(f); e.target.value = '';
+  });
+  document.getElementById('csvClear').addEventListener('click', function () { if (!csvBusy) { csvRows = []; csvDraw(); } });
+  document.getElementById('csvStop').addEventListener('click', function () { csvStopFlag = true; });
+  csvTable.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-csv-prev]'); if (!b) return;
+    var r = csvRows[+b.getAttribute('data-csv-prev')];
+    csvCfg().columns.forEach(function (c) {
+      if (c[0] === 'email') return;
+      values[c[0]] = r[c[0]] || csvDefault(c[0]);
+      var inp = document.getElementById('tf_' + c[0]); if (inp) inp.value = values[c[0]];
+    });
+    update(); toast('Preview shows the email for ' + r.school);
+  });
+  document.getElementById('csvSend').addEventListener('click', function () {
+    var list = csvGood().filter(function (r) { return r.__state !== 'ok'; });
+    if (!list.length || csvBusy) return;
+    var fromSel = document.getElementById('cFrom');
+    if (!confirm('Send "' + ver.label + '" to ' + list.length + ' school' + (list.length === 1 ? '' : 's') + ' now?\n\nFrom: ' + fromSel.value +
+                 '\nEach school gets its own email. Rows already sent are skipped.')) return;
+    csvBusy = true; csvStopFlag = false; document.getElementById('csvStop').style.display = '';
+    var i = 0;
+    function done() { csvBusy = false; document.getElementById('csvStop').style.display = 'none'; csvDraw();
+      var ok = csvRows.filter(function (r) { return r.__state === 'ok'; }).length, bad = csvRows.filter(function (r) { return r.__state === 'fail'; }).length;
+      toast((bad ? '⚠️ ' : '✅ ') + 'Sent ' + ok + (bad ? ', failed ' + bad + ' (press Send again to retry those)' : ''), 8000); }
+    function next() {
+      if (i >= list.length || csvStopFlag) return done();
+      var r = list[i++], m = csvRender(r);
+      r.__state = 'busy'; csvDraw();
+      fetch('{{ url_for("admin_portal.templates_send") }}', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ to: [r.email], subject: m.subject, text: m.text, html: m.html, from: fromSel.value, mode: 'individual' }) })
+        .then(function (res) { return res.json().then(function (d) { return { ok: res.ok, d: d }; }); })
+        .then(function (res) { if (res.ok && res.d.ok) r.__state = 'ok'; else { r.__state = 'fail'; r.__msg = res.d.error || 'Send failed'; } })
+        .catch(function () { r.__state = 'fail'; r.__msg = 'Network error'; })
+        .then(function () { csvDraw(); setTimeout(next, 700); });               // one at a time, under the mail provider's rate limit
+    }
+    next();
   });
 
   document.getElementById('btnGmail').addEventListener('click', function () {
