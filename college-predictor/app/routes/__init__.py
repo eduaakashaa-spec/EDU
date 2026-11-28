@@ -764,6 +764,13 @@ def school():
     return render_template('school.html', **d.context())
 
 
+@main_bp.route('/elite-mentorship-grade-11-12')
+@main_bp.route('/elite-mentorship')
+def elite_mentorship():
+    # public programme page (School menu): Elite Mentorship for Grade 11 and 12: scope, benefits, roadmap, tracks, brochure and poster
+    return render_template('elite_mentorship.html')
+
+
 @main_bp.route('/olympiad-exam-guide')
 def olympiad_exam():
     # public page: Indian Olympiads (IOQM, RMO, INMO, NSE, INO) stages, 2026-27 dates, eligibility, format, selection, practice, free sample questions, read from official pages; data in app/data/olympiad_exam.py

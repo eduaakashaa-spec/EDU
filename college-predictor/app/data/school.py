@@ -31,6 +31,7 @@ STAGES = [
          ('Members', 'JEE Main syllabus map and formulas', 'The syllabus by chapter with the formulas that matter.', 'main.jee_syllabus_map', ''),
          ('Members', 'EduPulse-JEE mock test centre', 'JEE Main mocks, chapter sets and a daily review.', 'pulse_jee.home', ''),
          ('Members', 'JEE 2027 roadmap', 'A plan from now to the exam.', 'main.jee_2027_roadmap', ''),
+         ('Guide', 'Elite Mentorship for Grade 11 and 12', 'One senior mentor beside your coaching: eligibility, branch fit, exam calendar, roadmap, brochure and poster.', 'main.elite_mentorship', ''),
          ('Free', 'Olympiad senior mentorship', 'Twenty weekly sessions for Classes 11 and 12: IOQM to INMO maths and NSE physics, chemistry and biology.', 'mentorship.addons', 'olympiad-sr'),
      ]},
     {'id': 'c12-pcb', 'tab': 'Class 11 and 12: PCB', 'title': 'Class 11 and 12 PCB: boards and NEET',
@@ -43,6 +44,7 @@ STAGES = [
          ('Guide', 'NEET papers analysed', 'Nine papers, 2018 to 2026: questions by year, subject and topic, with free questions.', 'main.neet_exam', ''),
          ('Members', 'EduPulse-NEET mock test centre', 'Full 180-question mocks, earlier-paper questions and a daily review.', 'neet_mock.home', ''),
          ('Members', 'NEET MBBS seat analytics', 'Every MBBS college in the NMC seat matrix, by state and management.', 'main.neet_seats_2025', ''),
+         ('Guide', 'Elite Mentorship for Grade 11 and 12', 'One senior mentor beside your coaching: eligibility, branch fit, exam calendar, roadmap, brochure and poster.', 'main.elite_mentorship', ''),
          ('Free', 'NEET (UG) mentorship', 'Sixteen weekly sessions: Physics, Chemistry, Botany and Zoology, mocks and counselling.', 'mentorship.addons', 'neet'),
      ]},
 ]

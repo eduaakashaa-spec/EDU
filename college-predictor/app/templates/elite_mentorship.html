@@ -1,0 +1,298 @@
+{% extends "base.html" %}
+{% block title %}Elite Mentorship for Grade 11 and 12: one mentor beside your coaching · EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="Elite Mentorship for Grade 11 and Grade 12 students: a dedicated senior mentor for eligibility, branch fit, exam calendar, documents and choice filling across DASA, CIWG, JoSAA, state and private routes. Scope, benefits, roadmap, brochure and poster.">{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/elite_mentorship.css') }}?v=2">
+{% endblock %}
+{% set WA = 'https://wa.me/918015722706?text=' ~ ('Hello EduAakashaA, I would like to book an initial discussion about Elite Mentorship.'|urlencode) %}
+{% set B1 = url_for('static', filename='img/elite/brochure-1.jpg') %}
+{% set POSTER = url_for('static', filename='img/elite/poster.jpg') %}
+{% block content %}
+<!--EM-START-->
+<div class="em" id="em" data-no-rail data-grade="11">
+
+  <header class="em-hero">
+    <div class="em-wrap em-hero__grid">
+      <div>
+        <p class="em-eyebrow">Elite Mentorship · Grade 11 and Grade 12</p>
+        <h1>Coaching builds the marks.<br><em>Mentorship decides what they are for.</em></h1>
+        <p class="em-lead">You already give coaching hours every week. Give the decisions the same seriousness: which exams, which branch, which route, which deadline. One senior mentor works with you and your parents, one to one, until the seat is confirmed.</p>
+        <div class="em-seg" role="group" aria-label="Choose your grade">
+          <span class="em-seg__label">I am in</span>
+          <button type="button" data-set-grade="11" aria-pressed="true">Grade 11</button>
+          <button type="button" data-set-grade="12" aria-pressed="false">Grade 12</button>
+        </div>
+        <p class="em-hero__for" data-g="11">Grade 11 track: build the base before the pressure starts. Eligibility, branch fit, exam calendar and a first target list.</p>
+        <p class="em-hero__for" data-g="12" hidden>Grade 12 track: convert the rank into a seat. Strategy, documents, choice filling and the final decision.</p>
+        <div class="em-cta">
+          <a class="em-btn em-btn--p" href="{{ WA }}" target="_blank" rel="noopener">Book an initial discussion</a>
+          <a class="em-btn" href="#em-roadmap">See my roadmap</a>
+          <a class="em-btn" href="#em-brochure">Brochure and poster</a>
+        </div>
+      </div>
+      <ul class="em-stats" aria-label="Programme at a glance">
+        <li><b>1:1</b><span>dedicated senior mentor for your family</span></li>
+        <li><b data-g="11">4</b><b data-g="12" hidden>10+</b><span>online one-to-one sessions<span data-g="11"> in the year, on Microsoft Teams</span><span data-g="12" hidden>, minimum</span></span></li>
+        <li><b data-g="11">1 year</b><b data-g="12" hidden>10–12</b><span data-g="11">one academic year</span><span data-g="12" hidden>months, to seat day</span></li>
+        <li><b>9</b><span>routes on one calendar: DASA, CIWG, JoSAA, state and private NRI, NATA, NID, UCEED, NIFT, IAT</span></li>
+      </ul>
+    </div>
+  </header>
+
+  <nav class="em-nav" aria-label="On this page">
+    <div class="em-wrap em-nav__in">
+      <a href="#em-why">Why it matters</a><a href="#em-check">Self-check</a><a href="#em-scope">Scope</a><a href="#em-roadmap">Roadmap</a><a href="#em-benefits">Benefits</a><a href="#em-myths">Myth check</a><a href="#em-tracks">Tracks and fees</a><a href="#em-brochure">Brochure</a><a href="#em-faq">Questions</a>
+    </div>
+  </nav>
+
+  <section class="em-sec" id="em-why">
+    <div class="em-wrap">
+      <p class="em-eyebrow">Two different jobs</p>
+      <h2>Treat mentorship as seriously as coaching.</h2>
+      <p class="em-sub">Coaching and mentoring do not compete. Most students need both. The gap opens when coaching is the only support and nobody owns the decisions.</p>
+      <div class="em-scroll">
+        <table class="em-vs">
+          <thead><tr><th></th><th>Coaching</th><th>Mentoring</th></tr></thead>
+          <tbody>
+            <tr><th>The question it answers</th><td>&ldquo;How do I solve this problem faster?&rdquo;</td><td>&ldquo;What am I aiming for, and is this the right route for me?&rdquo;</td></tr>
+            <tr><th>What it works on</th><td>Physics, Chemistry, Maths, test technique</td><td>Goals, branch fit, choices, deadlines, stress, the whole route</td></tr>
+            <tr><th>Format</th><td>One teacher, a batch of many students</td><td>One mentor, one student, with parents briefed</td></tr>
+            <tr><th>Time horizon</th><td>The next test, the next exam</td><td>Seat day, and the ten years after it</td></tr>
+            <tr><th>Success looks like</th><td>Higher marks and percentile</td><td>A decision the student understands, owns and can defend</td></tr>
+            <tr><th>Who owns the plan</th><td>The institute&rsquo;s timetable</td><td>The student, with the mentor guiding and holding them to it</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="em-lose">
+        <h3>Four ways families lose seats. None is about marks.</h3>
+        <ol>
+          <li><b>Starting too late</b><span>Planning begins after results, when windows are closing.</span></li>
+          <li><b>Chasing the brand</b><span>A famous name wins over the right branch.</span></li>
+          <li><b>Guessing the cut-offs</b><span>Hearsay stands in for quota-wise data.</span></li>
+          <li><b>Going it alone</b><span>Several systems, no guide, one deadline missed.</span></li>
+        </ol>
+        <p class="em-quote">The hard part is not the exam. It is the hundreds of decisions that follow the result.</p>
+      </div>
+      <div class="em-facts">
+        <h3>The process keeps changing shape</h3>
+        <ul>
+          <li><b>87</b><span>institutes took DASA students in 2026</span></li>
+          <li><b>378</b><span>programmes in DASA 2026, up from 324 in 2025</span></li>
+          <li><b>3 → 2</b><span>allotment rounds: one fewer chance to correct a choice</span></li>
+          <li><b>1 week</b><span>to register, verify documents and pay in 2026</span></li>
+        </ul>
+        <p class="em-note">Source: DASA UG 2026 brochure and schedule (csab.nic.in) and EduAakashaA analysis. Families acting on last year&rsquo;s forwarded PDF plan for a process that no longer exists.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="em-sec em-sec--alt" id="em-check">
+    <div class="em-wrap em-two">
+      <div class="em-card">
+        <p class="em-eyebrow">One-minute self-check · for the student</p>
+        <h2>Who owns your decisions today?</h2>
+        <p class="em-sub">Tick every statement that is true for you right now.</p>
+        <div id="em-quiz" class="em-quiz"></div>
+        <div id="em-quiz-out" class="em-out" aria-live="polite"></div>
+      </div>
+      <div class="em-card">
+        <p class="em-eyebrow">Calculator · time back for studies</p>
+        <h2>How much time does a mentor give back?</h2>
+        <p class="em-sub">Hours spent on forums, group chats and admission research are hours not spent on mocks. Move the sliders to your own numbers.</p>
+        <div class="em-calc">
+          <label>Student hours a week on admission research and comparisons <b id="em-c1v"></b><input type="range" id="em-c1" min="0" max="12" step="1" value="4"></label>
+          <label>Parent hours a week on research and group chats <b id="em-c2v"></b><input type="range" id="em-c2" min="0" max="15" step="1" value="6"></label>
+          <label>Share of that work the mentor takes over <b id="em-c3v"></b><input type="range" id="em-c3" min="30" max="90" step="5" value="70"></label>
+          <label>Weeks until seat day <b id="em-c4v"></b><input type="range" id="em-c4" min="8" max="90" step="1" value="43"></label>
+        </div>
+        <div id="em-calc-out" class="em-out" aria-live="polite"></div>
+        <p class="em-note">An estimate from your own inputs, not a promise of results. A mock with analysis is counted as about four and a half hours.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="em-sec" id="em-scope">
+    <div class="em-wrap">
+      <p class="em-eyebrow">Scope · the 5A method</p>
+      <h2>Every stage ends in something you can hold.</h2>
+      <p class="em-sub">Tap a stage to see what happens and what your family keeps at the end of it. The first three stages are the Grade 11 track; the last two are the Grade 12 track.</p>
+      <div class="em-5a" id="em-5a" role="tablist" aria-label="The 5A method"></div>
+      <div class="em-5a__panel" id="em-5a-panel" role="tabpanel" aria-live="polite"></div>
+      <div class="em-routes">
+        <h3>Every route you are eligible for, in parallel</h3>
+        <p><span>DASA</span><span>CIWG</span><span>JoSAA</span><span>State counselling</span><span>Private NRI</span><span>NATA</span><span>NID</span><span>UCEED</span><span>NIFT</span><span>IAT</span></p>
+        <p class="em-note">The mentor keeps one calendar for every exam the student is eligible for, sends registration alerts before each window closes, and sets preparation priorities so extra exams never crowd out boards and JEE.</p>
+      </div>
+      <div class="em-three">
+        <div><h3>Where it starts</h3><p><b>Onboarding assessment</b> for student and parents: marks and mock trend, an eligibility audit (residency, passport, CIWG status, the 75% rule), study habits, interests and family expectations.</p></div>
+        <div><h3>Branch Fit Assessment</h3><p>30 questions, about 20 minutes. It scores fit across seven branch families, then matches the top fits against real closing ranks and the outlook for each branch.</p></div>
+        <div><h3>Industry 4.0 and AI briefing</h3><p>How each branch is changing, and the skills to build in year 1. The question shifts from &ldquo;which branch is safe?&rdquo; to &ldquo;which branch fits, taught the modern way?&rdquo;</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="em-sec em-sec--dark" id="em-roadmap">
+    <div class="em-wrap">
+      <p class="em-eyebrow">Student roadmap</p>
+      <h2 data-g="11">Grade 11: one year, four gates, one mentor beside you.</h2>
+      <h2 data-g="12" hidden>Grade 12: about ten months, six gates, one mentor beside you.</h2>
+      <div class="em-seg em-seg--dark" role="group" aria-label="Choose the roadmap">
+        <button type="button" data-set-grade="11" aria-pressed="true">Grade 11 roadmap</button>
+        <button type="button" data-set-grade="12" aria-pressed="false">Grade 12 roadmap</button>
+      </div>
+      <div class="em-road" id="em-road"></div>
+      <div class="em-road__detail" id="em-road-detail" aria-live="polite"></div>
+      <p class="em-note">Month ranges are indicative and confirmed at enrolment. Exam and counselling dates follow each official notification.</p>
+    </div>
+  </section>
+
+  <section class="em-sec" id="em-benefits">
+    <div class="em-wrap">
+      <p class="em-eyebrow">Benefits</p>
+      <h2>What changes when a mentor is beside you.</h2>
+      <div class="em-tabs" role="tablist" aria-label="Benefits for">
+        <button type="button" role="tab" aria-selected="true" data-tab="student">For the student</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="parent">For parents</button>
+        <button type="button" role="tab" aria-selected="false" data-tab="get">What you receive</button>
+      </div>
+      <div class="em-tabp" data-panel="student">
+        <ul class="em-ben">
+          <li><b>A goal you chose</b><span>Aptitude and interests are measured first, so the branch is yours and you can explain why.</span></li>
+          <li><b>Time back for study</b><span>The mentor carries the research, the rules and the deadlines. You keep the hours for mocks and revision.</span></li>
+          <li><b>Boards and JEE in balance</b><span>A plan that protects the 75% rule while the entrance preparation continues.</span></li>
+          <li><b>Mock tests that teach</b><span>A baseline, an error log and a review habit, so the same mistake is not repeated.</span></li>
+          <li><b>Less noise, less stress</b><span>One verified voice in place of group chats, reels and comparisons with other students.</span></li>
+          <li><b>A head start in college</b><span>You arrive knowing the skills to build in year 1 for your branch.</span></li>
+        </ul>
+      </div>
+      <div class="em-tabp" data-panel="parent" hidden>
+        <ul class="em-ben">
+          <li><b>Briefed at every gate</b><span>A written summary after each key session, so both parents stay aligned.</span></li>
+          <li><b>Fees and return, side by side</b><span>Tuition, hostel and travel for every shortlisted seat, before you commit.</span></li>
+          <li><b>One verified source</b><span>Answers checked against official notices, not group-chat forwards.</span></li>
+          <li><b>The ten-year view</b><span>How the branch choice shapes internships, first roles and higher studies.</span></li>
+          <li><b>Documents on time</b><span>A checklist and a deadline calendar, with certificates collected while school is in session.</span></li>
+          <li><b>From firefighting to planning</b><span>You stop chasing deadlines late at night and start planning the career path.</span></li>
+        </ul>
+      </div>
+      <div class="em-tabp" data-panel="get" hidden>
+        <div class="em-two">
+          <div><h3>Reports your family keeps</h3>
+            <ul class="em-list"><li>Baseline assessment and eligibility report</li><li>Branch Fit report with ranked branches</li><li>Document and deadline calendar</li><li>Termly course-correction notes</li><li>Target college and branch list: reach, match and safe</li><li>Parent guidance report</li><li data-g="12" hidden>DASA, CIWG and JoSAA choice-filling pack</li><li data-g="12" hidden>Final seat decision brief</li><li data-g="11">Grade 12 roadmap and calendar</li></ul></div>
+          <div><h3>Portal and tools, one login</h3>
+            <ul class="em-list"><li>College predictor</li><li>DASA student guides and board exam guides</li><li>JEE Main mistakes playbook</li><li>Session recordings and worksheets</li><li data-g="12" hidden>Choice-filling simulator</li><li data-g="12" hidden>DASA analytics report and NIT and IIIT analytics, including hostel and campus</li><li data-g="12" hidden>Live admissions roadmap</li></ul>
+            <p class="em-note">Portal content is for the enrolled student and parents.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="em-sec em-sec--alt" id="em-myths">
+    <div class="em-wrap">
+      <p class="em-eyebrow">Myth check · fictional messages, typical of every admission season</p>
+      <h2>Unwanted worries, delivered daily.</h2>
+      <p class="em-sub">Tap a message to see what a mentor would tell you. One rule for forwards: before you react, send it to your mentor.</p>
+      <div class="em-chat" id="em-chat"></div>
+      <div class="em-ring">
+        <div class="em-ring__art" aria-hidden="true"><span>Concern</span><span>Influence</span><span>Control</span></div>
+        <div>
+          <h3>Not every worry deserves the same energy</h3>
+          <ul class="em-list">
+            <li><b>Control: act on it this month.</b> Study routine, boards and JEE balance, the mock-test error log, the document file.</li>
+            <li><b>Influence: shape it with the right help.</b> Branch fit, which exams to write, eligibility, deadlines, exam stress.</li>
+            <li><b>Concern: plan for it, do not lose sleep.</b> Cut-off swings, rule changes, rumours, competition, the job market years from now.</li>
+          </ul>
+          <p class="em-note">Seats are won in the two inner rings. A mentor moves as many worries inward as possible and carries the ones you cannot. Adapted from Stephen Covey&rsquo;s Circle of Influence.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="em-sec" id="em-tracks">
+    <div class="em-wrap">
+      <p class="em-eyebrow">Tracks and fees</p>
+      <h2>Two tracks. One for each year.</h2>
+      <div class="em-tracks">
+        <article class="em-track" data-track="11">
+          <p class="em-track__tag">Grade 11 track · Assess, Analyze, Advise</p>
+          <p class="em-track__fee">₹25,000</p><p class="em-track__per">one academic year</p>
+          <ul class="em-list"><li>4 online one-to-one sessions on Microsoft Teams, student and parents together</li><li>Eligibility audit and Grade 11 baseline</li><li>Branch Fit Assessment and the Industry 4.0 and AI briefing</li><li>One calendar for every entrance exam</li><li>First target list and a Grade 12 roadmap</li></ul>
+        </article>
+        <article class="em-track" data-track="12">
+          <p class="em-track__tag">Grade 12 track · Apply, Achieve</p>
+          <p class="em-track__fee">₹75,000</p><p class="em-track__per">10 to 12 months, to seat day</p>
+          <ul class="em-list"><li>10 or more online one-to-one sessions</li><li>JEE strategy, mock analysis and boards balance</li><li>Rank-to-seat map and the quota decision</li><li>Applications and the choice-filling simulator</li><li>Choice-filling pack and final seat decision brief</li></ul>
+          <p class="em-note">Paid in three parts: 50% on enrolment, 25% at month 4, 25% at counselling.</p>
+        </article>
+      </div>
+      <div class="em-early">
+        <h3>Early bird · register during 2026–27</h3>
+        <p>Students entering Grade 11 in 2027, and students in Grade 11 now, pay <b>₹50,000</b> for the Grade 12 track instead of ₹75,000. Portal access for two years is included.</p>
+      </div>
+      <p class="em-note">Fees as published by EduAakashaA for 2027–28; confirm the current fee and what it includes when you book. Each mentor carries a small cohort, so intake is limited. Other plans are on the <a href="{{ url_for('main.members_registration') }}">Members Registration</a> page.</p>
+    </div>
+  </section>
+
+  <section class="em-sec em-sec--alt" id="em-brochure">
+    <div class="em-wrap">
+      <p class="em-eyebrow">Brochure and poster</p>
+      <h2>Read it, save it, share it with your parents.</h2>
+      <div class="em-docs">
+        <figure class="em-doc">
+          <div class="em-viewer" id="em-viewer" data-first="{{ B1 }}" data-pages="9">
+            <img id="em-page" src="{{ B1 }}" width="900" height="1273" alt="Elite Mentorship brochure, page 1 of 9">
+            <div class="em-viewer__bar">
+              <button type="button" id="em-prev" aria-label="Previous page">←</button>
+              <span id="em-pageno">Page 1 of 9</span>
+              <button type="button" id="em-next" aria-label="Next page">→</button>
+            </div>
+          </div>
+          <figcaption><b>Programme brochure</b> · 9 pages · Grade 12 track, Class of 2027. The printed fee on page 8 is ₹74,999; the current fee is shown above.
+            <a class="em-btn em-btn--p" href="{{ url_for('static', filename='docs/EduAakashaA-Elite-Mentorship-Brochure.pdf') }}" download>Download the brochure (PDF, 2.4 MB)</a></figcaption>
+        </figure>
+        <figure class="em-doc">
+          <a href="{{ POSTER }}" target="_blank" rel="noopener"><img src="{{ POSTER }}" width="1000" height="1414" loading="lazy" alt="Elite Mentorship poster for Grade 11 and Grade 12: coaching builds the marks, mentorship decides what they are for"></a>
+          <figcaption><b>Poster</b> · Grade 11 and Grade 12 tracks on one page, for notice boards and family groups.
+            <a class="em-btn em-btn--p" href="{{ POSTER }}" download="EduAakashaA-Elite-Mentorship-Poster.jpg">Download the poster (JPG)</a></figcaption>
+        </figure>
+      </div>
+      <p class="em-note">Watch: <a href="{{ url_for('main.videos_library') }}">Elite Mentorship: Why a Mentor Matters More Than Coaching</a>, in the Video Library.</p>
+    </div>
+  </section>
+
+  <section class="em-sec" id="em-faq">
+    <div class="em-wrap em-narrow">
+      <p class="em-eyebrow">Questions students and parents ask</p>
+      <h2>Straight answers.</h2>
+      <details><summary>Does mentorship replace my coaching?</summary><p>No. Coaching builds your marks and percentile; mentorship decides what they are for. Most students need both, and the mentor plans around your coaching timetable.</p></details>
+      <details><summary>Is Grade 11 too early to think about admissions?</summary><p>Eligibility, the document trail and the exam calendar all begin in Grade 11. It is also the one year with no deadline sitting on top of the decisions, so they can be made calmly.</p></details>
+      <details><summary>How do the sessions happen?</summary><p>Online, one to one. In the Grade 11 track the mentor meets the student and the parents together on Microsoft Teams four times in the year, and parents are briefed in writing at every gate. The Grade 12 track has ten or more sessions.</p></details>
+      <details><summary>Is this only for NRI students?</summary><p>The programme was built around families abroad who use the DASA and CIWG routes, and it covers JoSAA, state and private routes in parallel. Students in India can ask about the plans listed on the Members Registration page.</p></details>
+      <details><summary>Will the mentor fill my forms or guarantee a seat?</summary><p>Forms and choices are prepared and verified with you; you submit them. EduAakashaA cannot and does not guarantee a rank or a seat: seats are allotted by the authorities on rank and eligibility.</p></details>
+      <details><summary>What if a worry falls outside mentorship?</summary><p>We say so plainly and point you to the right help.</p></details>
+    </div>
+  </section>
+
+  <section class="em-sec em-sec--dark em-end">
+    <div class="em-wrap">
+      <h2>If this one decision shapes the next ten years, who is helping you get it right?</h2>
+      <ol class="em-steps">
+        <li><b>This week</b><span>Initial discussion: we record your worries and goals.</span></li>
+        <li><b>Next</b><span>Email confirmation and your mentorship journey plan.</span></li>
+        <li><b>Then</b><span>Phase 1 begins: onboarding and the eligibility audit.</span></li>
+      </ol>
+      <div class="em-cta">
+        <a class="em-btn em-btn--p" href="{{ WA }}" target="_blank" rel="noopener">WhatsApp +91 80157 22706</a>
+        <a class="em-btn em-btn--on" href="mailto:info@eduaakashaa.com?subject=Elite%20Mentorship%20enquiry">info@eduaakashaa.com</a>
+        <a class="em-btn em-btn--on" href="{{ url_for('main.members_registration') }}">Members Registration</a>
+      </div>
+      <p class="em-note">Coimbatore, Tamil Nadu · Mon–Fri 9:00–22:00, Sat and Sun 9:00–16:00 (India time). This is mentorship, not coaching. EduAakashaA cannot and does not guarantee a rank or a seat.</p>
+    </div>
+  </section>
+</div>
+<!--EM-END-->
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/elite_mentorship.js') }}?v=2"></script>
+{% endblock %}
