@@ -992,6 +992,26 @@ def gulf_caet_guide_file():
     return resp
 
 
+@main_bp.route('/europe-admissions-atlas')
+@premium_required
+def europe_atlas():
+    return render_template('europe_atlas.html')
+
+
+@main_bp.route('/europe-admissions-atlas/report')
+@premium_required
+def europe_atlas_report():
+    """The self-contained Europe report (built by tools/europe_atlas/build.py). Members only and sandboxed, like the CAET guide."""
+    import os
+    from flask import current_app, send_file
+    path = os.path.join(current_app.root_path, 'data', 'europe', 'atlas.html')
+    resp = send_file(path, mimetype='text/html', max_age=0)
+    resp.headers['Content-Security-Policy'] = 'sandbox allow-scripts allow-popups allow-popups-to-escape-sandbox allow-downloads allow-forms'
+    resp.headers['X-Content-Type-Options'] = 'nosniff'
+    resp.headers['Cache-Control'] = 'private, no-cache'
+    return resp
+
+
 @main_bp.route('/uceed-2027-roadmap')
 @premium_required
 def uceed_2027_roadmap():

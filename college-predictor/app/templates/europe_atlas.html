@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Europe Admissions Atlas: universities for Indian and NRI students, 2027 · EduAakashaA{% endblock %}
+{% block meta_description %}<meta name="description" content="18 European universities in 11 countries for Indian and NRI students: map, fees in US dollars, eligibility, tests, deadlines, scholarships, housing, visas, work rights and permanent residence. Members only.">{% endblock %}
+{% block premium_notice %}{% endblock %}
+{% block head %}
+<style>
+  .ea { max-width: 1280px; margin: 0 auto; padding: 18px 16px 40px; }
+  .ea-top { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .ea-top h1 { font-family: 'Fraunces', serif; font-size: clamp(1.3rem, 2.6vw, 1.9rem); margin: 0; color: #0E3A8A; }
+  .ea-top p { margin: 2px 0 0; color: #5A6278; font-size: .92rem; }
+  .ea-links { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ea-links a { text-decoration: none; padding: 8px 14px; border-radius: 999px; font-weight: 600; font-size: .88rem; border: 1.5px solid #0E3A8A; color: #0E3A8A; background: #fff; }
+  .ea-links a.p { background: #FF6B0A; border-color: #FF6B0A; color: #fff; }
+  .ea-frame { width: 100%; height: calc(100vh - 150px); min-height: 640px; border: 1px solid #E8DFC8; border-radius: 16px; background: #FBF7EE; box-shadow: 0 10px 30px rgba(7,26,68,.10); }
+  .ea-note { font-size: .82rem; color: #5A6278; margin-top: 10px; }
+  [data-theme="dark"] .ea-top h1 { color: #A9C2F7; }
+  [data-theme="dark"] .ea-top p, [data-theme="dark"] .ea-note { color: #B6C0DA; }
+</style>
+{% endblock %}
+{% block content %}
+<div class="ea" data-no-rail>
+  <div class="ea-top">
+    <div><h1>Europe Admissions Atlas</h1><p>Engineering and computing after Class 12 · 2027 intake · members&rsquo; report. Fees, rules and dates change &mdash; confirm on the official page.</p></div>
+    <div class="ea-links">
+      <a class="p" href="{{ url_for('main.europe_atlas_report') }}" target="_blank" rel="noopener">Open full screen ↗</a>
+      <a href="{{ url_for('memberhub.home') }}#cat-gulf">← Member Home</a>
+    </div>
+  </div>
+  <!-- sandboxing comes from the Content-Security-Policy header on the report response (opaque origin: no access to this site's cookies or pages) -->
+  <iframe class="ea-frame" src="{{ url_for('main.europe_atlas_report') }}" title="Europe Admissions Atlas" loading="eager"></iframe>
+  <p class="ea-note">Prepared by EduAakashaA from university, government and ranking pages checked on 28 November 2026. Salary, return estimates, SWOT and family perceptions are our judgement. It is guidance, not an official notice, and does not guarantee admission, a visa or employment.</p>
+</div>
+{% endblock %}

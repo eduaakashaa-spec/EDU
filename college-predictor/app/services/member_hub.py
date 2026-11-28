@@ -109,6 +109,7 @@ CATEGORIES = [
          {'title': 'Architecture and Planning colleges in India', 'desc': 'Colleges state by state, admission routes, eligibility, fees, placements, NRI quota, NIRF 2025 and JoSAA 2026 allotment.', 'icon': '🏛️', 'endpoint': 'main.architecture_planning', 'access': 'free'},
          {'title': 'Architecture and Planning analytics', 'desc': 'NIRF 2025 scores, JoSAA 2026 round-by-round ranks, DASA 2025 vs 2026 and a rank finder.', 'icon': '📊', 'endpoint': 'main.architecture_analytics', 'access': 'free'},
          {'title': 'NRI admission guide', 'desc': 'DASA, CIWG and NRI routes.', 'icon': '🌍', 'endpoint': 'main.nri_guide', 'access': 'free'},
+         {'title': 'Europe Admissions Atlas', 'desc': '18 universities in 11 countries on a map: fees in US$, tests, deadlines, scholarships, visas, work and PR, 2027 intake.', 'icon': '🇪🇺', 'endpoint': 'main.europe_atlas', 'access': 'premium'},
      ]},
     {'key': 'tools', 'title': 'Choice-Filling Tools', 'icon': '🛠️', 'color': '#059669', 'tint': '#E3F7EF',
      'blurb': 'Simulate and personalise your choice list.',
@@ -163,7 +164,7 @@ _MOVE = {
 }
 _RENAME = {'edupulse': ('EduPulse Practice & Mock Tests', 'Daily practice, planner and mock test centres with a confidence check on every answer.'),
            'insights': ('Engineering Insights & Choice Tools', 'Branch, location and campus-life analytics, plus the choice-filling simulator.'),
-           'gulf': ('Gulf & NRI Routes', 'DASA, CAET, NRI quota and city-wise college guides for studying in India or the Gulf.'),
+           'gulf': ('Gulf & NRI Routes', 'DASA, CAET, NRI quota, city-wise college guides and the Europe atlas for studying in India, the Gulf or Europe.'),
            'free': ('Free Resources & Help', 'Open to every member: guides, the portal guide, contact and membership plans.')}
 _ORDER = ['journey', 'school', 'edupulse', 'intel', 'roadmaps', 'medicine', 'gulf', 'insights', 'mentorship', 'staff', 'free']
 
