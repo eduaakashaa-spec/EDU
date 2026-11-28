@@ -33,15 +33,24 @@ def _f(key, label, default=''):
 # to prefill the form — no {placeholders} or versions to resolve.
 # --------------------------------------------------------------------------- #
 ANNOUNCEMENT_TEMPLATES = [
-    {'key': 'jee_main_reg', 'icon': '📝', 'label': 'JEE Main 2027 registration',
-     'title': 'JEE Main 2027: Session 1 registration is open until 22 November',
-     'body': ('NTA opened JEE Main 2027 Session 1 registration on 24 October 2026. Apply online only at '
-              'jeemain.nta.nic.in; the form and the fee are due by 22 November 2026, 11:50 pm (late submission '
-              'with an extra Rs 500: 23 to 26 November; corrections: 27 to 29 November). Session 1 exams are on '
-              '20, 21, 22, 23, 24 and 28 January 2027, with the city slip on 30 December and admit cards on '
-              '13 January. Session 2 is planned for 2 to 7 April 2027 (registration 5 January to 3 February). '
-              'Keep a photograph, signature, Class 10 certificate and any category / PwD certificate scanned '
-              'and ready. Please confirm all dates on jeemain.nta.nic.in.')},
+    {'key': 'jee_main_reg', 'icon': '📝', 'label': 'JEE Main 2027 Session 1: next steps',
+     'title': 'JEE Main 2027 Session 1: registration has closed. What happens next',
+     'body': ('JEE Main 2027 Session 1 registration closed on 22 November 2026 (late-fee window 23 to 26 November). '
+              'NTA has opened a one-time correction window from 27 to 29 November, until 11:50 pm, at '
+              'jeemain.nta.nic.in: check your form now, because some fields cannot be changed. '
+              'The exam city slip is due on 30 December and the admit card on 13 January 2027. '
+              'Session 1 exams are on 20, 21, 22, 23, 24 and 28 January 2027. '
+              'Session 2 is proposed for 2 to 7 April 2027, with registration from 5 January to 3 February; '
+              'NTA will confirm these by a separate notice. JEE Advanced is on Sunday 23 May 2027. '
+              'Please confirm all dates on jeemain.nta.nic.in.')},
+    {'key': 'deadlines_fortnight', 'icon': '⏳', 'label': 'Deadlines in the next two weeks',
+     'title': 'Admission deadlines in the next two weeks (checked 28 November 2026)',
+     'body': ('Dates to act on now: NID DAT registration closes on 30 November at 11:59 pm. '
+              'TISS programmes that use CAT close on 4 December, 5 pm. CLAT 2027 is on Sunday 6 December, 2 to 4 pm; '
+              'download the admit card before 1:30 pm that day. IIFT MBA (IB) applications are shown as extended to '
+              '8 December: confirm on iift.ac.in. AILET 2027 is on Sunday 13 December; the admit card has been out since '
+              '24 November. CMAT 2027 registration is open until 20 December, and the exam has moved to 11 February 2027. '
+              'Please confirm each date on the official site before acting. The full list is on our Exam Schedule page.')},
     {'key': 'results', 'icon': '📢', 'label': 'Results / list out',
      'title': 'DASA Round-1 results are out',
      'body': ('Round-1 seat allotment results have been published. Log in to the official '
