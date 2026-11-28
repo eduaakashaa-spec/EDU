@@ -28,13 +28,15 @@ with app.app_context():
     for banned in ('+971', 'Dubai', '74,999 including', '6 virtual'):
         assert banned not in html, banned                                                  # India-only contact details; agreed fee and session count
     static = os.path.join(ROOT, 'app', 'static')
-    for f in ['img/elite/brochure-%d.jpg' % i for i in range(1, 10)] + ['img/elite/poster.jpg']:
+    for f in ['img/elite/brochure-%d.jpg' % i for i in range(1, 10)] + ['img/elite/poster.jpg', 'img/elite/hero.jpg']:
         p = os.path.join(static, *f.split('/'))
         assert os.path.exists(p) and open(p, 'rb').read(2) == b'\xff\xd8' and os.path.getsize(p) < 450000, f
         assert c.get('/static/' + f).status_code == 200, f
     pdf = os.path.join(static, 'docs', 'EduAakashaA-Elite-Mentorship-Brochure.pdf')
     assert open(pdf, 'rb').read(4) == b'%PDF' and os.path.getsize(pdf) < 4000000
     js = open(os.path.join(static, 'js', 'elite_mentorship.js'), encoding='utf-8').read()
+    assert 'Pick your worries' in html and 'img/elite/hero.jpg' in html and 'data-no-rail' not in html and html.count('data-rail') == 9
+    assert js.count("['p', '") == 9 and js.count("['s', '") == 9 and js.count("['b', '") == 9                 # worry bank: parent, student, shared
     assert js.count("['Months") == 4 and "'Late Jul–Aug'" in js                            # 4 Grade 11 gates, 6 Grade 12 gates
     assert 'href="/elite-mentorship' in c.get('/').get_data(as_text=True)            # School menu link
     school = c.get('/school').get_data(as_text=True)

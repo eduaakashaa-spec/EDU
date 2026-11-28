@@ -3,18 +3,20 @@
 {% block meta_description %}<meta name="description" content="Elite Mentorship for Grade 11 and Grade 12 students: a dedicated senior mentor for eligibility, branch fit, exam calendar, documents and choice filling across DASA, CIWG, JoSAA, state and private routes. Scope, benefits, roadmap, brochure and poster.">{% endblock %}
 {% block premium_notice %}{% endblock %}
 {% block head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/elite_mentorship.css') }}?v=2">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/elite_mentorship.css') }}?v=5">
 {% endblock %}
 {% set WA = 'https://wa.me/918015722706?text=' ~ ('Hello EduAakashaA, I would like to book an initial discussion about Elite Mentorship.'|urlencode) %}
 {% set B1 = url_for('static', filename='img/elite/brochure-1.jpg') %}
 {% set POSTER = url_for('static', filename='img/elite/poster.jpg') %}
+{% set HERO = url_for('static', filename='img/elite/hero.jpg') %}
 {% block content %}
 <!--EM-START-->
-<div class="em" id="em" data-no-rail data-grade="11">
+<div class="em" id="em" data-grade="11">
 
-  <header class="em-hero">
+  <header class="em-hero" data-rail aria-label="Overview">
+    <img class="em-hero__img" src="{{ HERO }}" width="1800" height="980" alt="A mentor and a student working through a plan together on a laptop">
     <div class="em-wrap em-hero__grid">
-      <div>
+      <div class="em-hero__text">
         <p class="em-eyebrow">Elite Mentorship · Grade 11 and Grade 12</p>
         <h1>Coaching builds the marks.<br><em>Mentorship decides what they are for.</em></h1>
         <p class="em-lead">You already give coaching hours every week. Give the decisions the same seriousness: which exams, which branch, which route, which deadline. One senior mentor works with you and your parents, one to one, until the seat is confirmed.</p>
@@ -27,6 +29,7 @@
         <p class="em-hero__for" data-g="12" hidden>Grade 12 track: convert the rank into a seat. Strategy, documents, choice filling and the final decision.</p>
         <div class="em-cta">
           <a class="em-btn em-btn--p" href="{{ WA }}" target="_blank" rel="noopener">Book an initial discussion</a>
+          <a class="em-btn" href="#em-worries">Map my worries</a>
           <a class="em-btn" href="#em-roadmap">See my roadmap</a>
           <a class="em-btn" href="#em-brochure">Brochure and poster</a>
         </div>
@@ -40,13 +43,8 @@
     </div>
   </header>
 
-  <nav class="em-nav" aria-label="On this page">
-    <div class="em-wrap em-nav__in">
-      <a href="#em-why">Why it matters</a><a href="#em-check">Self-check</a><a href="#em-scope">Scope</a><a href="#em-roadmap">Roadmap</a><a href="#em-benefits">Benefits</a><a href="#em-myths">Myth check</a><a href="#em-tracks">Tracks and fees</a><a href="#em-brochure">Brochure</a><a href="#em-faq">Questions</a>
-    </div>
-  </nav>
 
-  <section class="em-sec" id="em-why">
+  <section class="em-sec" id="em-why" data-rail aria-label="Why it matters">
     <div class="em-wrap">
       <p class="em-eyebrow">Two different jobs</p>
       <h2>Treat mentorship as seriously as coaching.</h2>
@@ -87,7 +85,31 @@
     </div>
   </section>
 
-  <section class="em-sec em-sec--alt" id="em-check">
+  <section class="em-sec em-sec--alt" id="em-worries" data-rail aria-label="Your worries">
+    <div class="em-wrap">
+      <p class="em-eyebrow">Your worry map · for students and parents</p>
+      <h2>Pick your worries. See what a mentor does about each one.</h2>
+      <p class="em-sub">Tap every worry that is on your mind today. Each one already sits in a ring decided by EduAakashaA mentors: something you control, something a mentor can lead, or something to plan for and not lose sleep over.</p>
+      <div class="em-seg em-seg--light" role="group" aria-label="Who is choosing">
+        <span class="em-seg__label">I am a</span>
+        <button type="button" data-who="s" aria-pressed="true">Student</button>
+        <button type="button" data-who="p" aria-pressed="false">Parent</button>
+      </div>
+      <div class="em-wgrid">
+        <div>
+          <h3 id="em-w-own">Student worries</h3>
+          <div class="em-chips" id="em-w-list1"></div>
+          <h3>Worries the family shares</h3>
+          <div class="em-chips" id="em-w-list2"></div>
+          <p class="em-note"><span id="em-w-count">0 picked</span> · <button type="button" class="em-link" id="em-w-clear">Clear all</button> · Your picks stay in this browser only.</p>
+        </div>
+        <div class="em-card em-wout" id="em-w-out" aria-live="polite"></div>
+      </div>
+      <p class="em-note">The rings and mentor actions are set by EduAakashaA mentors and are indicative, not a guarantee of admission. Adapted from Stephen Covey&rsquo;s Circle of Influence.</p>
+    </div>
+  </section>
+
+  <section class="em-sec" id="em-check" data-rail aria-label="Self-check">
     <div class="em-wrap em-two">
       <div class="em-card">
         <p class="em-eyebrow">One-minute self-check · for the student</p>
@@ -112,7 +134,7 @@
     </div>
   </section>
 
-  <section class="em-sec" id="em-scope">
+  <section class="em-sec em-sec--alt" id="em-scope" data-rail aria-label="Scope">
     <div class="em-wrap">
       <p class="em-eyebrow">Scope · the 5A method</p>
       <h2>Every stage ends in something you can hold.</h2>
@@ -132,7 +154,7 @@
     </div>
   </section>
 
-  <section class="em-sec em-sec--dark" id="em-roadmap">
+  <section class="em-sec em-sec--dark" id="em-roadmap" data-rail aria-label="Roadmap">
     <div class="em-wrap">
       <p class="em-eyebrow">Student roadmap</p>
       <h2 data-g="11">Grade 11: one year, four gates, one mentor beside you.</h2>
@@ -147,7 +169,7 @@
     </div>
   </section>
 
-  <section class="em-sec" id="em-benefits">
+  <section class="em-sec" id="em-benefits" data-rail aria-label="Benefits">
     <div class="em-wrap">
       <p class="em-eyebrow">Benefits</p>
       <h2>What changes when a mentor is beside you.</h2>
@@ -209,7 +231,7 @@
     </div>
   </section>
 
-  <section class="em-sec" id="em-tracks">
+  <section class="em-sec" id="em-tracks" data-rail aria-label="Tracks and fees">
     <div class="em-wrap">
       <p class="em-eyebrow">Tracks and fees</p>
       <h2>Two tracks. One for each year.</h2>
@@ -234,7 +256,7 @@
     </div>
   </section>
 
-  <section class="em-sec em-sec--alt" id="em-brochure">
+  <section class="em-sec em-sec--alt" id="em-brochure" data-rail aria-label="Brochure and poster">
     <div class="em-wrap">
       <p class="em-eyebrow">Brochure and poster</p>
       <h2>Read it, save it, share it with your parents.</h2>
@@ -294,5 +316,5 @@
 <!--EM-END-->
 {% endblock %}
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/elite_mentorship.js') }}?v=2"></script>
+<script src="{{ url_for('static', filename='js/elite_mentorship.js') }}?v=3"></script>
 {% endblock %}

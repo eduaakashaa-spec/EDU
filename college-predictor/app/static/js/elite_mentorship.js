@@ -1,4 +1,4 @@
-/* Elite Mentorship (Grade 11 and 12) page: grade switch, self-check, time-back calculator, 5A stepper, roadmap, myth check, brochure viewer. */
+/* Elite Mentorship (Grade 11 and 12) page: grade switch, worry map, self-check, time-back calculator, 5A stepper, roadmap, myth check, brochure viewer. */
 (function () {
   var root = document.getElementById('em');
   if (!root) return;
@@ -21,6 +21,78 @@
   root.addEventListener('click', function (e) {
     var b = e.target.closest('[data-set-grade]');
     if (b) setGrade(b.getAttribute('data-set-grade'));
+  });
+
+
+  /* ---------- worry map: ring c Control, i Influence, k Concern, o Outside mentorship; who s Student, p Parent, b Shared ---------- */
+  var BANK = [
+    ['p', 'i', 'Is it too early to start planning admissions?', 'Shows what is decided in Grade 11 and what waits for Grade 12, so nothing is rushed or missed.', 'Admissions roadmap'],
+    ['p', 'i', 'Are we even eligible for DASA and CIWG?', 'Audits residency, passport and CIWG status against the official brochure in the first two months.', 'Eligibility report'],
+    ['p', 'i', 'Which entrance exams should my child write?', 'Keeps one calendar for JEE, NATA, NID, UCEED, NIFT and IAT, so no window is missed.', 'Document and deadline calendar'],
+    ['p', 'i', 'Missing a deadline on one of the routes', 'Tracks DASA, CIWG, JoSAA and state and private NRI windows in one calendar.', 'Document and deadline calendar'],
+    ['p', 'i', 'We don’t fully know the admission process', 'Explains each route step by step and briefs both parents in writing.', 'Parent guidance report'],
+    ['p', 'c', 'Keeping documents ready, well in time', 'Starts the document file early, while school is in session.', 'Document file'],
+    ['p', 'k', 'Cut-offs moving again before we apply', 'Builds the target list on 3 to 4 years of trends, not one year’s cut-off.', 'Target list'],
+    ['p', 'k', 'DASA rules changing before we apply', 'Keeps the roadmap current as official notices are released.', 'Admissions roadmap'],
+    ['p', 'o', 'Visa and passport paperwork', 'Not covered. We flag document timelines so nothing clashes.', ''],
+    ['s', 'i', 'I don’t know what I want to study yet', 'The 30-question Branch Fit Assessment measures fit across 7 branch families before any college is named.', 'Branch Fit Assessment'],
+    ['s', 'c', 'Balancing boards and JEE preparation', 'Builds a weekly plan that protects board marks while JEE preparation grows.', 'Termly course-correction notes'],
+    ['s', 'c', 'Learning from mock-test mistakes', 'Sets a mock-test baseline and an error log, reviewed every term.', 'Termly course-correction notes'],
+    ['s', 'i', 'Exam stress and staying motivated', 'Regular one-to-one sessions and a plan the student owns.', 'Termly course-correction notes'],
+    ['s', 'i', 'Comparing my marks with other students', 'Replaces comparison with the student’s own progress line.', 'Termly course-correction notes'],
+    ['s', 'k', 'How many others are competing this year', 'Moves focus to what the student controls: marks, mocks and fit.', 'Admissions roadmap'],
+    ['s', 'i', 'My parents decide; I just follow', 'Gives the student a voice: key decisions are made in joint sessions.', 'Parent guidance report'],
+    ['s', 'o', 'Physics, Chemistry and Maths tuition', 'Not coaching. We help you choose a tutor and fit it into the plan.', ''],
+    ['s', 'c', 'Studying through constant war news', 'Agrees a news-free study routine and checks in on stress at every session.', 'Termly course-correction notes'],
+    ['b', 'i', 'Choosing a branch we won’t regret', 'Runs the Branch Fit Assessment before any college list is made.', 'Branch Fit Assessment'],
+    ['b', 'i', '“Everyone says only CSE is safe”', 'Shows how each branch is changing with AI and Industry 4.0, and ranks branches by fit, not by forwards.', 'Branch Fit Assessment'],
+    ['b', 'i', 'Conflicting advice from relatives and groups', 'Becomes the one verified source the family checks first.', 'Parent guidance report'],
+    ['b', 'i', 'Agreeing on one plan as a family', 'Briefs parents at every gate, so the whole family works from one plan.', 'Parent guidance report'],
+    ['b', 'i', 'Are design routes (NATA, NID, UCEED) open?', 'Checks eligibility and dates for design and architecture routes alongside JEE.', 'Eligibility report'],
+    ['b', 'k', 'Rumours that seats or quotas will be cut', 'Checks each rumour against official notices and keeps a plan B ready.', 'Admissions roadmap'],
+    ['b', 'k', 'Which careers stay strong with AI', 'Gives an Industry 4.0 and AI briefing; fit and aptitude come ahead of trend.', 'Industry 4.0 and AI briefing'],
+    ['b', 'i', 'Should we move to India for Grade 12?', 'Checks how a move affects the DASA schooling-abroad rules before you decide, then writes one plan.', 'Grade 12 roadmap'],
+    ['b', 'k', 'Conflict affecting job, visa or CIWG status', 'Re-checks CIWG eligibility if the parent’s job situation changes and keeps a Non-CIWG plan ready.', 'Eligibility report']
+  ];
+  var RING = { c: ['Control', 'Mentor partners with you'], i: ['Influence', 'Mentor leads it'], k: ['Concern', 'Mentor prepares a plan B'], o: ['Outside mentorship', 'We point you to the right help'] };
+  var who = 's', picks = [];
+  try { var sv = JSON.parse(localStorage.getItem('em-worries') || '{}'); if (Array.isArray(sv.picks)) picks = sv.picks.filter(function (i) { return BANK[i]; }); if (sv.who === 'p') who = 'p'; } catch (e) {}
+  function chips(group) {
+    return BANK.map(function (b, i) { return b[0] === group ? '<button type="button" class="em-chip" data-w="' + i + '" aria-pressed="' + (picks.indexOf(i) >= 0) + '">' + esc(b[2]) + '</button>' : ''; }).join('');
+  }
+  function worries() {
+    $$('[data-who]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-who') === who); });
+    $('#em-w-own').textContent = who === 's' ? 'Student worries' : 'Parent worries';
+    $('#em-w-list1').innerHTML = chips(who);
+    $('#em-w-list2').innerHTML = chips('b');
+    var n = picks.length, cnt = { c: 0, i: 0, k: 0, o: 0 };
+    picks.forEach(function (i) { cnt[BANK[i][1]]++; });
+    var by = { s: 0, p: 0, b: 0 }; picks.forEach(function (i) { by[BANK[i][0]]++; });
+    $('#em-w-count').textContent = n + ' picked' + (n ? ' (student ' + by.s + ', parent ' + by.p + ', shared ' + by.b + ')' : '');
+    try { localStorage.setItem('em-worries', JSON.stringify({ who: who, picks: picks })); } catch (e) {}
+    var out = $('#em-w-out');
+    if (!n) { out.innerHTML = '<h3>Your worry map appears here</h3><p class="em-sub">Pick a few worries on the left. Switch between Student and Parent to add both sides: the map keeps everything you pick.</p><div class="em-ring__art em-ring__art--sm" aria-hidden="true"><span>Concern</span><span>Influence</span><span>Control</span></div>'; return; }
+    var carry = n - cnt.o, act = cnt.c + cnt.i, order = ['i', 'c', 'k', 'o'];
+    var insight = cnt.i >= cnt.c && cnt.i >= cnt.k && cnt.i > 0 ? 'Influence is your biggest ring. This is a strategy problem more than a study problem: exactly what a mentor leads.'
+      : cnt.c >= cnt.k && cnt.c > 0 ? 'Most of your worries are things you control. A mentor turns them into a weekly routine and holds you to it.'
+      : cnt.k > 0 ? 'Most of your worries sit in the outer ring, which nobody controls. A mentor keeps a plan B so they stop costing you study time.' : 'These fall outside mentorship. We say so plainly and point you to the right help.';
+    var items = picks.slice().sort(function (a, b) { return order.indexOf(BANK[a][1]) - order.indexOf(BANK[b][1]); }).map(function (i) {
+      var b = BANK[i], r = RING[b[1]];
+      return '<li class="em-wi em-wi--' + b[1] + '"><p class="em-wi__q">' + esc(b[2]) + '</p><p class="em-wi__r"><span>' + r[0] + '</span> ' + r[1] + '</p><p>' + esc(b[3]) + '</p>' + (b[4] ? '<p class="em-hold">You hold: <b>' + esc(b[4]) + '</b></p>' : '') + '</li>';
+    }).join('');
+    var msg = 'Hello EduAakashaA, these are our worries about college admissions:\n' + picks.map(function (i) { return '- ' + BANK[i][2]; }).join('\n') + '\nWe would like to book an initial discussion about Elite Mentorship.';
+    out.innerHTML = '<p class="em-wbig"><b>' + carry + ' of ' + n + '</b> of your worries a mentor can carry with you</p>' +
+      '<div class="em-wbar" role="img" aria-label="Control ' + cnt.c + ', Influence ' + cnt.i + ', Concern ' + cnt.k + ', Outside mentorship ' + cnt.o + '">' + order.map(function (k) { return cnt[k] ? '<i class="em-wb--' + k + '" style="flex:' + cnt[k] + '">' + cnt[k] + '</i>' : ''; }).join('') + '</div>' +
+      '<p class="em-wkey"><span class="em-wb--i"></span>Influence ' + cnt.i + '<span class="em-wb--c"></span>Control ' + cnt.c + '<span class="em-wb--k"></span>Concern ' + cnt.k + '<span class="em-wb--o"></span>Outside ' + cnt.o + '</p>' +
+      '<p><b>' + act + ' of ' + n + '</b> sit in Control or Influence: things your family can act on now. ' + insight + '</p>' +
+      '<ul class="em-wlist">' + items + '</ul>' +
+      '<a class="em-btn em-btn--p" target="_blank" rel="noopener" href="https://wa.me/918015722706?text=' + encodeURIComponent(msg) + '">Send my worry map on WhatsApp</a>';
+  }
+  $('#em-worries').addEventListener('click', function (e) {
+    var w = e.target.closest('[data-who]'), c = e.target.closest('.em-chip');
+    if (w) { who = w.getAttribute('data-who'); worries(); }
+    else if (c) { var i = +c.getAttribute('data-w'), at = picks.indexOf(i); if (at >= 0) picks.splice(at, 1); else picks.push(i); worries(); }
+    else if (e.target.id === 'em-w-clear') { picks = []; worries(); }
   });
 
   /* ---------- self-check ---------- */
@@ -138,5 +210,5 @@
   $('#em-next').addEventListener('click', function () { turn(1); });
   viewer.addEventListener('keydown', function (e) { if (e.key === 'ArrowLeft') turn(-1); if (e.key === 'ArrowRight') turn(1); });
 
-  quizOut(); calc(); showA(0); turn(0); setGrade(grade);
+  worries(); quizOut(); calc(); showA(0); turn(0); setGrade(grade);
 })();
